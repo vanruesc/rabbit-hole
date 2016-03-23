@@ -32,6 +32,10 @@ $ npm install rabbit-hole
 ```
 
 
+## Terrain Demos
+ - [Height Field](http://vanruesc.github.io/rabbit-hole/public/heightfield.html) (WIP)
+ - Isosurface (WIP)
+
 
 ## Documentation
 [API](http://vanruesc.github.io/rabbit-hole/docs)

@@ -113,5 +113,6 @@ module.exports = function(grunt) {
 	grunt.registerTask("default", ["clean", "build", "nodeunit"]);
 	grunt.registerTask("build", ["jshint", "fsinline", "rollup", "copy", "clean"]);
 	grunt.registerTask("test", ["jshint", "nodeunit"]);
+	grunt.registerTask("prepublish", ["clean", "fsinline"]);
 
 };
