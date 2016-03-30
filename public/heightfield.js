@@ -43,7 +43,9 @@ window.addEventListener("load", function loadAssets() {
 	textureLoader.load("textures/ocean_heightmap.jpg", function(texture) {
 
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-		assets.heightMap = texture;
+		//texture.format = THREE.LuminanceFormat;
+		//texture.needsUpdate = true;
+		assets.heightmap = texture;
 
 	});
 
@@ -57,20 +59,23 @@ function setupScene(assets) {
 	// Renderer and Scene.
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true});
-	var scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2(0x000000, 0.0001);
+	//renderer.shadowMap.enabled = true;
+	//renderer.shadowMap.type = THREE.PCFShadowMap;
 	renderer.setClearColor(0x000000);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	viewport.appendChild(renderer.domElement);
+
+	var scene = new THREE.Scene();
+	scene.fog = new THREE.FogExp2(0xffeeee, 0.0);
 
 	// Camera.
 
 	var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 20000);
 	var controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.target.set(0, 5, 0);
+	controls.target.set(0, 7, 0);
 	controls.damping = 0.2;
 	controls.maxDistance = 2000;
-	camera.position.set(-100, 25, -100);
+	camera.position.set(-3, 8, -3);
 	camera.lookAt(controls.target);
 
 	scene.add(camera);
@@ -100,46 +105,82 @@ function setupScene(assets) {
 
 	// Lights.
 
-	var ambientLight = new THREE.AmbientLight(0x666666);
+	//var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0xddee50, 0.3);
+	var ambientLight = new THREE.AmbientLight(0x552a41);
 	var directionalLight = new THREE.DirectionalLight(0xffbbaa);
 
-	directionalLight.position.set(-1, 1, 1);
-	directionalLight.target.position.copy(scene.position);
+	//hemisphereLight.position.set(0, 500, 0);
 
-	scene.add(directionalLight);
+	directionalLight.position.set(1500, 200, 2000);
+	directionalLight.target.position.copy(scene.position);
+	//directionalLight.castShadow = true;
+
+	//scene.add(hemisphereLight);
 	scene.add(ambientLight);
+	scene.add(directionalLight);
+
+	// Helpers.
+
+	var axis = new THREE.AxisHelper(10);
+	//scene.add(axis);
 
 	// Sky.
 
 	camera.add(assets.sky);
 
+	// Random objects.
+
+	/*object = new THREE.Object3D();
+
+	var i, mesh;
+	var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
+	var material = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.FlatShading});
+
+	for(i = 0; i < 10; ++i) {
+
+		material = new THREE.MeshPhongMaterial({color: 0xffffff * Math.random(), shading: THREE.FlatShading});
+
+		mesh = new THREE.Mesh(geometry, material);
+		mesh.receiveShadow = true;
+		mesh.castShadow = true;
+		mesh.position.set(Math.random() - 0.5, Math.random() + 0.75, Math.random() - 0.5).normalize();
+		mesh.position.multiplyScalar(Math.random() * 2);
+		mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.1;
+		object.add(mesh);
+
+	}
+
+	scene.add(object);*/
+
 	// Terrain.
 
-	// heightmap, worldSize, levels, resolution
-	var terrain = new RABBITHOLE.HeightField(assets.heightMap, 256, 2, 16);
-	terrain.rotation.set(-Math.PI / 2, 0, -Math.PI);
+	var terrain = new RABBITHOLE.LODGrid(assets.heightmap, 500, 10, 128, 2);
+	terrain.traverse(function(child) {
+		//child.receiveShadow = true;
+		child.material.uniforms.diffuse.value.setHex(0xffee66);
+		child.material.uniforms.emissive.value.setHex(0x1a1000);
+		child.material.uniforms.specular.value.setHex(0xffbb00);
+		child.material.uniforms.shininess.value = 22.0;
+	});
 
-	scene.add(terrain);
+	camera.add(terrain);
 
 	// Configuration.
 
-	/*var params = {
-		"hi": true
+	var params = {
+		"wireframe": terrain.material.wireframe,
+		"resolution": Math.round(Math.log(terrain.resolution) / Math.log(2)),
+		"scale": terrain.tileScale,
+		"levels": terrain.levels,
+		"morphing levels": terrain.morphingLevels
 	};
 
-	gui.add(params, "resolution").min(0.0).max(1.0).step(0.01).onChange(function() { pass.resolutionScale = params["resolution"]; composer.setSize(); });
-	gui.add(params, "blurriness").min(0.0).max(3.0).step(0.1).onChange(function() { pass.blurriness = params["blurriness"]; });
-	gui.add(params, "strength").min(0.0).max(3.0).step(0.01).onChange(function() { pass.combineMaterial.uniforms.opacity2.value = params["strength"]; });
-
-	var f = gui.addFolder("Luminance");
-	f.add(params, "distinction").min(1.0).max(10.0).step(0.1).onChange(function() { pass.luminosityMaterial.uniforms.distinction.value = params["distinction"]; });
-	f.open();
-
-	gui.add(params, "blend").onChange(function() {
-
-		pass.combineMaterial.uniforms.opacity1.value = params["blend"] ? 1.0 : 0.0;
-
-	});*/
+	gui.add(params, "resolution").min(4).max(11).step(1).onChange(function() { terrain.resolution = Math.pow(2, params["resolution"]); terrain.generate(); });
+	gui.add(params, "scale").min(1).max(2000).step(1).onChange(function() { terrain.tileScale = params["scale"]; });
+	gui.add(params, "levels").min(1).max(15).step(1).onChange(function() { terrain.levels = params["levels"]; terrain.generate(); });
+	gui.add(params, "morphing levels").min(0).max(2).step(1).onChange(function() { terrain.morphingLevels = params["morphing levels"]; });
+	gui.add(params, "wireframe").onChange(function() { terrain.traverse(function(child) { child.material.wireframe = params["wireframe"]; }); });
 
 	/**
 	 * Handles resizing.

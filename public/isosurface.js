@@ -15,7 +15,7 @@ window.addEventListener("load", function loadAssets() {
 	};
 
 	var path = "textures/skies/sunset/";
-	var format = ".jpg";
+	var format = ".png";
 	var urls = [
 		path + "px" + format, path + "nx" + format,
 		path + "py" + format, path + "ny" + format,
@@ -57,11 +57,12 @@ function setupScene(assets) {
 	// Renderer and Scene.
 
 	var renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true});
-	var scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2(0x000000, 0.0001);
 	renderer.setClearColor(0x000000);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	viewport.appendChild(renderer.domElement);
+
+	var scene = new THREE.Scene();
+	scene.fog = new THREE.FogExp2(0x000000, 0.0001);
 
 	// Camera.
 
@@ -160,7 +161,7 @@ function setupScene(assets) {
 
 		stats.begin();
 
-		renderer.render();
+		renderer.render(scene, camera);
 
 		stats.end();
 
