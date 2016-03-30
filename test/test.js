@@ -4,17 +4,31 @@ const LIBRARY = require("../build/rabbit-hole");
 
 module.exports = {
 
-	"Height Field": {
+	"Materials": {
 
 		"can be instantiated": function(test) {
 
-			let heightfield = new LIBRARY.HeightField();
-			test.ok(heightfield, "height field");
+			let material = new LIBRARY.HeightfieldMaterial();
+			test.ok(material, "LOD material");
+
 			test.done();
 
 		}
 
 	},
+
+	"LOD Grid": {
+
+		"can be instantiated": function(test) {
+
+			let grid = new LIBRARY.LODGrid(1, 6, 2, 4);
+			test.ok(grid, "LOD grid");
+
+			test.done();
+
+		}
+
+	}/*,
 
 	"Isosurfaces": {
 
@@ -22,10 +36,11 @@ module.exports = {
 
 			let isosurface = new LIBRARY.SurfaceNet();
 			test.ok(isosurface, "surface net");
+
 			test.done();
 
 		}
 
-	}
+	}*/
 
 };
