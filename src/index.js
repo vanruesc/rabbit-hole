@@ -4,8 +4,8 @@
  * @module rabbithole
  */
 
-export { HeightField } from "./heightfield";
+export { LODGrid } from "./lod-grid";
 
-export { HeightFieldMaterial } from "./materials";
+export { HeightfieldMaterial } from "./materials";
 
 export { SurfaceNet } from "./isosurfaces";

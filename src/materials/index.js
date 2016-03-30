@@ -5,4 +5,4 @@
  * @submodule materials
  */
 
-export { HeightFieldMaterial } from "./heightfield";
+export { HeightfieldMaterial } from "./heightfield";
