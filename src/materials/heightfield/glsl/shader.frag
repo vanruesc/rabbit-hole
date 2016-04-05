@@ -1,13 +1,5 @@
 #define LOD
 
-uniform vec3 diffuse;
-uniform vec3 emissive;
-uniform vec3 specular;
-uniform float shininess;
-uniform float opacity;
-
-varying vec3 vWorldPosition;
-
 #include <common>
 #include <color_pars_fragment>
 #include <fog_pars_fragment>
@@ -16,6 +8,14 @@ varying vec3 vWorldPosition;
 #include <lights_phong_pars_fragment>
 #include <shadowmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
+
+uniform vec3 diffuse;
+uniform vec3 emissive;
+uniform vec3 specular;
+uniform float shininess;
+uniform float opacity;
+
+varying vec3 vWorldPosition;
 
 void main() {
 

@@ -69,7 +69,7 @@ vec4 computePosition(vec4 position) {
 
 	#endif
 
-	// Project the camera position and the scene origin on the grid using plane parameters.
+	// Project the camera position and the scene origin on the grid.
 	vec3 projectedCamera = vec3(cameraPosition.x, 0.0, cameraPosition.z);
 
 	#ifdef USE_PLANE_PARAMETERS

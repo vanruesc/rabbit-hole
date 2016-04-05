@@ -1,12 +1,12 @@
 #define LOD
 
-varying vec3 vViewPosition;
-
 #include <common>
 #include <color_pars_vertex>
 #include <shadowmap_pars_vertex>
 #include <logdepthbuf_pars_vertex>
 #include <lod_pars_vertex>
+
+varying vec3 vViewPosition;
 
 void main() {
 

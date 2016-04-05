@@ -1,5 +1,9 @@
-import shader from "./inlined/shader";
 import THREE from "three";
+
+import fragment from "./glsl/shader.frag";
+import vertex from "./glsl/shader.vert";
+import lodPars from "./glsl/lod.pars.vert";
+import lod from "./glsl/lod.vert";
 
 /**
  * A heightfield LOD shader material.
@@ -51,8 +55,8 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 
 			]),
 
-			fragmentShader: shader.fragment,
-			vertexShader: shader.vertex.main,
+			fragmentShader: fragment,
+			vertexShader: vertex,
 
 			extensions: {
 				derivatives: true
@@ -68,8 +72,8 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 		if(usePlaneParameters) { this.defines.USE_PLANE_PARAMETERS = "1"; }
 
 		// Register custom shader code.
-		THREE.ShaderChunk.lod_pars_vertex = shader.vertex.lod_pars;
-		THREE.ShaderChunk.lod_vertex = shader.vertex.lod;
+		THREE.ShaderChunk.lod_pars_vertex = lodPars;
+		THREE.ShaderChunk.lod_vertex = lod;
 
 	}
 
