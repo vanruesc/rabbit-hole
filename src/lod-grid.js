@@ -7,7 +7,7 @@ import THREE from "three";
  * @class LODGrid
  * @constructor
  * @extends Object3D
- * @param {Number} [heightmap] - The heightmap for the terrain.
+ * @param {Number} [heightMap] - The height map for the terrain.
  * @param {Number} [tileScale=1] - The tileScale of the grid.
  * @param {Number} [levels=8] - The detail levels.
  * @param {Number} [morphingLevels=2] - The morph levels. Must be an integer in the range [0, 2].
@@ -16,7 +16,7 @@ import THREE from "three";
 
 export class LODGrid extends THREE.Object3D {
 
-	constructor(heightmap, tileScale, levels, resolution, morphingLevels) {
+	constructor(heightMap, tileScale, levels, resolution, morphingLevels) {
 
 		super();
 
@@ -28,7 +28,7 @@ export class LODGrid extends THREE.Object3D {
 		 * @private
 		 */
 
-		this.material = new HeightfieldMaterial(heightmap, false);
+		this.material = new HeightfieldMaterial(false);
 
 		/**
 		 * The tile scale.
@@ -77,6 +77,16 @@ export class LODGrid extends THREE.Object3D {
 		this._resolution = 64;
 
 		this.resolution = resolution;
+
+		/**
+		 * The height map.
+		 *
+		 * @property heightMap
+		 * @type Texture
+		 * @private
+		 */
+
+		this.heightMap = heightMap;
 
 		/**
 		 * The previous resolution.
@@ -249,6 +259,7 @@ export class LODGrid extends THREE.Object3D {
 			geometry = (level === 0) ? this.centerGeometry : this.surroundingGeometry;
 
 			material = this.material.clone();
+			material.heightMap = this.heightMap;
 			material.uniforms.scale.value = tileScale;
 			material.uniforms.level.value = level;
 

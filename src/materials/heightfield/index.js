@@ -11,13 +11,12 @@ import lod from "./glsl/lod.vert";
  * @class HeightfieldMaterial
  * @constructor
  * @extends ShaderMaterial
- * @params {Texture} heightmap - The heightmap of the terrain.
  * @params {Boolean} usePlaneParameters - Whether plane parameters should be used.
  */
 
 export class HeightfieldMaterial extends THREE.ShaderMaterial {
 
-	constructor(heightmap, usePlaneParameters) {
+	constructor(usePlaneParameters) {
 
 		super({
 
@@ -36,12 +35,11 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 
 				{
 
-					heightmap: {type: "t", value: heightmap},
+					heightMap: {type: "t", value: null},
 
 					scale: {type: "f", value: 1.0},
 					level: {type: "i", value: 0},
 					morphingLevels: {type: "i", value: 2},
-					resolution: {type: "i", value: 64},
 
 					planeUp: {type: "v3", value: new THREE.Vector3(0, 1, 0)},
 					planeAt: {type: "v3", value: new THREE.Vector3(0, 0, 1)},
@@ -74,6 +72,21 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 		// Register custom shader code.
 		THREE.ShaderChunk.lod_pars_vertex = lodPars;
 		THREE.ShaderChunk.lod_vertex = lod;
+
+	}
+
+	/**
+	 * A height map.
+	 *
+	 * @property heightMap
+	 * @type Texture
+	 */
+
+	get heightMap() { return this.uniforms.heightMap.value; }
+
+	set heightMap(x) {
+
+		this.uniforms.heightMap.value = x;
 
 	}
 
