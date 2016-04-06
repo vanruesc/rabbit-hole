@@ -43,9 +43,8 @@ window.addEventListener("load", function loadAssets() {
 	textureLoader.load("textures/ocean_heightmap.jpg", function(texture) {
 
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-		//texture.format = THREE.LuminanceFormat;
-		//texture.needsUpdate = true;
-		assets.heightmap = texture;
+		texture.format = THREE.LuminanceFormat;
+		assets.heightMap = texture;
 
 	});
 
@@ -72,10 +71,10 @@ function setupScene(assets) {
 
 	var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 20000);
 	var controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.target.set(0, 7, 0);
+	controls.target.set(0, 20, 0);
 	controls.damping = 0.2;
 	controls.maxDistance = 2000;
-	camera.position.set(-3, 8, -3);
+	camera.position.set(-40, 40, -40);
 	camera.lookAt(controls.target);
 
 	scene.add(camera);
@@ -155,7 +154,7 @@ function setupScene(assets) {
 
 	// Terrain.
 
-	var terrain = new RABBITHOLE.LODGrid(assets.heightmap, 500, 10, 128, 2);
+	var terrain = new RABBITHOLE.LODGrid(assets.heightMap, 500, 8, 128, 2);
 	terrain.traverse(function(child) {
 		//child.receiveShadow = true;
 		child.material.uniforms.diffuse.value.setHex(0xffee66);
