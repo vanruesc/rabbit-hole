@@ -11,7 +11,7 @@ import lod from "./glsl/lod.vert";
  * @class HeightfieldMaterial
  * @constructor
  * @extends ShaderMaterial
- * @params {Boolean} usePlaneParameters - Whether plane parameters should be used.
+ * @params {Boolean} usePlaneParameters - Whether plane parameters should be used to adjust the terrain rotation.
  */
 
 export class HeightfieldMaterial extends THREE.ShaderMaterial {
@@ -37,13 +37,16 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 
 					heightMap: {type: "t", value: null},
 
-					scale: {type: "f", value: 1.0},
 					level: {type: "i", value: 0},
 					morphingLevels: {type: "i", value: 2},
+					scale: {type: "f", value: 1.0},
+					heightScale: {type: "f", value: 30.0},
 
 					planeUp: {type: "v3", value: new THREE.Vector3(0, 1, 0)},
 					planeAt: {type: "v3", value: new THREE.Vector3(0, 0, 1)},
 					planePoint: {type: "v3", value: new THREE.Vector3(0, 0, 0)},
+
+					texelSize: {type: "v2", value: new THREE.Vector2()},
 
 					emissive: {type: "c", value: new THREE.Color()},
 					specular: {type: "c", value: new THREE.Color()},
@@ -61,7 +64,6 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 			},
 
 			shading: THREE.FlatShading,
-			side: THREE.DoubleSide,
 			lights: true,
 			fog: true
 
@@ -87,7 +89,35 @@ export class HeightfieldMaterial extends THREE.ShaderMaterial {
 	set heightMap(x) {
 
 		this.uniforms.heightMap.value = x;
+		this.uniforms.texelSize.value.set(1.0 / x.image.width, 1.0 / x.image.height);
+	}
 
+	/**
+	 * A color map.
+	 *
+	 * @property map
+	 * @type Texture
+	 */
+
+	get map() { return this.uniforms.map.value; }
+
+	set map(x) {
+
+		this.uniforms.map.value = x;
+	}
+
+	/**
+	 * A normal map.
+	 *
+	 * @property normalMap
+	 * @type Texture
+	 */
+
+	get normalMap() { return this.uniforms.normalMap.value; }
+
+	set normalMap(x) {
+
+		this.uniforms.normalMap.value = x;
 	}
 
 }

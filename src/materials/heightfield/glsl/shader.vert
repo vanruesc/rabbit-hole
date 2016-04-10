@@ -2,6 +2,7 @@
 
 #include <common>
 #include <color_pars_vertex>
+#include <uv_pars_vertex>
 #include <shadowmap_pars_vertex>
 #include <logdepthbuf_pars_vertex>
 #include <lod_pars_vertex>

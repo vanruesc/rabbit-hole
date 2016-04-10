@@ -2,10 +2,13 @@
 
 #include <common>
 #include <color_pars_fragment>
+#include <uv_pars_fragment>
+#include <map_pars_fragment>
 #include <fog_pars_fragment>
 #include <bsdfs>
 #include <lights_pars>
 #include <lights_phong_pars_fragment>
+#include <normalmap_pars_fragment>
 #include <shadowmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
 
@@ -24,6 +27,7 @@ void main() {
 	vec3 totalEmissiveRadiance = emissive;
 
 	#include <logdepthbuf_fragment>
+	#include <map_fragment>
 	#include <color_fragment>
 	#include <specularmap_fragment>
 	#include <normal_fragment>
