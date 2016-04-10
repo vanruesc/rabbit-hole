@@ -1,14 +1,23 @@
 uniform sampler2D heightMap;
 
-uniform float scale;
 uniform int level;
 uniform int morphingLevels;
+uniform float scale;
+uniform float heightScale;
 
 uniform vec3 planeUp;
 uniform vec3 planeAt;
 uniform vec3 planePoint;
 
+uniform vec2 texelSize;
+
 varying vec3 vWorldPosition;
+
+#ifndef FLAT_SHADED
+
+	varying vec3 vNormal;
+
+#endif
 
 const int MAX_MORPHING_LEVELS = 2;
 
@@ -28,7 +37,7 @@ vec2 computeAncestorMorphing(int morphLevel, vec2 gridPosition, float heightMorp
 	fractional -= floor(fractional);
 
 	// Compute morphing factors based on the height and the parent LOD.
-	vec2 squareOffset = abs(cameraScaledPosition.xz -(gridPosition + previousMorphing)) / morphLevelFloat;
+	vec2 squareOffset = abs(cameraScaledPosition.xz - (gridPosition + previousMorphing)) / morphLevelFloat;
 	vec2 comparePos = max(vec2(0.0), squareOffset * 4.0 - 1.0);
 	float parentMorphFactor = min(1.0, max(comparePos.x, comparePos.y));
 
@@ -40,8 +49,7 @@ vec2 computeAncestorMorphing(int morphLevel, vec2 gridPosition, float heightMorp
 		float morphing = parentMorphFactor;
 
 		// If first LOD, apply the height morphing factor everywhere.
-
-		if(morphLevel + morphLevel == 1) {
+		if(level + morphLevel == 1) {
 
 			morphing = max(heightMorphFactor, morphing);
 
@@ -54,8 +62,8 @@ vec2 computeAncestorMorphing(int morphLevel, vec2 gridPosition, float heightMorp
 	return morphLevelFloat * morphFactor / RESOLUTION;
 
 }
-		
-vec4 computePosition(vec4 position) {
+
+vec4 computePosition(vec3 position) {
 
 	#ifdef USE_PLANE_PARAMETERS
 
@@ -124,11 +132,18 @@ vec4 computePosition(vec4 position) {
 
 }
 
-float getHeight(vec2 coord) {
+vec4 getHeightInfo(vec2 coord) {
 
-	// todo: supersample.
-	float height = texture2D(heightMap, coord).r;
+	float height = texture2D(heightMap, coord).x;
 
-	return height;
+	float s0 = texture2D(heightMap, coord + vec2(-texelSize.x, 0.0)).x;
+	float s1 = texture2D(heightMap, coord + vec2(texelSize.x, 0.0)).x;
+	float s2 = texture2D(heightMap, coord + vec2(0.0, -texelSize.y)).x;
+	float s3 = texture2D(heightMap, coord + vec2(0.0, texelSize.y)).x;
+
+	vec3 va = normalize(vec3(2.0, 0.0, s1 - s0));
+	vec3 vb = normalize(vec3(0.0, 2.0, s3 - s2));
+
+	return vec4(cross(va, vb).yzx, height);
 
 }

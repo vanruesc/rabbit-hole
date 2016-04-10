@@ -1,17 +1,19 @@
-vec4 worldPosition = computePosition(vec4(position, 1.0));
+vec4 worldPosition = computePosition(position);
 
-//vec3 heightPosition = worldPosition.xyz / 2.0;
+vUv = worldPosition.xz / 512.0 * offsetRepeat.zw + offsetRepeat.xy;
 
-worldPosition.y += getHeight(worldPosition.xz / 512.0) * 25.0;
+vec4 heightInfo = getHeightInfo(vUv);
 
-/*float height = getHeight(vec2(0.3565, 0.265), heightPosition) * 0.3 +
-	getHeight(vec2(0.07565, 0.0865), heightPosition) * 0.6 +
-	getHeight(vec2(0.8, 0.99), heightPosition) * 0.1;*/
+#ifndef FLAT_SHADED
 
-//worldPosition.y += height * 10.0 - 10.0 * 0.5;
+	vNormal = heightInfo.xyz;
 
-vec4 mvPosition = viewMatrix * worldPosition;
+#endif
+
+worldPosition.y += heightInfo.w * heightScale;
 
 vWorldPosition = worldPosition.xyz;
+
+vec4 mvPosition = viewMatrix * worldPosition;
 
 gl_Position = projectionMatrix * mvPosition;
