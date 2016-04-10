@@ -21,7 +21,17 @@ module.exports = {
 
 		"can be instantiated": function(test) {
 
-			let grid = new LIBRARY.LODGrid(1, 6, 2, 4);
+			let grid = new LIBRARY.LODGrid({
+				heightMap: {image: {}},
+				map: null,
+				normalMap: null,
+				baseScale: 1,
+				levels: 4,
+				resolution: 4,
+				morphingLevels: 2,
+				heightScale: 30
+			});
+
 			test.ok(grid, "LOD grid");
 
 			test.done();
