@@ -7,18 +7,24 @@ import THREE from "three";
  * @class LODGrid
  * @constructor
  * @extends Object3D
- * @param {Number} [heightMap] - The height map for the terrain.
- * @param {Number} [tileScale=1] - The tileScale of the grid.
- * @param {Number} [levels=8] - The detail levels.
- * @param {Number} [morphingLevels=2] - The morph levels. Must be an integer in the range [0, 2].
- * @param {Number} [resolution=64] - The resolution of each level of detail. Must be a power of two.
+ * @param {Object} options - The options.
+ * @param {Texture} options.heightMap - The height map for the terrain.
+ * @param {Texture} [options.map] - A color map for the terrain.
+ * @param {Texture} [options.normalMap] - A normal map for terrain details.
+ * @param {Number} [options.baseScale=1] - The scale of the center plane. Every LOD shell will be twice as big as the previous one.
+ * @param {Number} [options.heightScale=30] - The scale of the height samples. A height value of 1.0 equals heightScale in world space.
+ * @param {Number} [options.levels=8] - The detail levels.
+ * @param {Number} [options.morphingLevels=2] - The morph levels. Must be an integer in the range [0, 2].
+ * @param {Number} [options.resolution=64] - The resolution of each level of detail. Must be a power of two.
  */
 
 export class LODGrid extends THREE.Object3D {
 
-	constructor(heightMap, tileScale, levels, resolution, morphingLevels) {
+	constructor(options) {
 
 		super();
+
+		if(options === undefined) { options = {}; }
 
 		/**
 		 * The LOD phong material.
@@ -30,17 +36,21 @@ export class LODGrid extends THREE.Object3D {
 
 		this.material = new HeightfieldMaterial(false);
 
+		this.morphingLevels = options.morphingLevels;
+
+		this.heightScale = options.heightScale;
+
 		/**
-		 * The tile scale.
+		 * The base scale.
 		 *
-		 * @property _tileScale
+		 * @property _baseScale
 		 * @type Number
 		 * @private
 		 */
 
-		this._tileScale = 1;
+		this._baseScale = 1;
 
-		this.tileScale = tileScale;
+		this.baseScale = options.baseScale;
 
 		/**
 		 * The levels of detail.
@@ -52,19 +62,7 @@ export class LODGrid extends THREE.Object3D {
 
 		this._levels = 8;
 
-		this.levels = levels;
-
-		/**
-		 * The morph levels of the LOD material.
-		 *
-		 * @property _morphingLevels
-		 * @type Number
-		 * @private
-		 */
-
-		this._morphingLevels = 2;
-
-		this.morphingLevels = morphingLevels;
+		this.levels = options.levels;
 
 		/**
 		 * The resolution of each level of detail.
@@ -76,7 +74,7 @@ export class LODGrid extends THREE.Object3D {
 
 		this._resolution = 64;
 
-		this.resolution = resolution;
+		this.resolution = options.resolution;
 
 		/**
 		 * The height map.
@@ -86,7 +84,27 @@ export class LODGrid extends THREE.Object3D {
 		 * @private
 		 */
 
-		this.heightMap = heightMap;
+		this.heightMap = options.heightMap;
+
+		/**
+		 * A color map.
+		 *
+		 * @property map
+		 * @type Texture
+		 * @private
+		 */
+
+		this.map = options.map;
+
+		/**
+		 * A normal map.
+		 *
+		 * @property normalMap
+		 * @type Texture
+		 * @private
+		 */
+
+		this.normalMap = options.normalMap;
 
 		/**
 		 * The previous resolution.
@@ -123,23 +141,23 @@ export class LODGrid extends THREE.Object3D {
 	}
 
 	/**
-	 * The tile scale.
+	 * The base scale.
 	 *
-	 * @property tileScale
+	 * @property baseScale
 	 * @type Number
 	 * @default 1
 	 */
 
-	get tileScale() { return this._tileScale; }
+	get baseScale() { return this._baseScale; }
 
-	set tileScale(x) {
+	set baseScale(x) {
 
 		let i, l;
 
 		if(x !== undefined) {
 
 			x = Math.max(1, x);
-			this._tileScale = x;
+			this._baseScale = x;
 
 			for(i = 0, l = this.children.length; i < l; ++i) {
 
@@ -180,18 +198,43 @@ export class LODGrid extends THREE.Object3D {
 	 * @default 2
 	 */
 
-	get morphingLevels() { return this._morphingLevels; }
+	get morphingLevels() { return this.material.uniforms.morphingLevels.value; }
 
 	set morphingLevels(x) {
 
 		if(x !== undefined) {
 
 			x = Math.max(0, Math.min(2, Math.round(Math.round(x))));
-			this._morphingLevels = x;
 
 			this.traverse(function(child) {
 
 				child.material.uniforms.morphingLevels.value = x;
+
+			});
+
+		}
+
+	}
+
+	/**
+	 * The height scale of the LOD material.
+	 *
+	 * @property heightScale
+	 * @type Number
+	 * @default 30
+	 */
+
+	get heightScale() { return this.material.uniforms.heightScale.value; }
+
+	set heightScale(x) {
+
+		if(x !== undefined) {
+
+			x = Math.max(0, Math.round(x));
+
+			this.traverse(function(child) {
+
+				child.material.uniforms.heightScale.value = x;
 
 			});
 
@@ -230,7 +273,7 @@ export class LODGrid extends THREE.Object3D {
 
 	generate() {
 
-		let level, tileScale, geometry, material;
+		let level, scale, geometry, material;
 
 		// Clean up.
 		if(this.previousResolution !== this.resolution) {
@@ -254,13 +297,15 @@ export class LODGrid extends THREE.Object3D {
 		}
 
 		// Create new child meshes. 
-		for(level = 0, tileScale = this.tileScale; level < this.levels; ++level, tileScale *= 2) {
+		for(level = 0, scale = this.baseScale; level < this.levels; ++level, scale *= 2) {
 
 			geometry = (level === 0) ? this.centerGeometry : this.surroundingGeometry;
 
 			material = this.material.clone();
 			material.heightMap = this.heightMap;
-			material.uniforms.scale.value = tileScale;
+			material.map = this.map;
+			material.normalMap = this.normalMap;
+			material.uniforms.scale.value = scale;
 			material.uniforms.level.value = level;
 
 			// Add the new shell.
