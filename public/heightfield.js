@@ -14,37 +14,25 @@ window.addEventListener("load", function loadAssets() {
 
 	};
 
-	var path = "textures/skies/sunset/";
-	var format = ".png";
-	var urls = [
-		path + "px" + format, path + "nx" + format,
-		path + "py" + format, path + "ny" + format,
-		path + "pz" + format, path + "nz" + format
-	];
-
-	cubeTextureLoader.load(urls, function(textureCube) {
-
-		var shader = THREE.ShaderLib.cube;
-		shader.uniforms.tCube.value = textureCube;
-
-		var skyBoxMaterial = new THREE.ShaderMaterial( {
-			fragmentShader: shader.fragmentShader,
-			vertexShader: shader.vertexShader,
-			uniforms: shader.uniforms,
-			depthWrite: false,
-			side: THREE.BackSide,
-			fog: false
-		});
-
-		assets.sky = new THREE.Mesh(new THREE.BoxGeometry(20000, 20000, 20000), skyBoxMaterial);
-
-	});
-
 	textureLoader.load("textures/ocean_heightmap.jpg", function(texture) {
 
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 		texture.format = THREE.LuminanceFormat;
 		assets.heightMap = texture;
+
+	});
+
+	textureLoader.load("textures/ocean_normalmap.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+		assets.normalMap = texture;
+
+	});
+
+	textureLoader.load("textures/ocean_diffusemap.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+		assets.colorMap = texture;
 
 	});
 
@@ -60,12 +48,12 @@ function setupScene(assets) {
 	var renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true});
 	//renderer.shadowMap.enabled = true;
 	//renderer.shadowMap.type = THREE.PCFShadowMap;
-	renderer.setClearColor(0x000000);
+	renderer.setClearColor(0x33667f);
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	viewport.appendChild(renderer.domElement);
 
 	var scene = new THREE.Scene();
-	scene.fog = new THREE.FogExp2(0xffeeee, 0.0);
+	scene.fog = new THREE.FogExp2(0x33667f, 0.0025);
 
 	// Camera.
 
@@ -74,7 +62,7 @@ function setupScene(assets) {
 	controls.target.set(0, 20, 0);
 	controls.damping = 0.2;
 	controls.maxDistance = 2000;
-	camera.position.set(-40, 40, -40);
+	camera.position.set(-140, 120, -140);
 	camera.lookAt(controls.target);
 
 	scene.add(camera);
@@ -105,7 +93,7 @@ function setupScene(assets) {
 	// Lights.
 
 	//var hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0xddee50, 0.3);
-	var ambientLight = new THREE.AmbientLight(0x552a41);
+	var ambientLight = new THREE.AmbientLight(0xcccccc);
 	var directionalLight = new THREE.DirectionalLight(0xffbbaa);
 
 	//hemisphereLight.position.set(0, 500, 0);
@@ -120,47 +108,28 @@ function setupScene(assets) {
 
 	// Helpers.
 
-	var axis = new THREE.AxisHelper(10);
+	//var axis = new THREE.AxisHelper(10);
 	//scene.add(axis);
-
-	// Sky.
-
-	camera.add(assets.sky);
-
-	// Random objects.
-
-	/*object = new THREE.Object3D();
-
-	var i, mesh;
-	var geometry = new THREE.SphereBufferGeometry(1, 4, 4);
-	var material = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.FlatShading});
-
-	for(i = 0; i < 10; ++i) {
-
-		material = new THREE.MeshPhongMaterial({color: 0xffffff * Math.random(), shading: THREE.FlatShading});
-
-		mesh = new THREE.Mesh(geometry, material);
-		mesh.receiveShadow = true;
-		mesh.castShadow = true;
-		mesh.position.set(Math.random() - 0.5, Math.random() + 0.75, Math.random() - 0.5).normalize();
-		mesh.position.multiplyScalar(Math.random() * 2);
-		mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-		mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 0.1;
-		object.add(mesh);
-
-	}
-
-	scene.add(object);*/
 
 	// Terrain.
 
-	var terrain = new RABBITHOLE.LODGrid(assets.heightMap, 500, 8, 128, 2);
+	var terrain = new RABBITHOLE.LODGrid({
+		heightMap: assets.heightMap,
+		map: assets.colorMap,
+		normalMap: assets.normalMap,
+		baseScale: 500,
+		levels: 7,
+		resolution: 128,
+		morphingLevels: 2,
+		heightScale: 30
+	});
+
 	terrain.traverse(function(child) {
 		//child.receiveShadow = true;
-		child.material.uniforms.diffuse.value.setHex(0xffee66);
-		child.material.uniforms.emissive.value.setHex(0x1a1000);
-		child.material.uniforms.specular.value.setHex(0xffbb00);
-		child.material.uniforms.shininess.value = 22.0;
+		child.material.uniforms.diffuse.value.setHex(0xffffff);
+		child.material.uniforms.emissive.value.setHex(0x000000);
+		child.material.uniforms.specular.value.setHex(0x111111);
+		child.material.uniforms.shininess.value = 6.0;
 	});
 
 	camera.add(terrain);
@@ -170,13 +139,15 @@ function setupScene(assets) {
 	var params = {
 		"wireframe": terrain.material.wireframe,
 		"resolution": Math.round(Math.log(terrain.resolution) / Math.log(2)),
-		"scale": terrain.tileScale,
+		"scale": terrain.baseScale,
 		"levels": terrain.levels,
-		"morphing levels": terrain.morphingLevels
+		"morphing levels": terrain.morphingLevels,
+		"height scale": terrain.heightScale
 	};
 
-	gui.add(params, "resolution").min(4).max(11).step(1).onChange(function() { terrain.resolution = Math.pow(2, params["resolution"]); terrain.generate(); });
-	gui.add(params, "scale").min(1).max(2000).step(1).onChange(function() { terrain.tileScale = params["scale"]; });
+	gui.add(params, "resolution").min(4).max(9).step(1).onChange(function() { terrain.resolution = Math.pow(2, params["resolution"]); terrain.generate(); });
+	gui.add(params, "scale").min(1).max(2000).step(1).onChange(function() { terrain.baseScale = params["scale"]; });
+	gui.add(params, "height scale").min(0.0).max(255.0).step(0.1).onChange(function() { terrain.heightScale = params["height scale"]; });
 	gui.add(params, "levels").min(1).max(15).step(1).onChange(function() { terrain.levels = params["levels"]; terrain.generate(); });
 	gui.add(params, "morphing levels").min(0).max(2).step(1).onChange(function() { terrain.morphingLevels = params["morphing levels"]; });
 	gui.add(params, "wireframe").onChange(function() { terrain.traverse(function(child) { child.material.wireframe = params["wireframe"]; }); });
@@ -207,9 +178,6 @@ function setupScene(assets) {
 		stats.begin();
 
 		renderer.render(scene, camera);
-
-		//terrain.offset.x = camera.position.x;
-		//terrain.offset.y = camera.position.z;
 
 		stats.end();
 
