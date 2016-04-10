@@ -1,5 +1,5 @@
 /**
- * rabbit-hole v0.0.0 build Apr 07 2016
+ * rabbit-hole v0.0.0 build Apr 11 2016
  * https://github.com/vanruesc/rabbit-hole
  * Copyright 2016 Raoul van Rüschen, Zlib
  */
@@ -12,13 +12,13 @@
 
 	THREE = 'default' in THREE ? THREE['default'] : THREE;
 
-	var fragment = "#define LOD\n\n#include <common>\n#include <color_pars_fragment>\n#include <fog_pars_fragment>\n#include <bsdfs>\n#include <lights_pars>\n#include <lights_phong_pars_fragment>\n#include <shadowmap_pars_fragment>\n#include <logdepthbuf_pars_fragment>\n\nuniform vec3 diffuse;\nuniform vec3 emissive;\nuniform vec3 specular;\nuniform float shininess;\nuniform float opacity;\n\nvarying vec3 vWorldPosition;\n\nvoid main() {\n\n\tvec4 diffuseColor = vec4(diffuse, opacity);\n\tReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));\n\tvec3 totalEmissiveRadiance = emissive;\n\n\t#include <logdepthbuf_fragment>\n\t#include <color_fragment>\n\t#include <specularmap_fragment>\n\t#include <normal_fragment>\n\n\t// accumulation\n\t#include <lights_phong_fragment>\n\t#include <lights_template>\n\n\tvec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n\n\tgl_FragColor = vec4(outgoingLight, diffuseColor.a);\n\n\t#include <premultiplied_alpha_fragment>\n\t#include <tonemapping_fragment>\n\t#include <encodings_fragment>\n\t#include <fog_fragment>\n\n}\n";
+	var fragment = "#define LOD\n\n#include <common>\n#include <color_pars_fragment>\n#include <uv_pars_fragment>\n#include <map_pars_fragment>\n#include <fog_pars_fragment>\n#include <bsdfs>\n#include <lights_pars>\n#include <lights_phong_pars_fragment>\n#include <normalmap_pars_fragment>\n#include <shadowmap_pars_fragment>\n#include <logdepthbuf_pars_fragment>\n\nuniform vec3 diffuse;\nuniform vec3 emissive;\nuniform vec3 specular;\nuniform float shininess;\nuniform float opacity;\n\nvarying vec3 vWorldPosition;\n\nvoid main() {\n\n\tvec4 diffuseColor = vec4(diffuse, opacity);\n\tReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));\n\tvec3 totalEmissiveRadiance = emissive;\n\n\t#include <logdepthbuf_fragment>\n\t#include <map_fragment>\n\t#include <color_fragment>\n\t#include <specularmap_fragment>\n\t#include <normal_fragment>\n\n\t// accumulation\n\t#include <lights_phong_fragment>\n\t#include <lights_template>\n\n\tvec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;\n\n\tgl_FragColor = vec4(outgoingLight, diffuseColor.a);\n\n\t#include <premultiplied_alpha_fragment>\n\t#include <tonemapping_fragment>\n\t#include <encodings_fragment>\n\t#include <fog_fragment>\n\n}\n";
 
-	var vertex = "#define LOD\n\n#include <common>\n#include <color_pars_vertex>\n#include <shadowmap_pars_vertex>\n#include <logdepthbuf_pars_vertex>\n#include <lod_pars_vertex>\n\nvarying vec3 vViewPosition;\n\nvoid main() {\n\n\t#include <color_vertex>\n\n\t#include <begin_vertex>\n\t#include <lod_vertex>\n\t#include <logdepthbuf_vertex>\n\n\tvViewPosition = -mvPosition.xyz;\n\n\t#include <shadowmap_vertex>\n\n}\n";
+	var vertex = "#define LOD\n\n#include <common>\n#include <color_pars_vertex>\n#include <uv_pars_vertex>\n#include <shadowmap_pars_vertex>\n#include <logdepthbuf_pars_vertex>\n#include <lod_pars_vertex>\n\nvarying vec3 vViewPosition;\n\nvoid main() {\n\n\t#include <color_vertex>\n\n\t#include <begin_vertex>\n\t#include <lod_vertex>\n\t#include <logdepthbuf_vertex>\n\n\tvViewPosition = -mvPosition.xyz;\n\n\t#include <shadowmap_vertex>\n\n}\n";
 
-	var lodPars = "uniform sampler2D heightMap;\r\n\r\nuniform float scale;\r\nuniform int level;\r\nuniform int morphingLevels;\r\n\r\nuniform vec3 planeUp;\r\nuniform vec3 planeAt;\r\nuniform vec3 planePoint;\r\n\r\nvarying vec3 vWorldPosition;\r\n\r\nconst int MAX_MORPHING_LEVELS = 2;\r\n\r\nvec2 computeAncestorMorphing(int morphLevel, vec2 gridPosition, float heightMorphFactor, vec3 cameraScaledPosition, vec2 previousMorphing) {\r\n\r\n\tfloat morphLevelFloat = float(morphLevel);\r\n\r\n\t// Check if it's necessary to apply the morphing (on 1 square on 2).\r\n\tvec2 fractional = gridPosition * RESOLUTION * 0.5;\r\n\r\n\tif(morphLevel > 1) {\r\n\r\n\t\tfractional = (fractional + 0.5) / pow(2.0, morphLevelFloat - 1.0);\r\n\r\n\t}\r\n\r\n\tfractional -= floor(fractional);\r\n\r\n\t// Compute morphing factors based on the height and the parent LOD.\r\n\tvec2 squareOffset = abs(cameraScaledPosition.xz -(gridPosition + previousMorphing)) / morphLevelFloat;\r\n\tvec2 comparePos = max(vec2(0.0), squareOffset * 4.0 - 1.0);\r\n\tfloat parentMorphFactor = min(1.0, max(comparePos.x, comparePos.y));\r\n\r\n\t// Compute the composition of morphing factors.\r\n\tvec2 morphFactor = vec2(0.0);\r\n\r\n\tif(fractional.x + fractional.y > 0.49) {\r\n\r\n\t\tfloat morphing = parentMorphFactor;\r\n\r\n\t\t// If first LOD, apply the height morphing factor everywhere.\r\n\r\n\t\tif(morphLevel + morphLevel == 1) {\r\n\r\n\t\t\tmorphing = max(heightMorphFactor, morphing);\r\n\r\n\t\t}\r\n\r\n\t\tmorphFactor += morphing * floor(fractional * 2.0);\r\n\r\n\t}\r\n\r\n\treturn morphLevelFloat * morphFactor / RESOLUTION;\r\n\r\n}\r\n\t\t\r\nvec4 computePosition(vec4 position) {\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\t// Compute the plane rotation if needed.\r\n\t\tmat3 planeRotation;\r\n\t\tvec3 planeY = normalize(planeUp);\r\n\t\tvec3 planeZ = normalize(planeAt);\r\n\t\tvec3 planeX = normalize(cross(planeY, planeZ));\r\n\t\tplaneZ = normalize(cross(planeY, planeX));\r\n\t\tplaneRotation = mat3(planeX, planeY, planeZ);\r\n\r\n\t#endif\r\n\r\n\t// Project the camera position and the scene origin on the grid.\r\n\tvec3 projectedCamera = vec3(cameraPosition.x, 0.0, cameraPosition.z);\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tprojectedCamera = cameraPosition - dot(cameraPosition - planePoint, planeY) * planeY;\r\n\t\tvec3 projectedOrigin = -dot(-planePoint, planeY) * planeY;\r\n\r\n\t#endif\r\n\r\n\t// Discretise the space and make the grid following the camera.\r\n\tfloat cameraHeightLog = log2(length(cameraPosition - projectedCamera));\r\n\tfloat s = scale * pow(2.0, floor(cameraHeightLog)) * 0.005;\r\n\tvec3 cameraScaledPosition = projectedCamera / s;\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tcameraScaledPosition = cameraScaledPosition * planeRotation;\r\n\r\n\t#endif\r\n\r\n\tvec2 gridPosition = position.xz + floor(cameraScaledPosition.xz * RESOLUTION + 0.5) / RESOLUTION;\r\n\r\n\t// Compute the height morphing factor.\r\n\tfloat heightMorphFactor = cameraHeightLog - floor(cameraHeightLog);\r\n\t\t\r\n\t// Compute morphing factors from LOD ancestors.\r\n\tvec2 morphing = vec2(0.0);\r\n\r\n\tfor(int i = 1; i <= MAX_MORPHING_LEVELS; ++i) {\r\n\r\n\t\tif(i <= morphingLevels) {\r\n\r\n\t\t\tmorphing += computeAncestorMorphing(i, gridPosition, heightMorphFactor, cameraScaledPosition, morphing);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t// Apply final morphing.\r\n\tgridPosition = gridPosition + morphing;\r\n\r\n\t// Compute world coordinates.\r\n\tvec3 worldPosition = vec3(gridPosition.x * s, 0.0, gridPosition.y * s);\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tworldPosition = planeRotation * worldPosition + projectedOrigin;\r\n\r\n\t#endif\r\n\r\n\treturn vec4(worldPosition, 1.0);\r\n\r\n}\r\n\r\nfloat getHeight(vec2 coord) {\r\n\r\n\t// todo: supersample.\r\n\tfloat height = texture2D(heightMap, coord).r;\r\n\r\n\treturn height;\r\n\r\n}\r\n";
+	var lodPars = "uniform sampler2D heightMap;\r\n\r\nuniform int level;\r\nuniform int morphingLevels;\r\nuniform float scale;\r\nuniform float heightScale;\r\n\r\nuniform vec3 planeUp;\r\nuniform vec3 planeAt;\r\nuniform vec3 planePoint;\r\n\r\nuniform vec2 texelSize;\r\n\r\nvarying vec3 vWorldPosition;\r\n\r\n#ifndef FLAT_SHADED\r\n\r\n\tvarying vec3 vNormal;\r\n\r\n#endif\r\n\r\nconst int MAX_MORPHING_LEVELS = 2;\r\n\r\nvec2 computeAncestorMorphing(int morphLevel, vec2 gridPosition, float heightMorphFactor, vec3 cameraScaledPosition, vec2 previousMorphing) {\r\n\r\n\tfloat morphLevelFloat = float(morphLevel);\r\n\r\n\t// Check if it's necessary to apply the morphing (on 1 square on 2).\r\n\tvec2 fractional = gridPosition * RESOLUTION * 0.5;\r\n\r\n\tif(morphLevel > 1) {\r\n\r\n\t\tfractional = (fractional + 0.5) / pow(2.0, morphLevelFloat - 1.0);\r\n\r\n\t}\r\n\r\n\tfractional -= floor(fractional);\r\n\r\n\t// Compute morphing factors based on the height and the parent LOD.\r\n\tvec2 squareOffset = abs(cameraScaledPosition.xz - (gridPosition + previousMorphing)) / morphLevelFloat;\r\n\tvec2 comparePos = max(vec2(0.0), squareOffset * 4.0 - 1.0);\r\n\tfloat parentMorphFactor = min(1.0, max(comparePos.x, comparePos.y));\r\n\r\n\t// Compute the composition of morphing factors.\r\n\tvec2 morphFactor = vec2(0.0);\r\n\r\n\tif(fractional.x + fractional.y > 0.49) {\r\n\r\n\t\tfloat morphing = parentMorphFactor;\r\n\r\n\t\t// If first LOD, apply the height morphing factor everywhere.\r\n\t\tif(level + morphLevel == 1) {\r\n\r\n\t\t\tmorphing = max(heightMorphFactor, morphing);\r\n\r\n\t\t}\r\n\r\n\t\tmorphFactor += morphing * floor(fractional * 2.0);\r\n\r\n\t}\r\n\r\n\treturn morphLevelFloat * morphFactor / RESOLUTION;\r\n\r\n}\r\n\r\nvec4 computePosition(vec3 position) {\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\t// Compute the plane rotation if needed.\r\n\t\tmat3 planeRotation;\r\n\t\tvec3 planeY = normalize(planeUp);\r\n\t\tvec3 planeZ = normalize(planeAt);\r\n\t\tvec3 planeX = normalize(cross(planeY, planeZ));\r\n\t\tplaneZ = normalize(cross(planeY, planeX));\r\n\t\tplaneRotation = mat3(planeX, planeY, planeZ);\r\n\r\n\t#endif\r\n\r\n\t// Project the camera position and the scene origin on the grid.\r\n\tvec3 projectedCamera = vec3(cameraPosition.x, 0.0, cameraPosition.z);\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tprojectedCamera = cameraPosition - dot(cameraPosition - planePoint, planeY) * planeY;\r\n\t\tvec3 projectedOrigin = -dot(-planePoint, planeY) * planeY;\r\n\r\n\t#endif\r\n\r\n\t// Discretise the space and make the grid following the camera.\r\n\tfloat cameraHeightLog = log2(length(cameraPosition - projectedCamera));\r\n\tfloat s = scale * pow(2.0, floor(cameraHeightLog)) * 0.005;\r\n\tvec3 cameraScaledPosition = projectedCamera / s;\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tcameraScaledPosition = cameraScaledPosition * planeRotation;\r\n\r\n\t#endif\r\n\r\n\tvec2 gridPosition = position.xz + floor(cameraScaledPosition.xz * RESOLUTION + 0.5) / RESOLUTION;\r\n\r\n\t// Compute the height morphing factor.\r\n\tfloat heightMorphFactor = cameraHeightLog - floor(cameraHeightLog);\r\n\t\t\r\n\t// Compute morphing factors from LOD ancestors.\r\n\tvec2 morphing = vec2(0.0);\r\n\r\n\tfor(int i = 1; i <= MAX_MORPHING_LEVELS; ++i) {\r\n\r\n\t\tif(i <= morphingLevels) {\r\n\r\n\t\t\tmorphing += computeAncestorMorphing(i, gridPosition, heightMorphFactor, cameraScaledPosition, morphing);\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\t// Apply final morphing.\r\n\tgridPosition = gridPosition + morphing;\r\n\r\n\t// Compute world coordinates.\r\n\tvec3 worldPosition = vec3(gridPosition.x * s, 0.0, gridPosition.y * s);\r\n\r\n\t#ifdef USE_PLANE_PARAMETERS\r\n\r\n\t\tworldPosition = planeRotation * worldPosition + projectedOrigin;\r\n\r\n\t#endif\r\n\r\n\treturn vec4(worldPosition, 1.0);\r\n\r\n}\r\n\r\nvec4 getHeightInfo(vec2 coord) {\r\n\r\n\tfloat height = texture2D(heightMap, coord).x;\r\n\r\n\tfloat s0 = texture2D(heightMap, coord + vec2(-texelSize.x, 0.0)).x;\r\n\tfloat s1 = texture2D(heightMap, coord + vec2(texelSize.x, 0.0)).x;\r\n\tfloat s2 = texture2D(heightMap, coord + vec2(0.0, -texelSize.y)).x;\r\n\tfloat s3 = texture2D(heightMap, coord + vec2(0.0, texelSize.y)).x;\r\n\r\n\tvec3 va = normalize(vec3(2.0, 0.0, s1 - s0));\r\n\tvec3 vb = normalize(vec3(0.0, 2.0, s3 - s2));\r\n\r\n\treturn vec4(cross(va, vb).yzx, height);\r\n\r\n}";
 
-	var lod = "vec4 worldPosition = computePosition(vec4(position, 1.0));\r\n\r\n//vec3 heightPosition = worldPosition.xyz / 2.0;\r\n\r\nworldPosition.y += getHeight(worldPosition.xz / 512.0) * 25.0;\r\n\r\n/*float height = getHeight(vec2(0.3565, 0.265), heightPosition) * 0.3 +\r\n\tgetHeight(vec2(0.07565, 0.0865), heightPosition) * 0.6 +\r\n\tgetHeight(vec2(0.8, 0.99), heightPosition) * 0.1;*/\r\n\r\n//worldPosition.y += height * 10.0 - 10.0 * 0.5;\r\n\r\nvec4 mvPosition = viewMatrix * worldPosition;\r\n\r\nvWorldPosition = worldPosition.xyz;\r\n\r\ngl_Position = projectionMatrix * mvPosition;\r\n";
+	var lod = "vec4 worldPosition = computePosition(position);\r\n\r\nvUv = worldPosition.xz / 512.0 * offsetRepeat.zw + offsetRepeat.xy;\r\n\r\nvec4 heightInfo = getHeightInfo(vUv);\r\n\r\n#ifndef FLAT_SHADED\r\n\r\n\tvNormal = heightInfo.xyz;\r\n\r\n#endif\r\n\r\nworldPosition.y += heightInfo.w * heightScale;\r\n\r\nvWorldPosition = worldPosition.xyz;\r\n\r\nvec4 mvPosition = viewMatrix * worldPosition;\r\n\r\ngl_Position = projectionMatrix * mvPosition;\r\n";
 
 	/**
 	 * A heightfield LOD shader material.
@@ -26,7 +26,7 @@
 	 * @class HeightfieldMaterial
 	 * @constructor
 	 * @extends ShaderMaterial
-	 * @params {Boolean} usePlaneParameters - Whether plane parameters should be used.
+	 * @params {Boolean} usePlaneParameters - Whether plane parameters should be used to adjust the terrain rotation.
 	 */
 
 	class HeightfieldMaterial extends THREE.ShaderMaterial {
@@ -52,13 +52,16 @@
 
 						heightMap: {type: "t", value: null},
 
-						scale: {type: "f", value: 1.0},
 						level: {type: "i", value: 0},
 						morphingLevels: {type: "i", value: 2},
+						scale: {type: "f", value: 1.0},
+						heightScale: {type: "f", value: 30.0},
 
 						planeUp: {type: "v3", value: new THREE.Vector3(0, 1, 0)},
 						planeAt: {type: "v3", value: new THREE.Vector3(0, 0, 1)},
 						planePoint: {type: "v3", value: new THREE.Vector3(0, 0, 0)},
+
+						texelSize: {type: "v2", value: new THREE.Vector2()},
 
 						emissive: {type: "c", value: new THREE.Color()},
 						specular: {type: "c", value: new THREE.Color()},
@@ -76,7 +79,6 @@
 				},
 
 				shading: THREE.FlatShading,
-				side: THREE.DoubleSide,
 				lights: true,
 				fog: true
 
@@ -102,7 +104,35 @@
 		set heightMap(x) {
 
 			this.uniforms.heightMap.value = x;
+			this.uniforms.texelSize.value.set(1.0 / x.image.width, 1.0 / x.image.height);
+		}
 
+		/**
+		 * A color map.
+		 *
+		 * @property map
+		 * @type Texture
+		 */
+
+		get map() { return this.uniforms.map.value; }
+
+		set map(x) {
+
+			this.uniforms.map.value = x;
+		}
+
+		/**
+		 * A normal map.
+		 *
+		 * @property normalMap
+		 * @type Texture
+		 */
+
+		get normalMap() { return this.uniforms.normalMap.value; }
+
+		set normalMap(x) {
+
+			this.uniforms.normalMap.value = x;
 		}
 
 	}
@@ -113,18 +143,24 @@
 	 * @class LODGrid
 	 * @constructor
 	 * @extends Object3D
-	 * @param {Number} [heightMap] - The height map for the terrain.
-	 * @param {Number} [tileScale=1] - The tileScale of the grid.
-	 * @param {Number} [levels=8] - The detail levels.
-	 * @param {Number} [morphingLevels=2] - The morph levels. Must be an integer in the range [0, 2].
-	 * @param {Number} [resolution=64] - The resolution of each level of detail. Must be a power of two.
+	 * @param {Object} options - The options.
+	 * @param {Texture} options.heightMap - The height map for the terrain.
+	 * @param {Texture} [options.map] - A color map for the terrain.
+	 * @param {Texture} [options.normalMap] - A normal map for terrain details.
+	 * @param {Number} [options.baseScale=1] - The scale of the center plane. Every LOD shell will be twice as big as the previous one.
+	 * @param {Number} [options.heightScale=30] - The scale of the height samples. A height value of 1.0 equals heightScale in world space.
+	 * @param {Number} [options.levels=8] - The detail levels.
+	 * @param {Number} [options.morphingLevels=2] - The morph levels. Must be an integer in the range [0, 2].
+	 * @param {Number} [options.resolution=64] - The resolution of each level of detail. Must be a power of two.
 	 */
 
 	class LODGrid extends THREE.Object3D {
 
-		constructor(heightMap, tileScale, levels, resolution, morphingLevels) {
+		constructor(options) {
 
 			super();
+
+			if(options === undefined) { options = {}; }
 
 			/**
 			 * The LOD phong material.
@@ -136,17 +172,21 @@
 
 			this.material = new HeightfieldMaterial(false);
 
+			this.morphingLevels = options.morphingLevels;
+
+			this.heightScale = options.heightScale;
+
 			/**
-			 * The tile scale.
+			 * The base scale.
 			 *
-			 * @property _tileScale
+			 * @property _baseScale
 			 * @type Number
 			 * @private
 			 */
 
-			this._tileScale = 1;
+			this._baseScale = 1;
 
-			this.tileScale = tileScale;
+			this.baseScale = options.baseScale;
 
 			/**
 			 * The levels of detail.
@@ -158,19 +198,7 @@
 
 			this._levels = 8;
 
-			this.levels = levels;
-
-			/**
-			 * The morph levels of the LOD material.
-			 *
-			 * @property _morphingLevels
-			 * @type Number
-			 * @private
-			 */
-
-			this._morphingLevels = 2;
-
-			this.morphingLevels = morphingLevels;
+			this.levels = options.levels;
 
 			/**
 			 * The resolution of each level of detail.
@@ -182,7 +210,7 @@
 
 			this._resolution = 64;
 
-			this.resolution = resolution;
+			this.resolution = options.resolution;
 
 			/**
 			 * The height map.
@@ -192,7 +220,27 @@
 			 * @private
 			 */
 
-			this.heightMap = heightMap;
+			this.heightMap = options.heightMap;
+
+			/**
+			 * A color map.
+			 *
+			 * @property map
+			 * @type Texture
+			 * @private
+			 */
+
+			this.map = options.map;
+
+			/**
+			 * A normal map.
+			 *
+			 * @property normalMap
+			 * @type Texture
+			 * @private
+			 */
+
+			this.normalMap = options.normalMap;
 
 			/**
 			 * The previous resolution.
@@ -229,23 +277,23 @@
 		}
 
 		/**
-		 * The tile scale.
+		 * The base scale.
 		 *
-		 * @property tileScale
+		 * @property baseScale
 		 * @type Number
 		 * @default 1
 		 */
 
-		get tileScale() { return this._tileScale; }
+		get baseScale() { return this._baseScale; }
 
-		set tileScale(x) {
+		set baseScale(x) {
 
 			let i, l;
 
 			if(x !== undefined) {
 
 				x = Math.max(1, x);
-				this._tileScale = x;
+				this._baseScale = x;
 
 				for(i = 0, l = this.children.length; i < l; ++i) {
 
@@ -286,18 +334,43 @@
 		 * @default 2
 		 */
 
-		get morphingLevels() { return this._morphingLevels; }
+		get morphingLevels() { return this.material.uniforms.morphingLevels.value; }
 
 		set morphingLevels(x) {
 
 			if(x !== undefined) {
 
 				x = Math.max(0, Math.min(2, Math.round(Math.round(x))));
-				this._morphingLevels = x;
 
 				this.traverse(function(child) {
 
 					child.material.uniforms.morphingLevels.value = x;
+
+				});
+
+			}
+
+		}
+
+		/**
+		 * The height scale of the LOD material.
+		 *
+		 * @property heightScale
+		 * @type Number
+		 * @default 30
+		 */
+
+		get heightScale() { return this.material.uniforms.heightScale.value; }
+
+		set heightScale(x) {
+
+			if(x !== undefined) {
+
+				x = Math.max(0, Math.round(x));
+
+				this.traverse(function(child) {
+
+					child.material.uniforms.heightScale.value = x;
 
 				});
 
@@ -336,7 +409,7 @@
 
 		generate() {
 
-			let level, tileScale, geometry, material;
+			let level, scale, geometry, material;
 
 			// Clean up.
 			if(this.previousResolution !== this.resolution) {
@@ -360,13 +433,15 @@
 			}
 
 			// Create new child meshes. 
-			for(level = 0, tileScale = this.tileScale; level < this.levels; ++level, tileScale *= 2) {
+			for(level = 0, scale = this.baseScale; level < this.levels; ++level, scale *= 2) {
 
 				geometry = (level === 0) ? this.centerGeometry : this.surroundingGeometry;
 
 				material = this.material.clone();
 				material.heightMap = this.heightMap;
-				material.uniforms.scale.value = tileScale;
+				material.map = this.map;
+				material.normalMap = this.normalMap;
+				material.uniforms.scale.value = scale;
 				material.uniforms.level.value = level;
 
 				// Add the new shell.
