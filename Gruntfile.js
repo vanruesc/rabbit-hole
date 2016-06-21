@@ -20,12 +20,7 @@ module.exports = function(grunt) {
 
 		rollup: {
 			options: {
-				format: "umd",
-				moduleName: "<%= pkg.name.replace(/-/g, \"\").toUpperCase() %>",
-				banner: "<%= banner %>",
-				globals: {
-					three: "THREE"
-				},
+				globals: {three: "THREE"},
 				external: ["three"],
 				plugins: [
 					require("rollup-plugin-node-resolve")({
@@ -33,11 +28,23 @@ module.exports = function(grunt) {
 						jsnext: true
 					}),
 					require("rollup-plugin-string")({
-						extensions: [".frag", ".vert"]
+						extensions: [".frag", ".vert", ".tmp"]
 					})
 				]
 			},
+			worker: {
+				options: {
+					format: "iife"
+				},
+				src: "src/worker/index.js",
+				dest: "src/worker.tmp"
+			},
 			dist: {
+				options: {
+					format: "umd",
+					moduleName: "<%= pkg.name.replace(/-/g, \"\").toUpperCase() %>",
+					banner: "<%= banner %>"
+				},
 				src: "src/index.js",
 				dest: "build/<%= pkg.name %>.js"
 			}
@@ -46,6 +53,11 @@ module.exports = function(grunt) {
 		uglify: {
 			options: {
 				banner: "<%= banner %>"
+			},
+			worker: {
+				files: {
+					"src/worker.tmp": ["src/worker.tmp"]
+				}
 			},
 			dist: {
 				files: {
@@ -65,11 +77,15 @@ module.exports = function(grunt) {
 			options: {
 				extensions: {
 					".frag": "utf8",
-					".vert": "utf8"
+					".vert": "utf8",
+					".tmp": "utf8"
 				}
 			},
 			materials: {
 				src: "src/materials/*/index.js"
+			},
+			worker: {
+				src: "src/index.js"
 			}
 		},
 
@@ -77,7 +93,10 @@ module.exports = function(grunt) {
 			backup: {
 				expand: true,
 				cwd: "src",
-				src: "materials/*/index.js",
+				src: [
+					"materials/*/index.js",
+					"index.js"
+				],
 				dest: "backup",
 				filter: "isFile"
 			},
@@ -97,7 +116,8 @@ module.exports = function(grunt) {
 		},
 
 		clean: {
-			backup: ["backup"]
+			backup: ["backup"],
+			worker: ["src/worker.tmp"]
 		},
 
 		yuidoc: {
@@ -125,7 +145,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-lemon");
 
 	grunt.registerTask("default", ["build", "nodeunit"]);
-	grunt.registerTask("build", ["jshint", "rollup", "copy:bundle"]);
+	grunt.registerTask("build", ["jshint", "rollup:worker", "rollup:dist", "copy:bundle", "clean:worker"]);
 	grunt.registerTask("test", ["jshint", "nodeunit"]);
 
 	grunt.registerTask("backup", ["restore", "copy:backup"]);
