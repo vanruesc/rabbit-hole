@@ -56,8 +56,7 @@ p {
 }
 
 div[role="complementary"] {
- background-color: rgba(0, 0, 0, 0.6);
- border-top: 1px solid rgba(60, 15, 60, 0.6);
+ background-color: transparent;
  display: -webkit-flex;
  display: flex;
  -webkit-justify-content: space-between;
@@ -68,7 +67,6 @@ div[role="complementary"] {
  position: fixed;
  bottom: 0;
  left: 0;
- right: 0;
  visibility: hidden;
 }
 
@@ -84,7 +82,7 @@ div[role="complementary"] h4 {
 }
 
 div[role="complementary"] p {
- color: rgb(80, 85, 80);
+ color: rgb(90, 95, 90);
 }
 
 canvas {
@@ -124,7 +122,12 @@ canvas:active {
 }
 
 #stats {
+ opacity: 0.9;
  position: fixed;
  left: 5px;
  top: 5px;
+}
+
+#stats canvas {
+ cursor: pointer;
 }
