@@ -4,4 +4,3 @@
  * @module rabbithole
  */
 
-export { SurfaceNet } from "./isosurfaces";
