@@ -8,19 +8,16 @@
 	"license": "Zlib",
 
 	"keywords": [
-		"3d",
-		"rendering",
-		"volumetric",
-		"terrain",
-		"isosurface",
-		"surface-net",
-		"three",
-		"three.js"
+		"3d", "rendering",
+		"volumetric", "terrain",
+		"isosurface", "dc", "dual contouring",
+		"tri-planar", "texture", "mapping",
+		"three", "threejs", "three.js"
 	],
 
 	"author": {
 		"name": "Raoul van Rüschen",
-		"email": "vanruesc@fh-brandenburg.de"
+		"email": "vanruesc@outlook.de"
 	},
 
 	"repository": {
@@ -57,7 +54,8 @@
 		"grunt-lemon": "x.x.x",
 		"grunt-rollup": "x.x.x",
 		"rollup-plugin-node-resolve": "x.x.x",
-		"rollup-plugin-string": "x.x.x"
+		"rollup-plugin-string": "x.x.x",
+		"sparse-octree": "x.x.x"
 	},
 
 	"peerDependencies": {
