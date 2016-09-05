@@ -1,18 +1,20 @@
 {
 	"name": "rabbit-hole",
 	"version": "0.0.0",
-	"description": "A volumetric terrain engine for three.js.",
+	"description": "A volumetric terrain engine.",
 	"homepage": "https://github.com/vanruesc/rabbit-hole",
 	"main": "build/rabbit-hole.js",
 	"jsnext:main": "src/index.js",
 	"license": "Zlib",
 
 	"keywords": [
-		"3d", "rendering",
-		"volumetric", "terrain",
-		"isosurface", "dc", "dual contouring",
-		"tri-planar", "texture", "mapping",
-		"three", "threejs", "three.js"
+		"volumetric",
+		"terrain",
+		"isosurface",
+		"dual contouring",
+		"tri-planar",
+		"texture",
+		"mapping"
 	],
 
 	"author": {
@@ -40,7 +42,8 @@
 	},
 
 	"dependencies": {
-		"three": "x.x.x"
+		"three": "0.80.x",
+		"sparse-octree": "x.x.x"
 	},
 
 	"devDependencies": {
