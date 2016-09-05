@@ -1,7 +1,8 @@
 /**
  * A compilation of the shader materials.
  *
- * @module rabbithole
+ * @module rabbit-hole
  * @submodule materials
  */
 
+// export { TerrainMaterial } from "./terrain";
