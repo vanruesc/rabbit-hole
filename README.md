@@ -1,21 +1,12 @@
 # Rabbit Hole
-[![Build status](https://travis-ci.org/vanruesc/rabbit-hole.svg?branch=master)](https://travis-ci.org/vanruesc/rabbit-hole) 
-[![npm version](https://badge.fury.io/js/rabbit-hole.svg)](http://badge.fury.io/js/rabbit-hole) 
+[![Build status](https://travis-ci.org/vanruesc/rabbit-hole.svg?branch=master)](https://travis-ci.org/vanruesc/rabbit-hole)
+[![NPM version](https://badge.fury.io/js/rabbit-hole.svg)](http://badge.fury.io/js/rabbit-hole)
 [![Dependencies](https://david-dm.org/vanruesc/rabbit-hole.svg?branch=master)](https://david-dm.org/vanruesc/rabbit-hole)
+[![License](https://img.shields.io/badge/license-zlib-blue.svg)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/master/LICENSE)
 
 A volumetric terrain engine for three.js.
 
-
-## Preface
-
-This module uses modern ECMAScript features and requires one of the following browsers:
- - Chrome ≥ 42
- - Firefox ≥ 45
- - IE Edge ≥ 13
-
-[Semantic versioning](http://semver.org/) is used in this module to indicate whether an update 
-introduces breaking changes. However, backwards-compatibility regarding ECMAScript versions is 
-entirely neglected in favor of cleaner code and development convenience.
+[Volume Editor]() *::* [API Reference](http://vanruesc.github.io/rabbit-hole/docs)
 
 
 ## Installation
@@ -31,19 +22,17 @@ $ npm install rabbit-hole
 // WIP
 ```
 
-
-## Terrain Demos
- - [Height Field](http://vanruesc.github.io/rabbit-hole/public/heightfield.html) (WIP)
- - Isosurface (WIP)
+A complete example setup can be found [here]()
 
 
-## Documentation
-[API](http://vanruesc.github.io/rabbit-hole/docs)
+## Features
+
+- [Multithreading](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+- Level of Detail
+- [Tri-Planar Texture Mapping]()
+- Real-time volume construction and destruction
 
 
 ## Contributing
+
 Maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
-
-
-## License
-[Zlib](https://github.com/vanruesc/rabbit-hole/blob/master/LICENSE)  
