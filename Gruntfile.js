@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 					format: "iife"
 				},
 				src: "src/worker/worker.js",
-				dest: "src/worker.tmp"
+				dest: "src/worker/worker.tmp"
 			},
 			dist: {
 				options: {
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 			},
 			worker: {
 				files: {
-					"src/worker.tmp": ["src/worker.tmp"]
+					"src/worker/worker.min.tmp": ["src/worker/worker.tmp"]
 				}
 			},
 			dist: {
