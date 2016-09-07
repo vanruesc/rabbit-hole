@@ -1,6 +1,6 @@
 import THREE from "three";
 import { PriorityQueue } from "./priority-queue.js";
-import { Volume, ConstructiveSolidGeometry } from "../volume";
+import { Volume } from "../volume";
 import { Action, ThreadPool } from "../worker";
 // import { TerrainMaterial } from "../materials";
 
@@ -235,19 +235,23 @@ export class Terrain extends THREE.Object3D {
 		const worker = this.threadPool.getWorker();
 
 		let chunk = null;
+		let element, operation;
 
 		if(worker !== null) {
 
 			// Modifications take pecedence.
 			if(this.modifications.length > 0) {
 
-				chunk = this.modifications.pop();
+				element = this.modifications.pop();
+
+				chunk = element.chunk;
+				operation = element.operation;
 
 				worker.postMessage({
 
 					action: Action.MODIFY,
 					chunk: chunk.serialise(),
-					operation: chunk.data.csg.poll().serialise()
+					operation: operation.serialise()
 
 				}, chunk.createTransferList());
 
@@ -295,9 +299,6 @@ export class Terrain extends THREE.Object3D {
 
 		this.history.push(operation);
 
-		//this.csg.add(operation);
-		//this.modifications.set(operation, chunks);
-
 	}
 
 	/**
@@ -330,31 +331,41 @@ export class Terrain extends THREE.Object3D {
 			chunk = chunks[i];
 			data = chunk.data;
 
-			// Only consider leaf octants.
-			if(data !== null) {
+			if(chunk.csg.size > 0) {
 
-				if(data.csg.size > 0) {
+				this.modifications.push({
+					chunk: chunk,
+					operation: chunk.csg.poll()
+				});
 
-					this.modifications.push(chunk);
+				this.runNextTask();
+
+			} else if(data !== null && !data.neutered) {
+
+				distanceSq = chunk.center().distanceToSquared(camera.position);
+				lod = Math.min(maxLevel, Math.trunc(Math.sqrt(distanceSq / viewDistanceSq) * this.levels));
+
+				if(data.lod !== lod) {
+
+					// Prevent the same task from being queued multiple times.
+					this.extractions.remove(chunk, maxLevel - data.lod);
+					this.extractions.add(chunk, maxLevel - lod);
+
+					data.lod = lod;
 					this.runNextTask();
 
-				} else if(!data.neutered) {
-
-					distanceSq = chunk.center().distanceToSquared(camera.position);
-					lod = Math.min(maxLevel, Math.trunc(Math.sqrt(distanceSq / viewDistanceSq) * this.levels));
-
-					if(data.lod !== lod) {
-
-						// Prevent the same task from being queued multiple times.
-						this.extractions.remove(chunk, maxLevel - data.lod);
-						this.extractions.add(chunk, maxLevel - lod);
-
-						data.lod = lod;
-						this.runNextTask();
-
-					}
-
 				}
+
+			}
+
+		}
+
+	}
+
+
+
+
+
 
 			}
 
