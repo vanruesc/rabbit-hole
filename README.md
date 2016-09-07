@@ -2,11 +2,11 @@
 [![Build status](https://travis-ci.org/vanruesc/rabbit-hole.svg?branch=master)](https://travis-ci.org/vanruesc/rabbit-hole)
 [![NPM version](https://badge.fury.io/js/rabbit-hole.svg)](http://badge.fury.io/js/rabbit-hole)
 [![Dependencies](https://david-dm.org/vanruesc/rabbit-hole.svg?branch=master)](https://david-dm.org/vanruesc/rabbit-hole)
-[![License](https://img.shields.io/badge/license-zlib-blue.svg)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/master/LICENSE)
+[![License](https://img.shields.io/badge/license-zlib-brightgreen.svg)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/master/LICENSE)
 
 A volumetric terrain engine for three.js.
 
-[Volume Editor]() *::* [API Reference](http://vanruesc.github.io/rabbit-hole/docs)
+*[Volume Editor]() :: [API Reference](http://vanruesc.github.io/rabbit-hole/docs)*
 
 
 ## Installation
