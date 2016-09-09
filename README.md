@@ -22,7 +22,7 @@ $ npm install rabbit-hole
 // WIP
 ```
 
-A complete example setup can be found [here]()
+A complete scene setup can be found [here]()
 
 
 ## Features
