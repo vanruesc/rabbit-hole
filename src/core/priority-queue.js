@@ -58,7 +58,7 @@ export class PriorityQueue extends Queue {
 	 * @method remove
 	 * @param {Object} element - The element.
 	 * @param {Number} priority - The priority of the element.
-	 * @return {Boolean} Whether the element existed in the queue.
+	 * @return {Boolean} Whether the element was in the queue.
 	 */
 
 	remove(element, priority) {
