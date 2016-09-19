@@ -44,7 +44,7 @@ const FRUSTUM = new THREE.Frustum();
 
 export class Terrain extends THREE.Object3D {
 
-	constructor(options) {
+	constructor(options = {}) {
 
 		super();
 
