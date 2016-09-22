@@ -364,11 +364,12 @@ export class Terrain extends THREE.Object3D {
 	}
 
 	/**
-	 * Finds the terrain chunks that intersect with the given ray.
+	 * Finds the terrain chunks that intersect with the given ray and raycasts the
+	 * associated meshes.
 	 *
 	 * @method raycast
 	 * @param {Raycaster} raycaster - The raycaster.
-	 * @param {Array} intersects - An array to be filled with the intersecting terrain chunks.
+	 * @param {Array} intersects - An array to be filled with terrain intersections.
 	 */
 
 	raycast(raycaster, intersects) {
