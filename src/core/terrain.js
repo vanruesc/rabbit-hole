@@ -151,6 +151,30 @@ export class Terrain extends THREE.Object3D {
 	}
 
 	/**
+	 * Lifts the connection of a given chunk to its mesh and removes the geometry.
+	 *
+	 * @method unlinkMesh
+	 * @private
+	 * @param {Chunk} chunk - A volume chunk.
+	 */
+
+	unlinkMesh(chunk) {
+
+		let mesh;
+
+		if(this.meshes.has(chunk)) {
+
+			mesh = this.meshes.get(chunk);
+			mesh.geometry.dispose();
+
+			this.meshes.delete(chunk);
+			this.remove(mesh);
+
+		}
+
+	}
+
+	/**
 	 * Completes a worker action.
 	 *
 	 * @method commit
@@ -167,8 +191,24 @@ export class Terrain extends THREE.Object3D {
 		const chunk = this.chunks.get(worker);
 		this.chunks.delete(worker);
 
-		// Reclaim ownership.
-		chunk.data.deserialise(data.data);
+		if(data.data !== null) {
+
+			// Reclaim ownership of the chunk data.
+			chunk.data.deserialise(data.data);
+
+		} else {
+
+			chunk.data = null;
+
+			if(chunk.csg.size === 0) {
+
+				// The chunk became empty. Remove it.
+				this.unlinkMesh(chunk);
+				this.volume.prune(chunk);
+
+			}
+
+		}
 
 		// Kick off a pending task.
 		this.runNextTask();
@@ -201,14 +241,7 @@ export class Terrain extends THREE.Object3D {
 		// Only create a new mesh if the worker generated data.
 		if(positions !== null && normals !== null && indices !== null) {
 
-			if(this.meshes.has(chunk)) {
-
-				// Remove existing geometry.
-				mesh = this.meshes.get(chunk);
-				mesh.geometry.dispose();
-				this.remove(mesh);
-
-			}
+			this.unlinkMesh(chunk);
 
 			geometry = new THREE.BufferGeometry();
 			geometry.setIndex(new THREE.BufferAttribute(indices, 1));
@@ -353,6 +386,7 @@ export class Terrain extends THREE.Object3D {
 					this.extractions.add(chunk, maxLevel - lod);
 
 					data.lod = lod;
+
 					this.runNextTask();
 
 				}
