@@ -24,17 +24,6 @@ export const VolumeModifier = {
 	chunk: new Chunk(),
 
 	/**
-	 * An empty operation.
-	 *
-	 * @property operation
-	 * @type Operation
-	 * @private
-	 * @static
-	 */
-
-	operation: new Operation(),
-
-	/**
 	 * A container for the data that will be returned to the main thread.
 	 *
 	 * @property message
@@ -66,14 +55,14 @@ export const VolumeModifier = {
 
 	modify(chunk, operation) {
 
-		// Unwrap the operation and adopt the provided chunk data.
-		this.operation.deserialise(operation);
+		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
 
-		this.operation.run(this.chunk);
+		// Unwrap the operation and execute it.
+		Operation.create(operation).modify(this.chunk);
 
 		// Export the new data.
-		this.message.data = this.chunk.data.serialise();
+		this.message.data = (this.chunk.data !== null) ? this.chunk.data.serialise() : null;
 		this.transferList = this.chunk.createTransferList();
 
 	}
