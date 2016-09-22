@@ -1,4 +1,5 @@
 import THREE from "three";
+import { Queue } from "./queue.js";
 import { PriorityQueue } from "./priority-queue.js";
 import { Volume } from "../volume";
 import { Action, ThreadPool } from "../worker";
@@ -99,11 +100,11 @@ export class Terrain extends THREE.Object3D {
 		 * Keeps track of pending modification tasks.
 		 *
 		 * @property modifications
-		 * @type Array
+		 * @type Queue
 		 * @private
 		 */
 
-		this.modifications = [];
+		this.modifications = new Queue();
 
 		/**
 		 * A list of CSG operations that have been executed during this session.
@@ -240,9 +241,9 @@ export class Terrain extends THREE.Object3D {
 		if(worker !== null) {
 
 			// Modifications take pecedence.
-			if(this.modifications.length > 0) {
+			if(this.modifications.size > 0) {
 
-				element = this.modifications.pop();
+				element = this.modifications.poll();
 
 				chunk = element.chunk;
 				operation = element.operation;
@@ -333,7 +334,7 @@ export class Terrain extends THREE.Object3D {
 
 			if(chunk.csg.size > 0) {
 
-				this.modifications.push({
+				this.modifications.add({
 					chunk: chunk,
 					operation: chunk.csg.poll()
 				});
@@ -414,7 +415,7 @@ export class Terrain extends THREE.Object3D {
 		this.threadPool.clear();
 
 		this.extractions.clear();
-		this.modifications = [];
+		this.modifications.clear();
 		this.history = [];
 
 		this.chunks.clear();
