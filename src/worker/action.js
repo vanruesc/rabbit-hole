@@ -17,7 +17,7 @@ export const Action = {
 	 * @final
 	 */
 
-	EXTRACT: Symbol.for("rabbit.extract"),
+	EXTRACT: Symbol.for("worker.extract"),
 
 	/**
 	 * Hermite data modification signal.
@@ -28,7 +28,7 @@ export const Action = {
 	 * @final
 	 */
 
-	MODIFY: Symbol.for("rabbit.modify"),
+	MODIFY: Symbol.for("worker.modify"),
 
 	/**
 	 * Thread termination signal.
@@ -39,6 +39,6 @@ export const Action = {
 	 * @final
 	 */
 
-	CLOSE: Symbol.for("rabbit.close")
+	CLOSE: Symbol.for("worker.close")
 
 };
