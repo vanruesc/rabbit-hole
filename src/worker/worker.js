@@ -14,6 +14,7 @@ import { Action } from "./action.js";
  * Receives and handles messages from the main thread.
  *
  * @method receive
+ * @private
  * @static
  * @param {Event} event - A message event containing the received data.
  */

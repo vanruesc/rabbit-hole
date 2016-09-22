@@ -154,7 +154,7 @@ export class ThreadPool {
 
 	/**
 	 * Polls an available worker and returns it. The worker will be excluded from
-	 * subsequent polls until it finishes its task by sending a message back.
+	 * subsequent polls until it finishes its task and sends a message back.
 	 *
 	 * @method getWorker
 	 * @return {Worker} A worker or null if all resources are currently exhausted.
