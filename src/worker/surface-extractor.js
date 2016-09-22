@@ -1,6 +1,6 @@
 import { DualContouring } from "../isosurface";
 import { Chunk } from "../volume";
-import { Action } from "./action";
+import { Action } from "./action.js";
 
 /**
  * A surface extractor that generates triangles from hermite data.

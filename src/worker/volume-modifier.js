@@ -1,6 +1,6 @@
 import { Chunk } from "../volume";
 import { Operation } from "../volume/csg";
-import { Action } from "./action";
+import { Action } from "./action.js";
 
 /**
  * A hermite data modifier that applies CSG operations to volume chunks.
