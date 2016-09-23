@@ -346,7 +346,7 @@ export class Terrain extends THREE.Object3D {
 
 		const chunks = this.volume.cull(
 			FRUSTUM.setFromMatrix(
-				MATRIX4.identity().multiplyMatrices(
+				MATRIX4.multiplyMatrices(
 					camera.projectionMatrix,
 					camera.matrixWorldInverse
 				)
