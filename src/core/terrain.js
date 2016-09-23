@@ -376,7 +376,7 @@ export class Terrain extends THREE.Object3D {
 
 			} else if(data !== null && !data.neutered) {
 
-				distanceSq = chunk.center().distanceToSquared(camera.position);
+				distanceSq = chunk.getCenter().distanceToSquared(camera.position);
 				lod = Math.min(maxLevel, Math.trunc(Math.sqrt(distanceSq / viewDistanceSq) * this.levels));
 
 				if(data.lod !== lod) {
