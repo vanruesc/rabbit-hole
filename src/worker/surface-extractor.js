@@ -17,7 +17,6 @@ export const SurfaceExtractor = {
 	 *
 	 * @property chunk
 	 * @type Chunk
-	 * @private
 	 * @static
 	 */
 
@@ -54,6 +53,7 @@ export const SurfaceExtractor = {
 	 *
 	 * @method extract
 	 * @static
+	 * @todo Use flat arrays.
 	 */
 
 	extract(chunk) {
@@ -92,7 +92,6 @@ export const SurfaceExtractor = {
 			indices = new Uint16Array(indexBuffer);
 
 			// Vertex positions and normals must be flattened.
-			// @todo: use flat arrays directly.
 			positions = new Float32Array(vertexCount * 3);
 			normals = new Float32Array(vertexCount * 3);
 

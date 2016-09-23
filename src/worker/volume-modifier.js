@@ -17,7 +17,6 @@ export const VolumeModifier = {
 	 *
 	 * @property chunk
 	 * @type Chunk
-	 * @private
 	 * @static
 	 */
 
@@ -61,8 +60,8 @@ export const VolumeModifier = {
 		// Unwrap the operation and execute it.
 		Operation.create(operation).modify(this.chunk);
 
-		// Export the new data.
-		this.message.data = (this.chunk.data !== null) ? this.chunk.data.serialise() : null;
+		// Chunk data might be null.
+		this.message.data = this.chunk.serialise().data;
 		this.transferList = this.chunk.createTransferList();
 
 	}
