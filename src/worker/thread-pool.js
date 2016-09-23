@@ -138,8 +138,6 @@ export class ThreadPool {
 
 			// event.preventDefault();
 
-			this.closeWorker(worker);
-
 			if(this.onerror !== null) {
 
 				this.onerror(event);
