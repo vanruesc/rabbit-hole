@@ -9,12 +9,12 @@ import { Queue } from "./queue.js";
  * @class PriorityQueue
  * @submodule core
  * @constructor
- * @param {Number} tiers - The number of priority tiers. The lowest tier represents the lowest priority.
+ * @param {Number} [tiers=1] - The number of priority tiers. The lowest tier represents the lowest priority.
  */
 
 export class PriorityQueue extends Queue {
 
-	constructor(tiers) {
+	constructor(tiers = 1) {
 
 		super();
 
@@ -32,11 +32,11 @@ export class PriorityQueue extends Queue {
 	 * @method add
 	 * @chainable
 	 * @param {Object} element - The element.
-	 * @param {Number} priority - The priority of the element.
+	 * @param {Number} [priority=0] - The priority of the element.
 	 * @return {PriorityQueue} This queue.
 	 */
 
-	add(element, priority) {
+	add(element, priority = 0) {
 
 		if(!this.elements[priority].has(element)) {
 
@@ -57,11 +57,11 @@ export class PriorityQueue extends Queue {
 	 *
 	 * @method remove
 	 * @param {Object} element - The element.
-	 * @param {Number} priority - The priority of the element.
+	 * @param {Number} [priority=0] - The priority of the element.
 	 * @return {Boolean} Whether the element was in the queue.
 	 */
 
-	remove(element, priority) {
+	remove(element, priority = 0) {
 
 		const existed = this.elements[priority].delete(element);
 
