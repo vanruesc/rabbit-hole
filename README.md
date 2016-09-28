@@ -21,11 +21,35 @@ $ npm install rabbit-hole
 
 ## Usage
 
+##### [Basics]()
+
 ```javascript
-// WIP
+import { Terrain } from "rabbit-hole";
+
+const terrain = new Terrain();
+
+(function render() {
+
+	requestAnimationFrame(render);
+	terrain.update(camera);
+	renderer.render(scene, camera);
+
+}());
 ```
 
-A complete scene setup can be found [here]()
+##### [Constructive Solid Geometry]()
+
+```javascript
+import { Sphere, Box, Torus } from "rabbit-hole";
+
+const a = new Torus(...);
+const b = new Sphere(...);
+const c = new Box(...);
+
+terrain.union(a);
+terrain.subtract(b.intersect(c));
+terrain.intersect(c.subtract(a.union(b)));
+```
 
 
 ## Features
