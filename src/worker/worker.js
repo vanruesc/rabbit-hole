@@ -31,7 +31,7 @@ self.addEventListener("message", function onmessage(event) {
 			break;
 
 		case Action.MODIFY:
-			VolumeModifier.modify(data.chunk, data.operation);
+			VolumeModifier.modify(data.chunk, data.sdf);
 			postMessage(VolumeModifier.message, VolumeModifier.transferList);
 			break;
 

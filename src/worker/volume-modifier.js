@@ -1,5 +1,5 @@
 import { Chunk } from "../volume";
-import { Operation } from "../volume/csg";
+import { ConstructiveSolidGeometry } from "../volume";
 import { Action } from "./action.js";
 
 /**
@@ -50,15 +50,17 @@ export const VolumeModifier = {
 	 *
 	 * @method modify
 	 * @static
+	 * @param {Chunk} chunk - A volume chunk.
+	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
-	modify(chunk, operation) {
+	modify(chunk, sdf) {
 
 		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
 
-		// Unwrap the operation and execute it.
-		Operation.create(operation).modify(this.chunk);
+		// Revive the SDF and execute it.
+		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
 
 		// Chunk data might be null.
 		this.message.data = this.chunk.serialise().data;

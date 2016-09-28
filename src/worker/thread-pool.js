@@ -134,10 +134,6 @@ export class ThreadPool {
 
 		worker.addEventListener("error", (event) => {
 
-			const worker = event.target;
-
-			// event.preventDefault();
-
 			if(this.onerror !== null) {
 
 				this.onerror(event);
