@@ -1,9 +1,9 @@
 import THREE from "three";
-import { Queue } from "./queue.js";
-import { PriorityQueue } from "./priority-queue.js";
-import { Volume } from "../volume";
+import { Volume, OperationType } from "../volume";
 import { Action, ThreadPool } from "../worker";
 // import { TerrainMaterial } from "../materials";
+import { PriorityQueue } from "./priority-queue.js";
+import { Queue } from "./queue.js";
 
 /**
  * A computation helper.
@@ -269,7 +269,7 @@ export class Terrain extends THREE.Object3D {
 		const worker = this.threadPool.getWorker();
 
 		let chunk = null;
-		let element, operation;
+		let element, sdf;
 
 		if(worker !== null) {
 
@@ -279,13 +279,13 @@ export class Terrain extends THREE.Object3D {
 				element = this.modifications.poll();
 
 				chunk = element.chunk;
-				operation = element.operation;
+				sdf = element.sdf;
 
 				worker.postMessage({
 
 					action: Action.MODIFY,
 					chunk: chunk.serialise(),
-					operation: operation.serialise()
+					sdf: sdf.serialise()
 
 				}, chunk.createTransferList());
 
@@ -316,22 +316,77 @@ export class Terrain extends THREE.Object3D {
 	 * Edits the terrain volume data.
 	 *
 	 * @method edit
-	 * @param {Operation} operation - A CSG operation.
+	 * @private
+	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
-	edit(operation) {
+	edit(sdf) {
 
-		const chunks = this.volume.edit(operation);
+		const chunks = this.volume.edit(sdf);
 
-		let i;
+		let i, chunk;
 
 		for(i = chunks.length - 1; i >= 0; --i) {
 
-			chunks[i].csg.add(operation);
+			chunk = chunks[i];
+
+			if(chunk.csg === null) {
+
+				chunk.csg = new Queue();
+
+			}
+
+			chunk.csg.add(sdf);
 
 		}
 
-		this.history.push(operation);
+		this.history.push(sdf);
+
+	}
+
+	/**
+	 * Executes the given SDF and adds the generated data to the volume.
+	 *
+	 * @method union
+	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 */
+
+	union(sdf) {
+
+		sdf.operation = OperationType.UNION;
+
+		this.edit(sdf);
+
+	}
+
+	/**
+	 * Executes the given SDF and subtracts the generated data from the volume.
+	 *
+	 * @method subtract
+	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 */
+
+	subtract(sdf) {
+
+		sdf.operation = OperationType.DIFFERENCE;
+
+		this.edit(sdf);
+
+	}
+
+	/**
+	 * Executes the given SDF and discards the volume data that doesn't intersect
+	 * with the generated data in the area of effect.
+	 *
+	 * @method intersect
+	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 */
+
+	intersect(sdf) {
+
+		sdf.operation = OperationType.INTERSECTION;
+
+		this.edit(sdf);
 
 	}
 
@@ -357,24 +412,27 @@ export class Terrain extends THREE.Object3D {
 		const maxLevel = this.levels - 1;
 
 		let i, l;
-		let chunk, data;
+		let chunk, data, csg;
 		let distanceSq, lod;
 
 		for(i = 0, l = chunks.length; i < l; ++i) {
 
 			chunk = chunks[i];
 			data = chunk.data;
+			csg = chunk.csg;
 
-			if(chunk.csg.size > 0) {
+			if(csg !== null && csg.size > 0) {
 
 				this.modifications.add({
 					chunk: chunk,
-					operation: chunk.csg.poll()
+					sdf: csg.poll()
 				});
 
 				this.runNextTask();
 
 			} else if(data !== null && !data.neutered) {
+
+				// don't extract chunks that will be modified!
 
 				distanceSq = chunk.getCenter().distanceToSquared(camera.position);
 				lod = Math.min(maxLevel, Math.trunc(Math.sqrt(distanceSq / viewDistanceSq) * this.levels));
