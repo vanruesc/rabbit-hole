@@ -74,7 +74,7 @@ export const SurfaceExtractor = {
 
 		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
-		this.chunk.createTransferList(transferList);
+		this.chunk.data.decompress();
 
 		vertexCount = DualContouring.run(this.chunk, 0.01, indexBuffer, vertexBuffer, normalBuffer);
 
@@ -116,13 +116,14 @@ export const SurfaceExtractor = {
 
 		}
 
-		this.message.data = chunk.data.serialise();
+		this.chunk.data.compress();
 
+		this.message.data = chunk.data.serialise();
 		this.message.indices = indices;
 		this.message.positions = positions;
 		this.message.normals = normals;
 
-		this.transferList = transferList;
+		this.transferList = this.chunk.createTransferList(transferList);
 
 	}
 
