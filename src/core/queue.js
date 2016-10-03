@@ -46,13 +46,71 @@ export class Queue {
 	 *
 	 * @method add
 	 * @param {Object} element - An arbitrary object.
+	 * @return {Number} The index of the added element.
 	 */
 
 	add(element) {
 
+		const index = this.elements.length;
+
 		this.elements.push(element);
 
 		++this.size;
+
+		return index;
+
+	}
+
+	/**
+	 * Removes an element from the queue.
+	 *
+	 * @method remove
+	 * @param {Number} index - The index of the element.
+	 * @return {Object} The removed element or null if there was none.
+	 */
+
+	remove(index) {
+
+		const elements = this.elements;
+		const length = elements.length;
+
+		let element = null;
+
+		if(this.size > 0 && index >= 0 && index < length) {
+
+			element = elements[index];
+
+			if(element !== null) {
+
+				elements[index] = null;
+
+				--this.size;
+
+				if(this.size > 0) {
+
+					while(this.head < length && elements[this.head] === null) {
+
+						++this.head;
+
+					}
+
+					if(this.head === length) {
+
+						this.clear();
+
+					}
+
+				} else {
+
+					this.clear();
+
+				}
+
+			}
+
+		}
+
+		return element;
 
 	}
 
@@ -66,7 +124,7 @@ export class Queue {
 
 	peek() {
 
-		return (this.head < this.elements.length) ? this.elements[this.head] : null;
+		return (this.size > 0) ? this.elements[this.head] : null;
 
 	}
 
@@ -80,15 +138,30 @@ export class Queue {
 
 	poll() {
 
-		const element = (this.head < this.elements.length) ? this.elements[this.head++] : null;
+		const elements = this.elements;
+		const length = elements.length;
 
-		if(this.head === this.elements.length) {
+		let element = null;
 
-			this.clear();
+		if(this.size > 0) {
 
-		} else {
+			element = elements[this.head++];
 
-			--this.size;
+			while(this.head < length && elements[this.head] === null) {
+
+				++this.head;
+
+			}
+
+			if(this.head === length) {
+
+				this.clear();
+
+			} else {
+
+				--this.size;
+
+			}
 
 		}
 

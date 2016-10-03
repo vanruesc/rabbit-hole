@@ -4,8 +4,6 @@ import { Queue } from "./queue.js";
  * A queue that maintains elements in a hierarchy. Elements with a high priority
  * will be served before elements with a lower priority.
  *
- * Elements are kept in sets to avoid duplicates.
- *
  * @class PriorityQueue
  * @submodule core
  * @constructor
@@ -18,37 +16,53 @@ export class PriorityQueue extends Queue {
 
 		super();
 
+		tiers = Math.max(1, tiers);
+
 		while(tiers-- > 0) {
 
-			this.elements.push(new Set());
+			this.elements.push(new Queue());
 
 		}
 
 	}
 
 	/**
+	 * The amount of priority tiers.
+	 *
+	 * @property tiers
+	 * @type Number
+	 */
+
+	get tiers() { return this.elements.length; }
+
+	/**
 	 * Adds an element.
 	 *
 	 * @method add
-	 * @chainable
 	 * @param {Object} element - The element.
-	 * @param {Number} [priority=0] - The priority of the element.
-	 * @return {PriorityQueue} This queue.
+	 * @param {Number} [priority] - The priority of the element.
+	 * @return {Number} The index of the added element.
 	 */
 
-	add(element, priority = 0) {
+	add(element, priority) {
 
-		if(!this.elements[priority].has(element)) {
+		let index = -1;
 
-			this.elements[priority].add(element);
+		if(priority >= 0 && priority < this.elements.length) {
 
-			if(priority > this.head) { this.head = priority; }
+			index = this.elements[priority].add(element);
+
+			if(priority > this.head) {
+
+				this.head = priority;
+
+			}
 
 			++this.size;
 
 		}
 
-		return this;
+		return index;
 
 	}
 
@@ -56,28 +70,34 @@ export class PriorityQueue extends Queue {
 	 * Deletes an element.
 	 *
 	 * @method remove
-	 * @param {Object} element - The element.
-	 * @param {Number} [priority=0] - The priority of the element.
-	 * @return {Boolean} Whether the element was in the queue.
+	 * @param {Object} index - The index of the element.
+	 * @param {Number} [priority] - The priority of the element.
+	 * @return {Object} The removed element or null if there was none.
 	 */
 
-	remove(element, priority = 0) {
+	remove(index, priority) {
 
-		const existed = this.elements[priority].delete(element);
+		let element = null;
 
-		if(existed) {
+		if(priority >= 0 && priority < this.elements.length) {
 
-			--this.size;
+			element = this.elements[priority].remove(index);
 
-			while(this.head > 0 && this.elements[this.head].size === 0) {
+			if(element !== null) {
 
-				--this.head;
+				--this.size;
+
+				while(this.head > 0 && this.elements[this.head].size === 0) {
+
+					--this.head;
+
+				}
 
 			}
 
 		}
 
-		return existed;
+		return element;
 
 	}
 
@@ -91,15 +111,7 @@ export class PriorityQueue extends Queue {
 
 	peek() {
 
-		let element = null;
-
-		if(this.size > 0) {
-
-			element = this.elements[this.head].values().next();
-
-		}
-
-		return element;
+		return (this.size > 0) ? this.elements[this.head].peek() : null;
 
 	}
 
@@ -116,8 +128,15 @@ export class PriorityQueue extends Queue {
 
 		if(this.size > 0) {
 
-			element = this.elements[this.head].values().next();
-			this.remove(element, this.head);
+			element = this.elements[this.head].poll();
+
+			--this.size;
+
+			while(this.head > 0 && this.elements[this.head].size === 0) {
+
+				--this.head;
+
+			}
 
 		}
 
