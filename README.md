@@ -47,7 +47,7 @@ const b = new Sphere(...);
 const c = new Box(...);
 
 terrain.union(a);
-terrain.subtract(b.intersect(c));
+terrain.subtract(b.intersect(c).subtract(a));
 terrain.intersect(c.subtract(a.union(b)));
 ```
 
