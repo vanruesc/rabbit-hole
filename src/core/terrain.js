@@ -1,8 +1,8 @@
 import THREE from "three";
 import { Volume, OperationType } from "../volume";
-import { Action, ThreadPool } from "../worker";
+import { Action, WorkerTask, ThreadPool } from "../worker";
 // import { TerrainMaterial } from "../materials";
-import { PriorityQueue } from "./priority-queue.js";
+import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
 
 /**
@@ -38,9 +38,9 @@ const FRUSTUM = new THREE.Frustum();
  * @constructor
  * @param {Object} [options] - The options.
  * @param {Number} [options.levels=6] - The number of detail levels.
- * @param {Number} [options.chunkSize=32] - The size of a voxel chunk. Will be rounded up to the next power of two.
- * @param {Number} [options.resolution=32] - The resolution of a voxel chunk. Will be rounded up to the next power of two.
- * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
+ * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
+ * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
+ * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  */
 
 export class Terrain extends THREE.Object3D {
@@ -87,24 +87,14 @@ export class Terrain extends THREE.Object3D {
 		this.threadPool.addEventListener("message", (event) => this.commit(event));
 
 		/**
-		 * Keeps track of pending extraction tasks.
+		 * Manages pending tasks.
 		 *
-		 * @property extractions
-		 * @type PriorityQueue
+		 * @property scheduler
+		 * @type Scheduler
 		 * @private
 		 */
 
-		this.extractions = new PriorityQueue(this.levels);
-
-		/**
-		 * Keeps track of pending modification tasks.
-		 *
-		 * @property modifications
-		 * @type Queue
-		 * @private
-		 */
-
-		this.modifications = new Queue();
+		this.scheduler = new Scheduler(this.levels + 1);
 
 		/**
 		 * A list of CSG operations that have been executed during this session.
@@ -144,7 +134,7 @@ export class Terrain extends THREE.Object3D {
 		 */
 
 		// this.material = new TerrainMaterial();
-		this.material = new THREE.MeshPhongMaterial({
+		this.material = new THREE.MeshStandardMaterial({
 			color: new THREE.Color(0xbb4400)
 		});
 
@@ -203,8 +193,9 @@ export class Terrain extends THREE.Object3D {
 			if(chunk.csg.size === 0) {
 
 				// The chunk became empty. Remove it.
-				this.unlinkMesh(chunk);
+				this.scheduler.cancel(chunk);
 				this.volume.prune(chunk);
+				this.unlinkMesh(chunk);
 
 			}
 
@@ -268,43 +259,44 @@ export class Terrain extends THREE.Object3D {
 
 		const worker = this.threadPool.getWorker();
 
-		let chunk = null;
-		let element, sdf;
+		let task;
 
 		if(worker !== null) {
 
-			// Modifications take pecedence.
-			if(this.modifications.size > 0) {
+			task = this.scheduler.peek();
 
-				element = this.modifications.poll();
+			if(task !== null) {
 
-				chunk = element.chunk;
-				sdf = element.sdf;
+				if(task.action === Action.MODIFY) {
 
-				worker.postMessage({
+					worker.postMessage({
 
-					action: Action.MODIFY,
-					chunk: chunk.serialise(),
-					sdf: sdf.serialise()
+						action: task.action,
+						chunk: task.chunk.serialise(),
+						sdf: task.chunk.csg.poll().serialise()
 
-				}, chunk.createTransferList());
+					}, task.chunk.createTransferList());
 
-			} else if(this.extractions.size > 0) {
+					if(task.chunk.csg.size === 0) {
 
-				chunk = this.extractions.poll();
+						this.scheduler.poll();
 
-				worker.postMessage({
+					}
 
-					action: Action.EXTRACT,
-					chunk: chunk.serialise()
+				} else {
 
-				}, chunk.createTransferList());
+					worker.postMessage({
 
-			}
+						action: task.action,
+						chunk: task.chunk.serialise()
 
-			if(chunk !== null) {
+					}, task.chunk.createTransferList());
 
-				this.chunks.set(worker, chunk);
+					this.scheduler.poll();
+
+				}
+
+				this.chunks.set(worker, task.chunk);
 
 			}
 
@@ -408,12 +400,13 @@ export class Terrain extends THREE.Object3D {
 			)
 		);
 
-		const viewDistanceSq = camera.far * camera.far;
+		const scheduler = this.scheduler;
+		const maxPriority = scheduler.maxPriority;
 		const maxLevel = this.levels - 1;
 
 		let i, l;
-		let chunk, data, csg;
-		let distanceSq, lod;
+		let chunk, data, csg, task;
+		let distance, lod;
 
 		for(i = 0, l = chunks.length; i < l; ++i) {
 
@@ -421,31 +414,31 @@ export class Terrain extends THREE.Object3D {
 			data = chunk.data;
 			csg = chunk.csg;
 
-			if(csg !== null && csg.size > 0) {
+			task = scheduler.getTask(chunk);
 
-				this.modifications.add({
-					chunk: chunk,
-					sdf: csg.poll()
-				});
+			if(task === undefined || task.priority < maxPriority) {
 
-				this.runNextTask();
+				// Modifications take pecedence.
+				if(csg !== null && csg.size > 0) {
 
-			} else if(data !== null && !data.neutered) {
-
-				// don't extract chunks that will be modified!
-
-				distanceSq = chunk.getCenter().distanceToSquared(camera.position);
-				lod = Math.min(maxLevel, Math.trunc(Math.sqrt(distanceSq / viewDistanceSq) * this.levels));
-
-				if(data.lod !== lod) {
-
-					// Prevent the same task from being queued multiple times.
-					this.extractions.remove(chunk, maxLevel - data.lod);
-					this.extractions.add(chunk, maxLevel - lod);
-
-					data.lod = lod;
+					scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
 
 					this.runNextTask();
+
+				} else if(data !== null && !data.neutered) {
+
+					distance = chunk.getCenter().distanceTo(camera.position);
+					lod = Math.min(maxLevel, Math.trunc((distance / camera.far) * this.levels));
+
+					if(data.lod !== lod) {
+
+						data.lod = lod;
+
+						scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
+
+						this.runNextTask();
+
+					}
 
 				}
 
@@ -506,9 +499,8 @@ export class Terrain extends THREE.Object3D {
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
 
 		this.threadPool.clear();
+		this.scheduler.clear();
 
-		this.extractions.clear();
-		this.modifications.clear();
 		this.history = [];
 
 		this.chunks.clear();
