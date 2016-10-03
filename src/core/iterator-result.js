@@ -4,13 +4,13 @@
  * @class IteratorResult
  * @submodule core
  * @constructor
- * @param {Vector3} [value] - A value.
- * @param {Vector3} [done] - Whether this result is past the end of the iterated sequence.
+ * @param {Vector3} [value=null] - A value.
+ * @param {Vector3} [done=false] - Whether this result is past the end of the iterated sequence.
  */
 
 export class IteratorResult {
 
-	constructor(value, done) {
+	constructor(value = null, done = false) {
 
 		/**
 		 * The value.
@@ -20,7 +20,7 @@ export class IteratorResult {
 		 * @default null
 		 */
 
-		this.value = (value !== undefined) ? value : null;
+		this.value = value;
 
 		/**
 		 * Whether this result is past the end of the iterated sequence.
@@ -30,7 +30,7 @@ export class IteratorResult {
 		 * @default false
 		 */
 
-		this.done = (done !== undefined) ? done : false;
+		this.done = done;
 
 	}
 
