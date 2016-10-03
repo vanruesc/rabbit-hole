@@ -1,3 +1,4 @@
+import THREE from "three";
 import { Action } from "./action.js";
 import worker from "./worker.tmp";
 
@@ -18,13 +19,16 @@ const WORKER_BLOB = URL.createObjectURL(new Blob([worker], { type: "text/javascr
  *
  * @class ThreadPool
  * @submodule worker
+ * @extends EventDispatcher
  * @constructor
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
  */
 
-export class ThreadPool {
+export class ThreadPool extends THREE.EventDispatcher {
 
-	constructor(maxWorkers) {
+	constructor(maxWorkers = navigator.hardwareConcurrency) {
+
+		super();
 
 		/**
 		 * The maximum number of active worker threads.
@@ -34,27 +38,7 @@ export class ThreadPool {
 		 * @default navigator.hardwareConcurrency
 		 */
 
-		this.maxWorkers = (maxWorkers !== undefined) ?
-			Math.min(navigator.hardwareConcurrency, maxWorkers) :
-			navigator.hardwareConcurrency;
-
-		/**
-		 * A worker message handler.
-		 *
-		 * @property onmessage
-		 * @type Function
-		 */
-
-		this.onmessage = null;
-
-		/**
-		 * A worker error handler.
-		 *
-		 * @property onerror
-		 * @type Function
-		 */
-
-		this.onerror = null;
+		this.maxWorkers = Math.min(navigator.hardwareConcurrency, maxWorkers);
 
 		/**
 		 * A list of existing workers.
@@ -87,6 +71,8 @@ export class ThreadPool {
 
 	closeWorker(worker) {
 
+		const index = this.workers.indexOf(worker);
+
 		if(this.busyWorkers.has(worker)) {
 
 			this.busyWorkers.delete(worker);
@@ -100,7 +86,11 @@ export class ThreadPool {
 
 		}
 
-		this.workers.splice(this.workers.indexOf(worker), 1);
+		if(index >= 0) {
+
+			this.workers.splice(index, 1);
+
+		}
 
 	}
 
@@ -124,21 +114,13 @@ export class ThreadPool {
 
 			this.busyWorkers.delete(worker);
 
-			if(this.onmessage !== null) {
-
-				this.onmessage(event);
-
-			}
+			this.dispatchEvent(event);
 
 		});
 
 		worker.addEventListener("error", (event) => {
 
-			if(this.onerror !== null) {
-
-				this.onerror(event);
-
-			}
+			this.dispatchEvent(event);
 
 		});
 

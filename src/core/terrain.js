@@ -84,7 +84,7 @@ export class Terrain extends THREE.Object3D {
 		 */
 
 		this.threadPool = new ThreadPool(options.maxWorkers);
-		this.threadPool.onmessage = (event) => this.commit(event);
+		this.threadPool.addEventListener("message", (event) => this.commit(event));
 
 		/**
 		 * Keeps track of pending extraction tasks.
