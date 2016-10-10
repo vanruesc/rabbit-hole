@@ -259,7 +259,7 @@ export class Terrain extends THREE.Object3D {
 
 		const worker = this.threadPool.getWorker();
 
-		let task;
+		let task, chunk;
 
 		if(worker !== null) {
 
@@ -267,17 +267,21 @@ export class Terrain extends THREE.Object3D {
 
 			if(task !== null) {
 
+				chunk = task.chunk;
+
 				if(task.action === Action.MODIFY) {
 
 					worker.postMessage({
 
 						action: task.action,
-						chunk: task.chunk.serialise(),
-						sdf: task.chunk.csg.poll().serialise()
+						chunk: chunk.serialise(),
+						sdf: chunk.csg.poll().serialise()
 
-					}, task.chunk.createTransferList());
+					}, chunk.createTransferList());
 
-					if(task.chunk.csg.size === 0) {
+					if(chunk.csg.size === 0) {
+
+						chunk.csg = null;
 
 						this.scheduler.poll();
 
@@ -288,15 +292,15 @@ export class Terrain extends THREE.Object3D {
 					worker.postMessage({
 
 						action: task.action,
-						chunk: task.chunk.serialise()
+						chunk: chunk.serialise()
 
-					}, task.chunk.createTransferList());
+					}, chunk.createTransferList());
 
 					this.scheduler.poll();
 
 				}
 
-				this.chunks.set(worker, task.chunk);
+				this.chunks.set(worker, chunk);
 
 			}
 
