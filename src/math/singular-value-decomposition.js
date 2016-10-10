@@ -217,6 +217,8 @@ export class SingularValueDecomposition {
 		);
 
 		getSymmetricSVD(a, vtav, v, svdThreshold, svdSweeps);
+
+		// Least squares.
 		dimension = pseudoInverse(pinv, vtav, v, pseudoInverseThreshold);
 
 		x.copy(b).applyMatrix3(pinv);
