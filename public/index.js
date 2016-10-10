@@ -22,7 +22,7 @@
 
 		};
 
-		/*const path = "textures/skies/sunset/";
+		const path = "textures/skies/sunset/";
 		const format = ".png";
 		const urls = [
 			path + "px" + format, path + "nx" + format,
@@ -32,26 +32,14 @@
 
 		cubeTextureLoader.load(urls, function(textureCube) {
 
-			const shader = THREE.ShaderLib.cube;
-			shader.uniforms.tCube.value = textureCube;
+			assets.sky = textureCube;
 
-			const skyBoxMaterial = new THREE.ShaderMaterial( {
-				fragmentShader: shader.fragmentShader,
-				vertexShader: shader.vertexShader,
-				uniforms: shader.uniforms,
-				depthWrite: false,
-				side: THREE.BackSide,
-				fog: false
-			});
-
-			assets.sky = new THREE.Mesh(new THREE.BoxGeometry(2000, 2000, 2000), skyBoxMaterial);
-
-		});*/
+		});
 
 		textureLoader.load("textures/terrain.png", function(texture) {
 
 			texture.magFilter = texture.minFilter = THREE.NearestFilter;
-			assets.heightMap = texture;
+			assets.heightmap = texture;
 
 		});
 
@@ -71,24 +59,24 @@
 
 		// Renderer and Scene.
 
-		const renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true});
+		const renderer = new THREE.WebGLRenderer({logarithmicDepthBuffer: true, antialias: true});
 		renderer.setClearColor(0x000000);
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		viewport.appendChild(renderer.domElement);
 
 		const scene = new THREE.Scene();
-		scene.fog = new THREE.FogExp2(0x000000, 0.0001);
+		scene.fog = new THREE.FogExp2(0x000000, 0.0025);
 
 		// Sky.
 
-		//scene.background = assets.sky;
+		scene.background = assets.sky;
 
 		// Camera.
 
 		const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
 		const controls = new THREE.OrbitControls(camera, renderer.domElement);
-		controls.target.set(0, 0, 0);
-		camera.position.set(1, 1, 3);
+		controls.target.set(16, 16, 16);
+		camera.position.set(-15, 15, -20);
 		camera.lookAt(controls.target);
 
 		scene.add(camera);
@@ -117,16 +105,12 @@
 
 		});
 
-		// Helper.
-
-		scene.add(new THREE.AxisHelper(1));
-
 		// Lights.
 
 		const hemisphereLight = new THREE.HemisphereLight(0xffffee, 0x666666, 0.6);
 		const directionalLight = new THREE.DirectionalLight(0xffbbaa);
 
-		directionalLight.position.set(-1, 1, -1);
+		directionalLight.position.set(1440, 200, 2000);
 		directionalLight.target.position.copy(scene.position);
 
 		scene.add(directionalLight);
@@ -134,28 +118,28 @@
 
 		// Terrain.
 
-		const terrain = new RABBITHOLE.Terrain({
-			levels: 6,
-			chunkSize: 32
-		});
+		const terrain = new RABBITHOLE.Terrain();
 
-		terrain.volume.addSphere(new THREE.Vector3(0, 0, 0), 1.0);
+		terrain.extract(32, new RABBITHOLE.Box(
+			//new THREE.Vector3(4, 5, 4),
+			//new THREE.Vector3(2, 2, 2)
+			new THREE.Vector3(16, 6, 16),
+			new THREE.Vector3(5, 5, 5)
+		));
+
+		terrain.extract(32, new RABBITHOLE.Sphere(
+			new THREE.Vector3(16, 26, 16),
+			5
+		));
+
+		terrain.extract(32, new RABBITHOLE.Torus(
+			new THREE.Vector3(16, 16, 16),
+			6, 3
+		));
 
 		scene.add(terrain);
 
-		let t0;
-
-		terrain.addEventListener("update", function(event) {
-
-			t0 = performance.now();
-
-		});
-
-		terrain.addEventListener("commit", function(event) {
-
-			params["update time"] = (((performance.now() - t0) * 100.0) / 100.0).toFixed(2) + " ms";
-
-		});
+		console.log(terrain);
 
 		// Configuration.
 
@@ -193,6 +177,20 @@
 		f.add(params, "update time").listen();
 		f.open();
 
+		const times = new Map();
+
+		terrain.addEventListener("update", function(event) { times.set(event.mesh, performance.now()); });
+
+		terrain.addEventListener("commit", function(event) {
+
+			let t0 = times.get(event.mesh);
+
+			params["update time"] = (((performance.now() - t0) * 100.0) / 100.0).toFixed(2) + " ms";
+
+			times.delete(event.mesh);
+
+		});
+
 		/**
 		 * Handles resizing.
 		 *
@@ -214,7 +212,7 @@
 		 * The main render loop.
 		 *
 		 * @method render
-		 * @param {DOMHighResTimeStamp} now - Indicaties the time when requestAnimationFrame fired.
+		 * @param {DOMHighResTimeStamp} now - The time when requestAnimationFrame fired.
 		 */
 
 		(function render(now) {
@@ -222,8 +220,6 @@
 			requestAnimationFrame(render);
 
 			stats.begin();
-
-			terrain.update(camera);
 
 			renderer.render(scene, camera);
 
