@@ -1,6 +1,6 @@
 import { SymmetricMatrix3 } from "./symmetric-matrix3";
 import { Vector3 } from "./vector3";
-import { SingularValueDecomposition } from "./svd";
+import { SingularValueDecomposition } from "./singular-value-decomposition";
 import { QEFData } from "./qef-data";
 
 /**
@@ -20,7 +20,7 @@ import { QEFData } from "./qef-data";
 
 export class QEFSolver {
 
-	constructor(svdThreshold, svdSweeps, pseudoInverseThreshold) {
+	constructor(svdThreshold = 1e-6, svdSweeps = 4, pseudoInverseThreshold = 1e-6) {
 
 		/**
 		 * A Singular Value Decomposition error threshold.
@@ -31,7 +31,7 @@ export class QEFSolver {
 		 * @default 1e-6
 		 */
 
-		this.svdThreshold = (svdThreshold !== undefined) ? svdThreshold : 1e-6;
+		this.svdThreshold = svdThreshold;
 
 		/**
 		 * The number of Singular Value Decomposition sweeps.
@@ -42,7 +42,7 @@ export class QEFSolver {
 		 * @default 4
 		 */
 
-		this.svdSweeps = (svdSweeps !== undefined) ? svdSweeps : 4;
+		this.svdSweeps = svdSweeps;
 
 		/**
 		 * A pseudo inverse error threshold.
@@ -53,7 +53,7 @@ export class QEFSolver {
 		 * @default 1e-6
 		 */
 
-		this.pseudoInverseThreshold = (pseudoInverseThreshold !== undefined) ? pseudoInverseThreshold : 1e-6;
+		this.pseudoInverseThreshold = pseudoInverseThreshold;
 
 		/**
 		 * QEF data storage.
