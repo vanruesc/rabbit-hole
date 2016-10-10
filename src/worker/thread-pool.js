@@ -66,7 +66,7 @@ export class ThreadPool extends THREE.EventDispatcher {
 	 * Closes a worker.
 	 *
 	 * @method closeWorker
-	 * @param {Worker} The worker to close.
+	 * @param {Worker} worker - The worker to close.
 	 */
 
 	closeWorker(worker) {

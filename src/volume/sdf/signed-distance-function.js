@@ -13,7 +13,7 @@ import { Density } from "../density.js";
  * @submodule sdf
  * @constructor
  * @param {SDFType} type - The type of the SDF.
- * @param {Number} [material=Density.SOLID] - A material index. Must be an integer in the range [1, 255].
+ * @param {Number} [material=Density.SOLID] - A material index. Must be an integer in the range of 1 to 255.
  */
 
 export class SignedDistanceFunction {

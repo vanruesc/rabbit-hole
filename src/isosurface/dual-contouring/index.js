@@ -316,7 +316,7 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 
 /**
  * Dual Contouring is an isosurface extraction technique that was originally
- * presented by Tao Ju in 2011:
+ * presented by Tao Ju in 2002:
  *
  *  http://www.cs.wustl.edu/~taoju/research/dualContour.pdf
  *
