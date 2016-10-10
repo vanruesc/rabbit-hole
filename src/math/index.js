@@ -5,7 +5,7 @@
  * @submodule math
  */
 
-export { SingularValueDecomposition } from "./svd.js";
+export { SingularValueDecomposition } from "./singular-value-decomposition.js";
 export { Givens } from "./givens.js";
 export { Schur } from "./schur.js";
 
