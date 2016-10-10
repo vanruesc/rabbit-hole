@@ -328,8 +328,8 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 export class DualContouring {
 
 	/**
-	 * Contours the given chunk of hermite data and stores vertices, normals and
-	 * vertex indices in the provided buffers.
+	 * Contours the given chunk of hermite data and generates vertices, normals
+	 * and vertex indices.
 	 *
 	 * @method run
 	 * @static
