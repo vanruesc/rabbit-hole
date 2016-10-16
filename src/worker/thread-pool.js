@@ -60,6 +60,37 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.busyWorkers = new WeakSet();
 
+		/**
+		 * A worker message handler.
+		 *
+		 * @property onmessage
+		 * @type Function
+		 * @private
+		 */
+
+		this.onmessage = (event) => {
+
+			const worker = event.target;
+
+			this.busyWorkers.delete(worker);
+			this.dispatchEvent(event);
+
+		};
+
+		/**
+		 * A worker error handler.
+		 *
+		 * @property onerror
+		 * @type Function
+		 * @private
+		 */
+
+		this.onerror = (event) => {
+
+			this.dispatchEvent(event);
+
+		};
+
 	}
 
 	/**
@@ -86,6 +117,9 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		}
 
+		worker.removeEventListener("message", this.onmessage);
+		worker.removeEventListener("error", this.onerror);
+
 		if(index >= 0) {
 
 			this.workers.splice(index, 1);
@@ -108,21 +142,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.workers.push(worker);
 
-		worker.addEventListener("message", (event) => {
-
-			const worker = event.target;
-
-			this.busyWorkers.delete(worker);
-
-			this.dispatchEvent(event);
-
-		});
-
-		worker.addEventListener("error", (event) => {
-
-			this.dispatchEvent(event);
-
-		});
+		worker.addEventListener("message", this.onmessage);
+		worker.addEventListener("error", this.onerror);
 
 		return worker;
 
