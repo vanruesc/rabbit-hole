@@ -484,7 +484,7 @@ function execute(chunk, operation) {
 
 /**
  * Constructive Solid Geometry combines Signed Distance Functions by using
- * boolean operators to generate and transform volume data.
+ * Boolean operators to generate and transform volume data.
  *
  * @class ConstructiveSolidGeometry
  * @submodule csg

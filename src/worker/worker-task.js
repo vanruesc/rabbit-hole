@@ -4,7 +4,7 @@ import { Task } from "../core";
  * A worker task.
  *
  * @class WorkerTask
- * @submodule core
+ * @submodule worker
  * @extends Task
  * @constructor
  * @param {Action} action - A worker action.

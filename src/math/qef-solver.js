@@ -7,8 +7,7 @@ import { QEFData } from "./qef-data";
  * A Quaratic Error Function solver.
  *
  * Finds a point inside a voxel that minimises the sum of the squares of the
- * distances from the voxel's internal point to each of the planes associated
- * with the voxel.
+ * distances to the surface intersection planes associated with the voxel.
  *
  * @class QEFSolver
  * @submodule math

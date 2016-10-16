@@ -6,7 +6,7 @@ import { VoxelIterator } from "../voxel-iterator.js";
  * A cubic volume chunk.
  *
  * @class Chunk
- * @submodule volume
+ * @submodule octree
  * @implements Iterable
  * @extends CubicOctant
  * @constructor
