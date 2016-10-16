@@ -106,6 +106,15 @@ export class Terrain extends THREE.Object3D {
 		this.history = [];
 
 		/**
+		 * Keeps track of chunks that are currently being used by a worker.
+		 *
+		 * @property neutered
+		 * @type WeakSet
+		 */
+
+		this.neutered = new WeakSet();
+
+		/**
 		 * Keeps track of associations between workers and chunks.
 		 *
 		 * @property chunks
@@ -179,6 +188,8 @@ export class Terrain extends THREE.Object3D {
 
 		// Find the chunk that has been processed by this worker.
 		const chunk = this.chunks.get(worker);
+
+		this.neutered.delete(chunk);
 		this.chunks.delete(worker);
 
 		if(data.data !== null) {
@@ -196,6 +207,17 @@ export class Terrain extends THREE.Object3D {
 				this.scheduler.cancel(chunk);
 				this.volume.prune(chunk);
 				this.unlinkMesh(chunk);
+
+			}
+
+		}
+
+		if(data.action === Action.MODIFY) {
+
+			if(chunk.csg.size > 0) {
+
+				// Drain the CSG queue as fast as possible.
+				this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
 
 			}
 
@@ -263,7 +285,7 @@ export class Terrain extends THREE.Object3D {
 
 		if(worker !== null) {
 
-			task = this.scheduler.peek();
+			task = this.scheduler.poll();
 
 			if(task !== null) {
 
@@ -283,8 +305,6 @@ export class Terrain extends THREE.Object3D {
 
 						chunk.csg = null;
 
-						this.scheduler.poll();
-
 					}
 
 				} else {
@@ -296,10 +316,9 @@ export class Terrain extends THREE.Object3D {
 
 					}, chunk.createTransferList());
 
-					this.scheduler.poll();
-
 				}
 
+				this.neutered.add(chunk);
 				this.chunks.set(worker, chunk);
 
 			}
@@ -418,29 +437,33 @@ export class Terrain extends THREE.Object3D {
 			data = chunk.data;
 			csg = chunk.csg;
 
-			task = scheduler.getTask(chunk);
+			if(!this.neutered.has(chunk)) {
 
-			if(task === undefined || task.priority < maxPriority) {
+				task = scheduler.getTask(chunk);
 
-				// Modifications take pecedence.
-				if(csg !== null && csg.size > 0) {
+				if(task === undefined || task.priority < maxPriority) {
 
-					scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
+					// Modifications take precedence.
+					if(csg !== null && csg.size > 0) {
 
-					this.runNextTask();
-
-				} else if(data !== null && !data.neutered) {
-
-					distance = chunk.getCenter().distanceTo(camera.position);
-					lod = Math.min(maxLevel, Math.trunc((distance / camera.far) * this.levels));
-
-					if(data.lod !== lod) {
-
-						data.lod = lod;
-
-						scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
+						scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
 
 						this.runNextTask();
+
+					} else if(data !== null) {
+
+						distance = chunk.getCenter().distanceTo(camera.position);
+						lod = Math.min(maxLevel, Math.trunc((distance / camera.far) * this.levels));
+
+						if(data.lod !== lod) {
+
+							data.lod = lod;
+
+							scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
+
+							this.runNextTask();
+
+						}
 
 					}
 
@@ -507,6 +530,7 @@ export class Terrain extends THREE.Object3D {
 
 		this.history = [];
 
+		this.neutered.clear();
 		this.chunks.clear();
 		this.meshes.clear();
 
