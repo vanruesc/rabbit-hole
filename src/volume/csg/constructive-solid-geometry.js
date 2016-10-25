@@ -298,86 +298,87 @@ function generateEdges(chunk, operation, data, bounds) {
 	// Edge counters for three dimensions.
 	const lengths = new Uint32Array(3);
 
-	// Include edges that straddle the bounding box.
-	bounds.min.set(
-		Math.max(bounds.min.x - 1, 0),
-		Math.max(bounds.min.y - 1, 0),
-		Math.max(bounds.min.z - 1, 0)
-	);
+	let edges, zeroCrossings, normals;
+	let indexA, indexB;
 
-	const X = bounds.max.x;
-	const Y = bounds.max.y;
-	const Z = bounds.max.z;
+	let minX, minY, minZ;
+	let maxX, maxY, maxZ;
 
+	let c, d, p, plane;
 	let x, y, z;
 
-	let edges, zeroCrossings, normals;
-	let d, plane, xyz, combination;
+	// Process the edge in the X-plane, then Y and finally Z.
+	for(c = 0, d = 0, p = 4; d < 3; ++d, p >>= 1) {
 
-	for(z = bounds.min.z; z <= Z; ++z) {
+		edges = edgeData.edges[d];
+		zeroCrossings = edgeData.zeroCrossings[d];
+		normals = edgeData.normals[d];
 
-		offsetA.z = z * s / n;
+		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
+		plane = PATTERN[p];
 
-		for(y = bounds.min.y; y <= Y; ++y) {
+		minX = bounds.min.x; maxX = bounds.max.x;
+		minY = bounds.min.y; maxY = bounds.max.y;
+		minZ = bounds.min.z; maxZ = bounds.max.z;
 
-			offsetA.y = y * s / n;
+		/* Include edges that straddle the bounding box and avoid processing grid
+		points at chunk borders. */
+		switch(d) {
 
-			for(x = bounds.min.x; x <= X; ++x) {
+			case 0:
+				minX = Math.max(minX - 1, 0);
+				maxX = Math.min(maxX, n - 1);
+				break;
 
-				offsetA.x = x * s / n;
+			case 1:
+				minY = Math.max(minY - 1, 0);
+				maxY = Math.min(maxY, n - 1);
+				break;
 
-				indexA = z * mm + y * m + x;
-				edge.a.addVectors(base, offsetA);
+			case 2:
+				minZ = Math.max(minZ - 1, 0);
+				maxZ = Math.min(maxZ, n - 1);
+				break;
 
-				// Process the edge in the X-plane, then Y and finally Z.
-				for(d = 0, plane = 4; d < 3; ++d, plane >>= 1) {
+		}
 
-					edges = edgeData.edges[d];
-					zeroCrossings = edgeData.zeroCrossings[d];
-					normals = edgeData.normals[d];
+		for(z = minZ; z <= maxZ; ++z) {
 
-					// Select the iteration index of the current dimension.
-					switch(d) {
+			for(y = minY; y <= maxY; ++y) {
 
-						case 0: xyz = x; break;
-						case 1: xyz = y; break;
-						case 2: xyz = z; break;
+				for(x = minX; x <= maxX; ++x) {
 
-					}
+					indexA = z * mm + y * m + x;
+					indexB = indexA + indexOffsets[d];
 
-					// Check if an edge exists in this plane.
-					if(xyz < n) {
+					// Check if the edge exhibits a material change.
+					if(materialIndices[indexA] !== materialIndices[indexB]) {
 
-						indexB = indexA + indexOffsets[d];
+						offsetA.set(
+							x * s / n,
+							y * s / n,
+							z * s / n
+						);
 
-						// Check if the edge exhibits a material change.
-						if(materialIndices[indexA] !== materialIndices[indexB]) {
+						offsetB.set(
+							(x + plane[0]) * s / n,
+							(y + plane[1]) * s / n,
+							(z + plane[2]) * s / n
+						);
 
-							// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-							combination = PATTERN[plane];
+						edge.a.addVectors(base, offsetA);
+						edge.b.addVectors(base, offsetB);
 
-							offsetB.set(
-								(x + combination[0]) * s / n,
-								(y + combination[1]) * s / n,
-								(z + combination[2]) * s / n
-							);
+						// Create and store the edge data.
+						operation.generateEdge(edge);
 
-							edge.b.addVectors(base, offsetB);
+						edges[c] = indexA;
+						zeroCrossings[c] = edge.t;
+						normals[c * 3] = edge.n.x;
+						normals[c * 3 + 1] = edge.n.y;
+						normals[c * 3 + 2] = edge.n.z;
 
-							// Create and store the edge data.
-							operation.generateEdge(edge);
-
-							edges[lengths[d]] = indexA;
-
-							zeroCrossings[lengths[d]] = edge.t;
-
-							normals[lengths[d] * 3] = edge.n.x;
-							normals[lengths[d] * 3 + 1] = edge.n.y;
-							normals[lengths[d] * 3 + 2] = edge.n.z;
-
-							++lengths[d];
-
-						}
+						++c;
 
 					}
 
@@ -386,6 +387,8 @@ function generateEdges(chunk, operation, data, bounds) {
 			}
 
 		}
+
+		lengths[d] = c;
 
 	}
 
