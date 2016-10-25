@@ -48,7 +48,7 @@ export class Scheduler extends PriorityQueue {
 	cancel(element) {
 
 		const task = this.registry.get(element);
-		const result = (task !== null);
+		const result = (task !== undefined);
 
 		if(result) {
 
