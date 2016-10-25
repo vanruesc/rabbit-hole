@@ -2,6 +2,7 @@ import { PATTERN } from "sparse-octree";
 import { Box3, Vector3 } from "../../math";
 import { SDFType, Sphere, Box, Plane, Torus, Heightfield } from "../sdf";
 import { Edge } from "../edge.js";
+import { EdgeData } from "./edge-data.js";
 import { HermiteData } from "./hermite-data.js";
 import { OperationType } from "./operation-type.js";
 import { Union } from "./union.js";
@@ -62,7 +63,7 @@ function computeIndexBounds(chunk, operation) {
 /**
  * Combines material indices.
  *
- * @method combine
+ * @method combineMaterialIndices
  * @private
  * @static
  * @param {Chunk} chunk - A volume chunk
@@ -72,7 +73,7 @@ function computeIndexBounds(chunk, operation) {
  * @param {Box3} bounds - Grid iteration limits.
  */
 
-function updateMaterialIndices(chunk, operation, data0, data1, bounds) {
+function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
 
 	const m = chunk.resolution + 1;
 	const mm = m * m;
@@ -121,6 +122,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 	const base = chunk.min;
 	const offset = new Vector3();
+	const position = new Vector3();
 
 	const X = bounds.max.x;
 	const Y = bounds.max.y;
@@ -161,70 +163,103 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
  * @param {HermiteData} data1 - A predominant data set.
- * @param {Box3} bounds - Grid iteration limits.
  * @return {Object} The generated edge data.
  */
 
-function combineEdges(chunk, operation, data0, data1, bounds) {
+function combineEdges(chunk, operation, data0, data1) {
 
-	const n = chunk.resolution;
-	const m = n + 1;
-	const maxEdges = 3 * m * m * n;
+	const materialIndices = data0.materialIndices;
+	const indexOffsets = new Uint32Array([1, chunk.resolution + 1, (chunk.resolution + 1) ** 2]);
 
-	//const materialIndices = data.materialIndices;
-	//const edge = new Edge();
+	const edge1 = new Edge();
+	const edge0 = new Edge();
 
-	// Allocate space for the maximum amount of edges.
-	const edges = new Uint32Array(maxEdges * 2);
-	const t = new Float32Array(maxEdges);
-	const normals = new Float32Array(maxEdges * 3);
+	const edgeData1 = data1.edgeData;
+	const edgeData0 = data0.edgeData;
+	const edgeData = new EdgeData(chunk.resolution);
 
-	const edges0 = data0.edges;
-	const t0 = data0.t;
-	const normals0 = data0.normals;
+	// Edge counters.
+	const lengths = new Uint32Array(3);
+	const i = new Uint32Array(3);
+	const j = new Uint32Array(3);
 
-	const edges1 = data1.edges;
-	const t1 = data1.t;
-	const normals1 = data1.normals;
+	let edges1, zeroCrossings1, normals1;
+	let edges0, zeroCrossings0, normals0;
+	let edges, zeroCrossings, normals;
 
-	let edgeCount = 0;
+	let edge;
+	let indexA, indexB;
 
-	let i0 = 0;
-	let i1 = 0;
-	let i2 = 0;
+	let d, i, j, il, jl;
 
-	let i3 = 0;
-	let i4 = 0;
-	let i5 = 0;
+	function pushEdge(edge, indexA, d) {
 
-	let l = data.edges.length;
+		edges[lengths[d]] = indexA;
 
-	while(i0 < l) {
+		zeroCrossings[lengths[d]] = edge.t;
 
-		indexA = data.edges[i0++];
-		indexB = data.edges[i0++];
+		normals[lengths[d] * 3] = edge.n.x;
+		normals[lengths[d] * 3 + 1] = edge.n.y;
+		normals[lengths[d] * 3 + 2] = edge.n.z;
 
-		
+		++lengths[d];
 
 	}
 
-	if(operation.type === OperationType.UNION || operation.type === OperationType.DIFFERENCE) {
+	// Process the edges in the X-plane, then Y and finally Z.
+	for(d = 0; d < 3; ++d) {
 
-		// Collect remaining edges.
-		edges.set(edges0.subarray(i4), i1);
-		t.set(t0.subarray(i3), i0);
-		normals.set(normals0.subarray(i5), i2);
+		edges1 = edgeData1.edges[d];
+		edges0 = edgeData0.edges[d];
+		edges = edgeData.edges[d];
 
-		edgeCount
+		zeroCrossings1 = edgeData1.zeroCrossings[d];
+		zeroCrossings0 = edgeData0.zeroCrossings[d];
+		zeroCrossings = edgeData.zeroCrossings[d];
+
+		normals1 = edgeData1.normals[d];
+		normals0 = edgeData0.normals[d];
+		normals = edgeData.normals[d];
+
+		il = edges1.length;
+		jl = edges0.length;
+
+		// Iterate over the generated edges.
+		for(i = 0, j = 0; i < il; ++i) {
+
+			indexA = edges1[i];
+
+			// Catch up.
+			while(edges0[j] < indexA) {
+
+				++j;
+
+			}
+
+			if(edges0[j] === indexA) {
+
+				edge = operation.updateEdge(edge0, edge1);
+
+			} else {
+
+				edge = operation.updateEdge(edge0, null);
+
+			}
+
+		}
+
+		if(operation.type === OperationType.UNION || operation.type === OperationType.DIFFERENCE) {
+
+			// Collect remaining edges.
+			edges[d].set(edges[d].subarray(), i0[d]);
+			zeroCrossings[d].set(zeroCrossings[d].subarray(), i1[d]);
+			normals[d].set(normals[d].subarray(), i2[d]);
+
+		}
 
 	}
 
-	return {
-		edges: edges,
-		t: t,
-		normals: normals,
-		edgeCount: i0
-	};
+	return { edgeData, lengths };
 
 }
 
@@ -245,24 +280,23 @@ function generateEdges(chunk, operation, data, bounds) {
 
 	const s = chunk.size;
 	const n = chunk.resolution;
-
 	const m = n + 1;
 	const mm = m * m;
-	const maxEdges = 3 * mm * n;
+
+	const materialIndices = data.materialIndices;
 
 	const base = chunk.min;
 	const offsetA = new Vector3();
 	const offsetB = new Vector3();
+	const edge = new Edge();
 
 	const indexOffsets = new Uint32Array([1, m, mm]);
 
-	const materialIndices = data.materialIndices;
-	const edge = new Edge();
-
 	// Allocate space for the maximum amount of edges.
-	const edges = new Uint32Array(maxEdges * 2);
-	const t = new Float32Array(maxEdges);
-	const normals = new Float32Array(maxEdges * 3);
+	const edgeData = new EdgeData(n);
+
+	// Edge counters for three dimensions.
+	const lengths = new Uint32Array(3);
 
 	// Include edges that straddle the bounding box.
 	bounds.min.set(
@@ -275,16 +309,10 @@ function generateEdges(chunk, operation, data, bounds) {
 	const Y = bounds.max.y;
 	const Z = bounds.max.z;
 
-	let edgeCount = 0;
-
-	let i0 = 0;
-	let i1 = 0;
-	let i2 = 0;
-
 	let x, y, z;
 
-	let c, plane, xyz;
-	let combination;
+	let edges, zeroCrossings, normals;
+	let d, plane, xyz, combination;
 
 	for(z = bounds.min.z; z <= Z; ++z) {
 
@@ -302,10 +330,14 @@ function generateEdges(chunk, operation, data, bounds) {
 				edge.a.addVectors(base, offsetA);
 
 				// Process the edge in the X-plane, then Y and finally Z.
-				for(c = 0, plane = 4; c < 3; ++c, plane >>= 1) {
+				for(d = 0, plane = 4; d < 3; ++d, plane >>= 1) {
 
-					// Select the grid point index of the current plane.
-					switch(c) {
+					edges = edgeData.edges[d];
+					zeroCrossings = edgeData.zeroCrossings[d];
+					normals = edgeData.normals[d];
+
+					// Select the iteration index of the current dimension.
+					switch(d) {
 
 						case 0: xyz = x; break;
 						case 1: xyz = y; break;
@@ -316,7 +348,7 @@ function generateEdges(chunk, operation, data, bounds) {
 					// Check if an edge exists in this plane.
 					if(xyz < n) {
 
-						indexB = indexA + indexOffsets[c];
+						indexB = indexA + indexOffsets[d];
 
 						// Check if the edge exhibits a material change.
 						if(materialIndices[indexA] !== materialIndices[indexB]) {
@@ -331,17 +363,19 @@ function generateEdges(chunk, operation, data, bounds) {
 							);
 
 							edge.b.addVectors(base, offsetB);
+
+							// Create and store the edge data.
 							operation.generateEdge(edge);
 
-							// Push the created edge data.
-							edges[i1++] = indexA;
-							edges[i1++] = indexB;
+							edges[lengths[d]] = indexA;
 
-							t[i0++] = edge.t;
+							zeroCrossings[lengths[d]] = edge.t;
 
-							normals[i2++] = edge.n.x;
-							normals[i2++] = edge.n.y;
-							normals[i2++] = edge.n.z;
+							normals[lengths[d] * 3] = edge.n.x;
+							normals[lengths[d] * 3 + 1] = edge.n.y;
+							normals[lengths[d] * 3 + 2] = edge.n.z;
+
+							++lengths[d];
 
 						}
 
@@ -355,12 +389,7 @@ function generateEdges(chunk, operation, data, bounds) {
 
 	}
 
-	return {
-		edges: edges,
-		t: t,
-		normals: normals,
-		edgeCount: i0
-	};
+	return { edgeData, lengths };
 
 }
 
@@ -373,14 +402,14 @@ function generateEdges(chunk, operation, data, bounds) {
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
- * @param {HermiteData} [data1] - Predominant data set.
+ * @param {HermiteData} [data1] - A predominant data set.
  */
 
 function update(chunk, operation, data0, data1) {
 
 	const bounds = computeIndexBounds(chunk, operation);
 
-	let edgeData;
+	let result, edgeData, lengths, d;
 
 	if(operation.type === OperationType.DENSITY_FUNCTION) {
 
@@ -392,16 +421,25 @@ function update(chunk, operation, data0, data1) {
 
 	}
 
-	if(!data.empty && !data.full) {
+	if(!data0.empty && !data0.full) {
 
-		edgeData = (operation.type === OperationType.DENSITY_FUNCTION) ?
+		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
 			generateEdges(chunk, operation, bounds) :
-			combineEdges(chunk, operation, data0, data1, bounds);
+			combineEdges(chunk, operation, data0, data1);
+
+		edgeData = result.edgeData;
+		lengths = result.lengths;
 
 		// Cut off empty data.
-		data0.edges = edgeData.edges.slice(0, edgeData.edgeCount * 2);
-		data0.t = edgeData.t.slice(0, edgeData.edgeCount);
-		data0.normals = edgeData.normals.slice(0, edgeData.edgeCount * 3);
+		for(d = 0; d < 3; ++d) {
+
+			edgeData.edges[d] = edgeData.edges[d].slice(0, lengths[d]);
+			edgeData.zeroCrossings[d] = edgeData.zeroCrossings[d].slice(0, lengths[d]);
+			edgeData.normals[d] = edgeData.normals[d].slice(0, lengths[d] * 3);
+
+		}
+
+		data0.edgeData = edgeData;
 
 	}
 
@@ -438,6 +476,7 @@ function execute(chunk, operation) {
 	// Union, Difference or Intersection.
 	for(i = 0, l = children.length; i < l; ++i) {
 
+		// Generate the full result of the child operation recursively.
 		data = execute(chunk, children[i]);
 
 		if(result === undefined) {

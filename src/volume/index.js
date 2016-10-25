@@ -7,6 +7,7 @@
 
 export { Density } from "./density.js";
 export { Edge } from "./edge.js";
+export { EdgeData } from "./edge-data.js";
 export { HermiteData } from "./hermite-data.js";
 export { Voxel, EDGES } from "./voxel.js";
 export { VoxelIterator } from "./voxel-iterator.js";

@@ -76,52 +76,20 @@ export class HermiteData {
 		 *
 		 * @property runLengths
 		 * @type Uint32Array
+		 * @default null
 		 */
 
 		this.runLengths = null;
 
 		/**
-		 * The edges.
+		 * The edge data.
 		 *
-		 * Edges are stored sequentially as pairs of grid point indices. There are
-		 * up to three index pairs for a single grid point. Consequently, these edge
-		 * groups have a common starting point index. The starting point index of
-		 * each next pair can only be equal to or greater than the previous one.
-		 *
-		 * With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
-		 * the number of edges that actually contain the volume's surface is usually
-		 * much lower.
-		 *
-		 * @property edges
-		 * @type Uint32Array
+		 * @property edgeData
+		 * @type EdgeData
+		 * @default null
 		 */
 
-		this.edges = null;
-
-		/**
-		 * The Zero Crossing interpolation values.
-		 *
-		 * Each value describes the relative surface intersection position on the
-		 * respective edge. The values correspond to the order of the edge index
-		 * pairs.
-		 *
-		 * @property t
-		 * @type Float32Array
-		 */
-
-		this.t = null;
-
-		/**
-		 * The surface intersection normals.
-		 *
-		 * The vectors are stored as [x, y, z] float triples which correspond to the
-		 * order of the edge index pairs.
-		 *
-		 * @property normals
-		 * @type Float32Array
-		 */
-
-		this.normals = null;
+		this.edgeData = null;
 
 	}
 
@@ -144,7 +112,7 @@ export class HermiteData {
 	get full() { return (this.materials === ((resolution + 1) ** 3)); }
 
 	/**
-	 * Compresses this data using Run-Length Encoding.
+	 * Compresses this data.
 	 *
 	 * @method compress
 	 */
@@ -199,26 +167,24 @@ export class HermiteData {
 	 * Sets the specified material index.
 	 *
 	 * @method setMaterialIndex
-	 * @param {Number} index - The index of the material index that needs to be updated.
+	 * @param {Number} index - The index of the material index that should be updated.
 	 * @param {Number} value - The new material index.
 	 */
 
 	setMaterialIndex(index, value) {
 
-		const materialIndex = this.materialIndices[index];
-
-		this.materialIndices[index] = value;
-
-		// Check if the material index has changed.
-		if(materialIndex === Density.HOLLOW && this.materialIndices[index] !== Density.HOLLOW) {
+		// Check if the material index changes.
+		if(this.materialIndices[index] === Density.HOLLOW && value !== Density.HOLLOW) {
 
 			++this.materials;
 
-		} else if(materialIndex !== Density.HOLLOW && this.materialIndices[index] === Density.HOLLOW) {
+		} else if(this.materialIndices[index] !== Density.HOLLOW && value === Density.HOLLOW) {
 
 			--this.materials;
 
 		}
+
+		this.materialIndices[index] = value;
 
 	}
 
@@ -232,34 +198,17 @@ export class HermiteData {
 
 	createTransferList(transferList = []) {
 
-		const arrays = [
-			this.materialIndices,
-			this.runLengths,
-			this.edges,
-			this.t,
-			this.normals
-		];
+		if(this.edgeData !== null) { this.edgeData.createTransferList(transferList); }
 
-		let array;
-
-		while(arrays.length > 0) {
-
-			array = arrays.pop();
-
-			if(array !== null) {
-
-				transferList.push(array.buffer);
-
-			}
-
-		}
+		transferList.push(this.materialIndices.buffer);
+		transferList.push(this.runLengths.buffer);
 
 		return transferList;
 
 	}
 
 	/**
-	 * Serialises this chunk of data.
+	 * Serialises this data.
 	 *
 	 * @method serialise
 	 * @return {Object} The serialised version of the data.
@@ -273,9 +222,7 @@ export class HermiteData {
 			lod: this.lod,
 			materialIndices: this.materialIndices,
 			runLengths: this.runLengths,
-			edges: this.edges,
-			t: this.t,
-			normals: this.normals
+			edgeData: this.edgeData
 		};
 
 	}
@@ -293,9 +240,7 @@ export class HermiteData {
 
 		this.materialIndices = data.materialIndices;
 		this.runLengths = data.runLengths;
-		this.edges = data.edges;
-		this.t = data.t;
-		this.normals = data.normals;
+		this.edgeData = data.edgeData;
 
 		this.neutered = false;
 
