@@ -14,6 +14,8 @@ export {
 
 export { TerrainMaterial } from "./materials";
 
+export { ChunkHelper } from "./helpers";
+
 export {
 	SingularValueDecomposition,
 	Givens,
