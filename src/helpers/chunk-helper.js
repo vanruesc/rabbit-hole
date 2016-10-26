@@ -32,22 +32,48 @@ export class ChunkHelper extends THREE.Object3D {
 
 		this.chunk = chunk;
 
+		// Create groups for grid points, edges and normals.
+		this.add(new THREE.Object3D());
+		this.add(new THREE.Object3D());
+		this.add(new THREE.Object3D());
+
+		this.children[0].name = "GridPoints";
+		this.children[1].name = "Edges";
+		this.children[2].name = "Normals";
+
 	}
 
 	/**
-	 * The line segments for the X-, Y- and Z-edges.
+	 * The grid points.
 	 *
-	 * @property edges
-	 * @type Array
+	 * @property gridPoints
+	 * @type Object3D
 	 */
 
-	get edges() { return this.children.slice(0, 3); }
+	get gridPoints() { return this.children[0]; }
+
+	/**
+	 * The edges.
+	 *
+	 * @property edges
+	 * @type Object3D
+	 */
+
+	get edges() { return this.children[1]; }
+
+	/**
+	 * The normals.
+	 *
+	 * @property normals
+	 * @type Object3D
+	 */
+
+	get normals() { return this.children[2]; }
 
 	/**
 	 * Creates the geometry.
 	 *
 	 * @method update
-	 * @throws {Error} An error is thrown if too many vertices are created.
 	 */
 
 	update() {
@@ -67,6 +93,9 @@ export class ChunkHelper extends THREE.Object3D {
 		const position = new Vector3();
 		const edge = new Edge();
 
+		const colorEmpty = new Float32Array([1.0, 1.0, 1.0]);
+		const colorSolid = new Float32Array([0.0, 0.0, 0.0]);
+
 		const edgeColors = [
 			new Float32Array([0.6, 0.0, 0.0]),
 			new Float32Array([0.0, 0.6, 0.0]),
@@ -74,11 +103,11 @@ export class ChunkHelper extends THREE.Object3D {
 		];
 
 		const normalColor = new Float32Array([0.0, 1.0, 1.0]);
-		const colorHollow = new Float32Array([1.0, 1.0, 1.0]);
-		const colorSolid = new Float32Array([0.0, 0.0, 0.0]);
 
 		const pointsMaterial = new THREE.PointsMaterial({
-			vertexColors: THREE.VertexColors, size: 3, sizeAttenuation: false
+			vertexColors: THREE.VertexColors,
+			sizeAttenuation: false,
+			size: 3
 		});
 
 		const lineSegmentsMaterial = new THREE.LineBasicMaterial({
@@ -87,30 +116,20 @@ export class ChunkHelper extends THREE.Object3D {
 
 		let edges, zeroCrossings, normals;
 
-		let positions, colors, geometry;
+		let positions, colors, positions2, colors2, geometry;
 		let vertexCount, gridPointColor, edgeColor;
 
 		let normalA, normalB;
 		let plane, index;
+		let children;
 
-		let d, p, i, j, l;
+		let d, p, i, j, k, l;
 		let x, y, z;
 
 		// Remove existing geometry.
-		for(i = 0, l = this.children.length; i < l; ++i) {
+		this.dispose();
 
-			this.children[i].geometry.dispose();
-			this.children[i].material.dispose();
-
-		}
-
-		while(this.children.length > 0) {
-
-			this.remove(this.children[0]);
-
-		}
-
-		// Grid points.
+		// Create grid points.
 		vertexCount = m ** 3;
 		positions = new Float32Array(vertexCount * 3);
 		colors = new Float32Array(vertexCount * 3);
@@ -128,7 +147,7 @@ export class ChunkHelper extends THREE.Object3D {
 					offset.x = x * s / n;
 
 					position.addVectors(base, offset);
-					gridPointColor = (materialIndices[i++] === Density.HOLLOW) ? colorHollow : colorSolid;
+					gridPointColor = (materialIndices[i++] === Density.HOLLOW) ? colorEmpty : colorSolid;
 
 					positions[j] = position.x; colors[j++] = gridPointColor[0];
 					positions[j] = position.y; colors[j++] = gridPointColor[1];
@@ -142,10 +161,11 @@ export class ChunkHelper extends THREE.Object3D {
 
 		geometry = new THREE.BufferGeometry();
 		geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
+		geometry.addAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-		this.add(new THREE.Points(geometry, pointsMaterial));
+		this.gridPoints.add(new THREE.Points(geometry, pointsMaterial));
 
-		// Edges.
+		// Create edges and normals.
 		for(d = 0, p = 4; d < 3; ++d, p >>= 1) {
 
 			edges = edgeData.edges[d];
@@ -155,11 +175,13 @@ export class ChunkHelper extends THREE.Object3D {
 
 			plane = PATTERN[p];
 
-			vertexCount = edges.length * 4;
+			vertexCount = edges.length * 2;
 			positions = new Float32Array(vertexCount * 3);
 			colors = new Float32Array(vertexCount * 3);
+			positions2 = new Float32Array(vertexCount * 3);
+			colors2 = new Float32Array(vertexCount * 3);
 
-			for(i = 0, j = 0, l = edges.length; i < l; ++i) {
+			for(i = 0, j = 0, k = 0, l = edges.length; i < l; ++i) {
 
 				index = edges[i];
 
@@ -189,7 +211,6 @@ export class ChunkHelper extends THREE.Object3D {
 				normalB = normalA.add(edge.n);
 
 				// Edge.
-
 				positions[j] = edge.a.x; colors[j++] = edgeColor[0];
 				positions[j] = edge.a.y; colors[j++] = edgeColor[1];
 				positions[j] = edge.a.z; colors[j++] = edgeColor[2];
@@ -199,14 +220,13 @@ export class ChunkHelper extends THREE.Object3D {
 				positions[j] = edge.b.z; colors[j++] = edgeColor[2];
 
 				// Normal at Zero Crossing.
+				positions2[k] = normalA.x; colors2[k++] = normalColor[0];
+				positions2[k] = normalA.y; colors2[k++] = normalColor[1];
+				positions2[k] = normalA.z; colors2[k++] = normalColor[2];
 
-				positions[j] = normalA.x; colors[j++] = normalColor[0];
-				positions[j] = normalA.y; colors[j++] = normalColor[1];
-				positions[j] = normalA.z; colors[j++] = normalColor[2];
-
-				positions[j] = normalB.x; colors[j++] = normalColor[0];
-				positions[j] = normalB.y; colors[j++] = normalColor[1];
-				positions[j] = normalB.z; colors[j++] = normalColor[2];
+				positions2[k] = normalB.x; colors2[k++] = normalColor[0];
+				positions2[k] = normalB.y; colors2[k++] = normalColor[1];
+				positions2[k] = normalB.z; colors2[k++] = normalColor[2];
 
 			}
 
@@ -214,7 +234,44 @@ export class ChunkHelper extends THREE.Object3D {
 			geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
 			geometry.addAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-			this.add(new THREE.LineSegments(geometry, lineSegmentsMaterial));
+			this.edges.add(new THREE.LineSegments(geometry, lineSegmentsMaterial));
+
+			geometry = new THREE.BufferGeometry();
+			geometry.addAttribute("position", new THREE.BufferAttribute(positions2, 3));
+			geometry.addAttribute("color", new THREE.BufferAttribute(colors2, 3));
+
+			this.normals.add(new THREE.LineSegments(geometry, lineSegmentsMaterial));
+
+		}
+
+	}
+
+	/**
+	 * Destroys this helper.
+	 *
+	 * @method dispose
+	 */
+
+	dispose() {
+
+		let i, j, il, jl;
+
+		for(i = 0, il = this.children.length; i < il; ++i) {
+
+			children = this.children[i];
+
+			for(j = 0, jl = children.length; j < jl; ++j) {
+
+				children[j].geometry.dispose();
+				children[j].material.dispose();
+
+			}
+
+			while(children.length > 0) {
+
+				children.remove(children[0]);
+
+			}
 
 		}
 
