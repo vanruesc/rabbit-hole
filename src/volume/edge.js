@@ -135,7 +135,6 @@ export class Edge {
 	 * Calculates the Zero Crossing position.
 	 *
 	 * @method computeZeroCrossingPosition
-	 * @private
 	 * @return {Vector3} The Zero Crossing position. The returned vector is volatile.
 	 */
 
