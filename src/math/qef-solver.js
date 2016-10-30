@@ -1,7 +1,6 @@
 import { SymmetricMatrix3 } from "./symmetric-matrix3";
 import { Vector3 } from "./vector3";
 import { SingularValueDecomposition } from "./singular-value-decomposition";
-import { QEFData } from "./qef-data";
 
 /**
  * A Quaratic Error Function solver.
@@ -55,21 +54,21 @@ export class QEFSolver {
 		this.pseudoInverseThreshold = pseudoInverseThreshold;
 
 		/**
-		 * QEF data storage.
+		 * QEF data.
 		 *
 		 * @property data
 		 * @type QEFData
 		 * @private
+		 * @default null
 		 */
 
-		this.data = new QEFData();
+		this.data = null;
 
 		/**
-		 * The average of the exact intersection points on the edges of a voxel.
+		 * The average of the surface intersection points of a voxel.
 		 *
 		 * @property massPoint
 		 * @type Vector3
-		 * @private
 		 */
 
 		this.massPoint = new Vector3();
@@ -105,7 +104,7 @@ export class QEFSolver {
 		this.x = new Vector3();
 
 		/**
-		 * Indicates whether this solver has a valid solution.
+		 * Indicates whether this solver has a solution.
 		 *
 		 * @property hasSolution
 		 * @type Boolean
@@ -116,14 +115,13 @@ export class QEFSolver {
 	}
 
 	/**
-	 * The error of the previously computed position.
+	 * Computes the error of the approximated position.
 	 *
-	 * @property error
-	 * @type Number
-	 * @final
+	 * @method computeError
+	 * @return {Number} The QEF error.
 	 */
 
-	get error() {
+	computeError() {
 
 		const x = this.x;
 
@@ -142,54 +140,20 @@ export class QEFSolver {
 	}
 
 	/**
-	 * Adds the given position and normal data.
+	 * Sets the QEF data.
 	 *
-	 * @method add
-	 * @param {Vector3} p - A position.
-	 * @param {Vector3} n - A normal.
+	 * @method setData
+	 * @chainable
+	 * @param {QEFData} d - QEF Data.
+	 * @return {QEFSolver} This solver.
 	 */
 
-	add(p, n) {
+	setData(d) {
 
-		const nx = n.x;
-		const ny = n.y;
-		const nz = n.z;
-
-		const dot = n.dot(p);
-
-		const data = this.data;
-		const ata = data.ata.elements;
-		const atb = data.atb;
-
-		ata[0] += nx * nx; ata[1] += nx * ny; ata[2] += nx * nz;
-		ata[3] += ny * ny; ata[4] += ny * nz;
-		ata[5] += nz * nz;
-
-		atb.x += dot * nx;
-		atb.y += dot * ny;
-		atb.z += dot * nz;
-
-		data.btb += dot * dot;
-
-		data.massPoint.add(p);
-
-		++data.numPoints;
-
+		this.data = d;
 		this.hasSolution = false;
 
-	}
-
-	/**
-	 * Accumulates the given data.
-	 *
-	 * @method addData
-	 * @param {QEFData} d - The data to add.
-	 */
-
-	addData(d) {
-
-		this.data.add(d);
-		this.hasSolution = false;
+		return this;
 
 	}
 
@@ -210,9 +174,9 @@ export class QEFSolver {
 
 		let mp;
 
-		if(data.numPoints > 0 && !this.hasSolution) {
+		if(!this.hasSolution && data !== null && data.numPoints > 0) {
 
-			// At this point the mass point will actually be a sum, so divide it to make it the average.
+			// The mass point is a sum, so divide it to make it the average.
 			massPoint.copy(data.massPoint);
 			massPoint.divideScalar(data.numPoints);
 
@@ -250,7 +214,7 @@ export class QEFSolver {
 
 	clear() {
 
-		this.data.clear();
+		this.data = null;
 		this.hasSolution = false;
 
 	}

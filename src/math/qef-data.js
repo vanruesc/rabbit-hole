@@ -51,7 +51,7 @@ export class QEFData {
 		this.btb = 0;
 
 		/**
-		 * An accumulation of the exact intersection points on the edges of a voxel.
+		 * An accumulation of the surface intersection points.
 		 *
 		 * @property massPoint
 		 * @type Vector3
@@ -61,7 +61,7 @@ export class QEFData {
 		this.massPoint = new Vector3();
 
 		/**
-		 * The amount of accumulated points.
+		 * The amount of accumulated surface intersection points.
 		 *
 		 * @property numPoints
 		 * @type Number
@@ -71,7 +71,7 @@ export class QEFData {
 
 		/**
 		 * The dimension of the mass point. This value is used when mass points are
-		 * accumulated during the simplification post-process.
+		 * accumulated during voxel cell clustering.
 		 *
 		 * @property massPointDimension
 		 * @type Number
@@ -86,6 +86,7 @@ export class QEFData {
 	 *
 	 * @method set
 	 * @chainable
+	 * @return {QEFData} This data.
 	 */
 
 	set(ata, atb, btb, massPoint, numPoints) {
@@ -106,6 +107,7 @@ export class QEFData {
 	 *
 	 * @method copy
 	 * @chainable
+	 * @return {QEFData} This data.
 	 */
 
 	copy(d) {
@@ -115,12 +117,48 @@ export class QEFData {
 	}
 
 	/**
-	 * Adds data.
+	 * Adds the given surface intersection point and normal.
 	 *
 	 * @method add
+	 * @param {Vector3} p - An intersection point.
+	 * @param {Vector3} n - A surface normal.
 	 */
 
-	add(d) {
+	add(p, n) {
+
+		const nx = n.x;
+		const ny = n.y;
+		const nz = n.z;
+
+		const dot = n.dot(p);
+
+		const ata = this.ata.elements;
+		const atb = this.atb;
+
+		ata[0] += nx * nx; ata[1] += nx * ny; ata[2] += nx * nz;
+		ata[3] += ny * ny; ata[4] += ny * nz;
+		ata[5] += nz * nz;
+
+		atb.x += dot * nx;
+		atb.y += dot * ny;
+		atb.z += dot * nz;
+
+		this.btb += dot * dot;
+
+		this.massPoint.add(p);
+
+		++this.numPoints;
+
+	}
+
+	/**
+	 * Adds an entire data set.
+	 *
+	 * @method addData
+	 * @param {QEFData} d - QEF data.
+	 */
+
+	addData(d) {
 
 		this.ata.add(d.ata);
 		this.atb.add(d.atb);
@@ -143,7 +181,7 @@ export class QEFData {
 	}
 
 	/**
-	 * Clears this data instance.
+	 * Clears this data.
 	 *
 	 * @method clear
 	 */
@@ -167,7 +205,7 @@ export class QEFData {
 	}
 
 	/**
-	 * Clones this data instance.
+	 * Clones this data.
 	 *
 	 * @method clone
 	 */
