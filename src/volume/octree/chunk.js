@@ -1,13 +1,11 @@
 import { CubicOctant } from "sparse-octree";
 import { HermiteData } from "../hermite-data.js";
-import { VoxelIterator } from "../voxel-iterator.js";
 
 /**
  * A cubic volume chunk.
  *
  * @class Chunk
  * @submodule octree
- * @implements Iterable
  * @extends CubicOctant
  * @constructor
  * @param {Vector3} min - The lower bounds.
@@ -106,19 +104,6 @@ export class Chunk extends CubicOctant {
 		if(this.data === null) { this.data = new HermiteData(false); }
 
 		this.data.deserialise(chunk.data);
-
-	}
-
-	/**
-	 * Creates a voxel iterator for this chunk.
-	 *
-	 * @method Symbol.iterator
-	 * @return {VoxelIterator} An iterator.
-	 */
-
-	[Symbol.iterator]() {
-
-		return new VoxelIterator(this);
 
 	}
 
