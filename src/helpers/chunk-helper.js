@@ -91,6 +91,8 @@ export class ChunkHelper extends THREE.Object3D {
 		const offsetA = new Vector3();
 		const offsetB = new Vector3();
 		const position = new Vector3();
+		const normalA = new Vector3();
+		const normalB = new Vector3();
 		const edge = new Edge();
 
 		const colorEmpty = new Float32Array([1.0, 1.0, 1.0]);
@@ -119,11 +121,9 @@ export class ChunkHelper extends THREE.Object3D {
 		let positions, colors, positions2, colors2, geometry;
 		let vertexCount, gridPointColor, edgeColor;
 
-		let normalA, normalB;
-		let plane, index;
-		let children;
+		let axis, index;
 
-		let d, p, i, j, k, l;
+		let d, a, i, j, k, l;
 		let x, y, z;
 
 		// Remove existing geometry.
@@ -166,14 +166,14 @@ export class ChunkHelper extends THREE.Object3D {
 		this.gridPoints.add(new THREE.Points(geometry, pointsMaterial));
 
 		// Create edges and normals.
-		for(d = 0, p = 4; d < 3; ++d, p >>= 1) {
+		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
 
 			edges = edgeData.edges[d];
 			zeroCrossings = edgeData.zeroCrossings[d];
 			normals = edgeData.normals[d];
 			edgeColor = edgeColors[d];
 
-			plane = PATTERN[p];
+			axis = PATTERN[a];
 
 			vertexCount = edges.length * 2;
 			positions = new Float32Array(vertexCount * 3);
@@ -196,9 +196,9 @@ export class ChunkHelper extends THREE.Object3D {
 				);
 
 				offsetB.set(
-					(x + plane[0]) * s / n,
-					(y + plane[1]) * s / n,
-					(z + plane[2]) * s / n
+					(x + axis[0]) * s / n,
+					(y + axis[1]) * s / n,
+					(z + axis[2]) * s / n
 				);
 
 				edge.a.addVectors(base, offsetA);
@@ -207,8 +207,8 @@ export class ChunkHelper extends THREE.Object3D {
 				edge.t = zeroCrossings[i];
 				edge.n.fromArray(normals, i);
 
-				normalA = edge.computeZeroCrossingPosition();
-				normalB = normalA.add(edge.n);
+				normalA.copy(edge.computeZeroCrossingPosition());
+				normalB.copy(normalA).addScaledVector(edge.n, s / n * 0.25);
 
 				// Edge.
 				positions[j] = edge.a.x; colors[j++] = edgeColor[0];
@@ -254,6 +254,7 @@ export class ChunkHelper extends THREE.Object3D {
 
 	dispose() {
 
+		let children;
 		let i, j, il, jl;
 
 		for(i = 0, il = this.children.length; i < il; ++i) {
