@@ -1,4 +1,4 @@
-import { Density, VoxelOctree, EDGES } from "../volume";
+import { Density, VoxelBlock, EDGES } from "../volume";
 import * as tables from "./tables.js";
 
 /**
@@ -227,16 +227,17 @@ function contourFaceProc(octants, dir, indexBuffer) {
 
 function contourCellProc(octant, indexBuffer) {
 
+	const children = octant.children;
 	const c = [0, 0, 0, 0];
 
 	let i, j;
 	let faceOctants, edgeNodes;
 
-	if(octant.children !== null) {
+	if(children !== null) {
 
 		for(i = 0; i < 8; ++i) {
 
-			contourCellProc(octant.children[i], indexBuffer);
+			contourCellProc(children[i], indexBuffer);
 
 		}
 
@@ -246,8 +247,8 @@ function contourCellProc(octant, indexBuffer) {
 			c[1] = tables.CELL_PROC_FACE_MASK[i][1];
 
 			faceOctants = [
-				octant.children[c[0]],
-				octant.children[c[1]]
+				children[c[0]],
+				children[c[1]]
 			];
 
 			contourFaceProc(faceOctants, tables.CELL_PROC_FACE_MASK[i][2], indexBuffer);
@@ -265,7 +266,7 @@ function contourCellProc(octant, indexBuffer) {
 
 			for(j = 0; j < 4; ++j) {
 
-				edgeNodes[j] = octant.children[c[j]];
+				edgeNodes[j] = children[c[j]];
 
 			}
 
@@ -280,17 +281,18 @@ function contourCellProc(octant, indexBuffer) {
 /**
  * Collects positions and normals from the voxel information of the given octant
  * and its children. The generated vertex indices are stored in the respective
- * voxels.
+ * voxels during the octree traversal.
  *
  * @method generateVertexIndices
  * @private
  * @static
  * @param {Octant} octant - An octant.
- * @param {Array} vertexBuffer - An array to fill with vertices.
- * @param {Array} normalBuffer - An array to fill with normals.
+ * @param {Array} vertexBuffer - An array to be filled with vertices.
+ * @param {Array} normalBuffer - An array to be filled with normals.
+ * @param {Number} index - The next vertex index.
  */
 
-function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
+function generateVertexIndices(octant, positions, normals, index) {
 
 	let i, voxel;
 
@@ -298,19 +300,28 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 
 		for(i = 0; i < 8; ++i) {
 
-			generateVertexIndices(octant.children[i], vertexBuffer, normalBuffer);
+			index = generateVertexIndices(octant.children[i], positions, normals, index);
 
 		}
 
 	} else if(octant.voxel !== null) {
 
 		voxel = octant.voxel;
-		voxel.index = vertexBuffer.length;
+		voxel.index = index;
 
-		vertexBuffer.push(voxel.position);
-		normalBuffer.push(voxel.normal);
+		positions[index * 3] = voxel.position.x;
+		positions[index * 3 + 1] = voxel.position.y;
+		positions[index * 3 + 2] = voxel.position.z;
+
+		normals[index * 3] = voxel.normal.x;
+		normals[index * 3 + 1] = voxel.normal.y;
+		normals[index * 3 + 2] = voxel.normal.z;
+
+		++index;
 
 	}
+
+	return index;
 
 }
 
@@ -328,33 +339,57 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 export class DualContouring {
 
 	/**
-	 * Contours the given chunk of hermite data and generates vertices, normals
+	 * Contours the given chunk of volume data and generates vertices, normals
 	 * and vertex indices.
 	 *
 	 * @method run
 	 * @static
-	 * @param {Chunk} chunk - A chunk of hermite data.
-	 * @param {Number} qefThreshold - An error tolerance for the octree simplification.
-	 * @param {Array} indexBuffer - An array to fill with indices.
-	 * @param {Array} vertexBuffer - An array to fill with vertices.
-	 * @param {Array} normalBuffer - An array to fill with normals.
-	 * @return {Number} The amount of generated vertices.
+	 * @param {Chunk} chunk - A chunk of volume data.
+	 * @return {Object} The generated indices, positions and normals or null if no data was generated.
 	 */
 
-	static run(chunk, qefThreshold, indexBuffer, vertexBuffer, normalBuffer) {
+	static run(chunk) {
 
-		const octree = new VoxelOctree(chunk);
+		const indexBuffer = [];
 
-		if(qefThreshold >= 0.0) {
+		const threshold = 0.01;
+		const voxelBlock = new VoxelBlock(chunk);
 
-			octree.simplify(qefThreshold);
+		// Increase the error threshold based on the lod value.
+		voxelBlock.simplify(threshold + (chunk.data.lod << 2));
+
+		// Each voxel contains one vertex.
+		const vertexCount = voxelBlock.voxelCount;
+
+		let result = null;
+
+		let indices = null;
+		let positions = null;
+		let normals = null;
+
+		if(vertexCount > 65536) {
+
+			console.warn(
+				"Could not create geometry for chunk at position", this.chunk.min,
+				"with lod", this.chunk.data.lod, "(vertex count of", vertexCount,
+				"exceeds limit of 65536)"
+			);
+
+		} else if(vertexCount > 0) {
+
+			positions = new Float32Array(vertexCount * 3);
+			normals = new Float32Array(vertexCount * 3);
+
+			generateVertexIndices(voxelBlock.root, positions, normals, 0);
+			contourCellProc(voxelBlock.root, indexBuffer);
+
+			indices = new Uint16Array(indexBuffer);
+
+			result = { indices, positions, normals };
 
 		}
 
-		generateVertexIndices(octree.root, vertexBuffer, normalBuffer);
-		contourCellProc(octree.root, indexBuffer);
-
-		return vertexBuffer.length;
+		return result;
 
 	}
 

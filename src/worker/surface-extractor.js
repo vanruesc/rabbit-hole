@@ -53,75 +53,41 @@ export const SurfaceExtractor = {
 	 *
 	 * @method extract
 	 * @static
-	 * @todo Use flat arrays.
 	 */
 
 	extract(chunk) {
 
-		const indexBuffer = [];
-		const vertexBuffer = [];
-		const normalBuffer = [];
-
+		const message = this.message;
 		const transferList = [];
-
-		let indices = null;
-		let positions = null;
-		let normals = null;
-
-		let i, j, k;
-		let vertex, normal;
-		let vertexCount;
 
 		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
 		this.chunk.data.decompress();
 
-		vertexCount = DualContouring.run(this.chunk, 0.01, indexBuffer, vertexBuffer, normalBuffer);
+		const result = DualContouring.run(this.chunk);
 
-		if(vertexCount > 65536) {
+		if(result !== null) {
 
-			console.warn(
-				"Could not create geometry for chunk of size", this.chunk.size,
-				"at position", this.chunk.min, "with lod", this.chunk.data.lod,
-				"(vertex count of", vertexCount, "exceeds limit of 65536)"
-			);
+			message.indices = result.indices;
+			message.positions = result.positions;
+			message.normals = result.normals;
 
-		} else if(vertexCount > 0) {
+			transferList.push(message.indices.buffer);
+			transferList.push(message.positions.buffer);
+			transferList.push(message.normals.buffer);
 
-			// Indices can be copied directly.
-			indices = new Uint16Array(indexBuffer);
+		} else {
 
-			// Vertex positions and normals must be flattened.
-			positions = new Float32Array(vertexCount * 3);
-			normals = new Float32Array(vertexCount * 3);
-
-			for(i = 0, j = 0, k = 0; i < vertexCount; ++i) {
-
-				vertex = vertexBuffer[i];
-				normal = normalBuffer[i];
-
-				positions[j++] = vertex.x;
-				positions[j++] = vertex.y;
-				positions[j++] = vertex.z;
-
-				normals[k++] = normal.x;
-				normals[k++] = normal.y;
-				normals[k++] = normal.z;
-
-			}
-
-			transferList.push(indices.buffer);
-			transferList.push(positions.buffer);
-			transferList.push(normals.buffer);
+			message.indices = null;
+			message.positions = null;
+			message.normals = null;
 
 		}
 
 		this.chunk.data.compress();
 
-		this.message.data = chunk.data.serialise();
-		this.message.indices = indices;
-		this.message.positions = positions;
-		this.message.normals = normals;
+		// Return the chunk data.
+		message.data = chunk.data.serialise();
 
 		this.transferList = this.chunk.createTransferList(transferList);
 
