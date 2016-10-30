@@ -1,7 +1,76 @@
-import { Octree } from "sparse-octree";
-import { Vector3, QEFSolver } from "../math";
-import { Cell } from "./cell.js";
-import { DrawInfo } from "./draw-info.js";
+import { Octree, PATTERN } from "sparse-octree";
+import { Vector3, QEFData, QEFSolver } from "../../math";
+import { Edge, Density, Voxel, EDGES } from "../";
+import { VoxelCell } from "./voxel-cell.js";
+
+/**
+ * Creates a voxel and builds a material configuration code from the materials
+ * in the voxel corners.
+ *
+ * @method createVoxel
+ * @private
+ * @static
+ * @param {Number} n - The grid resolution.
+ * @param {Number} x - A local grid point X-coordinate.
+ * @param {Number} y - A local grid point Y-coordinate.
+ * @param {Number} z - A local grid point Z-coordinate.
+ * @param {Uint8Array} materialIndices - The material indices.
+ * @return {Voxel} A voxel.
+ */
+
+function createVoxel(n, x, y, z, materialIndices) {
+
+	const m = n + 1;
+	const mm = m * m;
+
+	const voxel = new Voxel();
+
+	let materials, edgeCount;
+	let material, offset, index;
+	let c1, c2, m1, m2;
+
+	let i;
+
+	// Pack the material information of the eight corners into a single byte.
+	for(materials = 0, i = 0; i < 8; ++i) {
+
+		// Translate the coordinates into a one-dimensional grid point index.
+		offset = PATTERN[i];
+		index = (z + offset[2]) * mm + (y + offset[1]) * m + (x + offset[0]);
+
+		// Convert the identified material index into a binary value.
+		material = Math.min(materialIndices[index], Density.SOLID);
+
+		// Store the value in bit i.
+		materials |= (material << i);
+
+	}
+
+	// Find out how many edges intersect with the implicit surface.
+	for(edgeCount = 0, i = 0; i < 12; ++i) {
+
+		c1 = EDGES[i][0];
+		c2 = EDGES[i][1];
+
+		m1 = (materials >> c1) & 1;
+		m2 = (materials >> c2) & 1;
+
+		// Check if there is a material change on the edge.
+		if(m1 !== m2) {
+
+			++edgeCount;
+
+		}
+
+	}
+
+	voxel.materials = materials;
+	voxel.edgeCount = edgeCount;
+	voxel.qefData = new QEFData();
+
+	return voxel;
+
+}
 
 /**
  * A cubic voxel octree.
@@ -15,316 +84,213 @@ import { DrawInfo } from "./draw-info.js";
 
 export class VoxelBlock extends Octree {
 
-	constructor(min, size) {
+	constructor(chunk) {
 
 		super();
 
-		this.root = new Cell(min, size);
+		this.root = new VoxelCell(chunk.min, chunk.size);
+
+		/**
+		 * The amount of voxels in this block.
+		 *
+		 * @property voxelCount
+		 * @type Number
+		 */
+
+		this.voxelCount = 0;
+
+		this.construct(chunk);
 
 	}
 
 	/**
-	 * Simplifies the given octant node.
+	 * Attempts to simplify the octree.
 	 *
 	 * @method simplify
-	 * @private
-	 * @static
-	 * @param {Octant} node - The node to simplify. 
 	 * @param {Number} threshold - A QEF error threshold.
 	 */
 
-	static simplify(node, threshold) {
+	simplify(threshold) {
 
-		const signs = [-1, -1, -1, -1, -1, -1, -1, -1];
-
-		let qef;
-
-		let midSign, edgeCount;
-		let isCollapsible;
-
-		let position, drawInfo;
-		let child, error;
-		let min, size;
-
-		let i;
-
-		if(node !== null && node.type === OctantType.Internal) {
-
-			qef = new QEFSolver();
-
-			midSign = -1;
-			edgeCount = 0;
-
-			isCollapsible = true;
-
-			for(i = 0; i < 8; ++i) {
-
-				node.children[i] = this.simplify(node.children[i], threshold);
-
-				if(node.children[i] !== null) {
-
-					child = node.children[i];
-
-					if(child.type === OctantType.Internal) {
-
-						isCollapsible = false;
-
-					} else {
-
-						qef.addData(child.drawInfo.qef);
-
-						midSign = (child.drawInfo.materials >> (7 - i)) & 1; 
-						signs[i] = (child.drawInfo.materials >> i) & 1; 
-
-						++edgeCount;
-
-					}
-
-				}
-
-			}
-
-			if(isCollapsible) {
-
-				// There are no internal children.
-				position = new Vector3();
-				position.copy(qef.solve());
-				error = qef.error;
-
-				if(error <= threshold) {
-
-					// Collapse doesn't breach the threshold.
-					min = node.min;
-					size = node.size;
-
-					if(position.x < min.x || position.x > (min.x + size) ||
-						position.y < min.y || position.y > (min.y + size) ||
-						position.z < min.z || position.z > (min.z + size)) {
-
-						position.copy(qef.massPoint);
-
-					}
-
-					// Create a psuedo leaf.
-					drawInfo = new DrawInfo();
-					drawInfo.averageNormal = new Vector3();
-
-					for(i = 0; i < 8; ++i) {
-
-						if(signs[i] === -1) {
-
-							// Undetermined, use mid sign instead.
-							drawInfo.materials |= (midSign << i);
-
-						} else {
-
-							drawInfo.materials |= (signs[i] << i);
-
-						}
-
-						child = node.children[i];
-
-						if(child !== null) {
-
-							if(child.type !== OctantType.Internal) {
-
-								drawInfo.averageNormal.add(child.drawInfo.averageNormal);
-
-							}
-
-						}
-
-						// Drop the child node.
-						node.children[i] = null;
-
-					}
-
-					drawInfo.averageNormal.normalize();
-					drawInfo.position = position;
-					drawInfo.qef = qef.data;
-
-					node.type = OctantType.Psuedo;
-					node.drawInfo = drawInfo;
-
-				}
-
-			}
-
-		}
-
-		return node;
+		this.root.collapse(threshold);
 
 	}
 
 	/**
-	 * 
+	 * Creates intermediate voxel cells down to the leaf octant that is described
+	 * by the given local grid coordinates and returns it.
 	 *
-	 * @method constructLeaf
+	 * @method getCell
 	 * @private
-	 * @static
+	 * @param {Number} n - The grid resolution.
+	 * @param {Number} x - A local grid point X-coordinate.
+	 * @param {Number} y - A local grid point Y-coordinate.
+	 * @param {Number} z - A local grid point Z-coordinate.
+	 * @return {VoxelCell} A leaf voxel cell.
 	 */
 
-	constructLeaf(leaf) {
+	getCell(n, x, y, z) {
 
-		// The surface cannot pass through more than six edges.
-		const MAX_CROSSINGS = 6;
+		let cell = this.root;
+		let yz, xz, xy;
+		let octant;
 
-		const cornerPos = new Vector3();
-		const averageNormal = new Vector3();
+		for(n = n >> 1; n > 0; n >>= 1) {
 
-		const v = new Vector3();
-		const p1 = new Vector3();
-		const p2 = new Vector3();
+			// Identify the next octant by the grid coordinates.
+			yz = (x < n) ? 0 : 1;
+			xz = (y < n) ? 0 : 1;
+			xy = (z < n) ? 0 : 1;
 
-		let qef;
+			octant = (yz << 2) + (xz << 1) + xy;
 
-		let materials, density;
-		let material, edgeCount;
+			if(cell.children === null) {
 
-		let i;
-
-		let c1, c2, m1, m2;
-		let min, size;
-		let p, n;
-
-		let drawInfo;
-
-		if(leaf !== null && leaf.size === 1) {
-
-			materials = 0;
-
-			for(i = 0; i < 8; ++i) {
-
-				cornerPos.addVectors(leaf.min, v.fromArray(vertexMap[i]));
-
-				density = this.chunk.sample(cornerPos);
-				material = (density < 0) ? Density.SOLID : Density.HOLLOW;
-
-				materials = materials | (material << i);
+				cell.split();
 
 			}
 
-			if(materials === 0 || materials === 255) {
+			cell = cell.children[octant];
 
-				// Voxel is fully inside or outside the volume.
-				leaf = null;
+		}
 
-			} else {
+		return cell;
 
-				// The voxel contains the surface, so find the edge intersections.
-				qef = new QEFSolver();
-				edgeCount = 0;
+	}
 
-				for(i = 0; i < 12 && edgeCount < MAX_CROSSINGS; ++i) {
+	/**
+	 * Constructs voxel cells from volume data.
+	 *
+	 * @method construct
+	 * @private
+	 * @param {Chunk} chunk - A volume chunk.
+	 */
 
-					c1 = EDGE_MAP[i][0];
-					c2 = EDGE_MAP[i][1];
+	construct(chunk) {
 
-					m1 = (materials >> c1) & 1;
-					m2 = (materials >> c2) & 1;
+		const s = chunk.size;
+		const n = chunk.resolution;
+		const m = n + 1;
+		const mm = m * m;
 
-					// Check if there is a zero crossing on the edge.
-					if(m1 !== m2) {
+		const data = chunk.data;
+		const edgeData = data.edgeData;
+		const materialIndices = data.materialIndices;
 
-						p1.addVectors(leaf.min, v.fromArray(vertexMap[c1]));
-						p2.addVectors(leaf.min, v.fromArray(vertexMap[c2]));
+		const qefSolver = new QEFSolver();
 
-						p = this.approximateZeroCrossingPosition(p1, p2, this.densityFunction, 8);
-						n = this.calculateSurfaceNormal(this.densityFunction, p);
+		const base = this.chunk.min;
+		const offsetA = new Vector3();
+		const offsetB = new Vector3();
+		const intersection = new Vector3();
+		const edge = new Edge();
 
-						qef.add(p, n);
+		const sequences = [
+			new Uint8Array([0, 1, 2, 3]),
+			new Uint8Array([0, 1, 4, 5]),
+			new Uint8Array([0, 2, 4, 6])
+		];
 
-						averageNormal.add(n);
+		let voxelCount = 0;
 
-						++edgeCount;
+		let edges, zeroCrossings, normals;
+		let sequence, offset;
+		let voxel, position;
+		let axis, cell;
+
+		let a, d, i, j, l;
+		let x, y, z;
+
+		let index;
+
+		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
+
+			axis = PATTERN[a];
+
+			edges = edgeData.edges[d];
+			zeroCrossings = edgeData.zeroCrossings[d];
+			normals = edgeData.normals[d];
+
+			sequence = sequences[d];
+
+			for(i = 0, l = edges.length; i < l; ++i) {
+
+				// Each edge is uniquely described by its starting grid point index.
+				index = edges[i];
+
+				// Calculate the local grid coordinates from the one-dimensional index.
+				x = index % m;
+				y = Math.trunc((index % mm) / m);
+				z = Math.trunc(index / mm);
+
+				offsetA.set(
+					x * s / n,
+					y * s / n,
+					z * s / n
+				);
+
+				offsetB.set(
+					(x + axis[0]) * s / n,
+					(y + axis[1]) * s / n,
+					(z + axis[2]) * s / n
+				);
+
+				edge.a.addVectors(base, offsetA);
+				edge.b.addVectors(base, offsetB);
+
+				edge.t = zeroCrossings[i];
+				edge.n.fromArray(normals, i);
+
+				intersection.copy(edge.computeZeroCrossingPosition());
+
+				// Each edge can belong to up to four voxel cells.
+				for(j = 0; j < 4; ++j) {
+
+					// Rotate around the edge.
+					offset = PATTERN[sequence[j]];
+
+					x -= offset[0];
+					y -= offset[1];
+					z -= offset[2];
+
+					// Check if the adjusted coordinates still lie inside the grid bounds.
+					if(x >= 0 && y >= 0 && z >= 0 && x < n && y < n && z < n) {
+
+						cell = this.getCell(n, x, y, z);
+
+						if(cell.voxel === null) {
+
+							// The existence of the edge guarantees that the voxel contains the surface.
+							cell.voxel = createVoxel(n, x, y, z, materialIndices);
+
+							++voxelCount;
+
+						}
+
+						// Add the edge data to the voxel.
+						voxel = cell.voxel;
+						voxel.normal.add(edge.n);
+						voxel.qefData.add(intersection, edge.n);
+
+						if(voxel.qefData.numPoints === voxel.edgeCount) {
+
+							// Finalise the voxel by solving the accumulated data.
+							position = qefSolver.setData(voxel.qefData).solve();
+
+							voxel.position.copy(cell.contains(position) ? position : qefSolver.massPoint);
+							voxel.normal.normalize();
+
+						}
 
 					}
 
 				}
 
-				p.copy(qef.solve());
-
-				drawInfo = new DrawInfo();
-				drawInfo.position = p;
-				drawInfo.qef = qef.data;
-
-				min = leaf.min;
-				size = leaf.size;
-
-				// Check if the computed position lies outside the voxel's bounds.
-				if(drawInfo.position.x < min.x || drawInfo.position.x > min.x + size ||
-					drawInfo.position.y < min.y || drawInfo.position.y > min.y + size ||
-					drawInfo.position.z < min.z || drawInfo.position.z > min.z + size) {
-
-					drawInfo.position.copy(qef.massPoint);
-
-				}
-
-				drawInfo.averageNormal = averageNormal.divideScalar(edgeCount).normalize();
-				drawInfo.materials = materials;
-
-				leaf.type = OctantType.Leaf;
-				leaf.drawInfo = drawInfo;
-
 			}
 
 		}
 
-		return leaf;
-
-	}
-
-	/**
-	 * 
-	 *
-	 * @method constructOctants
-	 * @private
-	 * @static
-	 */
-
-	static constructOctants(node) {
-
-		const v = new Vector3();
-
-		let childSize;
-		let hasChildren = false;
-		let min, child;
-
-		let i;
-
-		if(node !== null) {
-
-			if(node.size === 1) {
-
-				node = this.constructLeaf(node);
-
-			} else {
-
-				childSize = node.size >> 1;
-
-				for(i = 0; i < 8; ++i) {
-
-					min = new Vector3();
-					min.addVectors(node.min, v.fromArray(vertexMap[i]).multiplyScalar(childSize));
-
-					child = new Octant(min, childSize, OctantType.Internal);
-
-					node.children[i] = this.constructOctants(child);
-					hasChildren = hasChildren | (node.children[i] !== null);
-
-				}
-
-				if(!hasChildren) {
-
-					node = null;
-
-				}
-
-			}
-
-		}
-
-		return node;
+		this.voxelCount = voxelCount;
 
 	}
 
