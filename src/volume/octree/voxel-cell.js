@@ -147,6 +147,7 @@ export class VoxelCell extends CubicOctant {
 					this.voxel = voxel;
 					this.children = null;
 
+					// Removed existing voxels and created a new one.
 					removedVoxels += v - 1;
 
 				}
