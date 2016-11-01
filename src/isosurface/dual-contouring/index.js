@@ -21,29 +21,30 @@ function contourProcessEdge(octants, dir, indexBuffer) {
 	let minIndex = 0;
 	let flip = false;
 
-	let i;
-	let edge;
 	let c1, c2, m1, m2;
+	let octant, edge;
+	let i;
 
 	for(i = 0; i < 4; ++i) {
 
+		octant = octants[i];
 		edge = tables.PROC_EDGE_MASK[dir][i];
 
 		c1 = EDGES[edge][0];
 		c2 = EDGES[edge][1];
 
-		m1 = (octants[i].voxel.materials >> c1) & 1;
-		m2 = (octants[i].voxel.materials >> c2) & 1;
+		m1 = (octant.voxel.materials >> c1) & 1;
+		m2 = (octant.voxel.materials >> c2) & 1;
 
-		if(octants[i].size < minSize) {
+		if(octant.size < minSize) {
 
-			minSize = octants[i].size;
+			minSize = octant.size;
 			minIndex = i;
 			flip = (m1 !== Density.HOLLOW);
 
 		}
 
-		indices[i] = octants[i].voxel.index;
+		indices[i] = octant.voxel.index;
 		signChange[i] = (m1 !== m2);
 
 	}
@@ -91,11 +92,11 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 
 	const c = [0, 0, 0, 0];
 
-	let i, j;
 	let edgeOctants;
+	let i;
 
-	if(octants[0].children === null && octants[1].children === null &&
-		octants[2].children === null && octants[3].children === null) {
+	if(octants[0].voxel !== null && octants[1].voxel !== null &&
+		octants[2].voxel !== null && octants[3].voxel !== null) {
 
 		contourProcessEdge(octants, dir, indexBuffer);
 
@@ -108,21 +109,12 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 			c[2] = tables.EDGE_PROC_EDGE_MASK[dir][i][2];
 			c[3] = tables.EDGE_PROC_EDGE_MASK[dir][i][3];
 
-			edgeOctants = [];
-
-			for(j = 0; j < 4; ++j) {
-
-				if(octants[j].children === null) {
-
-					edgeOctants[j] = octants[j];
-
-				} else {
-
-					edgeOctants[j] = octants[j].children[c[j]];
-
-				}
-
-			}
+			edgeOctants = [
+				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
+				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]],
+				(octants[2].children === null) ? octants[2] : octants[2].children[c[2]],
+				(octants[3].children === null) ? octants[3] : octants[3].children[c[3]]
+			];
 
 			contourEdgeProc(edgeOctants, tables.EDGE_PROC_EDGE_MASK[dir][i][4], indexBuffer);
 
@@ -152,8 +144,8 @@ function contourFaceProc(octants, dir, indexBuffer) {
 		[0, 1, 0, 1]
 	];
 
-	let i, j;
 	let order, faceOctants, edgeNodes;
+	let i;
 
 	if(octants[0].children !== null || octants[1].children !== null) {
 
@@ -162,21 +154,10 @@ function contourFaceProc(octants, dir, indexBuffer) {
 			c[0] = tables.FACE_PROC_FACE_MASK[dir][i][0];
 			c[1] = tables.FACE_PROC_FACE_MASK[dir][i][1];
 
-			faceOctants = [];
-
-			for(j = 0; j < 2; ++j) {
-
-				if(octants[j].children === null) {
-
-					faceOctants[j] = octants[j];
-
-				} else {
-
-					faceOctants[j] = octants[j].children[c[j]];
-
-				}
-
-			}
+			faceOctants = [
+				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
+				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]]
+			];
 
 			contourFaceProc(faceOctants, tables.FACE_PROC_FACE_MASK[dir][i][2], indexBuffer);
 
@@ -189,23 +170,14 @@ function contourFaceProc(octants, dir, indexBuffer) {
 			c[2] = tables.FACE_PROC_EDGE_MASK[dir][i][3];
 			c[3] = tables.FACE_PROC_EDGE_MASK[dir][i][4];
 
-			edgeNodes = [];
-
 			order = orders[tables.FACE_PROC_EDGE_MASK[dir][i][0]];
 
-			for(j = 0; j < 4; ++j) {
-
-				if(octants[order[j]].children === null) {
-
-					edgeNodes[j] = octants[order[j]];
-
-				} else {
-
-					edgeNodes[j] = octants[order[j]].children[c[j]];
-
-				}
-
-			}
+			edgeNodes = [
+				(octants[order[0]].children === null) ? octants[order[0]] : octants[order[0]].children[c[0]],
+				(octants[order[1]].children === null) ? octants[order[1]] : octants[order[1]].children[c[1]],
+				(octants[order[2]].children === null) ? octants[order[2]] : octants[order[2]].children[c[2]],
+				(octants[order[3]].children === null) ? octants[order[3]] : octants[order[3]].children[c[3]]
+			];
 
 			contourEdgeProc(edgeNodes, tables.FACE_PROC_EDGE_MASK[dir][i][5], indexBuffer);
 
@@ -230,8 +202,8 @@ function contourCellProc(octant, indexBuffer) {
 	const children = octant.children;
 	const c = [0, 0, 0, 0];
 
-	let i, j;
 	let faceOctants, edgeNodes;
+	let i;
 
 	if(children !== null) {
 
@@ -262,13 +234,12 @@ function contourCellProc(octant, indexBuffer) {
 			c[2] = tables.CELL_PROC_EDGE_MASK[i][2];
 			c[3] = tables.CELL_PROC_EDGE_MASK[i][3];
 
-			edgeNodes = [];
-
-			for(j = 0; j < 4; ++j) {
-
-				edgeNodes[j] = children[c[j]];
-
-			}
+			edgeNodes = [
+				children[c[0]],
+				children[c[1]],
+				children[c[2]],
+				children[c[3]]
+			];
 
 			contourEdgeProc(edgeNodes, tables.CELL_PROC_EDGE_MASK[i][4], indexBuffer);
 
