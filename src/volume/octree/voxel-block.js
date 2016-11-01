@@ -104,7 +104,7 @@ export class VoxelBlock extends Octree {
 	}
 
 	/**
-	 * Attempts to simplify the octree.
+	 * Attempts to simplify the octree by clustering voxels.
 	 *
 	 * @method simplify
 	 * @param {Number} threshold - A QEF error threshold.
@@ -112,7 +112,7 @@ export class VoxelBlock extends Octree {
 
 	simplify(threshold) {
 
-		this.root.collapse(threshold);
+		this.voxelCount -= this.root.collapse(threshold);
 
 	}
 
