@@ -168,8 +168,10 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 function combineEdges(chunk, operation, data0, data1) {
 
+	const m = chunk.resolution + 1;
+	const indexOffsets = new Uint32Array([1, m, m * m]);
+
 	const materialIndices = data0.materialIndices;
-	const indexOffsets = new Uint32Array([1, chunk.resolution + 1, (chunk.resolution + 1) ** 2]);
 
 	const edge1 = new Edge();
 	const edge0 = new Edge();
@@ -283,6 +285,7 @@ function generateEdges(chunk, operation, data, bounds) {
 	const m = n + 1;
 	const mm = m * m;
 
+	const indexOffsets = new Uint32Array([1, m, mm]);
 	const materialIndices = data.materialIndices;
 
 	const base = chunk.min;
@@ -290,12 +293,10 @@ function generateEdges(chunk, operation, data, bounds) {
 	const offsetB = new Vector3();
 	const edge = new Edge();
 
-	const indexOffsets = new Uint32Array([1, m, mm]);
-
 	// Allocate space for the maximum amount of edges.
 	const edgeData = new EdgeData(n);
 
-	// Edge counters for three dimensions.
+	// Edge counters for three sets of edges.
 	const lengths = new Uint32Array(3);
 
 	let edges, zeroCrossings, normals;
@@ -304,18 +305,18 @@ function generateEdges(chunk, operation, data, bounds) {
 	let minX, minY, minZ;
 	let maxX, maxY, maxZ;
 
-	let c, d, p, plane;
+	let c, d, a, axis;
 	let x, y, z;
 
-	// Process the edge in the X-plane, then Y and finally Z.
-	for(c = 0, d = 0, p = 4; d < 3; ++d, p >>= 1) {
+	// Process the edges along the X-axis, then Y and finally Z.
+	for(c = 0, d = 0, a = 4; d < 3; ++d, a >>= 1) {
 
 		edges = edgeData.edges[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
 		normals = edgeData.normals[d];
 
 		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-		plane = PATTERN[p];
+		axis = PATTERN[a];
 
 		minX = bounds.min.x; maxX = bounds.max.x;
 		minY = bounds.min.y; maxY = bounds.max.y;
@@ -361,9 +362,9 @@ function generateEdges(chunk, operation, data, bounds) {
 						);
 
 						offsetB.set(
-							(x + plane[0]) * s / n,
-							(y + plane[1]) * s / n,
-							(z + plane[2]) * s / n
+							(x + axis[0]) * s / n,
+							(y + axis[1]) * s / n,
+							(z + axis[2]) * s / n
 						);
 
 						edge.a.addVectors(base, offsetA);
