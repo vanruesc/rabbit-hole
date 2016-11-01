@@ -46,17 +46,16 @@ export class DensityFunction extends Operation {
 	}
 
 	/**
-	 * Calculates the material for the grid point specified by the given index.
+	 * Calculates the material index for the given world position.
 	 *
 	 * @method generateMaterialIndex
-	 * @param {Number} index - The index of the grid point.
 	 * @param {Vector3} position - The world position of the material index.
-	 * @param {HermiteData} target - The target volume data.
+	 * @return {Number} The material index.
 	 */
 
-	generateMaterialIndex(index, position, target) {
+	generateMaterialIndex(position) {
 
-		target.materialIndices[index] = (this.sdf.sample(position) < 0.0) ? this.sdf.material : Density.HOLLOW;
+		return (this.sdf.sample(position) < 0.0) ? this.sdf.material : Density.HOLLOW;
 
 	}
 
