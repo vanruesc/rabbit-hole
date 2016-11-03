@@ -390,8 +390,8 @@ export class Terrain extends THREE.Object3D {
 	}
 
 	/**
-	 * Executes the given SDF and discards the volume data that doesn't intersect
-	 * with the generated data in the area of effect.
+	 * Executes the given SDF and discards the volume data that doesn't overlap
+	 * with the generated data.
 	 *
 	 * @method intersect
 	 * @param {SignedDistanceFunction} sdf - An SDF.
