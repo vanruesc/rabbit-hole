@@ -72,6 +72,41 @@ export class Volume extends Octree {
 	get resolution() { return this.root.resolution; }
 
 	/**
+	 * Collects all chunks that contain volume data.
+	 *
+	 * @method getChunks
+	 * @return {Array} A list of all chunks that contain volume data.
+	 */
+
+	getChunks() {
+
+		const heap = [this.root];
+		const result = [];
+
+		let octant, children;
+
+		while(heap.length > 0) {
+
+			octant = heap.pop();
+			children = octant.children;
+
+			if(octant.data !== null) {
+
+				result.push(octant);
+
+			} else {
+
+				heap.push(...children);
+
+			}
+
+		}
+
+		return result;
+
+	}
+
+	/**
 	 * Edits this volume.
 	 *
 	 * @method edit
@@ -87,7 +122,7 @@ export class Volume extends Octree {
 		let result = [];
 		let octant, children;
 
-		if(sdf.operation !== OperationType.DIFFERENCE) {
+		if(sdf.operation === OperationType.UNION) {
 
 			this.expand(region);
 
@@ -118,10 +153,15 @@ export class Volume extends Octree {
 
 			}
 
-		} else {
+		} else if(sdf.operation === OperationType.DIFFERENCE) {
 
 			// Chunks that don't exist can't become more empty.
 			result = this.cull(region);
+
+		} else {
+
+			// Intersections affect all chunks.
+			result = this.getChunks();
 
 		}
 
