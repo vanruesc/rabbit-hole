@@ -1,5 +1,5 @@
 import { Octree } from "sparse-octree";
-import { OperationType } from "../csg";
+import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
 
 /**

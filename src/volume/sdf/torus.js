@@ -1,4 +1,5 @@
-import { Box3, Vector3 } from "../../math";
+import { Box3 } from "../../math/box3.js";
+import { Vector3 } from "../../math/vector3.js";
 import { SignedDistanceFunction } from "./signed-distance-function.js";
 import { SDFType } from "./sdf-type.js";
 

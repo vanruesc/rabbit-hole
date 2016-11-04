@@ -1,4 +1,8 @@
-import { OperationType, Union, Difference, Intersection, DensityFunction } from "../csg";
+import { OperationType } from "../csg/operation-type.js";
+import { Union } from "../csg/union.js";
+import { Difference } from "../csg/difference.js";
+import { Intersection } from "../csg/intersection.js";
+import { DensityFunction } from "../csg/density-function.js";
 import { Density } from "../density.js";
 
 /**

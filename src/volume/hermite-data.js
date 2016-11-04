@@ -1,4 +1,4 @@
-import { RunLengthEncoding } from "../core";
+import { RunLengthEncoding } from "../core/run-length-encoding.js";
 import { Density } from "./density.js";
 
 /**

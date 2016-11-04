@@ -1,6 +1,6 @@
-import { SymmetricMatrix3 } from "./symmetric-matrix3";
-import { Vector3 } from "./vector3";
-import { SingularValueDecomposition } from "./singular-value-decomposition";
+import { SymmetricMatrix3 } from "./symmetric-matrix3.js";
+import { Vector3 } from "./vector3.js";
+import { SingularValueDecomposition } from "./singular-value-decomposition.js";
 
 /**
  * A Quaratic Error Function solver.

@@ -1,5 +1,6 @@
 import { CubicOctant } from "sparse-octree";
-import { QEFData, QEFSolver } from "../../math";
+import { QEFData } from "../../math/qef-data.js";
+import { QEFSolver } from "../../math/qef-solver.js";
 import { Voxel } from "../voxel.js";
 
 /**

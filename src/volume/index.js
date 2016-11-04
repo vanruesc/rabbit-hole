@@ -19,18 +19,21 @@ export {
 } from "./octree";
 
 export {
-	Box,
 	ConstructiveSolidGeometry,
 	DensityFunction,
 	Difference,
-	Heightfield,
 	Intersection,
 	Operation,
 	OperationType,
+	Union
+} from "./csg";
+
+export {
+	Box,
+	Heightfield,
 	Plane,
 	SDFType,
 	SignedDistanceFunction,
 	Sphere,
-	Torus,
-	Union
-} from "./csg";
+	Torus
+} from "./sdf";

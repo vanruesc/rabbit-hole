@@ -1,5 +1,5 @@
-import { Chunk } from "../volume";
-import { ConstructiveSolidGeometry } from "../volume";
+import { Chunk } from "../volume/octree/chunk.js";
+import { ConstructiveSolidGeometry } from "../volume/csg/constructive-solid-geometry.js";
 import { Action } from "./action.js";
 
 /**

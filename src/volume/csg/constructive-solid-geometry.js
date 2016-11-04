@@ -1,6 +1,12 @@
 import { PATTERN } from "sparse-octree";
-import { Box3, Vector3 } from "../../math";
-import { SDFType, Sphere, Box, Plane, Torus, Heightfield } from "../sdf";
+import { Box3 } from "../../math/box3.js";
+import { Vector3 } from "../../math/vector3.js";
+import { SDFType } from "../sdf/sdf-type.js";
+import { Sphere } from "../sdf/sphere.js";
+import { Box } from "../sdf/box.js";
+import { Plane } from "../sdf/plane.js";
+import { Torus } from "../sdf/torus.js";
+import { Heightfield } from "../sdf/heightfield.js";
 import { Density } from "../density.js";
 import { EdgeData } from "../edge-data.js";
 import { HermiteData } from "../hermite-data.js";

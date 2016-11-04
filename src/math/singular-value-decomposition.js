@@ -1,7 +1,7 @@
-import { SymmetricMatrix3 } from "./symmetric-matrix3";
-import { Matrix3 } from "./matrix3";
-import { Givens } from "./givens";
-import { Schur } from "./schur";
+import { SymmetricMatrix3 } from "./symmetric-matrix3.js";
+import { Matrix3 } from "./matrix3.js";
+import { Givens } from "./givens.js";
+import { Schur } from "./schur.js";
 
 /**
  * Rotates the given matrix.

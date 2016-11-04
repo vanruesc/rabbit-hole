@@ -1,5 +1,5 @@
-import { SymmetricMatrix3 } from "./symmetric-matrix3";
-import { Vector3 } from "./vector3";
+import { SymmetricMatrix3 } from "./symmetric-matrix3.js";
+import { Vector3 } from "./vector3.js";
 
 /**
  * A data container for the QEF solver.

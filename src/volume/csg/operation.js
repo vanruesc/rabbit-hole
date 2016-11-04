@@ -1,4 +1,4 @@
-import { Box3 } from "../../math";
+import { Box3 } from "../../math/box3.js";
 
 /**
  * A CSG operation.

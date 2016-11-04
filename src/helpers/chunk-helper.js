@@ -1,7 +1,8 @@
 import THREE from "three";
 import { PATTERN } from "sparse-octree";
-import { Vector3 } from "../math";
-import { Edge, Density } from "../volume";
+import { Vector3 } from "../math/vector3.js";
+import { Density } from "../volume/density.js";
+import { Edge } from "../volume/edge.js";
 
 /**
  * A chunk helper.

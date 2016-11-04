@@ -1,7 +1,10 @@
 import THREE from "three";
-import { Volume, OperationType } from "../volume";
-import { Action, WorkerTask, ThreadPool } from "../worker";
-// import { TerrainMaterial } from "../materials";
+import { Volume } from "../volume/octree/volume.js";
+import { OperationType } from "../volume/csg/operation-type.js";
+import { Action } from "../worker/action.js";
+import { WorkerTask } from "../worker/worker-task.js";
+import { ThreadPool } from "../worker/thread-pool.js";
+// import { TerrainMaterial } from "../materials/triplanar";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
 

@@ -1,5 +1,5 @@
 import { DualContouring } from "../isosurface";
-import { Chunk } from "../volume";
+import { Chunk } from "../volume/octree/chunk.js";
 import { Action } from "./action.js";
 
 /**
