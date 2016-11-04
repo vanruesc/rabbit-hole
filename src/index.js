@@ -8,13 +8,12 @@
 export {
 	Terrain,
 	Queue,
-	PriorityQueue,
-	IteratorResult
+	PriorityQueue
 } from "./core";
 
-export { TerrainMaterial } from "./materials";
-
 export { ChunkHelper } from "./helpers";
+
+export { TerrainMaterial } from "./materials";
 
 export {
 	SingularValueDecomposition,
