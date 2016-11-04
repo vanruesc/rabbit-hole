@@ -270,7 +270,7 @@ function combineEdges(chunk, operation, data0, data1) {
 					} else {
 
 						// Resolve the conflict.
-						edge = operation.selectEdge(edge0, edge1, (m1 === Density.HOLLOW));
+						edge = operation.selectEdge(edge0, edge1, (m1 === Density.SOLID));
 
 					}
 
