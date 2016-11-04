@@ -1,9 +1,10 @@
 import { PATTERN } from "sparse-octree";
 import { Box3, Vector3 } from "../../math";
 import { SDFType, Sphere, Box, Plane, Torus, Heightfield } from "../sdf";
+import { Density } from "../density.js";
+import { EdgeData } from "../edge-data.js";
+import { HermiteData } from "../hermite-data.js";
 import { Edge } from "../edge.js";
-import { EdgeData } from "./edge-data.js";
-import { HermiteData } from "./hermite-data.js";
 import { OperationType } from "./operation-type.js";
 import { Union } from "./union.js";
 import { Difference } from "./difference.js";
@@ -116,9 +117,10 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 	const s = chunk.size;
 	const n = chunk.resolution;
-
 	const m = n + 1;
 	const mm = m * m;
+
+	const materialIndices = data.materialIndices;
 
 	const base = chunk.min;
 	const offset = new Vector3();
@@ -142,8 +144,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				offset.x = x * s / n;
 
-				position.addVectors(base, offset);
-				operation.generateMaterialIndex((z * mm + y * m + x), position, data);
+				materialIndices[z * mm + y * m + x] = operation.generateMaterialIndex(position.addVectors(base, offset));
 
 			}
 
@@ -182,34 +183,21 @@ function combineEdges(chunk, operation, data0, data1) {
 
 	// Edge counters.
 	const lengths = new Uint32Array(3);
-	const i = new Uint32Array(3);
-	const j = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
 	let edges0, zeroCrossings0, normals0;
 	let edges, zeroCrossings, normals;
 
+	let indexA1, indexB1;
+	let indexA0, indexB0;
+
+	let m1, m2;
 	let edge;
-	let indexA, indexB;
 
-	let d, i, j, il, jl;
+	let c, d, i, j, il, jl;
 
-	function pushEdge(edge, indexA, d) {
-
-		edges[lengths[d]] = indexA;
-
-		zeroCrossings[lengths[d]] = edge.t;
-
-		normals[lengths[d] * 3] = edge.n.x;
-		normals[lengths[d] * 3 + 1] = edge.n.y;
-		normals[lengths[d] * 3 + 2] = edge.n.z;
-
-		++lengths[d];
-
-	}
-
-	// Process the edges in the X-plane, then Y and finally Z.
-	for(d = 0; d < 3; ++d) {
+	// Process the edges along the X-axis, then Y and finally Z.
+	for(c = 0, d = 0; d < 3; ++d) {
 
 		edges1 = edgeData1.edges[d];
 		edges0 = edgeData0.edges[d];
@@ -226,38 +214,107 @@ function combineEdges(chunk, operation, data0, data1) {
 		il = edges1.length;
 		jl = edges0.length;
 
-		// Iterate over the generated edges.
+		// Process all generated edges.
 		for(i = 0, j = 0; i < il; ++i) {
 
-			indexA = edges1[i];
+			indexA1 = edges1[i];
+			indexB1 = indexA1 + indexOffsets[d];
 
-			// Catch up.
-			while(edges0[j] < indexA) {
+			m1 = materialIndices[indexA1];
+			m2 = materialIndices[indexB1];
+
+			if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+				edge1.t = zeroCrossings1[i];
+				edge1.n.x = normals1[i * 3];
+				edge1.n.y = normals1[i * 3 + 1];
+				edge1.n.z = normals1[i * 3 + 2];
+
+				edge = edge1;
+
+				// Process existing edges up to the generated edge.
+				while(j < jl && edges0[j] <= indexA1) {
+
+					indexA0 = edges0[j];
+					indexB0 = indexA0 + indexOffsets[d];
+
+					edge0.t = zeroCrossings0[j];
+					edge0.n.x = normals0[j * 3];
+					edge0.n.y = normals0[j * 3 + 1];
+					edge0.n.z = normals0[j * 3 + 2];
+
+					if(indexA0 < indexA1) {
+
+						m1 = materialIndices[indexA0];
+						m2 = materialIndices[indexB0];
+
+						if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+							// The edge exhibits a material change and there is no conflict.
+							edges[c] = indexA0;
+							zeroCrossings[c] = edge0.t;
+							normals[c * 3] = edge0.n.x;
+							normals[c * 3 + 1] = edge0.n.y;
+							normals[c * 3 + 2] = edge0.n.z;
+
+							++c;
+
+						}
+
+					} else {
+
+						// Resolve the conflict.
+						edge = operation.selectEdge(edge0, edge1, (m1 === Density.HOLLOW));
+
+					}
+
+					++j;
+
+				}
+
+				edges[c] = indexA1;
+				zeroCrossings[c] = edge.t;
+				normals[c * 3] = edge.n.x;
+				normals[c * 3 + 1] = edge.n.y;
+				normals[c * 3 + 2] = edge.n.z;
+
+				++c;
+
+			}
+
+		}
+
+		// Intersection operations discard all remaining edges.
+		if(operation.type !== OperationType.INTERSECTION) {
+
+			// Collect remaining edges.
+			while(j < jl) {
+
+				indexA0 = edges0[j];
+				indexB0 = indexA0 + indexOffsets[d];
+
+				m1 = materialIndices[indexA0];
+				m2 = materialIndices[indexB0];
+
+				if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+					edges[c] = indexA0;
+					zeroCrossings[c] = zeroCrossings0[j];
+					normals[c * 3] = normals0[j * 3];
+					normals[c * 3 + 1] = normals0[j * 3 + 1];
+					normals[c * 3 + 2] = normals0[j * 3 + 2];
+
+					++c;
+
+				}
 
 				++j;
 
 			}
 
-			if(edges0[j] === indexA) {
-
-				edge = operation.updateEdge(edge0, edge1);
-
-			} else {
-
-				edge = operation.updateEdge(edge0, null);
-
-			}
-
 		}
 
-		if(operation.type === OperationType.UNION || operation.type === OperationType.DIFFERENCE) {
-
-			// Collect remaining edges.
-			edges[d].set(edges[d].subarray(), i0[d]);
-			zeroCrossings[d].set(zeroCrossings[d].subarray(), i1[d]);
-			normals[d].set(normals[d].subarray(), i2[d]);
-
-		}
+		lengths[d] = c;
 
 	}
 

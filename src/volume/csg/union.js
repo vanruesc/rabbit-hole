@@ -42,15 +42,20 @@ export class Union extends Operation {
 	}
 
 	/**
-	 * Overrides existing edges with the predominant data and keeps all other
-	 * non-conflicting edges.
+	 * Selects the edge that is closer to the non-solid grid point.
 	 *
-	 * @method updateEdge
-	 * @param {Number} indexA - The index of the starting grid point.
-	 * @param {Number} indexB - The index of the ending grid point.
+	 * @method selectEdge
+	 * @param {Edge} edge0 - An existing edge.
+	 * @param {Edge} edge1 - A predominant edge.
+	 * @param {Boolean} s - Whether the starting point of the edge is solid.
+	 * @return {Edge} The selected edge.
 	 */
 
-	updateEdge(indexA, indexB) {
+	selectEdge(edge0, edge1, s) {
+
+		return s ?
+			((edge0.t > edge1.t) ? edge0 : edge1) :
+			((edge0.t < edge1.t) ? edge0 : edge1);
 
 	}
 
