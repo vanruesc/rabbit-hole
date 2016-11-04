@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -258,7 +259,7 @@
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_edges">edges</a>
+                                <a href="#property_edgeData">edgeData</a>
 
                             </li>
                             <li class="index-item property">
@@ -285,10 +286,6 @@
                                 <a href="#property_neutered">neutered</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_normals">normals</a>
-
-                            </li>
                             <li class="index-item property private">
                                 <a href="#property_resolution">resolution</a>
 
@@ -301,10 +298,6 @@
                             </li>
                             <li class="index-item property">
                                 <a href="#property_runLengths">runLengths</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_t">t</a>
 
                             </li>
                     </ul>
@@ -331,7 +324,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l146"><code>src\volume\hermite-data.js:146</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l114"><code>src\volume\hermite-data.js:114</code></a>
         </p>
 
 
@@ -339,7 +332,7 @@
     </div>
 
     <div class="description">
-        <p>Compresses this data using Run-Length Encoding.</p>
+        <p>Compresses this data.</p>
 
     </div>
 
@@ -371,7 +364,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l225"><code>src\volume\hermite-data.js:225</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l191"><code>src\volume\hermite-data.js:191</code></a>
         </p>
 
 
@@ -431,7 +424,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l178"><code>src\volume\hermite-data.js:178</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l146"><code>src\volume\hermite-data.js:146</code></a>
         </p>
 
 
@@ -468,7 +461,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l283"><code>src\volume\hermite-data.js:283</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l230"><code>src\volume\hermite-data.js:230</code></a>
         </p>
 
 
@@ -521,7 +514,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l261"><code>src\volume\hermite-data.js:261</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l210"><code>src\volume\hermite-data.js:210</code></a>
         </p>
 
 
@@ -529,7 +522,7 @@
     </div>
 
     <div class="description">
-        <p>Serialises this chunk of data.</p>
+        <p>Serialises this data.</p>
 
     </div>
 
@@ -570,7 +563,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l198"><code>src\volume\hermite-data.js:198</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l166"><code>src\volume\hermite-data.js:166</code></a>
         </p>
 
 
@@ -593,7 +586,7 @@
 
                     <div class="param-description">
                         <ul>
-<li>The index of the material index that needs to be updated.</li>
+<li>The index of the material index that should be updated.</li>
 </ul>
 
                     </div>
@@ -623,9 +616,9 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_edges" class="property item">
-    <h3 class="name"><code>edges</code></h3>
-    <span class="type">Uint32Array</span>
+<div id="property_edgeData" class="property item">
+    <h3 class="name"><code>edgeData</code></h3>
+    <span class="type"><a href="../classes/EdgeData.html" class="crosslink">EdgeData</a></span>
 
 
 
@@ -634,24 +627,18 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l83"><code>src\volume\hermite-data.js:83</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l84"><code>src\volume\hermite-data.js:84</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The edges.</p>
-<p>Edges are stored sequentially as pairs of grid point indices. There are
-up to three index pairs for a single grid point. Consequently, these edge
-groups have a common starting point index. The starting point index of
-each next pair can only be equal to or greater than the previous one.</p>
-<p>With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
-the number of edges that actually contain the volume's surface is usually
-much lower.</p>
+        <p>The edge data.</p>
 
     </div>
 
+        <p><strong>Default:</strong> null</p>
 
 
 </div>
@@ -666,7 +653,7 @@ much lower.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l128"><code>src\volume\hermite-data.js:128</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l96"><code>src\volume\hermite-data.js:96</code></a>
         </p>
 
 
@@ -691,7 +678,7 @@ much lower.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l137"><code>src\volume\hermite-data.js:137</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l105"><code>src\volume\hermite-data.js:105</code></a>
         </p>
 
 
@@ -814,33 +801,6 @@ much lower.</p>
 
 
 </div>
-<div id="property_normals" class="property item">
-    <h3 class="name"><code>normals</code></h3>
-    <span class="type">Float32Array</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l114"><code>src\volume\hermite-data.js:114</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The surface intersection normals.</p>
-<p>The vectors are stored as [x, y, z] float triples which correspond to the
-order of the edge index pairs.</p>
-
-    </div>
-
-
-
-</div>
 <div id="property_resolution" class="property item private">
     <h3 class="name"><code>resolution</code></h3>
     <span class="type">Number</span>
@@ -882,7 +842,7 @@ order of the edge index pairs.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l304"><code>src\volume\hermite-data.js:304</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l249"><code>src\volume\hermite-data.js:249</code></a>
         </p>
 
 
@@ -918,34 +878,7 @@ order of the edge index pairs.</p>
 
     </div>
 
-
-
-</div>
-<div id="property_t" class="property item">
-    <h3 class="name"><code>t</code></h3>
-    <span class="type">Float32Array</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l101"><code>src\volume\hermite-data.js:101</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The Zero Crossing interpolation values.</p>
-<p>Each value describes the relative surface intersection position on the
-respective edge. The values correspond to the order of the edge index
-pairs.</p>
-
-    </div>
-
+        <p><strong>Default:</strong> null</p>
 
 
 </div>

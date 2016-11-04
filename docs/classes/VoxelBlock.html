@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -139,7 +140,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_octree_voxel-block.js.html#l6"><code>src\volume\octree\voxel-block.js:6</code></a>
+            Defined in: <a href="../files/src_volume_octree_voxel-block.js.html#l79"><code>src\volume\octree\voxel-block.js:79</code></a>
         </div>
 
             Module: <a href="../modules/octree.html">octree</a><br>
@@ -176,7 +177,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-block.js.html#l6"><code>src\volume\octree\voxel-block.js:6</code></a>
+        <a href="../files/src_volume_octree_voxel-block.js.html#l79"><code>src\volume\octree\voxel-block.js:79</code></a>
         </p>
 
 
@@ -217,6 +218,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -228,23 +230,35 @@
 
                     <ul class="index-list methods extends">
                             <li class="index-item method private">
-                                <a href="#method_constructLeaf">constructLeaf</a>
+                                <a href="#method_construct">construct</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_createVoxel">createVoxel</a>
 
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method private">
-                                <a href="#method_constructOctants">constructOctants</a>
+                                <a href="#method_getCell">getCell</a>
 
-                                    <span class="flag static">static</span>
                             </li>
-                            <li class="index-item method private">
+                            <li class="index-item method">
                                 <a href="#method_simplify">simplify</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property">
+                                <a href="#property_voxelCount">voxelCount</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -252,80 +266,13 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_constructLeaf" class="method item private">
-    <h3 class="name"><code>constructLeaf</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_voxel-block.js.html#l159"><code>src\volume\octree\voxel-block.js:159</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-<div id="method_constructOctants" class="method item private">
-    <h3 class="name"><code>constructOctants</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_voxel-block.js.html#l277"><code>src\volume\octree\voxel-block.js:277</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-<div id="method_simplify" class="method item private">
-    <h3 class="name"><code>simplify</code></h3>
+<div id="method_construct" class="method item private">
+    <h3 class="name"><code>construct</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>node</code>
-                </li>
-                <li class="arg">
-                        <code>threshold</code>
+                        <code>chunk</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -335,14 +282,13 @@
         <span class="flag private">private</span>
 
 
-        <span class="flag static">static</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-block.js.html#l26"><code>src\volume\octree\voxel-block.js:26</code></a>
+        <a href="../files/src_volume_octree_voxel-block.js.html#l165"><code>src\volume\octree\voxel-block.js:165</code></a>
         </p>
 
 
@@ -350,7 +296,7 @@
     </div>
 
     <div class="description">
-        <p>Simplifies the given octant node.</p>
+        <p>Constructs voxel cells from volume data.</p>
 
     </div>
 
@@ -359,18 +305,315 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">node</code>
-                        <span class="type">Octant</span>
+                        <code class="param-name">chunk</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The node to simplify.</li>
+<li>A volume chunk.</li>
 </ul>
 
                     </div>
 
                 </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_createVoxel" class="method item private">
+    <h3 class="name"><code>createVoxel</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+                <li class="arg">
+                        <code>materialIndices</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Voxel.html" class="crosslink">Voxel</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-block.js.html#l10"><code>src\volume\octree\voxel-block.js:10</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a voxel and builds a material configuration code from the materials
+in the voxel corners.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The grid resolution.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point X-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point Y-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point Z-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">materialIndices</code>
+                        <span class="type">Uint8Array</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The material indices.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Voxel.html" class="crosslink">Voxel</a></span>:
+                    <p>A voxel.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_getCell" class="method item private">
+    <h3 class="name"><code>getCell</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/VoxelCell.html" class="crosslink">VoxelCell</a></span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-block.js.html#l123"><code>src\volume\octree\voxel-block.js:123</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates intermediate voxel cells down to the leaf octant that is described
+by the given local grid coordinates and returns it.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The grid resolution.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point X-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point Y-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A local grid point Z-coordinate.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/VoxelCell.html" class="crosslink">VoxelCell</a></span>:
+                    <p>A leaf voxel cell.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_simplify" class="method item">
+    <h3 class="name"><code>simplify</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>threshold</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-block.js.html#l110"><code>src\volume\octree\voxel-block.js:110</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Attempts to simplify the octree by clustering voxels.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
                 <li class="param">
                         <code class="param-name">threshold</code>
                         <span class="type">Number</span>
@@ -392,6 +635,35 @@
 </div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_voxelCount" class="property item">
+    <h3 class="name"><code>voxelCount</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-block.js.html#l97"><code>src\volume\octree\voxel-block.js:97</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The amount of voxels in this block.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

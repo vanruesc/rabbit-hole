@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -135,7 +136,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { Density, VoxelOctree, EDGES } from &quot;../volume&quot;;
+import { Density } from &quot;../../volume/density.js&quot;;
+import { EDGES } from &quot;../../volume/voxel.js&quot;;
+import { VoxelBlock } from &quot;../../volume/octree/voxel-block.js&quot;;
 import * as tables from &quot;./tables.js&quot;;
 
 /**
@@ -158,29 +161,30 @@ function contourProcessEdge(octants, dir, indexBuffer) {
 	let minIndex = 0;
 	let flip = false;
 
-	let i;
-	let edge;
 	let c1, c2, m1, m2;
+	let octant, edge;
+	let i;
 
 	for(i = 0; i &lt; 4; ++i) {
 
+		octant = octants[i];
 		edge = tables.PROC_EDGE_MASK[dir][i];
 
 		c1 = EDGES[edge][0];
 		c2 = EDGES[edge][1];
 
-		m1 = (octants[i].voxel.materials &gt;&gt; c1) &amp; 1;
-		m2 = (octants[i].voxel.materials &gt;&gt; c2) &amp; 1;
+		m1 = (octant.voxel.materials &gt;&gt; c1) &amp; 1;
+		m2 = (octant.voxel.materials &gt;&gt; c2) &amp; 1;
 
-		if(octants[i].size &lt; minSize) {
+		if(octant.size &lt; minSize) {
 
-			minSize = octants[i].size;
+			minSize = octant.size;
 			minIndex = i;
 			flip = (m1 !== Density.HOLLOW);
 
 		}
 
-		indices[i] = octants[i].voxel.index;
+		indices[i] = octant.voxel.index;
 		signChange[i] = (m1 !== m2);
 
 	}
@@ -228,11 +232,11 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 
 	const c = [0, 0, 0, 0];
 
-	let i, j;
 	let edgeOctants;
+	let i;
 
-	if(octants[0].children === null &amp;&amp; octants[1].children === null &amp;&amp;
-		octants[2].children === null &amp;&amp; octants[3].children === null) {
+	if(octants[0].voxel !== null &amp;&amp; octants[1].voxel !== null &amp;&amp;
+		octants[2].voxel !== null &amp;&amp; octants[3].voxel !== null) {
 
 		contourProcessEdge(octants, dir, indexBuffer);
 
@@ -245,21 +249,12 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 			c[2] = tables.EDGE_PROC_EDGE_MASK[dir][i][2];
 			c[3] = tables.EDGE_PROC_EDGE_MASK[dir][i][3];
 
-			edgeOctants = [];
-
-			for(j = 0; j &lt; 4; ++j) {
-
-				if(octants[j].children === null) {
-
-					edgeOctants[j] = octants[j];
-
-				} else {
-
-					edgeOctants[j] = octants[j].children[c[j]];
-
-				}
-
-			}
+			edgeOctants = [
+				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
+				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]],
+				(octants[2].children === null) ? octants[2] : octants[2].children[c[2]],
+				(octants[3].children === null) ? octants[3] : octants[3].children[c[3]]
+			];
 
 			contourEdgeProc(edgeOctants, tables.EDGE_PROC_EDGE_MASK[dir][i][4], indexBuffer);
 
@@ -289,8 +284,8 @@ function contourFaceProc(octants, dir, indexBuffer) {
 		[0, 1, 0, 1]
 	];
 
-	let i, j;
 	let order, faceOctants, edgeNodes;
+	let i;
 
 	if(octants[0].children !== null || octants[1].children !== null) {
 
@@ -299,21 +294,10 @@ function contourFaceProc(octants, dir, indexBuffer) {
 			c[0] = tables.FACE_PROC_FACE_MASK[dir][i][0];
 			c[1] = tables.FACE_PROC_FACE_MASK[dir][i][1];
 
-			faceOctants = [];
-
-			for(j = 0; j &lt; 2; ++j) {
-
-				if(octants[j].children === null) {
-
-					faceOctants[j] = octants[j];
-
-				} else {
-
-					faceOctants[j] = octants[j].children[c[j]];
-
-				}
-
-			}
+			faceOctants = [
+				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
+				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]]
+			];
 
 			contourFaceProc(faceOctants, tables.FACE_PROC_FACE_MASK[dir][i][2], indexBuffer);
 
@@ -326,23 +310,14 @@ function contourFaceProc(octants, dir, indexBuffer) {
 			c[2] = tables.FACE_PROC_EDGE_MASK[dir][i][3];
 			c[3] = tables.FACE_PROC_EDGE_MASK[dir][i][4];
 
-			edgeNodes = [];
-
 			order = orders[tables.FACE_PROC_EDGE_MASK[dir][i][0]];
 
-			for(j = 0; j &lt; 4; ++j) {
-
-				if(octants[order[j]].children === null) {
-
-					edgeNodes[j] = octants[order[j]];
-
-				} else {
-
-					edgeNodes[j] = octants[order[j]].children[c[j]];
-
-				}
-
-			}
+			edgeNodes = [
+				(octants[order[0]].children === null) ? octants[order[0]] : octants[order[0]].children[c[0]],
+				(octants[order[1]].children === null) ? octants[order[1]] : octants[order[1]].children[c[1]],
+				(octants[order[2]].children === null) ? octants[order[2]] : octants[order[2]].children[c[2]],
+				(octants[order[3]].children === null) ? octants[order[3]] : octants[order[3]].children[c[3]]
+			];
 
 			contourEdgeProc(edgeNodes, tables.FACE_PROC_EDGE_MASK[dir][i][5], indexBuffer);
 
@@ -364,16 +339,17 @@ function contourFaceProc(octants, dir, indexBuffer) {
 
 function contourCellProc(octant, indexBuffer) {
 
+	const children = octant.children;
 	const c = [0, 0, 0, 0];
 
-	let i, j;
 	let faceOctants, edgeNodes;
+	let i;
 
-	if(octant.children !== null) {
+	if(children !== null) {
 
 		for(i = 0; i &lt; 8; ++i) {
 
-			contourCellProc(octant.children[i], indexBuffer);
+			contourCellProc(children[i], indexBuffer);
 
 		}
 
@@ -383,8 +359,8 @@ function contourCellProc(octant, indexBuffer) {
 			c[1] = tables.CELL_PROC_FACE_MASK[i][1];
 
 			faceOctants = [
-				octant.children[c[0]],
-				octant.children[c[1]]
+				children[c[0]],
+				children[c[1]]
 			];
 
 			contourFaceProc(faceOctants, tables.CELL_PROC_FACE_MASK[i][2], indexBuffer);
@@ -398,13 +374,12 @@ function contourCellProc(octant, indexBuffer) {
 			c[2] = tables.CELL_PROC_EDGE_MASK[i][2];
 			c[3] = tables.CELL_PROC_EDGE_MASK[i][3];
 
-			edgeNodes = [];
-
-			for(j = 0; j &lt; 4; ++j) {
-
-				edgeNodes[j] = octant.children[c[j]];
-
-			}
+			edgeNodes = [
+				children[c[0]],
+				children[c[1]],
+				children[c[2]],
+				children[c[3]]
+			];
 
 			contourEdgeProc(edgeNodes, tables.CELL_PROC_EDGE_MASK[i][4], indexBuffer);
 
@@ -417,17 +392,18 @@ function contourCellProc(octant, indexBuffer) {
 /**
  * Collects positions and normals from the voxel information of the given octant
  * and its children. The generated vertex indices are stored in the respective
- * voxels.
+ * voxels during the octree traversal.
  *
  * @method generateVertexIndices
  * @private
  * @static
  * @param {Octant} octant - An octant.
- * @param {Array} vertexBuffer - An array to fill with vertices.
- * @param {Array} normalBuffer - An array to fill with normals.
+ * @param {Array} vertexBuffer - An array to be filled with vertices.
+ * @param {Array} normalBuffer - An array to be filled with normals.
+ * @param {Number} index - The next vertex index.
  */
 
-function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
+function generateVertexIndices(octant, positions, normals, index) {
 
 	let i, voxel;
 
@@ -435,25 +411,34 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 
 		for(i = 0; i &lt; 8; ++i) {
 
-			generateVertexIndices(octant.children[i], vertexBuffer, normalBuffer);
+			index = generateVertexIndices(octant.children[i], positions, normals, index);
 
 		}
 
 	} else if(octant.voxel !== null) {
 
 		voxel = octant.voxel;
-		voxel.index = vertexBuffer.length;
+		voxel.index = index;
 
-		vertexBuffer.push(voxel.position);
-		normalBuffer.push(voxel.normal);
+		positions[index * 3] = voxel.position.x;
+		positions[index * 3 + 1] = voxel.position.y;
+		positions[index * 3 + 2] = voxel.position.z;
+
+		normals[index * 3] = voxel.normal.x;
+		normals[index * 3 + 1] = voxel.normal.y;
+		normals[index * 3 + 2] = voxel.normal.z;
+
+		++index;
 
 	}
+
+	return index;
 
 }
 
 /**
  * Dual Contouring is an isosurface extraction technique that was originally
- * presented by Tao Ju in 2011:
+ * presented by Tao Ju in 2002:
  *
  *  http://www.cs.wustl.edu/~taoju/research/dualContour.pdf
  *
@@ -465,33 +450,57 @@ function generateVertexIndices(octant, vertexBuffer, normalBuffer) {
 export class DualContouring {
 
 	/**
-	 * Contours the given chunk of hermite data and generates vertices, normals
+	 * Contours the given chunk of volume data and generates vertices, normals
 	 * and vertex indices.
 	 *
 	 * @method run
 	 * @static
-	 * @param {Chunk} chunk - A chunk of hermite data.
-	 * @param {Number} qefThreshold - An error tolerance for the octree simplification.
-	 * @param {Array} indexBuffer - An array to fill with indices.
-	 * @param {Array} vertexBuffer - An array to fill with vertices.
-	 * @param {Array} normalBuffer - An array to fill with normals.
-	 * @return {Number} The amount of generated vertices.
+	 * @param {Chunk} chunk - A chunk of volume data.
+	 * @return {Object} The generated indices, positions and normals or null if no data was generated.
 	 */
 
-	static run(chunk, qefThreshold, indexBuffer, vertexBuffer, normalBuffer) {
+	static run(chunk) {
 
-		const octree = new VoxelOctree(chunk);
+		const indexBuffer = [];
 
-		if(qefThreshold &gt;= 0.0) {
+		const threshold = 0.01;
+		const voxelBlock = new VoxelBlock(chunk);
 
-			octree.simplify(qefThreshold);
+		// Increase the error threshold based on the lod value.
+		voxelBlock.simplify(threshold + (chunk.data.lod &lt;&lt; 2));
+
+		// Each voxel contains one vertex.
+		const vertexCount = voxelBlock.voxelCount;
+
+		let result = null;
+
+		let indices = null;
+		let positions = null;
+		let normals = null;
+
+		if(vertexCount &gt; 65536) {
+
+			console.warn(
+				&quot;Could not create geometry for chunk at position&quot;, this.chunk.min,
+				&quot;with lod&quot;, this.chunk.data.lod, &quot;(vertex count of&quot;, vertexCount,
+				&quot;exceeds limit of 65536)&quot;
+			);
+
+		} else if(vertexCount &gt; 0) {
+
+			positions = new Float32Array(vertexCount * 3);
+			normals = new Float32Array(vertexCount * 3);
+
+			generateVertexIndices(voxelBlock.root, positions, normals, 0);
+			contourCellProc(voxelBlock.root, indexBuffer);
+
+			indices = new Uint16Array(indexBuffer);
+
+			result = { indices, positions, normals };
 
 		}
 
-		generateVertexIndices(octree.root, vertexBuffer, normalBuffer);
-		contourCellProc(octree.root, indexBuffer);
-
-		return vertexBuffer.length;
+		return result;
 
 	}
 

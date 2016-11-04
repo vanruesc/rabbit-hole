@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -139,7 +140,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_core_terrain.js.html#l32"><code>src\core\terrain.js:32</code></a>
+            Defined in: <a href="../files/src_core_terrain.js.html#l35"><code>src\core\terrain.js:35</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -176,7 +177,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l32"><code>src\core\terrain.js:32</code></a>
+        <a href="../files/src_core_terrain.js.html#l35"><code>src\core\terrain.js:35</code></a>
         </p>
 
 
@@ -372,6 +373,10 @@
                                 <a href="#property_meshes">meshes</a>
 
                             </li>
+                            <li class="index-item property">
+                                <a href="#property_neutered">neutered</a>
+
+                            </li>
                             <li class="index-item property private">
                                 <a href="#property_scheduler">scheduler</a>
 
@@ -415,7 +420,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l167"><code>src\core\terrain.js:167</code></a>
+        <a href="../files/src_core_terrain.js.html#l179"><code>src\core\terrain.js:179</code></a>
         </p>
 
 
@@ -475,7 +480,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l215"><code>src\core\terrain.js:215</code></a>
+        <a href="../files/src_core_terrain.js.html#l240"><code>src\core\terrain.js:240</code></a>
         </p>
 
 
@@ -538,7 +543,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l484"><code>src\core\terrain.js:484</code></a>
+        <a href="../files/src_core_terrain.js.html#l510"><code>src\core\terrain.js:510</code></a>
         </p>
 
 
@@ -576,7 +581,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l311"><code>src\core\terrain.js:311</code></a>
+        <a href="../files/src_core_terrain.js.html#l333"><code>src\core\terrain.js:333</code></a>
         </p>
 
 
@@ -632,7 +637,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l373"><code>src\core\terrain.js:373</code></a>
+        <a href="../files/src_core_terrain.js.html#l395"><code>src\core\terrain.js:395</code></a>
         </p>
 
 
@@ -640,8 +645,8 @@
     </div>
 
     <div class="description">
-        <p>Executes the given SDF and discards the volume data that doesn't intersect
-with the generated data in the area of effect.</p>
+        <p>Executes the given SDF and discards the volume data that doesn't overlap
+with the generated data.</p>
 
     </div>
 
@@ -689,7 +694,7 @@ with the generated data in the area of effect.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l515"><code>src\core\terrain.js:515</code></a>
+        <a href="../files/src_core_terrain.js.html#l542"><code>src\core\terrain.js:542</code></a>
         </p>
 
 
@@ -748,7 +753,7 @@ with the generated data in the area of effect.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l455"><code>src\core\terrain.js:455</code></a>
+        <a href="../files/src_core_terrain.js.html#l481"><code>src\core\terrain.js:481</code></a>
         </p>
 
 
@@ -813,7 +818,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l251"><code>src\core\terrain.js:251</code></a>
+        <a href="../files/src_core_terrain.js.html#l276"><code>src\core\terrain.js:276</code></a>
         </p>
 
 
@@ -847,7 +852,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l529"><code>src\core\terrain.js:529</code></a>
+        <a href="../files/src_core_terrain.js.html#l556"><code>src\core\terrain.js:556</code></a>
         </p>
 
 
@@ -893,7 +898,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l358"><code>src\core\terrain.js:358</code></a>
+        <a href="../files/src_core_terrain.js.html#l380"><code>src\core\terrain.js:380</code></a>
         </p>
 
 
@@ -949,7 +954,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l343"><code>src\core\terrain.js:343</code></a>
+        <a href="../files/src_core_terrain.js.html#l365"><code>src\core\terrain.js:365</code></a>
         </p>
 
 
@@ -1006,7 +1011,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l143"><code>src\core\terrain.js:143</code></a>
+        <a href="../files/src_core_terrain.js.html#l155"><code>src\core\terrain.js:155</code></a>
         </p>
 
 
@@ -1062,7 +1067,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l389"><code>src\core\terrain.js:389</code></a>
+        <a href="../files/src_core_terrain.js.html#l411"><code>src\core\terrain.js:411</code></a>
         </p>
 
 
@@ -1114,7 +1119,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l108"><code>src\core\terrain.js:108</code></a>
+        <a href="../files/src_core_terrain.js.html#l120"><code>src\core\terrain.js:120</code></a>
         </p>
 
 
@@ -1143,7 +1148,7 @@ associated meshes.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l20"><code>src\core\terrain.js:20</code></a>
+        <a href="../files/src_core_terrain.js.html#l23"><code>src\core\terrain.js:23</code></a>
         </p>
 
 
@@ -1168,7 +1173,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l99"><code>src\core\terrain.js:99</code></a>
+        <a href="../files/src_core_terrain.js.html#l102"><code>src\core\terrain.js:102</code></a>
         </p>
 
 
@@ -1194,7 +1199,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l54"><code>src\core\terrain.js:54</code></a>
+        <a href="../files/src_core_terrain.js.html#l57"><code>src\core\terrain.js:57</code></a>
         </p>
 
 
@@ -1223,7 +1228,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l128"><code>src\core\terrain.js:128</code></a>
+        <a href="../files/src_core_terrain.js.html#l140"><code>src\core\terrain.js:140</code></a>
         </p>
 
 
@@ -1252,7 +1257,7 @@ with less vertices.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l8"><code>src\core\terrain.js:8</code></a>
+        <a href="../files/src_core_terrain.js.html#l11"><code>src\core\terrain.js:11</code></a>
         </p>
 
 
@@ -1278,7 +1283,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l118"><code>src\core\terrain.js:118</code></a>
+        <a href="../files/src_core_terrain.js.html#l130"><code>src\core\terrain.js:130</code></a>
         </p>
 
 
@@ -1286,6 +1291,31 @@ with less vertices.</p>
 
     <div class="description">
         <p>Keeps track of associations between chunks and meshes.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_neutered" class="property item">
+    <h3 class="name"><code>neutered</code></h3>
+    <span class="type">WeakSet</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l111"><code>src\core\terrain.js:111</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Keeps track of chunks that are currently being used by a worker.</p>
 
     </div>
 
@@ -1304,7 +1334,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l89"><code>src\core\terrain.js:89</code></a>
+        <a href="../files/src_core_terrain.js.html#l92"><code>src\core\terrain.js:92</code></a>
         </p>
 
 
@@ -1330,7 +1360,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l78"><code>src\core\terrain.js:78</code></a>
+        <a href="../files/src_core_terrain.js.html#l81"><code>src\core\terrain.js:81</code></a>
         </p>
 
 
@@ -1356,7 +1386,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l68"><code>src\core\terrain.js:68</code></a>
+        <a href="../files/src_core_terrain.js.html#l71"><code>src\core\terrain.js:71</code></a>
         </p>
 
 

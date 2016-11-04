@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,7 +137,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_isosurface_dual-contouring_index.js.html#l317"><code>src\isosurface\dual-contouring\index.js:317</code></a>
+            Defined in: <a href="../files/src_isosurface_dual-contouring_index.js.html#l301"><code>src\isosurface\dual-contouring\index.js:301</code></a>
         </div>
 
             Module: <a href="../modules/isosurface.html">isosurface</a><br>
@@ -147,7 +148,7 @@
 
 <div class="box intro">
     <p>Dual Contouring is an isosurface extraction technique that was originally
-presented by Tao Ju in 2011:</p>
+presented by Tao Ju in 2002:</p>
 <p><a href="http://www.cs.wustl.edu/~taoju/research/dualContour.pdf">http://www.cs.wustl.edu/~taoju/research/dualContour.pdf</a></p>
 
 </div>
@@ -282,7 +283,7 @@ presented by Tao Ju in 2011:</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l218"><code>src\isosurface\dual-contouring\index.js:218</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l192"><code>src\isosurface\dual-contouring\index.js:192</code></a>
         </p>
 
 
@@ -360,7 +361,7 @@ presented by Tao Ju in 2011:</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l79"><code>src\isosurface\dual-contouring\index.js:79</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l82"><code>src\isosurface\dual-contouring\index.js:82</code></a>
         </p>
 
 
@@ -451,7 +452,7 @@ presented by Tao Ju in 2011:</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l135"><code>src\isosurface\dual-contouring\index.js:135</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l129"><code>src\isosurface\dual-contouring\index.js:129</code></a>
         </p>
 
 
@@ -542,7 +543,7 @@ presented by Tao Ju in 2011:</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l4"><code>src\isosurface\dual-contouring\index.js:4</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l6"><code>src\isosurface\dual-contouring\index.js:6</code></a>
         </p>
 
 
@@ -617,6 +618,9 @@ presented by Tao Ju in 2011:</p>
                 <li class="arg">
                         <code>normalBuffer</code>
                 </li>
+                <li class="arg">
+                        <code>index</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -633,7 +637,7 @@ presented by Tao Ju in 2011:</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l280"><code>src\isosurface\dual-contouring\index.js:280</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l254"><code>src\isosurface\dual-contouring\index.js:254</code></a>
         </p>
 
 
@@ -643,7 +647,7 @@ presented by Tao Ju in 2011:</p>
     <div class="description">
         <p>Collects positions and normals from the voxel information of the given octant
 and its children. The generated vertex indices are stored in the respective
-voxels.</p>
+voxels during the octree traversal.</p>
 
     </div>
 
@@ -671,7 +675,7 @@ voxels.</p>
 
                     <div class="param-description">
                         <ul>
-<li>An array to fill with vertices.</li>
+<li>An array to be filled with vertices.</li>
 </ul>
 
                     </div>
@@ -684,7 +688,20 @@ voxels.</p>
 
                     <div class="param-description">
                         <ul>
-<li>An array to fill with normals.</li>
+<li>An array to be filled with normals.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">index</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The next vertex index.</li>
 </ul>
 
                     </div>
@@ -704,23 +721,11 @@ voxels.</p>
                 <li class="arg">
                         <code>chunk</code>
                 </li>
-                <li class="arg">
-                        <code>qefThreshold</code>
-                </li>
-                <li class="arg">
-                        <code>indexBuffer</code>
-                </li>
-                <li class="arg">
-                        <code>vertexBuffer</code>
-                </li>
-                <li class="arg">
-                        <code>normalBuffer</code>
-                </li>
             </ul><span class="paren">)</span>
         </div>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type">Object</span>
         </span>
 
 
@@ -733,7 +738,7 @@ voxels.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_index.js.html#l330"><code>src\isosurface\dual-contouring\index.js:330</code></a>
+        <a href="../files/src_isosurface_dual-contouring_index.js.html#l314"><code>src\isosurface\dual-contouring\index.js:314</code></a>
         </p>
 
 
@@ -741,7 +746,7 @@ voxels.</p>
     </div>
 
     <div class="description">
-        <p>Contours the given chunk of hermite data and generates vertices, normals
+        <p>Contours the given chunk of volume data and generates vertices, normals
 and vertex indices.</p>
 
     </div>
@@ -757,59 +762,7 @@ and vertex indices.</p>
 
                     <div class="param-description">
                         <ul>
-<li>A chunk of hermite data.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">qefThreshold</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An error tolerance for the octree simplification.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">indexBuffer</code>
-                        <span class="type">Array</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An array to fill with indices.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">vertexBuffer</code>
-                        <span class="type">Array</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An array to fill with vertices.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">normalBuffer</code>
-                        <span class="type">Array</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An array to fill with normals.</li>
+<li>A chunk of volume data.</li>
 </ul>
 
                     </div>
@@ -822,8 +775,8 @@ and vertex indices.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The amount of generated vertices.</p>
+                        <span class="type">Object</span>:
+                    <p>The generated indices, positions and normals or null if no data was generated.</p>
 
             </div>
         </div>
@@ -846,10 +799,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l61"><code>src\isosurface\dual-contouring\tables.js:61</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l65"><code>src\isosurface\dual-contouring\tables.js:65</code></a>
         </p>
 
 
@@ -874,10 +826,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l34"><code>src\isosurface\dual-contouring\tables.js:34</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l38"><code>src\isosurface\dual-contouring\tables.js:38</code></a>
         </p>
 
 
@@ -902,10 +853,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l1"><code>src\isosurface\dual-contouring\tables.js:1</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l5"><code>src\isosurface\dual-contouring\tables.js:5</code></a>
         </p>
 
 
@@ -930,10 +880,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l148"><code>src\isosurface\dual-contouring\tables.js:148</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l152"><code>src\isosurface\dual-contouring\tables.js:152</code></a>
         </p>
 
 
@@ -958,10 +907,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l13"><code>src\isosurface\dual-contouring\tables.js:13</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l17"><code>src\isosurface\dual-contouring\tables.js:17</code></a>
         </p>
 
 
@@ -986,10 +934,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l115"><code>src\isosurface\dual-contouring\tables.js:115</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l119"><code>src\isosurface\dual-contouring\tables.js:119</code></a>
         </p>
 
 
@@ -1014,10 +961,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l82"><code>src\isosurface\dual-contouring\tables.js:82</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l86"><code>src\isosurface\dual-contouring\tables.js:86</code></a>
         </p>
 
 
@@ -1042,10 +988,9 @@ and vertex indices.</p>
         <span class="flag static">static</span>
 
     <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l175"><code>src\isosurface\dual-contouring\tables.js:175</code></a>
+        <a href="../files/src_isosurface_dual-contouring_tables.js.html#l179"><code>src\isosurface\dual-contouring\tables.js:179</code></a>
         </p>
 
 

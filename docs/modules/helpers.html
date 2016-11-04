@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>VoxelIterator - rabbit-hole</title>
+    <title>helpers - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -131,338 +132,38 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>VoxelIterator Class</h1>
-<div class="box meta">
+<h1>helpers Module</h1>
+<div class="box clearfix meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_voxel-iterator.js.html#l17"><code>src\volume\voxel-iterator.js:17</code></a>
+            Defined in: <a href="../files/src_helpers_chunk-helper.js.html#l7"><code>src\helpers\chunk-helper.js:7</code></a>
         </div>
-
-            Module: <a href="../modules/volume.html">volume</a><br>
-            Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>A voxel iterator.</p>
+    <p>A collection of helpers.</p>
 
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_VoxelIterator" class="method item">
-    <h3 class="name"><code>VoxelIterator</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>chunk</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+            <p>This module provides the following classes:</p>
 
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l17"><code>src\volume\voxel-iterator.js:17</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">chunk</code>
-                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A volume chunk.</li>
-</ul>
-
-                    </div>
-
+            <ul class="module-classes">
+                <li class="module-class">
+                    <a href="../classes/ChunkHelper.html">
+                        ChunkHelper
+                    </a>
                 </li>
             </ul>
-        </div>
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                            <li class="index-item method">
-                                <a href="#method_next">next</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_return">return</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property private">
-                                <a href="#property_chunk">chunk</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_index">index</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_result">result</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_next" class="method item">
-    <h3 class="name"><code>next</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l53"><code>src\volume\voxel-iterator.js:53</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Iterates over the voxels in this chunk.</p>
-
     </div>
 
 
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>:
-                    <p>The next voxel.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_return" class="method item">
-    <h3 class="name"><code>return</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>value</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l99"><code>src\volume\voxel-iterator.js:99</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Called when this iterator will no longer be run to completion.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">Object</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An interator result value.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>:
-                    <ul>
-<li>A premature completion result.</li>
-</ul>
-
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_chunk" class="property item private">
-    <h3 class="name"><code>chunk</code></h3>
-    <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l31"><code>src\volume\voxel-iterator.js:31</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The volume chunk.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_index" class="property item private">
-    <h3 class="name"><code>index</code></h3>
-    <span class="type">Number</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l41"><code>src\volume\voxel-iterator.js:41</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The current index into the volume.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_result" class="property item private">
-    <h3 class="name"><code>result</code></h3>
-    <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
-
-
-        <span class="flag private">private</span>
-
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
-                <p>
-                Defined in
-        <a href="../files/src_volume_voxel-iterator.js.html#l6"><code>src\volume\voxel-iterator.js:6</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An iterator result.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
-
-
+    <div class="yui3-u-1-2">
     </div>
 </div>
                     </div>

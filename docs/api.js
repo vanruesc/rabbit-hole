@@ -5,16 +5,17 @@ YUI.add("yuidoc-meta", function(Y) {
         "Box",
         "Box3",
         "Chunk",
+        "ChunkHelper",
         "ConstructiveSolidGeometry",
         "Density",
         "DensityFunction",
         "Difference",
         "DualContouring",
         "Edge",
+        "EdgeData",
         "Givens",
         "HermiteData",
         "Intersection",
-        "IteratorResult",
         "Matrix3",
         "Operation",
         "OperationType",
@@ -44,13 +45,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "Voxel",
         "VoxelBlock",
         "VoxelCell",
-        "VoxelIterator",
         "Worker",
         "WorkerTask"
     ],
     "modules": [
         "core",
         "csg",
+        "helpers",
         "isosurface",
         "materials",
         "math",
@@ -70,6 +71,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "csg",
             "name": "csg",
             "description": "A collection of Constructive Solid Geometry components."
+        },
+        {
+            "displayName": "helpers",
+            "name": "helpers",
+            "description": "A collection of helpers."
         },
         {
             "displayName": "isosurface",

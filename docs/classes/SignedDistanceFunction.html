@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,7 +137,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_sdf_signed-distance-function.js.html#l4"><code>src\volume\sdf\signed-distance-function.js:4</code></a>
+            Defined in: <a href="../files/src_volume_sdf_signed-distance-function.js.html#l8"><code>src\volume\sdf\signed-distance-function.js:8</code></a>
         </div>
 
             Module: <a href="../modules/sdf.html">sdf</a><br>
@@ -147,7 +148,7 @@
 
 <div class="box intro">
     <p>An abstract Signed Distance Function.</p>
-<p>An SDF describes the signed euclidean distance to the surface of an object,
+<p>An SDF describes the signed Euclidean distance to the surface of an object,
 effectively describing its density at every point in 3D space. It yields
 negative values for points that lie inside the volume and positive values
 for points outside. The value is zero at the exact boundary of the object.</p>
@@ -165,7 +166,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
                         <code>type</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[material=Density.SOLID] - A material index. Must be an integer in the range [1, 255]</code>
+                        <code class="optional">[material=Density.SOLID]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -180,7 +181,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l4"><code>src\volume\sdf\signed-distance-function.js:4</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l8"><code>src\volume\sdf\signed-distance-function.js:8</code></a>
         </p>
 
 
@@ -209,13 +210,15 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
                 </li>
                 <li class="param">
-                        <code class="param-name optional">[material=Density.SOLID] - A material index. Must be an integer in the range [1, 255]</code>
+                        <code class="param-name optional">[material=Density.SOLID]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
-                        <p>.</p>
+                        <ul>
+<li>A material index. Must be an integer in the range of 1 to 255.</li>
+</ul>
 
                     </div>
 
@@ -334,7 +337,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l252"><code>src\volume\sdf\signed-distance-function.js:252</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l256"><code>src\volume\sdf\signed-distance-function.js:256</code></a>
         </p>
 
 
@@ -393,7 +396,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l152"><code>src\volume\sdf\signed-distance-function.js:152</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l156"><code>src\volume\sdf\signed-distance-function.js:156</code></a>
         </p>
 
 
@@ -461,7 +464,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l266"><code>src\volume\sdf\signed-distance-function.js:266</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l270"><code>src\volume\sdf\signed-distance-function.js:270</code></a>
         </p>
 
 
@@ -498,7 +501,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
             <div class="returns-description">
                         <span class="type">Number</span>:
-                    <p>The euclidean distance to the surface.</p>
+                    <p>The Euclidean distance to the surface.</p>
 
             </div>
         </div>
@@ -532,7 +535,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l170"><code>src\volume\sdf\signed-distance-function.js:170</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l174"><code>src\volume\sdf\signed-distance-function.js:174</code></a>
         </p>
 
 
@@ -582,7 +585,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l134"><code>src\volume\sdf\signed-distance-function.js:134</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l138"><code>src\volume\sdf\signed-distance-function.js:138</code></a>
         </p>
 
 
@@ -644,7 +647,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l200"><code>src\volume\sdf\signed-distance-function.js:200</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l204"><code>src\volume\sdf\signed-distance-function.js:204</code></a>
         </p>
 
 
@@ -702,7 +705,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l116"><code>src\volume\sdf\signed-distance-function.js:116</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l120"><code>src\volume\sdf\signed-distance-function.js:120</code></a>
         </p>
 
 
@@ -763,7 +766,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l66"><code>src\volume\sdf\signed-distance-function.js:66</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l70"><code>src\volume\sdf\signed-distance-function.js:70</code></a>
         </p>
 
 
@@ -789,7 +792,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l79"><code>src\volume\sdf\signed-distance-function.js:79</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l83"><code>src\volume\sdf\signed-distance-function.js:83</code></a>
         </p>
 
 
@@ -815,7 +818,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l54"><code>src\volume\sdf\signed-distance-function.js:54</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l58"><code>src\volume\sdf\signed-distance-function.js:58</code></a>
         </p>
 
 
@@ -841,7 +844,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l92"><code>src\volume\sdf\signed-distance-function.js:92</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l96"><code>src\volume\sdf\signed-distance-function.js:96</code></a>
         </p>
 
 
@@ -867,7 +870,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l43"><code>src\volume\sdf\signed-distance-function.js:43</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l47"><code>src\volume\sdf\signed-distance-function.js:47</code></a>
         </p>
 
 
@@ -893,7 +896,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l33"><code>src\volume\sdf\signed-distance-function.js:33</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l37"><code>src\volume\sdf\signed-distance-function.js:37</code></a>
         </p>
 
 
@@ -919,7 +922,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l23"><code>src\volume\sdf\signed-distance-function.js:23</code></a>
+        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l27"><code>src\volume\sdf\signed-distance-function.js:27</code></a>
         </p>
 
 

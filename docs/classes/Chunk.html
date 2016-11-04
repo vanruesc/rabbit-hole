@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -139,10 +140,10 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_octree_chunk.js.html#l5"><code>src\volume\octree\chunk.js:5</code></a>
+            Defined in: <a href="../files/src_volume_octree_chunk.js.html#l4"><code>src\volume\octree\chunk.js:4</code></a>
         </div>
 
-            Module: <a href="../modules/volume.html">volume</a><br>
+            Module: <a href="../modules/octree.html">octree</a><br>
             Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
 </div>
@@ -179,7 +180,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l5"><code>src\volume\octree\chunk.js:5</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l4"><code>src\volume\octree\chunk.js:4</code></a>
         </p>
 
 
@@ -256,10 +257,6 @@
                                 <a href="#method_serialise">serialise</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_Symbol.iterator">Symbol.iterator</a>
-
-                            </li>
                     </ul>
                 </div>
 
@@ -312,7 +309,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l61"><code>src\volume\octree\chunk.js:61</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l59"><code>src\volume\octree\chunk.js:59</code></a>
         </p>
 
 
@@ -378,7 +375,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l93"><code>src\volume\octree\chunk.js:93</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l91"><code>src\volume\octree\chunk.js:91</code></a>
         </p>
 
 
@@ -431,7 +428,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l75"><code>src\volume\octree\chunk.js:75</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l73"><code>src\volume\octree\chunk.js:73</code></a>
         </p>
 
 
@@ -456,49 +453,6 @@
 
 
 </div>
-<div id="method_Symbol.iterator" class="method item">
-    <h3 class="name"><code>Symbol.iterator</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/VoxelIterator.html" class="crosslink">VoxelIterator</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l112"><code>src\volume\octree\chunk.js:112</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Creates a voxel iterator for this chunk.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/VoxelIterator.html" class="crosslink">VoxelIterator</a></span>:
-                    <p>An iterator.</p>
-
-            </div>
-        </div>
-
-
-</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -515,7 +469,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l33"><code>src\volume\octree\chunk.js:33</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l31"><code>src\volume\octree\chunk.js:31</code></a>
         </p>
 
 
@@ -541,7 +495,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l23"><code>src\volume\octree\chunk.js:23</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l21"><code>src\volume\octree\chunk.js:21</code></a>
         </p>
 
 
@@ -567,7 +521,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_chunk.js.html#l45"><code>src\volume\octree\chunk.js:45</code></a>
+        <a href="../files/src_volume_octree_chunk.js.html#l43"><code>src\volume\octree\chunk.js:43</code></a>
         </p>
 
 

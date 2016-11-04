@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,9 +137,12 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import THREE from &quot;three&quot;;
-import { Volume, OperationType } from &quot;../volume&quot;;
-import { Action, WorkerTask, ThreadPool } from &quot;../worker&quot;;
-// import { TerrainMaterial } from &quot;../materials&quot;;
+import { Volume } from &quot;../volume/octree/volume.js&quot;;
+import { OperationType } from &quot;../volume/csg/operation-type.js&quot;;
+import { Action } from &quot;../worker/action.js&quot;;
+import { WorkerTask } from &quot;../worker/worker-task.js&quot;;
+import { ThreadPool } from &quot;../worker/thread-pool.js&quot;;
+// import { TerrainMaterial } from &quot;../materials/triplanar&quot;;
 import { Scheduler } from &quot;./scheduler.js&quot;;
 import { Queue } from &quot;./queue.js&quot;;
 
@@ -243,6 +247,15 @@ export class Terrain extends THREE.Object3D {
 		this.history = [];
 
 		/**
+		 * Keeps track of chunks that are currently being used by a worker.
+		 *
+		 * @property neutered
+		 * @type WeakSet
+		 */
+
+		this.neutered = new WeakSet();
+
+		/**
 		 * Keeps track of associations between workers and chunks.
 		 *
 		 * @property chunks
@@ -316,6 +329,8 @@ export class Terrain extends THREE.Object3D {
 
 		// Find the chunk that has been processed by this worker.
 		const chunk = this.chunks.get(worker);
+
+		this.neutered.delete(chunk);
 		this.chunks.delete(worker);
 
 		if(data.data !== null) {
@@ -333,6 +348,17 @@ export class Terrain extends THREE.Object3D {
 				this.scheduler.cancel(chunk);
 				this.volume.prune(chunk);
 				this.unlinkMesh(chunk);
+
+			}
+
+		}
+
+		if(data.action === Action.MODIFY) {
+
+			if(chunk.csg.size &gt; 0) {
+
+				// Drain the CSG queue as fast as possible.
+				this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
 
 			}
 
@@ -400,7 +426,7 @@ export class Terrain extends THREE.Object3D {
 
 		if(worker !== null) {
 
-			task = this.scheduler.peek();
+			task = this.scheduler.poll();
 
 			if(task !== null) {
 
@@ -420,8 +446,6 @@ export class Terrain extends THREE.Object3D {
 
 						chunk.csg = null;
 
-						this.scheduler.poll();
-
 					}
 
 				} else {
@@ -433,10 +457,9 @@ export class Terrain extends THREE.Object3D {
 
 					}, chunk.createTransferList());
 
-					this.scheduler.poll();
-
 				}
 
+				this.neutered.add(chunk);
 				this.chunks.set(worker, chunk);
 
 			}
@@ -508,8 +531,8 @@ export class Terrain extends THREE.Object3D {
 	}
 
 	/**
-	 * Executes the given SDF and discards the volume data that doesn&#x27;t intersect
-	 * with the generated data in the area of effect.
+	 * Executes the given SDF and discards the volume data that doesn&#x27;t overlap
+	 * with the generated data.
 	 *
 	 * @method intersect
 	 * @param {SignedDistanceFunction} sdf - An SDF.
@@ -555,29 +578,33 @@ export class Terrain extends THREE.Object3D {
 			data = chunk.data;
 			csg = chunk.csg;
 
-			task = scheduler.getTask(chunk);
+			if(!this.neutered.has(chunk)) {
 
-			if(task === undefined || task.priority &lt; maxPriority) {
+				task = scheduler.getTask(chunk);
 
-				// Modifications take pecedence.
-				if(csg !== null &amp;&amp; csg.size &gt; 0) {
+				if(task === undefined || task.priority &lt; maxPriority) {
 
-					scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
+					// Modifications take precedence.
+					if(csg !== null &amp;&amp; csg.size &gt; 0) {
 
-					this.runNextTask();
-
-				} else if(data !== null &amp;&amp; !data.neutered) {
-
-					distance = chunk.getCenter().distanceTo(camera.position);
-					lod = Math.min(maxLevel, Math.trunc((distance / camera.far) * this.levels));
-
-					if(data.lod !== lod) {
-
-						data.lod = lod;
-
-						scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
+						scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
 
 						this.runNextTask();
+
+					} else if(data !== null) {
+
+						distance = chunk.getCenter().distanceTo(camera.position);
+						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
+
+						if(data.lod !== lod) {
+
+							data.lod = lod;
+
+							scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
+
+							this.runNextTask();
+
+						}
 
 					}
 
@@ -644,6 +671,7 @@ export class Terrain extends THREE.Object3D {
 
 		this.history = [];
 
+		this.neutered.clear();
 		this.chunks.clear();
 		this.meshes.clear();
 

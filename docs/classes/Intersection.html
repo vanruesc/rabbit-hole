@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -233,11 +234,11 @@
                                 <a href="#method_computeBoundingBox">computeBoundingBox</a>
 
                             </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_updateEdge">updateEdge</a>
+                            <li class="index-item method">
+                                <a href="#method_selectEdge">selectEdge</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_updateMaterialIndex">updateMaterialIndex</a>
 
                             </li>
@@ -315,20 +316,26 @@
 
 
 </div>
-<div id="method_updateEdge" class="method item">
-    <h3 class="name"><code>updateEdge</code></h3>
+<div id="method_selectEdge" class="method item">
+    <h3 class="name"><code>selectEdge</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>indexA</code>
+                        <code>edge0</code>
                 </li>
                 <li class="arg">
-                        <code>indexB</code>
+                        <code>edge1</code>
+                </li>
+                <li class="arg">
+                        <code>s</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Edge.html" class="crosslink">Edge</a></span>
+        </span>
 
 
 
@@ -337,11 +344,8 @@
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Operation.html#method_updateEdge">
-                Operation
-            </a>
-            but overwritten in
+                <p>
+                Defined in
         <a href="../files/src_volume_csg_intersection.js.html#l40"><code>src\volume\csg\intersection.js:40</code></a>
         </p>
 
@@ -350,8 +354,7 @@
     </div>
 
     <div class="description">
-        <p>Determines whether the edge specified by the given material indices should
-be kept or discarded.</p>
+        <p>Selects the edge that is closer to the solid grid point.</p>
 
     </div>
 
@@ -360,26 +363,39 @@ be kept or discarded.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">indexA</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">edge0</code>
+                        <span class="type"><a href="../classes/Edge.html" class="crosslink">Edge</a></span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The index of the starting grid point.</li>
+<li>An existing edge.</li>
 </ul>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">indexB</code>
-                        <span class="type">Number</span>
+                        <code class="param-name">edge1</code>
+                        <span class="type"><a href="../classes/Edge.html" class="crosslink">Edge</a></span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The index of the ending grid point.</li>
+<li>A predominant edge.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">s</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether the starting point of the edge is solid.</li>
 </ul>
 
                     </div>
@@ -388,6 +404,15 @@ be kept or discarded.</p>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Edge.html" class="crosslink">Edge</a></span>:
+                    <p>The selected edge.</p>
+
+            </div>
+        </div>
 
 
 </div>
@@ -416,11 +441,8 @@ be kept or discarded.</p>
 
 
     <div class="meta">
-            <p>Inherited from
-            <a href="../classes/Operation.html#method_updateMaterialIndex">
-                Operation
-            </a>
-            but overwritten in
+                <p>
+                Defined in
         <a href="../files/src_volume_csg_intersection.js.html#l23"><code>src\volume\csg\intersection.js:23</code></a>
         </p>
 

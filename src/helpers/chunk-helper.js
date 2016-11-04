@@ -7,8 +7,6 @@ import { Edge } from "../volume/edge.js";
 /**
  * A chunk helper.
  *
- * The update method must be called manually.
- *
  * @class ChunkHelper
  * @submodule helpers
  * @constructor
@@ -42,6 +40,8 @@ export class ChunkHelper extends THREE.Object3D {
 		this.children[1].name = "Edges";
 		this.children[2].name = "Normals";
 
+		this.update();
+
 	}
 
 	/**
@@ -72,7 +72,7 @@ export class ChunkHelper extends THREE.Object3D {
 	get normals() { return this.children[2]; }
 
 	/**
-	 * Creates the geometry.
+	 * Creates geometry.
 	 *
 	 * @method update
 	 */

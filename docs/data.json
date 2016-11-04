@@ -15,15 +15,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\core\\iterator-result.js": {
-            "name": "src\\core\\iterator-result.js",
-            "modules": {},
-            "classes": {
-                "IteratorResult": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src\\core\\priority-queue.js": {
             "name": "src\\core\\priority-queue.js",
             "modules": {},
@@ -78,6 +69,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\helpers\\chunk-helper.js": {
+            "name": "src\\helpers\\chunk-helper.js",
+            "modules": {},
+            "classes": {
+                "ChunkHelper": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\helpers\\index.js": {
+            "name": "src\\helpers\\index.js",
+            "modules": {
+                "helpers": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\isosurface\\dual-contouring\\index.js": {
             "name": "src\\isosurface\\dual-contouring\\index.js",
             "modules": {},
@@ -89,7 +98,9 @@
         },
         "src\\isosurface\\dual-contouring\\tables.js": {
             "name": "src\\isosurface\\dual-contouring\\tables.js",
-            "modules": {},
+            "modules": {
+                "isosurface": 1
+            },
             "classes": {},
             "fors": {
                 "DualContouring": 1
@@ -98,9 +109,7 @@
         },
         "src\\isosurface\\index.js": {
             "name": "src\\isosurface\\index.js",
-            "modules": {
-                "isosurface": 1
-            },
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -409,6 +418,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\volume\\edge-data.js": {
+            "name": "src\\volume\\edge-data.js",
+            "modules": {},
+            "classes": {
+                "EdgeData": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\volume\\edge.js": {
             "name": "src\\volume\\edge.js",
             "modules": {},
@@ -433,15 +451,6 @@
                 "volume": 1
             },
             "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src\\volume\\voxel-iterator.js": {
-            "name": "src\\volume\\voxel-iterator.js",
-            "modules": {},
-            "classes": {
-                "VoxelIterator": 1
-            },
             "fors": {},
             "namespaces": {}
         },
@@ -532,24 +541,25 @@
             "name": "rabbit-hole",
             "submodules": {
                 "core": 1,
+                "helpers": 1,
                 "isosurface": 1,
                 "materials": 1,
                 "math": 1,
                 "csg": 1,
-                "volume": 1,
                 "octree": 1,
                 "sdf": 1,
+                "volume": 1,
                 "worker": 1
             },
             "elements": {},
             "classes": {
-                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoding": 1,
                 "Scheduler": 1,
                 "Task": 1,
                 "Terrain": 1,
+                "ChunkHelper": 1,
                 "DualContouring": 1,
                 "TerrainMaterial": 1,
                 "Box3": 1,
@@ -579,9 +589,9 @@
                 "SignedDistanceFunction": 1,
                 "Torus": 1,
                 "Density": 1,
+                "EdgeData": 1,
                 "Edge": 1,
                 "HermiteData": 1,
-                "VoxelIterator": 1,
                 "Voxel": 1,
                 "Action": 1,
                 "SurfaceExtractor": 1,
@@ -605,23 +615,37 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoding": 1,
                 "Scheduler": 1,
                 "Task": 1,
-                "Terrain": 1,
-                "WorkerTask": 1
+                "Terrain": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "rabbit-hole",
             "namespace": "",
-            "file": "src\\worker\\worker-task.js",
-            "line": 3,
+            "file": "src\\core\\terrain.js",
+            "line": 35,
             "description": "Core components."
+        },
+        "helpers": {
+            "name": "helpers",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "ChunkHelper": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 7,
+            "description": "A collection of helpers."
         },
         "isosurface": {
             "name": "isosurface",
@@ -630,13 +654,15 @@
             "classes": {
                 "DualContouring": 1
             },
-            "fors": {},
+            "fors": {
+                "DualContouring": 1
+            },
             "is_submodule": 1,
             "namespaces": {},
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 317,
+            "line": 301,
             "description": "Isosurface extraction algorithms."
         },
         "materials": {
@@ -701,32 +727,12 @@
             "line": 5,
             "description": "A collection of Constructive Solid Geometry components."
         },
-        "volume": {
-            "name": "volume",
-            "submodules": {},
-            "elements": {},
-            "classes": {
-                "Chunk": 1,
-                "Density": 1,
-                "Edge": 1,
-                "HermiteData": 1,
-                "VoxelIterator": 1,
-                "Voxel": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\voxel.js",
-            "line": 1,
-            "description": "Volume management components."
-        },
         "octree": {
             "name": "octree",
             "submodules": {},
             "elements": {},
             "classes": {
+                "Chunk": 1,
                 "Volume": 1,
                 "VoxelBlock": 1,
                 "VoxelCell": 1
@@ -737,7 +743,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 3,
+            "line": 6,
             "description": "Space partitioning components."
         },
         "sdf": {
@@ -758,8 +764,28 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 5,
+            "line": 6,
             "description": "A collection of Signed Distance Function components."
+        },
+        "volume": {
+            "name": "volume",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Density": 1,
+                "EdgeData": 1,
+                "Edge": 1,
+                "HermiteData": 1,
+                "Voxel": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\voxel.js",
+            "line": 3,
+            "description": "Volume management components."
         },
         "worker": {
             "name": "worker",
@@ -770,6 +796,7 @@
                 "SurfaceExtractor": 1,
                 "ThreadPool": 1,
                 "VolumeModifier": 1,
+                "WorkerTask": 1,
                 "Worker": 1
             },
             "fors": {},
@@ -783,38 +810,6 @@
         }
     },
     "classes": {
-        "IteratorResult": {
-            "name": "IteratorResult",
-            "shortname": "IteratorResult",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\core\\iterator-result.js",
-            "line": 1,
-            "description": "An iterator result.",
-            "submodule": "core",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "value",
-                    "description": "- A value.",
-                    "type": "Vector3",
-                    "optional": true,
-                    "optdefault": "null"
-                },
-                {
-                    "name": "done",
-                    "description": "- Whether this result is past the end of the iterated sequence.",
-                    "type": "Vector3",
-                    "optional": true,
-                    "optdefault": "false"
-                }
-            ]
-        },
         "PriorityQueue": {
             "name": "PriorityQueue",
             "shortname": "PriorityQueue",
@@ -932,7 +927,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\core\\terrain.js",
-            "line": 32,
+            "line": 35,
             "description": "The terrain system.",
             "submodule": "core",
             "extends": "Object3D",
@@ -975,6 +970,31 @@
                 }
             ]
         },
+        "ChunkHelper": {
+            "name": "ChunkHelper",
+            "shortname": "ChunkHelper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 7,
+            "description": "A chunk helper.",
+            "submodule": "helpers",
+            "is_constructor": 1,
+            "extends": "Object3D",
+            "params": [
+                {
+                    "name": "chunk",
+                    "description": "- A volume data chunk.",
+                    "type": "Chunk",
+                    "optional": true
+                }
+            ]
+        },
         "DualContouring": {
             "name": "DualContouring",
             "shortname": "DualContouring",
@@ -986,8 +1006,8 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 317,
-            "description": "Dual Contouring is an isosurface extraction technique that was originally\npresented by Tao Ju in 2011:\n\n http://www.cs.wustl.edu/~taoju/research/dualContour.pdf",
+            "line": 301,
+            "description": "Dual Contouring is an isosurface extraction technique that was originally\npresented by Tao Ju in 2002:\n\n http://www.cs.wustl.edu/~taoju/research/dualContour.pdf",
             "submodule": "isosurface",
             "static": 1
         },
@@ -1083,8 +1103,8 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\math\\qef-solver.js",
-            "line": 6,
-            "description": "A Quaratic Error Function solver.\n\nFinds a point inside a voxel that minimises the sum of the squares of the\ndistances from the voxel's internal point to each of the planes associated\nwith the voxel.",
+            "line": 5,
+            "description": "A Quaratic Error Function solver.\n\nFinds a point inside a voxel that minimises the sum of the squares of the\ndistances to the surface intersection planes associated with the voxel.",
             "submodule": "math",
             "is_constructor": 1,
             "params": [
@@ -1209,8 +1229,8 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 485,
-            "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nboolean operators to generate and transform volume data.",
+            "line": 591,
+            "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nBoolean operators to generate and transform volume data.",
             "submodule": "csg",
             "static": 1
         },
@@ -1369,10 +1389,9 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 5,
+            "line": 4,
             "description": "A cubic volume chunk.",
-            "submodule": "volume",
-            "implements": "Iterable",
+            "submodule": "octree",
             "extends": "CubicOctant",
             "is_constructor": 1,
             "params": [
@@ -1432,7 +1451,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 6,
+            "line": 79,
             "description": "A cubic voxel octree.",
             "submodule": "octree",
             "extends": "Octree",
@@ -1456,7 +1475,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 3,
+            "line": 6,
             "description": "A voxel octant.",
             "submodule": "octree",
             "extends": "CubicOctant",
@@ -1487,7 +1506,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\box.js",
-            "line": 5,
+            "line": 6,
             "description": "A Signed Distance Function that describes a box.",
             "submodule": "sdf",
             "extends": "SignedDistanceFunction",
@@ -1529,7 +1548,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 5,
+            "line": 6,
             "description": "A Signed Distance Function that describes a sphere.",
             "submodule": "sdf",
             "extends": "SignedDistanceFunction",
@@ -1576,7 +1595,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 5,
+            "line": 6,
             "description": "A Signed Distance Function that describes a plane.",
             "submodule": "sdf",
             "extends": "SignedDistanceFunction",
@@ -1634,8 +1653,8 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 4,
-            "description": "An abstract Signed Distance Function.\n\nAn SDF describes the signed euclidean distance to the surface of an object,\neffectively describing its density at every point in 3D space. It yields\nnegative values for points that lie inside the volume and positive values\nfor points outside. The value is zero at the exact boundary of the object.",
+            "line": 8,
+            "description": "An abstract Signed Distance Function.\n\nAn SDF describes the signed Euclidean distance to the surface of an object,\neffectively describing its density at every point in 3D space. It yields\nnegative values for points that lie inside the volume and positive values\nfor points outside. The value is zero at the exact boundary of the object.",
             "submodule": "sdf",
             "is_constructor": 1,
             "params": [
@@ -1646,10 +1665,10 @@
                 },
                 {
                     "name": "material",
-                    "description": ".",
+                    "description": "- A material index. Must be an integer in the range of 1 to 255.",
                     "type": "Number",
                     "optional": true,
-                    "optdefault": "Density.SOLID] - A material index. Must be an integer in the range [1, 255"
+                    "optdefault": "Density.SOLID"
                 }
             ]
         },
@@ -1664,7 +1683,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 5,
+            "line": 6,
             "description": "A Signed Distance Function that describes a torus.",
             "submodule": "sdf",
             "extends": "SignedDistanceFunction",
@@ -1715,6 +1734,29 @@
             "description": "An enumeration of density constants.",
             "submodule": "volume",
             "static": 1
+        },
+        "EdgeData": {
+            "name": "EdgeData",
+            "shortname": "EdgeData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\edge-data.js",
+            "line": 1,
+            "description": "Stores edge data separately for each dimension.\n\nWith a grid resolution N, there are 3 * (N + 1)² * N edges in total, but\nthe number of edges that actually contain the volume's surface is usually\nmuch lower.",
+            "submodule": "volume",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "n",
+                    "description": "- The grid resolution.",
+                    "type": "Number"
+                }
+            ]
         },
         "Edge": {
             "name": "Edge",
@@ -1769,30 +1811,6 @@
                 }
             ]
         },
-        "VoxelIterator": {
-            "name": "VoxelIterator",
-            "shortname": "VoxelIterator",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 17,
-            "description": "A voxel iterator.",
-            "submodule": "volume",
-            "implements": "Iterator",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "chunk",
-                    "description": "- A volume chunk.",
-                    "type": "Chunk"
-                }
-            ]
-        },
         "Voxel": {
             "name": "Voxel",
             "shortname": "Voxel",
@@ -1804,7 +1822,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\voxel.js",
-            "line": 1,
+            "line": 3,
             "description": "A cubic voxel that holds information about the surface of a volume.",
             "submodule": "volume",
             "is_constructor": 1
@@ -1895,7 +1913,7 @@
             "file": "src\\worker\\worker-task.js",
             "line": 3,
             "description": "A worker task.",
-            "submodule": "core",
+            "submodule": "worker",
             "extends": "Task",
             "is_constructor": 1,
             "params": [
@@ -1936,30 +1954,6 @@
     },
     "elements": {},
     "classitems": [
-        {
-            "file": "src\\core\\iterator-result.js",
-            "line": 15,
-            "description": "The value.",
-            "itemtype": "property",
-            "name": "value",
-            "type": "Object",
-            "default": "null",
-            "class": "IteratorResult",
-            "module": "rabbit-hole",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\iterator-result.js",
-            "line": 25,
-            "description": "Whether this result is past the end of the iterated sequence.",
-            "itemtype": "property",
-            "name": "done",
-            "type": "Boolean",
-            "default": "false",
-            "class": "IteratorResult",
-            "module": "rabbit-hole",
-            "submodule": "core"
-        },
         {
             "file": "src\\core\\priority-queue.js",
             "line": 29,
@@ -2384,7 +2378,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 8,
+            "line": 11,
             "description": "A computation helper.",
             "itemtype": "property",
             "name": "MATRIX4",
@@ -2398,7 +2392,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 20,
+            "line": 23,
             "description": "A frustum used for octree culling.",
             "itemtype": "property",
             "name": "FRUSTUM",
@@ -2412,7 +2406,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 54,
+            "line": 57,
             "description": "The number of detail levels.\n\nTerrain chunks that are further away from the camera will be rendered\nwith less vertices.",
             "itemtype": "property",
             "name": "levels",
@@ -2426,7 +2420,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 68,
+            "line": 71,
             "description": "The volume of this terrain.",
             "itemtype": "property",
             "name": "volume",
@@ -2439,7 +2433,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 78,
+            "line": 81,
             "description": "A thread pool.",
             "itemtype": "property",
             "name": "threadPool",
@@ -2452,7 +2446,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 89,
+            "line": 92,
             "description": "Manages pending tasks.",
             "itemtype": "property",
             "name": "scheduler",
@@ -2465,7 +2459,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 99,
+            "line": 102,
             "description": "A list of CSG operations that have been executed during this session.",
             "itemtype": "property",
             "name": "history",
@@ -2476,7 +2470,18 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 108,
+            "line": 111,
+            "description": "Keeps track of chunks that are currently being used by a worker.",
+            "itemtype": "property",
+            "name": "neutered",
+            "type": "WeakSet",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 120,
             "description": "Keeps track of associations between workers and chunks.",
             "itemtype": "property",
             "name": "chunks",
@@ -2489,7 +2494,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 118,
+            "line": 130,
             "description": "Keeps track of associations between chunks and meshes.",
             "itemtype": "property",
             "name": "meshes",
@@ -2502,7 +2507,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 128,
+            "line": 140,
             "description": "The terrain material.",
             "itemtype": "property",
             "name": "material",
@@ -2515,7 +2520,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 143,
+            "line": 155,
             "description": "Lifts the connection of a given chunk to its mesh and removes the geometry.",
             "itemtype": "method",
             "name": "unlinkMesh",
@@ -2534,7 +2539,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 167,
+            "line": 179,
             "description": "Completes a worker action.",
             "itemtype": "method",
             "name": "commit",
@@ -2553,7 +2558,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 215,
+            "line": 240,
             "description": "Updates geometry chunks with extracted data.",
             "itemtype": "method",
             "name": "consolidate",
@@ -2577,7 +2582,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 251,
+            "line": 276,
             "description": "Runs a pending task if a worker is available.",
             "itemtype": "method",
             "name": "runNextTask",
@@ -2589,7 +2594,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 311,
+            "line": 333,
             "description": "Edits the terrain volume data.",
             "itemtype": "method",
             "name": "edit",
@@ -2608,7 +2613,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 343,
+            "line": 365,
             "description": "Executes the given SDF and adds the generated data to the volume.",
             "itemtype": "method",
             "name": "union",
@@ -2625,7 +2630,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 358,
+            "line": 380,
             "description": "Executes the given SDF and subtracts the generated data from the volume.",
             "itemtype": "method",
             "name": "subtract",
@@ -2642,8 +2647,8 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 373,
-            "description": "Executes the given SDF and discards the volume data that doesn't intersect\nwith the generated data in the area of effect.",
+            "line": 395,
+            "description": "Executes the given SDF and discards the volume data that doesn't overlap\nwith the generated data.",
             "itemtype": "method",
             "name": "intersect",
             "params": [
@@ -2659,7 +2664,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 389,
+            "line": 411,
             "description": "Updates the terrain geometry. This method should be called each frame.",
             "itemtype": "method",
             "name": "update",
@@ -2676,7 +2681,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 455,
+            "line": 481,
             "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.",
             "itemtype": "method",
             "name": "raycast",
@@ -2698,7 +2703,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 484,
+            "line": 510,
             "description": "Resets this terrain by disposing of all data and worker threads.",
             "itemtype": "method",
             "name": "dispose",
@@ -2708,7 +2713,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 515,
+            "line": 542,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -2725,7 +2730,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 529,
+            "line": 556,
             "description": "Saves the current volume data.",
             "itemtype": "method",
             "name": "save",
@@ -2738,8 +2743,72 @@
             "submodule": "core"
         },
         {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 25,
+            "description": "The volume data chunk.",
+            "itemtype": "property",
+            "name": "chunk",
+            "type": "Chunk",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 47,
+            "description": "The grid points.",
+            "itemtype": "property",
+            "name": "gridPoints",
+            "type": "Object3D",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 56,
+            "description": "The edges.",
+            "itemtype": "property",
+            "name": "edges",
+            "type": "Object3D",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 65,
+            "description": "The normals.",
+            "itemtype": "property",
+            "name": "normals",
+            "type": "Object3D",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 74,
+            "description": "Creates geometry.",
+            "itemtype": "method",
+            "name": "update",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src\\helpers\\chunk-helper.js",
+            "line": 250,
+            "description": "Destroys this helper.",
+            "itemtype": "method",
+            "name": "dispose",
+            "class": "ChunkHelper",
+            "module": "rabbit-hole",
+            "submodule": "helpers"
+        },
+        {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 4,
+            "line": 6,
             "description": "An edge contouring sub-procedure.",
             "itemtype": "method",
             "name": "contourProcessEdge",
@@ -2768,7 +2837,7 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 79,
+            "line": 82,
             "description": "An edge contouring procedure.",
             "itemtype": "method",
             "name": "contourEdgeProc",
@@ -2797,7 +2866,7 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 135,
+            "line": 129,
             "description": "A face contouring procedure.",
             "itemtype": "method",
             "name": "contourFaceProc",
@@ -2826,7 +2895,7 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 218,
+            "line": 192,
             "description": "The main contouring procedure.",
             "itemtype": "method",
             "name": "contourCellProc",
@@ -2850,8 +2919,8 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 280,
-            "description": "Collects positions and normals from the voxel information of the given octant\nand its children. The generated vertex indices are stored in the respective\nvoxels.",
+            "line": 254,
+            "description": "Collects positions and normals from the voxel information of the given octant\nand its children. The generated vertex indices are stored in the respective\nvoxels during the octree traversal.",
             "itemtype": "method",
             "name": "generateVertexIndices",
             "access": "private",
@@ -2865,13 +2934,18 @@
                 },
                 {
                     "name": "vertexBuffer",
-                    "description": "- An array to fill with vertices.",
+                    "description": "- An array to be filled with vertices.",
                     "type": "Array"
                 },
                 {
                     "name": "normalBuffer",
-                    "description": "- An array to fill with normals.",
+                    "description": "- An array to be filled with normals.",
                     "type": "Array"
+                },
+                {
+                    "name": "index",
+                    "description": "- The next vertex index.",
+                    "type": "Number"
                 }
             ],
             "class": "DualContouring",
@@ -2879,41 +2953,21 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\index.js",
-            "line": 330,
-            "description": "Contours the given chunk of hermite data and generates vertices, normals\nand vertex indices.",
+            "line": 314,
+            "description": "Contours the given chunk of volume data and generates vertices, normals\nand vertex indices.",
             "itemtype": "method",
             "name": "run",
             "static": 1,
             "params": [
                 {
                     "name": "chunk",
-                    "description": "- A chunk of hermite data.",
+                    "description": "- A chunk of volume data.",
                     "type": "Chunk"
-                },
-                {
-                    "name": "qefThreshold",
-                    "description": "- An error tolerance for the octree simplification.",
-                    "type": "Number"
-                },
-                {
-                    "name": "indexBuffer",
-                    "description": "- An array to fill with indices.",
-                    "type": "Array"
-                },
-                {
-                    "name": "vertexBuffer",
-                    "description": "- An array to fill with vertices.",
-                    "type": "Array"
-                },
-                {
-                    "name": "normalBuffer",
-                    "description": "- An array to fill with normals.",
-                    "type": "Array"
                 }
             ],
             "return": {
-                "description": "The amount of generated vertices.",
-                "type": "Number"
+                "description": "The generated indices, positions and normals or null if no data was generated.",
+                "type": "Object"
             },
             "class": "DualContouring",
             "module": "rabbit-hole",
@@ -2921,7 +2975,7 @@
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 1,
+            "line": 5,
             "description": "An edge mask.",
             "itemtype": "property",
             "name": "EDGE_MASK",
@@ -2929,11 +2983,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 13,
+            "line": 17,
             "description": "A face map.",
             "itemtype": "property",
             "name": "FACE_MAP",
@@ -2941,11 +2996,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 34,
+            "line": 38,
             "description": "A face mask for cell processing.",
             "itemtype": "property",
             "name": "CELL_PROC_FACE_MASK",
@@ -2953,11 +3009,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 61,
+            "line": 65,
             "description": "An edge mask for cell processing.",
             "itemtype": "property",
             "name": "CELL_PROC_EDGE_MASK",
@@ -2965,11 +3022,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 82,
+            "line": 86,
             "description": "A face mask for face processing.",
             "itemtype": "property",
             "name": "FACE_PROC_FACE_MASK",
@@ -2977,11 +3035,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 115,
+            "line": 119,
             "description": "An edge mask for face processing.",
             "itemtype": "property",
             "name": "FACE_PROC_EDGE_MASK",
@@ -2989,11 +3048,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 148,
+            "line": 152,
             "description": "An edge mask for edge processing.",
             "itemtype": "property",
             "name": "EDGE_PROC_EDGE_MASK",
@@ -3001,11 +3061,12 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\isosurface\\dual-contouring\\tables.js",
-            "line": 175,
+            "line": 179,
             "description": "An edge mask.",
             "itemtype": "property",
             "name": "PROC_EDGE_MASK",
@@ -3013,7 +3074,8 @@
             "static": 1,
             "final": 1,
             "class": "DualContouring",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "isosurface"
         },
         {
             "file": "src\\math\\box3.js",
@@ -3438,7 +3500,7 @@
         {
             "file": "src\\math\\qef-data.js",
             "line": 53,
-            "description": "An accumulation of the exact intersection points on the edges of a voxel.",
+            "description": "An accumulation of the surface intersection points.",
             "itemtype": "property",
             "name": "massPoint",
             "type": "Vector3",
@@ -3451,7 +3513,7 @@
         {
             "file": "src\\math\\qef-data.js",
             "line": 63,
-            "description": "The amount of accumulated points.",
+            "description": "The amount of accumulated surface intersection points.",
             "itemtype": "property",
             "name": "numPoints",
             "type": "Number",
@@ -3462,7 +3524,7 @@
         {
             "file": "src\\math\\qef-data.js",
             "line": 72,
-            "description": "The dimension of the mass point. This value is used when mass points are\naccumulated during the simplification post-process.",
+            "description": "The dimension of the mass point. This value is used when mass points are\naccumulated during voxel cell clustering.",
             "itemtype": "property",
             "name": "massPointDimension",
             "type": "Number",
@@ -3477,35 +3539,72 @@
             "itemtype": "method",
             "name": "set",
             "chainable": 1,
+            "return": {
+                "description": "This data.",
+                "type": "QEFData"
+            },
             "class": "QEFData",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 104,
+            "line": 105,
             "description": "Copies values from a given data instance.",
             "itemtype": "method",
             "name": "copy",
             "chainable": 1,
+            "return": {
+                "description": "This data.",
+                "type": "QEFData"
+            },
             "class": "QEFData",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 117,
-            "description": "Adds data.",
+            "line": 119,
+            "description": "Adds the given surface intersection point and normal.",
             "itemtype": "method",
             "name": "add",
+            "params": [
+                {
+                    "name": "p",
+                    "description": "- An intersection point.",
+                    "type": "Vector3"
+                },
+                {
+                    "name": "n",
+                    "description": "- A surface normal.",
+                    "type": "Vector3"
+                }
+            ],
             "class": "QEFData",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 145,
-            "description": "Clears this data instance.",
+            "line": 154,
+            "description": "Adds an entire data set.",
+            "itemtype": "method",
+            "name": "addData",
+            "params": [
+                {
+                    "name": "d",
+                    "description": "- QEF data.",
+                    "type": "QEFData"
+                }
+            ],
+            "class": "QEFData",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\qef-data.js",
+            "line": 183,
+            "description": "Clears this data.",
             "itemtype": "method",
             "name": "clear",
             "class": "QEFData",
@@ -3514,8 +3613,8 @@
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 169,
-            "description": "Clones this data instance.",
+            "line": 207,
+            "description": "Clones this data.",
             "itemtype": "method",
             "name": "clone",
             "class": "QEFData",
@@ -3524,7 +3623,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 25,
+            "line": 23,
             "description": "A Singular Value Decomposition error threshold.",
             "itemtype": "property",
             "name": "svdThreshold",
@@ -3538,7 +3637,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 36,
+            "line": 34,
             "description": "The number of Singular Value Decomposition sweeps.",
             "itemtype": "property",
             "name": "svdSweeps",
@@ -3552,7 +3651,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 47,
+            "line": 45,
             "description": "A pseudo inverse error threshold.",
             "itemtype": "property",
             "name": "pseudoInverseThreshold",
@@ -3566,33 +3665,32 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 58,
-            "description": "QEF data storage.",
+            "line": 56,
+            "description": "QEF data.",
             "itemtype": "property",
             "name": "data",
             "type": "QEFData",
             "access": "private",
             "tagname": "",
+            "default": "null",
             "class": "QEFSolver",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 68,
-            "description": "The average of the exact intersection points on the edges of a voxel.",
+            "line": 67,
+            "description": "The average of the surface intersection points of a voxel.",
             "itemtype": "property",
             "name": "massPoint",
             "type": "Vector3",
-            "access": "private",
-            "tagname": "",
             "class": "QEFSolver",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 78,
+            "line": 76,
             "description": "A symmetric matrix.",
             "itemtype": "property",
             "name": "ata",
@@ -3605,7 +3703,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 88,
+            "line": 86,
             "description": "A vector.",
             "itemtype": "property",
             "name": "atb",
@@ -3618,7 +3716,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 98,
+            "line": 96,
             "description": "A calculated vertex position.",
             "itemtype": "property",
             "name": "x",
@@ -3631,8 +3729,8 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 108,
-            "description": "Indicates whether this solver has a valid solution.",
+            "line": 106,
+            "description": "Indicates whether this solver has a solution.",
             "itemtype": "property",
             "name": "hasSolution",
             "type": "Boolean",
@@ -3642,58 +3740,43 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 119,
-            "description": "The error of the previously computed position.",
-            "itemtype": "property",
-            "name": "error",
-            "type": "Number",
-            "final": 1,
+            "line": 117,
+            "description": "Computes the error of the approximated position.",
+            "itemtype": "method",
+            "name": "computeError",
+            "return": {
+                "description": "The QEF error.",
+                "type": "Number"
+            },
             "class": "QEFSolver",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 145,
-            "description": "Adds the given position and normal data.",
+            "line": 142,
+            "description": "Sets the QEF data.",
             "itemtype": "method",
-            "name": "add",
-            "params": [
-                {
-                    "name": "p",
-                    "description": "- A position.",
-                    "type": "Vector3"
-                },
-                {
-                    "name": "n",
-                    "description": "- A normal.",
-                    "type": "Vector3"
-                }
-            ],
-            "class": "QEFSolver",
-            "module": "rabbit-hole",
-            "submodule": "math"
-        },
-        {
-            "file": "src\\math\\qef-solver.js",
-            "line": 183,
-            "description": "Accumulates the given data.",
-            "itemtype": "method",
-            "name": "addData",
+            "name": "setData",
+            "chainable": 1,
             "params": [
                 {
                     "name": "d",
-                    "description": "- The data to add.",
+                    "description": "- QEF Data.",
                     "type": "QEFData"
                 }
             ],
+            "return": {
+                "description": "This solver.",
+                "type": "QEFSolver"
+            },
             "class": "QEFSolver",
             "module": "rabbit-hole",
             "submodule": "math"
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 197,
+            "line": 160,
             "description": "Solves the Quadratic Error Function.",
             "itemtype": "method",
             "name": "solve",
@@ -3707,7 +3790,7 @@
         },
         {
             "file": "src\\math\\qef-solver.js",
-            "line": 246,
+            "line": 209,
             "description": "Clears this QEF instance.",
             "itemtype": "method",
             "name": "clear",
@@ -4456,14 +4539,19 @@
         {
             "file": "src\\math\\vector3.js",
             "line": 174,
-            "description": "Adds a scalar to this vector.",
+            "description": "Adds a scaled vector to this one.",
             "itemtype": "method",
-            "name": "addScalar",
+            "name": "addScaledVector",
             "params": [
                 {
-                    "name": "s",
-                    "description": "- The scalar to add.",
+                    "name": "v",
+                    "description": "- The vector to scale and add.",
                     "type": "Vector3"
+                },
+                {
+                    "name": "s",
+                    "description": "- A scalar.",
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -4476,7 +4564,28 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 192,
+            "line": 193,
+            "description": "Adds a scalar to this vector.",
+            "itemtype": "method",
+            "name": "addScalar",
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- The scalar to add.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector3"
+            },
+            "class": "Vector3",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector3.js",
+            "line": 211,
             "description": "Sets this vector to the sum of two given vectors.",
             "itemtype": "method",
             "name": "addVectors",
@@ -4502,7 +4611,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 211,
+            "line": 230,
             "description": "Subtracts a vector from this vector.",
             "itemtype": "method",
             "name": "sub",
@@ -4523,7 +4632,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 229,
+            "line": 248,
             "description": "Subtracts a scalar to this vector.",
             "itemtype": "method",
             "name": "subScalar",
@@ -4531,7 +4640,7 @@
                 {
                     "name": "s",
                     "description": "- The scalar to subtract.",
-                    "type": "Vector3"
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -4544,7 +4653,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 247,
+            "line": 266,
             "description": "Sets this vector to the difference between two given vectors.",
             "itemtype": "method",
             "name": "subVectors",
@@ -4570,7 +4679,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 266,
+            "line": 285,
             "description": "Multiplies this vector with another vector.",
             "itemtype": "method",
             "name": "multiply",
@@ -4591,7 +4700,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 284,
+            "line": 303,
             "description": "Multiplies this vector with a given scalar.",
             "itemtype": "method",
             "name": "multiplyScalar",
@@ -4599,7 +4708,7 @@
                 {
                     "name": "s",
                     "description": "- A scalar.",
-                    "type": "Vector3"
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -4612,7 +4721,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 312,
+            "line": 331,
             "description": "Sets this vector to the product of two given vectors.",
             "itemtype": "method",
             "name": "multiplyVectors",
@@ -4638,7 +4747,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 331,
+            "line": 350,
             "description": "Divides this vector by another vector.",
             "itemtype": "method",
             "name": "divide",
@@ -4659,7 +4768,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 349,
+            "line": 368,
             "description": "Divides this vector by a given scalar.",
             "itemtype": "method",
             "name": "divideScalar",
@@ -4667,7 +4776,7 @@
                 {
                     "name": "s",
                     "description": "- A scalar.",
-                    "type": "Vector3"
+                    "type": "Number"
                 }
             ],
             "return": {
@@ -4680,7 +4789,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 363,
+            "line": 382,
             "description": "Sets this vector to the quotient of two given vectors.",
             "itemtype": "method",
             "name": "divideVectors",
@@ -4706,7 +4815,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 382,
+            "line": 401,
             "description": "Calculates the dot product with another vector.",
             "itemtype": "method",
             "name": "dot",
@@ -4727,13 +4836,13 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 396,
-            "description": "Calculates the length squared of this vector.",
+            "line": 415,
+            "description": "Calculates the squared length of this vector.",
             "itemtype": "method",
             "name": "lengthSq",
             "return": {
-                "description": "This vector.",
-                "type": "Vector3"
+                "description": "The squared length.",
+                "type": "Number"
             },
             "class": "Vector3",
             "module": "rabbit-hole",
@@ -4741,13 +4850,13 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 409,
+            "line": 428,
             "description": "Calculates the length of this vector.",
             "itemtype": "method",
             "name": "length",
             "return": {
-                "description": "This vector.",
-                "type": "Vector3"
+                "description": "The length.",
+                "type": "Number"
             },
             "class": "Vector3",
             "module": "rabbit-hole",
@@ -4755,7 +4864,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 422,
+            "line": 441,
             "description": "Calculates the distance to a given vector.",
             "itemtype": "method",
             "name": "distanceTo",
@@ -4767,8 +4876,8 @@
                 }
             ],
             "return": {
-                "description": "This vector.",
-                "type": "Vector3"
+                "description": "The distance.",
+                "type": "Number"
             },
             "class": "Vector3",
             "module": "rabbit-hole",
@@ -4776,8 +4885,8 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 436,
-            "description": "Calculates the distance squared to a given vector.",
+            "line": 455,
+            "description": "Calculates the squared distance to a given vector.",
             "itemtype": "method",
             "name": "distanceToSquared",
             "params": [
@@ -4788,8 +4897,8 @@
                 }
             ],
             "return": {
-                "description": "This vector.",
-                "type": "Vector3"
+                "description": "The squared distance.",
+                "type": "Number"
             },
             "class": "Vector3",
             "module": "rabbit-hole",
@@ -4797,7 +4906,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 454,
+            "line": 473,
             "description": "Normalizes this vector.",
             "itemtype": "method",
             "name": "normalize",
@@ -4811,7 +4920,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 467,
+            "line": 486,
             "description": "Adopts the min value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "min",
@@ -4832,7 +4941,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 485,
+            "line": 504,
             "description": "adopts the max value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "max",
@@ -4853,7 +4962,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 503,
+            "line": 522,
             "description": "Clamps this vector.",
             "itemtype": "method",
             "name": "clamp",
@@ -4879,7 +4988,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 522,
+            "line": 541,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix3",
@@ -4900,7 +5009,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 543,
+            "line": 562,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix4",
@@ -4921,7 +5030,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 11,
+            "line": 19,
             "description": "Finds out which grid points lie inside the area of the given operation.",
             "itemtype": "method",
             "name": "computeIndexBounds",
@@ -4949,10 +5058,10 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 62,
+            "line": 70,
             "description": "Combines material indices.",
             "itemtype": "method",
-            "name": "combine",
+            "name": "combineMaterialIndices",
             "access": "private",
             "tagname": "",
             "static": 1,
@@ -4988,7 +5097,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 102,
+            "line": 110,
             "description": "Generates material indices.",
             "itemtype": "method",
             "name": "generateMaterialIndices",
@@ -5022,7 +5131,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 154,
+            "line": 163,
             "description": "Combines edges.",
             "itemtype": "method",
             "name": "combineEdges",
@@ -5049,11 +5158,6 @@
                     "name": "data1",
                     "description": "- A predominant data set.",
                     "type": "HermiteData"
-                },
-                {
-                    "name": "bounds",
-                    "description": "- Grid iteration limits.",
-                    "type": "Box3"
                 }
             ],
             "return": {
@@ -5065,7 +5169,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 231,
+            "line": 331,
             "description": "Generates edge data.",
             "itemtype": "method",
             "name": "generateEdges",
@@ -5103,7 +5207,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 367,
+            "line": 463,
             "description": "Either generates or combines volume data based on the operation type.",
             "itemtype": "method",
             "name": "update",
@@ -5128,7 +5232,7 @@
                 },
                 {
                     "name": "data1",
-                    "description": "- Predominant data set.",
+                    "description": "- A predominant data set.",
                     "type": "HermiteData",
                     "optional": true
                 }
@@ -5138,7 +5242,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 410,
+            "line": 515,
             "description": "Executes the given operation.",
             "itemtype": "method",
             "name": "execute",
@@ -5166,8 +5270,8 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 496,
-            "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF.\n 2. Combine the generated data with the chunk data.",
+            "line": 602,
+            "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF\n 2. Combine the generated data with the chunk data",
             "itemtype": "method",
             "name": "run",
             "static": 1,
@@ -5189,7 +5293,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 568,
+            "line": 674,
             "description": "Creates an SDF from the given description.",
             "itemtype": "method",
             "name": "reviveSDF",
@@ -5242,33 +5346,27 @@
         {
             "file": "src\\volume\\csg\\density-function.js",
             "line": 48,
-            "description": "Calculates the material for the grid point specified by the given index.",
+            "description": "Calculates the material index for the given world position.",
             "itemtype": "method",
             "name": "generateMaterialIndex",
             "params": [
                 {
-                    "name": "index",
-                    "description": "- The index of the grid point.",
-                    "type": "Number"
-                },
-                {
                     "name": "position",
                     "description": "- The world position of the material index.",
                     "type": "Vector3"
-                },
-                {
-                    "name": "target",
-                    "description": "- The target volume data.",
-                    "type": "HermiteData"
                 }
             ],
+            "return": {
+                "description": "The material index.",
+                "type": "Number"
+            },
             "class": "DensityFunction",
             "module": "rabbit-hole",
             "submodule": "csg"
         },
         {
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 63,
+            "line": 62,
             "description": "Generates surface intersection data for the specified edge.",
             "itemtype": "method",
             "name": "generateEdge",
@@ -5311,6 +5409,37 @@
             "submodule": "csg"
         },
         {
+            "file": "src\\volume\\csg\\difference.js",
+            "line": 42,
+            "description": "Selects the edge that is closer to the solid grid point.",
+            "itemtype": "method",
+            "name": "selectEdge",
+            "params": [
+                {
+                    "name": "edge0",
+                    "description": "- An existing edge.",
+                    "type": "Edge"
+                },
+                {
+                    "name": "edge1",
+                    "description": "- A predominant edge.",
+                    "type": "Edge"
+                },
+                {
+                    "name": "s",
+                    "description": "- Whether the starting point of the edge is solid.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "The selected edge.",
+                "type": "Edge"
+            },
+            "class": "Difference",
+            "module": "rabbit-hole",
+            "submodule": "csg"
+        },
+        {
             "file": "src\\volume\\csg\\intersection.js",
             "line": 23,
             "description": "Updates the specified material index.",
@@ -5340,21 +5469,30 @@
         {
             "file": "src\\volume\\csg\\intersection.js",
             "line": 40,
-            "description": "Determines whether the edge specified by the given material indices should\nbe kept or discarded.",
+            "description": "Selects the edge that is closer to the solid grid point.",
             "itemtype": "method",
-            "name": "updateEdge",
+            "name": "selectEdge",
             "params": [
                 {
-                    "name": "indexA",
-                    "description": "- The index of the starting grid point.",
-                    "type": "Number"
+                    "name": "edge0",
+                    "description": "- An existing edge.",
+                    "type": "Edge"
                 },
                 {
-                    "name": "indexB",
-                    "description": "- The index of the ending grid point.",
-                    "type": "Number"
+                    "name": "edge1",
+                    "description": "- A predominant edge.",
+                    "type": "Edge"
+                },
+                {
+                    "name": "s",
+                    "description": "- Whether the starting point of the edge is solid.",
+                    "type": "Boolean"
                 }
             ],
+            "return": {
+                "description": "The selected edge.",
+                "type": "Edge"
+            },
             "class": "Intersection",
             "module": "rabbit-hole",
             "submodule": "csg"
@@ -5476,55 +5614,6 @@
             "submodule": "csg"
         },
         {
-            "file": "src\\volume\\csg\\operation.js",
-            "line": 92,
-            "description": "Updates the specified material index.",
-            "itemtype": "method",
-            "name": "updateMaterialIndex",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "- The index of the material index that needs to be updated.",
-                    "type": "Number"
-                },
-                {
-                    "name": "data0",
-                    "description": "- The target volume data.",
-                    "type": "HermiteData"
-                },
-                {
-                    "name": "data1",
-                    "description": "- Predominant volume data.",
-                    "type": "HermiteData"
-                }
-            ],
-            "class": "Operation",
-            "module": "rabbit-hole",
-            "submodule": "csg"
-        },
-        {
-            "file": "src\\volume\\csg\\operation.js",
-            "line": 103,
-            "description": "Updates the specified edge.",
-            "itemtype": "method",
-            "name": "updateEdge",
-            "params": [
-                {
-                    "name": "indexA",
-                    "description": "- The index of the starting grid point.",
-                    "type": "Number"
-                },
-                {
-                    "name": "indexB",
-                    "description": "- The index of the ending grid point.",
-                    "type": "Number"
-                }
-            ],
-            "class": "Operation",
-            "module": "rabbit-hole",
-            "submodule": "csg"
-        },
-        {
             "file": "src\\volume\\csg\\union.js",
             "line": 23,
             "description": "Updates the specified material index.",
@@ -5554,28 +5643,37 @@
         {
             "file": "src\\volume\\csg\\union.js",
             "line": 44,
-            "description": "Overrides existing edges with the predominant data and keeps all other\nnon-conflicting edges.",
+            "description": "Selects the edge that is closer to the non-solid grid point.",
             "itemtype": "method",
-            "name": "updateEdge",
+            "name": "selectEdge",
             "params": [
                 {
-                    "name": "indexA",
-                    "description": "- The index of the starting grid point.",
-                    "type": "Number"
+                    "name": "edge0",
+                    "description": "- An existing edge.",
+                    "type": "Edge"
                 },
                 {
-                    "name": "indexB",
-                    "description": "- The index of the ending grid point.",
-                    "type": "Number"
+                    "name": "edge1",
+                    "description": "- A predominant edge.",
+                    "type": "Edge"
+                },
+                {
+                    "name": "s",
+                    "description": "- Whether the starting point of the edge is solid.",
+                    "type": "Boolean"
                 }
             ],
+            "return": {
+                "description": "The selected edge.",
+                "type": "Edge"
+            },
             "class": "Union",
             "module": "rabbit-hole",
             "submodule": "csg"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 23,
+            "line": 21,
             "description": "Hermite data.",
             "itemtype": "property",
             "name": "data",
@@ -5583,11 +5681,11 @@
             "default": "null",
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 33,
+            "line": 31,
             "description": "A CSG operation queue.",
             "itemtype": "property",
             "name": "csg",
@@ -5595,22 +5693,22 @@
             "default": "null",
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 45,
+            "line": 43,
             "description": "The material grid resolution of all volume chunks. The upper limit is 256.\n\nThe effective resolution of a chunk is the distance between two adjacent\ngrid points in global coordinates.\n\nThis value can only be set once.",
             "itemtype": "property",
             "name": "resolution",
             "type": "Number",
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 61,
+            "line": 59,
             "description": "Creates a list of transferable items.",
             "itemtype": "method",
             "name": "createTransferList",
@@ -5628,11 +5726,11 @@
             },
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 75,
+            "line": 73,
             "description": "Serialises this chunk.",
             "itemtype": "method",
             "name": "serialise",
@@ -5642,11 +5740,11 @@
             },
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\chunk.js",
-            "line": 93,
+            "line": 91,
             "description": "Adopts the given serialised data.",
             "itemtype": "method",
             "name": "deserialise",
@@ -5659,21 +5757,7 @@
             ],
             "class": "Chunk",
             "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\chunk.js",
-            "line": 112,
-            "description": "Creates a voxel iterator for this chunk.",
-            "itemtype": "method",
-            "name": "Symbol.iterator",
-            "return": {
-                "description": "An iterator.",
-                "type": "VoxelIterator"
-            },
-            "class": "Chunk",
-            "module": "rabbit-hole",
-            "submodule": "volume"
+            "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\volume.js",
@@ -5737,6 +5821,20 @@
         {
             "file": "src\\volume\\octree\\volume.js",
             "line": 74,
+            "description": "Collects all chunks that contain volume data.",
+            "itemtype": "method",
+            "name": "getChunks",
+            "return": {
+                "description": "A list of all chunks that contain volume data.",
+                "type": "Array"
+            },
+            "class": "Volume",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\volume.js",
+            "line": 109,
             "description": "Edits this volume.",
             "itemtype": "method",
             "name": "edit",
@@ -5757,7 +5855,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 132,
+            "line": 172,
             "description": "Expands the volume to include the given region.",
             "itemtype": "method",
             "name": "expand",
@@ -5776,7 +5874,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 201,
+            "line": 241,
             "description": "Removes the given chunk and shrinks the volume if possible.",
             "itemtype": "method",
             "name": "prune",
@@ -5796,7 +5894,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 213,
+            "line": 253,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -5813,7 +5911,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 228,
+            "line": 268,
             "description": "Creates a compact representation of the current volume data.",
             "itemtype": "method",
             "name": "toJSON",
@@ -5827,19 +5925,65 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 26,
-            "description": "Simplifies the given octant node.",
+            "line": 10,
+            "description": "Creates a voxel and builds a material configuration code from the materials\nin the voxel corners.",
             "itemtype": "method",
-            "name": "simplify",
+            "name": "createVoxel",
             "access": "private",
             "tagname": "",
             "static": 1,
             "params": [
                 {
-                    "name": "node",
-                    "description": "- The node to simplify.",
-                    "type": "Octant"
+                    "name": "n",
+                    "description": "- The grid resolution.",
+                    "type": "Number"
                 },
+                {
+                    "name": "x",
+                    "description": "- A local grid point X-coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "- A local grid point Y-coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "- A local grid point Z-coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "materialIndices",
+                    "description": "- The material indices.",
+                    "type": "Uint8Array"
+                }
+            ],
+            "return": {
+                "description": "A voxel.",
+                "type": "Voxel"
+            },
+            "class": "VoxelBlock",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-block.js",
+            "line": 97,
+            "description": "The amount of voxels in this block.",
+            "itemtype": "property",
+            "name": "voxelCount",
+            "type": "Number",
+            "class": "VoxelBlock",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-block.js",
+            "line": 110,
+            "description": "Attempts to simplify the octree by clustering voxels.",
+            "itemtype": "method",
+            "name": "simplify",
+            "params": [
                 {
                     "name": "threshold",
                     "description": "- A QEF error threshold.",
@@ -5852,31 +5996,64 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 159,
+            "line": 123,
+            "description": "Creates intermediate voxel cells down to the leaf octant that is described\nby the given local grid coordinates and returns it.",
             "itemtype": "method",
-            "name": "constructLeaf",
+            "name": "getCell",
             "access": "private",
             "tagname": "",
-            "static": 1,
+            "params": [
+                {
+                    "name": "n",
+                    "description": "- The grid resolution.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "- A local grid point X-coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "- A local grid point Y-coordinate.",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "- A local grid point Z-coordinate.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "A leaf voxel cell.",
+                "type": "VoxelCell"
+            },
             "class": "VoxelBlock",
             "module": "rabbit-hole",
             "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 277,
+            "line": 165,
+            "description": "Constructs voxel cells from volume data.",
             "itemtype": "method",
-            "name": "constructOctants",
+            "name": "construct",
             "access": "private",
             "tagname": "",
-            "static": 1,
+            "params": [
+                {
+                    "name": "chunk",
+                    "description": "- A volume chunk.",
+                    "type": "Chunk"
+                }
+            ],
             "class": "VoxelBlock",
             "module": "rabbit-hole",
             "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 20,
+            "line": 23,
             "description": "A voxel that contains draw information.",
             "itemtype": "property",
             "name": "voxel",
@@ -5887,8 +6064,50 @@
             "submodule": "octree"
         },
         {
+            "file": "src\\volume\\octree\\voxel-cell.js",
+            "line": 35,
+            "description": "Checks if the given point lies inside this cell's boundaries.",
+            "itemtype": "method",
+            "name": "contains",
+            "params": [
+                {
+                    "name": "p",
+                    "description": "- A point.",
+                    "type": "Vector3"
+                }
+            ],
+            "return": {
+                "description": "Whether the given point lies inside this cell.",
+                "type": "Boolean"
+            },
+            "class": "VoxelCell",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-cell.js",
+            "line": 57,
+            "description": "Attempts to simplify this cell.",
+            "itemtype": "method",
+            "name": "collapse",
+            "params": [
+                {
+                    "name": "threshold",
+                    "description": "- A QEF error threshold.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The amount of removed voxels.",
+                "type": "Number"
+            },
+            "class": "VoxelCell",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
             "file": "src\\volume\\sdf\\box.js",
-            "line": 24,
+            "line": 25,
             "description": "The origin.",
             "itemtype": "property",
             "name": "origin",
@@ -5901,7 +6120,7 @@
         },
         {
             "file": "src\\volume\\sdf\\box.js",
-            "line": 34,
+            "line": 35,
             "description": "The halfDimensions.",
             "itemtype": "property",
             "name": "halfDimensions",
@@ -5914,7 +6133,7 @@
         },
         {
             "file": "src\\volume\\sdf\\box.js",
-            "line": 46,
+            "line": 47,
             "description": "Calculates the bounding box of this density field.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -5928,7 +6147,7 @@
         },
         {
             "file": "src\\volume\\sdf\\box.js",
-            "line": 64,
+            "line": 65,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -5949,7 +6168,7 @@
         },
         {
             "file": "src\\volume\\sdf\\box.js",
-            "line": 94,
+            "line": 95,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -5963,7 +6182,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 25,
+            "line": 26,
             "description": "The position.",
             "itemtype": "property",
             "name": "min",
@@ -5976,7 +6195,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 35,
+            "line": 36,
             "description": "The dimensions.",
             "itemtype": "property",
             "name": "dimensions",
@@ -5989,7 +6208,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 45,
+            "line": 46,
             "description": "The height data.",
             "itemtype": "property",
             "name": "data",
@@ -6002,7 +6221,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 57,
+            "line": 58,
             "description": "Calculates the bounding box of this density field.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6016,7 +6235,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 75,
+            "line": 76,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -6037,7 +6256,7 @@
         },
         {
             "file": "src\\volume\\sdf\\heightfield.js",
-            "line": 97,
+            "line": 98,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -6051,7 +6270,7 @@
         },
         {
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 24,
+            "line": 25,
             "description": "The normal.",
             "itemtype": "property",
             "name": "normal",
@@ -6064,7 +6283,7 @@
         },
         {
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 34,
+            "line": 35,
             "description": "The constant.",
             "itemtype": "property",
             "name": "constant",
@@ -6077,7 +6296,7 @@
         },
         {
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 46,
+            "line": 47,
             "description": "Calculates the bounding box of this density field.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6094,7 +6313,7 @@
         },
         {
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 62,
+            "line": 63,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -6115,7 +6334,7 @@
         },
         {
             "file": "src\\volume\\sdf\\plane.js",
-            "line": 76,
+            "line": 77,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -6194,7 +6413,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 23,
+            "line": 27,
             "description": "The type of this SDF.",
             "itemtype": "property",
             "name": "type",
@@ -6206,7 +6425,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 33,
+            "line": 37,
             "description": "The operation type.",
             "itemtype": "property",
             "name": "operation",
@@ -6218,7 +6437,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 43,
+            "line": 47,
             "description": "A material index.",
             "itemtype": "property",
             "name": "material",
@@ -6232,7 +6451,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 54,
+            "line": 58,
             "description": "A list of SDFs.\n\nSDFs can be chained to build CSG expressions.",
             "itemtype": "property",
             "name": "children",
@@ -6245,7 +6464,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 66,
+            "line": 70,
             "description": "The bounding box of this SDF.",
             "itemtype": "property",
             "name": "bbox",
@@ -6259,7 +6478,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 79,
+            "line": 83,
             "description": "The bounding box of this SDF.",
             "itemtype": "property",
             "name": "boundingBox",
@@ -6270,7 +6489,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 92,
+            "line": 96,
             "description": "The complete bounding box of this SDF.",
             "itemtype": "property",
             "name": "completeBoundingBox",
@@ -6281,7 +6500,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 116,
+            "line": 120,
             "description": "Adds the given SDF to this one.",
             "itemtype": "method",
             "name": "union",
@@ -6303,7 +6522,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 134,
+            "line": 138,
             "description": "Subtracts the given SDF from this one.",
             "itemtype": "method",
             "name": "subtract",
@@ -6325,7 +6544,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 152,
+            "line": 156,
             "description": "Intersects the given SDF with this one.",
             "itemtype": "method",
             "name": "intersect",
@@ -6347,7 +6566,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 170,
+            "line": 174,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -6361,7 +6580,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 200,
+            "line": 204,
             "description": "Translates this SDF into a CSG expression.",
             "itemtype": "method",
             "name": "toCSG",
@@ -6378,7 +6597,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 252,
+            "line": 256,
             "description": "Calculates the bounding box of this SDF.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6396,7 +6615,7 @@
         },
         {
             "file": "src\\volume\\sdf\\signed-distance-function.js",
-            "line": 266,
+            "line": 270,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -6412,7 +6631,7 @@
                 }
             ],
             "return": {
-                "description": "The euclidean distance to the surface.",
+                "description": "The Euclidean distance to the surface.",
                 "type": "Number"
             },
             "class": "SignedDistanceFunction",
@@ -6421,7 +6640,7 @@
         },
         {
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 24,
+            "line": 25,
             "description": "The origin.",
             "itemtype": "property",
             "name": "origin",
@@ -6434,7 +6653,7 @@
         },
         {
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 34,
+            "line": 35,
             "description": "The radius.",
             "itemtype": "property",
             "name": "radius",
@@ -6447,7 +6666,7 @@
         },
         {
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 46,
+            "line": 47,
             "description": "Calculates the bounding box of this density field.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6461,7 +6680,7 @@
         },
         {
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 67,
+            "line": 68,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -6482,7 +6701,7 @@
         },
         {
             "file": "src\\volume\\sdf\\sphere.js",
-            "line": 89,
+            "line": 90,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -6496,7 +6715,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 25,
+            "line": 26,
             "description": "The origin.",
             "itemtype": "property",
             "name": "origin",
@@ -6509,7 +6728,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 35,
+            "line": 36,
             "description": "The distance from the center to the tube.",
             "itemtype": "property",
             "name": "R",
@@ -6522,7 +6741,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 45,
+            "line": 46,
             "description": "The radius of the tube.",
             "itemtype": "property",
             "name": "r",
@@ -6535,7 +6754,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 57,
+            "line": 58,
             "description": "Calculates the bounding box of this density field.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6549,7 +6768,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 78,
+            "line": 79,
             "description": "Samples the volume's density at the given point in space.",
             "itemtype": "method",
             "name": "sample",
@@ -6570,7 +6789,7 @@
         },
         {
             "file": "src\\volume\\sdf\\torus.js",
-            "line": 101,
+            "line": 102,
             "description": "Serialises this SDF.",
             "itemtype": "method",
             "name": "serialise",
@@ -6605,6 +6824,92 @@
             "static": 1,
             "final": 1,
             "class": "Density",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 20,
+            "description": "The edges.\n\nEdges are stored as starting grid point indices in ascending order. The\nending point indices are implicitly defined through the dimension split:\n\nGiven a starting point index A, the ending point index B for the X-, Y-\nand Z-plane is defined as A + 1, A + N and A + N² respectively where N is\nthe grid resolution + 1.",
+            "itemtype": "property",
+            "name": "edges",
+            "type": "Array",
+            "class": "EdgeData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 40,
+            "description": "The Zero Crossing interpolation values.\n\nEach value describes the relative surface intersection position on the\nrespective edge. The values correspond to the order of the edges.",
+            "itemtype": "property",
+            "name": "zeroCrossings",
+            "type": "Array",
+            "class": "EdgeData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 56,
+            "description": "The surface intersection normals.\n\nThe vectors are stored as [x, y, z] float triples and correspond to the\norder of the edges.",
+            "itemtype": "property",
+            "name": "normals",
+            "type": "Array",
+            "class": "EdgeData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 74,
+            "description": "Creates a list of transferable items.",
+            "itemtype": "method",
+            "name": "createTransferList",
+            "params": [
+                {
+                    "name": "transferList",
+                    "description": "- An existing list to be filled with transferable items.",
+                    "type": "Array",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "A transfer list.",
+                "type": "Array"
+            },
+            "class": "EdgeData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 118,
+            "description": "Serialises this data.",
+            "itemtype": "method",
+            "name": "serialise",
+            "return": {
+                "description": "The serialised version of the data.",
+                "type": "Object"
+            },
+            "class": "EdgeData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\edge-data.js",
+            "line": 135,
+            "description": "Adopts the given serialised data.",
+            "itemtype": "method",
+            "name": "deserialise",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "- Serialised data.",
+                    "type": "Object"
+                }
+            ],
+            "class": "EdgeData",
             "module": "rabbit-hole",
             "submodule": "volume"
         },
@@ -6724,8 +7029,6 @@
             "description": "Calculates the Zero Crossing position.",
             "itemtype": "method",
             "name": "computeZeroCrossingPosition",
-            "access": "private",
-            "tagname": "",
             "return": {
                 "description": "The Zero Crossing position. The returned vector is volatile.",
                 "type": "Vector3"
@@ -6736,7 +7039,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 148,
+            "line": 147,
             "description": "Computes the normal of the surface at the edge intersection.",
             "itemtype": "method",
             "name": "computeSurfaceNormal",
@@ -6828,46 +7131,26 @@
             "itemtype": "property",
             "name": "runLengths",
             "type": "Uint32Array",
+            "default": "null",
             "class": "HermiteData",
             "module": "rabbit-hole",
             "submodule": "volume"
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 83,
-            "description": "The edges.\n\nEdges are stored sequentially as pairs of grid point indices. There are\nup to three index pairs for a single grid point. Consequently, these edge\ngroups have a common starting point index. The starting point index of\neach next pair can only be equal to or greater than the previous one.\n\nWith a grid resolution N, there are 3 * (N + 1)² * N edges in total, but\nthe number of edges that actually contain the volume's surface is usually\nmuch lower.",
+            "line": 84,
+            "description": "The edge data.",
             "itemtype": "property",
-            "name": "edges",
-            "type": "Uint32Array",
+            "name": "edgeData",
+            "type": "EdgeData",
+            "default": "null",
             "class": "HermiteData",
             "module": "rabbit-hole",
             "submodule": "volume"
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 101,
-            "description": "The Zero Crossing interpolation values.\n\nEach value describes the relative surface intersection position on the\nrespective edge. The values correspond to the order of the edge index\npairs.",
-            "itemtype": "property",
-            "name": "t",
-            "type": "Float32Array",
-            "class": "HermiteData",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\hermite-data.js",
-            "line": 114,
-            "description": "The surface intersection normals.\n\nThe vectors are stored as [x, y, z] float triples which correspond to the\norder of the edge index pairs.",
-            "itemtype": "property",
-            "name": "normals",
-            "type": "Float32Array",
-            "class": "HermiteData",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\hermite-data.js",
-            "line": 128,
+            "line": 96,
             "description": "Indicates whether this data container is empty.",
             "itemtype": "property",
             "name": "empty",
@@ -6878,7 +7161,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 137,
+            "line": 105,
             "description": "Indicates whether this data container is full.",
             "itemtype": "property",
             "name": "full",
@@ -6889,8 +7172,8 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 146,
-            "description": "Compresses this data using Run-Length Encoding.",
+            "line": 114,
+            "description": "Compresses this data.",
             "itemtype": "method",
             "name": "compress",
             "class": "HermiteData",
@@ -6899,7 +7182,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 178,
+            "line": 146,
             "description": "Decompresses this data.",
             "itemtype": "method",
             "name": "decompress",
@@ -6909,14 +7192,14 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 198,
+            "line": 166,
             "description": "Sets the specified material index.",
             "itemtype": "method",
             "name": "setMaterialIndex",
             "params": [
                 {
                     "name": "index",
-                    "description": "- The index of the material index that needs to be updated.",
+                    "description": "- The index of the material index that should be updated.",
                     "type": "Number"
                 },
                 {
@@ -6931,7 +7214,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 225,
+            "line": 191,
             "description": "Creates a list of transferable items.",
             "itemtype": "method",
             "name": "createTransferList",
@@ -6953,8 +7236,8 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 261,
-            "description": "Serialises this chunk of data.",
+            "line": 210,
+            "description": "Serialises this data.",
             "itemtype": "method",
             "name": "serialise",
             "return": {
@@ -6967,7 +7250,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 283,
+            "line": 230,
             "description": "Adopts the given serialised data.",
             "itemtype": "method",
             "name": "deserialise",
@@ -6984,7 +7267,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 304,
+            "line": 249,
             "description": "The material grid resolution.",
             "itemtype": "property",
             "name": "resolution",
@@ -6995,88 +7278,12 @@
             "submodule": "volume"
         },
         {
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 6,
-            "description": "An iterator result.",
-            "itemtype": "property",
-            "name": "result",
-            "type": "IteratorResult",
-            "access": "private",
-            "tagname": "",
-            "static": 1,
-            "class": "VoxelIterator",
-            "module": "rabbit-hole"
-        },
-        {
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 31,
-            "description": "The volume chunk.",
-            "itemtype": "property",
-            "name": "chunk",
-            "type": "Chunk",
-            "access": "private",
-            "tagname": "",
-            "class": "VoxelIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 41,
-            "description": "The current index into the volume.",
-            "itemtype": "property",
-            "name": "index",
-            "type": "Number",
-            "access": "private",
-            "tagname": "",
-            "class": "VoxelIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 53,
-            "description": "Iterates over the voxels in this chunk.",
-            "itemtype": "method",
-            "name": "next",
-            "return": {
-                "description": "The next voxel.",
-                "type": "IteratorResult"
-            },
-            "class": "VoxelIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\voxel-iterator.js",
-            "line": 99,
-            "description": "Called when this iterator will no longer be run to completion.",
-            "itemtype": "method",
-            "name": "return",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "- An interator result value.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "- A premature completion result.",
-                "type": "IteratorResult"
-            },
-            "class": "VoxelIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
             "file": "src\\volume\\voxel.js",
-            "line": 13,
+            "line": 15,
             "description": "Holds binary material information about all eight corners of this voxel.\n\nA value of 0 means that this voxel is completely outside of the volume,\nwhereas a value of 255 means that it's fully inside of it. Any other\nvalue indicates a material change which implies that the voxel contains\nthe surface.",
             "itemtype": "property",
             "name": "materials",
             "type": "Number",
-            "access": "private",
-            "tagname": "",
             "default": "0",
             "class": "Voxel",
             "module": "rabbit-hole",
@@ -7084,7 +7291,19 @@
         },
         {
             "file": "src\\volume\\voxel.js",
-            "line": 29,
+            "line": 30,
+            "description": "The amount of edges that exhibit a material change in this voxel.",
+            "itemtype": "property",
+            "name": "edgeCount",
+            "type": "Number",
+            "default": "0",
+            "class": "Voxel",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\voxel.js",
+            "line": 40,
             "description": "A generated index for this voxel's vertex. Used during the construction\nof the final polygons.",
             "itemtype": "property",
             "name": "index",
@@ -7096,24 +7315,11 @@
         },
         {
             "file": "src\\volume\\voxel.js",
-            "line": 40,
+            "line": 51,
             "description": "The vertex that lies inside this voxel.",
             "itemtype": "property",
             "name": "position",
             "type": "Vector3",
-            "default": "null",
-            "class": "Voxel",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\voxel.js",
-            "line": 50,
-            "description": "The normal of the vertex that lies inside this voxel.",
-            "itemtype": "property",
-            "name": "normal",
-            "type": "Vector3",
-            "default": "null",
             "class": "Voxel",
             "module": "rabbit-hole",
             "submodule": "volume"
@@ -7121,9 +7327,20 @@
         {
             "file": "src\\volume\\voxel.js",
             "line": 60,
+            "description": "The normal of the vertex that lies inside this voxel.",
+            "itemtype": "property",
+            "name": "normal",
+            "type": "Vector3",
+            "class": "Voxel",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\voxel.js",
+            "line": 69,
             "description": "A QEF data construct. Used to calculate the vertex position.",
             "itemtype": "property",
-            "name": "qef",
+            "name": "qefData",
             "type": "QEFData",
             "default": "null",
             "class": "Voxel",
@@ -7132,7 +7349,7 @@
         },
         {
             "file": "src\\volume\\voxel.js",
-            "line": 74,
+            "line": 83,
             "description": "Describes all possible voxel corner connections.",
             "itemtype": "property",
             "name": "EDGES",
@@ -7225,9 +7442,6 @@
             "itemtype": "method",
             "name": "extract",
             "static": 1,
-            "todo": [
-                "Use flat arrays."
-            ],
             "class": "SurfaceExtractor",
             "module": "rabbit-hole",
             "submodule": "worker"
@@ -7286,14 +7500,40 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 65,
+            "line": 63,
+            "description": "A worker message handler.",
+            "itemtype": "property",
+            "name": "onmessage",
+            "type": "Function",
+            "access": "private",
+            "tagname": "",
+            "class": "ThreadPool",
+            "module": "rabbit-hole",
+            "submodule": "worker"
+        },
+        {
+            "file": "src\\worker\\thread-pool.js",
+            "line": 80,
+            "description": "A worker error handler.",
+            "itemtype": "property",
+            "name": "onerror",
+            "type": "Function",
+            "access": "private",
+            "tagname": "",
+            "class": "ThreadPool",
+            "module": "rabbit-hole",
+            "submodule": "worker"
+        },
+        {
+            "file": "src\\worker\\thread-pool.js",
+            "line": 96,
             "description": "Closes a worker.",
             "itemtype": "method",
             "name": "closeWorker",
             "params": [
                 {
-                    "name": "The",
-                    "description": "worker to close.",
+                    "name": "worker",
+                    "description": "- The worker to close.",
                     "type": "Worker"
                 }
             ],
@@ -7303,7 +7543,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 97,
+            "line": 131,
             "description": "Creates a new worker.",
             "itemtype": "method",
             "name": "createWorker",
@@ -7319,7 +7559,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 131,
+            "line": 152,
             "description": "Polls an available worker and returns it. The worker will be excluded from\nsubsequent polls until it finishes its task and sends a message back.",
             "itemtype": "method",
             "name": "getWorker",
@@ -7333,7 +7573,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 170,
+            "line": 191,
             "description": "Resets this thread pool by closing all workers.",
             "itemtype": "method",
             "name": "clear",
@@ -7410,7 +7650,7 @@
             "default": "null",
             "class": "WorkerTask",
             "module": "rabbit-hole",
-            "submodule": "core"
+            "submodule": "worker"
         },
         {
             "file": "src\\worker\\worker-task.js",
@@ -7421,7 +7661,7 @@
             "type": "Chunk",
             "class": "WorkerTask",
             "module": "rabbit-hole",
-            "submodule": "core"
+            "submodule": "worker"
         },
         {
             "file": "src\\worker\\worker.js",

@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,6 +137,9 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import { CubicOctant } from &quot;sparse-octree&quot;;
+import { QEFData } from &quot;../../math/qef-data.js&quot;;
+import { QEFSolver } from &quot;../../math/qef-solver.js&quot;;
+import { Voxel } from &quot;../voxel.js&quot;;
 
 /**
  * A voxel octant.
@@ -163,6 +167,135 @@ export class VoxelCell extends CubicOctant {
 		 */
 
 		this.voxel = null;
+
+	}
+
+	/**
+	 * Checks if the given point lies inside this cell&#x27;s boundaries.
+	 *
+	 * @method contains
+	 * @param {Vector3} p - A point.
+	 * @return {Boolean} Whether the given point lies inside this cell.
+	 */
+
+	contains(p) {
+
+		const min = this.min;
+		const maxX = min.x + this.size;
+		const maxY = min.y + this.size;
+		const maxZ = min.z + this.size;
+
+		return (
+			p.x &gt;= min.x &amp;&amp; p.y &gt;= min.y &amp;&amp; p.z &gt;= min.z &amp;&amp;
+			p.x &lt;= maxX &amp;&amp; p.y &lt;= maxY &amp;&amp; p.z &lt;= maxZ
+		);
+
+	}
+
+	/**
+	 * Attempts to simplify this cell.
+	 *
+	 * @method collapse
+	 * @param {Number} threshold - A QEF error threshold.
+	 * @return {Number} The amount of removed voxels.
+	 */
+
+	collapse(threshold) {
+
+		const children = this.children;
+
+		const signs = new Int16Array([
+			-1, -1, -1, -1,
+			-1, -1, -1, -1
+		]);
+
+		let midSign = -1;
+		let collapsible = (children !== null);
+
+		let removedVoxels = 0;
+
+		let qefData, qefSolver;
+		let child, sign, voxel;
+		let position;
+
+		let v, i;
+
+		if(collapsible) {
+
+			qefData = new QEFData();
+
+			for(v = 0, i = 0; collapsible &amp;&amp; i &lt; 8; ++i) {
+
+				child = children[i];
+
+				removedVoxels += child.collapse(threshold);
+
+				voxel = child.voxel;
+
+				if(child.children !== null) {
+
+					collapsible = false;
+
+				} else if(voxel !== null) {
+
+					qefData.addData(voxel.qefData);
+
+					midSign = (voxel.materials &gt;&gt; (7 - i)) &amp; 1;
+					signs[i] = (voxel.materials &gt;&gt; i) &amp; 1;
+
+					++v;
+
+				}
+
+			}
+
+			if(collapsible) {
+
+				qefSolver = new QEFSolver();
+				position = qefSolver.setData(qefData).solve();
+
+				if(qefSolver.computeError() &lt;= threshold) {
+
+					voxel = new Voxel();
+					voxel.position.copy(this.contains(position) ? position : qefSolver.massPoint);
+
+					for(i = 0; i &lt; 8; ++i) {
+
+						sign = signs[i];
+						child = children[i];
+
+						if(sign === -1) {
+
+							// Undetermined, use mid sign instead.
+							voxel.materials |= (midSign &lt;&lt; i);
+
+						} else {
+
+							voxel.materials |= (sign &lt;&lt; i);
+
+							// Accumulate normals.
+							voxel.normal.add(child.voxel.normal);
+
+						}
+
+					}
+
+					voxel.normal.normalize();
+					voxel.qefData = qefData;
+
+					this.voxel = voxel;
+					this.children = null;
+
+					// Removed existing voxels and created a new one.
+					removedVoxels += v - 1;
+
+				}
+
+			}
+
+		}
+
+		return removedVoxels;
 
 	}
 

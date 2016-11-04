@@ -8,7 +8,7 @@ import { Density } from "../density.js";
 /**
  * An abstract Signed Distance Function.
  *
- * An SDF describes the signed euclidean distance to the surface of an object,
+ * An SDF describes the signed Euclidean distance to the surface of an object,
  * effectively describing its density at every point in 3D space. It yields
  * negative values for points that lie inside the volume and positive values
  * for points outside. The value is zero at the exact boundary of the object.
@@ -273,7 +273,7 @@ export class SignedDistanceFunction {
 	 * @method sample
 	 * @throws {Error} An error is thrown if the method is not overridden.
 	 * @param {Vector3} position - A position.
-	 * @return {Number} The euclidean distance to the surface.
+	 * @return {Number} The Euclidean distance to the surface.
 	 */
 
 	sample(position) {

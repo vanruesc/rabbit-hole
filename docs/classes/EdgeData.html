@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Density - rabbit-hole</title>
+    <title>EdgeData - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -132,12 +132,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Density Class</h1>
+<h1>EdgeData Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_density.js.html#l1"><code>src\volume\density.js:1</code></a>
+            Defined in: <a href="../files/src_volume_edge-data.js.html#l1"><code>src\volume\edge-data.js:1</code></a>
         </div>
 
             Module: <a href="../modules/volume.html">volume</a><br>
@@ -147,15 +147,77 @@
 
 
 <div class="box intro">
-    <p>An enumeration of density constants.</p>
+    <p>Stores edge data separately for each dimension.</p>
+<p>With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
+the number of edges that actually contain the volume's surface is usually
+much lower.</p>
 
 </div>
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_EdgeData" class="method item">
+    <h3 class="name"><code>EdgeData</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>n</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge-data.js.html#l1"><code>src\volume\edge-data.js:1</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">n</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The grid resolution.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
@@ -163,20 +225,40 @@
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_createTransferList">createTransferList</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_deserialise">deserialise</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_serialise">serialise</a>
+
+                            </li>
+                    </ul>
+                </div>
 
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_HOLLOW">HOLLOW</a>
+                                <a href="#property_edges">edges</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
-                                <a href="#property_SOLID">SOLID</a>
+                                <a href="#property_normals">normals</a>
 
-                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zeroCrossings">zeroCrossings</a>
+
                             </li>
                     </ul>
                 </div>
@@ -184,58 +266,260 @@
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
+<div id="method_createTransferList" class="method item">
+    <h3 class="name"><code>createTransferList</code></h3>
 
-<div id="property_HOLLOW" class="property item">
-    <h3 class="name"><code>HOLLOW</code></h3>
-    <span class="type">Number</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[transferList]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
 
 
 
-        <span class="flag final">final</span>
 
-        <span class="flag static">static</span>
+
+
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_density.js.html#l11"><code>src\volume\density.js:11</code></a>
+        <a href="../files/src_volume_edge-data.js.html#l74"><code>src\volume\edge-data.js:74</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates a list of transferable items.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[transferList]</code>
+                        <span class="type">Array</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>An existing list to be filled with transferable items.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>A transfer list.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_deserialise" class="method item">
+    <h3 class="name"><code>deserialise</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge-data.js.html#l135"><code>src\volume\edge-data.js:135</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Adopts the given serialised data.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Serialised data.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_serialise" class="method item">
+    <h3 class="name"><code>serialise</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge-data.js.html#l118"><code>src\volume\edge-data.js:118</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Serialises this data.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>The serialised version of the data.</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_edges" class="property item">
+    <h3 class="name"><code>edges</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge-data.js.html#l20"><code>src\volume\edge-data.js:20</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The index for empty space.</p>
+        <p>The edges.</p>
+<p>Edges are stored as starting grid point indices in ascending order. The
+ending point indices are implicitly defined through the dimension split:</p>
+<p>Given a starting point index A, the ending point index B for the X-, Y-
+and Z-plane is defined as A + 1, A + N and A + N² respectively where N is
+the grid resolution + 1.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_SOLID" class="property item">
-    <h3 class="name"><code>SOLID</code></h3>
-    <span class="type">Number</span>
+<div id="property_normals" class="property item">
+    <h3 class="name"><code>normals</code></h3>
+    <span class="type">Array</span>
 
 
 
-        <span class="flag final">final</span>
 
-        <span class="flag static">static</span>
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_density.js.html#l22"><code>src\volume\density.js:22</code></a>
+        <a href="../files/src_volume_edge-data.js.html#l56"><code>src\volume\edge-data.js:56</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The default index for solid material.</p>
+        <p>The surface intersection normals.</p>
+<p>The vectors are stored as [x, y, z] float triples and correspond to the
+order of the edges.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_zeroCrossings" class="property item">
+    <h3 class="name"><code>zeroCrossings</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge-data.js.html#l40"><code>src\volume\edge-data.js:40</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The Zero Crossing interpolation values.</p>
+<p>Each value describes the relative surface intersection position on the
+respective edge. The values correspond to the order of the edges.</p>
 
     </div>
 

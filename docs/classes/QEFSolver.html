@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,7 +137,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_math_qef-solver.js.html#l6"><code>src\math\qef-solver.js:6</code></a>
+            Defined in: <a href="../files/src_math_qef-solver.js.html#l5"><code>src\math\qef-solver.js:5</code></a>
         </div>
 
             Module: <a href="../modules/math.html">math</a><br>
@@ -148,8 +149,7 @@
 <div class="box intro">
     <p>A Quaratic Error Function solver.</p>
 <p>Finds a point inside a voxel that minimises the sum of the squares of the
-distances from the voxel's internal point to each of the planes associated
-with the voxel.</p>
+distances to the surface intersection planes associated with the voxel.</p>
 
 </div>
 
@@ -182,7 +182,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l6"><code>src\math\qef-solver.js:6</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l5"><code>src\math\qef-solver.js:5</code></a>
         </p>
 
 
@@ -264,15 +264,15 @@ with the voxel.</p>
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_add">add</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_addData">addData</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_clear">clear</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_computeError">computeError</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setData">setData</a>
 
                             </li>
                             <li class="index-item method">
@@ -299,14 +299,10 @@ with the voxel.</p>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_error">error</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_hasSolution">hasSolution</a>
 
                             </li>
-                            <li class="index-item property private">
+                            <li class="index-item property">
                                 <a href="#property_massPoint">massPoint</a>
 
                             </li>
@@ -335,134 +331,6 @@ with the voxel.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_add" class="method item">
-    <h3 class="name"><code>add</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>p</code>
-                </li>
-                <li class="arg">
-                        <code>n</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_math_qef-solver.js.html#l145"><code>src\math\qef-solver.js:145</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Adds the given position and normal data.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">p</code>
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A position.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">n</code>
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A normal.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_addData" class="method item">
-    <h3 class="name"><code>addData</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>d</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_math_qef-solver.js.html#l183"><code>src\math\qef-solver.js:183</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Accumulates the given data.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">d</code>
-                        <span class="type"><a href="../classes/QEFData.html" class="crosslink">QEFData</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>The data to add.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_clear" class="method item">
     <h3 class="name"><code>clear</code></h3>
 
@@ -478,7 +346,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l246"><code>src\math\qef-solver.js:246</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l209"><code>src\math\qef-solver.js:209</code></a>
         </p>
 
 
@@ -491,6 +359,118 @@ with the voxel.</p>
     </div>
 
 
+
+
+</div>
+<div id="method_computeError" class="method item">
+    <h3 class="name"><code>computeError</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_math_qef-solver.js.html#l117"><code>src\math\qef-solver.js:117</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the error of the approximated position.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>The QEF error.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setData" class="method item">
+    <h3 class="name"><code>setData</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>d</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/QEFSolver.html" class="crosslink">QEFSolver</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_math_qef-solver.js.html#l142"><code>src\math\qef-solver.js:142</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sets the QEF data.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">d</code>
+                        <span class="type"><a href="../classes/QEFData.html" class="crosslink">QEFData</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>QEF Data.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/QEFSolver.html" class="crosslink">QEFSolver</a></span>:
+                    <p>This solver.</p>
+
+            </div>
+        </div>
 
 
 </div>
@@ -512,7 +492,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l197"><code>src\math\qef-solver.js:197</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l160"><code>src\math\qef-solver.js:160</code></a>
         </p>
 
 
@@ -554,7 +534,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l78"><code>src\math\qef-solver.js:78</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l76"><code>src\math\qef-solver.js:76</code></a>
         </p>
 
 
@@ -580,7 +560,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l88"><code>src\math\qef-solver.js:88</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l86"><code>src\math\qef-solver.js:86</code></a>
         </p>
 
 
@@ -606,43 +586,18 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l58"><code>src\math\qef-solver.js:58</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l56"><code>src\math\qef-solver.js:56</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>QEF data storage.</p>
+        <p>QEF data.</p>
 
     </div>
 
-
-
-</div>
-<div id="property_error" class="property item">
-    <h3 class="name"><code>error</code></h3>
-    <span class="type">Number</span>
-
-
-
-        <span class="flag final">final</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_math_qef-solver.js.html#l119"><code>src\math\qef-solver.js:119</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The error of the previously computed position.</p>
-
-    </div>
-
+        <p><strong>Default:</strong> null</p>
 
 
 </div>
@@ -657,40 +612,39 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l108"><code>src\math\qef-solver.js:108</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l106"><code>src\math\qef-solver.js:106</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Indicates whether this solver has a valid solution.</p>
+        <p>Indicates whether this solver has a solution.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_massPoint" class="property item private">
+<div id="property_massPoint" class="property item">
     <h3 class="name"><code>massPoint</code></h3>
     <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
 
 
-        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l68"><code>src\math\qef-solver.js:68</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l67"><code>src\math\qef-solver.js:67</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The average of the exact intersection points on the edges of a voxel.</p>
+        <p>The average of the surface intersection points of a voxel.</p>
 
     </div>
 
@@ -709,7 +663,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l47"><code>src\math\qef-solver.js:47</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l45"><code>src\math\qef-solver.js:45</code></a>
         </p>
 
 
@@ -736,7 +690,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l36"><code>src\math\qef-solver.js:36</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l34"><code>src\math\qef-solver.js:34</code></a>
         </p>
 
 
@@ -763,7 +717,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l25"><code>src\math\qef-solver.js:25</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l23"><code>src\math\qef-solver.js:23</code></a>
         </p>
 
 
@@ -790,7 +744,7 @@ with the voxel.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_qef-solver.js.html#l98"><code>src\math\qef-solver.js:98</code></a>
+        <a href="../files/src_math_qef-solver.js.html#l96"><code>src\math\qef-solver.js:96</code></a>
         </p>
 
 

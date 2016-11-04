@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,10 +137,18 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import { PATTERN } from &quot;sparse-octree&quot;;
-import { Box3, Vector3 } from &quot;../../math&quot;;
-import { SDFType, Sphere, Box, Plane, Torus, Heightfield } from &quot;../sdf&quot;;
+import { Box3 } from &quot;../../math/box3.js&quot;;
+import { Vector3 } from &quot;../../math/vector3.js&quot;;
+import { SDFType } from &quot;../sdf/sdf-type.js&quot;;
+import { Sphere } from &quot;../sdf/sphere.js&quot;;
+import { Box } from &quot;../sdf/box.js&quot;;
+import { Plane } from &quot;../sdf/plane.js&quot;;
+import { Torus } from &quot;../sdf/torus.js&quot;;
+import { Heightfield } from &quot;../sdf/heightfield.js&quot;;
+import { Density } from &quot;../density.js&quot;;
+import { EdgeData } from &quot;../edge-data.js&quot;;
+import { HermiteData } from &quot;../hermite-data.js&quot;;
 import { Edge } from &quot;../edge.js&quot;;
-import { HermiteData } from &quot;./hermite-data.js&quot;;
 import { OperationType } from &quot;./operation-type.js&quot;;
 import { Union } from &quot;./union.js&quot;;
 import { Difference } from &quot;./difference.js&quot;;
@@ -199,7 +208,7 @@ function computeIndexBounds(chunk, operation) {
 /**
  * Combines material indices.
  *
- * @method combine
+ * @method combineMaterialIndices
  * @private
  * @static
  * @param {Chunk} chunk - A volume chunk
@@ -209,7 +218,7 @@ function computeIndexBounds(chunk, operation) {
  * @param {Box3} bounds - Grid iteration limits.
  */
 
-function updateMaterialIndices(chunk, operation, data0, data1, bounds) {
+function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
 
 	const m = chunk.resolution + 1;
 	const mm = m * m;
@@ -252,12 +261,14 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 	const s = chunk.size;
 	const n = chunk.resolution;
-
 	const m = n + 1;
 	const mm = m * m;
 
+	const materialIndices = data.materialIndices;
+
 	const base = chunk.min;
 	const offset = new Vector3();
+	const position = new Vector3();
 
 	const X = bounds.max.x;
 	const Y = bounds.max.y;
@@ -277,8 +288,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				offset.x = x * s / n;
 
-				position.addVectors(base, offset);
-				operation.generateMaterialIndex((z * mm + y * m + x), position, data);
+				materialIndices[z * mm + y * m + x] = operation.generateMaterialIndex(position.addVectors(base, offset));
 
 			}
 
@@ -298,70 +308,161 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
  * @param {HermiteData} data1 - A predominant data set.
- * @param {Box3} bounds - Grid iteration limits.
  * @return {Object} The generated edge data.
  */
 
-function combineEdges(chunk, operation, data0, data1, bounds) {
+function combineEdges(chunk, operation, data0, data1) {
 
-	const n = chunk.resolution;
-	const m = n + 1;
-	const maxEdges = 3 * m * m * n;
+	const m = chunk.resolution + 1;
+	const indexOffsets = new Uint32Array([1, m, m * m]);
 
-	//const materialIndices = data.materialIndices;
-	//const edge = new Edge();
+	const materialIndices = data0.materialIndices;
 
-	// Allocate space for the maximum amount of edges.
-	const edges = new Uint32Array(maxEdges * 2);
-	const t = new Float32Array(maxEdges);
-	const normals = new Float32Array(maxEdges * 3);
+	const edge1 = new Edge();
+	const edge0 = new Edge();
 
-	const edges0 = data0.edges;
-	const t0 = data0.t;
-	const normals0 = data0.normals;
+	const edgeData1 = data1.edgeData;
+	const edgeData0 = data0.edgeData;
+	const edgeData = new EdgeData(chunk.resolution);
 
-	const edges1 = data1.edges;
-	const t1 = data1.t;
-	const normals1 = data1.normals;
+	// Edge counters.
+	const lengths = new Uint32Array(3);
 
-	let edgeCount = 0;
+	let edges1, zeroCrossings1, normals1;
+	let edges0, zeroCrossings0, normals0;
+	let edges, zeroCrossings, normals;
 
-	let i0 = 0;
-	let i1 = 0;
-	let i2 = 0;
+	let indexA1, indexB1;
+	let indexA0, indexB0;
 
-	let i3 = 0;
-	let i4 = 0;
-	let i5 = 0;
+	let m1, m2;
+	let edge;
 
-	let l = data.edges.length;
+	let c, d, i, j, il, jl;
 
-	while(i0 &lt; l) {
+	// Process the edges along the X-axis, then Y and finally Z.
+	for(c = 0, d = 0; d &lt; 3; ++d) {
 
-		indexA = data.edges[i0++];
-		indexB = data.edges[i0++];
+		edges1 = edgeData1.edges[d];
+		edges0 = edgeData0.edges[d];
+		edges = edgeData.edges[d];
 
-		
+		zeroCrossings1 = edgeData1.zeroCrossings[d];
+		zeroCrossings0 = edgeData0.zeroCrossings[d];
+		zeroCrossings = edgeData.zeroCrossings[d];
+
+		normals1 = edgeData1.normals[d];
+		normals0 = edgeData0.normals[d];
+		normals = edgeData.normals[d];
+
+		il = edges1.length;
+		jl = edges0.length;
+
+		// Process all generated edges.
+		for(i = 0, j = 0; i &lt; il; ++i) {
+
+			indexA1 = edges1[i];
+			indexB1 = indexA1 + indexOffsets[d];
+
+			m1 = materialIndices[indexA1];
+			m2 = materialIndices[indexB1];
+
+			if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+				edge1.t = zeroCrossings1[i];
+				edge1.n.x = normals1[i * 3];
+				edge1.n.y = normals1[i * 3 + 1];
+				edge1.n.z = normals1[i * 3 + 2];
+
+				edge = edge1;
+
+				// Process existing edges up to the generated edge.
+				while(j &lt; jl &amp;&amp; edges0[j] &lt;= indexA1) {
+
+					indexA0 = edges0[j];
+					indexB0 = indexA0 + indexOffsets[d];
+
+					edge0.t = zeroCrossings0[j];
+					edge0.n.x = normals0[j * 3];
+					edge0.n.y = normals0[j * 3 + 1];
+					edge0.n.z = normals0[j * 3 + 2];
+
+					if(indexA0 &lt; indexA1) {
+
+						m1 = materialIndices[indexA0];
+						m2 = materialIndices[indexB0];
+
+						if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+							// The edge exhibits a material change and there is no conflict.
+							edges[c] = indexA0;
+							zeroCrossings[c] = edge0.t;
+							normals[c * 3] = edge0.n.x;
+							normals[c * 3 + 1] = edge0.n.y;
+							normals[c * 3 + 2] = edge0.n.z;
+
+							++c;
+
+						}
+
+					} else {
+
+						// Resolve the conflict.
+						edge = operation.selectEdge(edge0, edge1, (m1 === Density.HOLLOW));
+
+					}
+
+					++j;
+
+				}
+
+				edges[c] = indexA1;
+				zeroCrossings[c] = edge.t;
+				normals[c * 3] = edge.n.x;
+				normals[c * 3 + 1] = edge.n.y;
+				normals[c * 3 + 2] = edge.n.z;
+
+				++c;
+
+			}
+
+		}
+
+		// Intersection operations discard all remaining edges.
+		if(operation.type !== OperationType.INTERSECTION) {
+
+			// Collect remaining edges.
+			while(j &lt; jl) {
+
+				indexA0 = edges0[j];
+				indexB0 = indexA0 + indexOffsets[d];
+
+				m1 = materialIndices[indexA0];
+				m2 = materialIndices[indexB0];
+
+				if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+
+					edges[c] = indexA0;
+					zeroCrossings[c] = zeroCrossings0[j];
+					normals[c * 3] = normals0[j * 3];
+					normals[c * 3 + 1] = normals0[j * 3 + 1];
+					normals[c * 3 + 2] = normals0[j * 3 + 2];
+
+					++c;
+
+				}
+
+				++j;
+
+			}
+
+		}
+
+		lengths[d] = c;
 
 	}
 
-	if(operation.type === OperationType.UNION || operation.type === OperationType.DIFFERENCE) {
-
-		// Collect remaining edges.
-		edges.set(edges0.subarray(i4), i1);
-		t.set(t0.subarray(i3), i0);
-		normals.set(normals0.subarray(i5), i2);
-
-		edgeCount
-
-	}
-
-	return {
-		edges: edges,
-		t: t,
-		normals: normals,
-		edgeCount: i0
-	};
+	return { edgeData, lengths };
 
 }
 
@@ -382,105 +483,104 @@ function generateEdges(chunk, operation, data, bounds) {
 
 	const s = chunk.size;
 	const n = chunk.resolution;
-
 	const m = n + 1;
 	const mm = m * m;
-	const maxEdges = 3 * mm * n;
+
+	const indexOffsets = new Uint32Array([1, m, mm]);
+	const materialIndices = data.materialIndices;
 
 	const base = chunk.min;
 	const offsetA = new Vector3();
 	const offsetB = new Vector3();
-
-	const indexOffsets = new Uint32Array([1, m, mm]);
-
-	const materialIndices = data.materialIndices;
 	const edge = new Edge();
 
 	// Allocate space for the maximum amount of edges.
-	const edges = new Uint32Array(maxEdges * 2);
-	const t = new Float32Array(maxEdges);
-	const normals = new Float32Array(maxEdges * 3);
+	const edgeData = new EdgeData(n);
 
-	// Include edges that straddle the bounding box.
-	bounds.min.set(
-		Math.max(bounds.min.x - 1, 0),
-		Math.max(bounds.min.y - 1, 0),
-		Math.max(bounds.min.z - 1, 0)
-	);
+	// Edge counters for three sets of edges.
+	const lengths = new Uint32Array(3);
 
-	const X = bounds.max.x;
-	const Y = bounds.max.y;
-	const Z = bounds.max.z;
+	let edges, zeroCrossings, normals;
+	let indexA, indexB;
 
-	let edgeCount = 0;
+	let minX, minY, minZ;
+	let maxX, maxY, maxZ;
 
-	let i0 = 0;
-	let i1 = 0;
-	let i2 = 0;
-
+	let c, d, a, axis;
 	let x, y, z;
 
-	let c, plane, xyz;
-	let combination;
+	// Process the edges along the X-axis, then Y and finally Z.
+	for(c = 0, d = 0, a = 4; d &lt; 3; ++d, a &gt;&gt;= 1) {
 
-	for(z = bounds.min.z; z &lt;= Z; ++z) {
+		edges = edgeData.edges[d];
+		zeroCrossings = edgeData.zeroCrossings[d];
+		normals = edgeData.normals[d];
 
-		offsetA.z = z * s / n;
+		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
+		axis = PATTERN[a];
 
-		for(y = bounds.min.y; y &lt;= Y; ++y) {
+		minX = bounds.min.x; maxX = bounds.max.x;
+		minY = bounds.min.y; maxY = bounds.max.y;
+		minZ = bounds.min.z; maxZ = bounds.max.z;
 
-			offsetA.y = y * s / n;
+		/* Include edges that straddle the bounding box and avoid processing grid
+		points at chunk borders. */
+		switch(d) {
 
-			for(x = bounds.min.x; x &lt;= X; ++x) {
+			case 0:
+				minX = Math.max(minX - 1, 0);
+				maxX = Math.min(maxX, n - 1);
+				break;
 
-				offsetA.x = x * s / n;
+			case 1:
+				minY = Math.max(minY - 1, 0);
+				maxY = Math.min(maxY, n - 1);
+				break;
 
-				indexA = z * mm + y * m + x;
-				edge.a.addVectors(base, offsetA);
+			case 2:
+				minZ = Math.max(minZ - 1, 0);
+				maxZ = Math.min(maxZ, n - 1);
+				break;
 
-				// Process the edge in the X-plane, then Y and finally Z.
-				for(c = 0, plane = 4; c &lt; 3; ++c, plane &gt;&gt;= 1) {
+		}
 
-					// Select the grid point index of the current plane.
-					switch(c) {
+		for(z = minZ; z &lt;= maxZ; ++z) {
 
-						case 0: xyz = x; break;
-						case 1: xyz = y; break;
-						case 2: xyz = z; break;
+			for(y = minY; y &lt;= maxY; ++y) {
 
-					}
+				for(x = minX; x &lt;= maxX; ++x) {
 
-					// Check if an edge exists in this plane.
-					if(xyz &lt; n) {
+					indexA = z * mm + y * m + x;
+					indexB = indexA + indexOffsets[d];
 
-						indexB = indexA + indexOffsets[c];
+					// Check if the edge exhibits a material change.
+					if(materialIndices[indexA] !== materialIndices[indexB]) {
 
-						// Check if the edge exhibits a material change.
-						if(materialIndices[indexA] !== materialIndices[indexB]) {
+						offsetA.set(
+							x * s / n,
+							y * s / n,
+							z * s / n
+						);
 
-							// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-							combination = PATTERN[plane];
+						offsetB.set(
+							(x + axis[0]) * s / n,
+							(y + axis[1]) * s / n,
+							(z + axis[2]) * s / n
+						);
 
-							offsetB.set(
-								(x + combination[0]) * s / n,
-								(y + combination[1]) * s / n,
-								(z + combination[2]) * s / n
-							);
+						edge.a.addVectors(base, offsetA);
+						edge.b.addVectors(base, offsetB);
 
-							edge.b.addVectors(base, offsetB);
-							operation.generateEdge(edge);
+						// Create and store the edge data.
+						operation.generateEdge(edge);
 
-							// Push the created edge data.
-							edges[i1++] = indexA;
-							edges[i1++] = indexB;
+						edges[c] = indexA;
+						zeroCrossings[c] = edge.t;
+						normals[c * 3] = edge.n.x;
+						normals[c * 3 + 1] = edge.n.y;
+						normals[c * 3 + 2] = edge.n.z;
 
-							t[i0++] = edge.t;
-
-							normals[i2++] = edge.n.x;
-							normals[i2++] = edge.n.y;
-							normals[i2++] = edge.n.z;
-
-						}
+						++c;
 
 					}
 
@@ -490,14 +590,11 @@ function generateEdges(chunk, operation, data, bounds) {
 
 		}
 
+		lengths[d] = c;
+
 	}
 
-	return {
-		edges: edges,
-		t: t,
-		normals: normals,
-		edgeCount: i0
-	};
+	return { edgeData, lengths };
 
 }
 
@@ -510,14 +607,14 @@ function generateEdges(chunk, operation, data, bounds) {
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
- * @param {HermiteData} [data1] - Predominant data set.
+ * @param {HermiteData} [data1] - A predominant data set.
  */
 
 function update(chunk, operation, data0, data1) {
 
 	const bounds = computeIndexBounds(chunk, operation);
 
-	let edgeData;
+	let result, edgeData, lengths, d;
 
 	if(operation.type === OperationType.DENSITY_FUNCTION) {
 
@@ -529,16 +626,25 @@ function update(chunk, operation, data0, data1) {
 
 	}
 
-	if(!data.empty &amp;&amp; !data.full) {
+	if(!data0.empty &amp;&amp; !data0.full) {
 
-		edgeData = (operation.type === OperationType.DENSITY_FUNCTION) ?
+		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
 			generateEdges(chunk, operation, bounds) :
-			combineEdges(chunk, operation, data0, data1, bounds);
+			combineEdges(chunk, operation, data0, data1);
+
+		edgeData = result.edgeData;
+		lengths = result.lengths;
 
 		// Cut off empty data.
-		data0.edges = edgeData.edges.slice(0, edgeData.edgeCount * 2);
-		data0.t = edgeData.t.slice(0, edgeData.edgeCount);
-		data0.normals = edgeData.normals.slice(0, edgeData.edgeCount * 3);
+		for(d = 0; d &lt; 3; ++d) {
+
+			edgeData.edges[d] = edgeData.edges[d].slice(0, lengths[d]);
+			edgeData.zeroCrossings[d] = edgeData.zeroCrossings[d].slice(0, lengths[d]);
+			edgeData.normals[d] = edgeData.normals[d].slice(0, lengths[d] * 3);
+
+		}
+
+		data0.edgeData = edgeData;
 
 	}
 
@@ -575,6 +681,7 @@ function execute(chunk, operation) {
 	// Union, Difference or Intersection.
 	for(i = 0, l = children.length; i &lt; l; ++i) {
 
+		// Generate the full result of the child operation recursively.
 		data = execute(chunk, children[i]);
 
 		if(result === undefined) {
@@ -621,7 +728,7 @@ function execute(chunk, operation) {
 
 /**
  * Constructive Solid Geometry combines Signed Distance Functions by using
- * boolean operators to generate and transform volume data.
+ * Boolean operators to generate and transform volume data.
  *
  * @class ConstructiveSolidGeometry
  * @submodule csg
@@ -633,8 +740,8 @@ export class ConstructiveSolidGeometry {
 	/**
 	 * Transforms the given chunk of hermite data in two steps:
 	 *
-	 *  1. Generate data by executing the given SDF.
-	 *  2. Combine the generated data with the chunk data.
+	 *  1. Generate data by executing the given SDF
+	 *  2. Combine the generated data with the chunk data
 	 *
 	 * @method run
 	 * @static

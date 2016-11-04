@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -136,7 +137,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l485"><code>src\volume\csg\constructive-solid-geometry.js:485</code></a>
+            Defined in: <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l591"><code>src\volume\csg\constructive-solid-geometry.js:591</code></a>
         </div>
 
             Module: <a href="../modules/csg.html">csg</a><br>
@@ -147,7 +148,7 @@
 
 <div class="box intro">
     <p>Constructive Solid Geometry combines Signed Distance Functions by using
-boolean operators to generate and transform volume data.</p>
+Boolean operators to generate and transform volume data.</p>
 
 </div>
 
@@ -168,12 +169,12 @@ boolean operators to generate and transform volume data.</p>
 
                     <ul class="index-list methods">
                             <li class="index-item method private">
-                                <a href="#method_combine">combine</a>
+                                <a href="#method_combineEdges">combineEdges</a>
 
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method private">
-                                <a href="#method_combineEdges">combineEdges</a>
+                                <a href="#method_combineMaterialIndices">combineMaterialIndices</a>
 
                                     <span class="flag static">static</span>
                             </li>
@@ -222,8 +223,127 @@ boolean operators to generate and transform volume data.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_combine" class="method item private">
-    <h3 class="name"><code>combine</code></h3>
+<div id="method_combineEdges" class="method item private">
+    <h3 class="name"><code>combineEdges</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>chunk</code>
+                </li>
+                <li class="arg">
+                        <code>operation</code>
+                </li>
+                <li class="arg">
+                        <code>data0</code>
+                </li>
+                <li class="arg">
+                        <code>data1</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l163"><code>src\volume\csg\constructive-solid-geometry.js:163</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Combines edges.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">chunk</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A volume chunk</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">operation</code>
+                        <span class="type"><a href="../classes/Operation.html" class="crosslink">Operation</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A CSG operation.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">data0</code>
+                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A target data set.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">data1</code>
+                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A predominant data set.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>The generated edge data.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_combineMaterialIndices" class="method item private">
+    <h3 class="name"><code>combineMaterialIndices</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -258,7 +378,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l62"><code>src\volume\csg\constructive-solid-geometry.js:62</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l70"><code>src\volume\csg\constructive-solid-geometry.js:70</code></a>
         </p>
 
 
@@ -345,141 +465,6 @@ boolean operators to generate and transform volume data.</p>
 
 
 </div>
-<div id="method_combineEdges" class="method item private">
-    <h3 class="name"><code>combineEdges</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>chunk</code>
-                </li>
-                <li class="arg">
-                        <code>operation</code>
-                </li>
-                <li class="arg">
-                        <code>data0</code>
-                </li>
-                <li class="arg">
-                        <code>data1</code>
-                </li>
-                <li class="arg">
-                        <code>bounds</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
-
-
-        <span class="flag private">private</span>
-
-
-        <span class="flag static">static</span>
-
-
-
-    <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
-                <p>
-                Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l154"><code>src\volume\csg\constructive-solid-geometry.js:154</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Combines edges.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">chunk</code>
-                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A volume chunk</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">operation</code>
-                        <span class="type"><a href="../classes/Operation.html" class="crosslink">Operation</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A CSG operation.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data0</code>
-                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A target data set.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">data1</code>
-                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A predominant data set.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">bounds</code>
-                        <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>Grid iteration limits.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Object</span>:
-                    <p>The generated edge data.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_computeIndexBounds" class="method item private">
     <h3 class="name"><code>computeIndexBounds</code></h3>
 
@@ -510,7 +495,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l11"><code>src\volume\csg\constructive-solid-geometry.js:11</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l19"><code>src\volume\csg\constructive-solid-geometry.js:19</code></a>
         </p>
 
 
@@ -597,7 +582,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l410"><code>src\volume\csg\constructive-solid-geometry.js:410</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l515"><code>src\volume\csg\constructive-solid-geometry.js:515</code></a>
         </p>
 
 
@@ -690,7 +675,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l231"><code>src\volume\csg\constructive-solid-geometry.js:231</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l331"><code>src\volume\csg\constructive-solid-geometry.js:331</code></a>
         </p>
 
 
@@ -806,7 +791,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l102"><code>src\volume\csg\constructive-solid-geometry.js:102</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l110"><code>src\volume\csg\constructive-solid-geometry.js:110</code></a>
         </p>
 
 
@@ -905,7 +890,7 @@ boolean operators to generate and transform volume data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l568"><code>src\volume\csg\constructive-solid-geometry.js:568</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l674"><code>src\volume\csg\constructive-solid-geometry.js:674</code></a>
         </p>
 
 
@@ -974,7 +959,7 @@ boolean operators to generate and transform volume data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l496"><code>src\volume\csg\constructive-solid-geometry.js:496</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l602"><code>src\volume\csg\constructive-solid-geometry.js:602</code></a>
         </p>
 
 
@@ -984,8 +969,8 @@ boolean operators to generate and transform volume data.</p>
     <div class="description">
         <p>Transforms the given chunk of hermite data in two steps:</p>
 <ol>
-<li>Generate data by executing the given SDF.</li>
-<li>Combine the generated data with the chunk data.</li>
+<li>Generate data by executing the given SDF</li>
+<li>Combine the generated data with the chunk data</li>
 </ol>
 
     </div>
@@ -1059,7 +1044,7 @@ boolean operators to generate and transform volume data.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l367"><code>src\volume\csg\constructive-solid-geometry.js:367</code></a>
+        <a href="../files/src_volume_csg_constructive-solid-geometry.js.html#l463"><code>src\volume\csg\constructive-solid-geometry.js:463</code></a>
         </p>
 
 
@@ -1122,7 +1107,7 @@ boolean operators to generate and transform volume data.</p>
 
                     <div class="param-description">
                         <ul>
-<li>Predominant data set.</li>
+<li>A predominant data set.</li>
 </ul>
 
                     </div>

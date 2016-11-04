@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -261,6 +262,14 @@
 
                             </li>
                             <li class="index-item property private">
+                                <a href="#property_onerror">onerror</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_onmessage">onmessage</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property_WORKER_BLOB">WORKER_BLOB</a>
 
                                     <span class="flag static">static</span>
@@ -293,7 +302,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l170"><code>src\worker\thread-pool.js:170</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l191"><code>src\worker\thread-pool.js:191</code></a>
         </p>
 
 
@@ -315,7 +324,7 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>The</code>
+                        <code>worker</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -330,7 +339,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l65"><code>src\worker\thread-pool.js:65</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l96"><code>src\worker\thread-pool.js:96</code></a>
         </p>
 
 
@@ -347,12 +356,14 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">The</code>
+                        <code class="param-name">worker</code>
                         <span class="type"><a href="../classes/Worker.html" class="crosslink">Worker</a></span>
 
 
                     <div class="param-description">
-                        <p>worker to close.</p>
+                        <ul>
+<li>The worker to close.</li>
+</ul>
 
                     </div>
 
@@ -382,7 +393,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l97"><code>src\worker\thread-pool.js:97</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l131"><code>src\worker\thread-pool.js:131</code></a>
         </p>
 
 
@@ -425,7 +436,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l131"><code>src\worker\thread-pool.js:131</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l152"><code>src\worker\thread-pool.js:152</code></a>
         </p>
 
 
@@ -505,6 +516,58 @@ subsequent polls until it finishes its task and sends a message back.</p>
     </div>
 
         <p><strong>Default:</strong> navigator.hardwareConcurrency</p>
+
+
+</div>
+<div id="property_onerror" class="property item private">
+    <h3 class="name"><code>onerror</code></h3>
+    <span class="type">Function</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_worker_thread-pool.js.html#l80"><code>src\worker\thread-pool.js:80</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A worker error handler.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_onmessage" class="property item private">
+    <h3 class="name"><code>onmessage</code></h3>
+    <span class="type">Function</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_worker_thread-pool.js.html#l63"><code>src\worker\thread-pool.js:63</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A worker message handler.</p>
+
+    </div>
+
 
 
 </div>

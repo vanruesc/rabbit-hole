@@ -602,8 +602,8 @@ export class ConstructiveSolidGeometry {
 	/**
 	 * Transforms the given chunk of hermite data in two steps:
 	 *
-	 *  1. Generate data by executing the given SDF.
-	 *  2. Combine the generated data with the chunk data.
+	 *  1. Generate data by executing the given SDF
+	 *  2. Combine the generated data with the chunk data
 	 *
 	 * @method run
 	 * @static

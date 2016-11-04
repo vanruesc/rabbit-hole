@@ -1,4 +1,8 @@
 /**
+ * @submodule isosurface
+ */
+
+/**
  * An edge mask.
  *
  * @property EDGE_MASK

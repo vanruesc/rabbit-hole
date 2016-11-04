@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -197,13 +198,44 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.busyWorkers = new WeakSet();
 
+		/**
+		 * A worker message handler.
+		 *
+		 * @property onmessage
+		 * @type Function
+		 * @private
+		 */
+
+		this.onmessage = (event) =&gt; {
+
+			const worker = event.target;
+
+			this.busyWorkers.delete(worker);
+			this.dispatchEvent(event);
+
+		};
+
+		/**
+		 * A worker error handler.
+		 *
+		 * @property onerror
+		 * @type Function
+		 * @private
+		 */
+
+		this.onerror = (event) =&gt; {
+
+			this.dispatchEvent(event);
+
+		};
+
 	}
 
 	/**
 	 * Closes a worker.
 	 *
 	 * @method closeWorker
-	 * @param {Worker} The worker to close.
+	 * @param {Worker} worker - The worker to close.
 	 */
 
 	closeWorker(worker) {
@@ -222,6 +254,9 @@ export class ThreadPool extends THREE.EventDispatcher {
 			});
 
 		}
+
+		worker.removeEventListener(&quot;message&quot;, this.onmessage);
+		worker.removeEventListener(&quot;error&quot;, this.onerror);
 
 		if(index &gt;= 0) {
 
@@ -245,21 +280,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.workers.push(worker);
 
-		worker.addEventListener(&quot;message&quot;, (event) =&gt; {
-
-			const worker = event.target;
-
-			this.busyWorkers.delete(worker);
-
-			this.dispatchEvent(event);
-
-		});
-
-		worker.addEventListener(&quot;error&quot;, (event) =&gt; {
-
-			this.dispatchEvent(event);
-
-		});
+		worker.addEventListener(&quot;message&quot;, this.onmessage);
+		worker.addEventListener(&quot;error&quot;, this.onerror);
 
 		return worker;
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\iterator-result.js - rabbit-hole</title>
+    <title>src\volume\edge-data.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,16 +42,17 @@
                                 <li><a href="../classes/Box.html">Box</a></li>
                                 <li><a href="../classes/Box3.html">Box3</a></li>
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
+                                <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
                                 <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
+                                <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
@@ -81,7 +82,6 @@
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
-                                <li><a href="../classes/VoxelIterator.html">VoxelIterator</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
@@ -90,6 +90,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
                                 <li><a href="../modules/math.html">math</a></li>
@@ -131,43 +132,156 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\core\iterator-result.js</h1>
+<h1 class="file-heading">File: src\volume\edge-data.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * An iterator result.
+ * Stores edge data separately for each dimension.
  *
- * @class IteratorResult
- * @submodule core
+ * With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
+ * the number of edges that actually contain the volume&#x27;s surface is usually
+ * much lower.
+ *
+ * @class EdgeData
+ * @submodule volume
  * @constructor
- * @param {Vector3} [value=null] - A value.
- * @param {Vector3} [done=false] - Whether this result is past the end of the iterated sequence.
+ * @param {Number} n - The grid resolution.
  */
 
-export class IteratorResult {
+export class EdgeData {
 
-	constructor(value = null, done = false) {
+	constructor(n) {
 
-		/**
-		 * The value.
-		 *
-		 * @property value
-		 * @type Object
-		 * @default null
-		 */
-
-		this.value = value;
+		const c = (n + 1) ** 2 * n;
 
 		/**
-		 * Whether this result is past the end of the iterated sequence.
+		 * The edges.
 		 *
-		 * @property done
-		 * @type Boolean
-		 * @default false
+		 * Edges are stored as starting grid point indices in ascending order. The
+		 * ending point indices are implicitly defined through the dimension split:
+		 *
+		 * Given a starting point index A, the ending point index B for the X-, Y-
+		 * and Z-plane is defined as A + 1, A + N and A + N² respectively where N is
+		 * the grid resolution + 1.
+		 *
+		 * @property edges
+		 * @type Array
 		 */
 
-		this.done = done;
+		this.edges = [
+			new Uint32Array(c),
+			new Uint32Array(c),
+			new Uint32Array(c)
+		];
+
+		/**
+		 * The Zero Crossing interpolation values.
+		 *
+		 * Each value describes the relative surface intersection position on the
+		 * respective edge. The values correspond to the order of the edges.
+		 *
+		 * @property zeroCrossings
+		 * @type Array
+		 */
+
+		this.zeroCrossings = [
+			new Float32Array(c),
+			new Float32Array(c),
+			new Float32Array(c)
+		];
+
+		/**
+		 * The surface intersection normals.
+		 *
+		 * The vectors are stored as [x, y, z] float triples and correspond to the
+		 * order of the edges.
+		 *
+		 * @property normals
+		 * @type Array
+		 */
+
+		this.normals = [
+			new Float32Array(c * 3),
+			new Float32Array(c * 3),
+			new Float32Array(c * 3)
+		];
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @method createTransferList
+	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
+	 * @return {Array} A transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		const arrays = [
+
+			this.edges[0],
+			this.edges[1],
+			this.edges[2],
+
+			this.zeroCrossings[0],
+			this.zeroCrossings[1],
+			this.zeroCrossings[2],
+
+			this.normals[0],
+			this.normals[1],
+			this.normals[2]
+
+		];
+
+		let array;
+
+		while(arrays.length &gt; 0) {
+
+			array = arrays.pop();
+
+			if(array !== null) {
+
+				transferList.push(array.buffer);
+
+			}
+
+		}
+
+		return transferList;
+
+	}
+
+	/**
+	 * Serialises this data.
+	 *
+	 * @method serialise
+	 * @return {Object} The serialised version of the data.
+	 */
+
+	serialise() {
+
+		return {
+			edges: this.edges,
+			zeroCrossings: this.zeroCrossings,
+			normals: this.normals
+		};
+
+	}
+
+	/**
+	 * Adopts the given serialised data.
+	 *
+	 * @method deserialise
+	 * @param {Object} data - Serialised data.
+	 */
+
+	deserialise(data) {
+
+		this.edges = data.edges;
+		this.zeroCrossings = data.zeroCrossings;
+		this.normals = data.normals;
 
 	}
 
