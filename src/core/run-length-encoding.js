@@ -17,7 +17,7 @@ export class RunLengthEncoding {
 	 * @return {Object} The run-lengths and the encoded data.
 	 */
 
-	encode(array) {
+	static encode(array) {
 
 		const runLengths = [];
 		const data = [];
@@ -66,7 +66,7 @@ export class RunLengthEncoding {
 	 * @return {Array} The decoded data.
 	 */
 
-	decode(runLengths, data, array = []) {
+	static decode(runLengths, data, array = []) {
 
 		let element;
 
