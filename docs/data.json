@@ -1870,7 +1870,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\worker\\thread-pool.js",
-            "line": 17,
+            "line": 5,
             "description": "Manages worker threads.",
             "submodule": "worker",
             "extends": "EventDispatcher",
@@ -7448,21 +7448,20 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 5,
-            "description": "The worker program.",
+            "line": 21,
+            "description": "An object URL to the worker program.",
             "itemtype": "property",
-            "name": "WORKER_BLOB",
-            "type": "Blob",
+            "name": "workerURL",
+            "type": "String",
             "access": "private",
             "tagname": "",
-            "static": 1,
-            "final": 1,
             "class": "ThreadPool",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "worker"
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 33,
+            "line": 31,
             "description": "The maximum number of active worker threads.",
             "itemtype": "property",
             "name": "maxWorkers",
@@ -7474,7 +7473,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 43,
+            "line": 41,
             "description": "A list of existing workers.",
             "itemtype": "property",
             "name": "workers",
@@ -7487,7 +7486,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 53,
+            "line": 51,
             "description": "Keeps track of workers that are currently busy.",
             "itemtype": "property",
             "name": "busyWorkers",
@@ -7500,7 +7499,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 63,
+            "line": 61,
             "description": "A worker message handler.",
             "itemtype": "property",
             "name": "onmessage",
@@ -7513,7 +7512,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 80,
+            "line": 78,
             "description": "A worker error handler.",
             "itemtype": "property",
             "name": "onerror",
@@ -7526,7 +7525,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 96,
+            "line": 94,
             "description": "Closes a worker.",
             "itemtype": "method",
             "name": "closeWorker",
@@ -7543,7 +7542,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 131,
+            "line": 129,
             "description": "Creates a new worker.",
             "itemtype": "method",
             "name": "createWorker",
@@ -7559,7 +7558,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 152,
+            "line": 150,
             "description": "Polls an available worker and returns it. The worker will be excluded from\nsubsequent polls until it finishes its task and sends a message back.",
             "itemtype": "method",
             "name": "getWorker",
@@ -7573,8 +7572,8 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 191,
-            "description": "Resets this thread pool by closing all workers.",
+            "line": 189,
+            "description": "Resets this thread pool by closing all workers and releasing the worker\nprogram blob.",
             "itemtype": "method",
             "name": "clear",
             "class": "ThreadPool",

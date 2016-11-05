@@ -140,7 +140,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_worker_thread-pool.js.html#l17"><code>src\worker\thread-pool.js:17</code></a>
+            Defined in: <a href="../files/src_worker_thread-pool.js.html#l5"><code>src\worker\thread-pool.js:5</code></a>
         </div>
 
             Module: <a href="../modules/worker.html">worker</a><br>
@@ -177,7 +177,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l17"><code>src\worker\thread-pool.js:17</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l5"><code>src\worker\thread-pool.js:5</code></a>
         </p>
 
 
@@ -270,12 +270,11 @@
 
                             </li>
                             <li class="index-item property private">
-                                <a href="#property_WORKER_BLOB">WORKER_BLOB</a>
+                                <a href="#property_workers">workers</a>
 
-                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item property private">
-                                <a href="#property_workers">workers</a>
+                                <a href="#property_workerURL">workerURL</a>
 
                             </li>
                     </ul>
@@ -302,7 +301,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l191"><code>src\worker\thread-pool.js:191</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l189"><code>src\worker\thread-pool.js:189</code></a>
         </p>
 
 
@@ -310,7 +309,8 @@
     </div>
 
     <div class="description">
-        <p>Resets this thread pool by closing all workers.</p>
+        <p>Resets this thread pool by closing all workers and releasing the worker
+program blob.</p>
 
     </div>
 
@@ -339,7 +339,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l96"><code>src\worker\thread-pool.js:96</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l94"><code>src\worker\thread-pool.js:94</code></a>
         </p>
 
 
@@ -393,7 +393,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l131"><code>src\worker\thread-pool.js:131</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l129"><code>src\worker\thread-pool.js:129</code></a>
         </p>
 
 
@@ -436,7 +436,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l152"><code>src\worker\thread-pool.js:152</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l150"><code>src\worker\thread-pool.js:150</code></a>
         </p>
 
 
@@ -479,7 +479,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l53"><code>src\worker\thread-pool.js:53</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l51"><code>src\worker\thread-pool.js:51</code></a>
         </p>
 
 
@@ -504,7 +504,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l33"><code>src\worker\thread-pool.js:33</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l31"><code>src\worker\thread-pool.js:31</code></a>
         </p>
 
 
@@ -531,7 +531,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l80"><code>src\worker\thread-pool.js:80</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l78"><code>src\worker\thread-pool.js:78</code></a>
         </p>
 
 
@@ -557,7 +557,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l63"><code>src\worker\thread-pool.js:63</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l61"><code>src\worker\thread-pool.js:61</code></a>
         </p>
 
 
@@ -565,35 +565,6 @@ subsequent polls until it finishes its task and sends a message back.</p>
 
     <div class="description">
         <p>A worker message handler.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_WORKER_BLOB" class="property item private">
-    <h3 class="name"><code>WORKER_BLOB</code></h3>
-    <span class="type">Blob</span>
-
-
-        <span class="flag private">private</span>
-
-        <span class="flag final">final</span>
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
-                <p>
-                Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l5"><code>src\worker\thread-pool.js:5</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The worker program.</p>
 
     </div>
 
@@ -612,7 +583,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l43"><code>src\worker\thread-pool.js:43</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l41"><code>src\worker\thread-pool.js:41</code></a>
         </p>
 
 
@@ -620,6 +591,32 @@ subsequent polls until it finishes its task and sends a message back.</p>
 
     <div class="description">
         <p>A list of existing workers.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_workerURL" class="property item private">
+    <h3 class="name"><code>workerURL</code></h3>
+    <span class="type">String</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_worker_thread-pool.js.html#l21"><code>src\worker\thread-pool.js:21</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An object URL to the worker program.</p>
 
     </div>
 
