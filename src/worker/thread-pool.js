@@ -3,18 +3,6 @@ import { Action } from "./action.js";
 import worker from "./worker.tmp";
 
 /**
- * The worker program.
- *
- * @property WORKER_BLOB
- * @type Blob
- * @private
- * @static
- * @final
- */
-
-const WORKER_BLOB = URL.createObjectURL(new Blob([worker], { type: "text/javascript" }));
-
-/**
  * Manages worker threads.
  *
  * @class ThreadPool
@@ -29,6 +17,16 @@ export class ThreadPool extends THREE.EventDispatcher {
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
 
 		super();
+
+		/**
+		 * An object URL to the worker program.
+		 *
+		 * @property workerURL
+		 * @type String
+		 * @private
+		 */
+
+		this.workerURL = URL.createObjectURL(new Blob([worker], { type: "text/javascript" }));
 
 		/**
 		 * The maximum number of active worker threads.
@@ -138,7 +136,7 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 	createWorker() {
 
-		const worker = new Worker(WORKER_BLOB);
+		const worker = new Worker(this.workerURL);
 
 		this.workers.push(worker);
 
@@ -189,7 +187,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 	}
 
 	/**
-	 * Resets this thread pool by closing all workers.
+	 * Resets this thread pool by closing all workers and releasing the worker
+	 * program blob.
 	 *
 	 * @method clear
 	 */
@@ -201,6 +200,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 			this.closeWorker(this.workers.pop());
 
 		}
+
+		URL.revokeObjectURL(this.workerURL);
 
 	}
 
