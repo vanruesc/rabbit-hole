@@ -30,9 +30,6 @@ module.exports = function(grunt) {
 								"**/*.vert",
 								"**/*.tmp"
 							]
-						}),
-						require("rollup-plugin-babel")({
-							exclude: "node_modules/**"
 						})
 					];
 				}
@@ -128,7 +125,7 @@ module.exports = function(grunt) {
 
 		clean: {
 			backup: ["backup"],
-			worker: ["src/worker.tmp"]
+			worker: ["src/worker/worker.tmp"]
 		},
 
 		yuidoc: {
@@ -155,10 +152,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-rollup");
 	grunt.loadNpmTasks("grunt-lemon");
 
-	grunt.registerTask("default", ["build", "nodeunit", "minify"]);
+	grunt.registerTask("default", ["build", "nodeunit"]);
 	grunt.registerTask("build", ["eslint", "rollup:worker", "rollup:dist", "copy:bundle", "clean:worker"]);
 	grunt.registerTask("test", ["eslint", "nodeunit"]);
-	grunt.registerTask("minify", ["uglify", "copy:min"]);
 
 	grunt.registerTask("backup", ["restore", "copy:backup"]);
 	grunt.registerTask("restore", ["copy:restore", "clean:backup"]);
