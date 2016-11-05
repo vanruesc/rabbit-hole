@@ -27,6 +27,15 @@ export {
 } from "./math";
 
 export {
+	Density,
+	Edge,
+	EdgeData,
+	HermiteData,
+	Voxel, EDGES,
+	Chunk,
+	Volume,
+	VoxelBlock,
+	VoxelCell,
 	SignedDistanceFunction,
 	Heightfield,
 	Sphere,
