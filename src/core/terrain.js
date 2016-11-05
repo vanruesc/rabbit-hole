@@ -1,4 +1,13 @@
-import THREE from "three";
+import {
+	BufferAttribute,
+	BufferGeometry,
+	Mesh,
+	MeshStandardMaterial,
+	Frustum,
+	Matrix4,
+	Object3D
+} from "three";
+
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Action } from "../worker/action.js";
@@ -18,7 +27,7 @@ import { Queue } from "./queue.js";
  * @final
  */
 
-const MATRIX4 = new THREE.Matrix4();
+const MATRIX4 = new Matrix4();
 
 /**
  * A frustum used for octree culling.
@@ -30,7 +39,7 @@ const MATRIX4 = new THREE.Matrix4();
  * @final
  */
 
-const FRUSTUM = new THREE.Frustum();
+const FRUSTUM = new Frustum();
 
 /**
  * The terrain system.
@@ -46,7 +55,7 @@ const FRUSTUM = new THREE.Frustum();
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  */
 
-export class Terrain extends THREE.Object3D {
+export class Terrain extends Object3D {
 
 	constructor(options = {}) {
 
@@ -146,8 +155,8 @@ export class Terrain extends THREE.Object3D {
 		 */
 
 		// this.material = new TerrainMaterial();
-		this.material = new THREE.MeshStandardMaterial({
-			color: new THREE.Color(0xbb4400)
+		this.material = new MeshStandardMaterial({
+			color: 0xbb4400
 		});
 
 	}
@@ -259,12 +268,12 @@ export class Terrain extends THREE.Object3D {
 
 			this.unlinkMesh(chunk);
 
-			geometry = new THREE.BufferGeometry();
-			geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-			geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-			geometry.addAttribute("normal", new THREE.BufferAttribute(normals, 3));
+			geometry = new BufferGeometry();
+			geometry.setIndex(new BufferAttribute(indices, 1));
+			geometry.addAttribute("position", new BufferAttribute(positions, 3));
+			geometry.addAttribute("normal", new BufferAttribute(normals, 3));
 
-			mesh = new THREE.Mesh(geometry, this.material);
+			mesh = new Mesh(geometry, this.material);
 
 			this.meshes.set(chunk, mesh);
 			this.add(mesh);

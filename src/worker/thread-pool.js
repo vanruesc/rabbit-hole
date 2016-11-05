@@ -1,4 +1,4 @@
-import THREE from "three";
+import { EventDispatcher } from "three";
 import { Action } from "./action.js";
 import worker from "./worker.tmp";
 
@@ -12,7 +12,7 @@ import worker from "./worker.tmp";
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
  */
 
-export class ThreadPool extends THREE.EventDispatcher {
+export class ThreadPool extends EventDispatcher {
 
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
 

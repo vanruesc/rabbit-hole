@@ -20,8 +20,6 @@ export {
 	Givens,
 	Schur,
 	SymmetricMatrix3,
-	Matrix3,
-	Vector3,
 	QEFSolver,
 	QEFData
 } from "./math";

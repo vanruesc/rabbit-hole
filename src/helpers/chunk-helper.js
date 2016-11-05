@@ -1,6 +1,16 @@
-import THREE from "three";
+import {
+	BufferAttribute,
+	BufferGeometry,
+	LineBasicMaterial,
+	LineSegments,
+	Object3D,
+	Points,
+	PointsMaterial,
+	Vector3,
+	VertexColors
+} from "three";
+
 import { PATTERN } from "sparse-octree";
-import { Vector3 } from "../math/vector3.js";
 import { Density } from "../volume/density.js";
 import { Edge } from "../volume/edge.js";
 
@@ -14,7 +24,7 @@ import { Edge } from "../volume/edge.js";
  * @param {Chunk} [chunk] - A volume data chunk.
  */
 
-export class ChunkHelper extends THREE.Object3D {
+export class ChunkHelper extends Object3D {
 
 	constructor(chunk) {
 
@@ -32,9 +42,9 @@ export class ChunkHelper extends THREE.Object3D {
 		this.chunk = chunk;
 
 		// Create groups for grid points, edges and normals.
-		this.add(new THREE.Object3D());
-		this.add(new THREE.Object3D());
-		this.add(new THREE.Object3D());
+		this.add(new Object3D());
+		this.add(new Object3D());
+		this.add(new Object3D());
 
 		this.children[0].name = "GridPoints";
 		this.children[1].name = "Edges";
@@ -107,14 +117,14 @@ export class ChunkHelper extends THREE.Object3D {
 
 		const normalColor = new Float32Array([0.0, 1.0, 1.0]);
 
-		const pointsMaterial = new THREE.PointsMaterial({
-			vertexColors: THREE.VertexColors,
+		const pointsMaterial = new PointsMaterial({
+			vertexColors: VertexColors,
 			sizeAttenuation: false,
 			size: 3
 		});
 
-		const lineSegmentsMaterial = new THREE.LineBasicMaterial({
-			vertexColors: THREE.VertexColors
+		const lineSegmentsMaterial = new LineBasicMaterial({
+			vertexColors: VertexColors
 		});
 
 		let edges, zeroCrossings, normals;
@@ -160,11 +170,11 @@ export class ChunkHelper extends THREE.Object3D {
 
 		}
 
-		geometry = new THREE.BufferGeometry();
-		geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-		geometry.addAttribute("color", new THREE.BufferAttribute(colors, 3));
+		geometry = new BufferGeometry();
+		geometry.addAttribute("position", new BufferAttribute(positions, 3));
+		geometry.addAttribute("color", new BufferAttribute(colors, 3));
 
-		this.gridPoints.add(new THREE.Points(geometry, pointsMaterial));
+		this.gridPoints.add(new Points(geometry, pointsMaterial));
 
 		// Create edges and normals.
 		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
@@ -231,17 +241,17 @@ export class ChunkHelper extends THREE.Object3D {
 
 			}
 
-			geometry = new THREE.BufferGeometry();
-			geometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
-			geometry.addAttribute("color", new THREE.BufferAttribute(colors, 3));
+			geometry = new BufferGeometry();
+			geometry.addAttribute("position", new BufferAttribute(positions, 3));
+			geometry.addAttribute("color", new BufferAttribute(colors, 3));
 
-			this.edges.add(new THREE.LineSegments(geometry, lineSegmentsMaterial));
+			this.edges.add(new LineSegments(geometry, lineSegmentsMaterial));
 
-			geometry = new THREE.BufferGeometry();
-			geometry.addAttribute("position", new THREE.BufferAttribute(positions2, 3));
-			geometry.addAttribute("color", new THREE.BufferAttribute(colors2, 3));
+			geometry = new BufferGeometry();
+			geometry.addAttribute("position", new BufferAttribute(positions2, 3));
+			geometry.addAttribute("color", new BufferAttribute(colors2, 3));
 
-			this.normals.add(new THREE.LineSegments(geometry, lineSegmentsMaterial));
+			this.normals.add(new LineSegments(geometry, lineSegmentsMaterial));
 
 		}
 
