@@ -216,7 +216,7 @@ function combineEdges(chunk, operation, data0, data1) {
 	let c, d, i, j, il, jl;
 
 	// Process the edges along the X-axis, then Y and finally Z.
-	for(c = 0, d = 0; d < 3; ++d) {
+	for(c = 0, d = 0; d < 3; c = 0, ++d) {
 
 		edges1 = edgeData1.edges[d];
 		edges0 = edgeData0.edges[d];
@@ -385,7 +385,7 @@ function generateEdges(chunk, operation, data, bounds) {
 	let x, y, z;
 
 	// Process the edges along the X-axis, then Y and finally Z.
-	for(c = 0, d = 0, a = 4; d < 3; ++d, a >>= 1) {
+	for(c = 0, d = 0, a = 4; d < 3; c = 0, ++d, a >>= 1) {
 
 		edges = edgeData.edges[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
