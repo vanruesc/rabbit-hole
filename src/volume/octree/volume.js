@@ -117,7 +117,7 @@ export class Volume extends Octree {
 	edit(sdf) {
 
 		const heap = [this.root];
-		const region = sdf.completeBoundingBox();
+		const region = sdf.completeBoundingBox;
 
 		let result = [];
 		let octant, children;
