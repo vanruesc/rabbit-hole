@@ -64,13 +64,10 @@ export class Torus extends SignedDistanceFunction {
 
 	computeBoundingBox() {
 
-		const min = this.origin.subScalar(this.R).subScalar(this.r);
-		const max = this.origin.addScalar(this.R).addScalar(this.r);
-
 		this.bbox = new Box3();
 
-		this.bbox.min.set(min, min, min);
-		this.bbox.max.set(max, max, max);
+		this.bbox.min.copy(this.origin).subScalar(this.R).subScalar(this.r);
+		this.bbox.max.copy(this.origin).addScalar(this.R).addScalar(this.r);
 
 		return this.bbox;
 

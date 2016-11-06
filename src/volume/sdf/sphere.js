@@ -53,13 +53,10 @@ export class Sphere extends SignedDistanceFunction {
 
 	computeBoundingBox() {
 
-		const min = this.origin.subScalar(this.radius);
-		const max = this.origin.addScalar(this.radius);
-
 		this.bbox = new Box3();
 
-		this.bbox.min.set(min, min, min);
-		this.bbox.max.set(max, max, max);
+		this.bbox.min.copy(this.origin).subScalar(this.radius);
+		this.bbox.max.copy(this.origin).addScalar(this.radius);
 
 		return this.bbox;
 
