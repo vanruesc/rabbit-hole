@@ -709,6 +709,8 @@ export class ConstructiveSolidGeometry {
 
 		}
 
+		sdf.operation = description.operation;
+
 		for(i = 0, l = description.children.length; i < l; ++i) {
 
 			sdf.children.push(this.reviveSDF(description.children[i]));

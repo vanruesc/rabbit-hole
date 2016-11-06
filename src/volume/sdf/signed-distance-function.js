@@ -182,6 +182,7 @@ export class SignedDistanceFunction {
 
 		const result = {
 			type: this.type,
+			operation: this.operation,
 			material: this.material,
 			parameters: null,
 			children: []
