@@ -136,6 +136,9 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 	const Y = bounds.max.y;
 	const Z = bounds.max.z;
 
+	let materialIndex;
+	let materials = 0;
+
 	let x, y, z;
 
 	for(z = bounds.min.z; z <= Z; ++z) {
@@ -150,13 +153,23 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				offset.x = x * s / n;
 
-				materialIndices[z * mm + y * m + x] = operation.generateMaterialIndex(position.addVectors(base, offset));
+				materialIndex = operation.generateMaterialIndex(position.addVectors(base, offset));
+
+				if(materialIndex !== Density.HOLLOW) {
+
+					materialIndices[z * mm + y * m + x] = materialIndex;
+
+					++materials;
+
+				}
 
 			}
 
 		}
 
 	}
+
+	data.materials = materials;
 
 }
 

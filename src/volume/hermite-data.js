@@ -56,7 +56,6 @@ export class HermiteData {
 		 *
 		 * @property materials
 		 * @type Number
-		 * @private
 		 * @default 0
 		 */
 
