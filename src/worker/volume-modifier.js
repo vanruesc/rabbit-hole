@@ -32,7 +32,7 @@ export const VolumeModifier = {
 
 	message: {
 		action: Action.MODIFY,
-		data: null
+		chunk: null
 	},
 
 	/**
@@ -63,7 +63,7 @@ export const VolumeModifier = {
 		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
 
 		// Chunk data might be null.
-		this.message.data = this.chunk.serialise().data;
+		this.message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList();
 
 	}

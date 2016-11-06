@@ -32,7 +32,7 @@ export const SurfaceExtractor = {
 
 	message: {
 		action: Action.EXTRACT,
-		data: null,
+		chunk: null,
 		positions: null,
 		normals: null,
 		indices: null
@@ -87,7 +87,7 @@ export const SurfaceExtractor = {
 		this.chunk.data.compress();
 
 		// Return the chunk data.
-		message.data = chunk.data.serialise();
+		message.chunk = this.chunk.serialise();
 
 		this.transferList = this.chunk.createTransferList(transferList);
 

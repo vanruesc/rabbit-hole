@@ -204,10 +204,10 @@ export class Terrain extends Object3D {
 		this.neutered.delete(chunk);
 		this.chunks.delete(worker);
 
-		if(data.data !== null) {
+		if(data.chunk.data !== null) {
 
 			// Reclaim ownership of the chunk data.
-			chunk.data.deserialise(data.data);
+			chunk.deserialise(data.chunk);
 
 		} else {
 

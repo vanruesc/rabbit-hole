@@ -101,9 +101,17 @@ export class Chunk extends CubicOctant {
 		this.min.fromArray(chunk.min);
 		this.size = chunk.size;
 
-		if(this.data === null) { this.data = new HermiteData(false); }
+		if(chunk.data !== null) {
 
-		this.data.deserialise(chunk.data);
+			if(this.data === null) {
+
+				this.data = new HermiteData(false);
+
+			}
+
+			this.data.deserialise(chunk.data);
+
+		}
 
 	}
 
