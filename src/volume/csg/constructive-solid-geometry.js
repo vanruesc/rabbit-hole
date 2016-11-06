@@ -504,7 +504,7 @@ function update(chunk, operation, data0, data1) {
 	if(!data0.empty && !data0.full) {
 
 		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
-			generateEdges(chunk, operation, bounds) :
+			generateEdges(chunk, operation, data0, bounds) :
 			combineEdges(chunk, operation, data0, data1);
 
 		edgeData = result.edgeData;
