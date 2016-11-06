@@ -213,7 +213,7 @@ export class Terrain extends Object3D {
 
 			chunk.data = null;
 
-			if(chunk.csg.size === 0) {
+			if(chunk.csg !== null) {
 
 				// The chunk became empty. Remove it.
 				this.scheduler.cancel(chunk);
@@ -226,7 +226,7 @@ export class Terrain extends Object3D {
 
 		if(data.action === Action.MODIFY) {
 
-			if(chunk.csg.size > 0) {
+			if(chunk.csg !== null) {
 
 				// Drain the CSG queue as fast as possible.
 				this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
