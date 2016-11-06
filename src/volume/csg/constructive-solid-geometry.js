@@ -631,6 +631,7 @@ export class ConstructiveSolidGeometry {
 			if(sdf.operation !== OperationType.DIFFERENCE) {
 
 				chunk.data = new HermiteData();
+				chunk.data.edgeData = new EdgeData(0);
 
 			}
 
