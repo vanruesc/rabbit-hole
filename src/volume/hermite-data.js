@@ -1,5 +1,6 @@
 import { RunLengthEncoding } from "../core/run-length-encoding.js";
 import { Density } from "./density.js";
+import { EdgeData } from "./edge-data.js";
 
 /**
  * The material grid resolution.
@@ -221,7 +222,7 @@ export class HermiteData {
 			lod: this.lod,
 			materialIndices: this.materialIndices,
 			runLengths: this.runLengths,
-			edgeData: this.edgeData
+			edgeData: (this.edgeData !== null) ? this.edgeData.serialise() : null
 		};
 
 	}
@@ -239,7 +240,22 @@ export class HermiteData {
 
 		this.materialIndices = data.materialIndices;
 		this.runLengths = data.runLengths;
-		this.edgeData = data.edgeData;
+
+		if(data.edgeData !== null) {
+
+			if(this.edgeData === null) {
+
+				this.edgeData = new EdgeData(0);
+
+			}
+
+			this.edgeData.deserialise(data.edgeData);
+
+		} else {
+
+			this.edgeData = null;
+
+		}
 
 		this.neutered = false;
 

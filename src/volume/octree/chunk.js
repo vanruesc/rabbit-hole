@@ -111,6 +111,10 @@ export class Chunk extends CubicOctant {
 
 			this.data.deserialise(chunk.data);
 
+		} else {
+
+			this.data = null;
+
 		}
 
 	}
