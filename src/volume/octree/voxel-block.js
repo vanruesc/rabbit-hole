@@ -183,7 +183,7 @@ export class VoxelBlock extends Octree {
 
 		const qefSolver = new QEFSolver();
 
-		const base = this.chunk.min;
+		const base = chunk.min;
 		const offsetA = new Vector3();
 		const offsetB = new Vector3();
 		const intersection = new Vector3();
@@ -203,6 +203,7 @@ export class VoxelBlock extends Octree {
 		let axis, cell;
 
 		let a, d, i, j, l;
+		let x2, y2, z2;
 		let x, y, z;
 
 		let index;
@@ -253,19 +254,19 @@ export class VoxelBlock extends Octree {
 					// Rotate around the edge.
 					offset = PATTERN[sequence[j]];
 
-					x -= offset[0];
-					y -= offset[1];
-					z -= offset[2];
+					x2 = x - offset[0];
+					y2 = y - offset[1];
+					z2 = z - offset[2];
 
 					// Check if the adjusted coordinates still lie inside the grid bounds.
-					if(x >= 0 && y >= 0 && z >= 0 && x < n && y < n && z < n) {
+					if(x2 >= 0 && y2 >= 0 && z2 >= 0 && x2 < n && y2 < n && z2 < n) {
 
-						cell = this.getCell(n, x, y, z);
+						cell = this.getCell(n, x2, y2, z2);
 
 						if(cell.voxel === null) {
 
 							// The existence of the edge guarantees that the voxel contains the surface.
-							cell.voxel = createVoxel(n, x, y, z, materialIndices);
+							cell.voxel = createVoxel(n, x2, y2, z2, materialIndices);
 
 							++voxelCount;
 
