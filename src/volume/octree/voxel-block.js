@@ -139,7 +139,7 @@ export class VoxelBlock extends Octree {
 		let yz, xz, xy;
 		let octant;
 
-		for(n = n >> 1; n > 0; n >>= 1) {
+		for(n = n >> 1; n > 0; x %= n, y %= n, z %= n, n >>= 1) {
 
 			// Identify the next octant by the grid coordinates.
 			yz = (x < n) ? 0 : 1;
