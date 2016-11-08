@@ -122,6 +122,27 @@ export class Scheduler extends PriorityQueue {
 	}
 
 	/**
+	 * Retrieves the head of the queue, or returns null if the queue is empty.
+	 *
+	 * @method poll
+	 * @return {Task} The task with the highest priority or null if there is none.
+	 */
+
+	poll() {
+
+		const element = super.poll();
+
+		if(element !== null) {
+
+			this.registry.delete(element.chunk);
+
+		}
+
+		return element;
+
+	}
+
+	/**
 	 * Removes all tasks.
 	 *
 	 * @method clear
