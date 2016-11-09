@@ -94,7 +94,7 @@ export class Volume extends Octree {
 
 				result.push(octant);
 
-			} else {
+			} else if(children !== null) {
 
 				heap.push(...children);
 
