@@ -41,16 +41,20 @@ export class ChunkHelper extends Object3D {
 
 		this.chunk = chunk;
 
-		// Create groups for grid points, edges and normals.
-		this.add(new Object3D());
-		this.add(new Object3D());
-		this.add(new Object3D());
+		if(chunk.data !== null) {
 
-		this.children[0].name = "GridPoints";
-		this.children[1].name = "Edges";
-		this.children[2].name = "Normals";
+			// Create groups for grid points, edges and normals.
+			this.add(new Object3D());
+			this.add(new Object3D());
+			this.add(new Object3D());
 
-		this.update();
+			this.children[0].name = "GridPoints";
+			this.children[1].name = "Edges";
+			this.children[2].name = "Normals";
+
+			this.update();
+
+		}
 
 	}
 
