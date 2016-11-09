@@ -187,8 +187,7 @@ export class ThreadPool extends EventDispatcher {
 	}
 
 	/**
-	 * Resets this thread pool by closing all workers and releasing the worker
-	 * program blob.
+	 * Resets this thread pool by closing all workers.
 	 *
 	 * @method clear
 	 */
@@ -200,6 +199,18 @@ export class ThreadPool extends EventDispatcher {
 			this.closeWorker(this.workers.pop());
 
 		}
+
+	}
+
+	/**
+	 * Removes all active workers and releases the worker program blob.
+	 *
+	 * @method dispose
+	 */
+
+	dispose() {
+
+		this.clear();
 
 		URL.revokeObjectURL(this.workerURL);
 

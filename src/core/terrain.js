@@ -517,12 +517,13 @@ export class Terrain extends Object3D {
 	}
 
 	/**
-	 * Resets this terrain by disposing of all data and worker threads.
+	 * Removes all child meshes.
 	 *
-	 * @method dispose
+	 * @method clearMeshes
+	 * @private
 	 */
 
-	dispose() {
+	clearMeshes() {
 
 		let child;
 
@@ -535,16 +536,42 @@ export class Terrain extends Object3D {
 
 		}
 
+		this.meshes.clear();
+
+	}
+
+	/**
+	 * Resets this terrain by removing data and closing active worker threads.
+	 *
+	 * @method clear
+	 */
+
+	clear() {
+
+		this.clearMeshes();
+
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
 
 		this.threadPool.clear();
 		this.scheduler.clear();
 
-		this.history = [];
-
 		this.neutered.clear();
 		this.chunks.clear();
-		this.meshes.clear();
+
+		this.history = [];
+
+	}
+
+	/**
+	 * Destroys this terrain and frees internal resources.
+	 *
+	 * @method dispose
+	 */
+
+	dispose() {
+
+		this.clearMeshes();
+		this.threadPool.dispose();
 
 	}
 
