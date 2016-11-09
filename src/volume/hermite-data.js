@@ -115,6 +115,8 @@ export class HermiteData {
 	 * Compresses this data.
 	 *
 	 * @method compress
+	 * @chainable
+	 * @return {HermiteData} This data.
 	 */
 
 	compress() {
@@ -141,12 +143,16 @@ export class HermiteData {
 
 		}
 
+		return this;
+
 	}
 
 	/**
 	 * Decompresses this data.
 	 *
 	 * @method decompress
+	 * @chainable
+	 * @return {HermiteData} This data.
 	 */
 
 	decompress() {
@@ -160,6 +166,8 @@ export class HermiteData {
 			this.runLengths = null;
 
 		}
+
+		return this;
 
 	}
 
