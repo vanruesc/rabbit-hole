@@ -244,7 +244,7 @@ export class VoxelBlock extends Octree {
 				edge.b.addVectors(base, offsetB);
 
 				edge.t = zeroCrossings[i];
-				edge.n.fromArray(normals, i);
+				edge.n.fromArray(normals, i * 3);
 
 				intersection.copy(edge.computeZeroCrossingPosition());
 
