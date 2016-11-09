@@ -98,8 +98,9 @@ export class ChunkHelper extends Object3D {
 		const m = n + 1;
 		const mm = m * m;
 
-		const materialIndices = this.chunk.data.materialIndices;
-		const edgeData = this.chunk.data.edgeData;
+		const data = this.chunk.data.decompress();
+		const materialIndices = data.materialIndices;
+		const edgeData = data.edgeData;
 
 		const base = this.chunk.min;
 		const offset = new Vector3();
@@ -149,7 +150,7 @@ export class ChunkHelper extends Object3D {
 		positions = new Float32Array(vertexCount * 3);
 		colors = new Float32Array(vertexCount * 3);
 
-		for(i = 0, z = 0; z <= n; ++z) {
+		for(i = 0, j = 0, z = 0; z <= n; ++z) {
 
 			offset.z = z * s / n;
 
@@ -220,7 +221,7 @@ export class ChunkHelper extends Object3D {
 				edge.b.addVectors(base, offsetB);
 
 				edge.t = zeroCrossings[i];
-				edge.n.fromArray(normals, i);
+				edge.n.fromArray(normals, i * 3);
 
 				normalA.copy(edge.computeZeroCrossingPosition());
 				normalB.copy(normalA).addScaledVector(edge.n, s / n * 0.25);
@@ -258,6 +259,8 @@ export class ChunkHelper extends Object3D {
 			this.normals.add(new LineSegments(geometry, lineSegmentsMaterial));
 
 		}
+
+		data.compress();
 
 	}
 
