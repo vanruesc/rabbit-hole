@@ -62,7 +62,7 @@ export const VolumeModifier = {
 		// Revive the SDF and execute it.
 		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
 
-		// Chunk data might be null.
+		// Return the chunk data.
 		this.message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList();
 
