@@ -43,12 +43,17 @@ export class VoxelCell extends CubicOctant {
 	contains(p) {
 
 		const min = this.min;
-		const maxX = min.x + this.size;
-		const maxY = min.y + this.size;
-		const maxZ = min.z + this.size;
+
+		const minX = min.x - Number.EPSILON;
+		const minY = min.y - Number.EPSILON;
+		const minZ = min.z - Number.EPSILON;
+
+		const maxX = min.x + this.size + Number.EPSILON;
+		const maxY = min.y + this.size + Number.EPSILON;
+		const maxZ = min.z + this.size + Number.EPSILON;
 
 		return (
-			p.x >= min.x && p.y >= min.y && p.z >= min.z &&
+			p.x >= minX && p.y >= minY && p.z >= minZ &&
 			p.x <= maxX && p.y <= maxY && p.z <= maxZ
 		);
 
