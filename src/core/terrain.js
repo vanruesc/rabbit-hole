@@ -291,15 +291,15 @@ export class Terrain extends Object3D {
 
 	runNextTask() {
 
-		const worker = this.threadPool.getWorker();
+		const task = this.scheduler.poll();
 
-		let task, chunk;
+		let worker, chunk;
 
-		if(worker !== null) {
+		if(task !== null) {
 
-			task = this.scheduler.poll();
+			worker = this.threadPool.getWorker();
 
-			if(task !== null) {
+			if(worker !== null) {
 
 				chunk = task.chunk;
 
@@ -456,13 +456,13 @@ export class Terrain extends Object3D {
 				if(task === undefined || task.priority < maxPriority) {
 
 					// Modifications take precedence.
-					if(csg !== null && csg.size > 0) {
+					if(csg !== null) {
 
 						scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
 
 						this.runNextTask();
 
-					} else if(data !== null) {
+					} else if(data !== null && !data.full) {
 
 						distance = chunk.getCenter().distanceTo(camera.position);
 						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
