@@ -214,7 +214,7 @@ export class Volume extends Octree {
 					this.size *= 2;
 
 					// Create new children.
-					this.split();
+					this.root.split();
 
 					// Connect them with the old children.
 					for(i = 0; i < 8; ++i) {
