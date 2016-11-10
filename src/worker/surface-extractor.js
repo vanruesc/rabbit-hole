@@ -88,7 +88,6 @@ export const SurfaceExtractor = {
 
 		// Return the chunk data.
 		message.chunk = this.chunk.serialise();
-
 		this.transferList = this.chunk.createTransferList(transferList);
 
 	}
