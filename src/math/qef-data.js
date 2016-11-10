@@ -167,16 +167,16 @@ export class QEFData {
 		if(this.massPointDimension === d.massPointDimension) {
 
 			this.massPoint.add(d.massPoint);
+			this.numPoints += d.numPoints;
 
 		} else if(d.massPointDimension > this.massPointDimension) {
 
 			// Adopt the mass point of the higher dimension.
 			this.massPoint.copy(d.massPoint);
 			this.massPointDimension = d.massPointDimension;
+			this.numPoints = d.numPoints;
 
 		}
-
-		this.numPoints += d.numPoints;
 
 	}
 
