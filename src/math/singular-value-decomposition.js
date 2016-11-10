@@ -144,8 +144,11 @@ function pseudoInverse(t, a, b, threshold) {
 	const a1 = pinv(a11, threshold);
 	const a2 = pinv(a22, threshold);
 
-	// Count how many singular values have not been truncated.
-	const dimension = 3 - ((a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0));
+	// Count how many singular values have been truncated.
+	const truncatedValues = (a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0);
+
+	// Compute the feature dimension.
+	const dimension = 3 - truncatedValues;
 
 	const b00 = be[0], b01 = be[3], b02 = be[6];
 	const b10 = be[1], b11 = be[4], b12 = be[7];
