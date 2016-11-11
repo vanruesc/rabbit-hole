@@ -4,6 +4,18 @@ import { QEFSolver } from "../../math/qef-solver.js";
 import { Voxel } from "../voxel.js";
 
 /**
+ * A bias for boundary checks.
+ *
+ * @property BIAS
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const BIAS = 1e-6;
+
+/**
  * A voxel octant.
  *
  * @class VoxelCell
@@ -43,18 +55,15 @@ export class VoxelCell extends CubicOctant {
 	contains(p) {
 
 		const min = this.min;
-
-		const minX = min.x - Number.EPSILON;
-		const minY = min.y - Number.EPSILON;
-		const minZ = min.z - Number.EPSILON;
-
-		const maxX = min.x + this.size + Number.EPSILON;
-		const maxY = min.y + this.size + Number.EPSILON;
-		const maxZ = min.z + this.size + Number.EPSILON;
+		const size = this.size;
 
 		return (
-			p.x >= minX && p.y >= minY && p.z >= minZ &&
-			p.x <= maxX && p.y <= maxY && p.z <= maxZ
+			p.x >= min.x - BIAS &&
+			p.y >= min.y - BIAS &&
+			p.z >= min.z - BIAS &&
+			p.x <= min.x + size + BIAS &&
+			p.y <= min.y + size + BIAS &&
+			p.z <= min.z + size + BIAS
 		);
 
 	}
