@@ -303,33 +303,28 @@ function combineEdges(chunk, operation, data0, data1) {
 
 		}
 
-		// Intersection operations discard all remaining edges.
-		if(operation.type !== OperationType.INTERSECTION) {
+		// Collect remaining edges.
+		while(j < jl) {
 
-			// Collect remaining edges.
-			while(j < jl) {
+			indexA0 = edges0[j];
+			indexB0 = indexA0 + indexOffsets[d];
 
-				indexA0 = edges0[j];
-				indexB0 = indexA0 + indexOffsets[d];
+			m1 = materialIndices[indexA0];
+			m2 = materialIndices[indexB0];
 
-				m1 = materialIndices[indexA0];
-				m2 = materialIndices[indexB0];
+			if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
 
-				if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+				edges[c] = indexA0;
+				zeroCrossings[c] = zeroCrossings0[j];
+				normals[c * 3] = normals0[j * 3];
+				normals[c * 3 + 1] = normals0[j * 3 + 1];
+				normals[c * 3 + 2] = normals0[j * 3 + 2];
 
-					edges[c] = indexA0;
-					zeroCrossings[c] = zeroCrossings0[j];
-					normals[c * 3] = normals0[j * 3];
-					normals[c * 3 + 1] = normals0[j * 3 + 1];
-					normals[c * 3 + 2] = normals0[j * 3 + 2];
-
-					++c;
-
-				}
-
-				++j;
+				++c;
 
 			}
+
+			++j;
 
 		}
 
