@@ -668,13 +668,17 @@ export class ConstructiveSolidGeometry {
 
 		}
 
-		if(chunk.data.empty) {
+		if(chunk.data !== null) {
 
-			chunk.data = null;
+			if(chunk.data.empty) {
 
-		} else {
+				chunk.data = null;
 
-			chunk.data.compress();
+			} else {
+
+				chunk.data.compress();
+
+			}
 
 		}
 
