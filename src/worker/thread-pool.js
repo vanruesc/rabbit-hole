@@ -68,9 +68,7 @@ export class ThreadPool extends EventDispatcher {
 
 		this.onmessage = (event) => {
 
-			const worker = event.target;
-
-			this.busyWorkers.delete(worker);
+			this.busyWorkers.delete(event.target);
 			this.dispatchEvent(event);
 
 		};
@@ -174,11 +172,15 @@ export class ThreadPool extends EventDispatcher {
 
 		}
 
+		// Check if all existing workers are busy.
 		if(worker === null && this.workers.length < this.maxWorkers) {
 
-			// All existing workers are busy.
-			worker = this.createWorker();
-			this.busyWorkers.add(worker);
+			if(this.workerURL !== null) {
+
+				worker = this.createWorker();
+				this.busyWorkers.add(worker);
+
+			}
 
 		}
 
@@ -213,6 +215,7 @@ export class ThreadPool extends EventDispatcher {
 		this.clear();
 
 		URL.revokeObjectURL(this.workerURL);
+		this.workerURL = null;
 
 	}
 
