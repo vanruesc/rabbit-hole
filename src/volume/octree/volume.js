@@ -90,7 +90,7 @@ export class Volume extends Octree {
 			octant = heap.pop();
 			children = octant.children;
 
-			if(octant.data !== null) {
+			if(octant.data !== null || octant.csg !== null) {
 
 				result.push(octant);
 
