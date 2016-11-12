@@ -224,9 +224,9 @@ export class SignedDistanceFunction {
 
 			child = children[i];
 
-			if(operationType !== this.operation) {
+			if(operationType !== child.operation) {
 
-				operationType = this.operation;
+				operationType = child.operation;
 
 				switch(operationType) {
 
