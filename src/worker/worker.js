@@ -56,6 +56,7 @@ self.addEventListener("error", function onerror(event) {
 
 	const message = {
 		action: Action.CLOSE,
+		error: event.message,
 		data: null
 	};
 
@@ -79,7 +80,6 @@ self.addEventListener("error", function onerror(event) {
 
 	}
 
-	console.warn(event.message);
 	postMessage(message, transferList);
 	close();
 
