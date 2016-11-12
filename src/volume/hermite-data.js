@@ -7,12 +7,24 @@ import { EdgeData } from "./edge-data.js";
  *
  * @property resolution
  * @type Number
- * @default 0
  * @private
  * @static
+ * @default 0
  */
 
 let resolution = 0;
+
+/**
+ * The total amount of grid point indices.
+ *
+ * @property indexCount
+ * @type Number
+ * @private
+ * @static
+ * @default 0
+ */
+
+let indexCount = 0;
 
 /**
  * Hermite data.
@@ -69,7 +81,7 @@ export class HermiteData {
 		 * @type Uint8Array
 		 */
 
-		this.materialIndices = initialise ? new Uint8Array((resolution + 1) ** 3) : null;
+		this.materialIndices = initialise ? new Uint8Array(indexCount) : null;
 
 		/**
 		 * Run-length compression data.
@@ -109,7 +121,7 @@ export class HermiteData {
 	 * @type Boolean
 	 */
 
-	get full() { return (this.materials === ((resolution + 1) ** 3)); }
+	get full() { return (this.materials === indexCount); }
 
 	/**
 	 * Compresses this data.
@@ -160,7 +172,7 @@ export class HermiteData {
 		if(this.runLengths !== null) {
 
 			this.materialIndices = RunLengthEncoding.decode(
-				this.runLengths, this.materialIndices, new Uint8Array((resolution + 1) ** 3)
+				this.runLengths, this.materialIndices, new Uint8Array(indexCount)
 			);
 
 			this.runLengths = null;
@@ -284,6 +296,7 @@ export class HermiteData {
 		if(resolution === 0) {
 
 			resolution = Math.max(1, Math.min(256, x));
+			indexCount = (resolution + 1) ** 3;
 
 		}
 
