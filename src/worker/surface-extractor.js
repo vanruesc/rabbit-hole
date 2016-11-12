@@ -53,6 +53,7 @@ export const SurfaceExtractor = {
 	 *
 	 * @method extract
 	 * @static
+	 * @param {Object} chunk - A serialised volume chunk.
 	 */
 
 	extract(chunk) {
@@ -62,7 +63,6 @@ export const SurfaceExtractor = {
 
 		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
-		this.chunk.data.decompress();
 
 		const result = DualContouring.run(this.chunk);
 
@@ -84,9 +84,6 @@ export const SurfaceExtractor = {
 
 		}
 
-		this.chunk.data.compress();
-
-		// Return the chunk data.
 		message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList(transferList);
 

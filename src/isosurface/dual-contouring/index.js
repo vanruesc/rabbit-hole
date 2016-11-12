@@ -358,18 +358,20 @@ export class DualContouring {
 	 * @method run
 	 * @static
 	 * @param {Chunk} chunk - A chunk of volume data.
-	 * @return {Object} The generated indices, positions and normals or null if no data was generated.
+	 * @return {Object} The generated indices, positions and normals, or null if no data was generated.
 	 */
 
 	static run(chunk) {
 
+		chunk.data.decompress();
+
 		const indexBuffer = [];
 
-		const threshold = 0.01;
+		const threshold = 1e-2;
 		const voxelBlock = new VoxelBlock(chunk);
 
 		// Increase the error threshold based on the lod value.
-		voxelBlock.simplify(threshold + (chunk.data.lod << 2));
+		voxelBlock.simplify(threshold + (chunk.data.lod << 3));
 
 		// Each voxel contains one vertex.
 		const vertexCount = voxelBlock.voxelCount;
@@ -401,6 +403,8 @@ export class DualContouring {
 			result = { indices, positions, normals };
 
 		}
+
+		chunk.data.compress();
 
 		return result;
 
