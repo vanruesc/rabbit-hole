@@ -51,7 +51,7 @@ export const VolumeModifier = {
 	 * @method modify
 	 * @static
 	 * @param {Chunk} chunk - A volume chunk.
-	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 * @param {Object} sdf - A serialised SDF.
 	 */
 
 	modify(chunk, sdf) {
@@ -62,7 +62,6 @@ export const VolumeModifier = {
 		// Revive the SDF and execute it.
 		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
 
-		// Return the chunk data.
 		this.message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList();
 
