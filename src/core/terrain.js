@@ -291,16 +291,15 @@ export class Terrain extends Object3D {
 
 	runNextTask() {
 
-		const task = this.scheduler.poll();
+		let task, worker, chunk;
 
-		let worker, chunk;
-
-		if(task !== null) {
+		if(this.scheduler.peek() !== null) {
 
 			worker = this.threadPool.getWorker();
 
 			if(worker !== null) {
 
+				task = this.scheduler.poll();
 				chunk = task.chunk;
 
 				if(task.action === Action.MODIFY) {
