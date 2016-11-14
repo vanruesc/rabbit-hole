@@ -63,6 +63,7 @@ export const SurfaceExtractor = {
 
 		// Adopt the provided chunk data.
 		this.chunk.deserialise(chunk);
+		this.chunk.data.decompress();
 
 		const result = DualContouring.run(this.chunk);
 
@@ -84,6 +85,8 @@ export const SurfaceExtractor = {
 
 		}
 
+		// Simply send the already compressed and serialised chunk back.
+		this.chunk.deserialise(chunk);
 		message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList(transferList);
 
