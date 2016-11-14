@@ -3,16 +3,22 @@
  *
  * @class TerrainEvent
  * @submodule events
- * @extends Event
  * @constructor
- * @param {String} [typeArg] - The name of the event.
+ * @param {String} type - The name of the event.
  */
 
-export class TerrainEvent extends Event {
+export class TerrainEvent {
 
-	constructor(typeArg) {
+	constructor(type) {
 
-		super(typeArg);
+		/**
+		 * The name of the event.
+		 *
+		 * @property type
+		 * @type String
+		 */
+
+		this.type = type;
 
 		/**
 		 * A volume chunk.
