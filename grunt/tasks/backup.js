@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
 
-  grunt.registerTask("backup", ["restore", "copy:backup"]);
+	grunt.registerTask("backup", ["restore", "copy:backup"]);
 
 };
