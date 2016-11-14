@@ -1,164 +1,27 @@
+const path = require("path");
+
 module.exports = function(grunt) {
 
-	grunt.initConfig({
+	const date = grunt.template.today("mmm dd yyyy");
 
-		date: grunt.template.today("mmm dd yyyy"),
-		pkg: grunt.file.readJSON("package.json"),
+  require("time-grunt")(grunt);
 
-		banner: "/**\n" +
-			" * <%= pkg.name %> v<%= pkg.version %> build <%= date %>\n" +
-			" * <%= pkg.homepage %>\n" +
-			" * Copyright <%= date.slice(-4) %> <%= pkg.author.name %>, <%= pkg.license %>\n" +
-			" */\n",
+  require("load-grunt-config")(grunt, {
 
-		eslint: {
-			target: ["Gruntfile.js", "src/**/*.js", "test/**/*.js"]
-		},
+    configPath: path.join(process.cwd(), "grunt/config"),
 
-		rollup: {
-			options: {
-				globals: { three: "THREE" },
-				external: ["three"],
-				plugins: function() {
-					return [
-						require("rollup-plugin-node-resolve")({
-							jsnext: true
-						}),
-						require("rollup-plugin-string")({
-							include: [
-								"**/*.frag",
-								"**/*.vert",
-								"**/*.tmp"
-							]
-						})
-					];
-				}
-			},
-			worker: {
-				options: {
-					format: "iife"
-				},
-				src: "src/worker/worker.js",
-				dest: "src/worker/worker.tmp"
-			},
-			dist: {
-				options: {
-					format: "umd",
-					moduleName: "<%= pkg.name.replace(/-/g, \"\").toUpperCase() %>",
-					banner: "<%= banner %>"
-				},
-				src: "src/index.js",
-				dest: "build/<%= pkg.name %>.js"
-			}
-		},
+    jitGrunt: {
+      customTasksDir: "grunt/tasks"
+    },
 
-		uglify: {
-			options: {
-				banner: "<%= banner %>"
-			},
-			worker: {
-				files: {
-					"src/worker/worker.min.tmp": ["src/worker/worker.tmp"]
-				}
-			},
-			dist: {
-				files: {
-					"build/<%= pkg.name %>.min.js": ["build/<%= pkg.name %>.js"]
-				}
-			}
-		},
+    data: {
+      banner: "/**\n" +
+				" * <%= package.name %> v<%= package.version %> build " + date + "\n" +
+				" * <%= package.homepage %>\n" +
+				" * Copyright " + date.slice(-4) + " <%= package.author.name %>, <%= package.license %>\n" +
+				" */\n"
+    }
 
-		nodeunit: {
-			options: {
-				reporter: "default"
-			},
-			src: ["test/**/*.js"]
-		},
-
-		lemon: {
-			options: {
-				extensions: {
-					".frag": "utf8",
-					".vert": "utf8",
-					".tmp": "utf8"
-				}
-			},
-			materials: {
-				src: "src/materials/*/index.js"
-			},
-			worker: {
-				src: "src/index.js"
-			}
-		},
-
-		copy: {
-			backup: {
-				expand: true,
-				cwd: "src",
-				src: [
-					"materials/*/index.js",
-					"index.js"
-				],
-				dest: "backup",
-				filter: "isFile"
-			},
-			restore: {
-				expand: true,
-				cwd: "backup",
-				src: "**",
-				dest: "src",
-				filter: "isFile"
-			},
-			bundle: {
-				expand: false,
-				src: ["build/<%= pkg.name %>.js"],
-				dest: "public/<%= pkg.name %>.js",
-				filter: "isFile"
-			},
-			min: {
-				expand: false,
-				src: ["build/<%= pkg.name %>.min.js"],
-				dest: "public/<%= pkg.name %>.min.js",
-				filter: "isFile"
-			}
-		},
-
-		clean: {
-			backup: ["backup"],
-			worker: ["src/worker/worker.tmp"]
-		},
-
-		yuidoc: {
-			compile: {
-				name: "<%= pkg.name %>",
-				description: "<%= pkg.description %>",
-				version: "<%= pkg.version %>",
-				url: "<%= pkg.homepage %>",
-				options: {
-					paths: "src",
-					outdir: "docs"
-				}
-			}
-		}
-
-	});
-
-	grunt.loadNpmTasks("grunt-contrib-nodeunit");
-	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-yuidoc");
-	grunt.loadNpmTasks("grunt-contrib-clean");
-	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks("grunt-rollup");
-	grunt.loadNpmTasks("grunt-lemon");
-
-	grunt.registerTask("default", ["build", "nodeunit"]);
-	grunt.registerTask("build", ["eslint", "rollup:worker", "rollup:dist", "copy:bundle", "clean:worker"]);
-	grunt.registerTask("test", ["eslint", "nodeunit"]);
-
-	grunt.registerTask("backup", ["restore", "copy:backup"]);
-	grunt.registerTask("restore", ["copy:restore", "clean:backup"]);
-	grunt.registerTask("prepublish", ["backup", "lemon"]);
-	grunt.registerTask("postpublish", ["restore"]);
+  });
 
 };
