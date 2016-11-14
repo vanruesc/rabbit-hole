@@ -37,24 +37,30 @@
 	],
 
 	"scripts": {
-		"test": "node grunt-cli.js",
-		"prepublishOnly": "node grunt-cli.js prepublish",
-		"postpublish": "node grunt-cli.js postpublish"
+		"test": "grunt",
+		"prepublishOnly": "grunt prepublish",
+		"postpublish": "grunt postpublish"
 	},
 
 	"engines": {
-		"node": ">= 4.0.0",
-		"npm": ">= 4.0.0"
+		"node": ">=4.0.0",
+		"npm": ">=4.0.0"
 	},
 
 	"dependencies": {
-		"three": "0.82.x",
-		"sparse-octree": "x.x.x"
+		"dat.gui": "0.6.x",
+		"sparse-octree": "2.x.x",
+		"stats.js": "0.17.x",
+		"three": "0.82.x"
 	},
 
 	"devDependencies": {
-		"grunt": ">= 0.4.0",
+		"babel-preset-es2015-rollup": "1.2.x",
+		"grunt": "1.x.x",
+		"grunt-cli": "1.2.x",
 		"grunt-contrib-nodeunit": "1.0.x",
+		"grunt-contrib-htmlmin": "2.0.x",
+		"grunt-contrib-cssmin": "1.0.x",
 		"grunt-contrib-uglify": "2.0.x",
 		"grunt-contrib-yuidoc": "1.0.x",
 		"grunt-contrib-clean": "1.0.x",
@@ -62,17 +68,15 @@
 		"grunt-eslint": "19.0.x",
 		"grunt-lemon": "0.1.x",
 		"grunt-rollup": "0.8.x",
-		"babel-preset-es2015-rollup": "1.2.x",
-		"rollup-plugin-node-resolve": "2.0.x",
+		"jit-grunt": "0.10.x",
+		"load-grunt-config": "0.19.x",
 		"rollup-plugin-babel": "2.6.x",
-		"rollup-plugin-string": "2.0.x"
+		"rollup-plugin-node-resolve": "2.0.x",
+		"rollup-plugin-string": "2.0.x",
+		"time-grunt": "1.4.x"
 	},
 
 	"peerDependencies": {
-		"grunt": ">= 0.4.0"
-	},
-
-	"bundledDependencies": [
-		"sparse-octree"
-	]
+		"grunt": "1.x.x"
+	}
 }
