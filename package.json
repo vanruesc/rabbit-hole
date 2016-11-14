@@ -31,6 +31,11 @@
 		"url": "https://github.com/vanruesc/rabbit-hole/issues"
 	},
 
+	"files": [
+		"src",
+		"build"
+	],
+
 	"scripts": {
 		"test": "node grunt-cli.js",
 		"prepublishOnly": "node grunt-cli.js prepublish",
