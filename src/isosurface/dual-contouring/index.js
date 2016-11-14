@@ -363,8 +363,6 @@ export class DualContouring {
 
 	static run(chunk) {
 
-		chunk.data.decompress();
-
 		const indexBuffer = [];
 
 		const threshold = 1e-2;
@@ -403,8 +401,6 @@ export class DualContouring {
 			result = { indices, positions, normals };
 
 		}
-
-		chunk.data.compress();
 
 		return result;
 
