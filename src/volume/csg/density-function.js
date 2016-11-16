@@ -55,7 +55,7 @@ export class DensityFunction extends Operation {
 
 	generateMaterialIndex(position) {
 
-		return (this.sdf.sample(position) < 0.0) ? this.sdf.material : Density.HOLLOW;
+		return (this.sdf.sample(position) <= 0.0) ? this.sdf.material : Density.HOLLOW;
 
 	}
 
