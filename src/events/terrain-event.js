@@ -21,6 +21,15 @@ export class TerrainEvent {
 		this.type = type;
 
 		/**
+		 * A reference to the target to which the event was originally dispatched.
+		 *
+		 * @property target
+		 * @type Object
+		 */
+
+		this.target = type;
+
+		/**
 		 * A volume chunk.
 		 *
 		 * @property chunk
