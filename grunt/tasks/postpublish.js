@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
 
-	grunt.registerTask("postpublish", ["restore"]);
+	grunt.registerTask("postpublish", ["restore", "clean:worker"]);
 
 };
