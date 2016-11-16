@@ -1,7 +1,7 @@
 import { Editor } from "./editor.js";
 
 /**
- * The entry point for the volume editor.
+ * The entry point of the volume editor.
  *
  * @class Main
  * @static
