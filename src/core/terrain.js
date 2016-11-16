@@ -1,21 +1,13 @@
-import {
-	BufferAttribute,
-	BufferGeometry,
-	Mesh,
-	MeshStandardMaterial,
-	Frustum,
-	Matrix4,
-	Object3D
-} from "three";
-
+import { BufferAttribute, BufferGeometry, Mesh, MeshStandardMaterial, Frustum, Matrix4, Object3D } from "three";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Action } from "../worker/action.js";
-import { WorkerTask } from "../worker/worker-task.js";
 import { ThreadPool } from "../worker/thread-pool.js";
+import { WorkerTask } from "../worker/worker-task.js";
 // import { TerrainMaterial } from "../materials/triplanar";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
+import * as events from "./events.js";
 
 /**
  * A computation helper.
@@ -204,45 +196,49 @@ export class Terrain extends Object3D {
 		this.neutered.delete(chunk);
 		this.chunks.delete(worker);
 
-		if(data.chunk.data !== null) {
+		// Reclaim ownership of the chunk data.
+		chunk.deserialise(data.chunk);
 
-			// Reclaim ownership of the chunk data.
-			chunk.deserialise(data.chunk);
+		if(chunk.data === null && chunk.csg === null) {
 
-		} else {
+			// The chunk has become empty. Remove it.
+			this.scheduler.cancel(chunk);
+			this.volume.prune(chunk);
+			this.unlinkMesh(chunk);
 
-			chunk.data = null;
+		} else if(chunk.csg !== null) {
 
-			if(chunk.csg !== null) {
-
-				// The chunk became empty. Remove it.
-				this.scheduler.cancel(chunk);
-				this.volume.prune(chunk);
-				this.unlinkMesh(chunk);
-
-			}
+			// Drain the CSG queue as fast as possible.
+			this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
 
 		}
 
-		if(data.action === Action.MODIFY) {
+		if(data.action !== Action.CLOSE) {
 
-			if(chunk.csg !== null) {
+			if(data.action === Action.EXTRACT) {
 
-				// Drain the CSG queue as fast as possible.
-				this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
+				event = events.EXTRACTION_END;
+
+				this.consolidate(chunk, data);
+
+			} else {
+
+				event = events.MODIFICATION_END;
 
 			}
+
+			event.chunk = chunk;
+
+			this.dispatchEvent(event);
+
+		} else {
+
+			console.warn(data.error);
 
 		}
 
 		// Kick off a pending task.
 		this.runNextTask();
-
-		if(data.action === Action.EXTRACT) {
-
-			this.consolidate(chunk, data);
-
-		}
 
 	}
 
@@ -291,7 +287,7 @@ export class Terrain extends Object3D {
 
 	runNextTask() {
 
-		let task, worker, chunk;
+		let task, worker, chunk, event;
 
 		if(this.scheduler.peek() !== null) {
 
@@ -303,6 +299,8 @@ export class Terrain extends Object3D {
 				chunk = task.chunk;
 
 				if(task.action === Action.MODIFY) {
+
+					event = events.MODIFICATION_START;
 
 					worker.postMessage({
 
@@ -320,6 +318,8 @@ export class Terrain extends Object3D {
 
 				} else {
 
+					event = events.EXTRACTION_START;
+
 					worker.postMessage({
 
 						action: task.action,
@@ -329,8 +329,11 @@ export class Terrain extends Object3D {
 
 				}
 
+				event.chunk = chunk;
+
 				this.neutered.add(chunk);
 				this.chunks.set(worker, chunk);
+				this.dispatchEvent(event);
 
 			}
 
