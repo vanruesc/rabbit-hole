@@ -187,7 +187,7 @@ export class SingularValueDecomposition {
 	 * @static
 	 * @param {SymmetricMatrix3} a - A symmetric matrix.
 	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - A vector.
+	 * @param {Vector3} x - A target vector.
 	 * @param {Number} svdThreshold - A threshold.
 	 * @param {Number} svdSweeps - The maximum number of SVD sweeps.
 	 * @param {Number} pseudoInverseThreshold - A threshold.
