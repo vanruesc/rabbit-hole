@@ -136,7 +136,7 @@ export class SymmetricMatrix3 {
 	}
 
 	/**
-	 * Calculates the absolute sum of all matrix components.
+	 * Calculates the Frobenius norm of this matrix.
 	 *
 	 * @method norm
 	 * @return {Number} The norm of this matrix.
