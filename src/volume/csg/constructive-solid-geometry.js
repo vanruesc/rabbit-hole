@@ -43,15 +43,15 @@ function computeIndexBounds(chunk, operation) {
 
 			min.copy(operation.boundingBox.min).max(region.min).sub(region.min);
 
-			min.x = Math.ceil(min.x * s / n);
-			min.y = Math.ceil(min.y * s / n);
-			min.z = Math.ceil(min.z * s / n);
+			min.x = Math.ceil(min.x * n / s);
+			min.y = Math.ceil(min.y * n / s);
+			min.z = Math.ceil(min.z * n / s);
 
 			max.copy(operation.boundingBox.max).min(region.max).sub(region.min);
 
-			max.x = Math.floor(max.x * s / n);
-			max.y = Math.floor(max.y * s / n);
-			max.z = Math.floor(max.z * s / n);
+			max.x = Math.floor(max.x * n / s);
+			max.y = Math.floor(max.y * n / s);
+			max.z = Math.floor(max.z * n / s);
 
 		} else {
 
