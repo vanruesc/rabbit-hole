@@ -13,13 +13,13 @@ import { Action } from "./action.js";
 /**
  * Receives and handles messages from the main thread.
  *
- * @method onmessage
+ * @method onMessage
  * @private
  * @static
  * @param {Event} event - A message event containing data from the main thread.
  */
 
-self.addEventListener("message", function onmessage(event) {
+self.addEventListener("message", function onMessage(event) {
 
 	const data = event.data;
 
@@ -46,13 +46,13 @@ self.addEventListener("message", function onmessage(event) {
 /**
  * Returns all data to the main thread and closes the worker.
  *
- * @method onerror
+ * @method onError
  * @private
  * @static
  * @param {Event} event - An error event.
  */
 
-self.addEventListener("error", function onerror(event) {
+self.addEventListener("error", function onError(event) {
 
 	const message = {
 		action: Action.CLOSE,

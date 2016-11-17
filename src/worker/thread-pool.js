@@ -61,12 +61,12 @@ export class ThreadPool extends EventDispatcher {
 		/**
 		 * A worker message handler.
 		 *
-		 * @property onmessage
+		 * @property onMessage
 		 * @type Function
 		 * @private
 		 */
 
-		this.onmessage = (event) => {
+		this.onMessage = (event) => {
 
 			this.busyWorkers.delete(event.target);
 			this.dispatchEvent(event);
@@ -76,12 +76,12 @@ export class ThreadPool extends EventDispatcher {
 		/**
 		 * A worker error handler.
 		 *
-		 * @property onerror
+		 * @property onError
 		 * @type Function
 		 * @private
 		 */
 
-		this.onerror = (event) => {
+		this.onError = (event) => {
 
 			this.dispatchEvent(event);
 
@@ -113,8 +113,8 @@ export class ThreadPool extends EventDispatcher {
 
 		}
 
-		worker.removeEventListener("message", this.onmessage);
-		worker.removeEventListener("error", this.onerror);
+		worker.removeEventListener("message", this.onMessage);
+		worker.removeEventListener("error", this.onError);
 
 		if(index >= 0) {
 
@@ -138,8 +138,8 @@ export class ThreadPool extends EventDispatcher {
 
 		this.workers.push(worker);
 
-		worker.addEventListener("message", this.onmessage);
-		worker.addEventListener("error", this.onerror);
+		worker.addEventListener("message", this.onMessage);
+		worker.addEventListener("error", this.onError);
 
 		return worker;
 
