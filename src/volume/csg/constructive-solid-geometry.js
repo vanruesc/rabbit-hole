@@ -199,8 +199,6 @@ function combineEdges(chunk, operation, data0, data1) {
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
 	const edgeData = new EdgeData(chunk.resolution);
-
-	// Edge counters.
 	const lengths = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
@@ -364,10 +362,7 @@ function generateEdges(chunk, operation, data, bounds) {
 	const offsetB = new Vector3();
 	const edge = new Edge();
 
-	// Allocate space for the maximum amount of edges.
 	const edgeData = new EdgeData(n);
-
-	// Edge counters for three sets of edges.
 	const lengths = new Uint32Array(3);
 
 	let edges, zeroCrossings, normals;
@@ -380,14 +375,14 @@ function generateEdges(chunk, operation, data, bounds) {
 	let x, y, z;
 
 	// Process the edges along the X-axis, then Y and finally Z.
-	for(c = 0, d = 0, a = 4; d < 3; c = 0, ++d, a >>= 1) {
+	for(a = 4, c = 0, d = 0; d < 3; a >>= 1, c = 0, ++d) {
+
+		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
+		axis = PATTERN[a];
 
 		edges = edgeData.edges[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
 		normals = edgeData.normals[d];
-
-		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-		axis = PATTERN[a];
 
 		minX = bounds.min.x; maxX = bounds.max.x;
 		minY = bounds.min.y; maxY = bounds.max.y;

@@ -61,9 +61,9 @@ export class ThreadPool extends EventDispatcher {
 		/**
 		 * A worker message handler.
 		 *
-		 * @property onMessage
-		 * @type Function
+		 * @method onMessage
 		 * @private
+		 * @param {Event} event - An event.
 		 */
 
 		this.onMessage = (event) => {
@@ -76,9 +76,9 @@ export class ThreadPool extends EventDispatcher {
 		/**
 		 * A worker error handler.
 		 *
-		 * @property onError
-		 * @type Function
+		 * @method onError
 		 * @private
+		 * @param {Event} event - An event.
 		 */
 
 		this.onError = (event) => {
