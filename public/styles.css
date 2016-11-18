@@ -47,7 +47,9 @@ p {
 div[role="complementary"] {
 	background-color: transparent;
 	display: flex;
+	-webkit-justify-content: space-between;
 	justify-content: space-between;
+	-webkit-align-items: center;
 	align-items: center;
 	padding: 5px 20px;
 	position: fixed;
