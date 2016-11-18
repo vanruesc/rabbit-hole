@@ -11,9 +11,13 @@ export {
 	PriorityQueue
 } from "./core";
 
-export { ChunkHelper } from "./helpers";
+export {
+	ChunkHelper
+} from "./helpers";
 
-export { TerrainMaterial } from "./materials";
+export {
+	TerrainMaterial
+} from "./materials";
 
 export {
 	SingularValueDecomposition,
