@@ -11,7 +11,7 @@ module.exports = {
 			banner: "<%= banner %>"
 		},
 		files: {
-			"build/<%= pkg.name %>.min.js": ["build/<%= pkg.name %>.js"]
+			"build/<%= package.name %>.min.js": ["build/<%= package.name %>.js"]
 		}
 	},
 
