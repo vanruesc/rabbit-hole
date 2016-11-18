@@ -22,11 +22,13 @@ import { Edge } from "../volume/edge.js";
  * @constructor
  * @extends Object3D
  * @param {Chunk} [chunk] - A volume data chunk.
+ * @param {Boolean} [useMaterialIndices] - Whether points should be created for solid material indices.
+ * @param {Boolean} [useEdgeData] - Whether edges with intersection points and normals should be created.
  */
 
 export class ChunkHelper extends Object3D {
 
-	constructor(chunk) {
+	constructor(chunk, useMaterialIndices, useEdgeData) {
 
 		super();
 
@@ -41,20 +43,16 @@ export class ChunkHelper extends Object3D {
 
 		this.chunk = chunk;
 
-		if(chunk.data !== null) {
+		// Create groups for grid points, edges and normals.
+		this.add(new Object3D());
+		this.add(new Object3D());
+		this.add(new Object3D());
 
-			// Create groups for grid points, edges and normals.
-			this.add(new Object3D());
-			this.add(new Object3D());
-			this.add(new Object3D());
+		this.gridPoints.name = "GridPoints";
+		this.edges.name = "Edges";
+		this.normals.name = "Normals";
 
-			this.children[0].name = "GridPoints";
-			this.children[1].name = "Edges";
-			this.children[2].name = "Normals";
-
-			this.update();
-
-		}
+		this.update(useMaterialIndices, useEdgeData);
 
 	}
 
@@ -86,41 +84,53 @@ export class ChunkHelper extends Object3D {
 	get normals() { return this.children[2]; }
 
 	/**
-	 * Creates geometry.
+	 * Creates the helper geometry.
 	 *
 	 * @method update
+	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
+	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
 	 */
 
-	update() {
+	update(useMaterialIndices = false, useEdgeData = true) {
 
-		const s = this.chunk.size;
-		const n = this.chunk.resolution;
-		const m = n + 1;
-		const mm = m * m;
+		const chunk = this.chunk;
 
-		const data = this.chunk.data.decompress();
-		const materialIndices = data.materialIndices;
-		const edgeData = data.edgeData;
+		if(chunk !== null && chunk.data !== null) {
 
-		const base = this.chunk.min;
+			chunk.data.decompress();
+
+			// Remove existing geometry.
+			this.dispose();
+
+			if(useMaterialIndices) { this.createPoints(chunk); }
+			if(useEdgeData) { this.createEdges(chunk); }
+
+			chunk.data.compress();
+
+		}
+
+	}
+
+	/**
+	 * Creates points for solid material indices.
+	 *
+	 * @method createPoints
+	 * @private
+	 * @param {Chunk} chunk - A volume data chunk.
+	 */
+
+	createPoints(chunk) {
+
+		const s = chunk.size;
+		const n = chunk.resolution;
+
+		const materialIndices = chunk.data.materialIndices;
+
+		const base = chunk.min;
 		const offset = new Vector3();
-		const offsetA = new Vector3();
-		const offsetB = new Vector3();
 		const position = new Vector3();
-		const normalA = new Vector3();
-		const normalB = new Vector3();
-		const edge = new Edge();
 
-		const colorEmpty = new Float32Array([1.0, 1.0, 1.0]);
-		const colorSolid = new Float32Array([0.0, 0.0, 0.0]);
-
-		const edgeColors = [
-			new Float32Array([0.6, 0.0, 0.0]),
-			new Float32Array([0.0, 0.6, 0.0]),
-			new Float32Array([0.0, 0.0, 0.6])
-		];
-
-		const normalColor = new Float32Array([0.0, 1.0, 1.0]);
+		const color = new Float32Array([0.0, 0.0, 0.0]);
 
 		const pointsMaterial = new PointsMaterial({
 			vertexColors: VertexColors,
@@ -128,27 +138,14 @@ export class ChunkHelper extends Object3D {
 			size: 3
 		});
 
-		const lineSegmentsMaterial = new LineBasicMaterial({
-			vertexColors: VertexColors
-		});
+		const geometry = new BufferGeometry();
 
-		let edges, zeroCrossings, normals;
+		const vertexCount = (n + 1) ** 3;
+		const positions = new Float32Array(vertexCount * 3);
+		const colors = new Float32Array(vertexCount * 3);
 
-		let positions, colors, positions2, colors2, geometry;
-		let vertexCount, gridPointColor, edgeColor;
-
-		let axis, index;
-
-		let d, a, i, j, k, l;
 		let x, y, z;
-
-		// Remove existing geometry.
-		this.dispose();
-
-		// Create grid points.
-		vertexCount = m ** 3;
-		positions = new Float32Array(vertexCount * 3);
-		colors = new Float32Array(vertexCount * 3);
+		let i, j;
 
 		for(i = 0, j = 0, z = 0; z <= n; ++z) {
 
@@ -162,12 +159,15 @@ export class ChunkHelper extends Object3D {
 
 					offset.x = x * s / n;
 
-					position.addVectors(base, offset);
-					gridPointColor = (materialIndices[i++] === Density.HOLLOW) ? colorEmpty : colorSolid;
+					if(materialIndices[i++] !== Density.HOLLOW) {
 
-					positions[j] = position.x; colors[j++] = gridPointColor[0];
-					positions[j] = position.y; colors[j++] = gridPointColor[1];
-					positions[j] = position.z; colors[j++] = gridPointColor[2];
+						position.addVectors(base, offset);
+
+						positions[j] = position.x; colors[j++] = color[0];
+						positions[j] = position.y; colors[j++] = color[1];
+						positions[j] = position.z; colors[j++] = color[2];
+
+					}
 
 				}
 
@@ -175,27 +175,73 @@ export class ChunkHelper extends Object3D {
 
 		}
 
-		geometry = new BufferGeometry();
 		geometry.addAttribute("position", new BufferAttribute(positions, 3));
 		geometry.addAttribute("color", new BufferAttribute(colors, 3));
 
 		this.gridPoints.add(new Points(geometry, pointsMaterial));
 
-		// Create edges and normals.
+	}
+
+	/**
+	 * Creates edges with intersection points and normals.
+	 *
+	 * @method update
+	 * @private
+	 * @param {Chunk} chunk - A volume data chunk.
+	 */
+
+	createEdges(chunk) {
+
+		const s = chunk.size;
+		const n = chunk.resolution;
+		const m = n + 1;
+		const mm = m * m;
+
+		const edgeData = chunk.data.edgeData;
+
+		const base = chunk.min;
+		const offsetA = new Vector3();
+		const offsetB = new Vector3();
+		const normalA = new Vector3();
+		const normalB = new Vector3();
+		const edge = new Edge();
+
+		const axisColors = [
+			new Float32Array([0.6, 0.0, 0.0]),
+			new Float32Array([0.0, 0.6, 0.0]),
+			new Float32Array([0.0, 0.0, 0.6])
+		];
+
+		const normalColor = new Float32Array([0.0, 1.0, 1.0]);
+
+		const lineSegmentsMaterial = new LineBasicMaterial({
+			vertexColors: VertexColors
+		});
+
+		let edges, zeroCrossings, normals;
+
+		let edgePositions, edgeColors;
+		let normalPositions, normalColors;
+		let vertexCount, edgeColor, geometry;
+		let axis, index;
+
+		let d, a, i, j, k, l;
+		let x, y, z;
+
 		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
+
+			axis = PATTERN[a];
 
 			edges = edgeData.edges[d];
 			zeroCrossings = edgeData.zeroCrossings[d];
 			normals = edgeData.normals[d];
-			edgeColor = edgeColors[d];
-
-			axis = PATTERN[a];
+			edgeColor = axisColors[d];
 
 			vertexCount = edges.length * 2;
-			positions = new Float32Array(vertexCount * 3);
-			colors = new Float32Array(vertexCount * 3);
-			positions2 = new Float32Array(vertexCount * 3);
-			colors2 = new Float32Array(vertexCount * 3);
+			edgePositions = new Float32Array(vertexCount * 3);
+			edgeColors = new Float32Array(vertexCount * 3);
+			normalPositions = new Float32Array(vertexCount * 3);
+			normalColors = new Float32Array(vertexCount * 3);
 
 			for(i = 0, j = 0, k = 0, l = edges.length; i < l; ++i) {
 
@@ -217,50 +263,48 @@ export class ChunkHelper extends Object3D {
 					(z + axis[2]) * s / n
 				);
 
+				// Edge.
 				edge.a.addVectors(base, offsetA);
 				edge.b.addVectors(base, offsetB);
 
+				edgePositions[j] = edge.a.x; edgeColors[j++] = edgeColor[0];
+				edgePositions[j] = edge.a.y; edgeColors[j++] = edgeColor[1];
+				edgePositions[j] = edge.a.z; edgeColors[j++] = edgeColor[2];
+
+				edgePositions[j] = edge.b.x; edgeColors[j++] = edgeColor[0];
+				edgePositions[j] = edge.b.y; edgeColors[j++] = edgeColor[1];
+				edgePositions[j] = edge.b.z; edgeColors[j++] = edgeColor[2];
+
+				// Normal at Zero Crossing.
 				edge.t = zeroCrossings[i];
 				edge.n.fromArray(normals, i * 3);
 
 				normalA.copy(edge.computeZeroCrossingPosition());
-				normalB.copy(normalA).addScaledVector(edge.n, s / n * 0.25);
+				normalB.copy(normalA).addScaledVector(edge.n, 0.25 * s / n);
 
-				// Edge.
-				positions[j] = edge.a.x; colors[j++] = edgeColor[0];
-				positions[j] = edge.a.y; colors[j++] = edgeColor[1];
-				positions[j] = edge.a.z; colors[j++] = edgeColor[2];
+				normalPositions[k] = normalA.x; normalColors[k++] = normalColor[0];
+				normalPositions[k] = normalA.y; normalColors[k++] = normalColor[1];
+				normalPositions[k] = normalA.z; normalColors[k++] = normalColor[2];
 
-				positions[j] = edge.b.x; colors[j++] = edgeColor[0];
-				positions[j] = edge.b.y; colors[j++] = edgeColor[1];
-				positions[j] = edge.b.z; colors[j++] = edgeColor[2];
-
-				// Normal at Zero Crossing.
-				positions2[k] = normalA.x; colors2[k++] = normalColor[0];
-				positions2[k] = normalA.y; colors2[k++] = normalColor[1];
-				positions2[k] = normalA.z; colors2[k++] = normalColor[2];
-
-				positions2[k] = normalB.x; colors2[k++] = normalColor[0];
-				positions2[k] = normalB.y; colors2[k++] = normalColor[1];
-				positions2[k] = normalB.z; colors2[k++] = normalColor[2];
+				normalPositions[k] = normalB.x; normalColors[k++] = normalColor[0];
+				normalPositions[k] = normalB.y; normalColors[k++] = normalColor[1];
+				normalPositions[k] = normalB.z; normalColors[k++] = normalColor[2];
 
 			}
 
 			geometry = new BufferGeometry();
-			geometry.addAttribute("position", new BufferAttribute(positions, 3));
-			geometry.addAttribute("color", new BufferAttribute(colors, 3));
+			geometry.addAttribute("position", new BufferAttribute(edgePositions, 3));
+			geometry.addAttribute("color", new BufferAttribute(edgeColors, 3));
 
 			this.edges.add(new LineSegments(geometry, lineSegmentsMaterial));
 
 			geometry = new BufferGeometry();
-			geometry.addAttribute("position", new BufferAttribute(positions2, 3));
-			geometry.addAttribute("color", new BufferAttribute(colors2, 3));
+			geometry.addAttribute("position", new BufferAttribute(normalPositions, 3));
+			geometry.addAttribute("color", new BufferAttribute(normalColors, 3));
 
 			this.normals.add(new LineSegments(geometry, lineSegmentsMaterial));
 
 		}
-
-		data.compress();
 
 	}
 
