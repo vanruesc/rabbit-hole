@@ -33,7 +33,7 @@ export {
 	Edge,
 	EdgeData,
 	HermiteData,
-	Voxel, EDGES,
+	Voxel,
 	Chunk,
 	Volume,
 	VoxelBlock,

@@ -1,10 +1,10 @@
-import { Octree, PATTERN } from "sparse-octree";
+import { Octree, PATTERN, EDGES } from "sparse-octree";
 import { Vector3 } from "../../math/vector3.js";
 import { QEFData } from "../../math/qef-data.js";
 import { QEFSolver } from "../../math/qef-solver.js";
 import { Density } from "../density.js";
 import { Edge } from "../edge.js";
-import { Voxel, EDGES } from "../voxel.js";
+import { Voxel } from "../voxel.js";
 import { VoxelCell } from "./voxel-cell.js";
 
 /**
