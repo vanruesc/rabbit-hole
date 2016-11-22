@@ -316,12 +316,13 @@ export class ChunkHelper extends Object3D {
 
 	dispose() {
 
-		let children;
+		let child, children;
 		let i, j, il, jl;
 
 		for(i = 0, il = this.children.length; i < il; ++i) {
 
-			children = this.children[i];
+			child = this.children[i];
+			children = child.children;
 
 			for(j = 0, jl = children.length; j < jl; ++j) {
 
@@ -332,7 +333,7 @@ export class ChunkHelper extends Object3D {
 
 			while(children.length > 0) {
 
-				children.remove(children[0]);
+				child.remove(children[0]);
 
 			}
 
