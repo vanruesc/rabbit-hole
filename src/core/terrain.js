@@ -110,7 +110,8 @@ export class Terrain extends Object3D {
 		this.history = [];
 
 		/**
-		 * Keeps track of chunks that are currently being used by a worker.
+		 * Keeps track of chunks that are currently being used by a worker. The
+		 * amount of neutered chunks cannot exceed the amount of worker threads.
 		 *
 		 * @property neutered
 		 * @type WeakSet
@@ -586,7 +587,7 @@ export class Terrain extends Object3D {
 
 	load(data) {
 
-		this.dispose();
+		this.clear();
 		this.volume.load(JSON.parse(data));
 
 	}

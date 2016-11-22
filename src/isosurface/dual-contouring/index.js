@@ -1,6 +1,5 @@
 import { EDGES } from "sparse-octree";
 import { Density } from "../../volume/density.js";
-import { EDGES } from "../../volume/voxel.js";
 import { VoxelBlock } from "../../volume/octree/voxel-block.js";
 import * as tables from "./tables.js";
 

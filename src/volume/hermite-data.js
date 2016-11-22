@@ -50,7 +50,7 @@ export class HermiteData {
 		this.lod = -1;
 
 		/**
-		 * Indicates whether this data is currently being used by a worker.
+		 * Indicates whether this data is currently gone.
 		 *
 		 * @property neutered
 		 * @type Boolean
@@ -64,8 +64,6 @@ export class HermiteData {
 		 *
 		 * - The chunk lies outside the volume if there are no solid grid points.
 		 * - The chunk lies completely inside the volume if all points are solid.
-		 *
-		 * This counter is primarily used to determine if the chunk is full.
 		 *
 		 * @property materials
 		 * @type Number
@@ -193,7 +191,7 @@ export class HermiteData {
 
 	setMaterialIndex(index, value) {
 
-		// Check if the material index changes.
+		// Keep track of how many material indices are solid.
 		if(this.materialIndices[index] === Density.HOLLOW && value !== Density.HOLLOW) {
 
 			++this.materials;
