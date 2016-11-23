@@ -1,3 +1,5 @@
+import { Event } from "./event.js";
+
 /**
  * A terrain event.
  *
@@ -7,27 +9,11 @@
  * @param {String} type - The name of the event.
  */
 
-export class TerrainEvent {
+export class TerrainEvent extends Event {
 
 	constructor(type) {
 
-		/**
-		 * The name of the event.
-		 *
-		 * @property type
-		 * @type String
-		 */
-
-		this.type = type;
-
-		/**
-		 * A reference to the target to which the event was originally dispatched.
-		 *
-		 * @property target
-		 * @type Object
-		 */
-
-		this.target = type;
+		super(type);
 
 		/**
 		 * A volume chunk.

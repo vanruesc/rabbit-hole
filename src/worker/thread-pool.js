@@ -1,13 +1,23 @@
 import { EventDispatcher } from "three";
+import { WorkerEvent } from "../events/worker-event.js";
 import { Action } from "./action.js";
 import worker from "./worker.tmp";
+
+/**
+ * A worker message event.
+ *
+ * @event message
+ * @type WorkerEvent
+ */
+
+const MESSAGE = new WorkerEvent("message");
 
 /**
  * Manages worker threads.
  *
  * @class ThreadPool
  * @submodule worker
- * @extends EventDispatcher
+ * @implements EventListener
  * @constructor
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
  */
@@ -36,7 +46,7 @@ export class ThreadPool extends EventDispatcher {
 		 * @default navigator.hardwareConcurrency
 		 */
 
-		this.maxWorkers = Math.min(navigator.hardwareConcurrency, maxWorkers);
+		this.maxWorkers = Math.min(navigator.hardwareConcurrency, Math.max(maxWorkers, 1));
 
 		/**
 		 * A list of existing workers.
@@ -58,34 +68,32 @@ export class ThreadPool extends EventDispatcher {
 
 		this.busyWorkers = new WeakSet();
 
-		/**
-		 * A worker message handler.
-		 *
-		 * @method onMessage
-		 * @private
-		 * @param {Event} event - An event.
-		 */
+	}
 
-		this.onMessage = (event) => {
+	/**
+	 * Handles events.
+	 *
+	 * @method handleEvent
+	 * @param {Event} event - An event.
+	 */
 
-			this.busyWorkers.delete(event.target);
-			this.dispatchEvent(event);
+	handleEvent(event) {
 
-		};
+		switch(event.type) {
 
-		/**
-		 * A worker error handler.
-		 *
-		 * @method onError
-		 * @private
-		 * @param {Event} event - An event.
-		 */
+			case "message":
+				this.busyWorkers.delete(event.target);
+				MESSAGE.worker = event.target;
+				MESSAGE.data = event.data;
+				this.dispatchEvent(MESSAGE);
+				break;
 
-		this.onError = (event) => {
+			case "error":
+				// Errors are being handled in the worker.
+				console.warn("Encountered an unexpected error.", event.message);
+				break;
 
-			this.dispatchEvent(event);
-
-		};
+		}
 
 	}
 
@@ -113,8 +121,8 @@ export class ThreadPool extends EventDispatcher {
 
 		}
 
-		worker.removeEventListener("message", this.onMessage);
-		worker.removeEventListener("error", this.onError);
+		worker.removeEventListener("message", this);
+		worker.removeEventListener("error", this);
 
 		if(index >= 0) {
 
@@ -138,8 +146,8 @@ export class ThreadPool extends EventDispatcher {
 
 		this.workers.push(worker);
 
-		worker.addEventListener("message", this.onMessage);
-		worker.addEventListener("error", this.onError);
+		worker.addEventListener("message", this);
+		worker.addEventListener("error", this);
 
 		return worker;
 

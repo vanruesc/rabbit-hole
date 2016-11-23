@@ -7,7 +7,7 @@ import { TerrainEvent } from "../events/terrain-event.js";
 /**
  * Signals the start of a modification task.
  *
- * @event MODIFICATION_START
+ * @event modificationstart
  * @for Terrain
  * @type TerrainEvent
  */
@@ -17,7 +17,7 @@ export const MODIFICATION_START = new TerrainEvent("modificationstart");
 /**
  * Signals the end of a modification task.
  *
- * @event MODIFICATION_END
+ * @event modificationend
  * @for Terrain
  * @type TerrainEvent
  */
@@ -27,7 +27,7 @@ export const MODIFICATION_END = new TerrainEvent("modificationend");
 /**
  * Signals the start of an extraction task.
  *
- * @event EXTRACTION_START
+ * @event extractionstart
  * @for Terrain
  * @type TerrainEvent
  */
@@ -37,7 +37,7 @@ export const EXTRACTION_START = new TerrainEvent("extractionstart");
 /**
  * Signals the end of an extraction task.
  *
- * @event EXTRACTION_END
+ * @event extractionend
  * @for Terrain
  * @type TerrainEvent
  */

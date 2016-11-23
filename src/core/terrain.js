@@ -180,12 +180,12 @@ export class Terrain extends Object3D {
 	 *
 	 * @method commit
 	 * @private
-	 * @param {Event} event - A worker message event.
+	 * @param {WorkerEvent} event - A worker message event.
 	 */
 
 	commit(event) {
 
-		const worker = event.target;
+		const worker = event.worker;
 		const data = event.data;
 
 		// Find the chunk that has been processed by this worker.
