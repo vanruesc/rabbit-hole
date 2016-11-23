@@ -16,7 +16,7 @@ export {
 } from "./helpers";
 
 export {
-	TerrainMaterial
+	MeshTriplanarStandardMaterial
 } from "./materials";
 
 export {

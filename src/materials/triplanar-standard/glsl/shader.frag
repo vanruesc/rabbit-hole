@@ -26,6 +26,7 @@ varying vec3 vViewPosition;
 #include <color_pars_fragment>
 #include <map_pars_fragment>
 #include <alphamap_pars_fragment>
+#include <specularmap_pars_fragment>
 #include <lightmap_pars_fragment>
 #include <emissivemap_pars_fragment>
 #include <envmap_pars_fragment>
@@ -35,13 +36,12 @@ varying vec3 vViewPosition;
 #include <lights_pars>
 #include <lights_physical_pars_fragment>
 #include <shadowmap_pars_fragment>
-#include <bumpmap_triplanar_pars_fragment>
+#include <triplanar_pars_fragment>
 #include <normalmap_triplanar_pars_fragment>
 #include <roughnessmap_pars_fragment>
 #include <metalnessmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
-#include <triplanar_pars_fragment>
 
 void main() {
 

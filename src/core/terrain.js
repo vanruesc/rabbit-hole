@@ -1,10 +1,10 @@
-import { BufferAttribute, BufferGeometry, Mesh, MeshStandardMaterial, Frustum, Matrix4, Object3D } from "three";
+import { BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
+import { MeshTriplanarStandardMaterial } from "../materials/triplanar-standard";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Action } from "../worker/action.js";
 import { ThreadPool } from "../worker/thread-pool.js";
 import { WorkerTask } from "../worker/worker-task.js";
-// import { TerrainMaterial } from "../materials/triplanar";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
 import * as events from "./events.js";
@@ -147,10 +147,7 @@ export class Terrain extends Object3D {
 		 * @private
 		 */
 
-		// this.material = new TerrainMaterial();
-		this.material = new MeshStandardMaterial({
-			color: 0xbb4400
-		});
+		this.material = new MeshTriplanarStandardMaterial();
 
 	}
 

@@ -9,7 +9,7 @@ varying vec3 vViewPosition;
 #endif
 
 #include <common>
-#include <uv_pars_vertex>
+#include <uv_pars_vertex> // offsetRepeat
 #include <color_pars_vertex>
 #include <morphtarget_pars_vertex>
 #include <skinning_pars_vertex>
