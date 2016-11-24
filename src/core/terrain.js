@@ -493,7 +493,8 @@ export class Terrain extends Object3D {
 	 *
 	 * @method raycast
 	 * @param {Raycaster} raycaster - The raycaster.
-	 * @param {Array} intersects - An array to be filled with terrain intersections.
+	 * @param {Array} intersects - An array to be filled with terrain mesh intersections.
+	 * @return {Array} The chunks that intersect with the ray.
 	 */
 
 	raycast(raycaster, intersects) {
@@ -513,6 +514,8 @@ export class Terrain extends Object3D {
 			}
 
 		}
+
+		return chunks;
 
 	}
 
