@@ -1,5 +1,5 @@
 /**
- * A compilation of the shader materials.
+ * A collection of shader materials.
  *
  * @module rabbit-hole
  * @submodule materials

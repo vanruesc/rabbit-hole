@@ -17,6 +17,7 @@ const MESSAGE = new WorkerEvent("message");
  *
  * @class ThreadPool
  * @submodule worker
+ * @extends EventDispatcher
  * @implements EventListener
  * @constructor
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
