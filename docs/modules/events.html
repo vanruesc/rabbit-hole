@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\materials\terrain\index.js - rabbit-hole</title>
+    <title>events - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -132,49 +136,49 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\materials\terrain\index.js</h1>
+<h1>events Module</h1>
+<div class="box clearfix meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import THREE from &quot;three&quot;;
-import fragment from &quot;./glsl/shader.frag&quot;;
-import vertex from &quot;./glsl/shader.vert&quot;;
-// import x from &quot;./glsl/x.vert&quot;;
-// import y from &quot;./glsl/y.vert&quot;;
 
-/**
- * A terrain material that uses triplanar texture mapping.
- *
- * @class TerrainMaterial
- * @submodule materials
- * @extends ShaderMaterial
- * @constructor
- */
+        <div class="foundat">
+            Defined in: <a href="../files/src_events_worker-event.js.html#l3"><code>src\events\worker-event.js:3</code></a>
+        </div>
 
-export class TerrainMaterial extends THREE.ShaderMaterial {
+</div>
 
-	constructor() {
 
-		super({
+<div class="box intro">
+    <p>A collection of events.</p>
 
-			type: &quot;TerrainMaterial&quot;,
+</div>
 
-			uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib.standard.uniforms),
 
-			fragmentShader: fragment,
-			vertexShader: vertex
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+            <p>This module provides the following classes:</p>
 
-		});
+            <ul class="module-classes">
+                <li class="module-class">
+                    <a href="../classes/Event.html">
+                        Event
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/TerrainEvent.html">
+                        TerrainEvent
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/WorkerEvent.html">
+                        WorkerEvent
+                    </a>
+                </li>
+            </ul>
+    </div>
 
-		// Register custom shader code snippets.
-		// THREE.ShaderChunk.x = x;
-		// THREE.ShaderChunk.y = y;
 
-	}
-
-}
-
-    </pre>
+    <div class="yui3-u-1-2">
+    </div>
 </div>
                     </div>
                 </div>

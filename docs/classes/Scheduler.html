@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -464,7 +468,7 @@
                 PriorityQueue
             </a>
             but overwritten in
-        <a href="../files/src_core_scheduler.js.html#l124"><code>src\core\scheduler.js:124</code></a>
+        <a href="../files/src_core_scheduler.js.html#l145"><code>src\core\scheduler.js:145</code></a>
         </p>
 
 
@@ -660,13 +664,13 @@ the queue is empty.</p>
 
 
 </div>
-<div id="method_poll" class="method item inherited">
+<div id="method_poll" class="method item">
     <h3 class="name"><code>poll</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type"><a href="../classes/Task.html" class="crosslink">Task</a></span>
         </span>
 
 
@@ -676,9 +680,12 @@ the queue is empty.</p>
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/PriorityQueue.html#method_poll">PriorityQueue</a>:
-        <a href="../files/src_core_priority-queue.js.html#l118"><code>src\core\priority-queue.js:118</code></a>
+            <p>Inherited from
+            <a href="../classes/PriorityQueue.html#method_poll">
+                PriorityQueue
+            </a>
+            but overwritten in
+        <a href="../files/src_core_scheduler.js.html#l124"><code>src\core\scheduler.js:124</code></a>
         </p>
 
 
@@ -695,8 +702,8 @@ the queue is empty.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Object</span>:
-                    <p>The head of the queue.</p>
+                        <span class="type"><a href="../classes/Task.html" class="crosslink">Task</a></span>:
+                    <p>The task with the highest priority or null if there is none.</p>
 
             </div>
         </div>

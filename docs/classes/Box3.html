@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -148,8 +152,6 @@
 
 <div class="box intro">
     <p>A bounding box.</p>
-<p>This class is a copy of THREE.Box3. It can be removed as soon as three.js
-starts supporting ES6 modules.</p>
 
 </div>
 
@@ -158,7 +160,16 @@ starts supporting ES6 modules.</p>
 <div id="method_Box3" class="method item">
     <h3 class="name"><code>Box3</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[min]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[max]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -181,6 +192,40 @@ starts supporting ES6 modules.</p>
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[min]</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The lower bounds.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[max]</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The upper bounds.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -277,7 +322,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l73"><code>src\math\box3.js:73</code></a>
+        <a href="../files/src_math_box3.js.html#l75"><code>src\math\box3.js:75</code></a>
         </p>
 
 
@@ -326,7 +371,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l56"><code>src\math\box3.js:56</code></a>
+        <a href="../files/src_math_box3.js.html#l58"><code>src\math\box3.js:58</code></a>
         </p>
 
 
@@ -394,7 +439,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l86"><code>src\math\box3.js:86</code></a>
+        <a href="../files/src_math_box3.js.html#l88"><code>src\math\box3.js:88</code></a>
         </p>
 
 
@@ -462,7 +507,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l162"><code>src\math\box3.js:162</code></a>
+        <a href="../files/src_math_box3.js.html#l164"><code>src\math\box3.js:164</code></a>
         </p>
 
 
@@ -533,7 +578,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l38"><code>src\math\box3.js:38</code></a>
+        <a href="../files/src_math_box3.js.html#l40"><code>src\math\box3.js:40</code></a>
         </p>
 
 
@@ -617,7 +662,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l142"><code>src\math\box3.js:142</code></a>
+        <a href="../files/src_math_box3.js.html#l144"><code>src\math\box3.js:144</code></a>
         </p>
 
 
@@ -698,7 +743,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l120"><code>src\math\box3.js:120</code></a>
+        <a href="../files/src_math_box3.js.html#l122"><code>src\math\box3.js:122</code></a>
         </p>
 
 
@@ -766,7 +811,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l103"><code>src\math\box3.js:103</code></a>
+        <a href="../files/src_math_box3.js.html#l105"><code>src\math\box3.js:105</code></a>
         </p>
 
 
@@ -826,7 +871,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l27"><code>src\math\box3.js:27</code></a>
+        <a href="../files/src_math_box3.js.html#l29"><code>src\math\box3.js:29</code></a>
         </p>
 
 
@@ -851,7 +896,7 @@ starts supporting ES6 modules.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_math_box3.js.html#l18"><code>src\math\box3.js:18</code></a>
+        <a href="../files/src_math_box3.js.html#l20"><code>src\math\box3.js:20</code></a>
         </p>
 
 

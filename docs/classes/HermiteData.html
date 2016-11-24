@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -137,7 +141,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_hermite-data.js.html#l16"><code>src\volume\hermite-data.js:16</code></a>
+            Defined in: <a href="../files/src_volume_hermite-data.js.html#l29"><code>src\volume\hermite-data.js:29</code></a>
         </div>
 
             Module: <a href="../modules/volume.html">volume</a><br>
@@ -174,7 +178,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l16"><code>src\volume\hermite-data.js:16</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l29"><code>src\volume\hermite-data.js:29</code></a>
         </p>
 
 
@@ -270,6 +274,11 @@
                                 <a href="#property_full">full</a>
 
                             </li>
+                            <li class="index-item property private">
+                                <a href="#property_indexCount">indexCount</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_lod">lod</a>
 
@@ -278,7 +287,7 @@
                                 <a href="#property_materialIndices">materialIndices</a>
 
                             </li>
-                            <li class="index-item property private">
+                            <li class="index-item property">
                                 <a href="#property_materials">materials</a>
 
                             </li>
@@ -314,17 +323,21 @@
 
         <span class="paren">()</span>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
+        </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l114"><code>src\volume\hermite-data.js:114</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l124"><code>src\volume\hermite-data.js:124</code></a>
         </p>
 
 
@@ -337,6 +350,15 @@
     </div>
 
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>:
+                    <p>This data.</p>
+
+            </div>
+        </div>
 
 
 </div>
@@ -364,7 +386,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l191"><code>src\volume\hermite-data.js:191</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l209"><code>src\volume\hermite-data.js:209</code></a>
         </p>
 
 
@@ -414,17 +436,21 @@
 
         <span class="paren">()</span>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>
+        </span>
 
 
 
 
 
+        <span class="flag chainable">chainable</span>
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l146"><code>src\volume\hermite-data.js:146</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l160"><code>src\volume\hermite-data.js:160</code></a>
         </p>
 
 
@@ -437,6 +463,15 @@
     </div>
 
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/HermiteData.html" class="crosslink">HermiteData</a></span>:
+                    <p>This data.</p>
+
+            </div>
+        </div>
 
 
 </div>
@@ -461,7 +496,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l230"><code>src\volume\hermite-data.js:230</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l248"><code>src\volume\hermite-data.js:248</code></a>
         </p>
 
 
@@ -514,7 +549,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l210"><code>src\volume\hermite-data.js:210</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l228"><code>src\volume\hermite-data.js:228</code></a>
         </p>
 
 
@@ -563,7 +598,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l166"><code>src\volume\hermite-data.js:166</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l184"><code>src\volume\hermite-data.js:184</code></a>
         </p>
 
 
@@ -627,7 +662,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l84"><code>src\volume\hermite-data.js:84</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l94"><code>src\volume\hermite-data.js:94</code></a>
         </p>
 
 
@@ -653,7 +688,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l96"><code>src\volume\hermite-data.js:96</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l106"><code>src\volume\hermite-data.js:106</code></a>
         </p>
 
 
@@ -678,7 +713,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l105"><code>src\volume\hermite-data.js:105</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l115"><code>src\volume\hermite-data.js:115</code></a>
         </p>
 
 
@@ -689,6 +724,35 @@
 
     </div>
 
+
+
+</div>
+<div id="property_indexCount" class="property item private">
+    <h3 class="name"><code>indexCount</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_hermite-data.js.html#l17"><code>src\volume\hermite-data.js:17</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The total amount of grid point indices.</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
 
 
 </div>
@@ -703,7 +767,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l29"><code>src\volume\hermite-data.js:29</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l42"><code>src\volume\hermite-data.js:42</code></a>
         </p>
 
 
@@ -729,7 +793,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l65"><code>src\volume\hermite-data.js:65</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l75"><code>src\volume\hermite-data.js:75</code></a>
         </p>
 
 
@@ -743,19 +807,18 @@
 
 
 </div>
-<div id="property_materials" class="property item private">
+<div id="property_materials" class="property item">
     <h3 class="name"><code>materials</code></h3>
     <span class="type">Number</span>
 
 
-        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l49"><code>src\volume\hermite-data.js:49</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l62"><code>src\volume\hermite-data.js:62</code></a>
         </p>
 
 
@@ -767,7 +830,6 @@
 <li>The chunk lies outside the volume if there are no solid grid points.</li>
 <li>The chunk lies completely inside the volume if all points are solid.</li>
 </ul>
-<p>This counter is primarily used to determine if the chunk is full.</p>
 
     </div>
 
@@ -786,14 +848,14 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l39"><code>src\volume\hermite-data.js:39</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l52"><code>src\volume\hermite-data.js:52</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Indicates whether this data is currently being used by a worker.</p>
+        <p>Indicates whether this data is currently gone.</p>
 
     </div>
 
@@ -815,7 +877,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l4"><code>src\volume\hermite-data.js:4</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l5"><code>src\volume\hermite-data.js:5</code></a>
         </p>
 
 
@@ -842,7 +904,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l249"><code>src\volume\hermite-data.js:249</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l282"><code>src\volume\hermite-data.js:282</code></a>
         </p>
 
 
@@ -867,7 +929,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_hermite-data.js.html#l74"><code>src\volume\hermite-data.js:74</code></a>
+        <a href="../files/src_volume_hermite-data.js.html#l84"><code>src\volume\hermite-data.js:84</code></a>
         </p>
 
 

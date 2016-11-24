@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -136,7 +140,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { Vector3 } from &quot;../math&quot;;
+import { Vector3 } from &quot;../math/vector3.js&quot;;
 
 /**
  * A cubic voxel that holds information about the surface of a volume.
@@ -217,37 +221,6 @@ export class Voxel {
 	}
 
 }
-
-/**
- * Describes all possible voxel corner connections.
- *
- * @property EDGES
- * @type Array
- * @static
- * @final
- */
-
-export const EDGES = [
-
-	// X-Axis.
-	new Uint8Array([0, 4]),
-	new Uint8Array([1, 5]),
-	new Uint8Array([2, 6]),
-	new Uint8Array([3, 7]),
-
-	// Y-Axis.
-	new Uint8Array([0, 2]),
-	new Uint8Array([1, 3]),
-	new Uint8Array([4, 6]),
-	new Uint8Array([5, 7]),
-
-	// Z-Axis.
-	new Uint8Array([0, 1]),
-	new Uint8Array([2, 3]),
-	new Uint8Array([4, 5]),
-	new Uint8Array([6, 7])
-
-];
 
     </pre>
 </div>

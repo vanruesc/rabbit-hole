@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -135,12 +139,9 @@
 <h1>ThreadPool Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends EventDispatcher
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_worker_thread-pool.js.html#l5"><code>src\worker\thread-pool.js:5</code></a>
+            Defined in: <a href="../files/src_worker_thread-pool.js.html#l15"><code>src\worker\thread-pool.js:15</code></a>
         </div>
 
             Module: <a href="../modules/worker.html">worker</a><br>
@@ -177,7 +178,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l5"><code>src\worker\thread-pool.js:5</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l15"><code>src\worker\thread-pool.js:15</code></a>
         </p>
 
 
@@ -220,6 +221,7 @@
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+            <li class="api-class-tab events"><a href="#events">Events</a></li>
     </ul>
 
     <div>
@@ -229,7 +231,7 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_clear">clear</a>
 
@@ -243,7 +245,15 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_dispose">dispose</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_getWorker">getWorker</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_handleEvent">handleEvent</a>
 
                             </li>
                     </ul>
@@ -252,21 +262,13 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
+                    <ul class="index-list properties">
                             <li class="index-item property private">
                                 <a href="#property_busyWorkers">busyWorkers</a>
 
                             </li>
                             <li class="index-item property">
                                 <a href="#property_maxWorkers">maxWorkers</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_onerror">onerror</a>
-
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_onmessage">onmessage</a>
 
                             </li>
                             <li class="index-item property private">
@@ -281,6 +283,16 @@
                 </div>
 
 
+                <div class="index-section events">
+                    <h3>Events</h3>
+
+                    <ul class="index-list events">
+                            <li class="index-item event">
+                                <a href="#event_message">message</a>
+
+                            </li>
+                    </ul>
+                </div>
         </div>
 
             <div id="methods" class="api-class-tabpanel">
@@ -301,7 +313,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l189"><code>src\worker\thread-pool.js:189</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l199"><code>src\worker\thread-pool.js:199</code></a>
         </p>
 
 
@@ -309,8 +321,7 @@
     </div>
 
     <div class="description">
-        <p>Resets this thread pool by closing all workers and releasing the worker
-program blob.</p>
+        <p>Resets this thread pool by closing all workers.</p>
 
     </div>
 
@@ -339,7 +350,7 @@ program blob.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l94"><code>src\worker\thread-pool.js:94</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l100"><code>src\worker\thread-pool.js:100</code></a>
         </p>
 
 
@@ -393,7 +404,7 @@ program blob.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l129"><code>src\worker\thread-pool.js:129</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l135"><code>src\worker\thread-pool.js:135</code></a>
         </p>
 
 
@@ -418,6 +429,37 @@ program blob.</p>
 
 
 </div>
+<div id="method_dispose" class="method item">
+    <h3 class="name"><code>dispose</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_worker_thread-pool.js.html#l215"><code>src\worker\thread-pool.js:215</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Removes all active workers and releases the worker program blob.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_getWorker" class="method item">
     <h3 class="name"><code>getWorker</code></h3>
 
@@ -436,7 +478,7 @@ program blob.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l150"><code>src\worker\thread-pool.js:150</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l156"><code>src\worker\thread-pool.js:156</code></a>
         </p>
 
 
@@ -462,6 +504,62 @@ subsequent polls until it finishes its task and sends a message back.</p>
 
 
 </div>
+<div id="method_handleEvent" class="method item">
+    <h3 class="name"><code>handleEvent</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>event</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_worker_thread-pool.js.html#l73"><code>src\worker\thread-pool.js:73</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Handles events.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type"><a href="../classes/Event.html" class="crosslink">Event</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>An event.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -479,7 +577,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l51"><code>src\worker\thread-pool.js:51</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l61"><code>src\worker\thread-pool.js:61</code></a>
         </p>
 
 
@@ -504,7 +602,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l31"><code>src\worker\thread-pool.js:31</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l41"><code>src\worker\thread-pool.js:41</code></a>
         </p>
 
 
@@ -516,58 +614,6 @@ subsequent polls until it finishes its task and sends a message back.</p>
     </div>
 
         <p><strong>Default:</strong> navigator.hardwareConcurrency</p>
-
-
-</div>
-<div id="property_onerror" class="property item private">
-    <h3 class="name"><code>onerror</code></h3>
-    <span class="type">Function</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l78"><code>src\worker\thread-pool.js:78</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A worker error handler.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_onmessage" class="property item private">
-    <h3 class="name"><code>onmessage</code></h3>
-    <span class="type">Function</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l61"><code>src\worker\thread-pool.js:61</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A worker message handler.</p>
-
-    </div>
-
 
 
 </div>
@@ -583,7 +629,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l41"><code>src\worker\thread-pool.js:41</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l51"><code>src\worker\thread-pool.js:51</code></a>
         </p>
 
 
@@ -609,7 +655,7 @@ subsequent polls until it finishes its task and sends a message back.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_worker_thread-pool.js.html#l21"><code>src\worker\thread-pool.js:21</code></a>
+        <a href="../files/src_worker_thread-pool.js.html#l31"><code>src\worker\thread-pool.js:31</code></a>
         </p>
 
 
@@ -626,6 +672,36 @@ subsequent polls until it finishes its task and sends a message back.</p>
             </div>
 
 
+            <div id="events" class="api-class-tabpanel">
+                <h2 class="off-left">Events</h2>
+
+                    <div id="event_message" class="events item">
+                        <h3 class="name"><code>message</code></h3>
+                        <span class="type"><a href="../classes/WorkerEvent.html" class="crosslink">WorkerEvent</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                        <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_worker_thread-pool.js.html#l6"><code>src\worker\thread-pool.js:6</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A worker message event.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
     </div>
 </div>
                     </div>

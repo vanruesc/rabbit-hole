@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -181,15 +185,15 @@ function computeIndexBounds(chunk, operation) {
 
 			min.copy(operation.boundingBox.min).max(region.min).sub(region.min);
 
-			min.x = Math.ceil(min.x * s / n);
-			min.y = Math.ceil(min.y * s / n);
-			min.z = Math.ceil(min.z * s / n);
+			min.x = Math.ceil(min.x * n / s);
+			min.y = Math.ceil(min.y * n / s);
+			min.z = Math.ceil(min.z * n / s);
 
 			max.copy(operation.boundingBox.max).min(region.max).sub(region.min);
 
-			max.x = Math.floor(max.x * s / n);
-			max.y = Math.floor(max.y * s / n);
-			max.z = Math.floor(max.z * s / n);
+			max.x = Math.floor(max.x * n / s);
+			max.y = Math.floor(max.y * n / s);
+			max.z = Math.floor(max.z * n / s);
 
 		} else {
 
@@ -274,6 +278,9 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 	const Y = bounds.max.y;
 	const Z = bounds.max.z;
 
+	let materialIndex;
+	let materials = 0;
+
 	let x, y, z;
 
 	for(z = bounds.min.z; z &lt;= Z; ++z) {
@@ -288,13 +295,23 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				offset.x = x * s / n;
 
-				materialIndices[z * mm + y * m + x] = operation.generateMaterialIndex(position.addVectors(base, offset));
+				materialIndex = operation.generateMaterialIndex(position.addVectors(base, offset));
+
+				if(materialIndex !== Density.HOLLOW) {
+
+					materialIndices[z * mm + y * m + x] = materialIndex;
+
+					++materials;
+
+				}
 
 			}
 
 		}
 
 	}
+
+	data.materials = materials;
 
 }
 
@@ -324,8 +341,6 @@ function combineEdges(chunk, operation, data0, data1) {
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
 	const edgeData = new EdgeData(chunk.resolution);
-
-	// Edge counters.
 	const lengths = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
@@ -341,7 +356,7 @@ function combineEdges(chunk, operation, data0, data1) {
 	let c, d, i, j, il, jl;
 
 	// Process the edges along the X-axis, then Y and finally Z.
-	for(c = 0, d = 0; d &lt; 3; ++d) {
+	for(c = 0, d = 0; d &lt; 3; c = 0, ++d) {
 
 		edges1 = edgeData1.edges[d];
 		edges0 = edgeData0.edges[d];
@@ -428,33 +443,28 @@ function combineEdges(chunk, operation, data0, data1) {
 
 		}
 
-		// Intersection operations discard all remaining edges.
-		if(operation.type !== OperationType.INTERSECTION) {
+		// Collect remaining edges.
+		while(j &lt; jl) {
 
-			// Collect remaining edges.
-			while(j &lt; jl) {
+			indexA0 = edges0[j];
+			indexB0 = indexA0 + indexOffsets[d];
 
-				indexA0 = edges0[j];
-				indexB0 = indexA0 + indexOffsets[d];
+			m1 = materialIndices[indexA0];
+			m2 = materialIndices[indexB0];
 
-				m1 = materialIndices[indexA0];
-				m2 = materialIndices[indexB0];
+			if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
 
-				if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+				edges[c] = indexA0;
+				zeroCrossings[c] = zeroCrossings0[j];
+				normals[c * 3] = normals0[j * 3];
+				normals[c * 3 + 1] = normals0[j * 3 + 1];
+				normals[c * 3 + 2] = normals0[j * 3 + 2];
 
-					edges[c] = indexA0;
-					zeroCrossings[c] = zeroCrossings0[j];
-					normals[c * 3] = normals0[j * 3];
-					normals[c * 3 + 1] = normals0[j * 3 + 1];
-					normals[c * 3 + 2] = normals0[j * 3 + 2];
-
-					++c;
-
-				}
-
-				++j;
+				++c;
 
 			}
+
+			++j;
 
 		}
 
@@ -494,10 +504,7 @@ function generateEdges(chunk, operation, data, bounds) {
 	const offsetB = new Vector3();
 	const edge = new Edge();
 
-	// Allocate space for the maximum amount of edges.
 	const edgeData = new EdgeData(n);
-
-	// Edge counters for three sets of edges.
 	const lengths = new Uint32Array(3);
 
 	let edges, zeroCrossings, normals;
@@ -510,14 +517,14 @@ function generateEdges(chunk, operation, data, bounds) {
 	let x, y, z;
 
 	// Process the edges along the X-axis, then Y and finally Z.
-	for(c = 0, d = 0, a = 4; d &lt; 3; ++d, a &gt;&gt;= 1) {
+	for(a = 4, c = 0, d = 0; d &lt; 3; a &gt;&gt;= 1, c = 0, ++d) {
+
+		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
+		axis = PATTERN[a];
 
 		edges = edgeData.edges[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
 		normals = edgeData.normals[d];
-
-		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-		axis = PATTERN[a];
 
 		minX = bounds.min.x; maxX = bounds.max.x;
 		minY = bounds.min.y; maxY = bounds.max.y;
@@ -629,7 +636,7 @@ function update(chunk, operation, data0, data1) {
 	if(!data0.empty &amp;&amp; !data0.full) {
 
 		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
-			generateEdges(chunk, operation, bounds) :
+			generateEdges(chunk, operation, data0, bounds) :
 			combineEdges(chunk, operation, data0, data1);
 
 		edgeData = result.edgeData;
@@ -753,9 +760,10 @@ export class ConstructiveSolidGeometry {
 
 		if(chunk.data === null) {
 
-			if(sdf.operation !== OperationType.DIFFERENCE) {
+			if(sdf.operation === OperationType.UNION) {
 
 				chunk.data = new HermiteData();
+				chunk.data.edgeData = new EdgeData(0);
 
 			}
 
@@ -797,13 +805,17 @@ export class ConstructiveSolidGeometry {
 
 		}
 
-		if(chunk.data.empty) {
+		if(chunk.data !== null) {
 
-			chunk.data = null;
+			if(chunk.data.empty) {
 
-		} else {
+				chunk.data = null;
 
-			chunk.data.compress();
+			} else {
+
+				chunk.data.compress();
+
+			}
 
 		}
 
@@ -846,6 +858,8 @@ export class ConstructiveSolidGeometry {
 				break;
 
 		}
+
+		sdf.operation = description.operation;
 
 		for(i = 0, l = description.children.length; i &lt; l; ++i) {
 

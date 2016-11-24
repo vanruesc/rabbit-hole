@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -140,7 +144,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_core_terrain.js.html#l35"><code>src\core\terrain.js:35</code></a>
+            Defined in: <a href="../files/src_core_terrain.js.html#l36"><code>src\core\terrain.js:36</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -177,7 +181,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l35"><code>src\core\terrain.js:35</code></a>
+        <a href="../files/src_core_terrain.js.html#l36"><code>src\core\terrain.js:36</code></a>
         </p>
 
 
@@ -274,6 +278,7 @@
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+            <li class="api-class-tab events"><a href="#events">Events</a></li>
     </ul>
 
     <div>
@@ -284,6 +289,14 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                            <li class="index-item method">
+                                <a href="#method_clear">clear</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_clearMeshes">clearMeshes</a>
+
+                            </li>
                             <li class="index-item method private">
                                 <a href="#method_commit">commit</a>
 
@@ -393,11 +406,96 @@
                 </div>
 
 
+                <div class="index-section events">
+                    <h3>Events</h3>
+
+                    <ul class="index-list events extends">
+                            <li class="index-item event">
+                                <a href="#event_extractionend">extractionend</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_extractionstart">extractionstart</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_modificationend">modificationend</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_modificationstart">modificationstart</a>
+
+                            </li>
+                    </ul>
+                </div>
         </div>
 
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_clear" class="method item">
+    <h3 class="name"><code>clear</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l543"><code>src\core\terrain.js:543</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Resets this terrain by removing data and closing active worker threads.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_clearMeshes" class="method item private">
+    <h3 class="name"><code>clearMeshes</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l519"><code>src\core\terrain.js:519</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Removes all child meshes.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_commit" class="method item private">
     <h3 class="name"><code>commit</code></h3>
 
@@ -420,7 +518,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l179"><code>src\core\terrain.js:179</code></a>
+        <a href="../files/src_core_terrain.js.html#l178"><code>src\core\terrain.js:178</code></a>
         </p>
 
 
@@ -438,7 +536,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">event</code>
-                        <span class="type">Event</span>
+                        <span class="type"><a href="../classes/WorkerEvent.html" class="crosslink">WorkerEvent</a></span>
 
 
                     <div class="param-description">
@@ -480,7 +578,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l240"><code>src\core\terrain.js:240</code></a>
+        <a href="../files/src_core_terrain.js.html#l243"><code>src\core\terrain.js:243</code></a>
         </p>
 
 
@@ -543,7 +641,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l510"><code>src\core\terrain.js:510</code></a>
+        <a href="../files/src_core_terrain.js.html#l565"><code>src\core\terrain.js:565</code></a>
         </p>
 
 
@@ -551,7 +649,7 @@
     </div>
 
     <div class="description">
-        <p>Resets this terrain by disposing of all data and worker threads.</p>
+        <p>Destroys this terrain and frees internal resources.</p>
 
     </div>
 
@@ -581,7 +679,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l333"><code>src\core\terrain.js:333</code></a>
+        <a href="../files/src_core_terrain.js.html#l342"><code>src\core\terrain.js:342</code></a>
         </p>
 
 
@@ -637,7 +735,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l395"><code>src\core\terrain.js:395</code></a>
+        <a href="../files/src_core_terrain.js.html#l404"><code>src\core\terrain.js:404</code></a>
         </p>
 
 
@@ -694,7 +792,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l542"><code>src\core\terrain.js:542</code></a>
+        <a href="../files/src_core_terrain.js.html#l578"><code>src\core\terrain.js:578</code></a>
         </p>
 
 
@@ -753,7 +851,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l481"><code>src\core\terrain.js:481</code></a>
+        <a href="../files/src_core_terrain.js.html#l490"><code>src\core\terrain.js:490</code></a>
         </p>
 
 
@@ -818,7 +916,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l276"><code>src\core\terrain.js:276</code></a>
+        <a href="../files/src_core_terrain.js.html#l279"><code>src\core\terrain.js:279</code></a>
         </p>
 
 
@@ -852,7 +950,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l556"><code>src\core\terrain.js:556</code></a>
+        <a href="../files/src_core_terrain.js.html#l592"><code>src\core\terrain.js:592</code></a>
         </p>
 
 
@@ -898,7 +996,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l380"><code>src\core\terrain.js:380</code></a>
+        <a href="../files/src_core_terrain.js.html#l389"><code>src\core\terrain.js:389</code></a>
         </p>
 
 
@@ -954,7 +1052,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l365"><code>src\core\terrain.js:365</code></a>
+        <a href="../files/src_core_terrain.js.html#l374"><code>src\core\terrain.js:374</code></a>
         </p>
 
 
@@ -1011,7 +1109,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l155"><code>src\core\terrain.js:155</code></a>
+        <a href="../files/src_core_terrain.js.html#l154"><code>src\core\terrain.js:154</code></a>
         </p>
 
 
@@ -1067,7 +1165,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l411"><code>src\core\terrain.js:411</code></a>
+        <a href="../files/src_core_terrain.js.html#l420"><code>src\core\terrain.js:420</code></a>
         </p>
 
 
@@ -1119,7 +1217,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l120"><code>src\core\terrain.js:120</code></a>
+        <a href="../files/src_core_terrain.js.html#l122"><code>src\core\terrain.js:122</code></a>
         </p>
 
 
@@ -1148,7 +1246,7 @@ associated meshes.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l23"><code>src\core\terrain.js:23</code></a>
+        <a href="../files/src_core_terrain.js.html#l24"><code>src\core\terrain.js:24</code></a>
         </p>
 
 
@@ -1173,7 +1271,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l102"><code>src\core\terrain.js:102</code></a>
+        <a href="../files/src_core_terrain.js.html#l103"><code>src\core\terrain.js:103</code></a>
         </p>
 
 
@@ -1199,7 +1297,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l57"><code>src\core\terrain.js:57</code></a>
+        <a href="../files/src_core_terrain.js.html#l58"><code>src\core\terrain.js:58</code></a>
         </p>
 
 
@@ -1218,7 +1316,7 @@ with less vertices.</p>
 </div>
 <div id="property_material" class="property item private">
     <h3 class="name"><code>material</code></h3>
-    <span class="type"><a href="../classes/TerrainMaterial.html" class="crosslink">TerrainMaterial</a></span>
+    <span class="type">TerrainMaterial</span>
 
 
         <span class="flag private">private</span>
@@ -1228,7 +1326,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l140"><code>src\core\terrain.js:140</code></a>
+        <a href="../files/src_core_terrain.js.html#l142"><code>src\core\terrain.js:142</code></a>
         </p>
 
 
@@ -1257,7 +1355,7 @@ with less vertices.</p>
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l11"><code>src\core\terrain.js:11</code></a>
+        <a href="../files/src_core_terrain.js.html#l12"><code>src\core\terrain.js:12</code></a>
         </p>
 
 
@@ -1283,7 +1381,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l130"><code>src\core\terrain.js:130</code></a>
+        <a href="../files/src_core_terrain.js.html#l132"><code>src\core\terrain.js:132</code></a>
         </p>
 
 
@@ -1308,14 +1406,15 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l111"><code>src\core\terrain.js:111</code></a>
+        <a href="../files/src_core_terrain.js.html#l112"><code>src\core\terrain.js:112</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>Keeps track of chunks that are currently being used by a worker.</p>
+        <p>Keeps track of chunks that are currently being used by a worker. The
+amount of neutered chunks cannot exceed the amount of worker threads.</p>
 
     </div>
 
@@ -1334,7 +1433,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l92"><code>src\core\terrain.js:92</code></a>
+        <a href="../files/src_core_terrain.js.html#l93"><code>src\core\terrain.js:93</code></a>
         </p>
 
 
@@ -1360,7 +1459,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l81"><code>src\core\terrain.js:81</code></a>
+        <a href="../files/src_core_terrain.js.html#l82"><code>src\core\terrain.js:82</code></a>
         </p>
 
 
@@ -1386,7 +1485,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l71"><code>src\core\terrain.js:71</code></a>
+        <a href="../files/src_core_terrain.js.html#l72"><code>src\core\terrain.js:72</code></a>
         </p>
 
 
@@ -1403,6 +1502,110 @@ with less vertices.</p>
             </div>
 
 
+            <div id="events" class="api-class-tabpanel">
+                <h2 class="off-left">Events</h2>
+
+                    <div id="event_extractionend" class="events item">
+                        <h3 class="name"><code>extractionend</code></h3>
+                        <span class="type"><a href="../classes/TerrainEvent.html" class="crosslink">TerrainEvent</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_core_events.js.html#l37"><code>src\core\events.js:37</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Signals the end of an extraction task.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_extractionstart" class="events item">
+                        <h3 class="name"><code>extractionstart</code></h3>
+                        <span class="type"><a href="../classes/TerrainEvent.html" class="crosslink">TerrainEvent</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_core_events.js.html#l27"><code>src\core\events.js:27</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Signals the start of an extraction task.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_modificationend" class="events item">
+                        <h3 class="name"><code>modificationend</code></h3>
+                        <span class="type"><a href="../classes/TerrainEvent.html" class="crosslink">TerrainEvent</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_core_events.js.html#l17"><code>src\core\events.js:17</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Signals the end of a modification task.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_modificationstart" class="events item">
+                        <h3 class="name"><code>modificationstart</code></h3>
+                        <span class="type"><a href="../classes/TerrainEvent.html" class="crosslink">TerrainEvent</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_core_events.js.html#l7"><code>src\core\events.js:7</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Signals the start of a modification task.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
     </div>
 </div>
                     </div>

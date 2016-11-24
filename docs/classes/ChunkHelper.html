@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -140,7 +144,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_helpers_chunk-helper.js.html#l7"><code>src\helpers\chunk-helper.js:7</code></a>
+            Defined in: <a href="../files/src_helpers_chunk-helper.js.html#l17"><code>src\helpers\chunk-helper.js:17</code></a>
         </div>
 
             Module: <a href="../modules/helpers.html">helpers</a><br>
@@ -164,6 +168,12 @@
                 <li class="arg">
                         <code class="optional">[chunk]</code>
                 </li>
+                <li class="arg">
+                        <code class="optional">[useMaterialIndices]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[useEdgeData]</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -177,7 +187,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l7"><code>src\helpers\chunk-helper.js:7</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l17"><code>src\helpers\chunk-helper.js:17</code></a>
         </p>
 
 
@@ -201,6 +211,34 @@
                     <div class="param-description">
                         <ul>
 <li>A volume data chunk.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[useMaterialIndices]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether points should be created for solid material indices.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[useEdgeData]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether edges with intersection points and normals should be created.</li>
 </ul>
 
                     </div>
@@ -230,11 +268,19 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                            <li class="index-item method private">
+                                <a href="#method_createPoints">createPoints</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_dispose">dispose</a>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_update">update</a>
+
+                            </li>
+                            <li class="index-item method private">
                                 <a href="#method_update">update</a>
 
                             </li>
@@ -270,6 +316,63 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_createPoints" class="method item private">
+    <h3 class="name"><code>createPoints</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>chunk</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_helpers_chunk-helper.js.html#l114"><code>src\helpers\chunk-helper.js:114</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates points for solid material indices.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">chunk</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A volume data chunk.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_dispose" class="method item">
     <h3 class="name"><code>dispose</code></h3>
 
@@ -285,7 +388,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l250"><code>src\helpers\chunk-helper.js:250</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l311"><code>src\helpers\chunk-helper.js:311</code></a>
         </p>
 
 
@@ -304,7 +407,16 @@
 <div id="method_update" class="method item">
     <h3 class="name"><code>update</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[useMaterialIndices=false]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[useEdgeData=true]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -316,7 +428,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l74"><code>src\helpers\chunk-helper.js:74</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l86"><code>src\helpers\chunk-helper.js:86</code></a>
         </p>
 
 
@@ -324,10 +436,101 @@
     </div>
 
     <div class="description">
-        <p>Creates geometry.</p>
+        <p>Creates the helper geometry.</p>
 
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[useMaterialIndices=false]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether points should be created for solid material indices.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[useEdgeData=true]</code>
+                        <span class="type">Boolean</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>Whether edges with intersection points and normals should be created.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_update" class="method item private">
+    <h3 class="name"><code>update</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>chunk</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_helpers_chunk-helper.js.html#l185"><code>src\helpers\chunk-helper.js:185</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates edges with intersection points and normals.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">chunk</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A volume data chunk.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -348,7 +551,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l25"><code>src\helpers\chunk-helper.js:25</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l37"><code>src\helpers\chunk-helper.js:37</code></a>
         </p>
 
 
@@ -373,7 +576,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l56"><code>src\helpers\chunk-helper.js:56</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l68"><code>src\helpers\chunk-helper.js:68</code></a>
         </p>
 
 
@@ -398,7 +601,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l47"><code>src\helpers\chunk-helper.js:47</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l59"><code>src\helpers\chunk-helper.js:59</code></a>
         </p>
 
 
@@ -423,7 +626,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l65"><code>src\helpers\chunk-helper.js:65</code></a>
+        <a href="../files/src_helpers_chunk-helper.js.html#l77"><code>src\helpers\chunk-helper.js:77</code></a>
         </p>
 
 

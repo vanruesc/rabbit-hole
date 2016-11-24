@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -136,8 +140,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import { EDGES } from &quot;sparse-octree&quot;;
 import { Density } from &quot;../../volume/density.js&quot;;
-import { EDGES } from &quot;../../volume/voxel.js&quot;;
 import { VoxelBlock } from &quot;../../volume/octree/voxel-block.js&quot;;
 import * as tables from &quot;./tables.js&quot;;
 
@@ -147,7 +151,7 @@ import * as tables from &quot;./tables.js&quot;;
  * @method contourProcessEdge
  * @private
  * @static
- * @param {Array} octants - A list of octants.
+ * @param {Array} octants - Four leaf octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
  */
@@ -223,7 +227,7 @@ function contourProcessEdge(octants, dir, indexBuffer) {
  * @method contourEdgeProc
  * @private
  * @static
- * @param {Array} octants - A list of octants.
+ * @param {Array} octants - Four edge octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
  */
@@ -233,7 +237,8 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 	const c = [0, 0, 0, 0];
 
 	let edgeOctants;
-	let i;
+	let octant;
+	let i, j;
 
 	if(octants[0].voxel !== null &amp;&amp; octants[1].voxel !== null &amp;&amp;
 		octants[2].voxel !== null &amp;&amp; octants[3].voxel !== null) {
@@ -249,14 +254,33 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 			c[2] = tables.EDGE_PROC_EDGE_MASK[dir][i][2];
 			c[3] = tables.EDGE_PROC_EDGE_MASK[dir][i][3];
 
-			edgeOctants = [
-				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
-				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]],
-				(octants[2].children === null) ? octants[2] : octants[2].children[c[2]],
-				(octants[3].children === null) ? octants[3] : octants[3].children[c[3]]
-			];
+			edgeOctants = [];
 
-			contourEdgeProc(edgeOctants, tables.EDGE_PROC_EDGE_MASK[dir][i][4], indexBuffer);
+			for(j = 0; j &lt; 4; ++j) {
+
+				octant = octants[j];
+
+				if(octant.voxel !== null) {
+
+					edgeOctants[j] = octant;
+
+				} else if(octant.children !== null) {
+
+					edgeOctants[j] = octant.children[c[j]];
+
+				} else {
+
+					break;
+
+				}
+
+			}
+
+			if(j === 4) {
+
+				contourEdgeProc(edgeOctants, tables.EDGE_PROC_EDGE_MASK[dir][i][4], indexBuffer);
+
+			}
 
 		}
 
@@ -270,7 +294,7 @@ function contourEdgeProc(octants, dir, indexBuffer) {
  * @method contourFaceProc
  * @private
  * @static
- * @param {Array} octants - A list of octants.
+ * @param {Array} octants - Two face octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
  */
@@ -284,8 +308,9 @@ function contourFaceProc(octants, dir, indexBuffer) {
 		[0, 1, 0, 1]
 	];
 
-	let order, faceOctants, edgeNodes;
-	let i;
+	let faceOctants, edgeOctants;
+	let order, octant;
+	let i, j;
 
 	if(octants[0].children !== null || octants[1].children !== null) {
 
@@ -312,14 +337,33 @@ function contourFaceProc(octants, dir, indexBuffer) {
 
 			order = orders[tables.FACE_PROC_EDGE_MASK[dir][i][0]];
 
-			edgeNodes = [
-				(octants[order[0]].children === null) ? octants[order[0]] : octants[order[0]].children[c[0]],
-				(octants[order[1]].children === null) ? octants[order[1]] : octants[order[1]].children[c[1]],
-				(octants[order[2]].children === null) ? octants[order[2]] : octants[order[2]].children[c[2]],
-				(octants[order[3]].children === null) ? octants[order[3]] : octants[order[3]].children[c[3]]
-			];
+			edgeOctants = [];
 
-			contourEdgeProc(edgeNodes, tables.FACE_PROC_EDGE_MASK[dir][i][5], indexBuffer);
+			for(j = 0; j &lt; 4; ++j) {
+
+				octant = octants[order[j]];
+
+				if(octant.voxel !== null) {
+
+					edgeOctants[j] = octant;
+
+				} else if(octant.children !== null) {
+
+					edgeOctants[j] = octant.children[c[j]];
+
+				} else {
+
+					break;
+
+				}
+
+			}
+
+			if(j === 4) {
+
+				contourEdgeProc(edgeOctants, tables.FACE_PROC_EDGE_MASK[dir][i][5], indexBuffer);
+
+			}
 
 		}
 
@@ -342,7 +386,7 @@ function contourCellProc(octant, indexBuffer) {
 	const children = octant.children;
 	const c = [0, 0, 0, 0];
 
-	let faceOctants, edgeNodes;
+	let faceOctants, edgeOctants;
 	let i;
 
 	if(children !== null) {
@@ -374,14 +418,14 @@ function contourCellProc(octant, indexBuffer) {
 			c[2] = tables.CELL_PROC_EDGE_MASK[i][2];
 			c[3] = tables.CELL_PROC_EDGE_MASK[i][3];
 
-			edgeNodes = [
+			edgeOctants = [
 				children[c[0]],
 				children[c[1]],
 				children[c[2]],
 				children[c[3]]
 			];
 
-			contourEdgeProc(edgeNodes, tables.CELL_PROC_EDGE_MASK[i][4], indexBuffer);
+			contourEdgeProc(edgeOctants, tables.CELL_PROC_EDGE_MASK[i][4], indexBuffer);
 
 		}
 
@@ -456,18 +500,18 @@ export class DualContouring {
 	 * @method run
 	 * @static
 	 * @param {Chunk} chunk - A chunk of volume data.
-	 * @return {Object} The generated indices, positions and normals or null if no data was generated.
+	 * @return {Object} The generated indices, positions and normals, or null if no data was generated.
 	 */
 
 	static run(chunk) {
 
 		const indexBuffer = [];
 
-		const threshold = 0.01;
+		// const threshold = 1e-2;
 		const voxelBlock = new VoxelBlock(chunk);
 
 		// Increase the error threshold based on the lod value.
-		voxelBlock.simplify(threshold + (chunk.data.lod &lt;&lt; 2));
+		// voxelBlock.simplify(threshold); // + (chunk.data.lod &lt;&lt; 3));
 
 		// Each voxel contains one vertex.
 		const vertexCount = voxelBlock.voxelCount;

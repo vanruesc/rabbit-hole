@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -136,15 +140,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import THREE from &quot;three&quot;;
+import { BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from &quot;three&quot;;
+import { MeshTriplanarStandardMaterial } from &quot;../materials/triplanar-standard&quot;;
 import { Volume } from &quot;../volume/octree/volume.js&quot;;
 import { OperationType } from &quot;../volume/csg/operation-type.js&quot;;
 import { Action } from &quot;../worker/action.js&quot;;
-import { WorkerTask } from &quot;../worker/worker-task.js&quot;;
 import { ThreadPool } from &quot;../worker/thread-pool.js&quot;;
-// import { TerrainMaterial } from &quot;../materials/triplanar&quot;;
+import { WorkerTask } from &quot;../worker/worker-task.js&quot;;
 import { Scheduler } from &quot;./scheduler.js&quot;;
 import { Queue } from &quot;./queue.js&quot;;
+import * as events from &quot;./events.js&quot;;
 
 /**
  * A computation helper.
@@ -156,7 +161,7 @@ import { Queue } from &quot;./queue.js&quot;;
  * @final
  */
 
-const MATRIX4 = new THREE.Matrix4();
+const MATRIX4 = new Matrix4();
 
 /**
  * A frustum used for octree culling.
@@ -168,7 +173,7 @@ const MATRIX4 = new THREE.Matrix4();
  * @final
  */
 
-const FRUSTUM = new THREE.Frustum();
+const FRUSTUM = new Frustum();
 
 /**
  * The terrain system.
@@ -184,7 +189,7 @@ const FRUSTUM = new THREE.Frustum();
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  */
 
-export class Terrain extends THREE.Object3D {
+export class Terrain extends Object3D {
 
 	constructor(options = {}) {
 
@@ -247,7 +252,8 @@ export class Terrain extends THREE.Object3D {
 		this.history = [];
 
 		/**
-		 * Keeps track of chunks that are currently being used by a worker.
+		 * Keeps track of chunks that are currently being used by a worker. The
+		 * amount of neutered chunks cannot exceed the amount of worker threads.
 		 *
 		 * @property neutered
 		 * @type WeakSet
@@ -283,10 +289,7 @@ export class Terrain extends THREE.Object3D {
 		 * @private
 		 */
 
-		// this.material = new TerrainMaterial();
-		this.material = new THREE.MeshStandardMaterial({
-			color: new THREE.Color(0xbb4400)
-		});
+		this.material = new MeshTriplanarStandardMaterial();
 
 	}
 
@@ -319,12 +322,12 @@ export class Terrain extends THREE.Object3D {
 	 *
 	 * @method commit
 	 * @private
-	 * @param {Event} event - A worker message event.
+	 * @param {WorkerEvent} event - A worker message event.
 	 */
 
 	commit(event) {
 
-		const worker = event.target;
+		const worker = event.worker;
 		const data = event.data;
 
 		// Find the chunk that has been processed by this worker.
@@ -333,45 +336,49 @@ export class Terrain extends THREE.Object3D {
 		this.neutered.delete(chunk);
 		this.chunks.delete(worker);
 
-		if(data.data !== null) {
+		// Reclaim ownership of the chunk data.
+		chunk.deserialise(data.chunk);
 
-			// Reclaim ownership of the chunk data.
-			chunk.data.deserialise(data.data);
+		if(chunk.data === null &amp;&amp; chunk.csg === null) {
 
-		} else {
+			// The chunk has become empty. Remove it.
+			this.scheduler.cancel(chunk);
+			this.volume.prune(chunk);
+			this.unlinkMesh(chunk);
 
-			chunk.data = null;
+		} else if(chunk.csg !== null) {
 
-			if(chunk.csg.size === 0) {
-
-				// The chunk became empty. Remove it.
-				this.scheduler.cancel(chunk);
-				this.volume.prune(chunk);
-				this.unlinkMesh(chunk);
-
-			}
+			// Drain the CSG queue as fast as possible.
+			this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
 
 		}
 
-		if(data.action === Action.MODIFY) {
+		if(data.action !== Action.CLOSE) {
 
-			if(chunk.csg.size &gt; 0) {
+			if(data.action === Action.EXTRACT) {
 
-				// Drain the CSG queue as fast as possible.
-				this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
+				event = events.EXTRACTION_END;
+
+				this.consolidate(chunk, data);
+
+			} else {
+
+				event = events.MODIFICATION_END;
 
 			}
+
+			event.chunk = chunk;
+
+			this.dispatchEvent(event);
+
+		} else {
+
+			console.warn(data.error);
 
 		}
 
 		// Kick off a pending task.
 		this.runNextTask();
-
-		if(data.action === Action.EXTRACT) {
-
-			this.consolidate(chunk, data);
-
-		}
 
 	}
 
@@ -397,12 +404,12 @@ export class Terrain extends THREE.Object3D {
 
 			this.unlinkMesh(chunk);
 
-			geometry = new THREE.BufferGeometry();
-			geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-			geometry.addAttribute(&quot;position&quot;, new THREE.BufferAttribute(positions, 3));
-			geometry.addAttribute(&quot;normal&quot;, new THREE.BufferAttribute(normals, 3));
+			geometry = new BufferGeometry();
+			geometry.setIndex(new BufferAttribute(indices, 1));
+			geometry.addAttribute(&quot;position&quot;, new BufferAttribute(positions, 3));
+			geometry.addAttribute(&quot;normal&quot;, new BufferAttribute(normals, 3));
 
-			mesh = new THREE.Mesh(geometry, this.material);
+			mesh = new Mesh(geometry, this.material);
 
 			this.meshes.set(chunk, mesh);
 			this.add(mesh);
@@ -420,19 +427,20 @@ export class Terrain extends THREE.Object3D {
 
 	runNextTask() {
 
-		const worker = this.threadPool.getWorker();
+		let task, worker, chunk, event;
 
-		let task, chunk;
+		if(this.scheduler.peek() !== null) {
 
-		if(worker !== null) {
+			worker = this.threadPool.getWorker();
 
-			task = this.scheduler.poll();
+			if(worker !== null) {
 
-			if(task !== null) {
-
+				task = this.scheduler.poll();
 				chunk = task.chunk;
 
 				if(task.action === Action.MODIFY) {
+
+					event = events.MODIFICATION_START;
 
 					worker.postMessage({
 
@@ -450,6 +458,8 @@ export class Terrain extends THREE.Object3D {
 
 				} else {
 
+					event = events.EXTRACTION_START;
+
 					worker.postMessage({
 
 						action: task.action,
@@ -459,8 +469,11 @@ export class Terrain extends THREE.Object3D {
 
 				}
 
+				event.chunk = chunk;
+
 				this.neutered.add(chunk);
 				this.chunks.set(worker, chunk);
+				this.dispatchEvent(event);
 
 			}
 
@@ -585,13 +598,13 @@ export class Terrain extends THREE.Object3D {
 				if(task === undefined || task.priority &lt; maxPriority) {
 
 					// Modifications take precedence.
-					if(csg !== null &amp;&amp; csg.size &gt; 0) {
+					if(csg !== null) {
 
 						scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
 
 						this.runNextTask();
 
-					} else if(data !== null) {
+					} else if(data !== null &amp;&amp; !data.full) {
 
 						distance = chunk.getCenter().distanceTo(camera.position);
 						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
@@ -646,12 +659,13 @@ export class Terrain extends THREE.Object3D {
 	}
 
 	/**
-	 * Resets this terrain by disposing of all data and worker threads.
+	 * Removes all child meshes.
 	 *
-	 * @method dispose
+	 * @method clearMeshes
+	 * @private
 	 */
 
-	dispose() {
+	clearMeshes() {
 
 		let child;
 
@@ -664,16 +678,42 @@ export class Terrain extends THREE.Object3D {
 
 		}
 
+		this.meshes.clear();
+
+	}
+
+	/**
+	 * Resets this terrain by removing data and closing active worker threads.
+	 *
+	 * @method clear
+	 */
+
+	clear() {
+
+		this.clearMeshes();
+
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
 
 		this.threadPool.clear();
 		this.scheduler.clear();
 
-		this.history = [];
-
 		this.neutered.clear();
 		this.chunks.clear();
-		this.meshes.clear();
+
+		this.history = [];
+
+	}
+
+	/**
+	 * Destroys this terrain and frees internal resources.
+	 *
+	 * @method dispose
+	 */
+
+	dispose() {
+
+		this.clearMeshes();
+		this.threadPool.dispose();
 
 	}
 
@@ -686,7 +726,7 @@ export class Terrain extends THREE.Object3D {
 
 	load(data) {
 
-		this.dispose();
+		this.clear();
 		this.volume.load(JSON.parse(data));
 
 	}

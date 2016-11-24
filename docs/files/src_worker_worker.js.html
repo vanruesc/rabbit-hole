@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -151,13 +155,13 @@ import { Action } from &quot;./action.js&quot;;
 /**
  * Receives and handles messages from the main thread.
  *
- * @method onmessage
+ * @method onMessage
  * @private
  * @static
  * @param {Event} event - A message event containing data from the main thread.
  */
 
-self.addEventListener(&quot;message&quot;, function onmessage(event) {
+self.addEventListener(&quot;message&quot;, function onMessage(event) {
 
 	const data = event.data;
 
@@ -184,41 +188,41 @@ self.addEventListener(&quot;message&quot;, function onmessage(event) {
 /**
  * Returns all data to the main thread and closes the worker.
  *
- * @method onerror
+ * @method onError
  * @private
  * @static
  * @param {Event} event - An error event.
  */
 
-self.addEventListener(&quot;error&quot;, function onerror(event) {
+self.addEventListener(&quot;error&quot;, function onError(event) {
 
 	const message = {
 		action: Action.CLOSE,
+		error: event.message,
 		data: null
 	};
 
 	const transferList = [];
 
-	const data = [
-		SurfaceExtractor.chunk.data,
-		VolumeModifier.chunk.data
+	const chunks = [
+		SurfaceExtractor.chunk,
+		VolumeModifier.chunk
 	];
 
 	// Find out which operator has the data.
-	if(data[0] !== null &amp;&amp; !data[0].neutered) {
+	if(chunks[0].data !== null &amp;&amp; !chunks[0].data.neutered) {
 
-		message.data = data[0].serialise();
-		data[0].createTransferList(transferList);
+		message.chunk = chunks[0].serialise();
+		chunks[0].createTransferList(transferList);
 
-	} else if(data[1] !== null &amp;&amp; !data[1].neutered) {
+	} else if(chunks[1].data !== null &amp;&amp; !chunks[1].data.neutered) {
 
-		message.data = data[1].serialise();
-		data[1].createTransferList(transferList);
+		message.chunk = chunks[1].serialise();
+		chunks[1].createTransferList(transferList);
 
 	}
 
 	postMessage(message, transferList);
-
 	close();
 
 });

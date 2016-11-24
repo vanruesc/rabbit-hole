@@ -13,10 +13,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "DualContouring",
         "Edge",
         "EdgeData",
+        "Event",
         "Givens",
         "HermiteData",
         "Intersection",
         "Matrix3",
+        "MeshTriplanarStandardMaterial",
         "Operation",
         "OperationType",
         "Plane",
@@ -35,7 +37,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SymmetricMatrix3",
         "Task",
         "Terrain",
-        "TerrainMaterial",
+        "TerrainEvent",
         "ThreadPool",
         "Torus",
         "Union",
@@ -46,11 +48,13 @@ YUI.add("yuidoc-meta", function(Y) {
         "VoxelBlock",
         "VoxelCell",
         "Worker",
+        "WorkerEvent",
         "WorkerTask"
     ],
     "modules": [
         "core",
         "csg",
+        "events",
         "helpers",
         "isosurface",
         "materials",
@@ -71,6 +75,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "csg",
             "name": "csg",
             "description": "A collection of Constructive Solid Geometry components."
+        },
+        {
+            "displayName": "events",
+            "name": "events",
+            "description": "A collection of events."
         },
         {
             "displayName": "helpers",

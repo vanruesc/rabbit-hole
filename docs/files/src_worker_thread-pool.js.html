@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -136,21 +140,31 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import THREE from &quot;three&quot;;
+import { EventDispatcher } from &quot;three&quot;;
+import { WorkerEvent } from &quot;../events/worker-event.js&quot;;
 import { Action } from &quot;./action.js&quot;;
 import worker from &quot;./worker.tmp&quot;;
+
+/**
+ * A worker message event.
+ *
+ * @event message
+ * @type WorkerEvent
+ */
+
+const MESSAGE = new WorkerEvent(&quot;message&quot;);
 
 /**
  * Manages worker threads.
  *
  * @class ThreadPool
  * @submodule worker
- * @extends EventDispatcher
+ * @implements EventListener
  * @constructor
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
  */
 
-export class ThreadPool extends THREE.EventDispatcher {
+export class ThreadPool extends EventDispatcher {
 
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
 
@@ -174,7 +188,7 @@ export class ThreadPool extends THREE.EventDispatcher {
 		 * @default navigator.hardwareConcurrency
 		 */
 
-		this.maxWorkers = Math.min(navigator.hardwareConcurrency, maxWorkers);
+		this.maxWorkers = Math.min(navigator.hardwareConcurrency, Math.max(maxWorkers, 1));
 
 		/**
 		 * A list of existing workers.
@@ -196,36 +210,32 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.busyWorkers = new WeakSet();
 
-		/**
-		 * A worker message handler.
-		 *
-		 * @property onmessage
-		 * @type Function
-		 * @private
-		 */
+	}
 
-		this.onmessage = (event) =&gt; {
+	/**
+	 * Handles events.
+	 *
+	 * @method handleEvent
+	 * @param {Event} event - An event.
+	 */
 
-			const worker = event.target;
+	handleEvent(event) {
 
-			this.busyWorkers.delete(worker);
-			this.dispatchEvent(event);
+		switch(event.type) {
 
-		};
+			case &quot;message&quot;:
+				this.busyWorkers.delete(event.target);
+				MESSAGE.worker = event.target;
+				MESSAGE.data = event.data;
+				this.dispatchEvent(MESSAGE);
+				break;
 
-		/**
-		 * A worker error handler.
-		 *
-		 * @property onerror
-		 * @type Function
-		 * @private
-		 */
+			case &quot;error&quot;:
+				// Errors are being handled in the worker.
+				console.warn(&quot;Encountered an unexpected error.&quot;, event.message);
+				break;
 
-		this.onerror = (event) =&gt; {
-
-			this.dispatchEvent(event);
-
-		};
+		}
 
 	}
 
@@ -253,8 +263,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		}
 
-		worker.removeEventListener(&quot;message&quot;, this.onmessage);
-		worker.removeEventListener(&quot;error&quot;, this.onerror);
+		worker.removeEventListener(&quot;message&quot;, this);
+		worker.removeEventListener(&quot;error&quot;, this);
 
 		if(index &gt;= 0) {
 
@@ -278,8 +288,8 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		this.workers.push(worker);
 
-		worker.addEventListener(&quot;message&quot;, this.onmessage);
-		worker.addEventListener(&quot;error&quot;, this.onerror);
+		worker.addEventListener(&quot;message&quot;, this);
+		worker.addEventListener(&quot;error&quot;, this);
 
 		return worker;
 
@@ -312,11 +322,15 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		}
 
+		// Check if all existing workers are busy.
 		if(worker === null &amp;&amp; this.workers.length &lt; this.maxWorkers) {
 
-			// All existing workers are busy.
-			worker = this.createWorker();
-			this.busyWorkers.add(worker);
+			if(this.workerURL !== null) {
+
+				worker = this.createWorker();
+				this.busyWorkers.add(worker);
+
+			}
 
 		}
 
@@ -325,8 +339,7 @@ export class ThreadPool extends THREE.EventDispatcher {
 	}
 
 	/**
-	 * Resets this thread pool by closing all workers and releasing the worker
-	 * program blob.
+	 * Resets this thread pool by closing all workers.
 	 *
 	 * @method clear
 	 */
@@ -339,7 +352,20 @@ export class ThreadPool extends THREE.EventDispatcher {
 
 		}
 
+	}
+
+	/**
+	 * Removes all active workers and releases the worker program blob.
+	 *
+	 * @method dispose
+	 */
+
+	dispose() {
+
+		this.clear();
+
 		URL.revokeObjectURL(this.workerURL);
+		this.workerURL = null;
 
 	}
 

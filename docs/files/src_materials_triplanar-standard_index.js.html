@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TerrainMaterial - rabbit-hole</title>
+    <title>src\materials\triplanar-standard\index.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -132,81 +136,110 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>TerrainMaterial Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src\materials\triplanar-standard\index.js</h1>
 
-        <div class="extends">
-            Extends ShaderMaterial
-        </div>
+<div class="file">
+    <pre class="code prettyprint linenums">
+import {
+	Color,
+	ShaderChunk,
+	ShaderLib,
+	ShaderMaterial,
+	Vector2
+} from &quot;three&quot;;
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_materials_terrain_index.js.html#l7"><code>src\materials\terrain\index.js:7</code></a>
-        </div>
+import fragment from &quot;./glsl/shader.frag&quot;;
+import vertex from &quot;./glsl/shader.vert&quot;;
+import alphamapTriplanarFragment from &quot;./glsl/alphamap.triplanar.frag&quot;;
+import emissivemapTriplanarFragment from &quot;./glsl/emissivemap.triplanar.frag&quot;;
+import mapTriplanarFragment from &quot;./glsl/map.triplanar.frag&quot;;
+import metalnessmapTriplanarFragment from &quot;./glsl/metalnessmap.triplanar.frag&quot;;
+import normalmapTriplanarParsFragment from &quot;./glsl/normalmap.triplanar.pars.frag&quot;;
+import roughnessmapTriplanarFragment from &quot;./glsl/roughnessmap.triplanar.frag&quot;;
+import specularmapTriplanarFragment from &quot;./glsl/specularmap.triplanar.frag&quot;;
+import triplanarParsFragment from &quot;./glsl/triplanar.pars.frag&quot;;
+import triplanarParsVertex from &quot;./glsl/triplanar.pars.vert&quot;;
+import triplanarVertex from &quot;./glsl/triplanar.vert&quot;;
 
-            Module: <a href="../modules/materials.html">materials</a><br>
-            Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
+// Register custom shader code snippets.
+Object.assign(ShaderChunk, {
+	&quot;alphamap_triplanar_fragment&quot;: alphamapTriplanarFragment,
+	&quot;emissivemap_triplanar_fragment&quot;: emissivemapTriplanarFragment,
+	&quot;map_triplanar_fragment&quot;: mapTriplanarFragment,
+	&quot;metalnessmap_triplanar_fragment&quot;: metalnessmapTriplanarFragment,
+	&quot;normalmap_triplanar_pars_fragment&quot;: normalmapTriplanarParsFragment,
+	&quot;roughnessmap_triplanar_fragment&quot;: roughnessmapTriplanarFragment,
+	&quot;specularmap_triplanar_fragment&quot;: specularmapTriplanarFragment,
+	&quot;triplanar_pars_fragment&quot;: triplanarParsFragment,
+	&quot;triplanar_pars_vertex&quot;: triplanarParsVertex,
+	&quot;triplanar_vertex&quot;: triplanarVertex
+});
 
-</div>
+/**
+ * A physically based shader material that uses triplanar texture mapping.
+ *
+ * @class MeshTriplanarStandardMaterial
+ * @submodule materials
+ * @extends ShaderMaterial
+ * @constructor
+ */
 
+export class MeshTriplanarStandardMaterial extends ShaderMaterial {
 
-<div class="box intro">
-    <p>A terrain material that uses triplanar texture mapping.</p>
+	constructor() {
 
-</div>
+		super({
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_TerrainMaterial" class="method item">
-    <h3 class="name"><code>TerrainMaterial</code></h3>
+			type: &quot;MeshTriplanarStandardMaterial&quot;,
 
-        <span class="paren">()</span>
+			defines: { STANDARD: &quot;&quot; },
 
+			uniforms: ShaderLib.standard.uniforms,
 
+			fragmentShader: fragment,
+			vertexShader: vertex
 
+		});
 
+		this.fog = true;
+		this.lights = true;
 
+		this.color = new Color(0xffffff); // diffuse
+		this.roughness = 0.5;
+		this.metalness = 0.5;
 
+		this.map = null;
 
+		this.lightMap = null;
+		this.lightMapIntensity = 1.0;
 
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_materials_terrain_index.js.html#l7"><code>src\materials\terrain\index.js:7</code></a>
-        </p>
+		this.emissive = new Color(0x000000);
+		this.emissiveIntensity = 1.0;
+		this.emissiveMap = null;
 
+		this.normalMap = null;
+		this.normalScale = new Vector2(1, 1);
 
+		this.roughnessMap = null;
 
-    </div>
+		this.metalnessMap = null;
 
-    <div class="description">
-        
-    </div>
+		this.specularMap = null;
 
+		this.alphaMap = null;
 
+		this.envMap = null;
+		this.envMapIntensity = 1.0;
 
+		this.refractionRatio = 0.98;
 
-</div>
-    </div>
+	}
 
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
+}
 
-    </ul>
+MeshTriplanarStandardMaterial.prototype.isMeshStandardMaterial = true;
 
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

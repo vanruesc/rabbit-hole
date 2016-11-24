@@ -50,10 +50,12 @@
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
+                                <li><a href="../classes/Event.html">Event</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -72,7 +74,7 @@
                                 <li><a href="../classes/SymmetricMatrix3.html">SymmetricMatrix3</a></li>
                                 <li><a href="../classes/Task.html">Task</a></li>
                                 <li><a href="../classes/Terrain.html">Terrain</a></li>
-                                <li><a href="../classes/TerrainMaterial.html">TerrainMaterial</a></li>
+                                <li><a href="../classes/TerrainEvent.html">TerrainEvent</a></li>
                                 <li><a href="../classes/ThreadPool.html">ThreadPool</a></li>
                                 <li><a href="../classes/Torus.html">Torus</a></li>
                                 <li><a href="../classes/Union.html">Union</a></li>
@@ -83,6 +85,7 @@
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
                                 <li><a href="../classes/VoxelCell.html">VoxelCell</a></li>
                                 <li><a href="../classes/Worker.html">Worker</a></li>
+                                <li><a href="../classes/WorkerEvent.html">WorkerEvent</a></li>
                                 <li><a href="../classes/WorkerTask.html">WorkerTask</a></li>
                             </ul>
                 
@@ -90,6 +93,7 @@
                             <ul id="api-modules" class="apis modules">
                                 <li><a href="../modules/core.html">core</a></li>
                                 <li><a href="../modules/csg.html">csg</a></li>
+                                <li><a href="../modules/events.html">events</a></li>
                                 <li><a href="../modules/helpers.html">helpers</a></li>
                                 <li><a href="../modules/isosurface.html">isosurface</a></li>
                                 <li><a href="../modules/materials.html">materials</a></li>
@@ -136,13 +140,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { Octree, PATTERN } from &quot;sparse-octree&quot;;
+import { Octree, PATTERN, EDGES } from &quot;sparse-octree&quot;;
 import { Vector3 } from &quot;../../math/vector3.js&quot;;
 import { QEFData } from &quot;../../math/qef-data.js&quot;;
 import { QEFSolver } from &quot;../../math/qef-solver.js&quot;;
 import { Density } from &quot;../density.js&quot;;
 import { Edge } from &quot;../edge.js&quot;;
-import { Voxel, EDGES } from &quot;../voxel.js&quot;;
+import { Voxel } from &quot;../voxel.js&quot;;
 import { VoxelCell } from &quot;./voxel-cell.js&quot;;
 
 /**
@@ -280,9 +284,39 @@ export class VoxelBlock extends Octree {
 		for(n = n &gt;&gt; 1; n &gt; 0; n &gt;&gt;= 1) {
 
 			// Identify the next octant by the grid coordinates.
-			yz = (x &lt; n) ? 0 : 1;
-			xz = (y &lt; n) ? 0 : 1;
-			xy = (z &lt; n) ? 0 : 1;
+
+			if(x &lt; n) {
+
+				yz = 0;
+
+			} else {
+
+				yz = 1;
+				x -= n;
+
+			}
+
+			if(y &lt; n) {
+
+				xz = 0;
+
+			} else {
+
+				xz = 1;
+				y -= n;
+
+			}
+
+			if(z &lt; n) {
+
+				xy = 0;
+
+			} else {
+
+				xy = 1;
+				z -= n;
+
+			}
 
 			octant = (yz &lt;&lt; 2) + (xz &lt;&lt; 1) + xy;
 
@@ -321,7 +355,7 @@ export class VoxelBlock extends Octree {
 
 		const qefSolver = new QEFSolver();
 
-		const base = this.chunk.min;
+		const base = chunk.min;
 		const offsetA = new Vector3();
 		const offsetB = new Vector3();
 		const intersection = new Vector3();
@@ -341,6 +375,7 @@ export class VoxelBlock extends Octree {
 		let axis, cell;
 
 		let a, d, i, j, l;
+		let x2, y2, z2;
 		let x, y, z;
 
 		let index;
@@ -381,7 +416,7 @@ export class VoxelBlock extends Octree {
 				edge.b.addVectors(base, offsetB);
 
 				edge.t = zeroCrossings[i];
-				edge.n.fromArray(normals, i);
+				edge.n.fromArray(normals, i * 3);
 
 				intersection.copy(edge.computeZeroCrossingPosition());
 
@@ -391,19 +426,19 @@ export class VoxelBlock extends Octree {
 					// Rotate around the edge.
 					offset = PATTERN[sequence[j]];
 
-					x -= offset[0];
-					y -= offset[1];
-					z -= offset[2];
+					x2 = x - offset[0];
+					y2 = y - offset[1];
+					z2 = z - offset[2];
 
 					// Check if the adjusted coordinates still lie inside the grid bounds.
-					if(x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; z &gt;= 0 &amp;&amp; x &lt; n &amp;&amp; y &lt; n &amp;&amp; z &lt; n) {
+					if(x2 &gt;= 0 &amp;&amp; y2 &gt;= 0 &amp;&amp; z2 &gt;= 0 &amp;&amp; x2 &lt; n &amp;&amp; y2 &lt; n &amp;&amp; z2 &lt; n) {
 
-						cell = this.getCell(n, x, y, z);
+						cell = this.getCell(n, x2, y2, z2);
 
 						if(cell.voxel === null) {
 
 							// The existence of the edge guarantees that the voxel contains the surface.
-							cell.voxel = createVoxel(n, x, y, z, materialIndices);
+							cell.voxel = createVoxel(n, x2, y2, z2, materialIndices);
 
 							++voxelCount;
 
