@@ -1,10 +1,10 @@
 import {
 	AxisHelper,
-	AmbientLight,
+	Clock,
 	DirectionalLight,
 	FlatShading,
 	FogExp2,
-	OrbitControls,
+	HemisphereLight,
 	PerspectiveCamera,
 	Scene,
 	SmoothShading,
@@ -12,79 +12,12 @@ import {
 } from "three";
 
 import dat from "dat.gui";
-import Stats from "stats.js";
-// import { OctreeHelper } from "sparse-octree";
-
-import {
-	Box,
-	// ChunkHelper,
-	Terrain
-} from "../src";
-
-/**
- * Initialises the stats monitor.
- *
- * @method initStats
- * @private
- * @static
- * @param {Terrain} terrain - The terrain instance.
- * @return {Stats} The stats.
- */
-
-function initStats(terrain) {
-
-	const stats = new Stats();
-
-	const panels = [
-		stats.addPanel(new Stats.Panel("CSG", "#ff8", "#221")),
-		stats.addPanel(new Stats.Panel("DC", "#f8f", "#212"))
-	];
-
-	const times = [
-		new Map(),
-		new Map()
-	];
-
-	let maxDelta = 0;
-
-	stats.showPanel(0);
-	stats.dom.id = "stats";
-
-	terrain.addEventListener("modificationstart", function(event) {
-
-		times[0].set(event.chunk, performance.now());
-
-	});
-
-	terrain.addEventListener("extractionstart", function(event) {
-
-		times[1].set(event.chunk, performance.now());
-
-	});
-
-	terrain.addEventListener("modificationend", function(event) {
-
-		const delta = performance.now() - times[0].get(event.chunk);
-
-		if(delta > maxDelta) { maxDelta = delta; }
-
-		panels[0].update(delta, maxDelta);
-
-	});
-
-	terrain.addEventListener("extractionend", function(event) {
-
-		const delta = performance.now() - times[1].get(event.chunk);
-
-		if(delta > maxDelta) { maxDelta = delta; }
-
-		panels[1].update(delta, maxDelta);
-
-	});
-
-	return stats;
-
-}
+// import { Box, ChunkHelper, Terrain } from "../src";
+import { Box, Terrain } from "../src";
+import { TerrainRaycaster } from "./terrain-raycaster.js";
+// import { OctreeHelper } from "./octree-helper.js";
+import { TerrainStats } from "./terrain-stats.js";
+import { Controls } from "./controls/controls.js";
 
 /**
  * A volume editor.
@@ -102,18 +35,23 @@ export class Editor {
 	 * @static
 	 * @param {HTMLElement} viewport - The viewport.
 	 * @param {HTMLElement} aside - A secondary container.
+	 * @param {Map} assets - Preloaded assets.
 	 */
 
-	static initialise(viewport, aside) {
+	static initialise(viewport, aside, assets) {
 
 		const width = window.innerWidth;
 		const height = window.innerHeight;
 		const aspect = width / height;
 
+		// Clock.
+
+		const clock = new Clock();
+
 		// Scene.
 
 		const scene = new Scene();
-		scene.fog = new FogExp2(0xcccccc, 0.002);
+		scene.fog = new FogExp2(0xeeeeee, 0.00025);
 
 		// Renderer.
 
@@ -130,30 +68,36 @@ export class Editor {
 		// Camera and Controls.
 
 		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
-		const controls = new OrbitControls(camera, renderer.domElement);
+		const controls = new Controls(camera, renderer.domElement);
 		camera.position.set(10, 5, 10);
-		camera.lookAt(controls.target);
+		controls.focus(scene.position);
+		controls.movementSpeed = 4;
+		controls.boostSpeed = 16;
 
 		scene.add(camera);
+
+		// Sky.
+
+		scene.background = assets.get("sky");
 
 		// Helpers.
 
 		scene.add(new AxisHelper());
 
-		// Overlays.
+		// GUI.
 
 		const gui = new dat.GUI();
 		aside.appendChild(gui.domElement.parentNode);
 
 		// Lights.
 
-		const ambientLight = new AmbientLight(0x444444);
-		const directionalLight = new DirectionalLight(0xffffff);
+		const hemisphereLight = new HemisphereLight(0x3284ff, 0xffc87f, 0.6);
+		const directionalLight = new DirectionalLight(0xfff4e5);
 
-		directionalLight.position.set(1, 1, 1);
-		directionalLight.target.position.copy(scene.position);
+		hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
+		directionalLight.position.set(-1, 1.75, 1).multiplyScalar(50);
 
-		scene.add(ambientLight);
+		scene.add(hemisphereLight);
 		scene.add(directionalLight);
 
 		// Terrain.
@@ -161,44 +105,58 @@ export class Editor {
 		const terrain = new Terrain({
 			levels: 6,
 			chunkSize: 32,
-			resolution: 32
+			resolution: 64
 		});
 
-		terrain.union(new Box({ origin: [0, 1, 0], halfDimensions: [112, 1, 112] }));
-		terrain.union(new Box({ origin: [0, 6, 0], halfDimensions: [64, 1, 64] }));
+		terrain.material.map = assets.get("tiles-diffuse");
+		terrain.material.normalMap = assets.get("tiles-normalmap");
+
+		/* scene.add(new Mesh(
+			new SphereBufferGeometry(24, 32, 32),
+			terrain.material
+		)); */
+
+		terrain.union(new Box({ origin: [0, 0, 0], halfDimensions: [4, 2, 4] }));
+		// terrain.union(new Box({ origin: [0, 1.4, 0], halfDimensions: [1, 0.1, 1] }));
+
+		/* terrain.union(new Box({ origin: [-16, 2, -16], halfDimensions: [8, 1, 8] }));
+		terrain.union(new Box({ origin: [-16, 4, -16], halfDimensions: [8, 1, 8] }));
+		terrain.union(new Box({ origin: [-16, 6, -16], halfDimensions: [8, 1, 8] }));
+		terrain.union(new Box({ origin: [-16, 32, -16], halfDimensions: [8, 1, 8] }));
+		terrain.union(new Sphere({ origin: [16, 16, 16], radius: 6 })); */
+
+		// terrain.union(new Box({ origin: [0, 6, 0], halfDimensions: [64, 1, 64] }));
 
 		scene.add(terrain);
 
-		const stats = initStats(terrain);
+		// Stats monitor.
 
+		const stats = new TerrainStats(terrain);
 		aside.appendChild(stats.dom);
+
+		// Terrain picking.
+
+		const raycaster = new TerrainRaycaster(terrain, camera, renderer.domElement);
+		raycaster.configure(gui);
+		raycaster.setEnabled(false);
+
+		scene.add(raycaster.cursor);
 
 		// Volume octree helper.
 
-		/* const octreeHelper = new OCTREE.OctreeHelper(terrain.volume);
-
-		try {
-
-			octreeHelper.update();
-
-		} catch(error) {
-
-			console.warn(error);
-
-		}
+		/* const octreeHelper = new OctreeHelper(terrain.volume);
 
 		scene.add(octreeHelper); */
 
 		// Chunk helper.
 
-		/* terrain.addEventListener("modificationend", function(event) {
+		terrain.addEventListener("modificationend", function(event) {
 
-			const helper = new ChunkHelper(event.chunk);
-			helper.gridPoints.visible = false;
+			// const helper = new ChunkHelper(event.chunk);
 
-			scene.add(helper);
+			// scene.add(helper);
 
-		}); */
+		});
 
 		// Configuration.
 
@@ -207,7 +165,9 @@ export class Editor {
 			wireframe: false
 		};
 
-		gui.add(params, "flatshading").onChange(function() {
+		const folder = gui.addFolder("Material");
+
+		folder.add(params, "flatshading").onChange(function() {
 
 			const shading = params.flatshading ? FlatShading : SmoothShading;
 
@@ -220,7 +180,7 @@ export class Editor {
 
 		});
 
-		gui.add(params, "wireframe").onChange(function() {
+		folder.add(params, "wireframe").onChange(function() {
 
 			terrain.traverse(function(child) {
 
@@ -232,43 +192,71 @@ export class Editor {
 		});
 
 		/**
-		 * Toggle the visibility of the interface on alt key press.
+		 * Toggles the visibility of the interface on alt key press.
 		 *
-		 * @method onkeydown
+		 * @method onKeyDown
 		 * @private
 		 * @static
 		 * @param {Event} event - An event.
 		 */
 
-		document.addEventListener("keydown", function onkeydown(event) {
+		document.addEventListener("keydown", (function() {
 
-			if(event.altKey) {
+			let flag = false;
 
-				event.preventDefault();
-				aside.style.visibility = (aside.style.visibility === "hidden") ? "visible" : "hidden";
+			return function onKeyDown(event) {
 
-			}
+				if(event.altKey) {
 
-		});
+					event.preventDefault();
+					controls.setEnabled(flag);
+					raycaster.setEnabled(!flag);
+
+					flag = !flag;
+
+				}
+
+			};
+
+		}()));
 
 		/**
 		 * Handles browser resizing.
 		 *
-		 * @method onresize
+		 * @method onResize
+		 * @private
 		 * @static
 		 * @param {Event} event - An event.
 		 */
 
-		window.addEventListener("resize", function onresize(event) {
+		window.addEventListener("resize", (function() {
 
-			const width = event.target.innerWidth;
-			const height = event.target.innerHeight;
+			let id = 0;
 
-			renderer.setSize(width, height);
-			camera.aspect = width / height;
-			camera.updateProjectionMatrix();
+			function handleResize(event) {
 
-		});
+				const width = event.target.innerWidth;
+				const height = event.target.innerHeight;
+
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+
+				id = 0;
+
+			}
+
+			return function onResize(event) {
+
+				if(id === 0) {
+
+					id = setTimeout(handleResize, 66, event);
+
+				}
+
+			};
+
+		}()));
 
 		/**
 		 * The main render loop.
@@ -285,7 +273,10 @@ export class Editor {
 
 			stats.begin();
 
+			controls.update(clock.getDelta());
+
 			terrain.update(camera);
+
 			renderer.render(scene, camera);
 
 			stats.end();
