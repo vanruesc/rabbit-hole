@@ -3,7 +3,7 @@
 	varying vec3 vBlend;
 	varying vec2 vCoords[3];
 
-	vec4 t3(sampler2D mapX, sampler2D mapY, sampler2D mapZ) {
+	vec4 t3( sampler2D mapX, sampler2D mapY, sampler2D mapZ ) {
 
 		vec4 xAxis = texture2D( mapX, vCoords[0] );
 		vec4 yAxis = texture2D( mapY, vCoords[1] );
@@ -17,15 +17,15 @@
 
 	}
 
-	vec4 t3(sampler2D mapX, sampler2D mapYZ) {
+	vec4 t3( sampler2D mapX, sampler2D mapYZ ) {
 
-		return t3(mapX, mapYZ, mapYZ);
+		return t3( mapX, mapYZ, mapYZ );
 
 	}
 
-	vec4 t3(sampler2D mapXYZ) {
+	vec4 t3( sampler2D mapXYZ ) {
 
-		return t3(mapXYZ, mapXYZ, mapXYZ);
+		return t3( mapXYZ, mapXYZ, mapXYZ );
 
 	}
 
