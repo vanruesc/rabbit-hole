@@ -13,7 +13,6 @@ import triplanarParsFragment from "./glsl/triplanar.pars.frag";
 import triplanarParsVertex from "./glsl/triplanar.pars.vert";
 import triplanarVertex from "./glsl/triplanar.vert";
 
-// Register custom shader code snippets.
 Object.assign(ShaderChunk, {
 	"alphamap_triplanar_fragment": alphamapTriplanarFragment,
 	"emissivemap_triplanar_fragment": emissivemapTriplanarFragment,
