@@ -24,7 +24,7 @@ varying vec3 vViewPosition;
 #include <common>
 #include <packing>
 #include <color_pars_fragment>
-#include <map_pars_fragment>
+#include <map_triplanar_pars_fragment>
 #include <alphamap_pars_fragment>
 #include <specularmap_pars_fragment>
 #include <lightmap_pars_fragment>
