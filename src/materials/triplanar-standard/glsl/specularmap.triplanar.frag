@@ -2,7 +2,7 @@ float specularStrength;
 
 #ifdef USE_SPECULARMAP
 
-	vec4 texelSpecular = t3( specularMap, triplanarBlend );
+	vec4 texelSpecular = t3( specularMap );
 	specularStrength = texelSpecular.r;
 
 #else

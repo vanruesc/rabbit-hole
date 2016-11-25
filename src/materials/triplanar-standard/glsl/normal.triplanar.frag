@@ -12,14 +12,8 @@
 
 #endif
 
-#if defined( USE_MAP ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP ) || defined( USE_SPECULARMAP ) || defined( USE_ALPHAMAP ) || defined( USE_EMISSIVEMAP ) || defined( USE_ROUGHNESSMAP ) || defined( USE_METALNESSMAP )
-
-	vec3 triplanarBlend = computeTriplanarBlend( vModelNormal );
-
-#endif
-
 #ifdef USE_NORMALMAP
 
-	normal = perturbNormal2Arb( normal, triplanarBlend );
+	normal = perturbNormal2Arb( normal );
 
 #endif
