@@ -47,11 +47,13 @@ void main() {
 
 	#include <clipping_planes_fragment>
 
-	vec4 diffuseColor = vec4(diffuse, opacity);
-	ReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));
+	vec4 diffuseColor = vec4( diffuse, opacity );
+	ReflectedLight reflectedLight = ReflectedLight( vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ), vec3( 0.0 ) );
 	vec3 totalEmissiveRadiance = emissive;
 
 	#include <logdepthbuf_fragment>
+	#include <normal_flip>
+	#include <normal_triplanar_fragment>
 	#include <map_triplanar_fragment>
 	#include <color_fragment>
 	#include <alphamap_triplanar_fragment>
@@ -59,8 +61,6 @@ void main() {
 	#include <specularmap_triplanar_fragment>
 	#include <roughnessmap_triplanar_fragment>
 	#include <metalnessmap_triplanar_fragment>
-	#include <normal_flip>
-	#include <normal_fragment>
 	#include <emissivemap_triplanar_fragment>
 
 	// accumulation
@@ -69,7 +69,7 @@ void main() {
 
 	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;
 
-	gl_FragColor = vec4(outgoingLight, diffuseColor.a);
+	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
 
 	#include <premultiplied_alpha_fragment>
 	#include <tonemapping_fragment>
