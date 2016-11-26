@@ -1,4 +1,4 @@
-import { ShaderLib, ShaderMaterial } from "three";
+import { ShaderLib, ShaderMaterial, Uniform } from "three";
 
 import fragment from "./glsl/shader.frag";
 import vertex from "./glsl/shader.vert";
@@ -25,21 +25,38 @@ export class MeshTriplanarStandardMaterial extends ShaderMaterial {
 
 			defines: { STANDARD: "" },
 
-			uniforms: Object.assign({}, ShaderLib.standard.uniforms, {
+			uniforms: {
 
-				mapY: { value: null },
-				mapZ: { value: null },
+				mapY: new Uniform(null),
+				mapZ: new Uniform(null),
 
-				normalMapY: { value: null },
-				normalMapZ: { value: null }
+				normalMapY: new Uniform(null),
+				normalMapZ: new Uniform(null)
 
-			}),
+			},
 
 			fragmentShader: fragment,
 			vertexShader: vertex,
 
 			lights: true,
 			fog: true
+
+		});
+
+		// Clone uniforms to avoid conflicts with built-in materials.
+		const source = ShaderLib.standard.uniforms;
+		const target = this.uniforms;
+
+		Object.keys(source).forEach(function(key) {
+
+			const value = source[key].value;
+			const uniform = new Uniform(source[key].value);
+
+			Object.defineProperty(target, key, {
+
+				value: (value === null) ? uniform : uniform.clone()
+
+			});
 
 		});
 
