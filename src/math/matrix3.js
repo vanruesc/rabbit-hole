@@ -34,6 +34,7 @@ export class Matrix3 {
 	 * Sets the values of this matrix.
 	 *
 	 * @method set
+	 * @chainable
 	 * @param {Number} m00 - The value of the first row, first column.
 	 * @param {Number} m01 - The value of the first row, second column.
 	 * @param {Number} m02 - The value of the first row, third column.
@@ -62,6 +63,7 @@ export class Matrix3 {
 	 * Sets this matrix to the identity matrix.
 	 *
 	 * @method identity
+	 * @chainable
 	 * @return {Matrix3} This matrix.
 	 */
 
@@ -83,6 +85,7 @@ export class Matrix3 {
 	 * Copies the values of a given matrix.
 	 *
 	 * @method copy
+	 * @chainable
 	 * @param {Matrix3} m - A matrix.
 	 * @return {Matrix3} This matrix.
 	 */
