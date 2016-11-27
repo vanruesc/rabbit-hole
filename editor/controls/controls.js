@@ -285,6 +285,7 @@ export class Controls {
 				break;
 
 			case Key.SPACE:
+				event.preventDefault();
 				state.up = s;
 				break;
 
