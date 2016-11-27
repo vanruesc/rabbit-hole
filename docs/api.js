@@ -94,7 +94,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "materials",
             "name": "materials",
-            "description": "A compilation of the shader materials."
+            "description": "A collection of shader materials."
         },
         {
             "displayName": "math",

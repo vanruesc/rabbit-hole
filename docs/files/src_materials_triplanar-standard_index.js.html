@@ -140,40 +140,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import {
-	Color,
-	ShaderChunk,
-	ShaderLib,
-	ShaderMaterial,
-	Vector2
-} from &quot;three&quot;;
+import { ShaderLib, ShaderMaterial, Uniform } from &quot;three&quot;;
 
 import fragment from &quot;./glsl/shader.frag&quot;;
 import vertex from &quot;./glsl/shader.vert&quot;;
-import alphamapTriplanarFragment from &quot;./glsl/alphamap.triplanar.frag&quot;;
-import emissivemapTriplanarFragment from &quot;./glsl/emissivemap.triplanar.frag&quot;;
-import mapTriplanarFragment from &quot;./glsl/map.triplanar.frag&quot;;
-import metalnessmapTriplanarFragment from &quot;./glsl/metalnessmap.triplanar.frag&quot;;
-import normalmapTriplanarParsFragment from &quot;./glsl/normalmap.triplanar.pars.frag&quot;;
-import roughnessmapTriplanarFragment from &quot;./glsl/roughnessmap.triplanar.frag&quot;;
-import specularmapTriplanarFragment from &quot;./glsl/specularmap.triplanar.frag&quot;;
-import triplanarParsFragment from &quot;./glsl/triplanar.pars.frag&quot;;
-import triplanarParsVertex from &quot;./glsl/triplanar.pars.vert&quot;;
-import triplanarVertex from &quot;./glsl/triplanar.vert&quot;;
 
-// Register custom shader code snippets.
-Object.assign(ShaderChunk, {
-	&quot;alphamap_triplanar_fragment&quot;: alphamapTriplanarFragment,
-	&quot;emissivemap_triplanar_fragment&quot;: emissivemapTriplanarFragment,
-	&quot;map_triplanar_fragment&quot;: mapTriplanarFragment,
-	&quot;metalnessmap_triplanar_fragment&quot;: metalnessmapTriplanarFragment,
-	&quot;normalmap_triplanar_pars_fragment&quot;: normalmapTriplanarParsFragment,
-	&quot;roughnessmap_triplanar_fragment&quot;: roughnessmapTriplanarFragment,
-	&quot;specularmap_triplanar_fragment&quot;: specularmapTriplanarFragment,
-	&quot;triplanar_pars_fragment&quot;: triplanarParsFragment,
-	&quot;triplanar_pars_vertex&quot;: triplanarParsVertex,
-	&quot;triplanar_vertex&quot;: triplanarVertex
-});
+// Register custom shader chunks.
+import &quot;./chunks.js&quot;;
 
 /**
  * A physically based shader material that uses triplanar texture mapping.
@@ -194,50 +167,122 @@ export class MeshTriplanarStandardMaterial extends ShaderMaterial {
 
 			defines: { STANDARD: &quot;&quot; },
 
-			uniforms: ShaderLib.standard.uniforms,
+			uniforms: {
+
+				mapY: new Uniform(null),
+				mapZ: new Uniform(null),
+
+				normalMapY: new Uniform(null),
+				normalMapZ: new Uniform(null)
+
+			},
 
 			fragmentShader: fragment,
-			vertexShader: vertex
+			vertexShader: vertex,
+
+			lights: true,
+			fog: true
 
 		});
 
-		this.fog = true;
-		this.lights = true;
+		// Clone uniforms to avoid conflicts with built-in materials.
+		const source = ShaderLib.standard.uniforms;
+		const target = this.uniforms;
 
-		this.color = new Color(0xffffff); // diffuse
-		this.roughness = 0.5;
-		this.metalness = 0.5;
+		Object.keys(source).forEach(function(key) {
 
-		this.map = null;
+			const value = source[key].value;
+			const uniform = new Uniform(source[key].value);
 
-		this.lightMap = null;
-		this.lightMapIntensity = 1.0;
+			Object.defineProperty(target, key, {
 
-		this.emissive = new Color(0x000000);
-		this.emissiveIntensity = 1.0;
-		this.emissiveMap = null;
+				value: (value === null) ? uniform : uniform.clone()
 
-		this.normalMap = null;
-		this.normalScale = new Vector2(1, 1);
+			});
 
-		this.roughnessMap = null;
+		});
 
-		this.metalnessMap = null;
+	}
 
-		this.specularMap = null;
+	/**
+	 * Defines up to three diffuse maps.
+	 *
+	 * @method setMaps
+	 * @param {Texture} [mapX] - The map to use for the X plane.
+	 * @param {Texture} [mapY] - The map to use for the Y plane.
+	 * @param {Texture} [mapZ] - The map to use for the Z plane.
+	 */
 
-		this.alphaMap = null;
+	setMaps(mapX, mapY, mapZ) {
 
-		this.envMap = null;
-		this.envMapIntensity = 1.0;
+		const defines = this.defines;
+		const uniforms = this.uniforms;
 
-		this.refractionRatio = 0.98;
+		if(mapX !== undefined) {
+
+			defines.USE_MAP = &quot;&quot;;
+			uniforms.map.value = mapX;
+
+		}
+
+		if(mapY !== undefined) {
+
+			defines.USE_MAP_Y = &quot;&quot;;
+			uniforms.mapY.value = mapY;
+
+		}
+
+		if(mapZ !== undefined) {
+
+			defines.USE_MAP_Z = &quot;&quot;;
+			uniforms.mapZ.value = mapZ;
+
+		}
+
+		this.needsUpdate = true;
+
+	}
+
+	/**
+	 * Defines up to three normal maps.
+	 *
+	 * @method setNormalMaps
+	 * @param {Texture} [mapX] - The map to use for the X plane.
+	 * @param {Texture} [mapY] - The map to use for the Y plane.
+	 * @param {Texture} [mapZ] - The map to use for the Z plane.
+	 */
+
+	setNormalMaps(mapX, mapY, mapZ) {
+
+		const defines = this.defines;
+		const uniforms = this.uniforms;
+
+		if(mapX !== undefined) {
+
+			defines.USE_NORMALMAP = &quot;&quot;;
+			uniforms.normalMap.value = mapX;
+
+		}
+
+		if(mapY !== undefined) {
+
+			defines.USE_NORMALMAP_Y = &quot;&quot;;
+			uniforms.normalMapY.value = mapY;
+
+		}
+
+		if(mapZ !== undefined) {
+
+			defines.USE_NORMALMAP_Z = &quot;&quot;;
+			uniforms.normalMapZ.value = mapZ;
+
+		}
+
+		this.needsUpdate = true;
 
 	}
 
 }
-
-MeshTriplanarStandardMaterial.prototype.isMeshStandardMaterial = true;
 
     </pre>
 </div>

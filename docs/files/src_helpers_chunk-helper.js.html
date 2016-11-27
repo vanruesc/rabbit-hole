@@ -163,14 +163,14 @@ import { Edge } from &quot;../volume/edge.js&quot;;
  * @submodule helpers
  * @constructor
  * @extends Object3D
- * @param {Chunk} [chunk] - A volume data chunk.
+ * @param {Chunk} [chunk=null] - A volume data chunk.
  * @param {Boolean} [useMaterialIndices] - Whether points should be created for solid material indices.
  * @param {Boolean} [useEdgeData] - Whether edges with intersection points and normals should be created.
  */
 
 export class ChunkHelper extends Object3D {
 
-	constructor(chunk, useMaterialIndices, useEdgeData) {
+	constructor(chunk = null, useMaterialIndices, useEdgeData) {
 
 		super();
 

@@ -746,8 +746,8 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\materials\\triplanar-standard\\index.js",
-            "line": 36,
-            "description": "A compilation of the shader materials."
+            "line": 9,
+            "description": "A collection of shader materials."
         },
         "math": {
             "name": "math",
@@ -1127,7 +1127,8 @@
                     "name": "chunk",
                     "description": "- A volume data chunk.",
                     "type": "Chunk",
-                    "optional": true
+                    "optional": true,
+                    "optdefault": "null"
                 },
                 {
                     "name": "useMaterialIndices",
@@ -1170,7 +1171,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\materials\\triplanar-standard\\index.js",
-            "line": 36,
+            "line": 9,
             "description": "A physically based shader material that uses triplanar texture mapping.",
             "submodule": "materials",
             "extends": "ShaderMaterial",
@@ -1391,7 +1392,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 594,
+            "line": 600,
             "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nBoolean operators to generate and transform volume data.",
             "submodule": "csg",
             "static": 1
@@ -2035,6 +2036,7 @@
             "line": 15,
             "description": "Manages worker threads.",
             "submodule": "worker",
+            "extends": "EventDispatcher",
             "implements": "EventListener",
             "is_constructor": 1,
             "params": [
@@ -2909,17 +2911,21 @@
                 },
                 {
                     "name": "intersects",
-                    "description": "- An array to be filled with terrain intersections.",
+                    "description": "- An array to be filled with terrain mesh intersections.",
                     "type": "Array"
                 }
             ],
+            "return": {
+                "description": "The chunks that intersect with the ray.",
+                "type": "Array"
+            },
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 519,
+            "line": 522,
             "description": "Removes all child meshes.",
             "itemtype": "method",
             "name": "clearMeshes",
@@ -2931,7 +2937,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 543,
+            "line": 546,
             "description": "Resets this terrain by removing data and closing active worker threads.",
             "itemtype": "method",
             "name": "clear",
@@ -2941,7 +2947,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 565,
+            "line": 568,
             "description": "Destroys this terrain and frees internal resources.",
             "itemtype": "method",
             "name": "dispose",
@@ -2951,7 +2957,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 578,
+            "line": 581,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -2968,7 +2974,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 592,
+            "line": 595,
             "description": "Saves the current volume data.",
             "itemtype": "method",
             "name": "save",
@@ -3429,6 +3435,66 @@
             "submodule": "isosurface"
         },
         {
+            "file": "src\\materials\\triplanar-standard\\index.js",
+            "line": 65,
+            "description": "Defines up to three diffuse maps.",
+            "itemtype": "method",
+            "name": "setMaps",
+            "params": [
+                {
+                    "name": "mapX",
+                    "description": "- The map to use for the X plane.",
+                    "type": "Texture",
+                    "optional": true
+                },
+                {
+                    "name": "mapY",
+                    "description": "- The map to use for the Y plane.",
+                    "type": "Texture",
+                    "optional": true
+                },
+                {
+                    "name": "mapZ",
+                    "description": "- The map to use for the Z plane.",
+                    "type": "Texture",
+                    "optional": true
+                }
+            ],
+            "class": "MeshTriplanarStandardMaterial",
+            "module": "rabbit-hole",
+            "submodule": "materials"
+        },
+        {
+            "file": "src\\materials\\triplanar-standard\\index.js",
+            "line": 104,
+            "description": "Defines up to three normal maps.",
+            "itemtype": "method",
+            "name": "setNormalMaps",
+            "params": [
+                {
+                    "name": "mapX",
+                    "description": "- The map to use for the X plane.",
+                    "type": "Texture",
+                    "optional": true
+                },
+                {
+                    "name": "mapY",
+                    "description": "- The map to use for the Y plane.",
+                    "type": "Texture",
+                    "optional": true
+                },
+                {
+                    "name": "mapZ",
+                    "description": "- The map to use for the Z plane.",
+                    "type": "Texture",
+                    "optional": true
+                }
+            ],
+            "class": "MeshTriplanarStandardMaterial",
+            "module": "rabbit-hole",
+            "submodule": "materials"
+        },
+        {
             "file": "src\\math\\box3.js",
             "line": 20,
             "description": "The min bounds.",
@@ -3707,6 +3773,7 @@
             "description": "Sets the values of this matrix.",
             "itemtype": "method",
             "name": "set",
+            "chainable": 1,
             "params": [
                 {
                     "name": "m00",
@@ -3764,10 +3831,11 @@
         },
         {
             "file": "src\\math\\matrix3.js",
-            "line": 61,
+            "line": 62,
             "description": "Sets this matrix to the identity matrix.",
             "itemtype": "method",
             "name": "identity",
+            "chainable": 1,
             "return": {
                 "description": "This matrix.",
                 "type": "Matrix3"
@@ -3778,10 +3846,11 @@
         },
         {
             "file": "src\\math\\matrix3.js",
-            "line": 82,
+            "line": 84,
             "description": "Copies the values of a given matrix.",
             "itemtype": "method",
             "name": "copy",
+            "chainable": 1,
             "params": [
                 {
                     "name": "m",
@@ -3799,7 +3868,7 @@
         },
         {
             "file": "src\\math\\matrix3.js",
-            "line": 104,
+            "line": 107,
             "description": "Clones this matrix.",
             "itemtype": "method",
             "name": "clone",
@@ -4732,6 +4801,7 @@
             "description": "Sets the values of this vector",
             "itemtype": "method",
             "name": "set",
+            "chainable": 1,
             "params": [
                 {
                     "name": "x",
@@ -4759,10 +4829,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 65,
+            "line": 66,
             "description": "Copies the values of another vector.",
             "itemtype": "method",
             "name": "copy",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -4780,10 +4851,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 83,
+            "line": 85,
             "description": "Copies values from an array.",
             "itemtype": "method",
             "name": "fromArray",
+            "chainable": 1,
             "params": [
                 {
                     "name": "array",
@@ -4806,7 +4878,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 104,
+            "line": 107,
             "description": "Stores this vector in an array.",
             "itemtype": "method",
             "name": "toArray",
@@ -4833,7 +4905,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 126,
+            "line": 129,
             "description": "Checks if this vector equals the given one.",
             "itemtype": "method",
             "name": "equals",
@@ -4854,7 +4926,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 140,
+            "line": 143,
             "description": "Clones this vector.",
             "itemtype": "method",
             "name": "clone",
@@ -4868,10 +4940,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 153,
+            "line": 156,
             "description": "Adds a vector to this one.",
             "itemtype": "method",
             "name": "add",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -4889,10 +4962,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 171,
+            "line": 175,
             "description": "Adds a scaled vector to this one.",
             "itemtype": "method",
             "name": "addScaledVector",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -4915,10 +4989,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 190,
+            "line": 195,
             "description": "Adds a scalar to this vector.",
             "itemtype": "method",
             "name": "addScalar",
+            "chainable": 1,
             "params": [
                 {
                     "name": "s",
@@ -4936,10 +5011,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 208,
+            "line": 214,
             "description": "Sets this vector to the sum of two given vectors.",
             "itemtype": "method",
             "name": "addVectors",
+            "chainable": 1,
             "params": [
                 {
                     "name": "a",
@@ -4962,10 +5038,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 227,
+            "line": 234,
             "description": "Subtracts a vector from this vector.",
             "itemtype": "method",
             "name": "sub",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -4983,10 +5060,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 245,
+            "line": 253,
             "description": "Subtracts a scalar to this vector.",
             "itemtype": "method",
             "name": "subScalar",
+            "chainable": 1,
             "params": [
                 {
                     "name": "s",
@@ -5004,10 +5082,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 263,
+            "line": 272,
             "description": "Sets this vector to the difference between two given vectors.",
             "itemtype": "method",
             "name": "subVectors",
+            "chainable": 1,
             "params": [
                 {
                     "name": "a",
@@ -5030,10 +5109,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 282,
+            "line": 292,
             "description": "Multiplies this vector with another vector.",
             "itemtype": "method",
             "name": "multiply",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -5051,10 +5131,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 300,
+            "line": 311,
             "description": "Multiplies this vector with a given scalar.",
             "itemtype": "method",
             "name": "multiplyScalar",
+            "chainable": 1,
             "params": [
                 {
                     "name": "s",
@@ -5072,10 +5153,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 328,
+            "line": 340,
             "description": "Sets this vector to the product of two given vectors.",
             "itemtype": "method",
             "name": "multiplyVectors",
+            "chainable": 1,
             "params": [
                 {
                     "name": "a",
@@ -5098,36 +5180,16 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 347,
+            "line": 360,
             "description": "Divides this vector by another vector.",
             "itemtype": "method",
             "name": "divide",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
                     "description": "- A vector.",
                     "type": "Vector3"
-                }
-            ],
-            "return": {
-                "description": "This vector.",
-                "type": "Vector3"
-            },
-            "class": "Vector3",
-            "module": "rabbit-hole",
-            "submodule": "math"
-        },
-        {
-            "file": "src\\math\\vector3.js",
-            "line": 365,
-            "description": "Divides this vector by a given scalar.",
-            "itemtype": "method",
-            "name": "divideScalar",
-            "params": [
-                {
-                    "name": "s",
-                    "description": "- A scalar.",
-                    "type": "Number"
                 }
             ],
             "return": {
@@ -5141,9 +5203,32 @@
         {
             "file": "src\\math\\vector3.js",
             "line": 379,
+            "description": "Divides this vector by a given scalar.",
+            "itemtype": "method",
+            "name": "divideScalar",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- A scalar.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector3"
+            },
+            "class": "Vector3",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector3.js",
+            "line": 394,
             "description": "Sets this vector to the quotient of two given vectors.",
             "itemtype": "method",
             "name": "divideVectors",
+            "chainable": 1,
             "params": [
                 {
                     "name": "a",
@@ -5166,7 +5251,22 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 398,
+            "line": 414,
+            "description": "Negates this vector.",
+            "itemtype": "method",
+            "name": "negate",
+            "chainable": 1,
+            "return": {
+                "description": "This vector.",
+                "type": "Vector3"
+            },
+            "class": "Vector3",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector3.js",
+            "line": 432,
             "description": "Calculates the dot product with another vector.",
             "itemtype": "method",
             "name": "dot",
@@ -5187,7 +5287,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 412,
+            "line": 446,
             "description": "Calculates the squared length of this vector.",
             "itemtype": "method",
             "name": "lengthSq",
@@ -5201,7 +5301,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 425,
+            "line": 459,
             "description": "Calculates the length of this vector.",
             "itemtype": "method",
             "name": "length",
@@ -5215,7 +5315,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 438,
+            "line": 472,
             "description": "Calculates the distance to a given vector.",
             "itemtype": "method",
             "name": "distanceTo",
@@ -5236,7 +5336,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 452,
+            "line": 486,
             "description": "Calculates the squared distance to a given vector.",
             "itemtype": "method",
             "name": "distanceToSquared",
@@ -5257,10 +5357,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 470,
+            "line": 504,
             "description": "Normalizes this vector.",
             "itemtype": "method",
             "name": "normalize",
+            "chainable": 1,
             "return": {
                 "description": "This vector.",
                 "type": "Vector3"
@@ -5271,10 +5372,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 483,
+            "line": 518,
             "description": "Adopts the min value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "min",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -5292,10 +5394,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 501,
+            "line": 537,
             "description": "adopts the max value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "max",
+            "chainable": 1,
             "params": [
                 {
                     "name": "v",
@@ -5313,10 +5416,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 519,
+            "line": 556,
             "description": "Clamps this vector.",
             "itemtype": "method",
             "name": "clamp",
+            "chainable": 1,
             "params": [
                 {
                     "name": "min",
@@ -5339,10 +5443,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 538,
+            "line": 576,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix3",
+            "chainable": 1,
             "params": [
                 {
                     "name": "m",
@@ -5360,10 +5465,11 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 559,
+            "line": 598,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix4",
+            "chainable": 1,
             "params": [
                 {
                     "name": "m",
@@ -5520,7 +5626,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 337,
+            "line": 343,
             "description": "Generates edge data.",
             "itemtype": "method",
             "name": "generateEdges",
@@ -5558,7 +5664,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 466,
+            "line": 472,
             "description": "Either generates or combines volume data based on the operation type.",
             "itemtype": "method",
             "name": "update",
@@ -5593,7 +5699,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 518,
+            "line": 524,
             "description": "Executes the given operation.",
             "itemtype": "method",
             "name": "execute",
@@ -5621,7 +5727,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 605,
+            "line": 611,
             "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF\n 2. Combine the generated data with the chunk data",
             "itemtype": "method",
             "name": "run",
@@ -5644,7 +5750,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 682,
+            "line": 688,
             "description": "Creates an SDF from the given description.",
             "itemtype": "method",
             "name": "reviveSDF",
@@ -7839,7 +7945,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 31,
+            "line": 32,
             "description": "An object URL to the worker program.",
             "itemtype": "property",
             "name": "workerURL",
@@ -7852,7 +7958,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 41,
+            "line": 42,
             "description": "The maximum number of active worker threads.",
             "itemtype": "property",
             "name": "maxWorkers",
@@ -7864,7 +7970,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 51,
+            "line": 52,
             "description": "A list of existing workers.",
             "itemtype": "property",
             "name": "workers",
@@ -7877,7 +7983,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 61,
+            "line": 62,
             "description": "Keeps track of workers that are currently busy.",
             "itemtype": "property",
             "name": "busyWorkers",
@@ -7890,7 +7996,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 73,
+            "line": 74,
             "description": "Handles events.",
             "itemtype": "method",
             "name": "handleEvent",
@@ -7907,7 +8013,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 100,
+            "line": 101,
             "description": "Closes a worker.",
             "itemtype": "method",
             "name": "closeWorker",
@@ -7924,7 +8030,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 135,
+            "line": 136,
             "description": "Creates a new worker.",
             "itemtype": "method",
             "name": "createWorker",
@@ -7940,7 +8046,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 156,
+            "line": 157,
             "description": "Polls an available worker and returns it. The worker will be excluded from\nsubsequent polls until it finishes its task and sends a message back.",
             "itemtype": "method",
             "name": "getWorker",
@@ -7954,7 +8060,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 199,
+            "line": 200,
             "description": "Resets this thread pool by closing all workers.",
             "itemtype": "method",
             "name": "clear",
@@ -7964,7 +8070,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 215,
+            "line": 216,
             "description": "Removes all active workers and releases the worker program blob.",
             "itemtype": "method",
             "name": "dispose",
