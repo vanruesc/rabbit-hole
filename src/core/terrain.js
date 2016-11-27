@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
+import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
 import { MeshTriplanarStandardMaterial } from "../materials/triplanar-standard";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
@@ -8,6 +8,18 @@ import { WorkerTask } from "../worker/worker-task.js";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
 import * as events from "./events.js";
+
+/**
+ * A computation helper.
+ *
+ * @property BOX3
+ * @type Box3
+ * @private
+ * @static
+ * @final
+ */
+
+const BOX3 = new Box3();
 
 /**
  * A computation helper.
@@ -464,7 +476,7 @@ export class Terrain extends Object3D {
 
 					} else if(data !== null && !data.full) {
 
-						distance = chunk.getCenter().distanceTo(camera.position);
+						distance = BOX3.copy(chunk).distanceToPoint(camera.position);
 						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
 
 						if(data.lod !== lod) {
