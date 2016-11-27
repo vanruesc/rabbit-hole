@@ -7,9 +7,9 @@ A volumetric terrain engine for three.js. This engine has been created in the co
 the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) in cooperation with the
 [Norwegian University of Technology and Science](https://www.ntnu.no).
 
-*~~[Volume Editor]()~~ ::
-[API Reference](http://vanruesc.github.io/rabbit-hole/docs) ::
-~~[Master's Thesis](http://vanruesc.github.io/rabbit-hole/volumetric-terrain-rendering-with-webgl.pdf)~~*
+[Volume Editor](http://vanruesc.github.io/rabbit-hole/public/editor) &loz;
+[API Reference](http://vanruesc.github.io/rabbit-hole/docs) &loz;
+[Master's Thesis]()
 
 
 ## Installation
@@ -21,7 +21,7 @@ $ npm install rabbit-hole
 
 ## Usage
 
-##### [Basics](http://vanruesc.github.io/rabbit-hole/public/)
+##### Basics
 
 ```javascript
 import { Terrain } from "rabbit-hole";
@@ -37,7 +37,7 @@ const terrain = new Terrain();
 }());
 ```
 
-##### ~~[Constructive Solid Geometry]()~~
+##### Constructive Solid Geometry
 
 ```javascript
 import { Sphere, Box, Torus } from "rabbit-hole";
@@ -56,7 +56,7 @@ terrain.intersect(c.subtract(a.union(b)));
 
 - [Multithreading](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
 - Level of Detail
-- ~~[Tri-Planar Texture Mapping]()~~
+- [Tri-Planar Texture Mapping](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch01.html)
 - Real-time volume construction and destruction
 
 
