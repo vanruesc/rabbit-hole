@@ -1,287 +1,335 @@
-import {
-	AxisHelper,
-	Clock,
-	DirectionalLight,
-	FlatShading,
-	FogExp2,
-	HemisphereLight,
-	PerspectiveCamera,
-	Scene,
-	SmoothShading,
-	WebGLRenderer
-} from "three";
+import { Mesh, MeshBasicMaterial, Raycaster, SphereBufferGeometry, Vector2 } from "three";
+import { ChunkHelper, Sphere } from "../src";
+import { Button } from "./controls/button.js";
+import { OctreeHelper } from "./octree-helper.js";
 
-import dat from "dat.gui";
-// import { Box, ChunkHelper, Terrain } from "../src";
-import { Box, Terrain } from "../src";
-import { TerrainRaycaster } from "./terrain-raycaster.js";
-// import { OctreeHelper } from "./octree-helper.js";
-import { TerrainStats } from "./terrain-stats.js";
-import { Controls } from "./controls/controls.js";
+/**
+ * A mouse position.
+ *
+ * @property MOUSE
+ * @type Vector2
+ * @private
+ * @static
+ * @final
+ */
+
+const MOUSE = new Vector2();
 
 /**
  * A volume editor.
  *
  * @class Editor
- * @static
+ * @constructor
+ * @param {Terrain} terrain - A terrain instance.
+ * @param {Camera} camera - A camera.
+ * @param {Element} [dom=document.body] - A dom element.
  */
 
 export class Editor {
 
+	constructor(terrain, camera, dom = document.body) {
+
+		/**
+		 * A terrain.
+		 *
+		 * @property terrain
+		 * @type Terrain
+		 * @private
+		 */
+
+		this.terrain = terrain;
+
+		/**
+		 * A camera.
+		 *
+		 * @property camera
+		 * @type PerspectiveCamera
+		 * @private
+		 */
+
+		this.camera = camera;
+
+		/**
+		 * A dom element.
+		 *
+		 * @property dom
+		 * @type Element
+		 * @private
+		 */
+
+		this.dom = dom;
+
+		/**
+		 * A raycaster.
+		 *
+		 * @property raycaster
+		 * @type Raycaster
+		 * @private
+		 */
+
+		this.raycaster = new Raycaster();
+
+		/**
+		 * A cursor.
+		 *
+		 * @property cursor
+		 * @type Mesh
+		 */
+
+		this.cursor = new Mesh(
+			new SphereBufferGeometry(2, 16, 16),
+			new MeshBasicMaterial({
+				transparent: true,
+				opacity: 0.5,
+				color: 0x0096ff,
+				fog: false
+			})
+		);
+
+		/**
+		 * An octree helper.
+		 *
+		 * @property octreeHelper
+		 * @type OctreeHelper
+		 */
+
+		this.octreeHelper = new OctreeHelper();
+		this.octreeHelper.visible = false;
+
+		/**
+		 * An chunk helper.
+		 *
+		 * @property chunkHelper
+		 * @type ChunkHelper
+		 */
+
+		this.chunkHelper = new ChunkHelper();
+		this.chunkHelper.visible = false;
+
+		/**
+		 * A delta time.
+		 *
+		 * @property delta
+		 * @type String
+		 */
+
+		this.delta = "";
+
+		this.setEnabled(true);
+
+		this.terrain.union(new Sphere({
+			origin: [-16, 16, -16],
+			radius: 14
+		}));
+
+	}
+
 	/**
-	 * Initialises the editor.
+	 * Handles events.
 	 *
-	 * @method initialise
-	 * @static
-	 * @param {HTMLElement} viewport - The viewport.
-	 * @param {HTMLElement} aside - A secondary container.
-	 * @param {Map} assets - Preloaded assets.
+	 * @method handleEvent
+	 * @param {Event} event - An event.
 	 */
 
-	static initialise(viewport, aside, assets) {
+	handleEvent(event) {
 
-		const width = window.innerWidth;
-		const height = window.innerHeight;
-		const aspect = width / height;
+		switch(event.type) {
 
-		// Clock.
+			case "mousemove":
+				this.raycast(event);
+				break;
 
-		const clock = new Clock();
+			case "mousedown":
+				this.handleMouseEvent(event, true);
+				break;
 
-		// Scene.
+			case "mouseup":
+				this.handleMouseEvent(event, false);
+				break;
 
-		const scene = new Scene();
-		scene.fog = new FogExp2(0xeeeeee, 0.00025);
+			case "contextmenu":
+				event.preventDefault();
+				break;
 
-		// Renderer.
+		}
 
-		const renderer = new WebGLRenderer({
-			logarithmicDepthBuffer: true,
-			antialias: true
-		});
+	}
 
-		renderer.setSize(width, height);
-		renderer.setClearColor(scene.fog.color);
-		renderer.setPixelRatio(window.devicePixelRatio);
-		viewport.appendChild(renderer.domElement);
+	/**
+	 * Handles mouse button events.
+	 *
+	 * @method handleMouseEvent
+	 * @private
+	 * @param {MouseEvent} event - A mouse event.
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
 
-		// Camera and Controls.
+	handleMouseEvent(event, pressed) {
 
-		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
-		const controls = new Controls(camera, renderer.domElement);
-		camera.position.set(10, 5, 10);
-		controls.focus(scene.position);
-		controls.movementSpeed = 4;
-		controls.boostSpeed = 16;
+		event.preventDefault();
 
-		scene.add(camera);
+		switch(event.button) {
 
-		// Sky.
+			case Button.MAIN:
+				this.handleMainMouseButton(pressed);
+				break;
 
-		scene.background = assets.get("sky");
+			case Button.AUXILIARY:
+				this.handleAuxiliaryMouseButton(pressed);
+				break;
 
-		// Helpers.
+			case Button.SECONDARY:
+				this.handleSecondaryMouseButton(pressed);
+				break;
 
-		scene.add(new AxisHelper());
+		}
 
-		// GUI.
+	}
 
-		const gui = new dat.GUI();
-		aside.appendChild(gui.domElement.parentNode);
+	/**
+	 * Handles main mouse button events.
+	 *
+	 * @method handleMainMouseButton
+	 * @private
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
 
-		// Lights.
+	handleMainMouseButton(pressed) {
 
-		const hemisphereLight = new HemisphereLight(0x3284ff, 0xffc87f, 0.6);
-		const directionalLight = new DirectionalLight(0xfff4e5);
+		if(pressed) {
 
-		hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
-		directionalLight.position.set(-1, 1.75, 1).multiplyScalar(50);
+			this.terrain.union(new Sphere({
+				origin: this.cursor.position.toArray(),
+				radius: this.cursor.geometry.parameters.radius
+			}));
 
-		scene.add(hemisphereLight);
-		scene.add(directionalLight);
+		}
 
-		// Terrain.
+	}
 
-		const terrain = new Terrain({
-			levels: 6,
-			chunkSize: 32,
-			resolution: 64
-		});
+	/**
+	 * Handles auxiliary mouse button events.
+	 *
+	 * @method handleAuxiliaryMouseButton
+	 * @private
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
 
-		terrain.material.map = assets.get("tiles-diffuse");
-		terrain.material.normalMap = assets.get("tiles-normalmap");
+	handleAuxiliaryMouseButton(pressed) {
 
-		/* scene.add(new Mesh(
-			new SphereBufferGeometry(24, 32, 32),
-			terrain.material
-		)); */
+	}
 
-		terrain.union(new Box({ origin: [0, 0, 0], halfDimensions: [4, 2, 4] }));
-		// terrain.union(new Box({ origin: [0, 1.4, 0], halfDimensions: [1, 0.1, 1] }));
+	/**
+	 * Handles secondary mouse button events.
+	 *
+	 * @method handleSecondaryMouseButton
+	 * @private
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
 
-		/* terrain.union(new Box({ origin: [-16, 2, -16], halfDimensions: [8, 1, 8] }));
-		terrain.union(new Box({ origin: [-16, 4, -16], halfDimensions: [8, 1, 8] }));
-		terrain.union(new Box({ origin: [-16, 6, -16], halfDimensions: [8, 1, 8] }));
-		terrain.union(new Box({ origin: [-16, 32, -16], halfDimensions: [8, 1, 8] }));
-		terrain.union(new Sphere({ origin: [16, 16, 16], radius: 6 })); */
+	handleSecondaryMouseButton(pressed) {
 
-		// terrain.union(new Box({ origin: [0, 6, 0], halfDimensions: [64, 1, 64] }));
+		if(pressed) {
 
-		scene.add(terrain);
+			this.terrain.subtract(new Sphere({
+				origin: this.cursor.position.toArray(),
+				radius: this.cursor.geometry.parameters.radius
+			}));
 
-		// Stats monitor.
+		}
 
-		const stats = new TerrainStats(terrain);
-		aside.appendChild(stats.dom);
+	}
 
-		// Terrain picking.
+	/**
+	 * Raycasts the terrain.
+	 *
+	 * @method raycast
+	 * @param {MouseEvent} event - A mouse event.
+	 */
 
-		const raycaster = new TerrainRaycaster(terrain, camera, renderer.domElement);
-		raycaster.configure(gui);
-		raycaster.setEnabled(false);
+	raycast(event) {
 
-		scene.add(raycaster.cursor);
+		const raycaster = this.raycaster;
+		const intersects = [];
+		const t0 = performance.now();
 
-		// Volume octree helper.
+		MOUSE.x = (event.clientX / window.innerWidth) * 2 - 1;
+		MOUSE.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		/* const octreeHelper = new OctreeHelper(terrain.volume);
+		raycaster.setFromCamera(MOUSE, this.camera);
 
-		scene.add(octreeHelper); */
+		this.terrain.raycast(raycaster, intersects);
 
-		// Chunk helper.
+		this.delta = (((performance.now() - t0) * 100.0) / 100.0).toFixed(2) + " ms";
 
-		terrain.addEventListener("modificationend", function(event) {
+		if(intersects.length > 0) {
 
-			// const helper = new ChunkHelper(event.chunk);
+			this.cursor.position.copy(intersects[0].point);
 
-			// scene.add(helper);
+		} else {
 
-		});
+			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(10).add(raycaster.ray.origin);
 
-		// Configuration.
+		}
 
-		const params = {
-			flatshading: false,
-			wireframe: false
-		};
+	}
 
-		const folder = gui.addFolder("Material");
+	/**
+	 * Enables or disables this editor.
+	 *
+	 * @method setEnabled
+	 * @param {Boolean} enabled - Whether this editor should be enabled or disabled.
+	 */
 
-		folder.add(params, "flatshading").onChange(function() {
+	setEnabled(enabled) {
 
-			const shading = params.flatshading ? FlatShading : SmoothShading;
+		const dom = this.dom;
 
-			terrain.traverse(function(child) {
+		if(enabled) {
 
-				child.material.shading = shading;
-				child.material.needsUpdate = true;
+			this.cursor.position.copy(this.camera.position);
+			this.cursor.visible = true;
 
-			});
+			dom.addEventListener("contextmenu", this);
+			dom.addEventListener("mousemove", this);
+			dom.addEventListener("mousedown", this);
+			dom.addEventListener("mouseup", this);
 
-		});
+		} else {
 
-		folder.add(params, "wireframe").onChange(function() {
+			this.cursor.visible = false;
 
-			terrain.traverse(function(child) {
+			dom.removeEventListener("contextmenu", this);
+			dom.removeEventListener("mousemove", this);
+			dom.removeEventListener("mousedown", this);
+			dom.removeEventListener("mouseup", this);
 
-				child.material.wireframe = params.wireframe;
-				child.material.needsUpdate = true;
+		}
 
-			});
+	}
 
-		});
+	/**
+	 * Removes all event listeners.
+	 *
+	 * @method dispose
+	 */
 
-		/**
-		 * Toggles the visibility of the interface on alt key press.
-		 *
-		 * @method onKeyDown
-		 * @private
-		 * @static
-		 * @param {Event} event - An event.
-		 */
+	dispose() { this.setEnabled(false); }
 
-		document.addEventListener("keydown", (function() {
+	/**
+	 * Registers configuration options.
+	 *
+	 * @method configure
+	 * @param {GUI} gui - A GUI.
+	 */
 
-			let flag = false;
+	configure(gui) {
 
-			return function onKeyDown(event) {
+		const folder = gui.addFolder("Editor");
 
-				if(event.altKey) {
+		folder.add(this, "delta").listen();
 
-					event.preventDefault();
-					controls.setEnabled(flag);
-					raycaster.setEnabled(!flag);
-
-					flag = !flag;
-
-				}
-
-			};
-
-		}()));
-
-		/**
-		 * Handles browser resizing.
-		 *
-		 * @method onResize
-		 * @private
-		 * @static
-		 * @param {Event} event - An event.
-		 */
-
-		window.addEventListener("resize", (function() {
-
-			let id = 0;
-
-			function handleResize(event) {
-
-				const width = event.target.innerWidth;
-				const height = event.target.innerHeight;
-
-				renderer.setSize(width, height);
-				camera.aspect = width / height;
-				camera.updateProjectionMatrix();
-
-				id = 0;
-
-			}
-
-			return function onResize(event) {
-
-				if(id === 0) {
-
-					id = setTimeout(handleResize, 66, event);
-
-				}
-
-			};
-
-		}()));
-
-		/**
-		 * The main render loop.
-		 *
-		 * @method render
-		 * @private
-		 * @static
-		 * @param {DOMHighResTimeStamp} now - An execution timestamp.
-		 */
-
-		(function render(now) {
-
-			requestAnimationFrame(render);
-
-			stats.begin();
-
-			controls.update(clock.getDelta());
-
-			terrain.update(camera);
-
-			renderer.render(scene, camera);
-
-			stats.end();
-
-		}());
+		folder.open();
 
 	}
 

@@ -1,0 +1,308 @@
+import {
+	AxisHelper,
+	Clock,
+	DirectionalLight,
+	FlatShading,
+	FogExp2,
+	HemisphereLight,
+	PerspectiveCamera,
+	Scene,
+	SmoothShading,
+	WebGLRenderer
+} from "three";
+
+import dat from "dat.gui";
+import { Terrain } from "../src";
+import { Editor } from "./editor.js";
+import { TerrainStats } from "./terrain-stats.js";
+import { Controls } from "./controls/controls.js";
+
+/**
+ * The main application.
+ *
+ * @class App
+ * @static
+ */
+
+export class App {
+
+	/**
+	 * Initialises the editor app.
+	 *
+	 * @method initialise
+	 * @static
+	 * @param {HTMLElement} viewport - The viewport.
+	 * @param {HTMLElement} aside - A secondary container.
+	 * @param {Map} assets - Preloaded assets.
+	 */
+
+	static initialise(viewport, aside, assets) {
+
+		const width = window.innerWidth;
+		const height = window.innerHeight;
+		const aspect = width / height;
+
+		// Clock.
+
+		const clock = new Clock();
+
+		// Scene.
+
+		const scene = new Scene();
+		scene.fog = new FogExp2(0xeeeeee, 0.00025);
+		scene.background = assets.has("sky") ? assets.get("sky") : null;
+
+		// Renderer.
+
+		const renderer = new WebGLRenderer({
+			logarithmicDepthBuffer: true,
+			antialias: true
+		});
+
+		renderer.setSize(width, height);
+		renderer.setClearColor(scene.fog.color);
+		renderer.setPixelRatio(window.devicePixelRatio);
+		viewport.appendChild(renderer.domElement);
+
+		// Camera and Controls.
+
+		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
+		const controls = new Controls(camera, renderer.domElement);
+		camera.position.set(10, 5, 10);
+		controls.focus(scene.position);
+		controls.movementSpeed = 4;
+		controls.boostSpeed = 16;
+
+		scene.add(camera);
+
+		// Axis helper.
+
+		scene.add(new AxisHelper());
+
+		// GUI.
+
+		const gui = new dat.GUI({ autoPlace: false });
+		aside.appendChild(gui.domElement);
+
+		// Lights.
+
+		const hemisphereLight = new HemisphereLight(0x3284ff, 0xffc87f, 0.6);
+		const directionalLight = new DirectionalLight(0xfff4e5);
+
+		hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
+		directionalLight.position.set(-1, 1.75, 1).multiplyScalar(50);
+
+		scene.add(directionalLight);
+		scene.add(hemisphereLight);
+
+		// Terrain.
+
+		const terrain = new Terrain({
+			resolution: 64,
+			chunkSize: 32
+		});
+
+		terrain.material.uniforms.diffuse.value.setHex(0xffffff);
+		terrain.material.uniforms.offsetRepeat.value.set(0, 0, 0.25, 0.25);
+
+		terrain.material.uniforms.roughness.value = 0.5;
+		terrain.material.uniforms.metalness.value = 0.5;
+
+		terrain.material.setMaps(
+			assets.get("diffuseXZ"),
+			assets.get("diffuseY"),
+			assets.get("diffuseXZ")
+		);
+
+		terrain.material.setNormalMaps(
+			assets.get("normalmapXZ"),
+			assets.get("normalmapY"),
+			assets.get("normalmapXZ")
+		);
+
+		scene.add(terrain);
+
+		// Stats monitor.
+
+		const stats = new TerrainStats(terrain);
+		aside.appendChild(stats.dom);
+
+		// Editor.
+
+		const editor = new Editor(terrain, camera, renderer.domElement);
+		editor.setEnabled(false);
+		editor.configure(gui);
+
+		scene.add(editor.cursor);
+		scene.add(editor.octreeHelper);
+		scene.add(editor.chunkHelper);
+
+		// Additional configuration.
+
+		(function() {
+
+			const terrainParams = {
+				diffuse: terrain.material.uniforms.diffuse.value.getHex(),
+				roughness: terrain.material.uniforms.roughness.value,
+				metalness: terrain.material.uniforms.metalness.value,
+				flatshading: (terrain.material.shading === FlatShading),
+				wireframe: terrain.material.wireframe
+			};
+
+			const lightParams = {
+				directionalColor: directionalLight.color.getHex(),
+				hemisphereColor: hemisphereLight.color.getHex(),
+				groundColor: hemisphereLight.groundColor.getHex()
+			};
+
+			let folder = gui.addFolder("Material");
+
+			folder.addColor(terrainParams, "diffuse").onChange(function() {
+
+				terrain.material.uniforms.diffuse.value.setHex(terrainParams.diffuse);
+
+			});
+
+			folder.add(terrainParams, "roughness").min(0.0).max(1.0).step(0.01).onChange(function() {
+
+				terrain.material.uniforms.roughness.value = terrainParams.roughness;
+
+			});
+
+			folder.add(terrainParams, "metalness").min(0.0).max(1.0).step(0.01).onChange(function() {
+
+				terrain.material.uniforms.metalness.value = terrainParams.metalness;
+
+			});
+
+			folder.add(terrainParams, "flatshading").onChange(function() {
+
+				const shading = terrainParams.flatshading ? FlatShading : SmoothShading;
+
+				terrain.material.shading = shading;
+				terrain.material.needsUpdate = true;
+
+			});
+
+			folder.add(terrainParams, "wireframe").onChange(function() {
+
+				terrain.material.wireframe = terrainParams.wireframe;
+				terrain.material.needsUpdate = true;
+
+			});
+
+			folder = gui.addFolder("Light");
+
+			folder.addColor(lightParams, "directionalColor").onChange(function() {
+
+				directionalLight.color.setHex(lightParams.directionalColor);
+
+			});
+
+			folder.addColor(lightParams, "hemisphereColor").onChange(function() {
+
+				hemisphereLight.color.setHex(lightParams.hemisphereColor);
+
+			});
+
+			folder.addColor(lightParams, "groundColor").onChange(function() {
+
+				hemisphereLight.color.setHex(lightParams.groundColor);
+
+			});
+
+		}());
+
+		/**
+		 * Toggles between camera mode and edit mode.
+		 *
+		 * @method onKeyDown
+		 * @private
+		 * @static
+		 * @param {Event} event - An event.
+		 */
+
+		document.addEventListener("keydown", (function() {
+
+			let flag = false;
+
+			return function onKeyDown(event) {
+
+				if(event.altKey) {
+
+					event.preventDefault();
+					controls.setEnabled(flag);
+					editor.setEnabled(!flag);
+
+					flag = !flag;
+
+				}
+
+			};
+
+		}()));
+
+		/**
+		 * Handles browser resizing.
+		 *
+		 * @method onResize
+		 * @private
+		 * @static
+		 * @param {Event} event - An event.
+		 */
+
+		window.addEventListener("resize", (function() {
+
+			let id = 0;
+
+			function handleResize(event) {
+
+				const width = event.target.innerWidth;
+				const height = event.target.innerHeight;
+
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+
+				id = 0;
+
+			}
+
+			return function onResize(event) {
+
+				if(id === 0) {
+
+					id = setTimeout(handleResize, 66, event);
+
+				}
+
+			};
+
+		}()));
+
+		/**
+		 * The main render loop.
+		 *
+		 * @method render
+		 * @private
+		 * @static
+		 * @param {DOMHighResTimeStamp} now - An execution timestamp.
+		 */
+
+		(function render(now) {
+
+			requestAnimationFrame(render);
+
+			stats.begin();
+
+			controls.update(clock.getDelta());
+			terrain.update(camera);
+			renderer.render(scene, camera);
+
+			stats.end();
+
+		}());
+
+	}
+
+}
