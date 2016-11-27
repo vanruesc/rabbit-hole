@@ -2,6 +2,12 @@
 
 const lib = require("../build/rabbit-hole");
 
+function almostEqual(a, b) {
+
+	return (Math.abs(a - b) < 1e-2);
+
+}
+
 module.exports = {
 
 	"Hermite Data": {
@@ -60,6 +66,29 @@ module.exports = {
 
 			}()), "should restore the original data");
 
+			test.done();
+
+		}
+
+	},
+
+	"Edge": {
+
+		"can approximate the Zero Crossing": function(test) {
+
+			const edge = new lib.Edge();
+
+			const sdf = new lib.Sphere({
+				origin: [0, 0, 0],
+				radius: 2
+			});
+
+			edge.a.set(1, 0, 0);
+			edge.b.set(2, 0, 0);
+
+			edge.approximateZeroCrossing(sdf);
+
+			test.ok(almostEqual(edge.t, 1.0), "should compute a correct interpolation value");
 			test.done();
 
 		}
