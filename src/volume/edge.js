@@ -1,6 +1,30 @@
 import { Vector3 } from "../math/vector3.js";
 
 /**
+ * An density bias for the Zero Crossing approximation.
+ *
+ * @property BIAS
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const BIAS = 1e-2;
+
+/**
+ * An error threshold for the Zero Crossing approximation.
+ *
+ * @property BIAS
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const THRESHOLD = 1e-6;
+
+/**
  * A vector.
  *
  * @property AB
@@ -93,41 +117,50 @@ export class Edge {
 	 *
 	 * @method approximateZeroCrossing
 	 * @param {SignedDistanceFunction} sdf - A density field.
-	 * @param {Number} [steps=5] - The number of interpolation steps. Cannot be smaller than 2.
+	 * @param {Number} [steps=8] - The maximum number of interpolation steps. Cannot be smaller than 2.
 	 */
 
-	approximateZeroCrossing(sdf, steps = 5) {
+	approximateZeroCrossing(sdf, steps = 8) {
 
 		const s = Math.max(1, steps - 1);
 
-		let min = Infinity;
-		let t = 0.0;
+		let a = 0.0;
+		let b = 1.0;
+		let c = 0.0;
 		let i = 0;
-		let density;
+
+		let densityA, densityC;
 
 		// Compute the vector from a to b.
 		AB.subVectors(this.b, this.a);
 
-		this.t = 0.0;
-
+		// Use bisection to find the root of the SDF.
 		while(i <= s) {
 
-			// Compute an accurate interpolation fraction.
-			t = i / s;
+			c = (a + b) / 2;
 
-			P.addVectors(this.a, V.copy(AB).multiplyScalar(t));
-			density = Math.abs(sdf.sample(P));
+			P.addVectors(this.a, V.copy(AB).multiplyScalar(c));
+			densityC = sdf.sample(P);
 
-			if(density < min) {
+			if(Math.abs(densityC) <= BIAS || (b - a) / 2 <= THRESHOLD) {
 
-				min = density;
-				this.t = t;
+				// Solution found.
+				break;
+
+			} else {
+
+				P.addVectors(this.a, V.copy(AB).multiplyScalar(a));
+				densityA = sdf.sample(P);
+
+				(Math.sign(densityC) === Math.sign(densityA)) ? (a = c) : (b = c);
 
 			}
 
 			++i;
 
 		}
+
+		this.t = c;
 
 	}
 
