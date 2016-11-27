@@ -5,7 +5,8 @@ import {
 	TextureLoader
 } from "three";
 
-import { Editor } from "./editor.js";
+import { Detector } from "./detector.js";
+import { App } from "./app.js";
 
 /**
  * The entry point of the volume editor.
@@ -13,6 +14,129 @@ import { Editor } from "./editor.js";
  * @class Main
  * @static
  */
+
+/**
+ * Loads assets.
+ *
+ * @method loadAssets
+ * @private
+ * @static
+ * @param {Function} callback - A function to call on completion. Assets will be provided as a parameter.
+ */
+
+function loadAssets(callback) {
+
+	const assets = new Map();
+
+	const loadingManager = new LoadingManager();
+	const textureLoader = new TextureLoader(loadingManager);
+	/* const cubeTextureLoader = new CubeTextureLoader(loadingManager);
+
+	const path = "textures/cube/02/";
+	const format = ".png";
+	const urls = [
+		path + "px" + format, path + "nx" + format,
+		path + "py" + format, path + "ny" + format,
+		path + "pz" + format, path + "nz" + format
+	]; */
+
+	loadingManager.onProgress = function onProgress(item, loaded, total) {
+
+		if(loaded === total) { callback(assets); }
+
+	};
+
+	/* cubeTextureLoader.load(urls, function(textureCube) {
+
+		assets.set("sky", textureCube);
+
+	}); */
+
+	textureLoader.load("textures/diffuse/01.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = RepeatWrapping;
+		assets.set("diffuseXZ", texture);
+
+	});
+
+	textureLoader.load("textures/diffuse/02.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = RepeatWrapping;
+		assets.set("diffuseY", texture);
+
+	});
+
+	textureLoader.load("textures/normal/01.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = RepeatWrapping;
+		assets.set("normalmapXZ", texture);
+
+	});
+
+	textureLoader.load("textures/normal/01.jpg", function(texture) {
+
+		texture.wrapS = texture.wrapT = RepeatWrapping;
+		assets.set("normalmapY", texture);
+
+	});
+
+}
+
+/**
+ * Generates an error message and lists missing key features.
+ *
+ * @method createErrorMessage
+ * @private
+ * @static
+ * @param {Detector} detector - A detector.
+ * @return {HTMLElement} An element that contains the error message.
+ */
+
+function createErrorMessage(detector) {
+
+	const message = document.createElement("p");
+	const features = document.createElement("ul");
+
+	let feature;
+
+	if(!detector.canvas) {
+
+		feature = document.createElement("li");
+		feature.appendChild(document.createTextNode("Canvas"));
+		features.appendChild(feature);
+
+	}
+
+	if(!detector.webgl) {
+
+		feature = document.createElement("li");
+		feature.appendChild(document.createTextNode("WebGL"));
+		features.appendChild(feature);
+
+	}
+
+	if(!detector.worker) {
+
+		feature = document.createElement("li");
+		feature.appendChild(document.createTextNode("Worker"));
+		features.appendChild(feature);
+
+	}
+
+	if(!detector.file) {
+
+		feature = document.createElement("li");
+		feature.appendChild(document.createTextNode("Blob"));
+		features.appendChild(feature);
+
+	}
+
+	message.appendChild(document.createTextNode("Missing the following core features:"));
+	message.appendChild(features);
+
+	return message;
+
+}
 
 /**
  * Starts the volume editor.
@@ -27,52 +151,25 @@ window.addEventListener("load", function main(event) {
 
 	window.removeEventListener("load", main);
 
-	const assets = new Map();
+	const viewport = document.getElementById("viewport");
+	const aside = document.getElementById("aside");
 
-	const loadingManager = new LoadingManager();
-	const textureLoader = new TextureLoader(loadingManager);
-	/* const cubeTextureLoader = new CubeTextureLoader(loadingManager);
+	const detector = new Detector();
 
-	const path = "textures/skies/sunny/";
-	const format = ".png";
-	const urls = [
-		path + "px" + format, path + "nx" + format,
-		path + "py" + format, path + "ny" + format,
-		path + "pz" + format, path + "nz" + format
-	]; */
+	if(detector.canvas && detector.webgl && detector.worker && detector.file) {
 
-	loadingManager.onProgress = function onProgress(item, loaded, total) {
+		loadAssets(function(assets) {
 
-		if(loaded === total) {
+			viewport.removeChild(viewport.children[0]);
+			App.initialise(viewport, aside, assets);
 
-			Editor.initialise(
-				document.getElementById("viewport"),
-				document.getElementById("aside"),
-				assets
-			);
+		});
 
-		}
+	} else {
 
-	};
+		viewport.removeChild(viewport.children[0]);
+		viewport.appendChild(createErrorMessage(detector));
 
-	// cubeTextureLoader.load(urls, function(textureCube) {
-
-		// assets.set("sky", textureCube);
-
-	// });
-
-	textureLoader.load("textures/tiles-diffuse.png", function(texture) {
-
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("tiles-diffuse", texture);
-
-	});
-
-	textureLoader.load("textures/tiles-normalmap.png", function(texture) {
-
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("tiles-normalmap", texture);
-
-	});
+	}
 
 });
