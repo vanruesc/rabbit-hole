@@ -53,7 +53,6 @@ const FRUSTUM = new Frustum();
  * @extends Object3D
  * @constructor
  * @param {Object} [options] - The options.
- * @param {Number} [options.levels=6] - The number of detail levels.
  * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
@@ -68,20 +67,6 @@ export class Terrain extends Object3D {
 		this.name = "Terrain";
 
 		/**
-		 * The number of detail levels.
-		 *
-		 * Terrain chunks that are further away from the camera will be rendered
-		 * with less vertices.
-		 *
-		 * @property levels
-		 * @type Number
-		 * @private
-		 * @default 6
-		 */
-
-		this.levels = (options.levels !== undefined) ? Math.max(1, options.levels) : 6;
-
-		/**
 		 * The volume of this terrain.
 		 *
 		 * @property volume
@@ -90,6 +75,19 @@ export class Terrain extends Object3D {
 		 */
 
 		this.volume = new Volume(options.chunkSize, options.resolution);
+
+		/**
+		 * The number of detail levels.
+		 *
+		 * Terrain chunks that are further away from the camera will be rendered
+		 * with less vertices.
+		 *
+		 * @property levels
+		 * @type Number
+		 * @private
+		 */
+
+		this.levels = Math.log2(this.volume.resolution) + 1;
 
 		/**
 		 * A thread pool.
@@ -449,7 +447,8 @@ export class Terrain extends Object3D {
 
 		const scheduler = this.scheduler;
 		const maxPriority = scheduler.maxPriority;
-		const maxLevel = this.levels - 1;
+		const levels = this.levels;
+		const maxLevel = levels - 1;
 
 		let i, l;
 		let chunk, data, csg, task;
@@ -477,7 +476,7 @@ export class Terrain extends Object3D {
 					} else if(data !== null && !data.full) {
 
 						distance = BOX3.copy(chunk).distanceToPoint(camera.position);
-						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
+						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * levels));
 
 						if(data.lod !== lod) {
 

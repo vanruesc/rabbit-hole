@@ -365,17 +365,12 @@ export class DualContouring {
 
 		const indexBuffer = [];
 
-		const threshold = 1e-2;
 		const voxelBlock = new VoxelBlock(chunk);
-
-		// Increase the error threshold based on the lod value.
-		voxelBlock.simplify(threshold + (chunk.data.lod << 3));
 
 		// Each voxel contains one vertex.
 		const vertexCount = voxelBlock.voxelCount;
 
 		let result = null;
-
 		let indices = null;
 		let positions = null;
 		let normals = null;

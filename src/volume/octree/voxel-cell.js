@@ -16,6 +16,18 @@ import { Voxel } from "../voxel.js";
 const BIAS = 1e-6;
 
 /**
+ * A QEF error threshold for voxel clustering.
+ *
+ * @property THRESHOLD
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const THRESHOLD = 1e-6;
+
+/**
  * A voxel octant.
  *
  * @class VoxelCell
@@ -72,11 +84,12 @@ export class VoxelCell extends CubicOctant {
 	 * Attempts to simplify this cell.
 	 *
 	 * @method collapse
-	 * @param {Number} threshold - A QEF error threshold.
+	 * @param {Number} level - The LOD value of this voxel tier.
+	 * @param {Number} lod - A LOD value.
 	 * @return {Number} The amount of removed voxels.
 	 */
 
-	collapse(threshold) {
+	collapse(level, lod) {
 
 		const children = this.children;
 
@@ -104,12 +117,13 @@ export class VoxelCell extends CubicOctant {
 
 				child = children[i];
 
-				removedVoxels += child.collapse(threshold);
+				removedVoxels += child.collapse(level - 1, lod);
 
 				voxel = child.voxel;
 
 				if(child.children !== null) {
 
+					// Couldn't simplify the child.
 					collapsible = false;
 
 				} else if(voxel !== null) {
@@ -130,7 +144,7 @@ export class VoxelCell extends CubicOctant {
 				qefSolver = new QEFSolver();
 				position = qefSolver.setData(qefData).solve();
 
-				if(qefSolver.computeError() <= threshold) {
+				if(level < lod || qefSolver.computeError() <= THRESHOLD) {
 
 					voxel = new Voxel();
 					voxel.position.copy(this.contains(position) ? position : qefSolver.massPoint);

@@ -103,20 +103,26 @@ export class VoxelBlock extends Octree {
 
 		this.voxelCount = 0;
 
+		// Create voxel cells from Hermite data.
 		this.construct(chunk);
+
+		// Apply level of detail.
+		this.simplify(Math.log2(chunk.resolution), chunk.data.lod);
 
 	}
 
 	/**
-	 * Attempts to simplify the octree by clustering voxels.
+	 * Simplifies the octree by clustering voxels.
 	 *
 	 * @method simplify
-	 * @param {Number} threshold - A QEF error threshold.
+	 * @private
+	 * @param {Number} level - The highest LOD value.
+	 * @param {Number} [lod=0] - A LOD value.
 	 */
 
-	simplify(threshold) {
+	simplify(level, lod = 0) {
 
-		this.voxelCount -= this.root.collapse(threshold);
+		this.voxelCount -= this.root.collapse(level, lod);
 
 	}
 
