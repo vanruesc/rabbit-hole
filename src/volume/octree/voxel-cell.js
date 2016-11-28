@@ -113,7 +113,7 @@ export class VoxelCell extends CubicOctant {
 
 			qefData = new QEFData();
 
-			for(v = 0, i = 0; collapsible && i < 8; ++i) {
+			for(v = 0, i = 0; i < 8; ++i) {
 
 				child = children[i];
 
