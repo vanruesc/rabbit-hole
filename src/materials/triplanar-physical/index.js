@@ -9,21 +9,21 @@ import "./chunks.js";
 /**
  * A physically based shader material that uses triplanar texture mapping.
  *
- * @class MeshTriplanarStandardMaterial
+ * @class MeshTriplanarPhysicalMaterial
  * @submodule materials
  * @extends ShaderMaterial
  * @constructor
  */
 
-export class MeshTriplanarStandardMaterial extends ShaderMaterial {
+export class MeshTriplanarPhysicalMaterial extends ShaderMaterial {
 
 	constructor() {
 
 		super({
 
-			type: "MeshTriplanarStandardMaterial",
+			type: "MeshTriplanarPhysicalMaterial",
 
-			defines: { STANDARD: "" },
+			defines: { PHYSICAL: "" },
 
 			uniforms: {
 
@@ -44,7 +44,7 @@ export class MeshTriplanarStandardMaterial extends ShaderMaterial {
 		});
 
 		// Clone uniforms to avoid conflicts with built-in materials.
-		const source = ShaderLib.standard.uniforms;
+		const source = ShaderLib.physical.uniforms;
 		const target = this.uniforms;
 
 		Object.keys(source).forEach(function(key) {
@@ -59,6 +59,15 @@ export class MeshTriplanarStandardMaterial extends ShaderMaterial {
 			});
 
 		});
+
+		/**
+		 * An environment map.
+		 *
+		 * @property envMap
+		 * @type Texture
+		 */
+
+		this.envMap = null;
 
 	}
 

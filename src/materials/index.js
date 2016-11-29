@@ -5,4 +5,4 @@
  * @submodule materials
  */
 
-export { MeshTriplanarStandardMaterial } from "./triplanar-standard";
+export { MeshTriplanarPhysicalMaterial } from "./triplanar-physical";

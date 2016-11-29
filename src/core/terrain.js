@@ -1,5 +1,5 @@
 import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
-import { MeshTriplanarStandardMaterial } from "../materials/triplanar-standard";
+import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Action } from "../worker/action.js";
@@ -157,7 +157,7 @@ export class Terrain extends Object3D {
 		 * @private
 		 */
 
-		this.material = new MeshTriplanarStandardMaterial();
+		this.material = new MeshTriplanarPhysicalMaterial();
 
 	}
 
