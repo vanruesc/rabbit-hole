@@ -15,7 +15,7 @@ export class EdgeData {
 
 	constructor(n) {
 
-		const c = (n + 1) ** 2 * n;
+		const c = Math.pow((n + 1), 2) * n;
 
 		/**
 		 * The edges.

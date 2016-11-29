@@ -294,7 +294,7 @@ export class HermiteData {
 		if(resolution === 0) {
 
 			resolution = Math.max(1, Math.min(256, x));
-			indexCount = (resolution + 1) ** 3;
+			indexCount = Math.pow((resolution + 1), 3);
 
 		}
 
