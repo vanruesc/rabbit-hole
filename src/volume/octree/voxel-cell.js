@@ -16,7 +16,7 @@ import { Voxel } from "../voxel.js";
 const BIAS = 1e-6;
 
 /**
- * A QEF error threshold for voxel clustering.
+ * The base QEF error threshold.
  *
  * @property THRESHOLD
  * @type Number
@@ -25,7 +25,18 @@ const BIAS = 1e-6;
  * @final
  */
 
-const THRESHOLD = 1e-6;
+const THRESHOLD = 1e-1;
+
+/**
+ * A QEF error threshold for voxel clustering.
+ *
+ * @property threshold
+ * @type Number
+ * @private
+ * @static
+ */
+
+let threshold = 0.0;
 
 /**
  * A voxel octant.
@@ -57,6 +68,21 @@ export class VoxelCell extends CubicOctant {
 	}
 
 	/**
+	 * The level of detail.
+	 *
+	 * @property lod
+	 * @type Number
+	 */
+
+	get lod() { return threshold; }
+
+	set lod(lod) {
+
+		threshold = THRESHOLD + (lod * lod * lod);
+
+	}
+
+	/**
 	 * Checks if the given point lies inside this cell's boundaries.
 	 *
 	 * @method contains
@@ -84,12 +110,10 @@ export class VoxelCell extends CubicOctant {
 	 * Attempts to simplify this cell.
 	 *
 	 * @method collapse
-	 * @param {Number} level - The LOD value of this voxel tier.
-	 * @param {Number} lod - A LOD value.
 	 * @return {Number} The amount of removed voxels.
 	 */
 
-	collapse(level, lod) {
+	collapse() {
 
 		const children = this.children;
 
@@ -117,7 +141,7 @@ export class VoxelCell extends CubicOctant {
 
 				child = children[i];
 
-				removedVoxels += child.collapse(level - 1, lod);
+				removedVoxels += child.collapse();
 
 				voxel = child.voxel;
 
@@ -144,7 +168,7 @@ export class VoxelCell extends CubicOctant {
 				qefSolver = new QEFSolver();
 				position = qefSolver.setData(qefData).solve();
 
-				if(level < lod || qefSolver.computeError() <= THRESHOLD) {
+				if(qefSolver.computeError() <= threshold) {
 
 					voxel = new Voxel();
 					voxel.position.copy(this.contains(position) ? position : qefSolver.massPoint);

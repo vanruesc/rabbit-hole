@@ -93,6 +93,7 @@ export class VoxelBlock extends Octree {
 		super();
 
 		this.root = new VoxelCell(chunk.min, chunk.size);
+		this.root.lod = chunk.data.lod;
 
 		/**
 		 * The amount of voxels in this block.
@@ -103,26 +104,22 @@ export class VoxelBlock extends Octree {
 
 		this.voxelCount = 0;
 
-		// Create voxel cells from Hermite data.
+		// Create voxel cells from Hermite data and apply level of detail.
 		this.construct(chunk);
-
-		// Apply level of detail.
-		this.simplify(Math.log2(chunk.resolution), chunk.data.lod);
+		this.simplify();
 
 	}
 
 	/**
-	 * Simplifies the octree by clustering voxels.
+	 * Attempts to simplify the octree by clustering voxels.
 	 *
 	 * @method simplify
 	 * @private
-	 * @param {Number} level - The highest LOD value.
-	 * @param {Number} [lod=0] - A LOD value.
 	 */
 
-	simplify(level, lod = 0) {
+	simplify() {
 
-		this.voxelCount -= this.root.collapse(level, lod);
+		this.voxelCount -= this.root.collapse();
 
 	}
 
