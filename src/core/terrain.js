@@ -87,7 +87,7 @@ export class Terrain extends Object3D {
 		 * @private
 		 */
 
-		this.levels = Math.log2(this.volume.resolution) + 1;
+		this.levels = Math.log2(this.volume.resolution);
 
 		/**
 		 * A thread pool.
