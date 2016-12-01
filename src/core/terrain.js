@@ -502,15 +502,20 @@ export class Terrain extends Object3D {
 	 * Finds the terrain chunks that intersect with the given ray and raycasts the
 	 * associated meshes.
 	 *
+	 * Intersections are sorted by distance, closest first.
+	 *
 	 * @method raycast
-	 * @param {Raycaster} raycaster - The raycaster.
-	 * @param {Array} intersects - An array to be filled with terrain mesh intersections.
-	 * @return {Array} The chunks that intersect with the ray.
+	 * @param {Raycaster} raycaster - A raycaster.
+	 * @return {Array} A list of terrain intersections.
 	 */
 
-	raycast(raycaster, intersects) {
+	raycast(raycaster) {
 
+		const meshes = this.meshes;
 		const chunks = [];
+
+		let intersects = [];
+		let chunk;
 
 		let i, l;
 
@@ -518,15 +523,19 @@ export class Terrain extends Object3D {
 
 		for(i = 0, l = chunks.length; i < l; ++i) {
 
-			if(this.meshes.has(chunks[i])) {
+			chunk = chunks[i];
 
-				this.meshes.get(chunks[i]).raycast(raycaster, intersects);
+			if(meshes.has(chunk)) {
+
+				intersects = intersects.concat(
+					raycaster.intersectObject(meshes.get(chunk))
+				);
 
 			}
 
 		}
 
-		return chunks;
+		return intersects;
 
 	}
 

@@ -250,15 +250,13 @@ export class Editor {
 	raycast(event) {
 
 		const raycaster = this.raycaster;
-		const intersects = [];
 		const t0 = performance.now();
 
 		MOUSE.x = (event.clientX / window.innerWidth) * 2 - 1;
 		MOUSE.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
 		raycaster.setFromCamera(MOUSE, this.camera);
-
-		this.terrain.raycast(raycaster, intersects);
+		const intersects = this.terrain.raycast(raycaster);
 
 		this.delta = (((performance.now() - t0) * 100.0) / 100.0).toFixed(2) + " ms";
 
