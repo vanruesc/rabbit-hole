@@ -6,6 +6,7 @@
  */
 
 export { PriorityQueue } from "./priority-queue.js";
+export { History } from "./history.js";
 export { Queue } from "./queue.js";
 export { RunLengthEncoding } from "./run-length-encoding.js";
 export { Scheduler } from "./scheduler.js";

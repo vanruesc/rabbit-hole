@@ -315,6 +315,21 @@ export class Editor {
 	dispose() { this.setEnabled(false); }
 
 	/**
+	 * Saves a snapshot of the current terrain data.
+	 *
+	 * @method save
+	 */
+
+	save() {
+
+		const a = document.createElement("a");
+		a.href = this.terrain.save();
+		a.download = "terrain.json";
+		a.click();
+
+	}
+
+	/**
 	 * Registers configuration options.
 	 *
 	 * @method configure
@@ -327,6 +342,7 @@ export class Editor {
 
 		folder.add(this, "delta").listen();
 
+		folder.add(this, "save");
 		folder.open();
 
 	}

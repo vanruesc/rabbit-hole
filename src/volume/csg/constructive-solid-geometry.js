@@ -1,12 +1,6 @@
 import { PATTERN } from "sparse-octree";
 import { Box3 } from "../../math/box3.js";
 import { Vector3 } from "../../math/vector3.js";
-import { SDFType } from "../sdf/sdf-type.js";
-import { Sphere } from "../sdf/sphere.js";
-import { Box } from "../sdf/box.js";
-import { Plane } from "../sdf/plane.js";
-import { Torus } from "../sdf/torus.js";
-import { Heightfield } from "../sdf/heightfield.js";
 import { Density } from "../density.js";
 import { EdgeData } from "../edge-data.js";
 import { HermiteData } from "../hermite-data.js";
@@ -682,56 +676,6 @@ export class ConstructiveSolidGeometry {
 			}
 
 		}
-
-	}
-
-	/**
-	 * Creates an SDF from the given description.
-	 *
-	 * @method reviveSDF
-	 * @static
-	 * @param {Object} description - A description.
-	 * @return {SignedDistanceFunction} An SDF.
-	 * @todo Use a single abstract SDF and serialise sampling method with expressions.
-	 */
-
-	static reviveSDF(description) {
-
-		let sdf, i, l;
-
-		switch(description.type) {
-
-			case SDFType.SPHERE:
-				sdf = new Sphere(description.parameters, description.material);
-				break;
-
-			case SDFType.BOX:
-				sdf = new Box(description.parameters, description.material);
-				break;
-
-			case SDFType.TORUS:
-				sdf = new Torus(description.parameters, description.material);
-				break;
-
-			case SDFType.PLANE:
-				sdf = new Plane(description.parameters, description.material);
-				break;
-
-			case SDFType.HEIGHTFIELD:
-				sdf = new Heightfield(description.parameters, description.material);
-				break;
-
-		}
-
-		sdf.operation = description.operation;
-
-		for(i = 0, l = description.children.length; i < l; ++i) {
-
-			sdf.children.push(this.reviveSDF(description.children[i]));
-
-		}
-
-		return sdf;
 
 	}
 

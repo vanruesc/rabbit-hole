@@ -1,5 +1,6 @@
 import {
 	// CubeTextureLoader,
+	FileLoader,
 	LoadingManager,
 	RepeatWrapping,
 	TextureLoader
@@ -29,6 +30,7 @@ function loadAssets(callback) {
 	const assets = new Map();
 
 	const loadingManager = new LoadingManager();
+	const fileLoader = new FileLoader(loadingManager);
 	const textureLoader = new TextureLoader(loadingManager);
 	/* const cubeTextureLoader = new CubeTextureLoader(loadingManager);
 
@@ -52,7 +54,13 @@ function loadAssets(callback) {
 
 	}); */
 
-	textureLoader.load("textures/diffuse/01.jpg", function(texture) {
+	fileLoader.load("terrain/terrain.json", function(text) {
+
+		assets.set("terrain", text);
+
+	});
+
+	textureLoader.load("textures/diffuse/05.jpg", function(texture) {
 
 		texture.wrapS = texture.wrapT = RepeatWrapping;
 		assets.set("diffuseXZ", texture);

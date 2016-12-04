@@ -1,5 +1,6 @@
 import { Chunk } from "../volume/octree/chunk.js";
 import { ConstructiveSolidGeometry } from "../volume/csg/constructive-solid-geometry.js";
+import { Reviver } from "../volume/sdf/reviver.js";
 import { Action } from "./action.js";
 
 /**
@@ -60,7 +61,7 @@ export const VolumeModifier = {
 		this.chunk.deserialise(chunk);
 
 		// Revive the SDF and execute it.
-		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
+		ConstructiveSolidGeometry.run(this.chunk, Reviver.reviveSDF(sdf));
 
 		this.message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList();

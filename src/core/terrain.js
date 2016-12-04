@@ -2,9 +2,11 @@ import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D
 import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
+import { Reviver } from "../volume/sdf/reviver.js";
 import { Action } from "../worker/action.js";
 import { ThreadPool } from "../worker/thread-pool.js";
 import { WorkerTask } from "../worker/worker-task.js";
+import { History } from "./history.js";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
 import * as events from "./events.js";
@@ -111,13 +113,14 @@ export class Terrain extends Object3D {
 		this.scheduler = new Scheduler(this.levels + 1);
 
 		/**
-		 * A list of CSG operations that have been executed during this session.
+		 * A chronological sequence of CSG operations that have been executed during
+		 * this session.
 		 *
 		 * @property history
-		 * @type Array
+		 * @type History
 		 */
 
-		this.history = [];
+		this.history = new History();
 
 		/**
 		 * Keeps track of chunks that are currently being used by a worker. The
@@ -580,8 +583,7 @@ export class Terrain extends Object3D {
 
 		this.neutered.clear();
 		this.chunks.clear();
-
-		this.history = [];
+		this.history.clear();
 
 	}
 
@@ -599,29 +601,42 @@ export class Terrain extends Object3D {
 	}
 
 	/**
+	 * Saves a description of the current volume data.
+	 *
+	 * @method save
+	 * @return {String} A URL to the exported save data, or null if there is no data.
+	 */
+
+	save() {
+
+		const sdf = this.history.combine();
+
+		return (sdf === null) ? null : URL.createObjectURL(
+
+			new Blob([JSON.stringify(sdf.serialise())], {
+				type: "text/json"
+			})
+
+		);
+
+	}
+
+	/**
 	 * Loads a volume.
 	 *
 	 * @method load
-	 * @param {String} data - The volume data to import.
+	 * @param {String} data - The volume description to load.
 	 */
 
 	load(data) {
 
 		this.clear();
-		this.volume.load(JSON.parse(data));
 
-	}
-
-	/**
-	 * Saves the current volume data.
-	 *
-	 * @method save
-	 * @return {String} A URL to the exported data.
-	 */
-
-	save() {
-
-		return URL.createObjectURL(new Blob([JSON.stringify(this.volume)], { type: "text/json" }));
+		this.edit(
+			Reviver.reviveSDF(
+				JSON.parse(data)
+			)
+		);
 
 	}
 

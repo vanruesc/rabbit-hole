@@ -7,6 +7,8 @@
 
 export { SignedDistanceFunction } from "./signed-distance-function.js";
 export { SDFType } from "./sdf-type.js";
+export { Reviver } from "./reviver.js";
+
 export { Heightfield } from "./heightfield.js";
 export { Sphere } from "./sphere.js";
 export { Torus } from "./torus.js";
