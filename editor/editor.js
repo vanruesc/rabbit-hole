@@ -19,6 +19,7 @@ const MOUSE = new Vector2();
  * A volume editor.
  *
  * @class Editor
+ * @implements EventListener
  * @constructor
  * @param {Terrain} terrain - A terrain instance.
  * @param {Camera} camera - A camera.
@@ -70,14 +71,24 @@ export class Editor {
 		this.raycaster = new Raycaster();
 
 		/**
-		 * A cursor.
+		 * The cursor size.
+		 *
+		 * @property cursorSize
+		 * @type Number
+		 * @private
+		 */
+
+		this.cursorSize = 1;
+
+		/**
+		 * The cursor.
 		 *
 		 * @property cursor
 		 * @type Mesh
 		 */
 
 		this.cursor = new Mesh(
-			new SphereBufferGeometry(2, 16, 16),
+			new SphereBufferGeometry(this.cursorSize, 16, 16),
 			new MeshBasicMaterial({
 				transparent: true,
 				opacity: 0.5,
@@ -200,7 +211,7 @@ export class Editor {
 
 			this.terrain.union(new Sphere({
 				origin: this.cursor.position.toArray(),
-				radius: this.cursor.geometry.parameters.radius
+				radius: this.cursorSize
 			}));
 
 		}
@@ -233,7 +244,7 @@ export class Editor {
 
 			this.terrain.subtract(new Sphere({
 				origin: this.cursor.position.toArray(),
-				radius: this.cursor.geometry.parameters.radius
+				radius: this.cursorSize
 			}));
 
 		}
@@ -342,6 +353,11 @@ export class Editor {
 
 		folder.add(this, "delta").listen();
 
+		folder.add(this, "cursorSize").min(1).max(6).step(0.01).onChange(() => {
+
+			this.cursor.scale.set(this.cursorSize, this.cursorSize, this.cursorSize);
+
+		});
 		folder.add(this, "save");
 		folder.open();
 
