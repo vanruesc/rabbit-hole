@@ -128,11 +128,6 @@ export class Editor {
 
 		this.setEnabled(true);
 
-		this.terrain.union(new Sphere({
-			origin: [-16, 16, -16],
-			radius: 14
-		}));
-
 	}
 
 	/**
@@ -160,6 +155,10 @@ export class Editor {
 
 			case "contextmenu":
 				event.preventDefault();
+				break;
+
+			case "modificationend":
+				this.handleModification(event);
 				break;
 
 		}
@@ -252,6 +251,25 @@ export class Editor {
 	}
 
 	/**
+	 * Handles terrain modifications.
+	 *
+	 * @method handleModification
+	 * @private
+	 * @param {TerrainEvent} event - A terrain modification event.
+	 */
+
+	handleModification(event) {
+
+		if(this.chunkHelper.visible) {
+
+			this.chunkHelper.chunk = event.chunk;
+			this.chunkHelper.update(false, true);
+
+		}
+
+	}
+
+	/**
 	 * Raycasts the terrain.
 	 *
 	 * @method raycast
@@ -292,6 +310,7 @@ export class Editor {
 
 	setEnabled(enabled) {
 
+		const terrain = this.terrain;
 		const dom = this.dom;
 
 		if(enabled) {
@@ -299,6 +318,7 @@ export class Editor {
 			this.cursor.position.copy(this.camera.position);
 			this.cursor.visible = true;
 
+			terrain.addEventListener("modificationend", this);
 			dom.addEventListener("contextmenu", this);
 			dom.addEventListener("mousemove", this);
 			dom.addEventListener("mousedown", this);
@@ -308,6 +328,7 @@ export class Editor {
 
 			this.cursor.visible = false;
 
+			terrain.removeEventListener("modificationend", this);
 			dom.removeEventListener("contextmenu", this);
 			dom.removeEventListener("mousemove", this);
 			dom.removeEventListener("mousedown", this);
@@ -358,7 +379,10 @@ export class Editor {
 			this.cursor.scale.set(this.cursorSize, this.cursorSize, this.cursorSize);
 
 		});
+
+		folder.add(this.chunkHelper, "visible");
 		folder.add(this, "save");
+
 		folder.open();
 
 	}
