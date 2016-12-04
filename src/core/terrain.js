@@ -289,6 +289,7 @@ export class Terrain extends EventTarget {
 			geometry.setIndex(new BufferAttribute(indices, 1));
 			geometry.addAttribute("position", new BufferAttribute(positions, 3));
 			geometry.addAttribute("normal", new BufferAttribute(normals, 3));
+			geometry.computeBoundingSphere();
 
 			mesh = new Mesh(geometry, this.material);
 
