@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -141,7 +144,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_edge.js.html#l39"><code>src\volume\edge.js:39</code></a>
+            Defined in: <a href="../files/src_volume_edge.js.html#l63"><code>src\volume\edge.js:63</code></a>
         </div>
 
             Module: <a href="../modules/volume.html">volume</a><br>
@@ -181,7 +184,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l39"><code>src\volume\edge.js:39</code></a>
+        <a href="../files/src_volume_edge.js.html#l63"><code>src\volume\edge.js:63</code></a>
         </p>
 
 
@@ -278,6 +281,16 @@
                                 <a href="#property_b">b</a>
 
                             </li>
+                            <li class="index-item property private">
+                                <a href="#property_BIAS">BIAS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_BIAS">BIAS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_n">n</a>
 
@@ -314,7 +327,7 @@
                         <code>sdf</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[steps=5]</code>
+                        <code class="optional">[steps=8]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -329,7 +342,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l91"><code>src\volume\edge.js:91</code></a>
+        <a href="../files/src_volume_edge.js.html#l115"><code>src\volume\edge.js:115</code></a>
         </p>
 
 
@@ -359,14 +372,14 @@
 
                 </li>
                 <li class="param">
-                        <code class="param-name optional">[steps=5]</code>
+                        <code class="param-name optional">[steps=8]</code>
                         <span class="type">Number</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The number of interpolation steps. Cannot be smaller than 2.</li>
+<li>The maximum number of interpolation steps. Cannot be smaller than 2.</li>
 </ul>
 
                     </div>
@@ -402,7 +415,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l147"><code>src\volume\edge.js:147</code></a>
+        <a href="../files/src_volume_edge.js.html#l180"><code>src\volume\edge.js:180</code></a>
         </p>
 
 
@@ -464,7 +477,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l134"><code>src\volume\edge.js:134</code></a>
+        <a href="../files/src_volume_edge.js.html#l167"><code>src\volume\edge.js:167</code></a>
         </p>
 
 
@@ -505,7 +518,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l53"><code>src\volume\edge.js:53</code></a>
+        <a href="../files/src_volume_edge.js.html#l77"><code>src\volume\edge.js:77</code></a>
         </p>
 
 
@@ -534,7 +547,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l3"><code>src\volume\edge.js:3</code></a>
+        <a href="../files/src_volume_edge.js.html#l27"><code>src\volume\edge.js:27</code></a>
         </p>
 
 
@@ -559,7 +572,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l62"><code>src\volume\edge.js:62</code></a>
+        <a href="../files/src_volume_edge.js.html#l86"><code>src\volume\edge.js:86</code></a>
         </p>
 
 
@@ -567,6 +580,64 @@
 
     <div class="description">
         <p>The ending point of the edge.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_BIAS" class="property item private">
+    <h3 class="name"><code>BIAS</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge.js.html#l3"><code>src\volume\edge.js:3</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An density bias for the Zero Crossing approximation.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_BIAS" class="property item private">
+    <h3 class="name"><code>BIAS</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_edge.js.html#l15"><code>src\volume\edge.js:15</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An error threshold for the Zero Crossing approximation.</p>
 
     </div>
 
@@ -584,7 +655,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l80"><code>src\volume\edge.js:80</code></a>
+        <a href="../files/src_volume_edge.js.html#l104"><code>src\volume\edge.js:104</code></a>
         </p>
 
 
@@ -613,7 +684,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l15"><code>src\volume\edge.js:15</code></a>
+        <a href="../files/src_volume_edge.js.html#l39"><code>src\volume\edge.js:39</code></a>
         </p>
 
 
@@ -638,7 +709,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l71"><code>src\volume\edge.js:71</code></a>
+        <a href="../files/src_volume_edge.js.html#l95"><code>src\volume\edge.js:95</code></a>
         </p>
 
 
@@ -667,7 +738,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_edge.js.html#l27"><code>src\volume\edge.js:27</code></a>
+        <a href="../files/src_volume_edge.js.html#l51"><code>src\volume\edge.js:51</code></a>
         </p>
 
 

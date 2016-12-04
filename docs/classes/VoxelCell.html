@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -144,7 +147,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_octree_voxel-cell.js.html#l18"><code>src\volume\octree\voxel-cell.js:18</code></a>
+            Defined in: <a href="../files/src_volume_octree_voxel-cell.js.html#l41"><code>src\volume\octree\voxel-cell.js:41</code></a>
         </div>
 
             Module: <a href="../modules/octree.html">octree</a><br>
@@ -184,7 +187,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-cell.js.html#l18"><code>src\volume\octree\voxel-cell.js:18</code></a>
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l41"><code>src\volume\octree\voxel-cell.js:41</code></a>
         </p>
 
 
@@ -272,6 +275,20 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item property">
+                                <a href="#property_lod">lod</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_THRESHOLD">THRESHOLD</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_threshold">threshold</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_voxel">voxel</a>
 
                             </li>
@@ -287,13 +304,7 @@
 <div id="method_collapse" class="method item">
     <h3 class="name"><code>collapse</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>threshold</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
             <span class="type">Number</span>
@@ -308,7 +319,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-cell.js.html#l71"><code>src\volume\octree\voxel-cell.js:71</code></a>
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l109"><code>src\volume\octree\voxel-cell.js:109</code></a>
         </p>
 
 
@@ -320,25 +331,6 @@
 
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">threshold</code>
-                        <span class="type">Number</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A QEF error threshold.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -376,7 +368,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-cell.js.html#l47"><code>src\volume\octree\voxel-cell.js:47</code></a>
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l85"><code>src\volume\octree\voxel-cell.js:85</code></a>
         </p>
 
 
@@ -454,6 +446,88 @@
 
 
 </div>
+<div id="property_lod" class="property item">
+    <h3 class="name"><code>lod</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l70"><code>src\volume\octree\voxel-cell.js:70</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The level of detail.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_THRESHOLD" class="property item private">
+    <h3 class="name"><code>THRESHOLD</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l18"><code>src\volume\octree\voxel-cell.js:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The base QEF error threshold.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_threshold" class="property item private">
+    <h3 class="name"><code>threshold</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l30"><code>src\volume\octree\voxel-cell.js:30</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A QEF error threshold for voxel clustering.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_voxel" class="property item">
     <h3 class="name"><code>voxel</code></h3>
     <span class="type"><a href="../classes/Voxel.html" class="crosslink">Voxel</a></span>
@@ -465,7 +539,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_voxel-cell.js.html#l35"><code>src\volume\octree\voxel-cell.js:35</code></a>
+        <a href="../files/src_volume_octree_voxel-cell.js.html#l58"><code>src\volume\octree\voxel-cell.js:58</code></a>
         </p>
 
 

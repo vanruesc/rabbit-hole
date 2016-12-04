@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>MeshTriplanarStandardMaterial - rabbit-hole</title>
+    <title>RunLengthEncoder - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -136,61 +139,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>MeshTriplanarStandardMaterial Class</h1>
+<h1>RunLengthEncoder Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends ShaderMaterial
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_materials_triplanar-standard_index.js.html#l9"><code>src\materials\triplanar-standard\index.js:9</code></a>
+            Defined in: <a href="../files/src_core_run-length-encoder.js.html#l1"><code>src\core\run-length-encoder.js:1</code></a>
         </div>
 
-            Module: <a href="../modules/materials.html">materials</a><br>
+            Module: <a href="../modules/core.html">core</a><br>
             Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>A physically based shader material that uses triplanar texture mapping.</p>
+    <p>Run-Length Encoding for numeric data.</p>
 
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_MeshTriplanarStandardMaterial" class="method item">
-    <h3 class="name"><code>MeshTriplanarStandardMaterial</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_materials_triplanar-standard_index.js.html#l9"><code>src\materials\triplanar-standard\index.js:9</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -206,14 +173,16 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_setMaps">setMaps</a>
+                                <a href="#method_decode">decode</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_setNormalMaps">setNormalMaps</a>
+                                <a href="#method_encode">encode</a>
 
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -225,34 +194,38 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_setMaps" class="method item">
-    <h3 class="name"><code>setMaps</code></h3>
+<div id="method_decode" class="method item">
+    <h3 class="name"><code>decode</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[mapX]</code>
+                        <code>runLengths</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[mapY]</code>
+                        <code>data</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[mapZ]</code>
+                        <code class="optional">[array]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
 
 
 
 
+        <span class="flag static">static</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_materials_triplanar-standard_index.js.html#l65"><code>src\materials\triplanar-standard\index.js:65</code></a>
+        <a href="../files/src_core_run-length-encoder.js.html#l58"><code>src\core\run-length-encoder.js:58</code></a>
         </p>
 
 
@@ -260,7 +233,7 @@
     </div>
 
     <div class="description">
-        <p>Defines up to three diffuse maps.</p>
+        <p>Decodes the given data.</p>
 
     </div>
 
@@ -269,42 +242,40 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[mapX]</code>
-                        <span class="type">Texture</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">runLengths</code>
+                        <span class="type">Array</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The map to use for the X plane.</li>
+<li>The run-lengths.</li>
 </ul>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name optional">[mapY]</code>
-                        <span class="type">Texture</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">data</code>
+                        <span class="type">Array</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The map to use for the Y plane.</li>
+<li>The data to decode.</li>
 </ul>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name optional">[mapZ]</code>
-                        <span class="type">Texture</span>
+                        <code class="param-name optional">[array]</code>
+                        <span class="type">Array</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The map to use for the Z plane.</li>
+<li>An optional target.</li>
 </ul>
 
                     </div>
@@ -313,37 +284,44 @@
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>The decoded data.</p>
+
+            </div>
+        </div>
 
 
 </div>
-<div id="method_setNormalMaps" class="method item">
-    <h3 class="name"><code>setNormalMaps</code></h3>
+<div id="method_encode" class="method item">
+    <h3 class="name"><code>encode</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code class="optional">[mapX]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[mapY]</code>
-                </li>
-                <li class="arg">
-                        <code class="optional">[mapZ]</code>
+                        <code>array</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
 
 
 
 
+        <span class="flag static">static</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_materials_triplanar-standard_index.js.html#l104"><code>src\materials\triplanar-standard\index.js:104</code></a>
+        <a href="../files/src_core_run-length-encoder.js.html#l11"><code>src\core\run-length-encoder.js:11</code></a>
         </p>
 
 
@@ -351,7 +329,7 @@
     </div>
 
     <div class="description">
-        <p>Defines up to three normal maps.</p>
+        <p>Encodes the given data.</p>
 
     </div>
 
@@ -360,42 +338,13 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name optional">[mapX]</code>
-                        <span class="type">Texture</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                        <code class="param-name">array</code>
+                        <span class="type">Array</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The map to use for the X plane.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[mapY]</code>
-                        <span class="type">Texture</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>The map to use for the Y plane.</li>
-</ul>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name optional">[mapZ]</code>
-                        <span class="type">Texture</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>The map to use for the Z plane.</li>
+<li>The data to encode.</li>
 </ul>
 
                     </div>
@@ -404,6 +353,15 @@
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>The run-lengths and the encoded data.</p>
+
+            </div>
+        </div>
 
 
 </div>

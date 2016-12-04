@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -158,6 +161,29 @@ import { Voxel } from &quot;../voxel.js&quot;;
 const BIAS = 1e-6;
 
 /**
+ * The base QEF error threshold.
+ *
+ * @property THRESHOLD
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const THRESHOLD = 1e-1;
+
+/**
+ * A QEF error threshold for voxel clustering.
+ *
+ * @property threshold
+ * @type Number
+ * @private
+ * @static
+ */
+
+let threshold = 0.0;
+
+/**
  * A voxel octant.
  *
  * @class VoxelCell
@@ -183,6 +209,21 @@ export class VoxelCell extends CubicOctant {
 		 */
 
 		this.voxel = null;
+
+	}
+
+	/**
+	 * The level of detail.
+	 *
+	 * @property lod
+	 * @type Number
+	 */
+
+	get lod() { return threshold; }
+
+	set lod(lod) {
+
+		threshold = THRESHOLD + (lod * lod * lod);
 
 	}
 
@@ -214,11 +255,10 @@ export class VoxelCell extends CubicOctant {
 	 * Attempts to simplify this cell.
 	 *
 	 * @method collapse
-	 * @param {Number} threshold - A QEF error threshold.
 	 * @return {Number} The amount of removed voxels.
 	 */
 
-	collapse(threshold) {
+	collapse() {
 
 		const children = this.children;
 
@@ -242,16 +282,17 @@ export class VoxelCell extends CubicOctant {
 
 			qefData = new QEFData();
 
-			for(v = 0, i = 0; collapsible &amp;&amp; i &lt; 8; ++i) {
+			for(v = 0, i = 0; i &lt; 8; ++i) {
 
 				child = children[i];
 
-				removedVoxels += child.collapse(threshold);
+				removedVoxels += child.collapse();
 
 				voxel = child.voxel;
 
 				if(child.children !== null) {
 
+					// Couldn&#x27;t simplify the child.
 					collapsible = false;
 
 				} else if(voxel !== null) {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\math\singular-value-decomposition.js - rabbit-hole</title>
+    <title>src\materials\triplanar-physical\index.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -139,272 +139,158 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\math\singular-value-decomposition.js</h1>
+<h1 class="file-heading">File: src\materials\triplanar-physical\index.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { SymmetricMatrix3 } from &quot;./symmetric-matrix3.js&quot;;
-import { Matrix3 } from &quot;./matrix3.js&quot;;
-import { Givens } from &quot;./givens.js&quot;;
-import { Schur } from &quot;./schur.js&quot;;
+import { ShaderLib, ShaderMaterial, Uniform } from &quot;three&quot;;
+
+import fragment from &quot;./glsl/shader.frag&quot;;
+import vertex from &quot;./glsl/shader.vert&quot;;
+
+// Register custom shader chunks.
+import &quot;./chunks.js&quot;;
 
 /**
- * Rotates the given matrix.
+ * A physically based shader material that uses triplanar texture mapping.
  *
- * @method rotate01
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
+ * @class MeshTriplanarPhysicalMaterial
+ * @submodule materials
+ * @extends ShaderMaterial
+ * @constructor
  */
 
-function rotate01(vtav, v) {
+export class MeshTriplanarPhysicalMaterial extends ShaderMaterial {
 
-	const m01 = vtav.elements[1];
+	constructor() {
 
-	if(m01 !== 0) {
+		super({
 
-		Givens.rot01Post(v, Schur.rot01(vtav));
+			type: &quot;MeshTriplanarPhysicalMaterial&quot;,
 
-	}
+			defines: { PHYSICAL: &quot;&quot; },
 
-}
+			uniforms: {
 
-/**
- * Rotates the given matrix.
- *
- * @method rotate02
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- */
+				mapY: new Uniform(null),
+				mapZ: new Uniform(null),
 
-function rotate02(vtav, v) {
+				normalMapY: new Uniform(null),
+				normalMapZ: new Uniform(null)
 
-	const m02 = vtav.elements[2];
+			},
 
-	if(m02 !== 0) {
+			fragmentShader: fragment,
+			vertexShader: vertex,
 
-		Givens.rot02Post(v, Schur.rot02(vtav));
+			lights: true,
+			fog: true
 
-	}
+		});
 
-}
+		// Clone uniforms to avoid conflicts with built-in materials.
+		const source = ShaderLib.physical.uniforms;
+		const target = this.uniforms;
 
-/**
- * Rotates the given matrix.
- *
- * @method rotate12
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- */
+		Object.keys(source).forEach(function(key) {
 
-export function rotate12(vtav, v) {
+			const value = source[key].value;
+			const uniform = new Uniform(source[key].value);
 
-	const m12 = vtav.elements[4];
+			Object.defineProperty(target, key, {
 
-	if(m12 !== 0) {
+				value: (value === null) ? uniform : uniform.clone()
 
-		Givens.rot12Post(v, Schur.rot12(vtav));
+			});
 
-	}
+		});
 
-}
+		/**
+		 * An environment map.
+		 *
+		 * @property envMap
+		 * @type Texture
+		 */
 
-/**
- * Computes the symmetric Singular Value Decomposition.
- *
- * @method getSymmetricSVD
- * @private
- * @static
- * @param {SymmetricMatrix3} a - A symmetric matrix.
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- * @param {Number} threshold - A threshold.
- * @param {Number} maxSweeps - The maximum number of sweeps.
- */
-
-function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
-
-	const delta = threshold * vtav.copy(a).norm();
-
-	let i;
-
-	for(i = 0; i &lt; maxSweeps &amp;&amp; vtav.off() &gt; delta; ++i) {
-
-		rotate01(vtav, v);
-		rotate02(vtav, v);
-		rotate12(vtav, v);
-
-	}
-
-}
-
-/**
- * Computes the pseudo inverse of a given value.
- *
- * @method pinv
- * @private
- * @static
- * @param {Number} x - The value to invert.
- * @param {Number} threshold - A threshold.
- * @return {Number} The inverted value.
- */
-
-function pinv(x, threshold) {
-
-	const invX = 1.0 / x;
-
-	return (Math.abs(x) &lt; threshold || Math.abs(invX) &lt; threshold) ? 0.0 : invX;
-
-}
-
-/**
- * Calculates the pseudo inverse of the given matrix.
- *
- * @method pseudoInverse
- * @private
- * @static
- * @param {Matrix3} t - The target matrix.
- * @param {SymmetricMatrix3} a - A symmetric matrix.
- * @param {Matrix3} b - A matrix.
- * @param {Number} threshold - A threshold.
- * @return {Number} A dimension indicating the amount of truncated singular values.
- */
-
-function pseudoInverse(t, a, b, threshold) {
-
-	const te = t.elements;
-	const ae = a.elements;
-	const be = b.elements;
-
-	const a00 = ae[0];
-	const a11 = ae[3];
-	const a22 = ae[5];
-
-	const a0 = pinv(a00, threshold);
-	const a1 = pinv(a11, threshold);
-	const a2 = pinv(a22, threshold);
-
-	// Count how many singular values have been truncated.
-	const truncatedValues = (a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0);
-
-	// Compute the feature dimension.
-	const dimension = 3 - truncatedValues;
-
-	const b00 = be[0], b01 = be[3], b02 = be[6];
-	const b10 = be[1], b11 = be[4], b12 = be[7];
-	const b20 = be[2], b21 = be[5], b22 = be[8];
-
-	te[0] = b00 * a0 * b00 + b01 * a1 * b01 + b02 * a2 * b02;
-	te[3] = b00 * a0 * b10 + b01 * a1 * b11 + b02 * a2 * b12;
-	te[6] = b00 * a0 * b20 + b01 * a1 * b21 + b02 * a2 * b22;
-
-	te[1] = te[3];
-	te[4] = b10 * a0 * b10 + b11 * a1 * b11 + b12 * a2 * b12;
-	te[7] = b10 * a0 * b20 + b11 * a1 * b21 + b12 * a2 * b22;
-
-	te[2] = te[6];
-	te[5] = te[7];
-	te[8] = b20 * a0 * b20 + b21 * a1 * b21 + b22 * a2 * b22;
-
-	return dimension;
-
-}
-
-/**
- * A Singular Value Decomposition solver.
- *
- * @class SingularValueDecomposition
- * @submodule math
- * @static
- */
-
-export class SingularValueDecomposition {
-
-	/**
-	 * Performs the Singular Value Decomposition.
-	 *
-	 * @method solveSymmetric
-	 * @static
-	 * @param {SymmetricMatrix3} a - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - A target vector.
-	 * @param {Number} svdThreshold - A threshold.
-	 * @param {Number} svdSweeps - The maximum number of SVD sweeps.
-	 * @param {Number} pseudoInverseThreshold - A threshold.
-	 * @return {Number} A dimension indicating the amount of truncated singular values.
-	 */
-
-	static solveSymmetric(a, b, x, svdThreshold, svdSweeps, pseudoInverseThreshold) {
-
-		const v = new Matrix3();
-
-		const pinv = new Matrix3();
-		const vtav = new SymmetricMatrix3();
-
-		let dimension;
-
-		pinv.set(
-
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
-
-		);
-
-		vtav.set(
-
-			0, 0, 0,
-			0, 0,
-			0
-
-		);
-
-		getSymmetricSVD(a, vtav, v, svdThreshold, svdSweeps);
-
-		// Least squares.
-		dimension = pseudoInverse(pinv, vtav, v, pseudoInverseThreshold);
-
-		x.copy(b).applyMatrix3(pinv);
-
-		return dimension;
+		this.envMap = null;
 
 	}
 
 	/**
-	 * Calculates the error of the Singular Value Decomposition.
+	 * Defines up to three diffuse maps.
 	 *
-	 * @method calculateError
-	 * @static
-	 * @param {SymmetricMatrix3} t - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - The calculated position.
-	 * @return {Number} The error.
+	 * @method setMaps
+	 * @param {Texture} [mapX] - The map to use for the X plane.
+	 * @param {Texture} [mapY] - The map to use for the Y plane.
+	 * @param {Texture} [mapZ] - The map to use for the Z plane.
 	 */
 
-	static calculateError(t, b, x) {
+	setMaps(mapX, mapY, mapZ) {
 
-		const e = t.elements;
-		const v = x.clone();
-		const a = new Matrix3();
+		const defines = this.defines;
+		const uniforms = this.uniforms;
 
-		// Set symmetrically.
-		a.set(
+		if(mapX !== undefined) {
 
-			e[0], e[1], e[2],
-			e[1], e[3], e[4],
-			e[2], e[4], e[5]
+			defines.USE_MAP = &quot;&quot;;
+			uniforms.map.value = mapX;
 
-		);
+		}
 
-		v.applyMatrix3(a);
-		v.subVectors(b, v);
+		if(mapY !== undefined) {
 
-		return v.lengthSq();
+			defines.USE_MAP_Y = &quot;&quot;;
+			uniforms.mapY.value = mapY;
+
+		}
+
+		if(mapZ !== undefined) {
+
+			defines.USE_MAP_Z = &quot;&quot;;
+			uniforms.mapZ.value = mapZ;
+
+		}
+
+		this.needsUpdate = true;
+
+	}
+
+	/**
+	 * Defines up to three normal maps.
+	 *
+	 * @method setNormalMaps
+	 * @param {Texture} [mapX] - The map to use for the X plane.
+	 * @param {Texture} [mapY] - The map to use for the Y plane.
+	 * @param {Texture} [mapZ] - The map to use for the Z plane.
+	 */
+
+	setNormalMaps(mapX, mapY, mapZ) {
+
+		const defines = this.defines;
+		const uniforms = this.uniforms;
+
+		if(mapX !== undefined) {
+
+			defines.USE_NORMALMAP = &quot;&quot;;
+			uniforms.normalMap.value = mapX;
+
+		}
+
+		if(mapY !== undefined) {
+
+			defines.USE_NORMALMAP_Y = &quot;&quot;;
+			uniforms.normalMapY.value = mapY;
+
+		}
+
+		if(mapZ !== undefined) {
+
+			defines.USE_NORMALMAP_Z = &quot;&quot;;
+			uniforms.normalMapZ.value = mapZ;
+
+		}
+
+		this.needsUpdate = true;
 
 	}
 

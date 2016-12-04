@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -142,6 +145,7 @@
     <pre class="code prettyprint linenums">
 import { Chunk } from &quot;../volume/octree/chunk.js&quot;;
 import { ConstructiveSolidGeometry } from &quot;../volume/csg/constructive-solid-geometry.js&quot;;
+import { Reviver } from &quot;../volume/sdf/reviver.js&quot;;
 import { Action } from &quot;./action.js&quot;;
 
 /**
@@ -202,7 +206,7 @@ export const VolumeModifier = {
 		this.chunk.deserialise(chunk);
 
 		// Revive the SDF and execute it.
-		ConstructiveSolidGeometry.run(this.chunk, ConstructiveSolidGeometry.reviveSDF(sdf));
+		ConstructiveSolidGeometry.run(this.chunk, Reviver.reviveSDF(sdf));
 
 		this.message.chunk = this.chunk.serialise();
 		this.transferList = this.chunk.createTransferList();

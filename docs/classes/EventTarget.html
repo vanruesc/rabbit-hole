@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\math\singular-value-decomposition.js - rabbit-hole</title>
+    <title>EventTarget - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -139,278 +139,391 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\math\singular-value-decomposition.js</h1>
+<h1>EventTarget Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-import { SymmetricMatrix3 } from &quot;./symmetric-matrix3.js&quot;;
-import { Matrix3 } from &quot;./matrix3.js&quot;;
-import { Givens } from &quot;./givens.js&quot;;
-import { Schur } from &quot;./schur.js&quot;;
 
-/**
- * Rotates the given matrix.
- *
- * @method rotate01
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- */
+        <div class="foundat">
+            Defined in: <a href="../files/src_events_event-target.js.html#l1"><code>src\events\event-target.js:1</code></a>
+        </div>
 
-function rotate01(vtav, v) {
+            Module: <a href="../modules/events.html">events</a><br>
+            Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
-	const m01 = vtav.elements[1];
+</div>
 
-	if(m01 !== 0) {
 
-		Givens.rot01Post(v, Schur.rot01(vtav));
+<div class="box intro">
+    <p>An interface implemented by objects that can receive events and may have
+listeners for them.</p>
 
-	}
+</div>
 
-}
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_EventTarget" class="method item">
+    <h3 class="name"><code>EventTarget</code></h3>
 
-/**
- * Rotates the given matrix.
- *
- * @method rotate02
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- */
+        <span class="paren">()</span>
 
-function rotate02(vtav, v) {
 
-	const m02 = vtav.elements[2];
 
-	if(m02 !== 0) {
 
-		Givens.rot02Post(v, Schur.rot02(vtav));
 
-	}
 
-}
 
-/**
- * Rotates the given matrix.
- *
- * @method rotate12
- * @private
- * @static
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- */
 
-export function rotate12(vtav, v) {
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l1"><code>src\events\event-target.js:1</code></a>
+        </p>
 
-	const m12 = vtav.elements[4];
 
-	if(m12 !== 0) {
 
-		Givens.rot12Post(v, Schur.rot12(vtav));
+    </div>
 
-	}
+    <div class="description">
+        
+    </div>
 
-}
 
-/**
- * Computes the symmetric Singular Value Decomposition.
- *
- * @method getSymmetricSVD
- * @private
- * @static
- * @param {SymmetricMatrix3} a - A symmetric matrix.
- * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- * @param {Number} threshold - A threshold.
- * @param {Number} maxSweeps - The maximum number of sweeps.
- */
 
-function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
 
-	const delta = threshold * vtav.copy(a).norm();
+</div>
+    </div>
 
-	let i;
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-	for(i = 0; i &lt; maxSweeps &amp;&amp; vtav.off() &gt; delta; ++i) {
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
 
-		rotate01(vtav, v);
-		rotate02(vtav, v);
-		rotate12(vtav, v);
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
 
-	}
-
-}
-
-/**
- * Computes the pseudo inverse of a given value.
- *
- * @method pinv
- * @private
- * @static
- * @param {Number} x - The value to invert.
- * @param {Number} threshold - A threshold.
- * @return {Number} The inverted value.
- */
-
-function pinv(x, threshold) {
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
-	const invX = 1.0 / x;
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_addEventListener">addEventListener</a>
 
-	return (Math.abs(x) &lt; threshold || Math.abs(invX) &lt; threshold) ? 0.0 : invX;
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_addEventListener">addEventListener</a>
 
-}
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_dispatchEvent">dispatchEvent</a>
 
-/**
- * Calculates the pseudo inverse of the given matrix.
- *
- * @method pseudoInverse
- * @private
- * @static
- * @param {Matrix3} t - The target matrix.
- * @param {SymmetricMatrix3} a - A symmetric matrix.
- * @param {Matrix3} b - A matrix.
- * @param {Number} threshold - A threshold.
- * @return {Number} A dimension indicating the amount of truncated singular values.
- */
+                            </li>
+                    </ul>
+                </div>
 
-function pseudoInverse(t, a, b, threshold) {
+                <div class="index-section properties">
+                    <h3>Properties</h3>
 
-	const te = t.elements;
-	const ae = a.elements;
-	const be = b.elements;
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property_m0">m0</a>
 
-	const a00 = ae[0];
-	const a11 = ae[3];
-	const a22 = ae[5];
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_m1">m1</a>
 
-	const a0 = pinv(a00, threshold);
-	const a1 = pinv(a11, threshold);
-	const a2 = pinv(a22, threshold);
+                            </li>
+                    </ul>
+                </div>
 
-	// Count how many singular values have been truncated.
-	const truncatedValues = (a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0);
 
-	// Compute the feature dimension.
-	const dimension = 3 - truncatedValues;
+        </div>
 
-	const b00 = be[0], b01 = be[3], b02 = be[6];
-	const b10 = be[1], b11 = be[4], b12 = be[7];
-	const b20 = be[2], b21 = be[5], b22 = be[8];
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
-	te[0] = b00 * a0 * b00 + b01 * a1 * b01 + b02 * a2 * b02;
-	te[3] = b00 * a0 * b10 + b01 * a1 * b11 + b02 * a2 * b12;
-	te[6] = b00 * a0 * b20 + b01 * a1 * b21 + b02 * a2 * b22;
+<div id="method_addEventListener" class="method item">
+    <h3 class="name"><code>addEventListener</code></h3>
 
-	te[1] = te[3];
-	te[4] = b10 * a0 * b10 + b11 * a1 * b11 + b12 * a2 * b12;
-	te[7] = b10 * a0 * b20 + b11 * a1 * b21 + b12 * a2 * b22;
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+                <li class="arg">
+                        <code>listener</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-	te[2] = te[6];
-	te[5] = te[7];
-	te[8] = b20 * a0 * b20 + b21 * a1 * b21 + b22 * a2 * b22;
 
-	return dimension;
 
-}
 
-/**
- * A Singular Value Decomposition solver.
- *
- * @class SingularValueDecomposition
- * @submodule math
- * @static
- */
 
-export class SingularValueDecomposition {
 
-	/**
-	 * Performs the Singular Value Decomposition.
-	 *
-	 * @method solveSymmetric
-	 * @static
-	 * @param {SymmetricMatrix3} a - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - A target vector.
-	 * @param {Number} svdThreshold - A threshold.
-	 * @param {Number} svdSweeps - The maximum number of SVD sweeps.
-	 * @param {Number} pseudoInverseThreshold - A threshold.
-	 * @return {Number} A dimension indicating the amount of truncated singular values.
-	 */
 
-	static solveSymmetric(a, b, x, svdThreshold, svdSweeps, pseudoInverseThreshold) {
 
-		const v = new Matrix3();
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l36"><code>src\events\event-target.js:36</code></a>
+        </p>
 
-		const pinv = new Matrix3();
-		const vtav = new SymmetricMatrix3();
 
-		let dimension;
 
-		pinv.set(
+    </div>
 
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
+    <div class="description">
+        <p>Registers an event handler of a specific event type on the event target.</p>
 
-		);
+    </div>
 
-		vtav.set(
+        <div class="params">
+            <h4>Parameters:</h4>
 
-			0, 0, 0,
-			0, 0,
-			0
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
 
-		);
 
-		getSymmetricSVD(a, vtav, v, svdThreshold, svdSweeps);
+                    <div class="param-description">
+                        <ul>
+<li>The event type to listen for.</li>
+</ul>
 
-		// Least squares.
-		dimension = pseudoInverse(pinv, vtav, v, pseudoInverseThreshold);
+                    </div>
 
-		x.copy(b).applyMatrix3(pinv);
+                </li>
+                <li class="param">
+                        <code class="param-name">listener</code>
+                        <span class="type">Object</span>
 
-		return dimension;
 
-	}
+                    <div class="param-description">
+                        <ul>
+<li>The object that receives a notification when an event of the specified type occurs.</li>
+</ul>
 
-	/**
-	 * Calculates the error of the Singular Value Decomposition.
-	 *
-	 * @method calculateError
-	 * @static
-	 * @param {SymmetricMatrix3} t - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - The calculated position.
-	 * @return {Number} The error.
-	 */
+                    </div>
 
-	static calculateError(t, b, x) {
+                </li>
+            </ul>
+        </div>
 
-		const e = t.elements;
-		const v = x.clone();
-		const a = new Matrix3();
 
-		// Set symmetrically.
-		a.set(
 
-			e[0], e[1], e[2],
-			e[1], e[3], e[4],
-			e[2], e[4], e[5]
+</div>
+<div id="method_addEventListener" class="method item">
+    <h3 class="name"><code>addEventListener</code></h3>
 
-		);
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+                <li class="arg">
+                        <code>listener</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-		v.applyMatrix3(a);
-		v.subVectors(b, v);
 
-		return v.lengthSq();
 
-	}
 
-}
 
-    </pre>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l60"><code>src\events\event-target.js:60</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Removes an event handler of a specific event type from the event target.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The event type to remove.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">listener</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The event listener to remove from the event target.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_dispatchEvent" class="method item">
+    <h3 class="name"><code>dispatchEvent</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>event</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[target]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l89"><code>src\events\event-target.js:89</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Dispatches an event at the specified event target, invoking the affected
+event listeners in the appropriate order.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type"><a href="../classes/Event.html" class="crosslink">Event</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>The event to dispatch.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[target]</code>
+                        <span class="type"><a href="../classes/EventTarget.html" class="crosslink">EventTarget</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>An event target.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_m0" class="property item private">
+    <h3 class="name"><code>m0</code></h3>
+    <span class="type">Map</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l14"><code>src\events\event-target.js:14</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A map of event listener functions.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_m1" class="property item private">
+    <h3 class="name"><code>m1</code></h3>
+    <span class="type">Map</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_events_event-target.js.html#l24"><code>src\events\event-target.js:24</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A map of event listener objects.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

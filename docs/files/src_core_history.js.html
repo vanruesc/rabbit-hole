@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\run-length-encoding.js - rabbit-hole</title>
+    <title>src\core\history.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -136,98 +139,126 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\core\run-length-encoding.js</h1>
+<h1 class="file-heading">File: src\core\history.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import { OperationType } from &quot;../volume/csg/operation-type.js&quot;;
+
 /**
- * Run-Length Encoding for numeric data.
+ * An operation history.
  *
- * @class RunLengthEncoding
+ * @class History
  * @submodule core
- * @static
+ * @constructor
  */
 
-export class RunLengthEncoding {
+export class History {
 
-	/**
-	 * Encodes the given data.
-	 *
-	 * @method encode
-	 * @static
-	 * @param {Array} array - The data to encode.
-	 * @return {Object} The run-lengths and the encoded data.
-	 */
+	constructor() {
 
-	static encode(array) {
+		/**
+		 * The elements that have been executed during the current session.
+		 *
+		 * @property elements
+		 * @type Array
+		 * @private
+		 */
 
-		const runLengths = [];
-		const data = [];
-
-		let previous = array[0];
-		let count = 1;
-
-		let i, l;
-
-		for(i = 1, l = array.length; i &lt; l; ++i) {
-
-			if(previous !== array[i]) {
-
-				runLengths.push(count);
-				data.push(previous);
-
-				previous = array[i];
-				count = 1;
-
-			} else {
-
-				++count;
-
-			}
-
-		}
-
-		runLengths.push(count);
-		data.push(previous);
-
-		return {
-			runLengths,
-			data
-		};
+		this.elements = [];
 
 	}
 
 	/**
-	 * Decodes the given data.
+	 * Adds an SDF to the operation history.
 	 *
-	 * @method decode
-	 * @static
-	 * @param {Array} runLengths - The run-lengths.
-	 * @param {Array} data - The data to decode.
-	 * @param {Array} [array] - An optional target.
-	 * @return {Array} The decoded data.
+	 * @method push
+	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 * @return {Number} The new length of the history list.
 	 */
 
-	static decode(runLengths, data, array = []) {
+	push(sdf) {
 
-		let element;
+		return this.elements.push(sdf);
 
-		let i, j, il, jl;
-		let k = 0;
+	}
 
-		for(i = 0, il = data.length; i &lt; il; ++i) {
+	/**
+	 * Removes the SDF that was last added to the history and returns it.
+	 *
+	 * @method pop
+	 * @return {SignedDistanceFunction} An SDF.
+	 */
 
-			element = data[i];
+	pop() {
 
-			for(j = 0, jl = runLengths[i]; j &lt; jl; ++j) {
+		return this.elements.pop();
 
-				array[k++] = element;
+	}
+
+	/**
+	 * Combines all operations into one.
+	 *
+	 * @method combine
+	 * @return {SignedDistanceFunction} An SDF consisting of all past operations, or null if there are none.
+	 */
+
+	combine() {
+
+		const elements = this.elements;
+
+		let a = null;
+		let b = null;
+
+		let i, l;
+
+		if(elements.length &gt; 0) {
+
+			for(i = 0, l = elements.length; i &lt; l; ++i) {
+
+				b = elements[i];
+
+				if(a !== null) {
+
+					switch(b.operation) {
+
+						case OperationType.UNION:
+							a.union(b);
+							break;
+
+						case OperationType.DIFFERENCE:
+							a.subtract(b);
+							break;
+
+						case OperationType.INTERSECTION:
+							a.intersect(b);
+							break;
+
+					}
+
+				} else {
+
+					a = b;
+
+				}
 
 			}
 
 		}
 
-		return array;
+		return a;
+
+	}
+
+	/**
+	 * Clears this history.
+	 *
+	 * @method clear
+	 */
+
+	clear() {
+
+		this.elements = [];
 
 	}
 

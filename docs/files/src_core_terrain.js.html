@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -140,16 +143,31 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from &quot;three&quot;;
-import { MeshTriplanarStandardMaterial } from &quot;../materials/triplanar-standard&quot;;
+import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from &quot;three&quot;;
+import { MeshTriplanarPhysicalMaterial } from &quot;../materials/triplanar-physical&quot;;
+import { EventTarget } from &quot;../events/event-target.js&quot;;
 import { Volume } from &quot;../volume/octree/volume.js&quot;;
 import { OperationType } from &quot;../volume/csg/operation-type.js&quot;;
+import { Reviver } from &quot;../volume/sdf/reviver.js&quot;;
 import { Action } from &quot;../worker/action.js&quot;;
 import { ThreadPool } from &quot;../worker/thread-pool.js&quot;;
 import { WorkerTask } from &quot;../worker/worker-task.js&quot;;
+import { History } from &quot;./history.js&quot;;
 import { Scheduler } from &quot;./scheduler.js&quot;;
 import { Queue } from &quot;./queue.js&quot;;
 import * as events from &quot;./events.js&quot;;
+
+/**
+ * A computation helper.
+ *
+ * @property BOX3
+ * @type Box3
+ * @private
+ * @static
+ * @final
+ */
+
+const BOX3 = new Box3();
 
 /**
  * A computation helper.
@@ -180,36 +198,30 @@ const FRUSTUM = new Frustum();
  *
  * @class Terrain
  * @submodule core
- * @extends Object3D
+ * @extends EventTarget
+ * @implements EventListener
  * @constructor
  * @param {Object} [options] - The options.
- * @param {Number} [options.levels=6] - The number of detail levels.
  * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  */
 
-export class Terrain extends Object3D {
+export class Terrain extends EventTarget {
 
 	constructor(options = {}) {
 
 		super();
 
-		this.name = &quot;Terrain&quot;;
-
 		/**
-		 * The number of detail levels.
+		 * The terrain object. Add this to your scene.
 		 *
-		 * Terrain chunks that are further away from the camera will be rendered
-		 * with less vertices.
-		 *
-		 * @property levels
-		 * @type Number
-		 * @private
-		 * @default 6
+		 * @property object
+		 * @type Object3D
 		 */
 
-		this.levels = (options.levels !== undefined) ? Math.max(1, options.levels) : 6;
+		this.object = new Object3D();
+		this.object.name = &quot;Terrain&quot;;
 
 		/**
 		 * The volume of this terrain.
@@ -222,6 +234,19 @@ export class Terrain extends Object3D {
 		this.volume = new Volume(options.chunkSize, options.resolution);
 
 		/**
+		 * The number of detail levels.
+		 *
+		 * Terrain chunks that are further away from the camera will be rendered
+		 * with less vertices.
+		 *
+		 * @property levels
+		 * @type Number
+		 * @private
+		 */
+
+		this.levels = Math.log2(this.volume.resolution);
+
+		/**
 		 * A thread pool.
 		 *
 		 * @property threadPool
@@ -230,7 +255,7 @@ export class Terrain extends Object3D {
 		 */
 
 		this.threadPool = new ThreadPool(options.maxWorkers);
-		this.threadPool.addEventListener(&quot;message&quot;, (event) =&gt; this.commit(event));
+		this.threadPool.addEventListener(&quot;message&quot;, this);
 
 		/**
 		 * Manages pending tasks.
@@ -243,13 +268,14 @@ export class Terrain extends Object3D {
 		this.scheduler = new Scheduler(this.levels + 1);
 
 		/**
-		 * A list of CSG operations that have been executed during this session.
+		 * A chronological sequence of CSG operations that have been executed during
+		 * this session.
 		 *
 		 * @property history
-		 * @type Array
+		 * @type History
 		 */
 
-		this.history = [];
+		this.history = new History();
 
 		/**
 		 * Keeps track of chunks that are currently being used by a worker. The
@@ -289,7 +315,7 @@ export class Terrain extends Object3D {
 		 * @private
 		 */
 
-		this.material = new MeshTriplanarStandardMaterial();
+		this.material = new MeshTriplanarPhysicalMaterial();
 
 	}
 
@@ -311,21 +337,21 @@ export class Terrain extends Object3D {
 			mesh.geometry.dispose();
 
 			this.meshes.delete(chunk);
-			this.remove(mesh);
+			this.object.remove(mesh);
 
 		}
 
 	}
 
 	/**
-	 * Completes a worker action.
+	 * Handles worker events.
 	 *
-	 * @method commit
+	 * @method handleEvent
 	 * @private
 	 * @param {WorkerEvent} event - A worker message event.
 	 */
 
-	commit(event) {
+	handleEvent(event) {
 
 		const worker = event.worker;
 		const data = event.data;
@@ -408,11 +434,12 @@ export class Terrain extends Object3D {
 			geometry.setIndex(new BufferAttribute(indices, 1));
 			geometry.addAttribute(&quot;position&quot;, new BufferAttribute(positions, 3));
 			geometry.addAttribute(&quot;normal&quot;, new BufferAttribute(normals, 3));
+			geometry.computeBoundingSphere();
 
 			mesh = new Mesh(geometry, this.material);
 
 			this.meshes.set(chunk, mesh);
-			this.add(mesh);
+			this.object.add(mesh);
 
 		}
 
@@ -579,7 +606,8 @@ export class Terrain extends Object3D {
 
 		const scheduler = this.scheduler;
 		const maxPriority = scheduler.maxPriority;
-		const maxLevel = this.levels - 1;
+		const levels = this.levels;
+		const maxLevel = levels - 1;
 
 		let i, l;
 		let chunk, data, csg, task;
@@ -606,8 +634,8 @@ export class Terrain extends Object3D {
 
 					} else if(data !== null &amp;&amp; !data.full) {
 
-						distance = chunk.getCenter().distanceTo(camera.position);
-						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * this.levels));
+						distance = BOX3.copy(chunk).distanceToPoint(camera.position);
+						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * levels));
 
 						if(data.lod !== lod) {
 
@@ -633,15 +661,20 @@ export class Terrain extends Object3D {
 	 * Finds the terrain chunks that intersect with the given ray and raycasts the
 	 * associated meshes.
 	 *
+	 * Intersections are sorted by distance, closest first.
+	 *
 	 * @method raycast
-	 * @param {Raycaster} raycaster - The raycaster.
-	 * @param {Array} intersects - An array to be filled with terrain mesh intersections.
-	 * @return {Array} The chunks that intersect with the ray.
+	 * @param {Raycaster} raycaster - A raycaster.
+	 * @return {Array} A list of terrain intersections.
 	 */
 
-	raycast(raycaster, intersects) {
+	raycast(raycaster) {
 
+		const meshes = this.meshes;
 		const chunks = [];
+
+		let intersects = [];
+		let chunk;
 
 		let i, l;
 
@@ -649,15 +682,19 @@ export class Terrain extends Object3D {
 
 		for(i = 0, l = chunks.length; i &lt; l; ++i) {
 
-			if(this.meshes.has(chunks[i])) {
+			chunk = chunks[i];
 
-				this.meshes.get(chunks[i]).raycast(raycaster, intersects);
+			if(meshes.has(chunk)) {
+
+				intersects = intersects.concat(
+					raycaster.intersectObject(meshes.get(chunk))
+				);
 
 			}
 
 		}
 
-		return chunks;
+		return intersects;
 
 	}
 
@@ -670,18 +707,20 @@ export class Terrain extends Object3D {
 
 	clearMeshes() {
 
+		const object = this.object;
+
 		let child;
 
-		while(this.children.length &gt; 0) {
+		while(object.children.length &gt; 0) {
 
-			child = this.children[0];
+			child = object.children[0];
 			child.geometry.dispose();
 			child.material.dispose();
-			this.remove(child);
+			object.remove(child);
 
 		}
 
-		this.meshes.clear();
+		this.meshes = new WeakMap();
 
 	}
 
@@ -697,13 +736,12 @@ export class Terrain extends Object3D {
 
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
 
+		this.neutered = new WeakSet();
+		this.chunks = new WeakMap();
+
 		this.threadPool.clear();
 		this.scheduler.clear();
-
-		this.neutered.clear();
-		this.chunks.clear();
-
-		this.history = [];
+		this.history.clear();
 
 	}
 
@@ -721,29 +759,42 @@ export class Terrain extends Object3D {
 	}
 
 	/**
+	 * Saves a description of the current volume data.
+	 *
+	 * @method save
+	 * @return {String} A URL to the exported save data, or null if there is no data.
+	 */
+
+	save() {
+
+		const sdf = this.history.combine();
+
+		return (sdf === null) ? null : URL.createObjectURL(
+
+			new Blob([JSON.stringify(sdf.serialise())], {
+				type: &quot;text/json&quot;
+			})
+
+		);
+
+	}
+
+	/**
 	 * Loads a volume.
 	 *
 	 * @method load
-	 * @param {String} data - The volume data to import.
+	 * @param {String} data - The volume description to load.
 	 */
 
 	load(data) {
 
 		this.clear();
-		this.volume.load(JSON.parse(data));
 
-	}
-
-	/**
-	 * Saves the current volume data.
-	 *
-	 * @method save
-	 * @return {String} A URL to the exported data.
-	 */
-
-	save() {
-
-		return URL.createObjectURL(new Blob([JSON.stringify(this.volume)], { type: &quot;text/json&quot; }));
+		this.edit(
+			Reviver.reviveSDF(
+				JSON.parse(data)
+			)
+		);
 
 	}
 

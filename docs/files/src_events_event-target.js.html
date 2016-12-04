@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\materials\triplanar-standard\index.js - rabbit-hole</title>
+    <title>src\events\event-target.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -136,149 +139,140 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\materials\triplanar-standard\index.js</h1>
+<h1 class="file-heading">File: src\events\event-target.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { ShaderLib, ShaderMaterial, Uniform } from &quot;three&quot;;
-
-import fragment from &quot;./glsl/shader.frag&quot;;
-import vertex from &quot;./glsl/shader.vert&quot;;
-
-// Register custom shader chunks.
-import &quot;./chunks.js&quot;;
-
 /**
- * A physically based shader material that uses triplanar texture mapping.
+ * An interface implemented by objects that can receive events and may have
+ * listeners for them.
  *
- * @class MeshTriplanarStandardMaterial
- * @submodule materials
- * @extends ShaderMaterial
+ * @class EventTarget
+ * @submodule events
  * @constructor
  */
 
-export class MeshTriplanarStandardMaterial extends ShaderMaterial {
+export class EventTarget {
 
 	constructor() {
 
-		super({
+		/**
+		 * A map of event listener functions.
+		 *
+		 * @property m0
+		 * @type Map
+		 * @private
+		 */
 
-			type: &quot;MeshTriplanarStandardMaterial&quot;,
+		this.m0 = new Map();
 
-			defines: { STANDARD: &quot;&quot; },
+		/**
+		 * A map of event listener objects.
+		 *
+		 * @property m1
+		 * @type Map
+		 * @private
+		 */
 
-			uniforms: {
-
-				mapY: new Uniform(null),
-				mapZ: new Uniform(null),
-
-				normalMapY: new Uniform(null),
-				normalMapZ: new Uniform(null)
-
-			},
-
-			fragmentShader: fragment,
-			vertexShader: vertex,
-
-			lights: true,
-			fog: true
-
-		});
-
-		// Clone uniforms to avoid conflicts with built-in materials.
-		const source = ShaderLib.standard.uniforms;
-		const target = this.uniforms;
-
-		Object.keys(source).forEach(function(key) {
-
-			const value = source[key].value;
-			const uniform = new Uniform(source[key].value);
-
-			Object.defineProperty(target, key, {
-
-				value: (value === null) ? uniform : uniform.clone()
-
-			});
-
-		});
+		this.m1 = new Map();
 
 	}
 
 	/**
-	 * Defines up to three diffuse maps.
+	 * Registers an event handler of a specific event type on the event target.
 	 *
-	 * @method setMaps
-	 * @param {Texture} [mapX] - The map to use for the X plane.
-	 * @param {Texture} [mapY] - The map to use for the Y plane.
-	 * @param {Texture} [mapZ] - The map to use for the Z plane.
+	 * @method addEventListener
+	 * @param {String} type - The event type to listen for.
+	 * @param {Object} listener - The object that receives a notification when an event of the specified type occurs.
 	 */
 
-	setMaps(mapX, mapY, mapZ) {
+	addEventListener(type, listener) {
 
-		const defines = this.defines;
-		const uniforms = this.uniforms;
+		const map = (typeof listener === &quot;function&quot;) ? this.m0 : this.m1;
 
-		if(mapX !== undefined) {
+		if(map.has(type)) {
 
-			defines.USE_MAP = &quot;&quot;;
-			uniforms.map.value = mapX;
+			map.get(type).add(listener);
 
-		}
+		} else {
 
-		if(mapY !== undefined) {
-
-			defines.USE_MAP_Y = &quot;&quot;;
-			uniforms.mapY.value = mapY;
+			map.set(type, new Set([listener]));
 
 		}
-
-		if(mapZ !== undefined) {
-
-			defines.USE_MAP_Z = &quot;&quot;;
-			uniforms.mapZ.value = mapZ;
-
-		}
-
-		this.needsUpdate = true;
 
 	}
 
 	/**
-	 * Defines up to three normal maps.
+	 * Removes an event handler of a specific event type from the event target.
 	 *
-	 * @method setNormalMaps
-	 * @param {Texture} [mapX] - The map to use for the X plane.
-	 * @param {Texture} [mapY] - The map to use for the Y plane.
-	 * @param {Texture} [mapZ] - The map to use for the Z plane.
+	 * @method addEventListener
+	 * @param {String} type - The event type to remove.
+	 * @param {Object} listener - The event listener to remove from the event target.
 	 */
 
-	setNormalMaps(mapX, mapY, mapZ) {
+	removeEventListener(type, listener) {
 
-		const defines = this.defines;
-		const uniforms = this.uniforms;
+		const map = (typeof listener === &quot;function&quot;) ? this.m0 : this.m1;
 
-		if(mapX !== undefined) {
+		let listeners;
 
-			defines.USE_NORMALMAP = &quot;&quot;;
-			uniforms.normalMap.value = mapX;
+		if(map.has(type)) {
 
-		}
+			listeners = map.get(type);
+			listeners.delete(listener);
 
-		if(mapY !== undefined) {
+			if(listeners.size === 0) {
 
-			defines.USE_NORMALMAP_Y = &quot;&quot;;
-			uniforms.normalMapY.value = mapY;
+				map.delete(type);
 
-		}
-
-		if(mapZ !== undefined) {
-
-			defines.USE_NORMALMAP_Z = &quot;&quot;;
-			uniforms.normalMapZ.value = mapZ;
+			}
 
 		}
 
-		this.needsUpdate = true;
+	}
+
+	/**
+	 * Dispatches an event at the specified event target, invoking the affected
+	 * event listeners in the appropriate order.
+	 *
+	 * @method dispatchEvent
+	 * @param {Event} event - The event to dispatch.
+	 * @param {EventTarget} [target] - An event target.
+	 */
+
+	dispatchEvent(event, target = this) {
+
+		const m0 = target.m0;
+		const m1 = target.m1;
+
+		let listeners;
+		let listener;
+
+		event.target = target;
+
+		if(m0.has(event.type)) {
+
+			listeners = m0.get(event.type);
+
+			for(listener of listeners) {
+
+				listener.call(target, event);
+
+			}
+
+		}
+
+		if(m1.has(event.type)) {
+
+			listeners = m1.get(event.type);
+
+			for(listener of listeners) {
+
+				listener.handleEvent(event);
+
+			}
+
+		}
 
 	}
 

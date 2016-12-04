@@ -51,11 +51,13 @@
                                 <li><a href="../classes/Edge.html">Edge</a></li>
                                 <li><a href="../classes/EdgeData.html">EdgeData</a></li>
                                 <li><a href="../classes/Event.html">Event</a></li>
+                                <li><a href="../classes/EventTarget.html">EventTarget</a></li>
                                 <li><a href="../classes/Givens.html">Givens</a></li>
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
+                                <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
-                                <li><a href="../classes/MeshTriplanarStandardMaterial.html">MeshTriplanarStandardMaterial</a></li>
+                                <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
                                 <li><a href="../classes/OperationType.html">OperationType</a></li>
                                 <li><a href="../classes/Plane.html">Plane</a></li>
@@ -63,7 +65,8 @@
                                 <li><a href="../classes/QEFData.html">QEFData</a></li>
                                 <li><a href="../classes/QEFSolver.html">QEFSolver</a></li>
                                 <li><a href="../classes/Queue.html">Queue</a></li>
-                                <li><a href="../classes/RunLengthEncoding.html">RunLengthEncoding</a></li>
+                                <li><a href="../classes/Reviver.html">Reviver</a></li>
+                                <li><a href="../classes/RunLengthEncoder.html">RunLengthEncoder</a></li>
                                 <li><a href="../classes/Scheduler.html">Scheduler</a></li>
                                 <li><a href="../classes/Schur.html">Schur</a></li>
                                 <li><a href="../classes/SDFType.html">SDFType</a></li>
@@ -143,12 +146,6 @@
 import { PATTERN } from &quot;sparse-octree&quot;;
 import { Box3 } from &quot;../../math/box3.js&quot;;
 import { Vector3 } from &quot;../../math/vector3.js&quot;;
-import { SDFType } from &quot;../sdf/sdf-type.js&quot;;
-import { Sphere } from &quot;../sdf/sphere.js&quot;;
-import { Box } from &quot;../sdf/box.js&quot;;
-import { Plane } from &quot;../sdf/plane.js&quot;;
-import { Torus } from &quot;../sdf/torus.js&quot;;
-import { Heightfield } from &quot;../sdf/heightfield.js&quot;;
 import { Density } from &quot;../density.js&quot;;
 import { EdgeData } from &quot;../edge-data.js&quot;;
 import { HermiteData } from &quot;../hermite-data.js&quot;;
@@ -824,56 +821,6 @@ export class ConstructiveSolidGeometry {
 			}
 
 		}
-
-	}
-
-	/**
-	 * Creates an SDF from the given description.
-	 *
-	 * @method reviveSDF
-	 * @static
-	 * @param {Object} description - A description.
-	 * @return {SignedDistanceFunction} An SDF.
-	 * @todo Use a single abstract SDF and serialise sampling method with expressions.
-	 */
-
-	static reviveSDF(description) {
-
-		let sdf, i, l;
-
-		switch(description.type) {
-
-			case SDFType.SPHERE:
-				sdf = new Sphere(description.parameters, description.material);
-				break;
-
-			case SDFType.BOX:
-				sdf = new Box(description.parameters, description.material);
-				break;
-
-			case SDFType.TORUS:
-				sdf = new Torus(description.parameters, description.material);
-				break;
-
-			case SDFType.PLANE:
-				sdf = new Plane(description.parameters, description.material);
-				break;
-
-			case SDFType.HEIGHTFIELD:
-				sdf = new Heightfield(description.parameters, description.material);
-				break;
-
-		}
-
-		sdf.operation = description.operation;
-
-		for(i = 0, l = description.children.length; i &lt; l; ++i) {
-
-			sdf.children.push(this.reviveSDF(description.children[i]));
-
-		}
-
-		return sdf;
 
 	}
 

@@ -17,6 +17,15 @@
             },
             "namespaces": {}
         },
+        "src\\core\\history.js": {
+            "name": "src\\core\\history.js",
+            "modules": {},
+            "classes": {
+                "History": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\core\\index.js": {
             "name": "src\\core\\index.js",
             "modules": {},
@@ -42,11 +51,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\core\\run-length-encoding.js": {
-            "name": "src\\core\\run-length-encoding.js",
+        "src\\core\\run-length-encoder.js": {
+            "name": "src\\core\\run-length-encoder.js",
             "modules": {},
             "classes": {
-                "RunLengthEncoding": 1
+                "RunLengthEncoder": 1
             },
             "fors": {},
             "namespaces": {}
@@ -74,6 +83,15 @@
             "modules": {},
             "classes": {
                 "Terrain": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\events\\event-target.js": {
+            "name": "src\\events\\event-target.js",
+            "modules": {},
+            "classes": {
+                "EventTarget": 1
             },
             "fors": {},
             "namespaces": {}
@@ -159,11 +177,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\materials\\triplanar-standard\\index.js": {
-            "name": "src\\materials\\triplanar-standard\\index.js",
+        "src\\materials\\triplanar-physical\\index.js": {
+            "name": "src\\materials\\triplanar-physical\\index.js",
             "modules": {},
             "classes": {
-                "MeshTriplanarStandardMaterial": 1
+                "MeshTriplanarPhysicalMaterial": 1
             },
             "fors": {},
             "namespaces": {}
@@ -418,6 +436,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\volume\\sdf\\reviver.js": {
+            "name": "src\\volume\\sdf\\reviver.js",
+            "modules": {},
+            "classes": {
+                "Reviver": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\volume\\sdf\\sdf-type.js": {
             "name": "src\\volume\\sdf\\sdf-type.js",
             "modules": {},
@@ -588,9 +615,10 @@
             "elements": {},
             "classes": {
                 "Terrain": 1,
+                "History": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
-                "RunLengthEncoding": 1,
+                "RunLengthEncoder": 1,
                 "Scheduler": 1,
                 "Task": 1
             },
@@ -622,17 +650,19 @@
             "elements": {},
             "classes": {
                 "Terrain": 1,
+                "History": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
-                "RunLengthEncoding": 1,
+                "RunLengthEncoder": 1,
                 "Scheduler": 1,
                 "Task": 1,
+                "EventTarget": 1,
                 "Event": 1,
                 "TerrainEvent": 1,
                 "WorkerEvent": 1,
                 "ChunkHelper": 1,
                 "DualContouring": 1,
-                "MeshTriplanarStandardMaterial": 1,
+                "MeshTriplanarPhysicalMaterial": 1,
                 "Box3": 1,
                 "Givens": 1,
                 "Matrix3": 1,
@@ -656,6 +686,7 @@
                 "Box": 1,
                 "Sphere": 1,
                 "Plane": 1,
+                "Reviver": 1,
                 "SDFType": 1,
                 "SignedDistanceFunction": 1,
                 "Torus": 1,
@@ -686,6 +717,7 @@
             "submodules": {},
             "elements": {},
             "classes": {
+                "EventTarget": 1,
                 "Event": 1,
                 "TerrainEvent": 1,
                 "WorkerEvent": 1
@@ -738,14 +770,14 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "MeshTriplanarStandardMaterial": 1
+                "MeshTriplanarPhysicalMaterial": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "rabbit-hole",
             "namespace": "",
-            "file": "src\\materials\\triplanar-standard\\index.js",
+            "file": "src\\materials\\triplanar-physical\\index.js",
             "line": 9,
             "description": "A collection of shader materials."
         },
@@ -811,7 +843,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 18,
+            "line": 41,
             "description": "Space partitioning components."
         },
         "sdf": {
@@ -889,9 +921,10 @@
             "module": "rabbit-hole",
             "submodule": "core",
             "file": "src\\core\\terrain.js",
-            "line": 36,
+            "line": 51,
             "description": "The terrain system.",
-            "extends": "Object3D",
+            "extends": "EventTarget",
+            "implements": "EventListener",
             "is_constructor": 1,
             "params": [
                 {
@@ -900,13 +933,6 @@
                     "type": "Object",
                     "optional": true,
                     "props": [
-                        {
-                            "name": "levels",
-                            "description": "- The number of detail levels.",
-                            "type": "Number",
-                            "optional": true,
-                            "optdefault": "6"
-                        },
                         {
                             "name": "chunkSize",
                             "description": "- The world size of a volume chunk. Will be rounded up to the next power of two.",
@@ -930,6 +956,21 @@
                     ]
                 }
             ]
+        },
+        "History": {
+            "name": "History",
+            "shortname": "History",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "file": "src\\core\\history.js",
+            "line": 3,
+            "description": "An operation history.",
+            "submodule": "core",
+            "is_constructor": 1
         },
         "PriorityQueue": {
             "name": "PriorityQueue",
@@ -972,9 +1013,9 @@
             "submodule": "core",
             "is_constructor": 1
         },
-        "RunLengthEncoding": {
-            "name": "RunLengthEncoding",
-            "shortname": "RunLengthEncoding",
+        "RunLengthEncoder": {
+            "name": "RunLengthEncoder",
+            "shortname": "RunLengthEncoder",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -982,7 +1023,7 @@
             "extension_for": [],
             "module": "rabbit-hole",
             "namespace": "",
-            "file": "src\\core\\run-length-encoding.js",
+            "file": "src\\core\\run-length-encoder.js",
             "line": 1,
             "description": "Run-Length Encoding for numeric data.",
             "submodule": "core",
@@ -1036,6 +1077,22 @@
                     "optdefault": "0"
                 }
             ]
+        },
+        "EventTarget": {
+            "name": "EventTarget",
+            "shortname": "EventTarget",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\events\\event-target.js",
+            "line": 1,
+            "description": "An interface implemented by objects that can receive events and may have\nlisteners for them.",
+            "submodule": "events",
+            "is_constructor": 1
         },
         "Event": {
             "name": "Event",
@@ -1160,9 +1217,9 @@
             "submodule": "isosurface",
             "static": 1
         },
-        "MeshTriplanarStandardMaterial": {
-            "name": "MeshTriplanarStandardMaterial",
-            "shortname": "MeshTriplanarStandardMaterial",
+        "MeshTriplanarPhysicalMaterial": {
+            "name": "MeshTriplanarPhysicalMaterial",
+            "shortname": "MeshTriplanarPhysicalMaterial",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1170,7 +1227,7 @@
             "extension_for": [],
             "module": "rabbit-hole",
             "namespace": "",
-            "file": "src\\materials\\triplanar-standard\\index.js",
+            "file": "src\\materials\\triplanar-physical\\index.js",
             "line": 9,
             "description": "A physically based shader material that uses triplanar texture mapping.",
             "submodule": "materials",
@@ -1392,7 +1449,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 600,
+            "line": 594,
             "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nBoolean operators to generate and transform volume data.",
             "submodule": "csg",
             "static": 1
@@ -1638,7 +1695,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 18,
+            "line": 41,
             "description": "A voxel octant.",
             "submodule": "octree",
             "extends": "CubicOctant",
@@ -1789,6 +1846,21 @@
                 }
             ]
         },
+        "Reviver": {
+            "name": "Reviver",
+            "shortname": "Reviver",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\sdf\\reviver.js",
+            "line": 8,
+            "description": "An SDF reviver.",
+            "static": 1
+        },
         "SDFType": {
             "name": "SDFType",
             "shortname": "SDFType",
@@ -1932,7 +2004,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\edge.js",
-            "line": 39,
+            "line": 63,
             "description": "An edge.",
             "submodule": "volume",
             "is_constructor": 1,
@@ -2036,7 +2108,7 @@
             "line": 15,
             "description": "Manages worker threads.",
             "submodule": "worker",
-            "extends": "EventDispatcher",
+            "extends": "EventTarget",
             "implements": "EventListener",
             "is_constructor": 1,
             "params": [
@@ -2059,7 +2131,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\worker\\volume-modifier.js",
-            "line": 5,
+            "line": 6,
             "description": "A hermite data modifier that applies CSG operations to volume chunks.",
             "submodule": "worker",
             "static": 1
@@ -2156,6 +2228,73 @@
             "name": "extractionend",
             "type": "TerrainEvent",
             "class": "Terrain",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\history.js",
+            "line": 15,
+            "description": "The elements that have been executed during the current session.",
+            "itemtype": "property",
+            "name": "elements",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "History",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\history.js",
+            "line": 27,
+            "description": "Adds an SDF to the operation history.",
+            "itemtype": "method",
+            "name": "push",
+            "params": [
+                {
+                    "name": "sdf",
+                    "description": "- An SDF.",
+                    "type": "SignedDistanceFunction"
+                }
+            ],
+            "return": {
+                "description": "The new length of the history list.",
+                "type": "Number"
+            },
+            "class": "History",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\history.js",
+            "line": 41,
+            "description": "Removes the SDF that was last added to the history and returns it.",
+            "itemtype": "method",
+            "name": "pop",
+            "return": {
+                "description": "An SDF.",
+                "type": "SignedDistanceFunction"
+            },
+            "class": "History",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\history.js",
+            "line": 54,
+            "description": "Combines all operations into one.",
+            "itemtype": "method",
+            "name": "combine",
+            "return": {
+                "description": "An SDF consisting of all past operations, or null if there are none.",
+                "type": "SignedDistanceFunction"
+            },
+            "class": "History",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\history.js",
+            "line": 108,
+            "description": "Clears this history.",
+            "itemtype": "method",
+            "name": "clear",
+            "class": "History",
             "submodule": "core"
         },
         {
@@ -2379,7 +2518,7 @@
             "submodule": "core"
         },
         {
-            "file": "src\\core\\run-length-encoding.js",
+            "file": "src\\core\\run-length-encoder.js",
             "line": 11,
             "description": "Encodes the given data.",
             "itemtype": "method",
@@ -2396,12 +2535,12 @@
                 "description": "The run-lengths and the encoded data.",
                 "type": "Object"
             },
-            "class": "RunLengthEncoding",
+            "class": "RunLengthEncoder",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
-            "file": "src\\core\\run-length-encoding.js",
+            "file": "src\\core\\run-length-encoder.js",
             "line": 58,
             "description": "Decodes the given data.",
             "itemtype": "method",
@@ -2429,7 +2568,7 @@
                 "description": "The decoded data.",
                 "type": "Array"
             },
-            "class": "RunLengthEncoding",
+            "class": "RunLengthEncoder",
             "module": "rabbit-hole",
             "submodule": "core"
         },
@@ -2596,7 +2735,21 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 12,
+            "line": 15,
+            "description": "A computation helper.",
+            "itemtype": "property",
+            "name": "BOX3",
+            "type": "Box3",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "Terrain",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 27,
             "description": "A computation helper.",
             "itemtype": "property",
             "name": "MATRIX4",
@@ -2610,7 +2763,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 24,
+            "line": 39,
             "description": "A frustum used for octree culling.",
             "itemtype": "property",
             "name": "FRUSTUM",
@@ -2624,21 +2777,18 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 58,
-            "description": "The number of detail levels.\n\nTerrain chunks that are further away from the camera will be rendered\nwith less vertices.",
+            "line": 71,
+            "description": "The terrain object. Add this to your scene.",
             "itemtype": "property",
-            "name": "levels",
-            "type": "Number",
-            "access": "private",
-            "tagname": "",
-            "default": "6",
+            "name": "object",
+            "type": "Object3D",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 72,
+            "line": 81,
             "description": "The volume of this terrain.",
             "itemtype": "property",
             "name": "volume",
@@ -2651,7 +2801,20 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 82,
+            "line": 91,
+            "description": "The number of detail levels.\n\nTerrain chunks that are further away from the camera will be rendered\nwith less vertices.",
+            "itemtype": "property",
+            "name": "levels",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 104,
             "description": "A thread pool.",
             "itemtype": "property",
             "name": "threadPool",
@@ -2664,7 +2827,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 93,
+            "line": 115,
             "description": "Manages pending tasks.",
             "itemtype": "property",
             "name": "scheduler",
@@ -2677,18 +2840,18 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 103,
-            "description": "A list of CSG operations that have been executed during this session.",
+            "line": 125,
+            "description": "A chronological sequence of CSG operations that have been executed during\nthis session.",
             "itemtype": "property",
             "name": "history",
-            "type": "Array",
+            "type": "History",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 112,
+            "line": 135,
             "description": "Keeps track of chunks that are currently being used by a worker. The\namount of neutered chunks cannot exceed the amount of worker threads.",
             "itemtype": "property",
             "name": "neutered",
@@ -2699,7 +2862,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 122,
+            "line": 145,
             "description": "Keeps track of associations between workers and chunks.",
             "itemtype": "property",
             "name": "chunks",
@@ -2712,7 +2875,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 132,
+            "line": 155,
             "description": "Keeps track of associations between chunks and meshes.",
             "itemtype": "property",
             "name": "meshes",
@@ -2725,7 +2888,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 142,
+            "line": 165,
             "description": "The terrain material.",
             "itemtype": "property",
             "name": "material",
@@ -2738,7 +2901,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 154,
+            "line": 177,
             "description": "Lifts the connection of a given chunk to its mesh and removes the geometry.",
             "itemtype": "method",
             "name": "unlinkMesh",
@@ -2757,10 +2920,10 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 178,
-            "description": "Completes a worker action.",
+            "line": 201,
+            "description": "Handles worker events.",
             "itemtype": "method",
-            "name": "commit",
+            "name": "handleEvent",
             "access": "private",
             "tagname": "",
             "params": [
@@ -2776,7 +2939,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 243,
+            "line": 266,
             "description": "Updates geometry chunks with extracted data.",
             "itemtype": "method",
             "name": "consolidate",
@@ -2800,7 +2963,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 279,
+            "line": 303,
             "description": "Runs a pending task if a worker is available.",
             "itemtype": "method",
             "name": "runNextTask",
@@ -2812,7 +2975,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 342,
+            "line": 366,
             "description": "Edits the terrain volume data.",
             "itemtype": "method",
             "name": "edit",
@@ -2831,7 +2994,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 374,
+            "line": 398,
             "description": "Executes the given SDF and adds the generated data to the volume.",
             "itemtype": "method",
             "name": "union",
@@ -2848,7 +3011,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 389,
+            "line": 413,
             "description": "Executes the given SDF and subtracts the generated data from the volume.",
             "itemtype": "method",
             "name": "subtract",
@@ -2865,7 +3028,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 404,
+            "line": 428,
             "description": "Executes the given SDF and discards the volume data that doesn't overlap\nwith the generated data.",
             "itemtype": "method",
             "name": "intersect",
@@ -2882,7 +3045,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 420,
+            "line": 444,
             "description": "Updates the terrain geometry. This method should be called each frame.",
             "itemtype": "method",
             "name": "update",
@@ -2899,24 +3062,19 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 490,
-            "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.",
+            "line": 515,
+            "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.\n\nIntersections are sorted by distance, closest first.",
             "itemtype": "method",
             "name": "raycast",
             "params": [
                 {
                     "name": "raycaster",
-                    "description": "- The raycaster.",
+                    "description": "- A raycaster.",
                     "type": "Raycaster"
-                },
-                {
-                    "name": "intersects",
-                    "description": "- An array to be filled with terrain mesh intersections.",
-                    "type": "Array"
                 }
             ],
             "return": {
-                "description": "The chunks that intersect with the ray.",
+                "description": "A list of terrain intersections.",
                 "type": "Array"
             },
             "class": "Terrain",
@@ -2925,7 +3083,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 522,
+            "line": 556,
             "description": "Removes all child meshes.",
             "itemtype": "method",
             "name": "clearMeshes",
@@ -2937,7 +3095,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 546,
+            "line": 582,
             "description": "Resets this terrain by removing data and closing active worker threads.",
             "itemtype": "method",
             "name": "clear",
@@ -2947,7 +3105,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 568,
+            "line": 603,
             "description": "Destroys this terrain and frees internal resources.",
             "itemtype": "method",
             "name": "dispose",
@@ -2957,14 +3115,28 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 581,
+            "line": 616,
+            "description": "Saves a description of the current volume data.",
+            "itemtype": "method",
+            "name": "save",
+            "return": {
+                "description": "A URL to the exported save data, or null if there is no data.",
+                "type": "String"
+            },
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 637,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
             "params": [
                 {
                     "name": "data",
-                    "description": "- The volume data to import.",
+                    "description": "- The volume description to load.",
                     "type": "String"
                 }
             ],
@@ -2973,18 +3145,97 @@
             "submodule": "core"
         },
         {
-            "file": "src\\core\\terrain.js",
-            "line": 595,
-            "description": "Saves the current volume data.",
-            "itemtype": "method",
-            "name": "save",
-            "return": {
-                "description": "A URL to the exported data.",
-                "type": "String"
-            },
-            "class": "Terrain",
+            "file": "src\\events\\event-target.js",
+            "line": 14,
+            "description": "A map of event listener functions.",
+            "itemtype": "property",
+            "name": "m0",
+            "type": "Map",
+            "access": "private",
+            "tagname": "",
+            "class": "EventTarget",
             "module": "rabbit-hole",
-            "submodule": "core"
+            "submodule": "events"
+        },
+        {
+            "file": "src\\events\\event-target.js",
+            "line": 24,
+            "description": "A map of event listener objects.",
+            "itemtype": "property",
+            "name": "m1",
+            "type": "Map",
+            "access": "private",
+            "tagname": "",
+            "class": "EventTarget",
+            "module": "rabbit-hole",
+            "submodule": "events"
+        },
+        {
+            "file": "src\\events\\event-target.js",
+            "line": 36,
+            "description": "Registers an event handler of a specific event type on the event target.",
+            "itemtype": "method",
+            "name": "addEventListener",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "- The event type to listen for.",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "- The object that receives a notification when an event of the specified type occurs.",
+                    "type": "Object"
+                }
+            ],
+            "class": "EventTarget",
+            "module": "rabbit-hole",
+            "submodule": "events"
+        },
+        {
+            "file": "src\\events\\event-target.js",
+            "line": 60,
+            "description": "Removes an event handler of a specific event type from the event target.",
+            "itemtype": "method",
+            "name": "addEventListener",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "- The event type to remove.",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "- The event listener to remove from the event target.",
+                    "type": "Object"
+                }
+            ],
+            "class": "EventTarget",
+            "module": "rabbit-hole",
+            "submodule": "events"
+        },
+        {
+            "file": "src\\events\\event-target.js",
+            "line": 89,
+            "description": "Dispatches an event at the specified event target, invoking the affected\nevent listeners in the appropriate order.",
+            "itemtype": "method",
+            "name": "dispatchEvent",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "- The event to dispatch.",
+                    "type": "Event"
+                },
+                {
+                    "name": "target",
+                    "description": "- An event target.",
+                    "type": "EventTarget",
+                    "optional": true
+                }
+            ],
+            "class": "EventTarget",
+            "module": "rabbit-hole",
+            "submodule": "events"
         },
         {
             "file": "src\\events\\event.js",
@@ -3435,8 +3686,19 @@
             "submodule": "isosurface"
         },
         {
-            "file": "src\\materials\\triplanar-standard\\index.js",
-            "line": 65,
+            "file": "src\\materials\\triplanar-physical\\index.js",
+            "line": 63,
+            "description": "An environment map.",
+            "itemtype": "property",
+            "name": "envMap",
+            "type": "Texture",
+            "class": "MeshTriplanarPhysicalMaterial",
+            "module": "rabbit-hole",
+            "submodule": "materials"
+        },
+        {
+            "file": "src\\materials\\triplanar-physical\\index.js",
+            "line": 74,
             "description": "Defines up to three diffuse maps.",
             "itemtype": "method",
             "name": "setMaps",
@@ -3460,13 +3722,13 @@
                     "optional": true
                 }
             ],
-            "class": "MeshTriplanarStandardMaterial",
+            "class": "MeshTriplanarPhysicalMaterial",
             "module": "rabbit-hole",
             "submodule": "materials"
         },
         {
-            "file": "src\\materials\\triplanar-standard\\index.js",
-            "line": 104,
+            "file": "src\\materials\\triplanar-physical\\index.js",
+            "line": 113,
             "description": "Defines up to three normal maps.",
             "itemtype": "method",
             "name": "setNormalMaps",
@@ -3490,7 +3752,7 @@
                     "optional": true
                 }
             ],
-            "class": "MeshTriplanarStandardMaterial",
+            "class": "MeshTriplanarPhysicalMaterial",
             "module": "rabbit-hole",
             "submodule": "materials"
         },
@@ -5487,7 +5749,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 19,
+            "line": 13,
             "description": "Finds out which grid points lie inside the area of the given operation.",
             "itemtype": "method",
             "name": "computeIndexBounds",
@@ -5515,7 +5777,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 70,
+            "line": 64,
             "description": "Combines material indices.",
             "itemtype": "method",
             "name": "combineMaterialIndices",
@@ -5554,7 +5816,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 110,
+            "line": 104,
             "description": "Generates material indices.",
             "itemtype": "method",
             "name": "generateMaterialIndices",
@@ -5588,7 +5850,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 176,
+            "line": 170,
             "description": "Combines edges.",
             "itemtype": "method",
             "name": "combineEdges",
@@ -5626,7 +5888,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 343,
+            "line": 337,
             "description": "Generates edge data.",
             "itemtype": "method",
             "name": "generateEdges",
@@ -5664,7 +5926,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 472,
+            "line": 466,
             "description": "Either generates or combines volume data based on the operation type.",
             "itemtype": "method",
             "name": "update",
@@ -5699,7 +5961,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 524,
+            "line": 518,
             "description": "Executes the given operation.",
             "itemtype": "method",
             "name": "execute",
@@ -5727,7 +5989,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 611,
+            "line": 605,
             "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF\n 2. Combine the generated data with the chunk data",
             "itemtype": "method",
             "name": "run",
@@ -5743,31 +6005,6 @@
                     "description": "- An SDF.",
                     "type": "SignedDistanceFunction"
                 }
-            ],
-            "class": "ConstructiveSolidGeometry",
-            "module": "rabbit-hole",
-            "submodule": "csg"
-        },
-        {
-            "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 688,
-            "description": "Creates an SDF from the given description.",
-            "itemtype": "method",
-            "name": "reviveSDF",
-            "static": 1,
-            "params": [
-                {
-                    "name": "description",
-                    "description": "- A description.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "An SDF.",
-                "type": "SignedDistanceFunction"
-            },
-            "todo": [
-                "Use a single abstract SDF and serialise sampling method with expressions."
             ],
             "class": "ConstructiveSolidGeometry",
             "module": "rabbit-hole",
@@ -6425,7 +6662,7 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 97,
+            "line": 98,
             "description": "The amount of voxels in this block.",
             "itemtype": "property",
             "name": "voxelCount",
@@ -6436,24 +6673,19 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 110,
+            "line": 113,
             "description": "Attempts to simplify the octree by clustering voxels.",
             "itemtype": "method",
             "name": "simplify",
-            "params": [
-                {
-                    "name": "threshold",
-                    "description": "- A QEF error threshold.",
-                    "type": "Number"
-                }
-            ],
+            "access": "private",
+            "tagname": "",
             "class": "VoxelBlock",
             "module": "rabbit-hole",
             "submodule": "octree"
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 123,
+            "line": 126,
             "description": "Creates intermediate voxel cells down to the leaf octant that is described\nby the given local grid coordinates and returns it.",
             "itemtype": "method",
             "name": "getCell",
@@ -6491,7 +6723,7 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 195,
+            "line": 198,
             "description": "Constructs voxel cells from volume data.",
             "itemtype": "method",
             "name": "construct",
@@ -6524,7 +6756,34 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 35,
+            "line": 18,
+            "description": "The base QEF error threshold.",
+            "itemtype": "property",
+            "name": "THRESHOLD",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "VoxelCell",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-cell.js",
+            "line": 30,
+            "description": "A QEF error threshold for voxel clustering.",
+            "itemtype": "property",
+            "name": "threshold",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "class": "VoxelCell",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-cell.js",
+            "line": 58,
             "description": "A voxel that contains draw information.",
             "itemtype": "property",
             "name": "voxel",
@@ -6536,7 +6795,18 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 47,
+            "line": 70,
+            "description": "The level of detail.",
+            "itemtype": "property",
+            "name": "lod",
+            "type": "Number",
+            "class": "VoxelCell",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\voxel-cell.js",
+            "line": 85,
             "description": "Checks if the given point lies inside this cell's boundaries.",
             "itemtype": "method",
             "name": "contains",
@@ -6557,17 +6827,10 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-cell.js",
-            "line": 71,
+            "line": 109,
             "description": "Attempts to simplify this cell.",
             "itemtype": "method",
             "name": "collapse",
-            "params": [
-                {
-                    "name": "threshold",
-                    "description": "- A QEF error threshold.",
-                    "type": "Number"
-                }
-            ],
             "return": {
                 "description": "The amount of removed voxels.",
                 "type": "Number"
@@ -6816,6 +7079,27 @@
             "class": "Plane",
             "module": "rabbit-hole",
             "submodule": "sdf"
+        },
+        {
+            "file": "src\\volume\\sdf\\reviver.js",
+            "line": 17,
+            "description": "Creates an SDF from the given serialised description.",
+            "itemtype": "method",
+            "name": "reviveSDF",
+            "static": 1,
+            "params": [
+                {
+                    "name": "description",
+                    "description": "- A serialised SDF.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "An SDF.",
+                "type": "SignedDistanceFunction"
+            },
+            "class": "Reviver",
+            "module": "rabbit-hole"
         },
         {
             "file": "src\\volume\\sdf\\sdf-type.js",
@@ -7387,6 +7671,34 @@
         {
             "file": "src\\volume\\edge.js",
             "line": 3,
+            "description": "An density bias for the Zero Crossing approximation.",
+            "itemtype": "property",
+            "name": "BIAS",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "Edge",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\edge.js",
+            "line": 15,
+            "description": "An error threshold for the Zero Crossing approximation.",
+            "itemtype": "property",
+            "name": "BIAS",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "Edge",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\edge.js",
+            "line": 27,
             "description": "A vector.",
             "itemtype": "property",
             "name": "AB",
@@ -7400,7 +7712,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 15,
+            "line": 39,
             "description": "A point.",
             "itemtype": "property",
             "name": "P",
@@ -7414,7 +7726,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 27,
+            "line": 51,
             "description": "A vector.",
             "itemtype": "property",
             "name": "V",
@@ -7428,7 +7740,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 53,
+            "line": 77,
             "description": "The starting point of the edge.",
             "itemtype": "property",
             "name": "a",
@@ -7439,7 +7751,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 62,
+            "line": 86,
             "description": "The ending point of the edge.",
             "itemtype": "property",
             "name": "b",
@@ -7450,7 +7762,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 71,
+            "line": 95,
             "description": "The Zero Crossing interpolation value.",
             "itemtype": "property",
             "name": "t",
@@ -7461,7 +7773,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 80,
+            "line": 104,
             "description": "The surface normal at the Zero Crossing position.",
             "itemtype": "property",
             "name": "n",
@@ -7472,7 +7784,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 91,
+            "line": 115,
             "description": "Approximates the smallest density along the edge.",
             "itemtype": "method",
             "name": "approximateZeroCrossing",
@@ -7484,10 +7796,10 @@
                 },
                 {
                     "name": "steps",
-                    "description": "- The number of interpolation steps. Cannot be smaller than 2.",
+                    "description": "- The maximum number of interpolation steps. Cannot be smaller than 2.",
                     "type": "Number",
                     "optional": true,
-                    "optdefault": "5"
+                    "optdefault": "8"
                 }
             ],
             "class": "Edge",
@@ -7496,7 +7808,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 134,
+            "line": 167,
             "description": "Calculates the Zero Crossing position.",
             "itemtype": "method",
             "name": "computeZeroCrossingPosition",
@@ -7510,7 +7822,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 147,
+            "line": 180,
             "description": "Computes the normal of the surface at the edge intersection.",
             "itemtype": "method",
             "name": "computeSurfaceNormal",
@@ -7743,7 +8055,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 248,
+            "line": 249,
             "description": "Adopts the given serialised data.",
             "itemtype": "method",
             "name": "deserialise",
@@ -7760,7 +8072,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 282,
+            "line": 284,
             "description": "The material grid resolution.",
             "itemtype": "property",
             "name": "resolution",
@@ -8080,7 +8392,7 @@
         },
         {
             "file": "src\\worker\\volume-modifier.js",
-            "line": 15,
+            "line": 16,
             "description": "An empty chunk of hermite data.",
             "itemtype": "property",
             "name": "chunk",
@@ -8092,7 +8404,7 @@
         },
         {
             "file": "src\\worker\\volume-modifier.js",
-            "line": 25,
+            "line": 26,
             "description": "A container for the data that will be returned to the main thread.",
             "itemtype": "property",
             "name": "message",
@@ -8104,7 +8416,7 @@
         },
         {
             "file": "src\\worker\\volume-modifier.js",
-            "line": 38,
+            "line": 39,
             "description": "A list of transferable objects.",
             "itemtype": "property",
             "name": "transferList",
@@ -8116,7 +8428,7 @@
         },
         {
             "file": "src\\worker\\volume-modifier.js",
-            "line": 48,
+            "line": 49,
             "description": "Modifies the given hermite data.",
             "itemtype": "method",
             "name": "modify",
