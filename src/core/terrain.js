@@ -591,11 +591,11 @@ export class Terrain extends EventTarget {
 
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
 
+		this.neutered = new WeakSet();
+		this.chunks = new WeakMap();
+
 		this.threadPool.clear();
 		this.scheduler.clear();
-
-		this.neutered.clear();
-		this.chunks.clear();
 		this.history.clear();
 
 	}

@@ -152,7 +152,7 @@ export class Scheduler extends PriorityQueue {
 
 		super.clear();
 
-		this.registry.clear();
+		this.registry = new WeakMap();
 
 	}
 
