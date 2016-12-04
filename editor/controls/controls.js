@@ -421,19 +421,21 @@ export class Controls {
 			document.addEventListener("pointerlockchange", this);
 			document.body.addEventListener("keyup", this);
 			document.body.addEventListener("keydown", this);
-			dom.addEventListener("mouseup", this);
 			dom.addEventListener("mousedown", this);
+			dom.addEventListener("mouseup", this);
 
 		} else {
 
 			document.removeEventListener("pointerlockchange", this);
 			document.body.removeEventListener("keyup", this);
 			document.body.removeEventListener("keydown", this);
-			dom.removeEventListener("mouseup", this);
 			dom.removeEventListener("mousedown", this);
+			dom.removeEventListener("mouseup", this);
 			dom.removeEventListener("mousemove", this);
 
 		}
+
+		document.exitPointerLock();
 
 	}
 
