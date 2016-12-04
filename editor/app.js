@@ -1,5 +1,5 @@
 import {
-	AxisHelper,
+	// AxisHelper,
 	Clock,
 	DirectionalLight,
 	FlatShading,
@@ -66,9 +66,9 @@ export class App {
 
 		// Camera and Controls.
 
-		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
+		const camera = new PerspectiveCamera(50, aspect, 0.1, 100);
 		const controls = new Controls(camera, renderer.domElement);
-		camera.position.set(10, 5, 10);
+		camera.position.set(10, 10, 10);
 		controls.focus(scene.position);
 		controls.movementSpeed = 4;
 		controls.boostSpeed = 16;
@@ -77,7 +77,7 @@ export class App {
 
 		// Axis helper.
 
-		scene.add(new AxisHelper());
+		// scene.add(new AxisHelper());
 
 		// GUI.
 
@@ -98,15 +98,17 @@ export class App {
 		// Terrain.
 
 		const terrain = new Terrain({
-			resolution: 64,
+			resolution: 32,
 			chunkSize: 32
 		});
 
 		terrain.material.uniforms.diffuse.value.setHex(0xffffff);
-		terrain.material.uniforms.offsetRepeat.value.set(0, 0, 0.25, 0.25);
+		terrain.material.uniforms.offsetRepeat.value.set(0, 0, 0.5, 0.5);
 
-		terrain.material.uniforms.roughness.value = 0.5;
-		terrain.material.uniforms.metalness.value = 0.5;
+		terrain.material.uniforms.roughness.value = 0.6;
+		terrain.material.uniforms.metalness.value = 0.2;
+
+		// terrain.material.envMap = assets.get("sky");
 
 		terrain.material.setMaps(
 			assets.get("diffuseXZ"),
@@ -120,12 +122,18 @@ export class App {
 			assets.get("normalmapXZ")
 		);
 
-		scene.add(terrain);
+		terrain.load(assets.get("terrain"));
+
 		scene.add(terrain.object);
 
 		// Stats monitor.
 
-		const stats = new TerrainStats(terrain);
+		const terrainStats = new TerrainStats(terrain);
+		const stats = terrainStats.stats;
+
+		stats.dom.id = "stats";
+		stats.showPanel(3);
+
 		aside.appendChild(stats.dom);
 
 		// Editor.
