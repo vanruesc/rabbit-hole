@@ -74,4 +74,23 @@ export class MovementState {
 
 	}
 
+	/**
+	 * Resets this state.
+	 *
+	 * @method reset
+	 */
+
+	reset() {
+
+		this.left = false;
+		this.right = false;
+		this.forward = false;
+		this.backward = false;
+
+		this.up = false;
+		this.down = false;
+		this.boost = false;
+
+	}
+
 }

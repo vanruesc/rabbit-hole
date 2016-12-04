@@ -412,6 +412,8 @@ export class Controls {
 
 		const dom = this.dom;
 
+		this.state.reset();
+
 		if(enabled) {
 
 			document.addEventListener("pointerlockchange", this);
