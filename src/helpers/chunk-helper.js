@@ -140,7 +140,7 @@ export class ChunkHelper extends Object3D {
 
 		const geometry = new BufferGeometry();
 
-		const vertexCount = Math.pow((n + 1), 3);
+		const vertexCount = chunk.data.materials;
 		const positions = new Float32Array(vertexCount * 3);
 		const colors = new Float32Array(vertexCount * 3);
 
