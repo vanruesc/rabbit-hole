@@ -238,6 +238,7 @@ export class HermiteData {
 
 		return {
 			lod: this.lod,
+			materials: this.materials,
 			materialIndices: this.materialIndices,
 			runLengths: this.runLengths,
 			edgeData: (this.edgeData !== null) ? this.edgeData.serialise() : null
@@ -255,6 +256,7 @@ export class HermiteData {
 	deserialise(data) {
 
 		this.lod = data.lod;
+		this.materials = data.materials;
 
 		this.materialIndices = data.materialIndices;
 		this.runLengths = data.runLengths;
