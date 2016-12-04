@@ -1,4 +1,4 @@
-import { EventDispatcher } from "three";
+import { EventTarget } from "../events/event-target.js";
 import { WorkerEvent } from "../events/worker-event.js";
 import { Action } from "./action.js";
 import worker from "./worker.tmp";
@@ -17,13 +17,13 @@ const MESSAGE = new WorkerEvent("message");
  *
  * @class ThreadPool
  * @submodule worker
- * @extends EventDispatcher
+ * @extends EventTarget
  * @implements EventListener
  * @constructor
  * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
  */
 
-export class ThreadPool extends EventDispatcher {
+export class ThreadPool extends EventTarget {
 
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
 

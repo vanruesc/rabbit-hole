@@ -121,6 +121,7 @@ export class App {
 		);
 
 		scene.add(terrain);
+		scene.add(terrain.object);
 
 		// Stats monitor.
 

@@ -1,5 +1,6 @@
 import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
 import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
+import { EventTarget } from "../events/event-target.js";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Reviver } from "../volume/sdf/reviver.js";
@@ -52,7 +53,8 @@ const FRUSTUM = new Frustum();
  *
  * @class Terrain
  * @submodule core
- * @extends Object3D
+ * @extends EventTarget
+ * @implements EventListener
  * @constructor
  * @param {Object} [options] - The options.
  * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
@@ -60,13 +62,21 @@ const FRUSTUM = new Frustum();
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  */
 
-export class Terrain extends Object3D {
+export class Terrain extends EventTarget {
 
 	constructor(options = {}) {
 
 		super();
 
-		this.name = "Terrain";
+		/**
+		 * The terrain object. Add this to your scene.
+		 *
+		 * @property object
+		 * @type Object3D
+		 */
+
+		this.object = new Object3D();
+		this.object.name = "Terrain";
 
 		/**
 		 * The volume of this terrain.
@@ -100,7 +110,7 @@ export class Terrain extends Object3D {
 		 */
 
 		this.threadPool = new ThreadPool(options.maxWorkers);
-		this.threadPool.addEventListener("message", (event) => this.commit(event));
+		this.threadPool.addEventListener("message", this);
 
 		/**
 		 * Manages pending tasks.
@@ -182,21 +192,21 @@ export class Terrain extends Object3D {
 			mesh.geometry.dispose();
 
 			this.meshes.delete(chunk);
-			this.remove(mesh);
+			this.object.remove(mesh);
 
 		}
 
 	}
 
 	/**
-	 * Completes a worker action.
+	 * Handles worker events.
 	 *
-	 * @method commit
+	 * @method handleEvent
 	 * @private
 	 * @param {WorkerEvent} event - A worker message event.
 	 */
 
-	commit(event) {
+	handleEvent(event) {
 
 		const worker = event.worker;
 		const data = event.data;
@@ -283,7 +293,7 @@ export class Terrain extends Object3D {
 			mesh = new Mesh(geometry, this.material);
 
 			this.meshes.set(chunk, mesh);
-			this.add(mesh);
+			this.object.add(mesh);
 
 		}
 
@@ -551,18 +561,20 @@ export class Terrain extends Object3D {
 
 	clearMeshes() {
 
+		const object = this.object;
+
 		let child;
 
-		while(this.children.length > 0) {
+		while(object.children.length > 0) {
 
-			child = this.children[0];
+			child = object.children[0];
 			child.geometry.dispose();
 			child.material.dispose();
-			this.remove(child);
+			object.remove(child);
 
 		}
 
-		this.meshes.clear();
+		this.meshes = new WeakMap();
 
 	}
 

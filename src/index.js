@@ -12,6 +12,11 @@ export {
 } from "./core";
 
 export {
+	EventTarget,
+	TerrainEvent
+} from "./events";
+
+export {
 	ChunkHelper
 } from "./helpers";
 
