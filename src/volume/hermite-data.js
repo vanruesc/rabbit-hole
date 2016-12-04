@@ -1,4 +1,4 @@
-import { RunLengthEncoding } from "../core/run-length-encoding.js";
+import { RunLengthEncoder } from "../core/run-length-encoder.js";
 import { Density } from "./density.js";
 import { EdgeData } from "./edge-data.js";
 
@@ -144,7 +144,7 @@ export class HermiteData {
 
 			} else {
 
-				encoding = RunLengthEncoding.encode(this.materialIndices);
+				encoding = RunLengthEncoder.encode(this.materialIndices);
 
 			}
 
@@ -169,7 +169,7 @@ export class HermiteData {
 
 		if(this.runLengths !== null) {
 
-			this.materialIndices = RunLengthEncoding.decode(
+			this.materialIndices = RunLengthEncoder.decode(
 				this.runLengths, this.materialIndices, new Uint8Array(indexCount)
 			);
 

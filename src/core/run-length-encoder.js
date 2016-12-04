@@ -1,12 +1,12 @@
 /**
  * Run-Length Encoding for numeric data.
  *
- * @class RunLengthEncoding
+ * @class RunLengthEncoder
  * @submodule core
  * @static
  */
 
-export class RunLengthEncoding {
+export class RunLengthEncoder {
 
 	/**
 	 * Encodes the given data.

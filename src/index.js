@@ -7,8 +7,12 @@
 
 export {
 	Terrain,
+	History,
 	Queue,
-	PriorityQueue
+	PriorityQueue,
+	RunLengthEncoder,
+	Scheduler,
+	Task
 } from "./core";
 
 export {
