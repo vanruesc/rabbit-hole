@@ -142,75 +142,115 @@ export class App {
 
 		(function() {
 
-			const terrainParams = {
-				diffuse: terrain.material.uniforms.diffuse.value.getHex(),
-				roughness: terrain.material.uniforms.roughness.value,
-				metalness: terrain.material.uniforms.metalness.value,
-				flatshading: (terrain.material.shading === FlatShading),
-				wireframe: terrain.material.wireframe
+			const params = {
+
+				terrain: {
+					diffuse: terrain.material.uniforms.diffuse.value.getHex(),
+					roughness: terrain.material.uniforms.roughness.value,
+					metalness: terrain.material.uniforms.metalness.value,
+					flatshading: (terrain.material.shading === FlatShading),
+					wireframe: terrain.material.wireframe
+				},
+
+				directionalLight: {
+					color: directionalLight.color.getHex(),
+					intensity: directionalLight.intensity
+				},
+
+				hemisphereLight: {
+					color: hemisphereLight.color.getHex(),
+					groundColor: hemisphereLight.groundColor.getHex(),
+					intensity: hemisphereLight.intensity
+				}
+
 			};
 
-			const lightParams = {
-				directionalColor: directionalLight.color.getHex(),
-				hemisphereColor: hemisphereLight.color.getHex(),
-				groundColor: hemisphereLight.groundColor.getHex()
-			};
+			let folder = gui.addFolder("Terrain");
 
-			let folder = gui.addFolder("Material");
+			let subfolder = folder.addFolder("Material");
 
-			folder.addColor(terrainParams, "diffuse").onChange(function() {
+			subfolder.addColor(params.terrain, "diffuse").onChange(function() {
 
-				terrain.material.uniforms.diffuse.value.setHex(terrainParams.diffuse);
+				terrain.material.uniforms.diffuse.value.setHex(params.terrain.diffuse);
 
 			});
 
-			folder.add(terrainParams, "roughness").min(0.0).max(1.0).step(0.01).onChange(function() {
+			subfolder.add(params.terrain, "roughness").min(0.0).max(1.0).step(0.01).onChange(function() {
 
-				terrain.material.uniforms.roughness.value = terrainParams.roughness;
-
-			});
-
-			folder.add(terrainParams, "metalness").min(0.0).max(1.0).step(0.01).onChange(function() {
-
-				terrain.material.uniforms.metalness.value = terrainParams.metalness;
+				terrain.material.uniforms.roughness.value = params.terrain.roughness;
 
 			});
 
-			folder.add(terrainParams, "flatshading").onChange(function() {
+			subfolder.add(params.terrain, "metalness").min(0.0).max(1.0).step(0.01).onChange(function() {
 
-				const shading = terrainParams.flatshading ? FlatShading : SmoothShading;
+				terrain.material.uniforms.metalness.value = params.terrain.metalness;
+
+			});
+
+			subfolder.add(params.terrain, "flatshading").onChange(function() {
+
+				const shading = params.terrain.flatshading ? FlatShading : SmoothShading;
 
 				terrain.material.shading = shading;
 				terrain.material.needsUpdate = true;
 
 			});
 
-			folder.add(terrainParams, "wireframe").onChange(function() {
+			subfolder.add(params.terrain, "wireframe").onChange(function() {
 
-				terrain.material.wireframe = terrainParams.wireframe;
+				terrain.material.wireframe = params.terrain.wireframe;
 				terrain.material.needsUpdate = true;
 
 			});
 
+			folder.add(terrain.object, "visible");
+
+			folder.open();
+
 			folder = gui.addFolder("Light");
 
-			folder.addColor(lightParams, "directionalColor").onChange(function() {
+			subfolder = folder.addFolder("Directional");
 
-				directionalLight.color.setHex(lightParams.directionalColor);
+			subfolder.addColor(params.directionalLight, "color").onChange(function() {
 
-			});
-
-			folder.addColor(lightParams, "hemisphereColor").onChange(function() {
-
-				hemisphereLight.color.setHex(lightParams.hemisphereColor);
+				directionalLight.color.setHex(params.directionalLight.color);
 
 			});
 
-			folder.addColor(lightParams, "groundColor").onChange(function() {
+			subfolder.add(params.directionalLight, "intensity").min(0.0).max(1.0).step(0.01).onChange(function() {
 
-				hemisphereLight.color.setHex(lightParams.groundColor);
+				directionalLight.intensity = params.directionalLight.intensity;
 
 			});
+
+			subfolder = folder.addFolder("Hemisphere");
+
+			subfolder.addColor(params.hemisphereLight, "color").onChange(function() {
+
+				hemisphereLight.color.setHex(params.hemisphereLight.color);
+
+			});
+
+			subfolder.addColor(params.hemisphereLight, "groundColor").onChange(function() {
+
+				hemisphereLight.color.setHex(params.hemisphereLight.groundColor);
+
+			});
+
+			subfolder.add(params.hemisphereLight, "intensity").min(0.0).max(1.0).step(0.01).onChange(function() {
+
+				hemisphereLight.intensity = params.hemisphereLight.intensity;
+
+			});
+
+			folder = gui.addFolder("Info");
+
+			folder.add(renderer.info.memory, "geometries").listen();
+			folder.add(renderer.info.memory, "textures").listen();
+			folder.add(renderer.info.render, "calls").listen();
+			folder.add(renderer.info.render, "vertices").listen();
+			folder.add(renderer.info.render, "faces").listen();
+			folder.add(renderer.info.render, "points").listen();
 
 		}());
 
