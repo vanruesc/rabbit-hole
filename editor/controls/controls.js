@@ -128,11 +128,11 @@ export class Controls {
 				break;
 
 			case "mousedown":
-				this.handleMouseEvent(event, true);
+				this.handlePointerEvent(event, true);
 				break;
 
 			case "mouseup":
-				this.handleMouseEvent(event, false);
+				this.handlePointerEvent(event, false);
 				break;
 
 			case "keydown":
@@ -173,30 +173,30 @@ export class Controls {
 	}
 
 	/**
-	 * Handles mouse button events.
+	 * Handles pointer events.
 	 *
-	 * @method handleMouseEvent
+	 * @method handlePointerEvent
 	 * @private
 	 * @param {MouseEvent} event - A mouse event.
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
 	 */
 
-	handleMouseEvent(event, pressed) {
+	handlePointerEvent(event, pressed) {
 
 		event.preventDefault();
 
 		switch(event.button) {
 
 			case Button.MAIN:
-				this.handleMainMouseButton(pressed);
+				this.handleMain(pressed);
 				break;
 
 			case Button.AUXILIARY:
-				this.handleAuxiliaryMouseButton(pressed);
+				this.handleAuxiliary(pressed);
 				break;
 
 			case Button.SECONDARY:
-				this.handleSecondaryMouseButton(pressed);
+				this.handleSecondary(pressed);
 				break;
 
 		}
@@ -204,14 +204,14 @@ export class Controls {
 	}
 
 	/**
-	 * Handles main mouse button events.
+	 * Handles main pointer button events.
 	 *
-	 * @method handleMainMouseButton
+	 * @method handleMain
 	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 * @param {Boolean} pressed - Whether the pointer button has been pressed down.
 	 */
 
-	handleMainMouseButton(pressed) {
+	handleMain(pressed) {
 
 		if(document.pointerLockElement !== this.dom && pressed) {
 
@@ -226,26 +226,28 @@ export class Controls {
 	}
 
 	/**
-	 * Handles auxiliary mouse button events.
+	 * Handles auxiliary pointer button events.
 	 *
-	 * @method handleAuxiliaryMouseButton
+	 * @method handleAuxiliary
 	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 * @param {Boolean} pressed - Whether the pointer button has been pressed down.
 	 */
 
-	handleAuxiliaryMouseButton(pressed) {
+	handleAuxiliary(pressed) {
 
 	}
 
 	/**
-	 * Handles secondary mouse button events.
+	 * Handles secondary pointer button events.
 	 *
-	 * @method handleSecondaryMouseButton
+	 * @method handleSecondary
 	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 * @param {Boolean} pressed - Whether the pointer button has been pressed down.
 	 */
 
-	handleSecondaryMouseButton(pressed) {
+	handleSecondary(pressed) {
+
+		this.handleMain(pressed);
 
 	}
 
