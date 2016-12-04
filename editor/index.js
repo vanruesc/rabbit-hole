@@ -34,7 +34,7 @@ function loadAssets(callback) {
 	const textureLoader = new TextureLoader(loadingManager);
 	/* const cubeTextureLoader = new CubeTextureLoader(loadingManager);
 
-	const path = "textures/cube/02/";
+	const path = "textures/cube/01/";
 	const format = ".png";
 	const urls = [
 		path + "px" + format, path + "nx" + format,
@@ -67,21 +67,21 @@ function loadAssets(callback) {
 
 	});
 
-	textureLoader.load("textures/diffuse/02.jpg", function(texture) {
+	textureLoader.load("textures/diffuse/03.jpg", function(texture) {
 
 		texture.wrapS = texture.wrapT = RepeatWrapping;
 		assets.set("diffuseY", texture);
 
 	});
 
-	textureLoader.load("textures/normal/01.jpg", function(texture) {
+	textureLoader.load("textures/normal/05.png", function(texture) {
 
 		texture.wrapS = texture.wrapT = RepeatWrapping;
 		assets.set("normalmapXZ", texture);
 
 	});
 
-	textureLoader.load("textures/normal/01.jpg", function(texture) {
+	textureLoader.load("textures/normal/03.png", function(texture) {
 
 		texture.wrapS = texture.wrapT = RepeatWrapping;
 		assets.set("normalmapY", texture);
