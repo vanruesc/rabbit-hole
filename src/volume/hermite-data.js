@@ -122,6 +122,28 @@ export class HermiteData {
 	get full() { return (this.materials === indexCount); }
 
 	/**
+	 * Adopts the given data.
+	 *
+	 * @method set
+	 * @chainable
+	 * @param {HermiteData} data - The data to adopt.
+	 * @return {HermiteData} This data.
+	 */
+
+	set(data) {
+
+		this.lod = data.lod;
+		this.neutered = data.neutered;
+		this.materials = data.materials;
+		this.materialIndices = data.materialIndices;
+		this.runLengths = data.runLengths;
+		this.edgeData = data.edgeData;
+
+		return this;
+
+	}
+
+	/**
 	 * Compresses this data.
 	 *
 	 * @method compress

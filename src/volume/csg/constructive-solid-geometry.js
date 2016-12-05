@@ -471,8 +471,8 @@ function generateEdges(chunk, operation, data, bounds) {
  * @static
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
- * @param {HermiteData} data0 - A target data set.
- * @param {HermiteData} [data1] - A predominant data set.
+ * @param {HermiteData} data0 - A target data set. May be empty or full.
+ * @param {HermiteData} [data1] - A predominant data set. Cannot be null.
  */
 
 function update(chunk, operation, data0, data1) {
@@ -480,10 +480,20 @@ function update(chunk, operation, data0, data1) {
 	const bounds = computeIndexBounds(chunk, operation);
 
 	let result, edgeData, lengths, d;
+	let done = false;
 
 	if(operation.type === OperationType.DENSITY_FUNCTION) {
 
 		generateMaterialIndices(chunk, operation, data0, bounds);
+
+	} else if(data0.empty) {
+
+		if(operation.type === OperationType.UNION) {
+
+			data0.set(data1);
+			done = true;
+
+		}
 
 	} else {
 
@@ -491,7 +501,7 @@ function update(chunk, operation, data0, data1) {
 
 	}
 
-	if(!data0.empty && !data0.full) {
+	if(!done && !data0.empty && !data0.full) {
 
 		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
 			generateEdges(chunk, operation, data0, bounds) :
