@@ -12708,10 +12708,16 @@
 
      			if (document.pointerLockElement !== this.dom && pressed) {
 
-     				this.dom.requestPointerLock();
+     				if (this.dom.requestPointerLock !== undefined) {
+
+     					this.dom.requestPointerLock();
+     				}
      			} else {
 
-     				document.exitPointerLock();
+     				if (document.exitPointerLock !== undefined) {
+
+     					document.exitPointerLock();
+     				}
      			}
      		}
 
@@ -12923,7 +12929,10 @@
      				dom.removeEventListener("mousemove", this);
      			}
 
-     			document.exitPointerLock();
+     			if (document.exitPointerLock !== undefined) {
+
+     				document.exitPointerLock();
+     			}
      		}
 
      		/**

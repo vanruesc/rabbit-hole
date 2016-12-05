@@ -215,11 +215,19 @@ export class Controls {
 
 		if(document.pointerLockElement !== this.dom && pressed) {
 
-			this.dom.requestPointerLock();
+			if(this.dom.requestPointerLock !== undefined) {
+
+				this.dom.requestPointerLock();
+
+			}
 
 		} else {
 
-			document.exitPointerLock();
+			if(document.exitPointerLock !== undefined) {
+
+				document.exitPointerLock();
+
+			}
 
 		}
 
@@ -435,7 +443,11 @@ export class Controls {
 
 		}
 
-		document.exitPointerLock();
+		if(document.exitPointerLock !== undefined) {
+
+			document.exitPointerLock();
+
+		}
 
 	}
 
