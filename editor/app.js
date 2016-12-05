@@ -129,8 +129,9 @@ export class App {
 		// Stats monitor.
 
 		const terrainStats = new TerrainStats(terrain);
-		const stats = terrainStats.stats;
+		terrainStats.configure(gui);
 
+		const stats = terrainStats.stats;
 		stats.dom.id = "stats";
 		stats.showPanel(3);
 

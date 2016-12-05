@@ -60,7 +60,20 @@ export class TerrainStats {
 		 * @private
 		 */
 
-		this.deltas = new Map();
+		this.deltas = {
+			modificationend: [],
+			extractionend: []
+		};
+
+		/**
+		 * Event start timestamps.
+		 *
+		 * @property timestamps
+		 * @type Map
+		 * @private
+		 */
+
+		this.timestamps = new Map();
 
 		/**
 		 * Measured delta time maxima.
@@ -89,7 +102,7 @@ export class TerrainStats {
 
 			case "extractionstart":
 			case "modificationstart":
-				this.deltas.set(event.chunk, performance.now());
+				this.timestamps.set(event.chunk, performance.now());
 				break;
 
 			case "modificationend":
@@ -116,9 +129,9 @@ export class TerrainStats {
 	measureTime(event, panel) {
 
 		const maxDeltas = this.maxDeltas;
-		const deltas = this.deltas;
+		const timestamps = this.timestamps;
 
-		const delta = performance.now() - deltas.get(event.chunk);
+		const delta = performance.now() - timestamps.get(event.chunk);
 		const maxDelta = maxDeltas.has(event.type) ? maxDeltas.get(event.type) : 0.0;
 
 		if(delta > maxDelta) {
@@ -127,8 +140,10 @@ export class TerrainStats {
 
 		}
 
+		this.deltas[event.type].push(delta);
+
 		panel.update(delta, maxDelta);
-		deltas.delete(event.chunk);
+		timestamps.delete(event.chunk);
 
 	}
 
@@ -168,5 +183,65 @@ export class TerrainStats {
 	 */
 
 	dispose() { this.setEnabled(false); }
+
+	/**
+	 * Logs delta times.
+	 *
+	 * @method log
+	 * @private
+	 */
+
+	log() {
+
+		const deltas = this.deltas;
+		const a = document.createElement("a");
+
+		let text = "";
+		let i, l;
+
+		text += "Modifications\n\n";
+
+		for(i = 0, l = deltas.modificationend.length; i < l; ++i) {
+
+			text += i + ", " + deltas.modificationend[i] + "\n";
+
+		}
+
+		text += "\n\n";
+		text += "Extractions\n\n";
+
+		for(i = 0, l = deltas.extractionend.length; i < l; ++i) {
+
+			text += i + ", " + deltas.extractionend[i] + "\n";
+
+		}
+
+		a.href = URL.createObjectURL(
+
+			new Blob([text], {
+				type: "text/plain"
+			})
+
+		);
+
+		a.download = "stats.txt";
+		a.click();
+
+	}
+
+	/**
+	 * Registers configuration options.
+	 *
+	 * @method configure
+	 * @param {GUI} gui - A GUI.
+	 */
+
+	configure(gui) {
+
+		const folder = gui.addFolder("Stats");
+
+		folder.add(this, "log");
+
+	}
 
 }
