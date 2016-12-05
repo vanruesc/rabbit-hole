@@ -1,5 +1,4 @@
 import {
-	// AxisHelper,
 	Clock,
 	DirectionalLight,
 	FlatShading,
@@ -49,7 +48,7 @@ export class App {
 		// Scene.
 
 		const scene = new Scene();
-		scene.fog = new FogExp2(0xeeeeee, 0.00025);
+		scene.fog = new FogExp2(0xeeeeee, 0.0025);
 		scene.background = assets.has("sky") ? assets.get("sky") : null;
 
 		// Renderer.
@@ -66,18 +65,14 @@ export class App {
 
 		// Camera and Controls.
 
-		const camera = new PerspectiveCamera(50, aspect, 0.1, 100);
+		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
 		const controls = new Controls(camera, renderer.domElement);
-		camera.position.set(10, 10, 10);
+		camera.position.set(220, 60, 220);
 		controls.focus(scene.position);
 		controls.movementSpeed = 4;
 		controls.boostSpeed = 16;
 
 		scene.add(camera);
-
-		// Axis helper.
-
-		// scene.add(new AxisHelper());
 
 		// GUI.
 
@@ -98,7 +93,7 @@ export class App {
 		// Terrain.
 
 		const terrain = new Terrain({
-			resolution: 32,
+			resolution: 64,
 			chunkSize: 32
 		});
 
@@ -108,7 +103,7 @@ export class App {
 		terrain.material.uniforms.roughness.value = 0.6;
 		terrain.material.uniforms.metalness.value = 0.2;
 
-		// terrain.material.envMap = assets.get("sky");
+		terrain.material.envMap = assets.get("sky");
 
 		terrain.material.setMaps(
 			assets.get("diffuseXZ"),

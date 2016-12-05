@@ -54,7 +54,7 @@ function loadAssets(callback) {
 
 	}); */
 
-	fileLoader.load("terrain/terrain.json", function(text) {
+	fileLoader.load("terrain/torus.json", function(text) {
 
 		assets.set("terrain", text);
 
