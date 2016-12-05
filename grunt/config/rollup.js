@@ -1,3 +1,7 @@
+const resolve = require("rollup-plugin-node-resolve");
+const string = require("rollup-plugin-string");
+const babel = require("rollup-plugin-babel");
+
 module.exports = {
 
 	options: {
@@ -12,16 +16,17 @@ module.exports = {
 			"dat.gui"
 		],
 		plugins: () => [
-			require("rollup-plugin-node-resolve")({
+			resolve({
 				jsnext: true
 			}),
-			require("rollup-plugin-string")({
+			string({
 				include: [
 					"**/*.frag",
 					"**/*.vert",
 					"**/*.tmp"
 				]
-			})
+			}),
+			babel()
 		]
 	},
 
