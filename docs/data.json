@@ -1449,7 +1449,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 594,
+            "line": 604,
             "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nBoolean operators to generate and transform volume data.",
             "submodule": "csg",
             "static": 1
@@ -3407,7 +3407,7 @@
         {
             "file": "src\\helpers\\chunk-helper.js",
             "line": 311,
-            "description": "Destroys this helper.",
+            "description": "Destroys the current helper geometry.",
             "itemtype": "method",
             "name": "dispose",
             "class": "ChunkHelper",
@@ -5946,12 +5946,12 @@
                 },
                 {
                     "name": "data0",
-                    "description": "- A target data set.",
+                    "description": "- A target data set. May be empty or full.",
                     "type": "HermiteData"
                 },
                 {
                     "name": "data1",
-                    "description": "- A predominant data set.",
+                    "description": "- A predominant data set. Cannot be null.",
                     "type": "HermiteData",
                     "optional": true
                 }
@@ -5961,7 +5961,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 518,
+            "line": 528,
             "description": "Executes the given operation.",
             "itemtype": "method",
             "name": "execute",
@@ -5989,7 +5989,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 605,
+            "line": 615,
             "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF\n 2. Combine the generated data with the chunk data",
             "itemtype": "method",
             "name": "run",
@@ -7968,6 +7968,28 @@
         {
             "file": "src\\volume\\hermite-data.js",
             "line": 124,
+            "description": "Adopts the given data.",
+            "itemtype": "method",
+            "name": "set",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "- The data to adopt.",
+                    "type": "HermiteData"
+                }
+            ],
+            "return": {
+                "description": "This data.",
+                "type": "HermiteData"
+            },
+            "class": "HermiteData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\hermite-data.js",
+            "line": 146,
             "description": "Compresses this data.",
             "itemtype": "method",
             "name": "compress",
@@ -7982,7 +8004,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 160,
+            "line": 182,
             "description": "Decompresses this data.",
             "itemtype": "method",
             "name": "decompress",
@@ -7997,7 +8019,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 184,
+            "line": 206,
             "description": "Sets the specified material index.",
             "itemtype": "method",
             "name": "setMaterialIndex",
@@ -8019,7 +8041,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 209,
+            "line": 231,
             "description": "Creates a list of transferable items.",
             "itemtype": "method",
             "name": "createTransferList",
@@ -8041,7 +8063,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 228,
+            "line": 250,
             "description": "Serialises this data.",
             "itemtype": "method",
             "name": "serialise",
@@ -8055,7 +8077,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 249,
+            "line": 271,
             "description": "Adopts the given serialised data.",
             "itemtype": "method",
             "name": "deserialise",
@@ -8072,7 +8094,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 284,
+            "line": 306,
             "description": "The material grid resolution.",
             "itemtype": "property",
             "name": "resolution",
