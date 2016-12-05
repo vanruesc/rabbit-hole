@@ -175,7 +175,7 @@ export class OctreeHelper extends Object3D {
 
 		while(this.children.length > 0) {
 
-			this.remove(children[0]);
+			this.remove(this.children[0]);
 
 		}
 
