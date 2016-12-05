@@ -13383,6 +13383,20 @@
      }
 
      /**
+      * Handles runtime errors.
+      *
+      * @method onError
+      * @private
+      * @static
+      * @param {Event} event - An event.
+      */
+
+     window.addEventListener("error", function onError(event) {
+
+     	alert(event.message);
+     });
+
+     /**
       * Starts the volume editor.
       *
       * @method main
