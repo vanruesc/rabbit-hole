@@ -209,8 +209,6 @@ export class App {
 
 			folder.add(terrain.object, "visible");
 
-			folder.open();
-
 			folder = gui.addFolder("Light");
 
 			subfolder = folder.addFolder("Directional");

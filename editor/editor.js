@@ -412,8 +412,6 @@ export class Editor {
 
 		folder.add(this, "save");
 
-		folder.open();
-
 	}
 
 }
