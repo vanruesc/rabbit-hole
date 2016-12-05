@@ -95,12 +95,12 @@ export class ChunkHelper extends Object3D {
 
 		const chunk = this.chunk;
 
+		// Remove existing geometry.
+		this.dispose();
+
 		if(chunk !== null && chunk.data !== null) {
 
 			chunk.data.decompress();
-
-			// Remove existing geometry.
-			this.dispose();
 
 			if(useMaterialIndices) { this.createPoints(chunk); }
 			if(useEdgeData) { this.createEdges(chunk); }
@@ -309,7 +309,7 @@ export class ChunkHelper extends Object3D {
 	}
 
 	/**
-	 * Destroys this helper.
+	 * Destroys the current helper geometry.
 	 *
 	 * @method dispose
 	 */
