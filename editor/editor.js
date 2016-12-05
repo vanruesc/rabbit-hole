@@ -104,7 +104,7 @@ export class Editor {
 		 * @type OctreeHelper
 		 */
 
-		this.octreeHelper = new OctreeHelper();
+		this.octreeHelper = new OctreeHelper(this.terrain.volume);
 		this.octreeHelper.visible = false;
 
 		/**
@@ -127,6 +127,11 @@ export class Editor {
 		this.delta = "";
 
 		this.setEnabled(true);
+
+		/*	this.terrain.union(new Sphere({
+				origin: [-32, -32, -32],
+				radius: 21
+			})); */
 
 	}
 
@@ -267,6 +272,12 @@ export class Editor {
 
 		}
 
+		if(this.octreeHelper.visible) {
+
+			this.octreeHelper.update();
+
+		}
+
 	}
 
 	/**
@@ -372,15 +383,33 @@ export class Editor {
 
 		const folder = gui.addFolder("Editor");
 
+		const params = {
+			hermiteData: this.chunkHelper.visible,
+			octree: this.octreeHelper.visible
+		};
+
 		folder.add(this, "delta").listen();
 
-		folder.add(this, "cursorSize").min(1).max(6).step(0.01).onChange(() => {
+		folder.add(this, "cursorSize").min(0.5).max(6).step(0.01).onChange(() => {
 
 			this.cursor.scale.set(this.cursorSize, this.cursorSize, this.cursorSize);
 
 		});
 
-		folder.add(this.chunkHelper, "visible");
+		folder.add(params, "hermiteData").onChange(() => {
+
+			this.chunkHelper.dispose();
+			this.chunkHelper.visible = params.hermiteData;
+
+		});
+
+		folder.add(params, "octree").onChange(() => {
+
+			this.octreeHelper.update();
+			this.octreeHelper.visible = params.octree;
+
+		});
+
 		folder.add(this, "save");
 
 		folder.open();
