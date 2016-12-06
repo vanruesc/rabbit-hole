@@ -254,7 +254,7 @@ export class Terrain extends EventTarget {
 
 		} else {
 
-			console.warn(data.error);
+			window.alert(data.error);
 
 		}
 
