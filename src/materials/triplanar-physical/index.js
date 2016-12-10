@@ -50,7 +50,7 @@ export class MeshTriplanarPhysicalMaterial extends ShaderMaterial {
 		Object.keys(source).forEach(function(key) {
 
 			const value = source[key].value;
-			const uniform = new Uniform(source[key].value);
+			const uniform = new Uniform(value);
 
 			Object.defineProperty(target, key, {
 
