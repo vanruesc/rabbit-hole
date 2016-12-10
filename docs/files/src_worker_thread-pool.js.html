@@ -144,18 +144,9 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import { EventTarget } from &quot;../events/event-target.js&quot;;
-import { WorkerEvent } from &quot;../events/worker-event.js&quot;;
 import { Action } from &quot;./action.js&quot;;
+import * as events from &quot;./thread-pool-events.js&quot;;
 import worker from &quot;./worker.tmp&quot;;
-
-/**
- * A worker message event.
- *
- * @event message
- * @type WorkerEvent
- */
-
-const MESSAGE = new WorkerEvent(&quot;message&quot;);
 
 /**
  * Manages worker threads.
@@ -229,14 +220,14 @@ export class ThreadPool extends EventTarget {
 
 			case &quot;message&quot;:
 				this.busyWorkers.delete(event.target);
-				MESSAGE.worker = event.target;
-				MESSAGE.data = event.data;
-				this.dispatchEvent(MESSAGE);
+				events.MESSAGE.worker = event.target;
+				events.MESSAGE.data = event.data;
+				this.dispatchEvent(events.MESSAGE);
 				break;
 
 			case &quot;error&quot;:
 				// Errors are being handled in the worker.
-				console.warn(&quot;Encountered an unexpected error.&quot;, event.message);
+				window.alert(&quot;Encountered an unexpected error.&quot;, event.message);
 				break;
 
 		}

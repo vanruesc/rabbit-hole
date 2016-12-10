@@ -6,17 +6,6 @@
         "url": "https://github.com/vanruesc/rabbit-hole"
     },
     "files": {
-        "src\\core\\events.js": {
-            "name": "src\\core\\events.js",
-            "modules": {
-                "core": 1
-            },
-            "classes": {},
-            "fors": {
-                "Terrain": 1
-            },
-            "namespaces": {}
-        },
         "src\\core\\history.js": {
             "name": "src\\core\\history.js",
             "modules": {},
@@ -28,7 +17,9 @@
         },
         "src\\core\\index.js": {
             "name": "src\\core\\index.js",
-            "modules": {},
+            "modules": {
+                "core": 1
+            },
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -76,6 +67,15 @@
                 "Task": 1
             },
             "fors": {},
+            "namespaces": {}
+        },
+        "src\\core\\terrain-events.js": {
+            "name": "src\\core\\terrain-events.js",
+            "modules": {},
+            "classes": {},
+            "fors": {
+                "Terrain": 1
+            },
             "namespaces": {}
         },
         "src\\core\\terrain.js": {
@@ -562,6 +562,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\worker\\thread-pool-events.js": {
+            "name": "src\\worker\\thread-pool-events.js",
+            "modules": {},
+            "classes": {},
+            "fors": {
+                "ThreadPool": 1
+            },
+            "namespaces": {}
+        },
         "src\\worker\\thread-pool.js": {
             "name": "src\\worker\\thread-pool.js",
             "modules": {},
@@ -614,13 +623,13 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "Terrain": 1,
                 "History": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
                 "Scheduler": 1,
-                "Task": 1
+                "Task": 1,
+                "Terrain": 1
             },
             "fors": {
                 "Terrain": 1
@@ -628,8 +637,8 @@
             "is_submodule": 1,
             "namespaces": {},
             "module": "rabbit-hole",
-            "file": "src\\core\\task.js",
-            "line": 1,
+            "file": "src\\core\\terrain.js",
+            "line": 51,
             "description": "Core components."
         },
         "rabbit-hole": {
@@ -649,13 +658,13 @@
             },
             "elements": {},
             "classes": {
-                "Terrain": 1,
                 "History": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
                 "Scheduler": 1,
                 "Task": 1,
+                "Terrain": 1,
                 "EventTarget": 1,
                 "Event": 1,
                 "TerrainEvent": 1,
@@ -703,7 +712,9 @@
                 "Worker": 1
             },
             "fors": {
-                "DualContouring": 1
+                "Terrain": 1,
+                "DualContouring": 1,
+                "ThreadPool": 1
             },
             "namespaces": {},
             "tag": "main",
@@ -899,7 +910,9 @@
                 "WorkerTask": 1,
                 "Worker": 1
             },
-            "fors": {},
+            "fors": {
+                "ThreadPool": 1
+            },
             "is_submodule": 1,
             "namespaces": {},
             "module": "rabbit-hole",
@@ -910,53 +923,6 @@
         }
     },
     "classes": {
-        "Terrain": {
-            "name": "Terrain",
-            "shortname": "Terrain",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "submodule": "core",
-            "file": "src\\core\\terrain.js",
-            "line": 51,
-            "description": "The terrain system.",
-            "extends": "EventTarget",
-            "implements": "EventListener",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "options",
-                    "description": "- The options.",
-                    "type": "Object",
-                    "optional": true,
-                    "props": [
-                        {
-                            "name": "chunkSize",
-                            "description": "- The world size of a volume chunk. Will be rounded up to the next power of two.",
-                            "type": "Number",
-                            "optional": true,
-                            "optdefault": "32"
-                        },
-                        {
-                            "name": "resolution",
-                            "description": "- The resolution of a volume chunk. Will be rounded up to the next power of two.",
-                            "type": "Number",
-                            "optional": true,
-                            "optdefault": "32"
-                        },
-                        {
-                            "name": "maxWorkers",
-                            "description": "- Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.",
-                            "type": "Number",
-                            "optional": true
-                        }
-                    ]
-                }
-            ]
-        },
         "History": {
             "name": "History",
             "shortname": "History",
@@ -1075,6 +1041,60 @@
                     "type": "Number",
                     "optional": true,
                     "optdefault": "0"
+                }
+            ]
+        },
+        "Terrain": {
+            "name": "Terrain",
+            "shortname": "Terrain",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "submodule": "core",
+            "namespace": "",
+            "file": "src\\core\\terrain.js",
+            "line": 51,
+            "description": "The terrain system.",
+            "extends": "EventTarget",
+            "implements": "EventListener",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "- The options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "chunkSize",
+                            "description": "- The world size of a volume chunk. Will be rounded up to the next power of two.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "32"
+                        },
+                        {
+                            "name": "resolution",
+                            "description": "- The resolution of a volume chunk. Will be rounded up to the next power of two.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "32"
+                        },
+                        {
+                            "name": "maxWorkers",
+                            "description": "- Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "levels",
+                            "description": "- The amount of detail levels. The default number of levels is derived from the resolution.",
+                            "type": "Number",
+                            "optional": true
+                        }
+                    ]
                 }
             ]
         },
@@ -2103,11 +2123,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "rabbit-hole",
+            "submodule": "worker",
             "namespace": "",
             "file": "src\\worker\\thread-pool.js",
-            "line": 15,
+            "line": 6,
             "description": "Manages worker threads.",
-            "submodule": "worker",
             "extends": "EventTarget",
             "implements": "EventListener",
             "is_constructor": 1,
@@ -2191,46 +2211,6 @@
     "elements": {},
     "classitems": [
         {
-            "file": "src\\core\\events.js",
-            "line": 7,
-            "description": "Signals the start of a modification task.",
-            "itemtype": "event",
-            "name": "modificationstart",
-            "type": "TerrainEvent",
-            "class": "Terrain",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\events.js",
-            "line": 17,
-            "description": "Signals the end of a modification task.",
-            "itemtype": "event",
-            "name": "modificationend",
-            "type": "TerrainEvent",
-            "class": "Terrain",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\events.js",
-            "line": 27,
-            "description": "Signals the start of an extraction task.",
-            "itemtype": "event",
-            "name": "extractionstart",
-            "type": "TerrainEvent",
-            "class": "Terrain",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\events.js",
-            "line": 37,
-            "description": "Signals the end of an extraction task.",
-            "itemtype": "event",
-            "name": "extractionend",
-            "type": "TerrainEvent",
-            "class": "Terrain",
-            "submodule": "core"
-        },
-        {
             "file": "src\\core\\history.js",
             "line": 15,
             "description": "The elements that have been executed during the current session.",
@@ -2290,7 +2270,7 @@
         },
         {
             "file": "src\\core\\history.js",
-            "line": 108,
+            "line": 104,
             "description": "Clears this history.",
             "itemtype": "method",
             "name": "clear",
@@ -2619,7 +2599,7 @@
         },
         {
             "file": "src\\core\\scheduler.js",
-            "line": 64,
+            "line": 67,
             "description": "Schedules a task for the given element. Other tasks that are scheduled for\nthat element will be cancelled.",
             "itemtype": "method",
             "name": "schedule",
@@ -2645,7 +2625,7 @@
         },
         {
             "file": "src\\core\\scheduler.js",
-            "line": 96,
+            "line": 99,
             "description": "Checks if a task is scheduled for the given element.",
             "itemtype": "method",
             "name": "hasTask",
@@ -2666,7 +2646,7 @@
         },
         {
             "file": "src\\core\\scheduler.js",
-            "line": 110,
+            "line": 113,
             "description": "Retrieves the task for the given element.",
             "itemtype": "method",
             "name": "getTask",
@@ -2687,7 +2667,7 @@
         },
         {
             "file": "src\\core\\scheduler.js",
-            "line": 124,
+            "line": 127,
             "description": "Retrieves the head of the queue, or returns null if the queue is empty.",
             "itemtype": "method",
             "name": "poll",
@@ -2701,7 +2681,7 @@
         },
         {
             "file": "src\\core\\scheduler.js",
-            "line": 145,
+            "line": 148,
             "description": "Removes all tasks.",
             "itemtype": "method",
             "name": "clear",
@@ -2730,6 +2710,50 @@
             "type": "Number",
             "default": "-1",
             "class": "Task",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain-events.js",
+            "line": 7,
+            "description": "Signals the start of a modification task.",
+            "itemtype": "event",
+            "name": "modificationstart",
+            "type": "TerrainEvent",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain-events.js",
+            "line": 17,
+            "description": "Signals the end of a modification task.",
+            "itemtype": "event",
+            "name": "modificationend",
+            "type": "TerrainEvent",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain-events.js",
+            "line": 27,
+            "description": "Signals the start of an extraction task.",
+            "itemtype": "event",
+            "name": "extractionstart",
+            "type": "TerrainEvent",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain-events.js",
+            "line": 37,
+            "description": "Signals the end of an extraction task.",
+            "itemtype": "event",
+            "name": "extractionend",
+            "type": "TerrainEvent",
+            "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
@@ -2777,7 +2801,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 71,
+            "line": 72,
             "description": "The terrain object. Add this to your scene.",
             "itemtype": "property",
             "name": "object",
@@ -2788,13 +2812,11 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 81,
+            "line": 82,
             "description": "The volume of this terrain.",
             "itemtype": "property",
             "name": "volume",
             "type": "Volume",
-            "access": "private",
-            "tagname": "",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
@@ -2808,13 +2830,14 @@
             "type": "Number",
             "access": "private",
             "tagname": "",
+            "default": "log2(resolution)",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 104,
+            "line": 105,
             "description": "A thread pool.",
             "itemtype": "property",
             "name": "threadPool",
@@ -2827,7 +2850,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 115,
+            "line": 116,
             "description": "Manages pending tasks.",
             "itemtype": "property",
             "name": "scheduler",
@@ -2840,7 +2863,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 125,
+            "line": 126,
             "description": "A chronological sequence of CSG operations that have been executed during\nthis session.",
             "itemtype": "property",
             "name": "history",
@@ -2851,18 +2874,20 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 135,
+            "line": 136,
             "description": "Keeps track of chunks that are currently being used by a worker. The\namount of neutered chunks cannot exceed the amount of worker threads.",
             "itemtype": "property",
             "name": "neutered",
             "type": "WeakSet",
+            "access": "private",
+            "tagname": "",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 145,
+            "line": 147,
             "description": "Keeps track of associations between workers and chunks.",
             "itemtype": "property",
             "name": "chunks",
@@ -2875,7 +2900,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 155,
+            "line": 157,
             "description": "Keeps track of associations between chunks and meshes.",
             "itemtype": "property",
             "name": "meshes",
@@ -2888,20 +2913,18 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 165,
+            "line": 167,
             "description": "The terrain material.",
             "itemtype": "property",
             "name": "material",
             "type": "TerrainMaterial",
-            "access": "private",
-            "tagname": "",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 177,
+            "line": 178,
             "description": "Lifts the connection of a given chunk to its mesh and removes the geometry.",
             "itemtype": "method",
             "name": "unlinkMesh",
@@ -2920,7 +2943,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 201,
+            "line": 202,
             "description": "Handles worker events.",
             "itemtype": "method",
             "name": "handleEvent",
@@ -2939,7 +2962,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 266,
+            "line": 267,
             "description": "Updates geometry chunks with extracted data.",
             "itemtype": "method",
             "name": "consolidate",
@@ -2963,7 +2986,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 303,
+            "line": 304,
             "description": "Runs a pending task if a worker is available.",
             "itemtype": "method",
             "name": "runNextTask",
@@ -2975,7 +2998,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 366,
+            "line": 367,
             "description": "Edits the terrain volume data.",
             "itemtype": "method",
             "name": "edit",
@@ -2994,7 +3017,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 398,
+            "line": 399,
             "description": "Executes the given SDF and adds the generated data to the volume.",
             "itemtype": "method",
             "name": "union",
@@ -3011,7 +3034,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 413,
+            "line": 414,
             "description": "Executes the given SDF and subtracts the generated data from the volume.",
             "itemtype": "method",
             "name": "subtract",
@@ -3028,7 +3051,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 428,
+            "line": 429,
             "description": "Executes the given SDF and discards the volume data that doesn't overlap\nwith the generated data.",
             "itemtype": "method",
             "name": "intersect",
@@ -3045,7 +3068,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 444,
+            "line": 445,
             "description": "Updates the terrain geometry. This method should be called each frame.",
             "itemtype": "method",
             "name": "update",
@@ -3062,7 +3085,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 515,
+            "line": 516,
             "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.\n\nIntersections are sorted by distance, closest first.",
             "itemtype": "method",
             "name": "raycast",
@@ -3083,7 +3106,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 556,
+            "line": 557,
             "description": "Removes all child meshes.",
             "itemtype": "method",
             "name": "clearMeshes",
@@ -3095,7 +3118,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 582,
+            "line": 583,
             "description": "Resets this terrain by removing data and closing active worker threads.",
             "itemtype": "method",
             "name": "clear",
@@ -3105,7 +3128,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 603,
+            "line": 604,
             "description": "Destroys this terrain and frees internal resources.",
             "itemtype": "method",
             "name": "dispose",
@@ -3115,7 +3138,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 616,
+            "line": 617,
             "description": "Saves a description of the current volume data.",
             "itemtype": "method",
             "name": "save",
@@ -3129,7 +3152,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 637,
+            "line": 638,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -8041,7 +8064,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 231,
+            "line": 235,
             "description": "Creates a list of transferable items.",
             "itemtype": "method",
             "name": "createTransferList",
@@ -8063,7 +8086,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 250,
+            "line": 254,
             "description": "Serialises this data.",
             "itemtype": "method",
             "name": "serialise",
@@ -8077,7 +8100,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 271,
+            "line": 275,
             "description": "Adopts the given serialised data.",
             "itemtype": "method",
             "name": "deserialise",
@@ -8094,7 +8117,7 @@
         },
         {
             "file": "src\\volume\\hermite-data.js",
-            "line": 306,
+            "line": 310,
             "description": "The material grid resolution.",
             "itemtype": "property",
             "name": "resolution",
@@ -8268,18 +8291,19 @@
             "submodule": "worker"
         },
         {
-            "file": "src\\worker\\thread-pool.js",
-            "line": 6,
+            "file": "src\\worker\\thread-pool-events.js",
+            "line": 7,
             "description": "A worker message event.",
             "itemtype": "event",
             "name": "message",
             "type": "WorkerEvent",
             "class": "ThreadPool",
-            "module": "rabbit-hole"
+            "module": "rabbit-hole",
+            "submodule": "worker"
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 32,
+            "line": 23,
             "description": "An object URL to the worker program.",
             "itemtype": "property",
             "name": "workerURL",
@@ -8292,7 +8316,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 42,
+            "line": 33,
             "description": "The maximum number of active worker threads.",
             "itemtype": "property",
             "name": "maxWorkers",
@@ -8304,7 +8328,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 52,
+            "line": 43,
             "description": "A list of existing workers.",
             "itemtype": "property",
             "name": "workers",
@@ -8317,7 +8341,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 62,
+            "line": 53,
             "description": "Keeps track of workers that are currently busy.",
             "itemtype": "property",
             "name": "busyWorkers",
@@ -8330,7 +8354,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 74,
+            "line": 65,
             "description": "Handles events.",
             "itemtype": "method",
             "name": "handleEvent",
@@ -8347,7 +8371,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 101,
+            "line": 92,
             "description": "Closes a worker.",
             "itemtype": "method",
             "name": "closeWorker",
@@ -8364,7 +8388,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 136,
+            "line": 127,
             "description": "Creates a new worker.",
             "itemtype": "method",
             "name": "createWorker",
@@ -8380,7 +8404,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 157,
+            "line": 148,
             "description": "Polls an available worker and returns it. The worker will be excluded from\nsubsequent polls until it finishes its task and sends a message back.",
             "itemtype": "method",
             "name": "getWorker",
@@ -8394,7 +8418,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 200,
+            "line": 191,
             "description": "Resets this thread pool by closing all workers.",
             "itemtype": "method",
             "name": "clear",
@@ -8404,7 +8428,7 @@
         },
         {
             "file": "src\\worker\\thread-pool.js",
-            "line": 216,
+            "line": 207,
             "description": "Removes all active workers and releases the worker program blob.",
             "itemtype": "method",
             "name": "dispose",
