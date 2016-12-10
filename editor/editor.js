@@ -298,7 +298,7 @@ export class Editor {
 		raycaster.setFromCamera(MOUSE, this.camera);
 		const intersects = this.terrain.raycast(raycaster);
 
-		this.delta = (((performance.now() - t0) * 100.0) / 100.0).toFixed(2) + " ms";
+		this.delta = (performance.now() - t0).toFixed(2) + " ms";
 
 		if(intersects.length > 0) {
 

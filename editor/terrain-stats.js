@@ -216,13 +216,9 @@ export class TerrainStats {
 
 		}
 
-		a.href = URL.createObjectURL(
-
-			new Blob([text], {
-				type: "text/plain"
-			})
-
-		);
+		a.href = URL.createObjectURL(new Blob([text], {
+			type: "text/plain"
+		}));
 
 		a.download = "stats.txt";
 		a.click();
