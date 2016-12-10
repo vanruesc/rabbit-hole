@@ -60,6 +60,7 @@ const FRUSTUM = new Frustum();
  * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
+ * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
  */
 
 export class Terrain extends EventTarget {
@@ -97,6 +98,7 @@ export class Terrain extends EventTarget {
 		 * @property levels
 		 * @type Number
 		 * @private
+		 * @default log2(resolution)
 		 */
 
 		this.levels = Math.log2(this.volume.resolution);
