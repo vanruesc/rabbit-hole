@@ -1230,7 +1230,7 @@
      				/**
           * Removes an event handler of a specific event type from the event target.
           *
-          * @method addEventListener
+          * @method removeEventListener
           * @param {String} type - The event type to remove.
           * @param {Object} listener - The event listener to remove from the event target.
           */
@@ -1260,6 +1260,7 @@
           * event listeners in the appropriate order.
           *
           * @method dispatchEvent
+          * @private
           * @param {Event} event - The event to dispatch.
           * @param {EventTarget} [target] - An event target.
           */
@@ -7678,7 +7679,7 @@
           * The terrain material.
           *
           * @property material
-          * @type TerrainMaterial
+          * @type MeshTriplanarPhysicalMaterial
           */
 
      				_this.material = new MeshTriplanarPhysicalMaterial();
