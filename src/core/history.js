@@ -67,35 +67,31 @@ export class History {
 
 		let i, l;
 
-		if(elements.length > 0) {
+		for(i = 0, l = elements.length; i < l; ++i) {
 
-			for(i = 0, l = elements.length; i < l; ++i) {
+			b = elements[i];
 
-				b = elements[i];
+			if(a !== null) {
 
-				if(a !== null) {
+				switch(b.operation) {
 
-					switch(b.operation) {
+					case OperationType.UNION:
+						a.union(b);
+						break;
 
-						case OperationType.UNION:
-							a.union(b);
-							break;
+					case OperationType.DIFFERENCE:
+						a.subtract(b);
+						break;
 
-						case OperationType.DIFFERENCE:
-							a.subtract(b);
-							break;
-
-						case OperationType.INTERSECTION:
-							a.intersect(b);
-							break;
-
-					}
-
-				} else {
-
-					a = b;
+					case OperationType.INTERSECTION:
+						a.intersect(b);
+						break;
 
 				}
+
+			} else {
+
+				a = b;
 
 			}
 

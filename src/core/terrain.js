@@ -84,7 +84,6 @@ export class Terrain extends EventTarget {
 		 *
 		 * @property volume
 		 * @type Volume
-		 * @private
 		 */
 
 		this.volume = new Volume(options.chunkSize, options.resolution);
@@ -140,6 +139,7 @@ export class Terrain extends EventTarget {
 		 *
 		 * @property neutered
 		 * @type WeakSet
+		 * @private
 		 */
 
 		this.neutered = new WeakSet();
@@ -169,7 +169,6 @@ export class Terrain extends EventTarget {
 		 *
 		 * @property material
 		 * @type TerrainMaterial
-		 * @private
 		 */
 
 		this.material = new MeshTriplanarPhysicalMaterial();

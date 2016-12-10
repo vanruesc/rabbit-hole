@@ -47,10 +47,13 @@ export class Scheduler extends PriorityQueue {
 
 	cancel(element) {
 
-		const task = this.registry.get(element);
-		const result = (task !== undefined);
+		const result = this.registry.has(element);
+
+		let task;
 
 		if(result) {
+
+			task = this.registry.get(element);
 
 			this.remove(task.index, task.priority);
 			this.registry.delete(element);
