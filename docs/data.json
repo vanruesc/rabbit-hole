@@ -2917,7 +2917,7 @@
             "description": "The terrain material.",
             "itemtype": "property",
             "name": "material",
-            "type": "TerrainMaterial",
+            "type": "MeshTriplanarPhysicalMaterial",
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
@@ -3220,7 +3220,7 @@
             "line": 60,
             "description": "Removes an event handler of a specific event type from the event target.",
             "itemtype": "method",
-            "name": "addEventListener",
+            "name": "removeEventListener",
             "params": [
                 {
                     "name": "type",
@@ -3243,6 +3243,8 @@
             "description": "Dispatches an event at the specified event target, invoking the affected\nevent listeners in the appropriate order.",
             "itemtype": "method",
             "name": "dispatchEvent",
+            "access": "private",
+            "tagname": "",
             "params": [
                 {
                     "name": "event",
