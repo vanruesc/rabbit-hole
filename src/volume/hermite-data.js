@@ -214,11 +214,15 @@ export class HermiteData {
 	setMaterialIndex(index, value) {
 
 		// Keep track of how many material indices are solid.
-		if(this.materialIndices[index] === Density.HOLLOW && value !== Density.HOLLOW) {
+		if(this.materialIndices[index] === Density.HOLLOW) {
 
-			++this.materials;
+			if(value !== Density.HOLLOW) {
 
-		} else if(this.materialIndices[index] !== Density.HOLLOW && value === Density.HOLLOW) {
+				++this.materials;
+
+			}
+
+		} else if(value === Density.HOLLOW) {
 
 			--this.materials;
 
