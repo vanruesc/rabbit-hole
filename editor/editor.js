@@ -358,6 +358,99 @@ export class Editor {
 	dispose() { this.setEnabled(false); }
 
 	/**
+	 * Saves memory usage information about the current volume data.
+	 *
+	 * @method logMemory
+	 */
+
+	logMemory() {
+
+		const a = document.createElement("a");
+		const chunks = this.terrain.volume.getChunks();
+
+		const n = this.terrain.volume.resolution;
+		const m = Math.pow((n + 1), 3);
+		const c = 3 * Math.pow((n + 1), 2) * n;
+
+		let materialReport = "";
+		let edgeReport = "";
+
+		let maxMaterials = 0;
+		let maxEdges = 0;
+
+		let chunkCount = 0;
+
+		let materialCount = 0;
+		let runLengthCount = 0;
+		let edgeCount = 0;
+
+		let data, edgeData, edges;
+		let i, j, l;
+
+		for(i = 0, j = 0, l = chunks.length; i < l; ++i) {
+
+			data = chunks[i].data;
+
+			if(data !== null) {
+
+				edgeData = data.edgeData;
+
+				edges = (
+					edgeData.edges[0].length +
+					edgeData.edges[1].length +
+					edgeData.edges[2].length
+				);
+
+				materialReport += j + ", " + (data.materials + data.runLengths.length * 4) + "\n";
+				edgeReport += j + ", " + edges + "\n";
+
+				materialCount += data.materials;
+				runLengthCount += data.runLengths.length;
+				edgeCount += edges;
+
+				++chunkCount;
+				++j;
+
+			}
+
+		}
+
+		maxMaterials = chunkCount * m;
+		maxEdges = chunkCount * c;
+
+		let report = "Volume Chunks: " + chunkCount + "\n\n";
+
+		report += "Total Materials: " + materialCount + " (" + maxMaterials + " max)\n";
+		report += "Total Run-Lengths: " + runLengthCount + "\n";
+		report += "Compression ratio: " + (((materialCount + runLengthCount * 4) / maxMaterials) * 100).toFixed(2) + "%\n";
+		report += "Estimated Memory Usage: " + ((materialCount * 8 + runLengthCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
+
+		report += "\n";
+
+		report += "Total Edges: " + edgeCount + " (" + maxEdges + " max)\n";
+		report += "Compression ratio: " + ((edgeCount / maxEdges) * 100).toFixed(2) + "%\n";
+		report += "Estimated Memory Usage: " + ((edgeCount * 32 + edgeCount * 32 + 3 * edgeCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
+
+		report += "\n";
+
+		report += "Material Counts\n\n";
+		report += materialReport;
+
+		report += "\n";
+
+		report += "Edge Counts\n\n";
+		report += edgeReport + "\n";
+
+		a.href = URL.createObjectURL(new Blob([report], {
+			type: "text/plain"
+		}));
+
+		a.download = "memory.txt";
+		a.click();
+
+	}
+
+	/**
 	 * Saves a snapshot of the current terrain data.
 	 *
 	 * @method save
@@ -410,6 +503,7 @@ export class Editor {
 
 		});
 
+		folder.add(this, "logMemory");
 		folder.add(this, "save");
 
 	}
