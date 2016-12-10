@@ -1,16 +1,7 @@
 import { EventTarget } from "../events/event-target.js";
-import { WorkerEvent } from "../events/worker-event.js";
 import { Action } from "./action.js";
+import * as events from "./thread-pool-events.js";
 import worker from "./worker.tmp";
-
-/**
- * A worker message event.
- *
- * @event message
- * @type WorkerEvent
- */
-
-const MESSAGE = new WorkerEvent("message");
 
 /**
  * Manages worker threads.
@@ -84,9 +75,9 @@ export class ThreadPool extends EventTarget {
 
 			case "message":
 				this.busyWorkers.delete(event.target);
-				MESSAGE.worker = event.target;
-				MESSAGE.data = event.data;
-				this.dispatchEvent(MESSAGE);
+				events.MESSAGE.worker = event.target;
+				events.MESSAGE.data = event.data;
+				this.dispatchEvent(events.MESSAGE);
 				break;
 
 			case "error":
