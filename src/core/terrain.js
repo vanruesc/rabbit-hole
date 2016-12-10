@@ -168,7 +168,7 @@ export class Terrain extends EventTarget {
 		 * The terrain material.
 		 *
 		 * @property material
-		 * @type TerrainMaterial
+		 * @type MeshTriplanarPhysicalMaterial
 		 */
 
 		this.material = new MeshTriplanarPhysicalMaterial();
