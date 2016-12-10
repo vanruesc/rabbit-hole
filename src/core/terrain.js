@@ -10,7 +10,7 @@ import { WorkerTask } from "../worker/worker-task.js";
 import { History } from "./history.js";
 import { Scheduler } from "./scheduler.js";
 import { Queue } from "./queue.js";
-import * as events from "./events.js";
+import * as events from "./terrain-events.js";
 
 /**
  * A computation helper.
