@@ -1,7 +1,7 @@
 import { Vector3 } from "../math/vector3.js";
 
 /**
- * An density bias for the Zero Crossing approximation.
+ * An isovalue bias for the Zero Crossing approximation.
  *
  * @property BIAS
  * @type Number
@@ -152,7 +152,15 @@ export class Edge {
 				P.addVectors(this.a, V.copy(AB).multiplyScalar(a));
 				densityA = sdf.sample(P);
 
-				(Math.sign(densityC) === Math.sign(densityA)) ? (a = c) : (b = c);
+				if(Math.sign(densityC) === Math.sign(densityA)) {
+
+					a = c;
+
+				} else {
+
+					b = c;
+
+				}
 
 			}
 
