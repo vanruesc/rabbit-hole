@@ -1,4 +1,4 @@
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { Operation } from "./operation.js";
 import { OperationType } from "./operation-type.js";
 
@@ -33,7 +33,7 @@ export class Union extends Operation {
 
 		const materialIndex = data1.materialIndices[index];
 
-		if(materialIndex !== Density.HOLLOW) {
+		if(materialIndex !== Material.AIR) {
 
 			data0.setMaterialIndex(index, materialIndex);
 

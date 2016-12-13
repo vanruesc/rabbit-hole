@@ -1,5 +1,5 @@
 import { EDGES } from "sparse-octree";
-import { Density } from "../../volume/density.js";
+import { Material } from "../../volume/material.js";
 import { VoxelBlock } from "../../volume/octree/voxel-block.js";
 import * as tables from "./tables.js";
 
@@ -42,7 +42,7 @@ function contourProcessEdge(octants, dir, indexBuffer) {
 
 			minSize = octant.size;
 			minIndex = i;
-			flip = (m1 !== Density.HOLLOW);
+			flip = (m1 !== Material.AIR);
 
 		}
 

@@ -38,7 +38,7 @@ export {
 } from "./math";
 
 export {
-	Density,
+	Material,
 	Edge,
 	EdgeData,
 	HermiteData,

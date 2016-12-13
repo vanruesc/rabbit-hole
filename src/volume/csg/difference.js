@@ -1,4 +1,4 @@
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { Operation } from "./operation.js";
 import { OperationType } from "./operation-type.js";
 
@@ -31,9 +31,9 @@ export class Difference extends Operation {
 
 	updateMaterialIndex(index, data0, data1) {
 
-		if(data1.materialIndices[index] !== Density.HOLLOW) {
+		if(data1.materialIndices[index] !== Material.AIR) {
 
-			data0.setMaterialIndex(index, Density.HOLLOW);
+			data0.setMaterialIndex(index, Material.AIR);
 
 		}
 

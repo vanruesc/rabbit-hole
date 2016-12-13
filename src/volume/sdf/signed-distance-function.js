@@ -3,7 +3,7 @@ import { Union } from "../csg/union.js";
 import { Difference } from "../csg/difference.js";
 import { Intersection } from "../csg/intersection.js";
 import { DensityFunction } from "../csg/density-function.js";
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 
 /**
  * An abstract Signed Distance Function.
@@ -17,12 +17,12 @@ import { Density } from "../density.js";
  * @submodule sdf
  * @constructor
  * @param {SDFType} type - The type of the SDF.
- * @param {Number} [material=Density.SOLID] - A material index. Must be an integer in the range of 1 to 255.
+ * @param {Number} [material=Material.SOLID] - A material index. Must be an integer in the range of 1 to 255.
  */
 
 export class SignedDistanceFunction {
 
-	constructor(type, material = Density.SOLID) {
+	constructor(type, material = Material.SOLID) {
 
 		/**
 		 * The type of this SDF.
@@ -50,10 +50,10 @@ export class SignedDistanceFunction {
 		 * @property material
 		 * @type Number
 		 * @private
-		 * @default Density.SOLID
+		 * @default Material.SOLID
 		 */
 
-		this.material = Math.min(255, Math.max(Density.SOLID, Math.trunc(material)));
+		this.material = Math.min(255, Math.max(Material.SOLID, Math.trunc(material)));
 
 		/**
 		 * A list of SDFs.

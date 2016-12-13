@@ -2,7 +2,7 @@ import { Octree, PATTERN, EDGES } from "sparse-octree";
 import { Vector3 } from "../../math/vector3.js";
 import { QEFData } from "../../math/qef-data.js";
 import { QEFSolver } from "../../math/qef-solver.js";
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { Edge } from "../edge.js";
 import { Voxel } from "../voxel.js";
 import { VoxelCell } from "./voxel-cell.js";
@@ -43,7 +43,7 @@ function createVoxel(n, x, y, z, materialIndices) {
 		index = (z + offset[2]) * mm + (y + offset[1]) * m + (x + offset[0]);
 
 		// Convert the identified material index into a binary value.
-		material = Math.min(materialIndices[index], Density.SOLID);
+		material = Math.min(materialIndices[index], Material.SOLID);
 
 		// Store the value in bit i.
 		materials |= (material << i);

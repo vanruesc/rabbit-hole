@@ -1,6 +1,18 @@
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { Operation } from "./operation.js";
 import { OperationType } from "./operation-type.js";
+
+/**
+ * The isovalue.
+ *
+ * @property ISOVALUE
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const ISOVALUE = 0.0;
 
 /**
  * An operation that describes a density field.
@@ -55,7 +67,7 @@ export class DensityFunction extends Operation {
 
 	generateMaterialIndex(position) {
 
-		return (this.sdf.sample(position) <= 0.0) ? this.sdf.material : Density.HOLLOW;
+		return (this.sdf.sample(position) <= ISOVALUE) ? this.sdf.material : Material.AIR;
 
 	}
 

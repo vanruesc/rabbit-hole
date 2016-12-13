@@ -5,7 +5,7 @@
  * @submodule volume
  */
 
-export { Density } from "./density.js";
+export { Material } from "./material.js";
 export { Edge } from "./edge.js";
 export { EdgeData } from "./edge-data.js";
 export { HermiteData } from "./hermite-data.js";

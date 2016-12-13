@@ -11,7 +11,7 @@ import {
 } from "three";
 
 import { PATTERN } from "sparse-octree";
-import { Density } from "../volume/density.js";
+import { Material } from "../volume/material.js";
 import { Edge } from "../volume/edge.js";
 
 /**
@@ -159,7 +159,7 @@ export class ChunkHelper extends Object3D {
 
 					offset.x = x * s / n;
 
-					if(materialIndices[i++] !== Density.HOLLOW) {
+					if(materialIndices[i++] !== Material.AIR) {
 
 						position.addVectors(base, offset);
 

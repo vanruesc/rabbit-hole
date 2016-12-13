@@ -1,4 +1,4 @@
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { Operation } from "./operation.js";
 import { OperationType } from "./operation-type.js";
 
@@ -33,7 +33,7 @@ export class Intersection extends Operation {
 
 		const materialIndex = data1.materialIndices[index];
 
-		data0.setMaterialIndex(index, (data0.materialIndices[index] !== Density.HOLLOW && materialIndex !== Density.HOLLOW) ? materialIndex : Density.HOLLOW);
+		data0.setMaterialIndex(index, (data0.materialIndices[index] !== Material.AIR && materialIndex !== Material.AIR) ? materialIndex : Material.AIR);
 
 	}
 

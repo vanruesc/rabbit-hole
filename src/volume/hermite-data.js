@@ -1,5 +1,5 @@
 import { RunLengthEncoder } from "../core/run-length-encoder.js";
-import { Density } from "./density.js";
+import { Material } from "./material.js";
 import { EdgeData } from "./edge-data.js";
 
 /**
@@ -161,7 +161,7 @@ export class HermiteData {
 
 				encoding = {
 					runLengths: [this.materialIndices.length],
-					data: [Density.SOLID]
+					data: [Material.SOLID]
 				};
 
 			} else {

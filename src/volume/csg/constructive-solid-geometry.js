@@ -1,7 +1,7 @@
 import { PATTERN } from "sparse-octree";
 import { Box3 } from "../../math/box3.js";
 import { Vector3 } from "../../math/vector3.js";
-import { Density } from "../density.js";
+import { Material } from "../material.js";
 import { EdgeData } from "../edge-data.js";
 import { HermiteData } from "../hermite-data.js";
 import { Edge } from "../edge.js";
@@ -149,7 +149,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				materialIndex = operation.generateMaterialIndex(position.addVectors(base, offset));
 
-				if(materialIndex !== Density.HOLLOW) {
+				if(materialIndex !== Material.AIR) {
 
 					materialIndices[z * mm + y * m + x] = materialIndex;
 
@@ -234,7 +234,7 @@ function combineEdges(chunk, operation, data0, data1) {
 			m1 = materialIndices[indexA1];
 			m2 = materialIndices[indexB1];
 
-			if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+			if(m1 !== m2 && (m1 === Material.AIR || m2 === Material.AIR)) {
 
 				edge1.t = zeroCrossings1[i];
 				edge1.n.x = normals1[i * 3];
@@ -265,7 +265,7 @@ function combineEdges(chunk, operation, data0, data1) {
 						m1 = materialIndices[indexA0];
 						m2 = materialIndices[indexB0];
 
-						if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+						if(m1 !== m2 && (m1 === Material.AIR || m2 === Material.AIR)) {
 
 							// The edge exhibits a material change and there is no conflict.
 							edges[c] = indexA0;
@@ -281,7 +281,7 @@ function combineEdges(chunk, operation, data0, data1) {
 					} else {
 
 						// Resolve the conflict.
-						edge = operation.selectEdge(edge0, edge1, (m1 === Density.SOLID));
+						edge = operation.selectEdge(edge0, edge1, (m1 === Material.SOLID));
 
 					}
 
@@ -310,7 +310,7 @@ function combineEdges(chunk, operation, data0, data1) {
 			m1 = materialIndices[indexA0];
 			m2 = materialIndices[indexB0];
 
-			if(m1 !== m2 && (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+			if(m1 !== m2 && (m1 === Material.AIR || m2 === Material.AIR)) {
 
 				edges[c] = indexA0;
 				zeroCrossings[c] = zeroCrossings0[j];

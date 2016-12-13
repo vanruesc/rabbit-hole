@@ -1,23 +1,23 @@
 /**
- * An enumeration of density constants.
+ * An enumeration of material constants.
  *
- * @class Density
+ * @class Material
  * @submodule volume
  * @static
  */
 
-export const Density = {
+export const Material = {
 
 	/**
 	 * The index for empty space.
 	 *
-	 * @property HOLLOW
+	 * @property AIR
 	 * @type Number
 	 * @static
 	 * @final
 	 */
 
-	HOLLOW: 0,
+	AIR: 0,
 
 	/**
 	 * The default index for solid material.
