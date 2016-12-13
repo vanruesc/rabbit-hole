@@ -92,16 +92,16 @@ export class Chunk extends CubicOctant {
 	 * Adopts the given serialised data.
 	 *
 	 * @method deserialise
-	 * @param {Object} chunk - A serialised description.
+	 * @param {Object} object - A serialised chunk description.
 	 */
 
-	deserialise(chunk) {
+	deserialise(object) {
 
-		this.resolution = chunk.resolution;
-		this.min.fromArray(chunk.min);
-		this.size = chunk.size;
+		this.resolution = object.resolution;
+		this.min.fromArray(object.min);
+		this.size = object.size;
 
-		if(chunk.data !== null) {
+		if(object.data !== null) {
 
 			if(this.data === null) {
 
@@ -109,7 +109,7 @@ export class Chunk extends CubicOctant {
 
 			}
 
-			this.data.deserialise(chunk.data);
+			this.data.deserialise(object.data);
 
 		} else {
 

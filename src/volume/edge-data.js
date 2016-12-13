@@ -136,14 +136,14 @@ export class EdgeData {
 	 * Adopts the given serialised data.
 	 *
 	 * @method deserialise
-	 * @param {Object} data - Serialised data.
+	 * @param {Object} object - Serialised edge data.
 	 */
 
-	deserialise(data) {
+	deserialise(object) {
 
-		this.edges = data.edges;
-		this.zeroCrossings = data.zeroCrossings;
-		this.normals = data.normals;
+		this.edges = object.edges;
+		this.zeroCrossings = object.zeroCrossings;
+		this.normals = object.normals;
 
 	}
 

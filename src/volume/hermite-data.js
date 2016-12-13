@@ -276,18 +276,18 @@ export class HermiteData {
 	 * Adopts the given serialised data.
 	 *
 	 * @method deserialise
-	 * @param {Object} data - Serialised data.
+	 * @param {Object} object - Serialised hermite data.
 	 */
 
-	deserialise(data) {
+	deserialise(object) {
 
-		this.lod = data.lod;
-		this.materials = data.materials;
+		this.lod = object.lod;
+		this.materials = object.materials;
 
-		this.materialIndices = data.materialIndices;
-		this.runLengths = data.runLengths;
+		this.materialIndices = object.materialIndices;
+		this.runLengths = object.runLengths;
 
-		if(data.edgeData !== null) {
+		if(object.edgeData !== null) {
 
 			if(this.edgeData === null) {
 
@@ -295,7 +295,7 @@ export class HermiteData {
 
 			}
 
-			this.edgeData.deserialise(data.edgeData);
+			this.edgeData.deserialise(object.edgeData);
 
 		} else {
 
