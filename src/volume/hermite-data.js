@@ -144,6 +144,35 @@ export class HermiteData {
 	}
 
 	/**
+	 * Sets the specified material index.
+	 *
+	 * @method setMaterialIndex
+	 * @param {Number} index - The index of the material index that should be updated.
+	 * @param {Number} value - The new material index.
+	 */
+
+	setMaterialIndex(index, value) {
+
+		// Keep track of how many material indices are solid.
+		if(this.materialIndices[index] === Material.AIR) {
+
+			if(value !== Material.AIR) {
+
+				++this.materials;
+
+			}
+
+		} else if(value === Material.AIR) {
+
+			--this.materials;
+
+		}
+
+		this.materialIndices[index] = value;
+
+	}
+
+	/**
 	 * Compresses this data.
 	 *
 	 * @method compress
@@ -200,35 +229,6 @@ export class HermiteData {
 		}
 
 		return this;
-
-	}
-
-	/**
-	 * Sets the specified material index.
-	 *
-	 * @method setMaterialIndex
-	 * @param {Number} index - The index of the material index that should be updated.
-	 * @param {Number} value - The new material index.
-	 */
-
-	setMaterialIndex(index, value) {
-
-		// Keep track of how many material indices are solid.
-		if(this.materialIndices[index] === Density.HOLLOW) {
-
-			if(value !== Density.HOLLOW) {
-
-				++this.materials;
-
-			}
-
-		} else if(value === Density.HOLLOW) {
-
-			--this.materials;
-
-		}
-
-		this.materialIndices[index] = value;
 
 	}
 
