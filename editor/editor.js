@@ -422,13 +422,15 @@ export class Editor {
 
 		report += "Total Materials: " + materialCount + " (" + maxMaterials + " max)\n";
 		report += "Total Run-Lengths: " + runLengthCount + "\n";
-		report += "Compression ratio: " + (((materialCount + runLengthCount * 4) / maxMaterials) * 100).toFixed(2) + "%\n";
+		report += "Compression Ratio: " + (maxMaterials / (materialCount + runLengthCount * 4)).toFixed(2) + "\n";
+		report += "Space Savings: " + ((1 - (materialCount + runLengthCount * 4) / maxMaterials) * 100).toFixed(2) + "%\n";
 		report += "Estimated Memory Usage: " + ((materialCount * 8 + runLengthCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
 
 		report += "\n";
 
 		report += "Total Edges: " + edgeCount + " (" + maxEdges + " max)\n";
-		report += "Compression ratio: " + ((edgeCount / maxEdges) * 100).toFixed(2) + "%\n";
+		report += "Compression Ratio: " + (maxEdges / edgeCount).toFixed(2) + "\n";
+		report += "Space Savings: " + ((1 - edgeCount / maxEdges) * 100).toFixed(2) + "%\n";
 		report += "Estimated Memory Usage: " + ((edgeCount * 32 + edgeCount * 32 + 3 * edgeCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
 
 		report += "\n";
