@@ -139,47 +139,30 @@ export class VoxelBlock extends Octree {
 	getCell(n, x, y, z) {
 
 		let cell = this.root;
-		let yz, xz, xy;
-		let octant;
+		let i = 0;
 
-		for(n = n >> 1; n > 0; n >>= 1) {
+		for(n = n >> 1; n > 0; n >>= 1, i = 0) {
 
 			// Identify the next octant by the grid coordinates.
+			if(x >= n) {
 
-			if(x < n) {
-
-				yz = 0;
-
-			} else {
-
-				yz = 1;
+				// YZ.
+				i = 4;
 				x -= n;
 
-			}
+			} if(y >= n) {
 
-			if(y < n) {
-
-				xz = 0;
-
-			} else {
-
-				xz = 1;
+				// XZ.
+				i += 2;
 				y -= n;
 
-			}
+			} if(z >= n) {
 
-			if(z < n) {
-
-				xy = 0;
-
-			} else {
-
-				xy = 1;
+				// XY.
+				i += 1;
 				z -= n;
 
 			}
-
-			octant = (yz << 2) + (xz << 1) + xy;
 
 			if(cell.children === null) {
 
@@ -187,7 +170,7 @@ export class VoxelBlock extends Octree {
 
 			}
 
-			cell = cell.children[octant];
+			cell = cell.children[i];
 
 		}
 
