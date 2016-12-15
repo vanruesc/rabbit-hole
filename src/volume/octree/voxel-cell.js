@@ -25,7 +25,7 @@ const BIAS = 1e-6;
  * @final
  */
 
-const THRESHOLD = 1e-1;
+const THRESHOLD = 1e-2;
 
 /**
  * A QEF error threshold for voxel clustering.
