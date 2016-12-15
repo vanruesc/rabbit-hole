@@ -144,25 +144,9 @@ export class VoxelBlock extends Octree {
 		for(n = n >> 1; n > 0; n >>= 1, i = 0) {
 
 			// Identify the next octant by the grid coordinates.
-			if(x >= n) {
-
-				// YZ.
-				i = 4;
-				x -= n;
-
-			} if(y >= n) {
-
-				// XZ.
-				i += 2;
-				y -= n;
-
-			} if(z >= n) {
-
-				// XY.
-				i += 1;
-				z -= n;
-
-			}
+			if(x >= n) { i += 4; x -= n; } // YZ.
+			if(y >= n) { i += 2; y -= n; } // XZ.
+			if(z >= n) { i += 1; z -= n; } // XY.
 
 			if(cell.children === null) {
 
