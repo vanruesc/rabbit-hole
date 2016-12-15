@@ -1,4 +1,5 @@
 import { Octree } from "sparse-octree";
+import { Box3 } from "../../math/box3.js";
 import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
 
@@ -117,6 +118,7 @@ export class Volume extends Octree {
 	edit(sdf) {
 
 		const heap = [this.root];
+		const box = new Box3();
 		const region = sdf.completeBoundingBox;
 
 		let result = [];
@@ -132,7 +134,11 @@ export class Volume extends Octree {
 				octant = heap.pop();
 				children = octant.children;
 
-				if(region.intersectsBox(octant)) {
+				// Cache the computed max vector of cubic octants.
+				box.min = octant.min;
+				box.max = octant.max;
+
+				if(region.intersectsBox(box)) {
 
 					if(children !== null) {
 
