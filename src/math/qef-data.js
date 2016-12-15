@@ -164,7 +164,10 @@ export class QEFData {
 		this.atb.add(d.atb);
 		this.btb += d.btb;
 
-		if(this.massPointDimension === d.massPointDimension) {
+		this.massPoint.add(d.massPoint);
+		this.numPoints += d.numPoints;
+
+		/* if(this.massPointDimension === d.massPointDimension) {
 
 			this.massPoint.add(d.massPoint);
 			this.numPoints += d.numPoints;
@@ -176,7 +179,7 @@ export class QEFData {
 			this.massPointDimension = d.massPointDimension;
 			this.numPoints = d.numPoints;
 
-		}
+		} */
 
 	}
 
