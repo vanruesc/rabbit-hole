@@ -197,11 +197,11 @@ export class Edge {
 	computeSurfaceNormal(sdf) {
 
 		const position = this.computeZeroCrossingPosition();
-		const H = 0.001;
+		const E = 1e-3;
 
-		const dx = sdf.sample(P.addVectors(position, V.set(H, 0, 0))) - sdf.sample(P.subVectors(position, V.set(H, 0, 0)));
-		const dy = sdf.sample(P.addVectors(position, V.set(0, H, 0))) - sdf.sample(P.subVectors(position, V.set(0, H, 0)));
-		const dz = sdf.sample(P.addVectors(position, V.set(0, 0, H))) - sdf.sample(P.subVectors(position, V.set(0, 0, H)));
+		const dx = sdf.sample(P.addVectors(position, V.set(E, 0, 0))) - sdf.sample(P.subVectors(position, V.set(E, 0, 0)));
+		const dy = sdf.sample(P.addVectors(position, V.set(0, E, 0))) - sdf.sample(P.subVectors(position, V.set(0, E, 0)));
+		const dz = sdf.sample(P.addVectors(position, V.set(0, 0, E))) - sdf.sample(P.subVectors(position, V.set(0, 0, E)));
 
 		this.n.set(dx, dy, dz).normalize();
 

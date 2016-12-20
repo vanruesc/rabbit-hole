@@ -192,7 +192,7 @@ function combineEdges(chunk, operation, data0, data1) {
 
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
-	const edgeData = new EdgeData(chunk.resolution);
+	const edgeData = new EdgeData(chunk.resolution); // edgeData0.edges.length + edgeData1.edges.length
 	const lengths = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
