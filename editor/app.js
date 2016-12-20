@@ -48,7 +48,7 @@ export class App {
 		// Scene.
 
 		const scene = new Scene();
-		scene.fog = new FogExp2(0xeeeeee, 0.0025);
+		scene.fog = new FogExp2(0xffffff, 0.0025);
 		scene.background = assets.has("sky") ? assets.get("sky") : null;
 
 		// Renderer.
@@ -67,10 +67,10 @@ export class App {
 
 		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
 		const controls = new Controls(camera, renderer.domElement);
-		camera.position.set(220, 60, 220);
+		camera.position.set(20, 1, 20);
 		controls.focus(scene.position);
 		controls.movementSpeed = 4;
-		controls.boostSpeed = 16;
+		controls.boostSpeed = 20;
 
 		scene.add(camera);
 
@@ -85,7 +85,7 @@ export class App {
 		const directionalLight = new DirectionalLight(0xfff4e5);
 
 		hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
-		directionalLight.position.set(-1, 1.75, 1).multiplyScalar(50);
+		directionalLight.position.set(1.75, 1.75, -1).multiplyScalar(50);
 
 		scene.add(directionalLight);
 		scene.add(hemisphereLight);
@@ -103,7 +103,7 @@ export class App {
 		terrain.material.uniforms.roughness.value = 0.6;
 		terrain.material.uniforms.metalness.value = 0.2;
 
-		terrain.material.envMap = assets.get("sky");
+		// terrain.material.envMap = assets.get("sky");
 
 		terrain.material.setMaps(
 			assets.get("diffuseXZ"),
