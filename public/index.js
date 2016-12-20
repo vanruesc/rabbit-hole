@@ -13529,6 +13529,7 @@
      		loadAssets(function (assets) {
 
      			viewport.removeChild(viewport.children[0]);
+     			aside.style.visibility = "visible";
      			App.initialise(viewport, aside, assets);
      		});
      	} else {
