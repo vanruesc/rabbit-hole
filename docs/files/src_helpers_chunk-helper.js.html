@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -156,7 +156,7 @@ import {
 } from &quot;three&quot;;
 
 import { PATTERN } from &quot;sparse-octree&quot;;
-import { Density } from &quot;../volume/density.js&quot;;
+import { Material } from &quot;../volume/material.js&quot;;
 import { Edge } from &quot;../volume/edge.js&quot;;
 
 /**
@@ -304,7 +304,7 @@ export class ChunkHelper extends Object3D {
 
 					offset.x = x * s / n;
 
-					if(materialIndices[i++] !== Density.HOLLOW) {
+					if(materialIndices[i++] !== Material.AIR) {
 
 						position.addVectors(base, offset);
 

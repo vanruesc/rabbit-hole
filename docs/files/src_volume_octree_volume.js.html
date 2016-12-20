@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -144,6 +144,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import { Octree } from &quot;sparse-octree&quot;;
+import { Box3 } from &quot;../../math/box3.js&quot;;
 import { OperationType } from &quot;../csg/operation-type.js&quot;;
 import { Chunk } from &quot;./chunk.js&quot;;
 
@@ -262,6 +263,7 @@ export class Volume extends Octree {
 	edit(sdf) {
 
 		const heap = [this.root];
+		const box = new Box3();
 		const region = sdf.completeBoundingBox;
 
 		let result = [];
@@ -277,7 +279,11 @@ export class Volume extends Octree {
 				octant = heap.pop();
 				children = octant.children;
 
-				if(region.intersectsBox(octant)) {
+				// Cache the computed max vector of cubic octants.
+				box.min = octant.min;
+				box.max = octant.max;
+
+				if(region.intersectsBox(box)) {
 
 					if(children !== null) {
 

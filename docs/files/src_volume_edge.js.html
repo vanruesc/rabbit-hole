@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -146,7 +146,7 @@
 import { Vector3 } from &quot;../math/vector3.js&quot;;
 
 /**
- * An density bias for the Zero Crossing approximation.
+ * An isovalue bias for the Zero Crossing approximation.
  *
  * @property BIAS
  * @type Number
@@ -297,7 +297,15 @@ export class Edge {
 				P.addVectors(this.a, V.copy(AB).multiplyScalar(a));
 				densityA = sdf.sample(P);
 
-				(Math.sign(densityC) === Math.sign(densityA)) ? (a = c) : (b = c);
+				if(Math.sign(densityC) === Math.sign(densityA)) {
+
+					a = c;
+
+				} else {
+
+					b = c;
+
+				}
 
 			}
 
@@ -334,11 +342,11 @@ export class Edge {
 	computeSurfaceNormal(sdf) {
 
 		const position = this.computeZeroCrossingPosition();
-		const H = 0.001;
+		const E = 1e-3;
 
-		const dx = sdf.sample(P.addVectors(position, V.set(H, 0, 0))) - sdf.sample(P.subVectors(position, V.set(H, 0, 0)));
-		const dy = sdf.sample(P.addVectors(position, V.set(0, H, 0))) - sdf.sample(P.subVectors(position, V.set(0, H, 0)));
-		const dz = sdf.sample(P.addVectors(position, V.set(0, 0, H))) - sdf.sample(P.subVectors(position, V.set(0, 0, H)));
+		const dx = sdf.sample(P.addVectors(position, V.set(E, 0, 0))) - sdf.sample(P.subVectors(position, V.set(E, 0, 0)));
+		const dy = sdf.sample(P.addVectors(position, V.set(0, E, 0))) - sdf.sample(P.subVectors(position, V.set(0, E, 0)));
+		const dz = sdf.sample(P.addVectors(position, V.set(0, 0, E))) - sdf.sample(P.subVectors(position, V.set(0, 0, E)));
 
 		this.n.set(dx, dy, dz).normalize();
 

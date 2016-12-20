@@ -481,15 +481,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\volume\\density.js": {
-            "name": "src\\volume\\density.js",
-            "modules": {},
-            "classes": {
-                "Density": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src\\volume\\edge-data.js": {
             "name": "src\\volume\\edge-data.js",
             "modules": {},
@@ -523,6 +514,15 @@
                 "volume": 1
             },
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src\\volume\\material.js": {
+            "name": "src\\volume\\material.js",
+            "modules": {},
+            "classes": {
+                "Material": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -699,10 +699,10 @@
                 "SDFType": 1,
                 "SignedDistanceFunction": 1,
                 "Torus": 1,
-                "Density": 1,
                 "EdgeData": 1,
                 "Edge": 1,
                 "HermiteData": 1,
+                "Material": 1,
                 "Voxel": 1,
                 "Action": 1,
                 "SurfaceExtractor": 1,
@@ -883,10 +883,10 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "Density": 1,
                 "EdgeData": 1,
                 "Edge": 1,
                 "HermiteData": 1,
+                "Material": 1,
                 "Voxel": 1
             },
             "fors": {},
@@ -1485,7 +1485,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 5,
+            "line": 17,
             "description": "An operation that describes a density field.",
             "submodule": "csg",
             "extends": "Operation",
@@ -1658,7 +1658,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\volume.js",
-            "line": 17,
+            "line": 18,
             "description": "A cubic octree that maintains volume chunks.",
             "submodule": "octree",
             "extends": "Octree",
@@ -1923,7 +1923,7 @@
                     "description": "- A material index. Must be an integer in the range of 1 to 255.",
                     "type": "Number",
                     "optional": true,
-                    "optdefault": "Density.SOLID"
+                    "optdefault": "Material.SOLID"
                 }
             ]
         },
@@ -1973,22 +1973,6 @@
                     "optional": true
                 }
             ]
-        },
-        "Density": {
-            "name": "Density",
-            "shortname": "Density",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\density.js",
-            "line": 1,
-            "description": "An enumeration of density constants.",
-            "submodule": "volume",
-            "static": 1
         },
         "EdgeData": {
             "name": "EdgeData",
@@ -2065,6 +2049,22 @@
                     "optdefault": "true"
                 }
             ]
+        },
+        "Material": {
+            "name": "Material",
+            "shortname": "Material",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\material.js",
+            "line": 1,
+            "description": "An enumeration of material constants.",
+            "submodule": "volume",
+            "static": 1
         },
         "Voxel": {
             "name": "Voxel",
@@ -4310,7 +4310,7 @@
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 183,
+            "line": 186,
             "description": "Clears this data.",
             "itemtype": "method",
             "name": "clear",
@@ -4320,7 +4320,7 @@
         },
         {
             "file": "src\\math\\qef-data.js",
-            "line": 207,
+            "line": 210,
             "description": "Clones this data.",
             "itemtype": "method",
             "name": "clone",
@@ -6037,7 +6037,21 @@
         },
         {
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 21,
+            "line": 5,
+            "description": "The isovalue.",
+            "itemtype": "property",
+            "name": "ISOVALUE",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "DensityFunction",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\csg\\density-function.js",
+            "line": 33,
             "description": "An SDF.",
             "itemtype": "property",
             "name": "sdf",
@@ -6050,7 +6064,7 @@
         },
         {
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 33,
+            "line": 45,
             "description": "Calculates a bounding box for this operation.",
             "itemtype": "method",
             "name": "computeBoundingBox",
@@ -6064,7 +6078,7 @@
         },
         {
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 48,
+            "line": 60,
             "description": "Calculates the material index for the given world position.",
             "itemtype": "method",
             "name": "generateMaterialIndex",
@@ -6085,7 +6099,7 @@
         },
         {
             "file": "src\\volume\\csg\\density-function.js",
-            "line": 62,
+            "line": 74,
             "description": "Generates surface intersection data for the specified edge.",
             "itemtype": "method",
             "name": "generateEdge",
@@ -6469,8 +6483,8 @@
             "name": "deserialise",
             "params": [
                 {
-                    "name": "chunk",
-                    "description": "- A serialised description.",
+                    "name": "object",
+                    "description": "- A serialised chunk description.",
                     "type": "Object"
                 }
             ],
@@ -6480,7 +6494,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 5,
+            "line": 6,
             "description": "Rounds the given number up to the next power of two.",
             "itemtype": "method",
             "name": "ceil2",
@@ -6503,7 +6517,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 36,
+            "line": 37,
             "description": "The size of a volume chunk.",
             "itemtype": "property",
             "name": "chunkSize",
@@ -6517,7 +6531,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 54,
+            "line": 55,
             "description": "The size of the root octant.",
             "itemtype": "property",
             "name": "size",
@@ -6528,7 +6542,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 65,
+            "line": 66,
             "description": "The resolution of the volume data.",
             "itemtype": "property",
             "name": "resolution",
@@ -6539,7 +6553,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 74,
+            "line": 75,
             "description": "Collects all chunks that contain volume data.",
             "itemtype": "method",
             "name": "getChunks",
@@ -6553,7 +6567,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 109,
+            "line": 110,
             "description": "Edits this volume.",
             "itemtype": "method",
             "name": "edit",
@@ -6574,7 +6588,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 172,
+            "line": 178,
             "description": "Expands the volume to include the given region.",
             "itemtype": "method",
             "name": "expand",
@@ -6593,7 +6607,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 241,
+            "line": 247,
             "description": "Removes the given chunk and shrinks the volume if possible.",
             "itemtype": "method",
             "name": "prune",
@@ -6613,7 +6627,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 253,
+            "line": 259,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -6630,7 +6644,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 268,
+            "line": 274,
             "description": "Creates a compact representation of the current volume data.",
             "itemtype": "method",
             "name": "toJSON",
@@ -6748,7 +6762,7 @@
         },
         {
             "file": "src\\volume\\octree\\voxel-block.js",
-            "line": 198,
+            "line": 165,
             "description": "Constructs voxel cells from volume data.",
             "itemtype": "method",
             "name": "construct",
@@ -7224,7 +7238,7 @@
             "type": "Number",
             "access": "private",
             "tagname": "",
-            "default": "Density.SOLID",
+            "default": "Material.SOLID",
             "class": "SignedDistanceFunction",
             "module": "rabbit-hole",
             "submodule": "sdf"
@@ -7582,32 +7596,6 @@
             "submodule": "sdf"
         },
         {
-            "file": "src\\volume\\density.js",
-            "line": 11,
-            "description": "The index for empty space.",
-            "itemtype": "property",
-            "name": "HOLLOW",
-            "type": "Number",
-            "static": 1,
-            "final": 1,
-            "class": "Density",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\density.js",
-            "line": 22,
-            "description": "The default index for solid material.",
-            "itemtype": "property",
-            "name": "SOLID",
-            "type": "Number",
-            "static": 1,
-            "final": 1,
-            "class": "Density",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
             "file": "src\\volume\\edge-data.js",
             "line": 20,
             "description": "The edges.\n\nEdges are stored as starting grid point indices in ascending order. The\nending point indices are implicitly defined through the dimension split:\n\nGiven a starting point index A, the ending point index B for the X-, Y-\nand Z-plane is defined as A + 1, A + N and A + N² respectively where N is\nthe grid resolution + 1.",
@@ -7684,8 +7672,8 @@
             "name": "deserialise",
             "params": [
                 {
-                    "name": "data",
-                    "description": "- Serialised data.",
+                    "name": "object",
+                    "description": "- Serialised edge data.",
                     "type": "Object"
                 }
             ],
@@ -7696,7 +7684,7 @@
         {
             "file": "src\\volume\\edge.js",
             "line": 3,
-            "description": "An density bias for the Zero Crossing approximation.",
+            "description": "An isovalue bias for the Zero Crossing approximation.",
             "itemtype": "property",
             "name": "BIAS",
             "type": "Number",
@@ -7833,7 +7821,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 167,
+            "line": 175,
             "description": "Calculates the Zero Crossing position.",
             "itemtype": "method",
             "name": "computeZeroCrossingPosition",
@@ -7847,7 +7835,7 @@
         },
         {
             "file": "src\\volume\\edge.js",
-            "line": 180,
+            "line": 188,
             "description": "Computes the normal of the surface at the edge intersection.",
             "itemtype": "method",
             "name": "computeSurfaceNormal",
@@ -8015,36 +8003,6 @@
         {
             "file": "src\\volume\\hermite-data.js",
             "line": 146,
-            "description": "Compresses this data.",
-            "itemtype": "method",
-            "name": "compress",
-            "chainable": 1,
-            "return": {
-                "description": "This data.",
-                "type": "HermiteData"
-            },
-            "class": "HermiteData",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\hermite-data.js",
-            "line": 182,
-            "description": "Decompresses this data.",
-            "itemtype": "method",
-            "name": "decompress",
-            "chainable": 1,
-            "return": {
-                "description": "This data.",
-                "type": "HermiteData"
-            },
-            "class": "HermiteData",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\hermite-data.js",
-            "line": 206,
             "description": "Sets the specified material index.",
             "itemtype": "method",
             "name": "setMaterialIndex",
@@ -8060,6 +8018,36 @@
                     "type": "Number"
                 }
             ],
+            "class": "HermiteData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\hermite-data.js",
+            "line": 175,
+            "description": "Compresses this data.",
+            "itemtype": "method",
+            "name": "compress",
+            "chainable": 1,
+            "return": {
+                "description": "This data.",
+                "type": "HermiteData"
+            },
+            "class": "HermiteData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\hermite-data.js",
+            "line": 211,
+            "description": "Decompresses this data.",
+            "itemtype": "method",
+            "name": "decompress",
+            "chainable": 1,
+            "return": {
+                "description": "This data.",
+                "type": "HermiteData"
+            },
             "class": "HermiteData",
             "module": "rabbit-hole",
             "submodule": "volume"
@@ -8108,8 +8096,8 @@
             "name": "deserialise",
             "params": [
                 {
-                    "name": "data",
-                    "description": "- Serialised data.",
+                    "name": "object",
+                    "description": "- Serialised hermite data.",
                     "type": "Object"
                 }
             ],
@@ -8126,6 +8114,32 @@
             "type": "Number",
             "static": 1,
             "class": "HermiteData",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\material.js",
+            "line": 11,
+            "description": "The index for empty space.",
+            "itemtype": "property",
+            "name": "AIR",
+            "type": "Number",
+            "static": 1,
+            "final": 1,
+            "class": "Material",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\material.js",
+            "line": 22,
+            "description": "The default index for solid material.",
+            "itemtype": "property",
+            "name": "SOLID",
+            "type": "Number",
+            "static": 1,
+            "final": 1,
+            "class": "Material",
             "module": "rabbit-hole",
             "submodule": "volume"
         },

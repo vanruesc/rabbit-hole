@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -143,9 +143,21 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { Density } from &quot;../density.js&quot;;
+import { Material } from &quot;../material.js&quot;;
 import { Operation } from &quot;./operation.js&quot;;
 import { OperationType } from &quot;./operation-type.js&quot;;
+
+/**
+ * The isovalue.
+ *
+ * @property ISOVALUE
+ * @type Number
+ * @private
+ * @static
+ * @final
+ */
+
+const ISOVALUE = 0.0;
 
 /**
  * An operation that describes a density field.
@@ -200,7 +212,7 @@ export class DensityFunction extends Operation {
 
 	generateMaterialIndex(position) {
 
-		return (this.sdf.sample(position) &lt;= 0.0) ? this.sdf.material : Density.HOLLOW;
+		return (this.sdf.sample(position) &lt;= ISOVALUE) ? this.sdf.material : Material.AIR;
 
 	}
 

@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -146,7 +146,7 @@
 import { PATTERN } from &quot;sparse-octree&quot;;
 import { Box3 } from &quot;../../math/box3.js&quot;;
 import { Vector3 } from &quot;../../math/vector3.js&quot;;
-import { Density } from &quot;../density.js&quot;;
+import { Material } from &quot;../material.js&quot;;
 import { EdgeData } from &quot;../edge-data.js&quot;;
 import { HermiteData } from &quot;../hermite-data.js&quot;;
 import { Edge } from &quot;../edge.js&quot;;
@@ -294,7 +294,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 
 				materialIndex = operation.generateMaterialIndex(position.addVectors(base, offset));
 
-				if(materialIndex !== Density.HOLLOW) {
+				if(materialIndex !== Material.AIR) {
 
 					materialIndices[z * mm + y * m + x] = materialIndex;
 
@@ -337,7 +337,7 @@ function combineEdges(chunk, operation, data0, data1) {
 
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
-	const edgeData = new EdgeData(chunk.resolution);
+	const edgeData = new EdgeData(chunk.resolution); // edgeData0.edges.length + edgeData1.edges.length
 	const lengths = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
@@ -379,7 +379,7 @@ function combineEdges(chunk, operation, data0, data1) {
 			m1 = materialIndices[indexA1];
 			m2 = materialIndices[indexB1];
 
-			if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+			if(m1 !== m2 &amp;&amp; (m1 === Material.AIR || m2 === Material.AIR)) {
 
 				edge1.t = zeroCrossings1[i];
 				edge1.n.x = normals1[i * 3];
@@ -410,7 +410,7 @@ function combineEdges(chunk, operation, data0, data1) {
 						m1 = materialIndices[indexA0];
 						m2 = materialIndices[indexB0];
 
-						if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+						if(m1 !== m2 &amp;&amp; (m1 === Material.AIR || m2 === Material.AIR)) {
 
 							// The edge exhibits a material change and there is no conflict.
 							edges[c] = indexA0;
@@ -426,7 +426,7 @@ function combineEdges(chunk, operation, data0, data1) {
 					} else {
 
 						// Resolve the conflict.
-						edge = operation.selectEdge(edge0, edge1, (m1 === Density.SOLID));
+						edge = operation.selectEdge(edge0, edge1, (m1 === Material.SOLID));
 
 					}
 
@@ -455,7 +455,7 @@ function combineEdges(chunk, operation, data0, data1) {
 			m1 = materialIndices[indexA0];
 			m2 = materialIndices[indexB0];
 
-			if(m1 !== m2 &amp;&amp; (m1 === Density.HOLLOW || m2 === Density.HOLLOW)) {
+			if(m1 !== m2 &amp;&amp; (m1 === Material.AIR || m2 === Material.AIR)) {
 
 				edges[c] = indexA0;
 				zeroCrossings[c] = zeroCrossings0[j];

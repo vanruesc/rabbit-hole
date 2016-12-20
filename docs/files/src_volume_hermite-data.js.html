@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -144,7 +144,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import { RunLengthEncoder } from &quot;../core/run-length-encoder.js&quot;;
-import { Density } from &quot;./density.js&quot;;
+import { Material } from &quot;./material.js&quot;;
 import { EdgeData } from &quot;./edge-data.js&quot;;
 
 /**
@@ -289,6 +289,35 @@ export class HermiteData {
 	}
 
 	/**
+	 * Sets the specified material index.
+	 *
+	 * @method setMaterialIndex
+	 * @param {Number} index - The index of the material index that should be updated.
+	 * @param {Number} value - The new material index.
+	 */
+
+	setMaterialIndex(index, value) {
+
+		// Keep track of how many material indices are solid.
+		if(this.materialIndices[index] === Material.AIR) {
+
+			if(value !== Material.AIR) {
+
+				++this.materials;
+
+			}
+
+		} else if(value === Material.AIR) {
+
+			--this.materials;
+
+		}
+
+		this.materialIndices[index] = value;
+
+	}
+
+	/**
 	 * Compresses this data.
 	 *
 	 * @method compress
@@ -306,7 +335,7 @@ export class HermiteData {
 
 				encoding = {
 					runLengths: [this.materialIndices.length],
-					data: [Density.SOLID]
+					data: [Material.SOLID]
 				};
 
 			} else {
@@ -345,35 +374,6 @@ export class HermiteData {
 		}
 
 		return this;
-
-	}
-
-	/**
-	 * Sets the specified material index.
-	 *
-	 * @method setMaterialIndex
-	 * @param {Number} index - The index of the material index that should be updated.
-	 * @param {Number} value - The new material index.
-	 */
-
-	setMaterialIndex(index, value) {
-
-		// Keep track of how many material indices are solid.
-		if(this.materialIndices[index] === Density.HOLLOW) {
-
-			if(value !== Density.HOLLOW) {
-
-				++this.materials;
-
-			}
-
-		} else if(value === Density.HOLLOW) {
-
-			--this.materials;
-
-		}
-
-		this.materialIndices[index] = value;
 
 	}
 
@@ -421,18 +421,18 @@ export class HermiteData {
 	 * Adopts the given serialised data.
 	 *
 	 * @method deserialise
-	 * @param {Object} data - Serialised data.
+	 * @param {Object} object - Serialised hermite data.
 	 */
 
-	deserialise(data) {
+	deserialise(object) {
 
-		this.lod = data.lod;
-		this.materials = data.materials;
+		this.lod = object.lod;
+		this.materials = object.materials;
 
-		this.materialIndices = data.materialIndices;
-		this.runLengths = data.runLengths;
+		this.materialIndices = object.materialIndices;
+		this.runLengths = object.runLengths;
 
-		if(data.edgeData !== null) {
+		if(object.edgeData !== null) {
 
 			if(this.edgeData === null) {
 
@@ -440,7 +440,7 @@ export class HermiteData {
 
 			}
 
-			this.edgeData.deserialise(data.edgeData);
+			this.edgeData.deserialise(object.edgeData);
 
 		} else {
 

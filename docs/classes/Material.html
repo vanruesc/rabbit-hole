@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\volume\density.js - rabbit-hole</title>
+    <title>Material - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -139,45 +139,120 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\volume\density.js</h1>
+<h1>Material Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * An enumeration of density constants.
- *
- * @class Density
- * @submodule volume
- * @static
- */
 
-export const Density = {
+        <div class="foundat">
+            Defined in: <a href="../files/src_volume_material.js.html#l1"><code>src\volume\material.js:1</code></a>
+        </div>
 
-	/**
-	 * The index for empty space.
-	 *
-	 * @property HOLLOW
-	 * @type Number
-	 * @static
-	 * @final
-	 */
+            Module: <a href="../modules/volume.html">volume</a><br>
+            Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
-	HOLLOW: 0,
+</div>
 
-	/**
-	 * The default index for solid material.
-	 *
-	 * @property SOLID
-	 * @type Number
-	 * @static
-	 * @final
-	 */
 
-	SOLID: 1
+<div class="box intro">
+    <p>An enumeration of material constants.</p>
 
-};
+</div>
 
-    </pre>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_AIR">AIR</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_SOLID">SOLID</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_AIR" class="property item">
+    <h3 class="name"><code>AIR</code></h3>
+    <span class="type">Number</span>
+
+
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_material.js.html#l11"><code>src\volume\material.js:11</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The index for empty space.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_SOLID" class="property item">
+    <h3 class="name"><code>SOLID</code></h3>
+    <span class="type">Number</span>
+
+
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_material.js.html#l22"><code>src\volume\material.js:22</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The default index for solid material.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

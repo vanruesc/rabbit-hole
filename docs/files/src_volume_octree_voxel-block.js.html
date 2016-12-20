@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -147,7 +147,7 @@ import { Octree, PATTERN, EDGES } from &quot;sparse-octree&quot;;
 import { Vector3 } from &quot;../../math/vector3.js&quot;;
 import { QEFData } from &quot;../../math/qef-data.js&quot;;
 import { QEFSolver } from &quot;../../math/qef-solver.js&quot;;
-import { Density } from &quot;../density.js&quot;;
+import { Material } from &quot;../material.js&quot;;
 import { Edge } from &quot;../edge.js&quot;;
 import { Voxel } from &quot;../voxel.js&quot;;
 import { VoxelCell } from &quot;./voxel-cell.js&quot;;
@@ -188,7 +188,7 @@ function createVoxel(n, x, y, z, materialIndices) {
 		index = (z + offset[2]) * mm + (y + offset[1]) * m + (x + offset[0]);
 
 		// Convert the identified material index into a binary value.
-		material = Math.min(materialIndices[index], Density.SOLID);
+		material = Math.min(materialIndices[index], Material.SOLID);
 
 		// Store the value in bit i.
 		materials |= (material &lt;&lt; i);
@@ -284,47 +284,14 @@ export class VoxelBlock extends Octree {
 	getCell(n, x, y, z) {
 
 		let cell = this.root;
-		let yz, xz, xy;
-		let octant;
+		let i = 0;
 
-		for(n = n &gt;&gt; 1; n &gt; 0; n &gt;&gt;= 1) {
+		for(n = n &gt;&gt; 1; n &gt; 0; n &gt;&gt;= 1, i = 0) {
 
 			// Identify the next octant by the grid coordinates.
-
-			if(x &lt; n) {
-
-				yz = 0;
-
-			} else {
-
-				yz = 1;
-				x -= n;
-
-			}
-
-			if(y &lt; n) {
-
-				xz = 0;
-
-			} else {
-
-				xz = 1;
-				y -= n;
-
-			}
-
-			if(z &lt; n) {
-
-				xy = 0;
-
-			} else {
-
-				xy = 1;
-				z -= n;
-
-			}
-
-			octant = (yz &lt;&lt; 2) + (xz &lt;&lt; 1) + xy;
+			if(x &gt;= n) { i += 4; x -= n; } // YZ.
+			if(y &gt;= n) { i += 2; y -= n; } // XZ.
+			if(z &gt;= n) { i += 1; z -= n; } // XY.
 
 			if(cell.children === null) {
 
@@ -332,7 +299,7 @@ export class VoxelBlock extends Octree {
 
 			}
 
-			cell = cell.children[octant];
+			cell = cell.children[i];
 
 		}
 

@@ -44,7 +44,6 @@
                                 <li><a href="../classes/Chunk.html">Chunk</a></li>
                                 <li><a href="../classes/ChunkHelper.html">ChunkHelper</a></li>
                                 <li><a href="../classes/ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></li>
-                                <li><a href="../classes/Density.html">Density</a></li>
                                 <li><a href="../classes/DensityFunction.html">DensityFunction</a></li>
                                 <li><a href="../classes/Difference.html">Difference</a></li>
                                 <li><a href="../classes/DualContouring.html">DualContouring</a></li>
@@ -56,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
                                 <li><a href="../classes/Operation.html">Operation</a></li>
@@ -281,14 +281,14 @@ export class EdgeData {
 	 * Adopts the given serialised data.
 	 *
 	 * @method deserialise
-	 * @param {Object} data - Serialised data.
+	 * @param {Object} object - Serialised edge data.
 	 */
 
-	deserialise(data) {
+	deserialise(object) {
 
-		this.edges = data.edges;
-		this.zeroCrossings = data.zeroCrossings;
-		this.normals = data.normals;
+		this.edges = object.edges;
+		this.zeroCrossings = object.zeroCrossings;
+		this.normals = object.normals;
 
 	}
 
