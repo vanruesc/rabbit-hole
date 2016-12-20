@@ -93,12 +93,19 @@ div[role="complementary"] p {
 }
 
 #stats {
- opacity: 0.9;
- position: fixed;
- left: 5px;
- top: 5px;
+	opacity: 0.9;
+	position: fixed;
+	left: 5px;
+	top: 5px;
 }
 
 #stats canvas {
- cursor: pointer;
+	cursor: pointer;
+}
+
+#info {
+	 font-size: 80%;
+	 position: fixed;
+	 left: 100px;
+	 top: 5px;
 }
