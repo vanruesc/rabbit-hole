@@ -37,7 +37,7 @@
 	],
 
 	"scripts": {
-		"test": "grunt",
+		"test": "grunt --production",
 		"prepublishOnly": "grunt prepublish",
 		"postpublish": "grunt postpublish"
 	},
