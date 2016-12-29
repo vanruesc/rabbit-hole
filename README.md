@@ -15,11 +15,14 @@ the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) 
 ## Installation
 
 ```sh
-$ npm install rabbit-hole
+npm install rabbit-hole
 ``` 
 
 
 ## Usage
+
+Please refer to the [usage example](https://github.com/mrdoob/three.js/blob/master/README.md) of three.js for information
+about how to setup the renderer, scene and camera.
 
 ##### Basics
 
@@ -27,6 +30,7 @@ $ npm install rabbit-hole
 import { Terrain } from "rabbit-hole";
 
 const terrain = new Terrain();
+scene.add(terrain.object);
 
 (function render() {
 
@@ -62,4 +66,7 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Contributing
 
-Maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+- Maintain the existing coding style
+- Add unit tests for any new or changed functionality if appropriate
+- Lint and test your code
+- Do not include build files in your Pull Requests
