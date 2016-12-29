@@ -260,9 +260,10 @@ function combineEdges(chunk, operation, data0, data1) {
 					edge0.n.y = normals0[j * 3 + 1];
 					edge0.n.z = normals0[j * 3 + 2];
 
+					m1 = materialIndices[indexA0];
+
 					if(indexA0 < indexA1) {
 
-						m1 = materialIndices[indexA0];
 						m2 = materialIndices[indexB0];
 
 						if(m1 !== m2 && (m1 === Material.AIR || m2 === Material.AIR)) {
