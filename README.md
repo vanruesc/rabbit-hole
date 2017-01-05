@@ -66,7 +66,4 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Contributing
 
-- Maintain the existing coding style
-- Add unit tests for any new or changed functionality if appropriate
-- Lint and test your code
-- Do not include build files in your Pull Requests
+Maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
