@@ -2,6 +2,7 @@ import { Octree } from "sparse-octree";
 import { Box3 } from "../../math/box3.js";
 import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
+import { VolumeIterator } from "./volume-iterator.js";
 
 /**
  * Rounds the given number up to the next power of two.
@@ -21,6 +22,7 @@ function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
  * @class Volume
  * @submodule octree
  * @extends Octree
+ * @implements Iterable
  * @constructor
  * @param {Number} [chunkSize=32] - The size of leaf chunks. Will be rounded up to the next power of two.
  * @param {Number} [resolution=32] - The data resolution of leaf chunks. Will be rounded up to the next power of two. The upper limit is 256.
@@ -73,41 +75,6 @@ export class Volume extends Octree {
 	get resolution() { return this.root.resolution; }
 
 	/**
-	 * Collects all chunks that contain volume data.
-	 *
-	 * @method getChunks
-	 * @return {Array} A list of all chunks that contain volume data.
-	 */
-
-	getChunks() {
-
-		const heap = [this.root];
-		const result = [];
-
-		let octant, children;
-
-		while(heap.length > 0) {
-
-			octant = heap.pop();
-			children = octant.children;
-
-			if(octant.data !== null || octant.csg !== null) {
-
-				result.push(octant);
-
-			} else if(children !== null) {
-
-				heap.push(...children);
-
-			}
-
-		}
-
-		return result;
-
-	}
-
-	/**
 	 * Edits this volume.
 	 *
 	 * @method edit
@@ -134,7 +101,6 @@ export class Volume extends Octree {
 				octant = heap.pop();
 				children = octant.children;
 
-				// Cache the computed max vector of cubic octants.
 				box.min = octant.min;
 				box.max = octant.max;
 
@@ -167,7 +133,7 @@ export class Volume extends Octree {
 		} else {
 
 			// Intersections affect all chunks.
-			result = this.getChunks();
+			result = this[Symbol.iterator]();
 
 		}
 
@@ -253,6 +219,41 @@ export class Volume extends Octree {
 	 */
 
 	prune(chunk) {
+
+	}
+
+	/**
+	 * Returns a volume iterator that finds chunks inside a specific region.
+	 *
+	 * @method chunks
+	 * @param {Frustum} [region] - A region.
+	 * @return {VolumeIterator} An iterator.
+	 */
+
+	chunks(region) {
+
+		const iterator = new VolumeIterator(this, true);
+
+		if(region !== undefined) {
+
+			iterator.region.copy(region);
+
+		}
+
+		return iterator;
+
+	}
+
+	/**
+	 * Returns a volume iterator that traverses the entire octree.
+	 *
+	 * @method Symbol.iterator
+	 * @return {VolumeIterator} An iterator.
+	 */
+
+	[Symbol.iterator]() {
+
+		return new VolumeIterator(this);
 
 	}
 

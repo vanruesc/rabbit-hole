@@ -6,13 +6,14 @@
  */
 
 export {
-	Terrain,
 	History,
-	Queue,
+	IteratorResult,
 	PriorityQueue,
+	Queue,
 	RunLengthEncoder,
 	Scheduler,
-	Task
+	Task,
+	Terrain
 } from "./core";
 
 export {
@@ -29,19 +30,19 @@ export {
 } from "./materials";
 
 export {
-	SingularValueDecomposition,
 	Givens,
-	Schur,
-	SymmetricMatrix3,
 	QEFSolver,
-	QEFData
+	QEFData,
+	Schur,
+	SingularValueDecomposition,
+	SymmetricMatrix3
 } from "./math";
 
 export {
-	Material,
 	Edge,
 	EdgeData,
 	HermiteData,
+	Material,
 	Voxel,
 	Chunk,
 	Volume,

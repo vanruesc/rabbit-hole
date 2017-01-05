@@ -5,8 +5,9 @@
  * @submodule core
  */
 
-export { PriorityQueue } from "./priority-queue.js";
 export { History } from "./history.js";
+export { IteratorResult } from "./iterator-result.js";
+export { PriorityQueue } from "./priority-queue.js";
 export { Queue } from "./queue.js";
 export { RunLengthEncoder } from "./run-length-encoder.js";
 export { Scheduler } from "./scheduler.js";

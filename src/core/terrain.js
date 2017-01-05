@@ -1,4 +1,4 @@
-import { Box3, BufferAttribute, BufferGeometry, Mesh, Frustum, Matrix4, Object3D } from "three";
+import { Box3, BufferAttribute, BufferGeometry, Mesh, Matrix4, Object3D } from "three";
 import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
 import { EventTarget } from "../events/event-target.js";
 import { Volume } from "../volume/octree/volume.js";
@@ -37,18 +37,6 @@ const BOX3 = new Box3();
 const MATRIX4 = new Matrix4();
 
 /**
- * A frustum used for octree culling.
- *
- * @property FRUSTUM
- * @type Frustum
- * @private
- * @static
- * @final
- */
-
-const FRUSTUM = new Frustum();
-
-/**
  * The terrain system.
  *
  * @class Terrain
@@ -61,6 +49,7 @@ const FRUSTUM = new Frustum();
  * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
+ * @param {Number} [options.maxIterations] - Limits the amount of volume chunks that are being processed during each update.
  */
 
 export class Terrain extends EventTarget {
@@ -89,6 +78,16 @@ export class Terrain extends EventTarget {
 		this.volume = new Volume(options.chunkSize, options.resolution);
 
 		/**
+		 * A volume chunk iterator.
+		 *
+		 * @property iterator
+		 * @type Iterator
+		 * @private
+		 */
+
+		this.iterator = this.volume.chunks();
+
+		/**
 		 * The number of detail levels.
 		 *
 		 * Terrain chunks that are further away from the camera will be rendered
@@ -100,7 +99,21 @@ export class Terrain extends EventTarget {
 		 * @default log2(resolution)
 		 */
 
-		this.levels = Math.log2(this.volume.resolution);
+		this.levels = (options.levels !== undefined) ? options.levels : Math.log2(this.volume.resolution);
+
+		/**
+		 * The maximum amount of chunk iterations per update.
+		 *
+		 * Volume chunks that lie in the field of view will be processed over the
+		 * course of several update calls.
+		 *
+		 * @property maxIterations
+		 * @type Number
+		 * @private
+		 * @default 1000
+		 */
+
+		this.maxIterations = (options.maxIterations !== undefined) ? options.maxIterations : 1000;
 
 		/**
 		 * A thread pool.
@@ -376,11 +389,9 @@ export class Terrain extends EventTarget {
 
 		const chunks = this.volume.edit(sdf);
 
-		let i, chunk;
+		let chunk;
 
-		for(i = chunks.length - 1; i >= 0; --i) {
-
-			chunk = chunks[i];
+		for(chunk of chunks) {
 
 			if(chunk.csg === null) {
 
@@ -392,6 +403,7 @@ export class Terrain extends EventTarget {
 
 		}
 
+		this.iterator.reset();
 		this.history.push(sdf);
 
 	}
@@ -451,27 +463,30 @@ export class Terrain extends EventTarget {
 
 	update(camera) {
 
-		const chunks = this.volume.cull(
-			FRUSTUM.setFromMatrix(
-				MATRIX4.multiplyMatrices(
-					camera.projectionMatrix,
-					camera.matrixWorldInverse
-				)
-			)
-		);
-
+		const iterator = this.iterator;
 		const scheduler = this.scheduler;
 		const maxPriority = scheduler.maxPriority;
+		const maxIterations = this.maxIterations;
 		const levels = this.levels;
 		const maxLevel = levels - 1;
 
-		let i, l;
 		let chunk, data, csg, task;
 		let distance, lod;
+		let result;
+		let i = 0;
 
-		for(i = 0, l = chunks.length; i < l; ++i) {
+		iterator.region.setFromMatrix(
+			MATRIX4.multiplyMatrices(
+				camera.projectionMatrix,
+				camera.matrixWorldInverse
+			)
+		);
 
-			chunk = chunks[i];
+		result = iterator.next();
+
+		while(!result.done && i++ < maxIterations) {
+
+			chunk = result.value;
 			data = chunk.data;
 			csg = chunk.csg;
 
@@ -508,6 +523,14 @@ export class Terrain extends EventTarget {
 				}
 
 			}
+
+			result = iterator.next();
+
+		}
+
+		if(result.done) {
+
+			this.iterator.reset();
 
 		}
 
@@ -591,6 +614,7 @@ export class Terrain extends EventTarget {
 		this.clearMeshes();
 
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
+		this.iterator = this.volume.chunks();
 
 		this.neutered = new WeakSet();
 		this.chunks = new WeakMap();
