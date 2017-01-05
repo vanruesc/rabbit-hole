@@ -55,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -83,6 +84,7 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
+                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -147,7 +149,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_octree_volume.js.html#l18"><code>src\volume\octree\volume.js:18</code></a>
+            Defined in: <a href="../files/src_volume_octree_volume.js.html#l19"><code>src\volume\octree\volume.js:19</code></a>
         </div>
 
             Module: <a href="../modules/octree.html">octree</a><br>
@@ -187,7 +189,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l18"><code>src\volume\octree\volume.js:18</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l19"><code>src\volume\octree\volume.js:19</code></a>
         </p>
 
 
@@ -260,6 +262,10 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_chunks">chunks</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_edit">edit</a>
 
                             </li>
@@ -268,15 +274,15 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_getChunks">getChunks</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_load">load</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_prune">prune</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_Symbol.iterator">Symbol.iterator</a>
 
                             </li>
                             <li class="index-item method">
@@ -338,7 +344,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l6"><code>src\volume\octree\volume.js:6</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l7"><code>src\volume\octree\volume.js:7</code></a>
         </p>
 
 
@@ -382,6 +388,75 @@
 
 
 </div>
+<div id="method_chunks" class="method item">
+    <h3 class="name"><code>chunks</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[region]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume.js.html#l225"><code>src\volume\octree\volume.js:225</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a volume iterator that finds chunks inside a specific region.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[region]</code>
+                        <span class="type">Frustum</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A region.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>:
+                    <p>An iterator.</p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_edit" class="method item">
     <h3 class="name"><code>edit</code></h3>
 
@@ -406,7 +481,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l110"><code>src\volume\octree\volume.js:110</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l77"><code>src\volume\octree\volume.js:77</code></a>
         </p>
 
 
@@ -472,7 +547,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l178"><code>src\volume\octree\volume.js:178</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l144"><code>src\volume\octree\volume.js:144</code></a>
         </p>
 
 
@@ -507,49 +582,6 @@
 
 
 </div>
-<div id="method_getChunks" class="method item">
-    <h3 class="name"><code>getChunks</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type">Array</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l75"><code>src\volume\octree\volume.js:75</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Collects all chunks that contain volume data.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Array</span>:
-                    <p>A list of all chunks that contain volume data.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_load" class="method item">
     <h3 class="name"><code>load</code></h3>
 
@@ -571,7 +603,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l259"><code>src\volume\octree\volume.js:259</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l260"><code>src\volume\octree\volume.js:260</code></a>
         </p>
 
 
@@ -627,7 +659,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l247"><code>src\volume\octree\volume.js:247</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l213"><code>src\volume\octree\volume.js:213</code></a>
         </p>
 
 
@@ -662,6 +694,49 @@
 
 
 </div>
+<div id="method_Symbol.iterator" class="method item">
+    <h3 class="name"><code>Symbol.iterator</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume.js.html#l247"><code>src\volume\octree\volume.js:247</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Returns a volume iterator that traverses the entire octree.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>:
+                    <p>An iterator.</p>
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_toJSON" class="method item">
     <h3 class="name"><code>toJSON</code></h3>
 
@@ -680,7 +755,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l274"><code>src\volume\octree\volume.js:274</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l275"><code>src\volume\octree\volume.js:275</code></a>
         </p>
 
 
@@ -722,7 +797,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l37"><code>src\volume\octree\volume.js:37</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l39"><code>src\volume\octree\volume.js:39</code></a>
         </p>
 
 
@@ -748,7 +823,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l66"><code>src\volume\octree\volume.js:66</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l68"><code>src\volume\octree\volume.js:68</code></a>
         </p>
 
 
@@ -773,7 +848,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l55"><code>src\volume\octree\volume.js:55</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l57"><code>src\volume\octree\volume.js:57</code></a>
         </p>
 
 

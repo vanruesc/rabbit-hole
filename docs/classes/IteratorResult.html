@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\run-length-encoder.js - rabbit-hole</title>
+    <title>IteratorResult - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -141,104 +141,238 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\core\run-length-encoder.js</h1>
+<h1>IteratorResult Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * Run-Length Encoding for numeric data.
- *
- * @class RunLengthEncoder
- * @submodule core
- * @static
- */
 
-export class RunLengthEncoder {
+        <div class="foundat">
+            Defined in: <a href="../files/src_core_iterator-result.js.html#l1"><code>src\core\iterator-result.js:1</code></a>
+        </div>
 
-	/**
-	 * Encodes the given data.
-	 *
-	 * @method encode
-	 * @static
-	 * @param {Array} array - The data to encode.
-	 * @return {Object} The run-lengths and the encoded data.
-	 */
+            Module: <a href="../modules/core.html">core</a><br>
+            Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
-	static encode(array) {
+</div>
 
-		const runLengths = [];
-		const data = [];
 
-		let previous = array[0];
-		let count = 1;
+<div class="box intro">
+    <p>An iterator result.</p>
 
-		let i, l;
+</div>
 
-		for(i = 1, l = array.length; i &lt; l; ++i) {
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_IteratorResult" class="method item">
+    <h3 class="name"><code>IteratorResult</code></h3>
 
-			if(previous !== array[i]) {
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[value=null]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[done=false]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-				runLengths.push(count);
-				data.push(previous);
 
-				previous = array[i];
-				count = 1;
 
-			} else {
 
-				++count;
 
-			}
 
-		}
 
-		runLengths.push(count);
-		data.push(previous);
 
-		return {
-			runLengths,
-			data
-		};
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_iterator-result.js.html#l1"><code>src\core\iterator-result.js:1</code></a>
+        </p>
 
-	}
 
-	/**
-	 * Decodes the given data.
-	 *
-	 * @method decode
-	 * @static
-	 * @param {Array} runLengths - The run-lengths.
-	 * @param {Array} data - The data to decode.
-	 * @param {Array} [array] - An optional target.
-	 * @return {Array} The decoded data.
-	 */
 
-	static decode(runLengths, data, array = []) {
+    </div>
 
-		let element;
+    <div class="description">
+        
+    </div>
 
-		let i, j, il, jl;
-		let k = 0;
+        <div class="params">
+            <h4>Parameters:</h4>
 
-		for(i = 0, il = data.length; i &lt; il; ++i) {
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[value=null]</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
-			element = data[i];
 
-			for(j = 0, jl = runLengths[i]; j &lt; jl; ++j) {
+                    <div class="param-description">
+                        <ul>
+<li>A value.</li>
+</ul>
 
-				array[k++] = element;
+                    </div>
 
-			}
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[done=false]</code>
+                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
 
-		}
 
-		return array;
+                    <div class="param-description">
+                        <ul>
+<li>Whether this result is past the end of the iterated sequence.</li>
+</ul>
 
-	}
+                    </div>
 
-}
+                </li>
+            </ul>
+        </div>
 
-    </pre>
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_reset">reset</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_done">done</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_value">value</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_iterator-result.js.html#l37"><code>src\core\iterator-result.js:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Resets this iterator result.</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_done" class="property item">
+    <h3 class="name"><code>done</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_iterator-result.js.html#l25"><code>src\core\iterator-result.js:25</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Whether this result is past the end of the iterated sequence.</p>
+
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_value" class="property item">
+    <h3 class="name"><code>value</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_iterator-result.js.html#l15"><code>src\core\iterator-result.js:15</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The value.</p>
+
+    </div>
+
+        <p><strong>Default:</strong> null</p>
+
+
+</div>
+            </div>
+
+
+    </div>
 </div>
                     </div>
                 </div>

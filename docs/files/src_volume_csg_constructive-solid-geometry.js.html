@@ -55,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -83,6 +84,7 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
+                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -405,9 +407,10 @@ function combineEdges(chunk, operation, data0, data1) {
 					edge0.n.y = normals0[j * 3 + 1];
 					edge0.n.z = normals0[j * 3 + 2];
 
+					m1 = materialIndices[indexA0];
+
 					if(indexA0 &lt; indexA1) {
 
-						m1 = materialIndices[indexA0];
 						m2 = materialIndices[indexB0];
 
 						if(m1 !== m2 &amp;&amp; (m1 === Material.AIR || m2 === Material.AIR)) {

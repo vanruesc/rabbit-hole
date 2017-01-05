@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>SignedDistanceFunction - rabbit-hole</title>
+    <title>VolumeIterator - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -141,41 +141,37 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>SignedDistanceFunction Class</h1>
+<h1>VolumeIterator Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_sdf_signed-distance-function.js.html#l8"><code>src\volume\sdf\signed-distance-function.js:8</code></a>
+            Defined in: <a href="../files/src_volume_octree_volume-iterator.js.html#l28"><code>src\volume\octree\volume-iterator.js:28</code></a>
         </div>
 
-            Module: <a href="../modules/sdf.html">sdf</a><br>
+            Module: <a href="../modules/volume.html">volume</a><br>
             Parent Module: <a href="../modules/rabbit-hole.html">rabbit-hole</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>An abstract Signed Distance Function.</p>
-<p>An SDF describes the signed Euclidean distance to the surface of an object,
-effectively describing its density at every point in 3D space. It yields
-negative values for points that lie inside the volume and positive values
-for points outside. The value is zero at the exact boundary of the object.</p>
+    <p>An edge iterator.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-<div id="method_SignedDistanceFunction" class="method item">
-    <h3 class="name"><code>SignedDistanceFunction</code></h3>
+<div id="method_VolumeIterator" class="method item">
+    <h3 class="name"><code>VolumeIterator</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>type</code>
+                        <code>volume</code>
                 </li>
                 <li class="arg">
-                        <code class="optional">[material=Material.SOLID]</code>
+                        <code class="optional">[cull=false]</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -190,7 +186,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l8"><code>src\volume\sdf\signed-distance-function.js:8</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l28"><code>src\volume\octree\volume-iterator.js:28</code></a>
         </p>
 
 
@@ -206,27 +202,27 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">type</code>
-                        <span class="type"><a href="../classes/SDFType.html" class="crosslink">SDFType</a></span>
+                        <code class="param-name">volume</code>
+                        <span class="type"><a href="../classes/Volume.html" class="crosslink">Volume</a></span>
 
 
                     <div class="param-description">
                         <ul>
-<li>The type of the SDF.</li>
+<li>A volume octree.</li>
 </ul>
 
                     </div>
 
                 </li>
                 <li class="param">
-                        <code class="param-name optional">[material=Material.SOLID]</code>
-                        <span class="type">Number</span>
+                        <code class="param-name optional">[cull=false]</code>
+                        <span class="type">Boolean</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>A material index. Must be an integer in the range of 1 to 255.</li>
+<li>Whether the iterator should respect the cull region.</li>
 </ul>
 
                     </div>
@@ -257,31 +253,19 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_computeBoundingBox">computeBoundingBox</a>
+                                <a href="#method_next">next</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_intersect">intersect</a>
+                                <a href="#method_reset">reset</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_sample">sample</a>
+                                <a href="#method_return">return</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_serialise">serialise</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_subtract">subtract</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_toCSG">toCSG</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_union">union</a>
+                                <a href="#method_Symbol.iterator">Symbol.iterator</a>
 
                             </li>
                     </ul>
@@ -292,31 +276,33 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
                     <ul class="index-list properties">
                             <li class="index-item property private">
-                                <a href="#property_bbox">bbox</a>
+                                <a href="#property_BOX3">BOX3</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_indices">indices</a>
 
                             </li>
                             <li class="index-item property">
-                                <a href="#property_boundingBox">boundingBox</a>
+                                <a href="#property_region">region</a>
 
                             </li>
                             <li class="index-item property private">
-                                <a href="#property_children">children</a>
+                                <a href="#property_result">result</a>
 
+                                    <span class="flag static">static</span>
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_completeBoundingBox">completeBoundingBox</a>
+                            <li class="index-item property private">
+                                <a href="#property_trace">trace</a>
 
                             </li>
                             <li class="index-item property private">
-                                <a href="#property_material">material</a>
+                                <a href="#property_trace">trace</a>
 
                             </li>
-                            <li class="index-item property">
-                                <a href="#property_operation">operation</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_type">type</a>
+                            <li class="index-item property private">
+                                <a href="#property_volume">volume</a>
 
                             </li>
                     </ul>
@@ -328,13 +314,13 @@ for points outside. The value is zero at the exact boundary of the object.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_computeBoundingBox" class="method item">
-    <h3 class="name"><code>computeBoundingBox</code></h3>
+<div id="method_next" class="method item">
+    <h3 class="name"><code>next</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
+            <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
         </span>
 
 
@@ -346,7 +332,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l257"><code>src\volume\sdf\signed-distance-function.js:257</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l123"><code>src\volume\octree\volume-iterator.js:123</code></a>
         </p>
 
 
@@ -354,7 +340,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     </div>
 
     <div class="description">
-        <p>Calculates the bounding box of this SDF.</p>
+        <p>Iterates over the volume chunks.</p>
 
     </div>
 
@@ -363,49 +349,30 @@ for points outside. The value is zero at the exact boundary of the object.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>:
-                    <p>The bounding box.</p>
+                        <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>:
+                    <p>The next voxel.</p>
 
             </div>
         </div>
 
-        <div class="throws">
-            <h4>Throws:</h4>
-
-            <div class="throws-description">
-                        <span class="type">Error</span>:
-                    <p>An error is thrown if the method is not overridden.</p>
-
-            </div>
-        </div>
 
 </div>
-<div id="method_intersect" class="method item">
-    <h3 class="name"><code>intersect</code></h3>
+<div id="method_reset" class="method item">
+    <h3 class="name"><code>reset</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>sdf</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
-        </span>
+        <span class="paren">()</span>
 
 
 
 
 
-        <span class="flag chainable">chainable</span>
+
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l156"><code>src\volume\sdf\signed-distance-function.js:156</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l96"><code>src\volume\octree\volume-iterator.js:96</code></a>
         </p>
 
 
@@ -413,7 +380,47 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     </div>
 
     <div class="description">
-        <p>Intersects the given SDF with this one.</p>
+        <p>Resets this iterator.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_return" class="method item">
+    <h3 class="name"><code>return</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>value</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l192"><code>src\volume\octree\volume-iterator.js:192</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called when this iterator will no longer be run to completion.</p>
 
     </div>
 
@@ -422,13 +429,13 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">sdf</code>
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
+                        <code class="param-name">value</code>
+                        <span class="type">Object</span>
 
 
                     <div class="param-description">
                         <ul>
-<li>An SDF.</li>
+<li>An interator result value.</li>
 </ul>
 
                     </div>
@@ -441,98 +448,23 @@ for points outside. The value is zero at the exact boundary of the object.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>:
-                    <p>This SDF.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_sample" class="method item">
-    <h3 class="name"><code>sample</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>position</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Number</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l271"><code>src\volume\sdf\signed-distance-function.js:271</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Samples the volume's density at the given point in space.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">position</code>
-                        <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A position.</li>
+                        <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>:
+                    <ul>
+<li>A premature completion result.</li>
 </ul>
 
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Number</span>:
-                    <p>The Euclidean distance to the surface.</p>
-
             </div>
         </div>
 
-        <div class="throws">
-            <h4>Throws:</h4>
-
-            <div class="throws-description">
-                        <span class="type">Error</span>:
-                    <p>An error is thrown if the method is not overridden.</p>
-
-            </div>
-        </div>
 
 </div>
-<div id="method_serialise" class="method item">
-    <h3 class="name"><code>serialise</code></h3>
+<div id="method_Symbol.iterator" class="method item">
+    <h3 class="name"><code>Symbol.iterator</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Object</span>
+            <span class="type">VoxelIterator</span>
         </span>
 
 
@@ -544,7 +476,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l174"><code>src\volume\sdf\signed-distance-function.js:174</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l209"><code>src\volume\octree\volume-iterator.js:209</code></a>
         </p>
 
 
@@ -552,7 +484,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     </div>
 
     <div class="description">
-        <p>Serialises this SDF.</p>
+        <p>Returns this iterator.</p>
 
     </div>
 
@@ -561,197 +493,8 @@ for points outside. The value is zero at the exact boundary of the object.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Object</span>:
-                    <p>A serialised description of this SDF.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_subtract" class="method item">
-    <h3 class="name"><code>subtract</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>sdf</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l138"><code>src\volume\sdf\signed-distance-function.js:138</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Subtracts the given SDF from this one.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">sdf</code>
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An SDF.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>:
-                    <p>This SDF.</p>
-
-            </div>
-        </div>
-
-
-</div>
-<div id="method_toCSG" class="method item">
-    <h3 class="name"><code>toCSG</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Operation.html" class="crosslink">Operation</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l205"><code>src\volume\sdf\signed-distance-function.js:205</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Translates this SDF into a CSG expression.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Operation.html" class="crosslink">Operation</a></span>:
-                    <p>A CSG operation.</p>
-
-            </div>
-        </div>
-
-
-        <div class="example">
-            <h4>Example:</h4>
-
-            <div class="example-content">
-                <pre class="code prettyprint"><code>a.union(b.intersect(c)).union(d).subtract(e) =&gt; Difference(Union(a, Intersection(b, c), d), e)</code></pre>
-
-            </div>
-        </div>
-</div>
-<div id="method_union" class="method item">
-    <h3 class="name"><code>union</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>sdf</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
-        </span>
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l120"><code>src\volume\sdf\signed-distance-function.js:120</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Adds the given SDF to this one.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">sdf</code>
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>An SDF.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/SignedDistanceFunction.html" class="crosslink">SignedDistanceFunction</a></span>:
-                    <p>This SDF.</p>
+                        <span class="type">VoxelIterator</span>:
+                    <p>An iterator.</p>
 
             </div>
         </div>
@@ -763,60 +506,37 @@ for points outside. The value is zero at the exact boundary of the object.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_bbox" class="property item private">
-    <h3 class="name"><code>bbox</code></h3>
+<div id="property_BOX3" class="property item private">
+    <h3 class="name"><code>BOX3</code></h3>
     <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
 
 
         <span class="flag private">private</span>
 
+        <span class="flag final">final</span>
 
+        <span class="flag static">static</span>
 
     <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l70"><code>src\volume\sdf\signed-distance-function.js:70</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l4"><code>src\volume\octree\volume-iterator.js:4</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The bounding box of this SDF.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> null</p>
-
-
-</div>
-<div id="property_boundingBox" class="property item">
-    <h3 class="name"><code>boundingBox</code></h3>
-    <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l83"><code>src\volume\sdf\signed-distance-function.js:83</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The bounding box of this SDF.</p>
+        <p>A computation helper.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_children" class="property item private">
-    <h3 class="name"><code>children</code></h3>
+<div id="property_indices" class="property item private">
+    <h3 class="name"><code>indices</code></h3>
     <span class="type">Array</span>
 
 
@@ -827,24 +547,23 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l58"><code>src\volume\sdf\signed-distance-function.js:58</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l82"><code>src\volume\octree\volume-iterator.js:82</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>A list of SDFs.</p>
-<p>SDFs can be chained to build CSG expressions.</p>
+        <p>A trace of iteration indices.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_completeBoundingBox" class="property item">
-    <h3 class="name"><code>completeBoundingBox</code></h3>
-    <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
+<div id="property_region" class="property item">
+    <h3 class="name"><code>region</code></h3>
+    <span class="type">Frustum</span>
 
 
 
@@ -853,23 +572,52 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l96"><code>src\volume\sdf\signed-distance-function.js:96</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l63"><code>src\volume\octree\volume-iterator.js:63</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The complete bounding box of this SDF.</p>
+        <p>A frustum used for octree culling.</p>
 
     </div>
 
 
 
 </div>
-<div id="property_material" class="property item private">
-    <h3 class="name"><code>material</code></h3>
-    <span class="type">Number</span>
+<div id="property_result" class="property item private">
+    <h3 class="name"><code>result</code></h3>
+    <span class="type"><a href="../classes/IteratorResult.html" class="crosslink">IteratorResult</a></span>
+
+
+        <span class="flag private">private</span>
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l16"><code>src\volume\octree\volume-iterator.js:16</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An iterator result.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_trace" class="property item private">
+    <h3 class="name"><code>trace</code></h3>
+    <span class="type">Array</span>
 
 
         <span class="flag private">private</span>
@@ -879,70 +627,69 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l47"><code>src\volume\sdf\signed-distance-function.js:47</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l53"><code>src\volume\octree\volume-iterator.js:53</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>A material index.</p>
+        <p>An iteration trace that is used for pausing the octree traversal.</p>
 
     </div>
 
-        <p><strong>Default:</strong> Material.SOLID</p>
 
 
 </div>
-<div id="property_operation" class="property item">
-    <h3 class="name"><code>operation</code></h3>
-    <span class="type"><a href="../classes/OperationType.html" class="crosslink">OperationType</a></span>
+<div id="property_trace" class="property item private">
+    <h3 class="name"><code>trace</code></h3>
+    <span class="type">Array</span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l37"><code>src\volume\sdf\signed-distance-function.js:37</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l72"><code>src\volume\octree\volume-iterator.js:72</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The operation type.</p>
+        <p>An octant trace.</p>
 
     </div>
 
-        <p><strong>Default:</strong> null</p>
 
 
 </div>
-<div id="property_type" class="property item">
-    <h3 class="name"><code>type</code></h3>
-    <span class="type"><a href="../classes/SDFType.html" class="crosslink">SDFType</a></span>
+<div id="property_volume" class="property item private">
+    <h3 class="name"><code>volume</code></h3>
+    <span class="type"><a href="../classes/Volume.html" class="crosslink">Volume</a></span>
 
 
+        <span class="flag private">private</span>
 
 
 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_sdf_signed-distance-function.js.html#l27"><code>src\volume\sdf\signed-distance-function.js:27</code></a>
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l43"><code>src\volume\octree\volume-iterator.js:43</code></a>
         </p>
 
 
     </div>
 
     <div class="description">
-        <p>The type of this SDF.</p>
+        <p>The volume octree.</p>
 
     </div>
 
-        <p><strong>Default:</strong> null</p>
 
 
 </div>

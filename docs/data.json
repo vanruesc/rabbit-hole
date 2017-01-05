@@ -24,6 +24,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\core\\iterator-result.js": {
+            "name": "src\\core\\iterator-result.js",
+            "modules": {},
+            "classes": {
+                "IteratorResult": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\core\\priority-queue.js": {
             "name": "src\\core\\priority-queue.js",
             "modules": {},
@@ -375,6 +384,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\volume\\octree\\volume-iterator.js": {
+            "name": "src\\volume\\octree\\volume-iterator.js",
+            "modules": {},
+            "classes": {
+                "VolumeIterator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\volume\\octree\\volume.js": {
             "name": "src\\volume\\octree\\volume.js",
             "modules": {},
@@ -624,6 +642,7 @@
             "elements": {},
             "classes": {
                 "History": 1,
+                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
@@ -638,7 +657,7 @@
             "namespaces": {},
             "module": "rabbit-hole",
             "file": "src\\core\\terrain.js",
-            "line": 51,
+            "line": 39,
             "description": "Core components."
         },
         "rabbit-hole": {
@@ -652,13 +671,14 @@
                 "math": 1,
                 "csg": 1,
                 "octree": 1,
-                "sdf": 1,
                 "volume": 1,
+                "sdf": 1,
                 "worker": 1
             },
             "elements": {},
             "classes": {
                 "History": 1,
+                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
@@ -689,6 +709,7 @@
                 "Operation": 1,
                 "Union": 1,
                 "Chunk": 1,
+                "VolumeIterator": 1,
                 "Volume": 1,
                 "VoxelBlock": 1,
                 "VoxelCell": 1,
@@ -857,6 +878,27 @@
             "line": 41,
             "description": "Space partitioning components."
         },
+        "volume": {
+            "name": "volume",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "VolumeIterator": 1,
+                "EdgeData": 1,
+                "Edge": 1,
+                "HermiteData": 1,
+                "Material": 1,
+                "Voxel": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\voxel.js",
+            "line": 3,
+            "description": "Volume management components."
+        },
         "sdf": {
             "name": "sdf",
             "submodules": {},
@@ -877,26 +919,6 @@
             "file": "src\\volume\\sdf\\torus.js",
             "line": 6,
             "description": "A collection of Signed Distance Function components."
-        },
-        "volume": {
-            "name": "volume",
-            "submodules": {},
-            "elements": {},
-            "classes": {
-                "EdgeData": 1,
-                "Edge": 1,
-                "HermiteData": 1,
-                "Material": 1,
-                "Voxel": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\voxel.js",
-            "line": 3,
-            "description": "Volume management components."
         },
         "worker": {
             "name": "worker",
@@ -937,6 +959,38 @@
             "description": "An operation history.",
             "submodule": "core",
             "is_constructor": 1
+        },
+        "IteratorResult": {
+            "name": "IteratorResult",
+            "shortname": "IteratorResult",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\core\\iterator-result.js",
+            "line": 1,
+            "description": "An iterator result.",
+            "submodule": "core",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- A value.",
+                    "type": "Vector3",
+                    "optional": true,
+                    "optdefault": "null"
+                },
+                {
+                    "name": "done",
+                    "description": "- Whether this result is past the end of the iterated sequence.",
+                    "type": "Vector3",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ]
         },
         "PriorityQueue": {
             "name": "PriorityQueue",
@@ -1056,7 +1110,7 @@
             "submodule": "core",
             "namespace": "",
             "file": "src\\core\\terrain.js",
-            "line": 51,
+            "line": 39,
             "description": "The terrain system.",
             "extends": "EventTarget",
             "implements": "EventListener",
@@ -1091,6 +1145,12 @@
                         {
                             "name": "levels",
                             "description": "- The amount of detail levels. The default number of levels is derived from the resolution.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "maxIterations",
+                            "description": "- Limits the amount of volume chunks that are being processed during each update.",
                             "type": "Number",
                             "optional": true
                         }
@@ -1469,7 +1529,7 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 604,
+            "line": 605,
             "description": "Constructive Solid Geometry combines Signed Distance Functions by using\nBoolean operators to generate and transform volume data.",
             "submodule": "csg",
             "static": 1
@@ -1647,6 +1707,37 @@
                 }
             ]
         },
+        "VolumeIterator": {
+            "name": "VolumeIterator",
+            "shortname": "VolumeIterator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 28,
+            "description": "An edge iterator.",
+            "submodule": "volume",
+            "implements": "Iterator",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "volume",
+                    "description": "- A volume octree.",
+                    "type": "Volume"
+                },
+                {
+                    "name": "cull",
+                    "description": "- Whether the iterator should respect the cull region.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ]
+        },
         "Volume": {
             "name": "Volume",
             "shortname": "Volume",
@@ -1658,10 +1749,11 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\volume.js",
-            "line": 18,
+            "line": 19,
             "description": "A cubic octree that maintains volume chunks.",
             "submodule": "octree",
             "extends": "Octree",
+            "implements": "Iterable",
             "is_constructor": 1,
             "params": [
                 {
@@ -2278,6 +2370,40 @@
             "submodule": "core"
         },
         {
+            "file": "src\\core\\iterator-result.js",
+            "line": 15,
+            "description": "The value.",
+            "itemtype": "property",
+            "name": "value",
+            "type": "Object",
+            "default": "null",
+            "class": "IteratorResult",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\iterator-result.js",
+            "line": 25,
+            "description": "Whether this result is past the end of the iterated sequence.",
+            "itemtype": "property",
+            "name": "done",
+            "type": "Boolean",
+            "default": "false",
+            "class": "IteratorResult",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\iterator-result.js",
+            "line": 37,
+            "description": "Resets this iterator result.",
+            "itemtype": "method",
+            "name": "reset",
+            "class": "IteratorResult",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
             "file": "src\\core\\priority-queue.js",
             "line": 29,
             "description": "The amount of priority tiers.",
@@ -2787,21 +2913,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 39,
-            "description": "A frustum used for octree culling.",
-            "itemtype": "property",
-            "name": "FRUSTUM",
-            "type": "Frustum",
-            "access": "private",
-            "tagname": "",
-            "static": 1,
-            "final": 1,
-            "class": "Terrain",
-            "module": "rabbit-hole"
-        },
-        {
-            "file": "src\\core\\terrain.js",
-            "line": 72,
+            "line": 61,
             "description": "The terrain object. Add this to your scene.",
             "itemtype": "property",
             "name": "object",
@@ -2812,7 +2924,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 82,
+            "line": 71,
             "description": "The volume of this terrain.",
             "itemtype": "property",
             "name": "volume",
@@ -2823,7 +2935,20 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 91,
+            "line": 80,
+            "description": "A volume chunk iterator.",
+            "itemtype": "property",
+            "name": "iterator",
+            "type": "Iterator",
+            "access": "private",
+            "tagname": "",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 90,
             "description": "The number of detail levels.\n\nTerrain chunks that are further away from the camera will be rendered\nwith less vertices.",
             "itemtype": "property",
             "name": "levels",
@@ -2837,7 +2962,21 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 105,
+            "line": 104,
+            "description": "The maximum amount of chunk iterations per update.\n\nVolume chunks that lie in the field of view will be processed over the\ncourse of several update calls.",
+            "itemtype": "property",
+            "name": "maxIterations",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "default": "1000",
+            "class": "Terrain",
+            "module": "rabbit-hole",
+            "submodule": "core"
+        },
+        {
+            "file": "src\\core\\terrain.js",
+            "line": 118,
             "description": "A thread pool.",
             "itemtype": "property",
             "name": "threadPool",
@@ -2850,7 +2989,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 116,
+            "line": 129,
             "description": "Manages pending tasks.",
             "itemtype": "property",
             "name": "scheduler",
@@ -2863,7 +3002,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 126,
+            "line": 139,
             "description": "A chronological sequence of CSG operations that have been executed during\nthis session.",
             "itemtype": "property",
             "name": "history",
@@ -2874,7 +3013,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 136,
+            "line": 149,
             "description": "Keeps track of chunks that are currently being used by a worker. The\namount of neutered chunks cannot exceed the amount of worker threads.",
             "itemtype": "property",
             "name": "neutered",
@@ -2887,7 +3026,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 147,
+            "line": 160,
             "description": "Keeps track of associations between workers and chunks.",
             "itemtype": "property",
             "name": "chunks",
@@ -2900,7 +3039,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 157,
+            "line": 170,
             "description": "Keeps track of associations between chunks and meshes.",
             "itemtype": "property",
             "name": "meshes",
@@ -2913,7 +3052,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 167,
+            "line": 180,
             "description": "The terrain material.",
             "itemtype": "property",
             "name": "material",
@@ -2924,7 +3063,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 178,
+            "line": 191,
             "description": "Lifts the connection of a given chunk to its mesh and removes the geometry.",
             "itemtype": "method",
             "name": "unlinkMesh",
@@ -2943,7 +3082,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 202,
+            "line": 215,
             "description": "Handles worker events.",
             "itemtype": "method",
             "name": "handleEvent",
@@ -2962,7 +3101,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 267,
+            "line": 280,
             "description": "Updates geometry chunks with extracted data.",
             "itemtype": "method",
             "name": "consolidate",
@@ -2986,7 +3125,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 304,
+            "line": 317,
             "description": "Runs a pending task if a worker is available.",
             "itemtype": "method",
             "name": "runNextTask",
@@ -2998,7 +3137,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 367,
+            "line": 380,
             "description": "Edits the terrain volume data.",
             "itemtype": "method",
             "name": "edit",
@@ -3017,7 +3156,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 399,
+            "line": 411,
             "description": "Executes the given SDF and adds the generated data to the volume.",
             "itemtype": "method",
             "name": "union",
@@ -3034,7 +3173,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 414,
+            "line": 426,
             "description": "Executes the given SDF and subtracts the generated data from the volume.",
             "itemtype": "method",
             "name": "subtract",
@@ -3051,7 +3190,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 429,
+            "line": 441,
             "description": "Executes the given SDF and discards the volume data that doesn't overlap\nwith the generated data.",
             "itemtype": "method",
             "name": "intersect",
@@ -3068,7 +3207,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 445,
+            "line": 457,
             "description": "Updates the terrain geometry. This method should be called each frame.",
             "itemtype": "method",
             "name": "update",
@@ -3085,7 +3224,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 516,
+            "line": 539,
             "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.\n\nIntersections are sorted by distance, closest first.",
             "itemtype": "method",
             "name": "raycast",
@@ -3106,7 +3245,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 557,
+            "line": 580,
             "description": "Removes all child meshes.",
             "itemtype": "method",
             "name": "clearMeshes",
@@ -3118,7 +3257,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 583,
+            "line": 606,
             "description": "Resets this terrain by removing data and closing active worker threads.",
             "itemtype": "method",
             "name": "clear",
@@ -3128,7 +3267,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 604,
+            "line": 628,
             "description": "Destroys this terrain and frees internal resources.",
             "itemtype": "method",
             "name": "dispose",
@@ -3138,7 +3277,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 617,
+            "line": 641,
             "description": "Saves a description of the current volume data.",
             "itemtype": "method",
             "name": "save",
@@ -3152,7 +3291,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 638,
+            "line": 662,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -5913,7 +6052,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 337,
+            "line": 338,
             "description": "Generates edge data.",
             "itemtype": "method",
             "name": "generateEdges",
@@ -5951,7 +6090,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 466,
+            "line": 467,
             "description": "Either generates or combines volume data based on the operation type.",
             "itemtype": "method",
             "name": "update",
@@ -5986,7 +6125,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 528,
+            "line": 529,
             "description": "Executes the given operation.",
             "itemtype": "method",
             "name": "execute",
@@ -6014,7 +6153,7 @@
         },
         {
             "file": "src\\volume\\csg\\constructive-solid-geometry.js",
-            "line": 615,
+            "line": 616,
             "description": "Transforms the given chunk of hermite data in two steps:\n\n 1. Generate data by executing the given SDF\n 2. Combine the generated data with the chunk data",
             "itemtype": "method",
             "name": "run",
@@ -6493,8 +6632,158 @@
             "submodule": "octree"
         },
         {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 4,
+            "description": "A computation helper.",
+            "itemtype": "property",
+            "name": "BOX3",
+            "type": "Box3",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "VolumeIterator",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 16,
+            "description": "An iterator result.",
+            "itemtype": "property",
+            "name": "result",
+            "type": "IteratorResult",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "final": 1,
+            "class": "VolumeIterator",
+            "module": "rabbit-hole"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 43,
+            "description": "The volume octree.",
+            "itemtype": "property",
+            "name": "volume",
+            "type": "Volume",
+            "access": "private",
+            "tagname": "",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 53,
+            "description": "An iteration trace that is used for pausing the octree traversal.",
+            "itemtype": "property",
+            "name": "trace",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 63,
+            "description": "A frustum used for octree culling.",
+            "itemtype": "property",
+            "name": "region",
+            "type": "Frustum",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 72,
+            "description": "An octant trace.",
+            "itemtype": "property",
+            "name": "trace",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 82,
+            "description": "A trace of iteration indices.",
+            "itemtype": "property",
+            "name": "indices",
+            "type": "Array",
+            "access": "private",
+            "tagname": "",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 96,
+            "description": "Resets this iterator.",
+            "itemtype": "method",
+            "name": "reset",
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 123,
+            "description": "Iterates over the volume chunks.",
+            "itemtype": "method",
+            "name": "next",
+            "return": {
+                "description": "The next voxel.",
+                "type": "IteratorResult"
+            },
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 192,
+            "description": "Called when this iterator will no longer be run to completion.",
+            "itemtype": "method",
+            "name": "return",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- An interator result value.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "- A premature completion result.",
+                "type": "IteratorResult"
+            },
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
+            "file": "src\\volume\\octree\\volume-iterator.js",
+            "line": 209,
+            "description": "Returns this iterator.",
+            "itemtype": "method",
+            "name": "Symbol.iterator",
+            "return": {
+                "description": "An iterator.",
+                "type": "VoxelIterator"
+            },
+            "class": "VolumeIterator",
+            "module": "rabbit-hole",
+            "submodule": "volume"
+        },
+        {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 6,
+            "line": 7,
             "description": "Rounds the given number up to the next power of two.",
             "itemtype": "method",
             "name": "ceil2",
@@ -6517,7 +6806,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 37,
+            "line": 39,
             "description": "The size of a volume chunk.",
             "itemtype": "property",
             "name": "chunkSize",
@@ -6531,7 +6820,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 55,
+            "line": 57,
             "description": "The size of the root octant.",
             "itemtype": "property",
             "name": "size",
@@ -6542,7 +6831,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 66,
+            "line": 68,
             "description": "The resolution of the volume data.",
             "itemtype": "property",
             "name": "resolution",
@@ -6553,21 +6842,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 75,
-            "description": "Collects all chunks that contain volume data.",
-            "itemtype": "method",
-            "name": "getChunks",
-            "return": {
-                "description": "A list of all chunks that contain volume data.",
-                "type": "Array"
-            },
-            "class": "Volume",
-            "module": "rabbit-hole",
-            "submodule": "octree"
-        },
-        {
-            "file": "src\\volume\\octree\\volume.js",
-            "line": 110,
+            "line": 77,
             "description": "Edits this volume.",
             "itemtype": "method",
             "name": "edit",
@@ -6588,7 +6863,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 178,
+            "line": 144,
             "description": "Expands the volume to include the given region.",
             "itemtype": "method",
             "name": "expand",
@@ -6607,7 +6882,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 247,
+            "line": 213,
             "description": "Removes the given chunk and shrinks the volume if possible.",
             "itemtype": "method",
             "name": "prune",
@@ -6627,7 +6902,43 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 259,
+            "line": 225,
+            "description": "Returns a volume iterator that finds chunks inside a specific region.",
+            "itemtype": "method",
+            "name": "chunks",
+            "params": [
+                {
+                    "name": "region",
+                    "description": "- A region.",
+                    "type": "Frustum",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "An iterator.",
+                "type": "VolumeIterator"
+            },
+            "class": "Volume",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\volume.js",
+            "line": 247,
+            "description": "Returns a volume iterator that traverses the entire octree.",
+            "itemtype": "method",
+            "name": "Symbol.iterator",
+            "return": {
+                "description": "An iterator.",
+                "type": "VolumeIterator"
+            },
+            "class": "Volume",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\volume.js",
+            "line": 260,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -6644,7 +6955,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 274,
+            "line": 275,
             "description": "Creates a compact representation of the current volume data.",
             "itemtype": "method",
             "name": "toJSON",

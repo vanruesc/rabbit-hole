@@ -55,6 +55,7 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
+                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -83,6 +84,7 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
+                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -147,7 +149,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_core_terrain.js.html#l51"><code>src\core\terrain.js:51</code></a>
+            Defined in: <a href="../files/src_core_terrain.js.html#l39"><code>src\core\terrain.js:39</code></a>
         </div>
 
             Module: <a href="../modules/core.html">core</a><br>
@@ -184,7 +186,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l51"><code>src\core\terrain.js:51</code></a>
+        <a href="../files/src_core_terrain.js.html#l39"><code>src\core\terrain.js:39</code></a>
         </p>
 
 
@@ -260,6 +262,19 @@
                                 <div class="param-description">
                                     <ul>
 <li>The amount of detail levels. The default number of levels is derived from the resolution.</li>
+</ul>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[maxIterations]</code>
+                                    <span class="type">Number</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <ul>
+<li>Limits the amount of volume chunks that are being processed during each update.</li>
 </ul>
 
                                 </div>
@@ -380,13 +395,12 @@
                                 <a href="#property_chunks">chunks</a>
 
                             </li>
-                            <li class="index-item property private">
-                                <a href="#property_FRUSTUM">FRUSTUM</a>
-
-                                    <span class="flag static">static</span>
-                            </li>
                             <li class="index-item property">
                                 <a href="#property_history">history</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_iterator">iterator</a>
 
                             </li>
                             <li class="index-item property private">
@@ -409,6 +423,10 @@
                                 <a href="#property_MATRIX4">MATRIX4</a>
 
                                     <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_maxIterations">maxIterations</a>
+
                             </li>
                             <li class="index-item property private">
                                 <a href="#property_meshes">meshes</a>
@@ -545,7 +563,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l583"><code>src\core\terrain.js:583</code></a>
+        <a href="../files/src_core_terrain.js.html#l606"><code>src\core\terrain.js:606</code></a>
         </p>
 
 
@@ -577,7 +595,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l557"><code>src\core\terrain.js:557</code></a>
+        <a href="../files/src_core_terrain.js.html#l580"><code>src\core\terrain.js:580</code></a>
         </p>
 
 
@@ -618,7 +636,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l267"><code>src\core\terrain.js:267</code></a>
+        <a href="../files/src_core_terrain.js.html#l280"><code>src\core\terrain.js:280</code></a>
         </p>
 
 
@@ -749,7 +767,7 @@ event listeners in the appropriate order.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l604"><code>src\core\terrain.js:604</code></a>
+        <a href="../files/src_core_terrain.js.html#l628"><code>src\core\terrain.js:628</code></a>
         </p>
 
 
@@ -787,7 +805,7 @@ event listeners in the appropriate order.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l367"><code>src\core\terrain.js:367</code></a>
+        <a href="../files/src_core_terrain.js.html#l380"><code>src\core\terrain.js:380</code></a>
         </p>
 
 
@@ -844,7 +862,7 @@ event listeners in the appropriate order.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l202"><code>src\core\terrain.js:202</code></a>
+        <a href="../files/src_core_terrain.js.html#l215"><code>src\core\terrain.js:215</code></a>
         </p>
 
 
@@ -900,7 +918,7 @@ event listeners in the appropriate order.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l429"><code>src\core\terrain.js:429</code></a>
+        <a href="../files/src_core_terrain.js.html#l441"><code>src\core\terrain.js:441</code></a>
         </p>
 
 
@@ -957,7 +975,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l638"><code>src\core\terrain.js:638</code></a>
+        <a href="../files/src_core_terrain.js.html#l662"><code>src\core\terrain.js:662</code></a>
         </p>
 
 
@@ -1016,7 +1034,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l516"><code>src\core\terrain.js:516</code></a>
+        <a href="../files/src_core_terrain.js.html#l539"><code>src\core\terrain.js:539</code></a>
         </p>
 
 
@@ -1143,7 +1161,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l304"><code>src\core\terrain.js:304</code></a>
+        <a href="../files/src_core_terrain.js.html#l317"><code>src\core\terrain.js:317</code></a>
         </p>
 
 
@@ -1177,7 +1195,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l617"><code>src\core\terrain.js:617</code></a>
+        <a href="../files/src_core_terrain.js.html#l641"><code>src\core\terrain.js:641</code></a>
         </p>
 
 
@@ -1223,7 +1241,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l414"><code>src\core\terrain.js:414</code></a>
+        <a href="../files/src_core_terrain.js.html#l426"><code>src\core\terrain.js:426</code></a>
         </p>
 
 
@@ -1279,7 +1297,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l399"><code>src\core\terrain.js:399</code></a>
+        <a href="../files/src_core_terrain.js.html#l411"><code>src\core\terrain.js:411</code></a>
         </p>
 
 
@@ -1336,7 +1354,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l178"><code>src\core\terrain.js:178</code></a>
+        <a href="../files/src_core_terrain.js.html#l191"><code>src\core\terrain.js:191</code></a>
         </p>
 
 
@@ -1392,7 +1410,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l445"><code>src\core\terrain.js:445</code></a>
+        <a href="../files/src_core_terrain.js.html#l457"><code>src\core\terrain.js:457</code></a>
         </p>
 
 
@@ -1473,7 +1491,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l147"><code>src\core\terrain.js:147</code></a>
+        <a href="../files/src_core_terrain.js.html#l160"><code>src\core\terrain.js:160</code></a>
         </p>
 
 
@@ -1481,35 +1499,6 @@ associated meshes.</p>
 
     <div class="description">
         <p>Keeps track of associations between workers and chunks.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_FRUSTUM" class="property item private">
-    <h3 class="name"><code>FRUSTUM</code></h3>
-    <span class="type">Frustum</span>
-
-
-        <span class="flag private">private</span>
-
-        <span class="flag final">final</span>
-
-        <span class="flag static">static</span>
-
-    <div class="meta">
-                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
-                <p>
-                Defined in
-        <a href="../files/src_core_terrain.js.html#l39"><code>src\core\terrain.js:39</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>A frustum used for octree culling.</p>
 
     </div>
 
@@ -1527,7 +1516,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l126"><code>src\core\terrain.js:126</code></a>
+        <a href="../files/src_core_terrain.js.html#l139"><code>src\core\terrain.js:139</code></a>
         </p>
 
 
@@ -1536,6 +1525,32 @@ associated meshes.</p>
     <div class="description">
         <p>A chronological sequence of CSG operations that have been executed during
 this session.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_iterator" class="property item private">
+    <h3 class="name"><code>iterator</code></h3>
+    <span class="type">Iterator</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l80"><code>src\core\terrain.js:80</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A volume chunk iterator.</p>
 
     </div>
 
@@ -1554,7 +1569,7 @@ this session.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l91"><code>src\core\terrain.js:91</code></a>
+        <a href="../files/src_core_terrain.js.html#l90"><code>src\core\terrain.js:90</code></a>
         </p>
 
 
@@ -1632,7 +1647,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l167"><code>src\core\terrain.js:167</code></a>
+        <a href="../files/src_core_terrain.js.html#l180"><code>src\core\terrain.js:180</code></a>
         </p>
 
 
@@ -1675,6 +1690,35 @@ with less vertices.</p>
 
 
 </div>
+<div id="property_maxIterations" class="property item private">
+    <h3 class="name"><code>maxIterations</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l104"><code>src\core\terrain.js:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The maximum amount of chunk iterations per update.</p>
+<p>Volume chunks that lie in the field of view will be processed over the
+course of several update calls.</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 1000</p>
+
+
+</div>
 <div id="property_meshes" class="property item private">
     <h3 class="name"><code>meshes</code></h3>
     <span class="type">WeakMap</span>
@@ -1687,7 +1731,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l157"><code>src\core\terrain.js:157</code></a>
+        <a href="../files/src_core_terrain.js.html#l170"><code>src\core\terrain.js:170</code></a>
         </p>
 
 
@@ -1713,7 +1757,7 @@ with less vertices.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l136"><code>src\core\terrain.js:136</code></a>
+        <a href="../files/src_core_terrain.js.html#l149"><code>src\core\terrain.js:149</code></a>
         </p>
 
 
@@ -1739,7 +1783,7 @@ amount of neutered chunks cannot exceed the amount of worker threads.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l72"><code>src\core\terrain.js:72</code></a>
+        <a href="../files/src_core_terrain.js.html#l61"><code>src\core\terrain.js:61</code></a>
         </p>
 
 
@@ -1765,7 +1809,7 @@ amount of neutered chunks cannot exceed the amount of worker threads.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l116"><code>src\core\terrain.js:116</code></a>
+        <a href="../files/src_core_terrain.js.html#l129"><code>src\core\terrain.js:129</code></a>
         </p>
 
 
@@ -1791,7 +1835,7 @@ amount of neutered chunks cannot exceed the amount of worker threads.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l105"><code>src\core\terrain.js:105</code></a>
+        <a href="../files/src_core_terrain.js.html#l118"><code>src\core\terrain.js:118</code></a>
         </p>
 
 
@@ -1816,7 +1860,7 @@ amount of neutered chunks cannot exceed the amount of worker threads.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l82"><code>src\core\terrain.js:82</code></a>
+        <a href="../files/src_core_terrain.js.html#l71"><code>src\core\terrain.js:71</code></a>
         </p>
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\core\run-length-encoder.js - rabbit-hole</title>
+    <title>src\volume\octree\volume-iterator.js - rabbit-hole</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -141,98 +141,228 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\core\run-length-encoder.js</h1>
+<h1 class="file-heading">File: src\volume\octree\volume-iterator.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import { Box3, Frustum } from &quot;three&quot;;
+import { IteratorResult } from &quot;../../core/iterator-result.js&quot;;
+
 /**
- * Run-Length Encoding for numeric data.
+ * A computation helper.
  *
- * @class RunLengthEncoder
- * @submodule core
+ * @property BOX3
+ * @type Box3
+ * @private
  * @static
+ * @final
  */
 
-export class RunLengthEncoder {
+const BOX3 = new Box3();
 
-	/**
-	 * Encodes the given data.
-	 *
-	 * @method encode
-	 * @static
-	 * @param {Array} array - The data to encode.
-	 * @return {Object} The run-lengths and the encoded data.
-	 */
+/**
+ * An iterator result.
+ *
+ * @property result
+ * @type IteratorResult
+ * @private
+ * @static
+ * @final
+ */
 
-	static encode(array) {
+const RESULT = new IteratorResult();
 
-		const runLengths = [];
-		const data = [];
+/**
+ * An edge iterator.
+ *
+ * @class VolumeIterator
+ * @submodule volume
+ * @implements Iterator
+ * @constructor
+ * @param {Volume} volume - A volume octree.
+ * @param {Boolean} [cull=false] - Whether the iterator should respect the cull region.
+ */
 
-		let previous = array[0];
-		let count = 1;
+export class VolumeIterator {
 
-		let i, l;
+	constructor(volume, cull = false) {
 
-		for(i = 1, l = array.length; i &lt; l; ++i) {
+		/**
+		 * The volume octree.
+		 *
+		 * @property volume
+		 * @type Volume
+		 * @private
+		 */
 
-			if(previous !== array[i]) {
+		this.volume = volume;
 
-				runLengths.push(count);
-				data.push(previous);
+		/**
+		 * An iteration trace that is used for pausing the octree traversal.
+		 *
+		 * @property trace
+		 * @type Array
+		 * @private
+		 */
 
-				previous = array[i];
-				count = 1;
+		this.cull = cull;
 
-			} else {
+		/**
+		 * A frustum used for octree culling.
+		 *
+		 * @property region
+		 * @type Frustum
+		 */
 
-				++count;
+		this.region = new Frustum();
 
-			}
+		/**
+		 * An octant trace.
+		 *
+		 * @property trace
+		 * @type Array
+		 * @private
+		 */
 
-		}
+		this.trace = null;
 
-		runLengths.push(count);
-		data.push(previous);
+		/**
+		 * A trace of iteration indices.
+		 *
+		 * @property indices
+		 * @type Array
+		 * @private
+		 */
 
-		return {
-			runLengths,
-			data
-		};
+		this.indices = null;
+
+		this.reset();
 
 	}
 
 	/**
-	 * Decodes the given data.
+	 * Resets this iterator.
 	 *
-	 * @method decode
-	 * @static
-	 * @param {Array} runLengths - The run-lengths.
-	 * @param {Array} data - The data to decode.
-	 * @param {Array} [array] - An optional target.
-	 * @return {Array} The decoded data.
+	 * @method reset
 	 */
 
-	static decode(runLengths, data, array = []) {
+	reset() {
 
-		let element;
+		const root = this.volume.root;
 
-		let i, j, il, jl;
-		let k = 0;
+		this.trace = [];
+		this.indices = [];
 
-		for(i = 0, il = data.length; i &lt; il; ++i) {
+		BOX3.min = root.min;
+		BOX3.max = root.max;
 
-			element = data[i];
+		if(!this.cull || this.region.intersectsBox(BOX3)) {
 
-			for(j = 0, jl = runLengths[i]; j &lt; jl; ++j) {
+			this.trace.push(root);
+			this.indices.push(0);
 
-				array[k++] = element;
+		}
+
+		RESULT.reset();
+
+	}
+
+	/**
+	 * Iterates over the volume chunks.
+	 *
+	 * @method next
+	 * @return {IteratorResult} The next voxel.
+	 */
+
+	next() {
+
+		const cull = this.cull;
+		const region = this.region;
+		const indices = this.indices;
+		const trace = this.trace;
+
+		let octant = null;
+		let i = trace.length - 1;
+
+		let index, children, child;
+
+		while(octant === null &amp;&amp; i &gt;= 0) {
+
+			index = indices[i];
+			children = trace[i].children;
+
+			++indices[i];
+
+			if(index &lt; 8) {
+
+				if(children !== null) {
+
+					child = children[index];
+
+					BOX3.min = child.min;
+					BOX3.max = child.max;
+
+					if(!cull || region.intersectsBox(BOX3)) {
+
+						trace.push(child);
+						indices.push(0);
+
+						++i;
+
+					}
+
+				} else {
+
+					octant = trace.pop();
+					indices.pop();
+
+				}
+
+			} else {
+
+				trace.pop();
+				indices.pop();
+
+				--i;
 
 			}
 
 		}
 
-		return array;
+		RESULT.value = octant;
+		RESULT.done = (octant === null);
+
+		return RESULT;
+
+	}
+
+	/**
+	 * Called when this iterator will no longer be run to completion.
+	 *
+	 * @method return
+	 * @param {Object} value - An interator result value.
+	 * @return {IteratorResult} - A premature completion result.
+	 */
+
+	return(value) {
+
+		RESULT.value = value;
+		RESULT.done = true;
+
+		return RESULT;
+
+	}
+
+	/**
+	 * Returns this iterator.
+	 *
+	 * @method Symbol.iterator
+	 * @return {VoxelIterator} An iterator.
+	 */
+
+	[Symbol.iterator]() {
+
+		return this;
 
 	}
 
