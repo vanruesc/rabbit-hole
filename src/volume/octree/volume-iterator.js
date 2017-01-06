@@ -26,7 +26,7 @@ const BOX3 = new Box3();
 const RESULT = new IteratorResult();
 
 /**
- * An edge iterator.
+ * A volume iterator.
  *
  * @class VolumeIterator
  * @submodule volume
@@ -51,9 +51,9 @@ export class VolumeIterator {
 		this.volume = volume;
 
 		/**
-		 * An iteration trace that is used for pausing the octree traversal.
+		 * Indicates whether the iterator should respect the cull region.
 		 *
-		 * @property trace
+		 * @property cull
 		 * @type Array
 		 * @private
 		 */
@@ -80,7 +80,7 @@ export class VolumeIterator {
 		this.trace = null;
 
 		/**
-		 * A trace of iteration indices.
+		 * Iteration indices.
 		 *
 		 * @property indices
 		 * @type Array
