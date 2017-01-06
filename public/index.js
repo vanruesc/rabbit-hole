@@ -5494,7 +5494,7 @@
      var RESULT = new IteratorResult();
 
      /**
-      * An edge iterator.
+      * A volume iterator.
       *
       * @class VolumeIterator
       * @submodule volume
@@ -5521,9 +5521,9 @@
      				this.volume = volume;
 
      				/**
-          * An iteration trace that is used for pausing the octree traversal.
+          * Indicates whether the iterator should respect the cull region.
           *
-          * @property trace
+          * @property cull
           * @type Array
           * @private
           */
@@ -5550,7 +5550,7 @@
      				this.trace = null;
 
      				/**
-          * A trace of iteration indices.
+          * Iteration indices.
           *
           * @property indices
           * @type Array
@@ -7893,9 +7893,9 @@
       * @param {Object} [options] - The options.
       * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
       * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
-      * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
+      * @param {Number} [options.workers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
       * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
-      * @param {Number} [options.maxIterations] - Limits the amount of volume chunks that are being processed during each update.
+      * @param {Number} [options.iterations] - Limits the amount of volume chunks that are being processed during each update.
       */
 
      var Terrain = function (_EventTarget) {
@@ -7948,7 +7948,7 @@
           * @default log2(resolution)
           */
 
-     				_this.levels = options.levels !== undefined ? options.levels : Math.log2(_this.volume.resolution);
+     				_this.levels = options.levels !== undefined ? Math.max(1, options.levels) : Math.log2(_this.volume.resolution);
 
      				/**
           * The maximum amount of chunk iterations per update.
@@ -7956,13 +7956,13 @@
           * Volume chunks that lie in the field of view will be processed over the
           * course of several update calls.
           *
-          * @property maxIterations
+          * @property iterations
           * @type Number
           * @private
           * @default 1000
           */
 
-     				_this.maxIterations = options.maxIterations !== undefined ? options.maxIterations : 1000;
+     				_this.iterations = options.iterations !== undefined ? Math.max(1, options.iterations) : 1000;
 
      				/**
           * A thread pool.
@@ -7972,7 +7972,7 @@
           * @private
           */
 
-     				_this.threadPool = new ThreadPool(options.maxWorkers);
+     				_this.threadPool = new ThreadPool(options.workers);
      				_this.threadPool.addEventListener("message", _this);
 
      				/**
@@ -8336,9 +8336,10 @@
      						var iterator = this.iterator;
      						var scheduler = this.scheduler;
      						var maxPriority = scheduler.maxPriority;
-     						var maxIterations = this.maxIterations;
      						var levels = this.levels;
      						var maxLevel = levels - 1;
+
+     						var i = this.iterations;
 
      						var chunk = void 0,
      						    data = void 0,
@@ -8347,13 +8348,12 @@
      						var distance = void 0,
      						    lod = void 0;
      						var result = void 0;
-     						var i = 0;
 
      						iterator.region.setFromMatrix(MATRIX4.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
 
      						result = iterator.next();
 
-     						while (!result.done && i++ < maxIterations) {
+     						while (!result.done) {
 
      								chunk = result.value;
      								data = chunk.data;
@@ -8388,7 +8388,13 @@
      										}
      								}
 
-     								result = iterator.next();
+     								if (--i > 0) {
+
+     										result = iterator.next();
+     								} else {
+
+     										break;
+     								}
      						}
 
      						if (result.done) {
@@ -12259,7 +12265,7 @@
      								this.cursor.position.copy(intersects[0].point);
      						} else {
 
-     								this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(10).add(raycaster.ray.origin);
+     								this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(15).add(raycaster.ray.origin);
      						}
      				}
 
@@ -12442,7 +12448,7 @@
 
      						folder.add(this, "delta").listen();
 
-     						folder.add(this, "cursorSize").min(0.5).max(6).step(0.01).onChange(function () {
+     						folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(function () {
 
      								_this.cursor.scale.set(_this.cursorSize, _this.cursorSize, _this.cursorSize);
      						});
@@ -13398,7 +13404,7 @@
      						// Scene.
 
      						var scene = new three.Scene();
-     						scene.fog = new three.FogExp2(0xffffff, 0.0025);
+     						scene.fog = new three.FogExp2(0xb5c1af, 0.0025);
      						scene.background = assets.has("sky") ? assets.get("sky") : null;
 
      						// Renderer.
@@ -13444,7 +13450,8 @@
 
      						var terrain = new Terrain({
      								resolution: 64,
-     								chunkSize: 32
+     								chunkSize: 32,
+     								iterations: 100
      						});
 
      						terrain.material.uniforms.diffuse.value.setHex(0xffffff);
