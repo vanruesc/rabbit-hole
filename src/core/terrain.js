@@ -47,9 +47,9 @@ const MATRIX4 = new Matrix4();
  * @param {Object} [options] - The options.
  * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
  * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
- * @param {Number} [options.maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
+ * @param {Number} [options.workers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
  * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
- * @param {Number} [options.maxIterations] - Limits the amount of volume chunks that are being processed during each update.
+ * @param {Number} [options.iterations] - Limits the amount of volume chunks that are being processed during each update.
  */
 
 export class Terrain extends EventTarget {
@@ -99,7 +99,7 @@ export class Terrain extends EventTarget {
 		 * @default log2(resolution)
 		 */
 
-		this.levels = (options.levels !== undefined) ? options.levels : Math.log2(this.volume.resolution);
+		this.levels = (options.levels !== undefined) ? Math.max(1, options.levels) : Math.log2(this.volume.resolution);
 
 		/**
 		 * The maximum amount of chunk iterations per update.
@@ -107,13 +107,13 @@ export class Terrain extends EventTarget {
 		 * Volume chunks that lie in the field of view will be processed over the
 		 * course of several update calls.
 		 *
-		 * @property maxIterations
+		 * @property iterations
 		 * @type Number
 		 * @private
 		 * @default 1000
 		 */
 
-		this.maxIterations = (options.maxIterations !== undefined) ? options.maxIterations : 1000;
+		this.iterations = (options.iterations !== undefined) ? Math.max(1, options.iterations) : 1000;
 
 		/**
 		 * A thread pool.
@@ -123,7 +123,7 @@ export class Terrain extends EventTarget {
 		 * @private
 		 */
 
-		this.threadPool = new ThreadPool(options.maxWorkers);
+		this.threadPool = new ThreadPool(options.workers);
 		this.threadPool.addEventListener("message", this);
 
 		/**
@@ -466,14 +466,14 @@ export class Terrain extends EventTarget {
 		const iterator = this.iterator;
 		const scheduler = this.scheduler;
 		const maxPriority = scheduler.maxPriority;
-		const maxIterations = this.maxIterations;
 		const levels = this.levels;
 		const maxLevel = levels - 1;
+
+		let i = this.iterations;
 
 		let chunk, data, csg, task;
 		let distance, lod;
 		let result;
-		let i = 0;
 
 		iterator.region.setFromMatrix(
 			MATRIX4.multiplyMatrices(
@@ -484,7 +484,7 @@ export class Terrain extends EventTarget {
 
 		result = iterator.next();
 
-		while(!result.done && i++ < maxIterations) {
+		while(!result.done) {
 
 			chunk = result.value;
 			data = chunk.data;
@@ -524,7 +524,15 @@ export class Terrain extends EventTarget {
 
 			}
 
-			result = iterator.next();
+			if(--i > 0) {
+
+				result = iterator.next();
+
+			} else {
+
+				break;
+
+			}
 
 		}
 
