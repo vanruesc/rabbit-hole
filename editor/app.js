@@ -48,7 +48,7 @@ export class App {
 		// Scene.
 
 		const scene = new Scene();
-		scene.fog = new FogExp2(0xffffff, 0.0025);
+		scene.fog = new FogExp2(0xb5c1af, 0.0025);
 		scene.background = assets.has("sky") ? assets.get("sky") : null;
 
 		// Renderer.
@@ -94,7 +94,8 @@ export class App {
 
 		const terrain = new Terrain({
 			resolution: 64,
-			chunkSize: 32
+			chunkSize: 32,
+			iterations: 100
 		});
 
 		terrain.material.uniforms.diffuse.value.setHex(0xffffff);
