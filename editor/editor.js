@@ -306,7 +306,7 @@ export class Editor {
 
 		} else {
 
-			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(10).add(raycaster.ray.origin);
+			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(15).add(raycaster.ray.origin);
 
 		}
 
@@ -485,7 +485,7 @@ export class Editor {
 
 		folder.add(this, "delta").listen();
 
-		folder.add(this, "cursorSize").min(0.5).max(6).step(0.01).onChange(() => {
+		folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(() => {
 
 			this.cursor.scale.set(this.cursorSize, this.cursorSize, this.cursorSize);
 
