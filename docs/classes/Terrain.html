@@ -242,7 +242,7 @@
 
                             </li>
                             <li class="param">
-                                    <code class="param-name optional">[maxWorkers]</code>
+                                    <code class="param-name optional">[workers]</code>
                                     <span class="type">Number</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -268,7 +268,7 @@
 
                             </li>
                             <li class="param">
-                                    <code class="param-name optional">[maxIterations]</code>
+                                    <code class="param-name optional">[iterations]</code>
                                     <span class="type">Number</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
 
@@ -400,6 +400,10 @@
 
                             </li>
                             <li class="index-item property private">
+                                <a href="#property_iterations">iterations</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property_iterator">iterator</a>
 
                             </li>
@@ -423,10 +427,6 @@
                                 <a href="#property_MATRIX4">MATRIX4</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_maxIterations">maxIterations</a>
-
                             </li>
                             <li class="index-item property private">
                                 <a href="#property_meshes">meshes</a>
@@ -563,7 +563,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l606"><code>src\core\terrain.js:606</code></a>
+        <a href="../files/src_core_terrain.js.html#l614"><code>src\core\terrain.js:614</code></a>
         </p>
 
 
@@ -595,7 +595,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l580"><code>src\core\terrain.js:580</code></a>
+        <a href="../files/src_core_terrain.js.html#l588"><code>src\core\terrain.js:588</code></a>
         </p>
 
 
@@ -767,7 +767,7 @@ event listeners in the appropriate order.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l628"><code>src\core\terrain.js:628</code></a>
+        <a href="../files/src_core_terrain.js.html#l636"><code>src\core\terrain.js:636</code></a>
         </p>
 
 
@@ -975,7 +975,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l662"><code>src\core\terrain.js:662</code></a>
+        <a href="../files/src_core_terrain.js.html#l670"><code>src\core\terrain.js:670</code></a>
         </p>
 
 
@@ -1034,7 +1034,7 @@ with the generated data.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l539"><code>src\core\terrain.js:539</code></a>
+        <a href="../files/src_core_terrain.js.html#l547"><code>src\core\terrain.js:547</code></a>
         </p>
 
 
@@ -1195,7 +1195,7 @@ associated meshes.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_core_terrain.js.html#l641"><code>src\core\terrain.js:641</code></a>
+        <a href="../files/src_core_terrain.js.html#l649"><code>src\core\terrain.js:649</code></a>
         </p>
 
 
@@ -1531,6 +1531,35 @@ this session.</p>
 
 
 </div>
+<div id="property_iterations" class="property item private">
+    <h3 class="name"><code>iterations</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_core_terrain.js.html#l104"><code>src\core\terrain.js:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The maximum amount of chunk iterations per update.</p>
+<p>Volume chunks that lie in the field of view will be processed over the
+course of several update calls.</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 1000</p>
+
+
+</div>
 <div id="property_iterator" class="property item private">
     <h3 class="name"><code>iterator</code></h3>
     <span class="type">Iterator</span>
@@ -1687,35 +1716,6 @@ with less vertices.</p>
 
     </div>
 
-
-
-</div>
-<div id="property_maxIterations" class="property item private">
-    <h3 class="name"><code>maxIterations</code></h3>
-    <span class="type">Number</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_core_terrain.js.html#l104"><code>src\core\terrain.js:104</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>The maximum amount of chunk iterations per update.</p>
-<p>Volume chunks that lie in the field of view will be processed over the
-course of several update calls.</p>
-
-    </div>
-
-        <p><strong>Default:</strong> 1000</p>
 
 
 </div>

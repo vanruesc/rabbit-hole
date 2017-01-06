@@ -156,7 +156,7 @@
 
 
 <div class="box intro">
-    <p>An edge iterator.</p>
+    <p>A volume iterator.</p>
 
 </div>
 
@@ -281,6 +281,10 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item property private">
+                                <a href="#property_cull">cull</a>
+
+                            </li>
+                            <li class="index-item property private">
                                 <a href="#property_indices">indices</a>
 
                             </li>
@@ -292,10 +296,6 @@
                                 <a href="#property_result">result</a>
 
                                     <span class="flag static">static</span>
-                            </li>
-                            <li class="index-item property private">
-                                <a href="#property_trace">trace</a>
-
                             </li>
                             <li class="index-item property private">
                                 <a href="#property_trace">trace</a>
@@ -535,6 +535,32 @@
 
 
 </div>
+<div id="property_cull" class="property item private">
+    <h3 class="name"><code>cull</code></h3>
+    <span class="type">Array</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume-iterator.js.html#l53"><code>src\volume\octree\volume-iterator.js:53</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Indicates whether the iterator should respect the cull region.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_indices" class="property item private">
     <h3 class="name"><code>indices</code></h3>
     <span class="type">Array</span>
@@ -554,7 +580,7 @@
     </div>
 
     <div class="description">
-        <p>A trace of iteration indices.</p>
+        <p>Iteration indices.</p>
 
     </div>
 
@@ -609,32 +635,6 @@
 
     <div class="description">
         <p>An iterator result.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_trace" class="property item private">
-    <h3 class="name"><code>trace</code></h3>
-    <span class="type">Array</span>
-
-
-        <span class="flag private">private</span>
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_volume-iterator.js.html#l53"><code>src\volume\octree\volume-iterator.js:53</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>An iteration trace that is used for pausing the octree traversal.</p>
 
     </div>
 

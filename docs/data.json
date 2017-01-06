@@ -1137,7 +1137,7 @@
                             "optdefault": "32"
                         },
                         {
-                            "name": "maxWorkers",
+                            "name": "workers",
                             "description": "- Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.",
                             "type": "Number",
                             "optional": true
@@ -1149,7 +1149,7 @@
                             "optional": true
                         },
                         {
-                            "name": "maxIterations",
+                            "name": "iterations",
                             "description": "- Limits the amount of volume chunks that are being processed during each update.",
                             "type": "Number",
                             "optional": true
@@ -1719,7 +1719,7 @@
             "namespace": "",
             "file": "src\\volume\\octree\\volume-iterator.js",
             "line": 28,
-            "description": "An edge iterator.",
+            "description": "A volume iterator.",
             "submodule": "volume",
             "implements": "Iterator",
             "is_constructor": 1,
@@ -2965,7 +2965,7 @@
             "line": 104,
             "description": "The maximum amount of chunk iterations per update.\n\nVolume chunks that lie in the field of view will be processed over the\ncourse of several update calls.",
             "itemtype": "property",
-            "name": "maxIterations",
+            "name": "iterations",
             "type": "Number",
             "access": "private",
             "tagname": "",
@@ -3224,7 +3224,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 539,
+            "line": 547,
             "description": "Finds the terrain chunks that intersect with the given ray and raycasts the\nassociated meshes.\n\nIntersections are sorted by distance, closest first.",
             "itemtype": "method",
             "name": "raycast",
@@ -3245,7 +3245,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 580,
+            "line": 588,
             "description": "Removes all child meshes.",
             "itemtype": "method",
             "name": "clearMeshes",
@@ -3257,7 +3257,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 606,
+            "line": 614,
             "description": "Resets this terrain by removing data and closing active worker threads.",
             "itemtype": "method",
             "name": "clear",
@@ -3267,7 +3267,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 628,
+            "line": 636,
             "description": "Destroys this terrain and frees internal resources.",
             "itemtype": "method",
             "name": "dispose",
@@ -3277,7 +3277,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 641,
+            "line": 649,
             "description": "Saves a description of the current volume data.",
             "itemtype": "method",
             "name": "save",
@@ -3291,7 +3291,7 @@
         },
         {
             "file": "src\\core\\terrain.js",
-            "line": 662,
+            "line": 670,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -6675,9 +6675,9 @@
         {
             "file": "src\\volume\\octree\\volume-iterator.js",
             "line": 53,
-            "description": "An iteration trace that is used for pausing the octree traversal.",
+            "description": "Indicates whether the iterator should respect the cull region.",
             "itemtype": "property",
-            "name": "trace",
+            "name": "cull",
             "type": "Array",
             "access": "private",
             "tagname": "",
@@ -6712,7 +6712,7 @@
         {
             "file": "src\\volume\\octree\\volume-iterator.js",
             "line": 82,
-            "description": "A trace of iteration indices.",
+            "description": "Iteration indices.",
             "itemtype": "property",
             "name": "indices",
             "type": "Array",
