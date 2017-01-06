@@ -13450,8 +13450,7 @@
 
      						var terrain = new Terrain({
      								resolution: 64,
-     								chunkSize: 32,
-     								iterations: 100
+     								chunkSize: 32
      						});
 
      						terrain.material.uniforms.diffuse.value.setHex(0xffffff);
