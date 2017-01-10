@@ -15,7 +15,7 @@ const BIAS = 1e-2;
 /**
  * An error threshold for the Zero Crossing approximation.
  *
- * @property BIAS
+ * @property THRESHOLD
  * @type Number
  * @private
  * @static

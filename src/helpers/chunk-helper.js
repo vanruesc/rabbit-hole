@@ -185,7 +185,7 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * Creates edges with intersection points and normals.
 	 *
-	 * @method update
+	 * @method createEdges
 	 * @private
 	 * @param {Chunk} chunk - A volume data chunk.
 	 */
