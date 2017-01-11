@@ -7,7 +7,6 @@
 
 export {
 	History,
-	IteratorResult,
 	PriorityQueue,
 	Queue,
 	RunLengthEncoder,

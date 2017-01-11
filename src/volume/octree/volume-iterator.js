@@ -1,5 +1,5 @@
 import { Box3, Frustum } from "three";
-import { IteratorResult } from "../../core/iterator-result.js";
+import IteratorResult from "iterator-result";
 
 /**
  * A computation helper.
@@ -12,18 +12,6 @@ import { IteratorResult } from "../../core/iterator-result.js";
  */
 
 const BOX3 = new Box3();
-
-/**
- * An iterator result.
- *
- * @property result
- * @type IteratorResult
- * @private
- * @static
- * @final
- */
-
-const RESULT = new IteratorResult();
 
 /**
  * A volume iterator.
@@ -51,14 +39,15 @@ export class VolumeIterator {
 		this.volume = volume;
 
 		/**
-		 * Indicates whether the iterator should respect the cull region.
+		 * An iterator result.
 		 *
-		 * @property cull
-		 * @type Array
+		 * @property result
+		 * @type IteratorResult
 		 * @private
 		 */
 
 		this.cull = cull;
+		this.result = new IteratorResult();
 
 		/**
 		 * A frustum used for octree culling.
@@ -116,7 +105,7 @@ export class VolumeIterator {
 
 		}
 
-		RESULT.reset();
+		this.result.reset();
 
 	}
 
@@ -182,10 +171,10 @@ export class VolumeIterator {
 
 		}
 
-		RESULT.value = octant;
-		RESULT.done = (octant === null);
+		this.result.value = octant;
+		this.result.done = (octant === null);
 
-		return RESULT;
+		return this.result;
 
 	}
 
@@ -199,10 +188,10 @@ export class VolumeIterator {
 
 	return(value) {
 
-		RESULT.value = value;
-		RESULT.done = true;
+		this.result.value = value;
+		this.result.done = true;
 
-		return RESULT;
+		return this.result;
 
 	}
 

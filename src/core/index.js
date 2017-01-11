@@ -6,7 +6,6 @@
  */
 
 export { History } from "./history.js";
-export { IteratorResult } from "./iterator-result.js";
 export { PriorityQueue } from "./priority-queue.js";
 export { Queue } from "./queue.js";
 export { RunLengthEncoder } from "./run-length-encoder.js";
