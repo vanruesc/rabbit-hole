@@ -128,12 +128,12 @@ export class Volume extends Octree {
 		} else if(sdf.operation === OperationType.DIFFERENCE) {
 
 			// Chunks that don't exist can't become more empty.
-			result = this.cull(region);
+			result = this.chunks(region);
 
 		} else {
 
 			// Intersections affect all chunks.
-			result = this[Symbol.iterator]();
+			result = this;
 
 		}
 
@@ -232,7 +232,7 @@ export class Volume extends Octree {
 
 	chunks(region) {
 
-		const iterator = new VolumeIterator(this, true);
+		const iterator = new VolumeIterator(this);
 
 		if(region !== undefined) {
 
@@ -241,19 +241,6 @@ export class Volume extends Octree {
 		}
 
 		return iterator;
-
-	}
-
-	/**
-	 * Returns a volume iterator that traverses the entire octree.
-	 *
-	 * @method Symbol.iterator
-	 * @return {VolumeIterator} An iterator.
-	 */
-
-	[Symbol.iterator]() {
-
-		return new VolumeIterator(this);
 
 	}
 
