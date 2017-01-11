@@ -1,5 +1,5 @@
-import { Box3, Frustum } from "three";
 import IteratorResult from "iterator-result";
+import { Box3, Frustum } from "three";
 
 /**
  * A computation helper.
@@ -21,12 +21,11 @@ const BOX3 = new Box3();
  * @implements Iterator
  * @constructor
  * @param {Volume} volume - A volume octree.
- * @param {Boolean} [cull=false] - Whether the iterator should respect the cull region.
  */
 
 export class VolumeIterator {
 
-	constructor(volume, cull = false) {
+	constructor(volume) {
 
 		/**
 		 * The volume octree.
@@ -46,7 +45,6 @@ export class VolumeIterator {
 		 * @private
 		 */
 
-		this.cull = cull;
 		this.result = new IteratorResult();
 
 		/**
@@ -98,7 +96,7 @@ export class VolumeIterator {
 		BOX3.min = root.min;
 		BOX3.max = root.max;
 
-		if(!this.cull || this.region.intersectsBox(BOX3)) {
+		if(this.region.intersectsBox(BOX3)) {
 
 			this.trace.push(root);
 			this.indices.push(0);
@@ -118,7 +116,6 @@ export class VolumeIterator {
 
 	next() {
 
-		const cull = this.cull;
 		const region = this.region;
 		const indices = this.indices;
 		const trace = this.trace;
@@ -144,7 +141,7 @@ export class VolumeIterator {
 					BOX3.min = child.min;
 					BOX3.max = child.max;
 
-					if(!cull || region.intersectsBox(BOX3)) {
+					if(region.intersectsBox(BOX3)) {
 
 						trace.push(child);
 						indices.push(0);
