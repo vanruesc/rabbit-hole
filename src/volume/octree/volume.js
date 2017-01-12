@@ -4,6 +4,18 @@ import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
 
 /**
+ * A computation helper.
+ *
+ * @property BOX3
+ * @type Box3
+ * @private
+ * @static
+ * @final
+ */
+
+const BOX3 = new Box3();
+
+/**
  * Rounds the given number up to the next power of two.
  *
  * @method ceil2
@@ -73,6 +85,53 @@ export class Volume extends Octree {
 	get resolution() { return this.root.resolution; }
 
 	/**
+	 * Creates leaf octants in the specified region and returns them together with
+	 * existing ones.
+	 *
+	 * @method grow
+	 * @private
+	 * @param {Chunk} octant - An octant.
+	 * @param {Frustum|Box3} region - A region.
+	 * @param {Number} size - A leaf octant target size.
+	 * @param {Array} result - A list to be filled with octants that intersect with the region.
+	 */
+
+	grow(octant, region, size, result) {
+
+		let children = octant.children;
+		let i, l;
+
+		BOX3.min = octant.min;
+		BOX3.max = octant.max;
+
+		if(region.intersectsBox(BOX3)) {
+
+			if(children === null && octant.size > size) {
+
+				octant.split();
+				children = octant.children;
+
+			}
+
+			if(children !== null) {
+
+				for(i = 0, l = children.length; i < l; ++i) {
+
+					this.grow(children[i], region, size, result);
+
+				}
+
+			} else {
+
+				result.push(octant);
+
+			}
+
+		}
+
+	}
+
+	/**
 	 * Edits this volume.
 	 *
 	 * @method edit
@@ -82,56 +141,25 @@ export class Volume extends Octree {
 
 	edit(sdf) {
 
-		const heap = [this.root];
-		const box = new Box3();
 		const region = sdf.completeBoundingBox;
 
 		let result = [];
-		let octant, children;
 
 		if(sdf.operation === OperationType.UNION) {
 
+			// Find and create leaf octants.
 			this.expand(region);
-
-			// Find and create leaf chunks.
-			while(heap.length > 0) {
-
-				octant = heap.pop();
-				children = octant.children;
-
-				box.min = octant.min;
-				box.max = octant.max;
-
-				if(region.intersectsBox(box)) {
-
-					if(children !== null) {
-
-						heap.push(...children);
-
-					} else if(octant.size > this.chunkSize) {
-
-						octant.split();
-						heap.push(...octant.children);
-
-					} else {
-
-						result.push(octant);
-
-					}
-
-				}
-
-			}
+			this.grow(this.root, region, this.chunkSize, result);
 
 		} else if(sdf.operation === OperationType.DIFFERENCE) {
 
 			// Chunks that don't exist can't become more empty.
-			result = this.chunks(region);
+			result = this.leaves(region);
 
 		} else {
 
 			// Intersections affect all chunks.
-			result = this;
+			result = this.leaves();
 
 		}
 
