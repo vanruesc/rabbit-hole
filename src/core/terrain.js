@@ -1,4 +1,4 @@
-import { Box3, BufferAttribute, BufferGeometry, Mesh, Matrix4, Object3D } from "three";
+import { Box3, BufferAttribute, BufferGeometry, Frustum, Mesh, Matrix4, Object3D } from "three";
 import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
 import { EventTarget } from "../events/event-target.js";
 import { Volume } from "../volume/octree/volume.js";
@@ -85,7 +85,7 @@ export class Terrain extends EventTarget {
 		 * @private
 		 */
 
-		this.iterator = this.volume.chunks();
+		this.iterator = this.volume.leaves(new Frustum());
 
 		/**
 		 * The number of detail levels.
@@ -622,7 +622,7 @@ export class Terrain extends EventTarget {
 		this.clearMeshes();
 
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
-		this.iterator = this.volume.chunks();
+		this.iterator = this.volume.leaves(new Frustum());
 
 		this.neutered = new WeakSet();
 		this.chunks = new WeakMap();

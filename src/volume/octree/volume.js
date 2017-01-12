@@ -2,7 +2,6 @@ import { Octree } from "sparse-octree";
 import { Box3 } from "../../math/box3.js";
 import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
-import { VolumeIterator } from "./volume-iterator.js";
 
 /**
  * Rounds the given number up to the next power of two.
@@ -22,7 +21,6 @@ function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
  * @class Volume
  * @submodule octree
  * @extends Octree
- * @implements Iterable
  * @constructor
  * @param {Number} [chunkSize=32] - The size of leaf chunks. Will be rounded up to the next power of two.
  * @param {Number} [resolution=32] - The data resolution of leaf chunks. Will be rounded up to the next power of two. The upper limit is 256.
@@ -219,28 +217,6 @@ export class Volume extends Octree {
 	 */
 
 	prune(chunk) {
-
-	}
-
-	/**
-	 * Returns a volume iterator that finds chunks inside a specific region.
-	 *
-	 * @method chunks
-	 * @param {Frustum} [region] - A region.
-	 * @return {VolumeIterator} An iterator.
-	 */
-
-	chunks(region) {
-
-		const iterator = new VolumeIterator(this);
-
-		if(region !== undefined) {
-
-			iterator.region.copy(region);
-
-		}
-
-		return iterator;
 
 	}
 
