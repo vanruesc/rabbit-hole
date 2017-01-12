@@ -55,7 +55,6 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -84,7 +83,6 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
-                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -149,7 +147,18 @@ import { Octree } from &quot;sparse-octree&quot;;
 import { Box3 } from &quot;../../math/box3.js&quot;;
 import { OperationType } from &quot;../csg/operation-type.js&quot;;
 import { Chunk } from &quot;./chunk.js&quot;;
-import { VolumeIterator } from &quot;./volume-iterator.js&quot;;
+
+/**
+ * A computation helper.
+ *
+ * @property BOX3
+ * @type Box3
+ * @private
+ * @static
+ * @final
+ */
+
+const BOX3 = new Box3();
 
 /**
  * Rounds the given number up to the next power of two.
@@ -169,7 +178,6 @@ function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
  * @class Volume
  * @submodule octree
  * @extends Octree
- * @implements Iterable
  * @constructor
  * @param {Number} [chunkSize=32] - The size of leaf chunks. Will be rounded up to the next power of two.
  * @param {Number} [resolution=32] - The data resolution of leaf chunks. Will be rounded up to the next power of two. The upper limit is 256.
@@ -222,6 +230,53 @@ export class Volume extends Octree {
 	get resolution() { return this.root.resolution; }
 
 	/**
+	 * Creates leaf octants in the specified region and returns them together with
+	 * existing ones.
+	 *
+	 * @method grow
+	 * @private
+	 * @param {Chunk} octant - An octant.
+	 * @param {Frustum|Box3} region - A region.
+	 * @param {Number} size - A leaf octant target size.
+	 * @param {Array} result - A list to be filled with octants that intersect with the region.
+	 */
+
+	grow(octant, region, size, result) {
+
+		let children = octant.children;
+		let i, l;
+
+		BOX3.min = octant.min;
+		BOX3.max = octant.max;
+
+		if(region.intersectsBox(BOX3)) {
+
+			if(children === null &amp;&amp; octant.size &gt; size) {
+
+				octant.split();
+				children = octant.children;
+
+			}
+
+			if(children !== null) {
+
+				for(i = 0, l = children.length; i &lt; l; ++i) {
+
+					this.grow(children[i], region, size, result);
+
+				}
+
+			} else {
+
+				result.push(octant);
+
+			}
+
+		}
+
+	}
+
+	/**
 	 * Edits this volume.
 	 *
 	 * @method edit
@@ -231,56 +286,25 @@ export class Volume extends Octree {
 
 	edit(sdf) {
 
-		const heap = [this.root];
-		const box = new Box3();
 		const region = sdf.completeBoundingBox;
 
 		let result = [];
-		let octant, children;
 
 		if(sdf.operation === OperationType.UNION) {
 
+			// Find and create leaf octants.
 			this.expand(region);
-
-			// Find and create leaf chunks.
-			while(heap.length &gt; 0) {
-
-				octant = heap.pop();
-				children = octant.children;
-
-				box.min = octant.min;
-				box.max = octant.max;
-
-				if(region.intersectsBox(box)) {
-
-					if(children !== null) {
-
-						heap.push(...children);
-
-					} else if(octant.size &gt; this.chunkSize) {
-
-						octant.split();
-						heap.push(...octant.children);
-
-					} else {
-
-						result.push(octant);
-
-					}
-
-				}
-
-			}
+			this.grow(this.root, region, this.chunkSize, result);
 
 		} else if(sdf.operation === OperationType.DIFFERENCE) {
 
 			// Chunks that don&#x27;t exist can&#x27;t become more empty.
-			result = this.cull(region);
+			result = this.leaves(region);
 
 		} else {
 
 			// Intersections affect all chunks.
-			result = this[Symbol.iterator]();
+			result = this.leaves();
 
 		}
 
@@ -366,41 +390,6 @@ export class Volume extends Octree {
 	 */
 
 	prune(chunk) {
-
-	}
-
-	/**
-	 * Returns a volume iterator that finds chunks inside a specific region.
-	 *
-	 * @method chunks
-	 * @param {Frustum} [region] - A region.
-	 * @return {VolumeIterator} An iterator.
-	 */
-
-	chunks(region) {
-
-		const iterator = new VolumeIterator(this, true);
-
-		if(region !== undefined) {
-
-			iterator.region.copy(region);
-
-		}
-
-		return iterator;
-
-	}
-
-	/**
-	 * Returns a volume iterator that traverses the entire octree.
-	 *
-	 * @method Symbol.iterator
-	 * @return {VolumeIterator} An iterator.
-	 */
-
-	[Symbol.iterator]() {
-
-		return new VolumeIterator(this);
 
 	}
 

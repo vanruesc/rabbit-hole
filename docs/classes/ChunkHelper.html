@@ -55,7 +55,6 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -84,7 +83,6 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
-                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -274,6 +272,10 @@
 
                     <ul class="index-list methods extends">
                             <li class="index-item method private">
+                                <a href="#method_createEdges">createEdges</a>
+
+                            </li>
+                            <li class="index-item method private">
                                 <a href="#method_createPoints">createPoints</a>
 
                             </li>
@@ -282,10 +284,6 @@
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_update">update</a>
-
-                            </li>
-                            <li class="index-item method private">
                                 <a href="#method_update">update</a>
 
                             </li>
@@ -321,6 +319,63 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_createEdges" class="method item private">
+    <h3 class="name"><code>createEdges</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>chunk</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_helpers_chunk-helper.js.html#l185"><code>src\helpers\chunk-helper.js:185</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates edges with intersection points and normals.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">chunk</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A volume data chunk.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_createPoints" class="method item private">
     <h3 class="name"><code>createPoints</code></h3>
 
@@ -472,63 +527,6 @@
                     <div class="param-description">
                         <ul>
 <li>Whether edges with intersection points and normals should be created.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_update" class="method item private">
-    <h3 class="name"><code>update</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>chunk</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_helpers_chunk-helper.js.html#l185"><code>src\helpers\chunk-helper.js:185</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Creates edges with intersection points and normals.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">chunk</code>
-                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A volume data chunk.</li>
 </ul>
 
                     </div>

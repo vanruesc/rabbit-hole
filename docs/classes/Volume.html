@@ -55,7 +55,6 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -84,7 +83,6 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
-                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -149,7 +147,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_volume_octree_volume.js.html#l19"><code>src\volume\octree\volume.js:19</code></a>
+            Defined in: <a href="../files/src_volume_octree_volume.js.html#l30"><code>src\volume\octree\volume.js:30</code></a>
         </div>
 
             Module: <a href="../modules/octree.html">octree</a><br>
@@ -189,7 +187,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l19"><code>src\volume\octree\volume.js:19</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l30"><code>src\volume\octree\volume.js:30</code></a>
         </p>
 
 
@@ -262,15 +260,15 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_chunks">chunks</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_edit">edit</a>
 
                             </li>
                             <li class="index-item method private">
                                 <a href="#method_expand">expand</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_grow">grow</a>
 
                             </li>
                             <li class="index-item method">
@@ -279,10 +277,6 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_prune">prune</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_Symbol.iterator">Symbol.iterator</a>
 
                             </li>
                             <li class="index-item method">
@@ -296,6 +290,11 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property_BOX3">BOX3</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
                             <li class="index-item property private">
                                 <a href="#property_chunkSize">chunkSize</a>
 
@@ -344,7 +343,7 @@
                     <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l7"><code>src\volume\octree\volume.js:7</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l18"><code>src\volume\octree\volume.js:18</code></a>
         </p>
 
 
@@ -388,75 +387,6 @@
 
 
 </div>
-<div id="method_chunks" class="method item">
-    <h3 class="name"><code>chunks</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code class="optional">[region]</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l225"><code>src\volume\octree\volume.js:225</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Returns a volume iterator that finds chunks inside a specific region.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name optional">[region]</code>
-                        <span class="type">Frustum</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-
-
-                    <div class="param-description">
-                        <ul>
-<li>A region.</li>
-</ul>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>:
-                    <p>An iterator.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_edit" class="method item">
     <h3 class="name"><code>edit</code></h3>
 
@@ -481,7 +411,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l77"><code>src\volume\octree\volume.js:77</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l134"><code>src\volume\octree\volume.js:134</code></a>
         </p>
 
 
@@ -547,7 +477,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l144"><code>src\volume\octree\volume.js:144</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l170"><code>src\volume\octree\volume.js:170</code></a>
         </p>
 
 
@@ -582,6 +512,112 @@
 
 
 </div>
+<div id="method_grow" class="method item private">
+    <h3 class="name"><code>grow</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>octant</code>
+                </li>
+                <li class="arg">
+                        <code>region</code>
+                </li>
+                <li class="arg">
+                        <code>size</code>
+                </li>
+                <li class="arg">
+                        <code>result</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume.js.html#l87"><code>src\volume\octree\volume.js:87</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Creates leaf octants in the specified region and returns them together with
+existing ones.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">octant</code>
+                        <span class="type"><a href="../classes/Chunk.html" class="crosslink">Chunk</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>An octant.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">region</code>
+                        <span class="type">Frustum | <a href="../classes/Box3.html" class="crosslink">Box3</a></span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A region.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">size</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A leaf octant target size.</li>
+</ul>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">result</code>
+                        <span class="type">Array</span>
+
+
+                    <div class="param-description">
+                        <ul>
+<li>A list to be filled with octants that intersect with the region.</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_load" class="method item">
     <h3 class="name"><code>load</code></h3>
 
@@ -603,7 +639,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l260"><code>src\volume\octree\volume.js:260</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l251"><code>src\volume\octree\volume.js:251</code></a>
         </p>
 
 
@@ -659,7 +695,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l213"><code>src\volume\octree\volume.js:213</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l239"><code>src\volume\octree\volume.js:239</code></a>
         </p>
 
 
@@ -694,49 +730,6 @@
 
 
 </div>
-<div id="method_Symbol.iterator" class="method item">
-    <h3 class="name"><code>Symbol.iterator</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l247"><code>src\volume\octree\volume.js:247</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Returns a volume iterator that traverses the entire octree.</p>
-
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/VolumeIterator.html" class="crosslink">VolumeIterator</a></span>:
-                    <p>An iterator.</p>
-
-            </div>
-        </div>
-
-
-</div>
 <div id="method_toJSON" class="method item">
     <h3 class="name"><code>toJSON</code></h3>
 
@@ -755,7 +748,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l275"><code>src\volume\octree\volume.js:275</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l266"><code>src\volume\octree\volume.js:266</code></a>
         </p>
 
 
@@ -785,6 +778,35 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_BOX3" class="property item private">
+    <h3 class="name"><code>BOX3</code></h3>
+    <span class="type"><a href="../classes/Box3.html" class="crosslink">Box3</a></span>
+
+
+        <span class="flag private">private</span>
+
+        <span class="flag final">final</span>
+
+        <span class="flag static">static</span>
+
+    <div class="meta">
+                    <p>Provided by the <a href="../modules/rabbit-hole.html">rabbit-hole</a> module.</p>
+                <p>
+                Defined in
+        <a href="../files/src_volume_octree_volume.js.html#l6"><code>src\volume\octree\volume.js:6</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>A computation helper.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_chunkSize" class="property item private">
     <h3 class="name"><code>chunkSize</code></h3>
     <span class="type">Number</span>
@@ -797,7 +819,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l39"><code>src\volume\octree\volume.js:39</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l49"><code>src\volume\octree\volume.js:49</code></a>
         </p>
 
 
@@ -823,7 +845,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l68"><code>src\volume\octree\volume.js:68</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l78"><code>src\volume\octree\volume.js:78</code></a>
         </p>
 
 
@@ -848,7 +870,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_volume_octree_volume.js.html#l57"><code>src\volume\octree\volume.js:57</code></a>
+        <a href="../files/src_volume_octree_volume.js.html#l67"><code>src\volume\octree\volume.js:67</code></a>
         </p>
 
 

@@ -24,15 +24,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\core\\iterator-result.js": {
-            "name": "src\\core\\iterator-result.js",
-            "modules": {},
-            "classes": {
-                "IteratorResult": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src\\core\\priority-queue.js": {
             "name": "src\\core\\priority-queue.js",
             "modules": {},
@@ -384,15 +375,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\volume\\octree\\volume-iterator.js": {
-            "name": "src\\volume\\octree\\volume-iterator.js",
-            "modules": {},
-            "classes": {
-                "VolumeIterator": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src\\volume\\octree\\volume.js": {
             "name": "src\\volume\\octree\\volume.js",
             "modules": {},
@@ -642,7 +624,6 @@
             "elements": {},
             "classes": {
                 "History": 1,
-                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
@@ -671,14 +652,13 @@
                 "math": 1,
                 "csg": 1,
                 "octree": 1,
-                "volume": 1,
                 "sdf": 1,
+                "volume": 1,
                 "worker": 1
             },
             "elements": {},
             "classes": {
                 "History": 1,
-                "IteratorResult": 1,
                 "PriorityQueue": 1,
                 "Queue": 1,
                 "RunLengthEncoder": 1,
@@ -709,7 +689,6 @@
                 "Operation": 1,
                 "Union": 1,
                 "Chunk": 1,
-                "VolumeIterator": 1,
                 "Volume": 1,
                 "VoxelBlock": 1,
                 "VoxelCell": 1,
@@ -878,27 +857,6 @@
             "line": 41,
             "description": "Space partitioning components."
         },
-        "volume": {
-            "name": "volume",
-            "submodules": {},
-            "elements": {},
-            "classes": {
-                "VolumeIterator": 1,
-                "EdgeData": 1,
-                "Edge": 1,
-                "HermiteData": 1,
-                "Material": 1,
-                "Voxel": 1
-            },
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\voxel.js",
-            "line": 3,
-            "description": "Volume management components."
-        },
         "sdf": {
             "name": "sdf",
             "submodules": {},
@@ -919,6 +877,26 @@
             "file": "src\\volume\\sdf\\torus.js",
             "line": 6,
             "description": "A collection of Signed Distance Function components."
+        },
+        "volume": {
+            "name": "volume",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "EdgeData": 1,
+                "Edge": 1,
+                "HermiteData": 1,
+                "Material": 1,
+                "Voxel": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\volume\\voxel.js",
+            "line": 3,
+            "description": "Volume management components."
         },
         "worker": {
             "name": "worker",
@@ -959,38 +937,6 @@
             "description": "An operation history.",
             "submodule": "core",
             "is_constructor": 1
-        },
-        "IteratorResult": {
-            "name": "IteratorResult",
-            "shortname": "IteratorResult",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\core\\iterator-result.js",
-            "line": 1,
-            "description": "An iterator result.",
-            "submodule": "core",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "value",
-                    "description": "- A value.",
-                    "type": "Vector3",
-                    "optional": true,
-                    "optdefault": "null"
-                },
-                {
-                    "name": "done",
-                    "description": "- Whether this result is past the end of the iterated sequence.",
-                    "type": "Vector3",
-                    "optional": true,
-                    "optdefault": "false"
-                }
-            ]
         },
         "PriorityQueue": {
             "name": "PriorityQueue",
@@ -1707,37 +1653,6 @@
                 }
             ]
         },
-        "VolumeIterator": {
-            "name": "VolumeIterator",
-            "shortname": "VolumeIterator",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 28,
-            "description": "A volume iterator.",
-            "submodule": "volume",
-            "implements": "Iterator",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "volume",
-                    "description": "- A volume octree.",
-                    "type": "Volume"
-                },
-                {
-                    "name": "cull",
-                    "description": "- Whether the iterator should respect the cull region.",
-                    "type": "Boolean",
-                    "optional": true,
-                    "optdefault": "false"
-                }
-            ]
-        },
         "Volume": {
             "name": "Volume",
             "shortname": "Volume",
@@ -1749,11 +1664,10 @@
             "module": "rabbit-hole",
             "namespace": "",
             "file": "src\\volume\\octree\\volume.js",
-            "line": 19,
+            "line": 30,
             "description": "A cubic octree that maintains volume chunks.",
             "submodule": "octree",
             "extends": "Octree",
-            "implements": "Iterable",
             "is_constructor": 1,
             "params": [
                 {
@@ -2367,40 +2281,6 @@
             "itemtype": "method",
             "name": "clear",
             "class": "History",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\iterator-result.js",
-            "line": 15,
-            "description": "The value.",
-            "itemtype": "property",
-            "name": "value",
-            "type": "Object",
-            "default": "null",
-            "class": "IteratorResult",
-            "module": "rabbit-hole",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\iterator-result.js",
-            "line": 25,
-            "description": "Whether this result is past the end of the iterated sequence.",
-            "itemtype": "property",
-            "name": "done",
-            "type": "Boolean",
-            "default": "false",
-            "class": "IteratorResult",
-            "module": "rabbit-hole",
-            "submodule": "core"
-        },
-        {
-            "file": "src\\core\\iterator-result.js",
-            "line": 37,
-            "description": "Resets this iterator result.",
-            "itemtype": "method",
-            "name": "reset",
-            "class": "IteratorResult",
-            "module": "rabbit-hole",
             "submodule": "core"
         },
         {
@@ -3554,7 +3434,7 @@
             "line": 185,
             "description": "Creates edges with intersection points and normals.",
             "itemtype": "method",
-            "name": "update",
+            "name": "createEdges",
             "access": "private",
             "tagname": "",
             "params": [
@@ -6632,8 +6512,8 @@
             "submodule": "octree"
         },
         {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 4,
+            "file": "src\\volume\\octree\\volume.js",
+            "line": 6,
             "description": "A computation helper.",
             "itemtype": "property",
             "name": "BOX3",
@@ -6642,148 +6522,12 @@
             "tagname": "",
             "static": 1,
             "final": 1,
-            "class": "VolumeIterator",
+            "class": "Volume",
             "module": "rabbit-hole"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 16,
-            "description": "An iterator result.",
-            "itemtype": "property",
-            "name": "result",
-            "type": "IteratorResult",
-            "access": "private",
-            "tagname": "",
-            "static": 1,
-            "final": 1,
-            "class": "VolumeIterator",
-            "module": "rabbit-hole"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 43,
-            "description": "The volume octree.",
-            "itemtype": "property",
-            "name": "volume",
-            "type": "Volume",
-            "access": "private",
-            "tagname": "",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 53,
-            "description": "Indicates whether the iterator should respect the cull region.",
-            "itemtype": "property",
-            "name": "cull",
-            "type": "Array",
-            "access": "private",
-            "tagname": "",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 63,
-            "description": "A frustum used for octree culling.",
-            "itemtype": "property",
-            "name": "region",
-            "type": "Frustum",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 72,
-            "description": "An octant trace.",
-            "itemtype": "property",
-            "name": "trace",
-            "type": "Array",
-            "access": "private",
-            "tagname": "",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 82,
-            "description": "Iteration indices.",
-            "itemtype": "property",
-            "name": "indices",
-            "type": "Array",
-            "access": "private",
-            "tagname": "",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 96,
-            "description": "Resets this iterator.",
-            "itemtype": "method",
-            "name": "reset",
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 123,
-            "description": "Iterates over the volume chunks.",
-            "itemtype": "method",
-            "name": "next",
-            "return": {
-                "description": "The next voxel.",
-                "type": "IteratorResult"
-            },
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 192,
-            "description": "Called when this iterator will no longer be run to completion.",
-            "itemtype": "method",
-            "name": "return",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "- An interator result value.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "- A premature completion result.",
-                "type": "IteratorResult"
-            },
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
-        },
-        {
-            "file": "src\\volume\\octree\\volume-iterator.js",
-            "line": 209,
-            "description": "Returns this iterator.",
-            "itemtype": "method",
-            "name": "Symbol.iterator",
-            "return": {
-                "description": "An iterator.",
-                "type": "VoxelIterator"
-            },
-            "class": "VolumeIterator",
-            "module": "rabbit-hole",
-            "submodule": "volume"
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 7,
+            "line": 18,
             "description": "Rounds the given number up to the next power of two.",
             "itemtype": "method",
             "name": "ceil2",
@@ -6806,7 +6550,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 39,
+            "line": 49,
             "description": "The size of a volume chunk.",
             "itemtype": "property",
             "name": "chunkSize",
@@ -6820,7 +6564,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 57,
+            "line": 67,
             "description": "The size of the root octant.",
             "itemtype": "property",
             "name": "size",
@@ -6831,7 +6575,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 68,
+            "line": 78,
             "description": "The resolution of the volume data.",
             "itemtype": "property",
             "name": "resolution",
@@ -6842,7 +6586,41 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 77,
+            "line": 87,
+            "description": "Creates leaf octants in the specified region and returns them together with\nexisting ones.",
+            "itemtype": "method",
+            "name": "grow",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "octant",
+                    "description": "- An octant.",
+                    "type": "Chunk"
+                },
+                {
+                    "name": "region",
+                    "description": "- A region.",
+                    "type": "Frustum|Box3"
+                },
+                {
+                    "name": "size",
+                    "description": "- A leaf octant target size.",
+                    "type": "Number"
+                },
+                {
+                    "name": "result",
+                    "description": "- A list to be filled with octants that intersect with the region.",
+                    "type": "Array"
+                }
+            ],
+            "class": "Volume",
+            "module": "rabbit-hole",
+            "submodule": "octree"
+        },
+        {
+            "file": "src\\volume\\octree\\volume.js",
+            "line": 134,
             "description": "Edits this volume.",
             "itemtype": "method",
             "name": "edit",
@@ -6863,7 +6641,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 144,
+            "line": 170,
             "description": "Expands the volume to include the given region.",
             "itemtype": "method",
             "name": "expand",
@@ -6882,7 +6660,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 213,
+            "line": 239,
             "description": "Removes the given chunk and shrinks the volume if possible.",
             "itemtype": "method",
             "name": "prune",
@@ -6902,43 +6680,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 225,
-            "description": "Returns a volume iterator that finds chunks inside a specific region.",
-            "itemtype": "method",
-            "name": "chunks",
-            "params": [
-                {
-                    "name": "region",
-                    "description": "- A region.",
-                    "type": "Frustum",
-                    "optional": true
-                }
-            ],
-            "return": {
-                "description": "An iterator.",
-                "type": "VolumeIterator"
-            },
-            "class": "Volume",
-            "module": "rabbit-hole",
-            "submodule": "octree"
-        },
-        {
-            "file": "src\\volume\\octree\\volume.js",
-            "line": 247,
-            "description": "Returns a volume iterator that traverses the entire octree.",
-            "itemtype": "method",
-            "name": "Symbol.iterator",
-            "return": {
-                "description": "An iterator.",
-                "type": "VolumeIterator"
-            },
-            "class": "Volume",
-            "module": "rabbit-hole",
-            "submodule": "octree"
-        },
-        {
-            "file": "src\\volume\\octree\\volume.js",
-            "line": 260,
+            "line": 251,
             "description": "Loads a volume.",
             "itemtype": "method",
             "name": "load",
@@ -6955,7 +6697,7 @@
         },
         {
             "file": "src\\volume\\octree\\volume.js",
-            "line": 275,
+            "line": 266,
             "description": "Creates a compact representation of the current volume data.",
             "itemtype": "method",
             "name": "toJSON",
@@ -8011,7 +7753,7 @@
             "line": 15,
             "description": "An error threshold for the Zero Crossing approximation.",
             "itemtype": "property",
-            "name": "BIAS",
+            "name": "THRESHOLD",
             "type": "Number",
             "access": "private",
             "tagname": "",

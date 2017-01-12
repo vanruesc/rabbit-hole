@@ -55,7 +55,6 @@
                                 <li><a href="../classes/HermiteData.html">HermiteData</a></li>
                                 <li><a href="../classes/History.html">History</a></li>
                                 <li><a href="../classes/Intersection.html">Intersection</a></li>
-                                <li><a href="../classes/IteratorResult.html">IteratorResult</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix3.html">Matrix3</a></li>
                                 <li><a href="../classes/MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></li>
@@ -84,7 +83,6 @@
                                 <li><a href="../classes/Union.html">Union</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Volume.html">Volume</a></li>
-                                <li><a href="../classes/VolumeIterator.html">VolumeIterator</a></li>
                                 <li><a href="../classes/VolumeModifier.html">VolumeModifier</a></li>
                                 <li><a href="../classes/Voxel.html">Voxel</a></li>
                                 <li><a href="../classes/VoxelBlock.html">VoxelBlock</a></li>
@@ -145,7 +143,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import { Box3, BufferAttribute, BufferGeometry, Mesh, Matrix4, Object3D } from &quot;three&quot;;
+import { Box3, BufferAttribute, BufferGeometry, Frustum, Mesh, Matrix4, Object3D } from &quot;three&quot;;
 import { MeshTriplanarPhysicalMaterial } from &quot;../materials/triplanar-physical&quot;;
 import { EventTarget } from &quot;../events/event-target.js&quot;;
 import { Volume } from &quot;../volume/octree/volume.js&quot;;
@@ -232,7 +230,7 @@ export class Terrain extends EventTarget {
 		 * @private
 		 */
 
-		this.iterator = this.volume.chunks();
+		this.iterator = this.volume.leaves(new Frustum());
 
 		/**
 		 * The number of detail levels.
@@ -769,7 +767,7 @@ export class Terrain extends EventTarget {
 		this.clearMeshes();
 
 		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
-		this.iterator = this.volume.chunks();
+		this.iterator = this.volume.leaves(new Frustum());
 
 		this.neutered = new WeakSet();
 		this.chunks = new WeakMap();
