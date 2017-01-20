@@ -11,6 +11,7 @@ varying vec3 vViewPosition;
 #include <common>
 #include <uv_pars_vertex> // offsetRepeat
 #include <color_pars_vertex>
+#include <fog_pars_vertex>
 #include <morphtarget_pars_vertex>
 #include <skinning_pars_vertex>
 #include <shadowmap_pars_vertex>
@@ -45,6 +46,7 @@ void main() {
 
 	#include <worldpos_vertex>
 	#include <shadowmap_vertex>
+	#include <fog_vertex>
 	#include <triplanar_vertex>
 
 }
