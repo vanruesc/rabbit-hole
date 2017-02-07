@@ -12,8 +12,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "DualContouring",
         "Edge",
         "EdgeData",
-        "Event",
-        "EventTarget",
         "Givens",
         "HermiteData",
         "History",

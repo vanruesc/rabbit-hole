@@ -87,24 +87,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\events\\event-target.js": {
-            "name": "src\\events\\event-target.js",
-            "modules": {},
-            "classes": {
-                "EventTarget": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src\\events\\event.js": {
-            "name": "src\\events\\event.js",
-            "modules": {},
-            "classes": {
-                "Event": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src\\events\\index.js": {
             "name": "src\\events\\index.js",
             "modules": {
@@ -665,8 +647,6 @@
                 "Scheduler": 1,
                 "Task": 1,
                 "Terrain": 1,
-                "EventTarget": 1,
-                "Event": 1,
                 "TerrainEvent": 1,
                 "WorkerEvent": 1,
                 "ChunkHelper": 1,
@@ -728,8 +708,6 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "EventTarget": 1,
-                "Event": 1,
                 "TerrainEvent": 1,
                 "WorkerEvent": 1
             },
@@ -1101,45 +1079,6 @@
                             "optional": true
                         }
                     ]
-                }
-            ]
-        },
-        "EventTarget": {
-            "name": "EventTarget",
-            "shortname": "EventTarget",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\events\\event-target.js",
-            "line": 1,
-            "description": "An interface implemented by objects that can receive events and may have\nlisteners for them.",
-            "submodule": "events",
-            "is_constructor": 1
-        },
-        "Event": {
-            "name": "Event",
-            "shortname": "Event",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "rabbit-hole",
-            "namespace": "",
-            "file": "src\\events\\event.js",
-            "line": 1,
-            "description": "A basic event.",
-            "submodule": "events",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type",
-                    "description": "- The name of the event.",
-                    "type": "String"
                 }
             ]
         },
@@ -3185,124 +3124,6 @@
             "class": "Terrain",
             "module": "rabbit-hole",
             "submodule": "core"
-        },
-        {
-            "file": "src\\events\\event-target.js",
-            "line": 14,
-            "description": "A map of event listener functions.",
-            "itemtype": "property",
-            "name": "m0",
-            "type": "Map",
-            "access": "private",
-            "tagname": "",
-            "class": "EventTarget",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event-target.js",
-            "line": 24,
-            "description": "A map of event listener objects.",
-            "itemtype": "property",
-            "name": "m1",
-            "type": "Map",
-            "access": "private",
-            "tagname": "",
-            "class": "EventTarget",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event-target.js",
-            "line": 36,
-            "description": "Registers an event handler of a specific event type on the event target.",
-            "itemtype": "method",
-            "name": "addEventListener",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "- The event type to listen for.",
-                    "type": "String"
-                },
-                {
-                    "name": "listener",
-                    "description": "- The object that receives a notification when an event of the specified type occurs.",
-                    "type": "Object"
-                }
-            ],
-            "class": "EventTarget",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event-target.js",
-            "line": 60,
-            "description": "Removes an event handler of a specific event type from the event target.",
-            "itemtype": "method",
-            "name": "removeEventListener",
-            "params": [
-                {
-                    "name": "type",
-                    "description": "- The event type to remove.",
-                    "type": "String"
-                },
-                {
-                    "name": "listener",
-                    "description": "- The event listener to remove from the event target.",
-                    "type": "Object"
-                }
-            ],
-            "class": "EventTarget",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event-target.js",
-            "line": 89,
-            "description": "Dispatches an event at the specified event target, invoking the affected\nevent listeners in the appropriate order.",
-            "itemtype": "method",
-            "name": "dispatchEvent",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "event",
-                    "description": "- The event to dispatch.",
-                    "type": "Event"
-                },
-                {
-                    "name": "target",
-                    "description": "- An event target.",
-                    "type": "EventTarget",
-                    "optional": true
-                }
-            ],
-            "class": "EventTarget",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event.js",
-            "line": 14,
-            "description": "The name of the event.",
-            "itemtype": "property",
-            "name": "type",
-            "type": "String",
-            "class": "Event",
-            "module": "rabbit-hole",
-            "submodule": "events"
-        },
-        {
-            "file": "src\\events\\event.js",
-            "line": 23,
-            "description": "A reference to the target to which the event was originally dispatched.",
-            "itemtype": "property",
-            "name": "target",
-            "type": "Object",
-            "default": "null",
-            "class": "Event",
-            "module": "rabbit-hole",
-            "submodule": "events"
         },
         {
             "file": "src\\events\\terrain-event.js",
