@@ -1,6 +1,6 @@
 import { Box3, BufferAttribute, BufferGeometry, Frustum, Mesh, Matrix4, Object3D } from "three";
+import { EventTarget } from "synthetic-event";
 import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
-import { EventTarget } from "../events/event-target.js";
 import { Volume } from "../volume/octree/volume.js";
 import { OperationType } from "../volume/csg/operation-type.js";
 import { Reviver } from "../volume/sdf/reviver.js";

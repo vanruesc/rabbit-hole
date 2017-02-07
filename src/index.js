@@ -16,8 +16,8 @@ export {
 } from "./core";
 
 export {
-	EventTarget,
-	TerrainEvent
+	TerrainEvent,
+	WorkerEvent,
 } from "./events";
 
 export {

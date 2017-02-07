@@ -1,4 +1,4 @@
-import { Event } from "./event.js";
+import { Event } from "synthetic-event";
 
 /**
  * A terrain event.
