@@ -13,7 +13,7 @@ import { Queue } from "./queue.js";
 import * as events from "./terrain-events.js";
 
 /**
- * A computation helper.
+ * A 3D box.
  *
  * @property BOX3
  * @type Box3
@@ -25,7 +25,7 @@ import * as events from "./terrain-events.js";
 const BOX3 = new Box3();
 
 /**
- * A computation helper.
+ * A 4x4 matrix.
  *
  * @property MATRIX4
  * @type Matrix4
