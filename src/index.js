@@ -17,7 +17,7 @@ export {
 
 export {
 	TerrainEvent,
-	WorkerEvent,
+	WorkerEvent
 } from "./events";
 
 export {
@@ -30,11 +30,14 @@ export {
 
 export {
 	Givens,
+	Matrix3,
 	QEFSolver,
 	QEFData,
 	Schur,
 	SingularValueDecomposition,
-	SymmetricMatrix3
+	SymmetricMatrix3,
+	Vector2,
+	Vector3
 } from "./math";
 
 export {
