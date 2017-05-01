@@ -21,10 +21,11 @@
 
 		"consistent-return": "error",
 		"curly": "error",
+		"comma-dangle": ["error", "never"],
 		"dot-notation": "error",
 		"eqeqeq": "error",
 		"no-caller": "error",
-		"no-console": ["off", { allow: ["warn"] }],
+		"no-console": "off",
 		"no-debugger": "off",
 		"no-else-return": "error",
 		"no-extend-native": "error",
@@ -39,7 +40,7 @@
 		"wrap-iife": "error",
 
 		"no-undef-init": "error",
-		"no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+		"no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
 
 		"camelcase": "error",
 		"eol-last": "error",
@@ -48,7 +49,7 @@
 		"new-parens": "error",
 		"no-array-constructor": "error",
 		"no-mixed-spaces-and-tabs": "error",
-		"no-multiple-empty-lines": "error",
+		"no-multiple-empty-lines": "warn",
 		"no-new-object": "error",
 		"no-spaced-func": "error",
 		"no-trailing-spaces": "error",
@@ -64,7 +65,7 @@
 		"space-in-parens": ["error", "never"],
 		"space-infix-ops": "error",
 		"space-unary-ops": ["error", { "words": true, "nonwords": false }],
-		"spaced-comment": ["error", "always"],
+		"spaced-comment": ["warn", "always"],
 		"yoda": ["error", "never"],
 
 		"no-var": "error"
