@@ -51,9 +51,9 @@ export class Matrix3 {
 
 		const te = this.elements;
 
-		te[0] = m00; te[1] = m10; te[2] = m20;
-		te[3] = m01; te[4] = m11; te[5] = m21;
-		te[6] = m02; te[7] = m12; te[8] = m22;
+		te[0] = m00; te[3] = m01; te[6] = m02;
+		te[1] = m10; te[4] = m11; te[7] = m12;
+		te[2] = m20; te[5] = m21; te[8] = m22;
 
 		return this;
 
