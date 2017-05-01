@@ -8,14 +8,14 @@ module.exports = function(grunt) {
 
 		options: {
 			globals: {
-				"three": "THREE",
+				"dat.gui": "dat",
 				"stats.js": "Stats",
-				"dat.gui": "dat"
+				"three": "THREE"
 			},
 			external: [
-				"three",
+				"dat.gui",
 				"stats.js",
-				"dat.gui"
+				"three"
 			],
 			plugins() {
 				return grunt.option("production") ? [
