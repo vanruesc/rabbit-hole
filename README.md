@@ -10,7 +10,7 @@ the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) 
 
 *[Volume Editor](http://vanruesc.github.io/rabbit-hole/public) &there4;
 [API Reference](http://vanruesc.github.io/rabbit-hole/docs) &there4;
-[Master's Thesis](http://vanruesc.github.io/rabbit-hole/public/volumetric-terrain-rendering-with-webgl.pgd)*
+[Master's Thesis](http://vanruesc.github.io/rabbit-hole/public/volumetric-terrain-rendering-with-webgl.pdf)*
 
 
 ## Installation
