@@ -258,6 +258,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src\\math\\vector2.js": {
+            "name": "src\\math\\vector2.js",
+            "modules": {},
+            "classes": {
+                "Vector2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src\\math\\vector3.js": {
             "name": "src\\math\\vector3.js",
             "modules": {},
@@ -660,6 +669,7 @@
                 "Schur": 1,
                 "SingularValueDecomposition": 1,
                 "SymmetricMatrix3": 1,
+                "Vector2": 1,
                 "Vector3": 1,
                 "ConstructiveSolidGeometry": 1,
                 "DensityFunction": 1,
@@ -783,6 +793,7 @@
                 "Schur": 1,
                 "SingularValueDecomposition": 1,
                 "SymmetricMatrix3": 1,
+                "Vector2": 1,
                 "Vector3": 1
             },
             "fors": {},
@@ -1363,6 +1374,38 @@
             "description": "A symmetric 3x3 matrix.",
             "submodule": "math",
             "is_constructor": 1
+        },
+        "Vector2": {
+            "name": "Vector2",
+            "shortname": "Vector2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "rabbit-hole",
+            "namespace": "",
+            "file": "src\\math\\vector2.js",
+            "line": 1,
+            "description": "A vector with two components.",
+            "submodule": "math",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "- The x value.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "y",
+                    "description": "- The y value.",
+                    "type": "Number",
+                    "optional": true,
+                    "optdefault": "0"
+                }
+            ]
         },
         "Vector3": {
             "name": "Vector3",
@@ -2705,7 +2748,7 @@
         {
             "file": "src\\core\\terrain.js",
             "line": 15,
-            "description": "A computation helper.",
+            "description": "A 3D box.",
             "itemtype": "property",
             "name": "BOX3",
             "type": "Box3",
@@ -2719,7 +2762,7 @@
         {
             "file": "src\\core\\terrain.js",
             "line": 27,
-            "description": "A computation helper.",
+            "description": "A 4x4 matrix.",
             "itemtype": "property",
             "name": "MATRIX4",
             "type": "Matrix4",
@@ -4890,6 +4933,669 @@
             "submodule": "math"
         },
         {
+            "file": "src\\math\\vector2.js",
+            "line": 15,
+            "description": "The x component.",
+            "itemtype": "property",
+            "name": "x",
+            "type": "Number",
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 24,
+            "description": "The y component.",
+            "itemtype": "property",
+            "name": "y",
+            "type": "Number",
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 35,
+            "description": "Sets the values of this vector",
+            "itemtype": "method",
+            "name": "set",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "- The x value.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "- The y value.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 54,
+            "description": "Copies the values of another vector.",
+            "itemtype": "method",
+            "name": "copy",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 72,
+            "description": "Copies values from an array.",
+            "itemtype": "method",
+            "name": "fromArray",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "array",
+                    "description": "- An array.",
+                    "type": "Array"
+                },
+                {
+                    "name": "offset",
+                    "description": "- An offset.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 91,
+            "description": "Stores this vector in an array.",
+            "itemtype": "method",
+            "name": "toArray",
+            "params": [
+                {
+                    "name": "array",
+                    "description": "- A target array.",
+                    "type": "Array",
+                    "optional": true
+                },
+                {
+                    "name": "offset",
+                    "description": "- An offset.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The array.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 109,
+            "description": "Checks if this vector equals the given one.",
+            "itemtype": "method",
+            "name": "equals",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "Whether this vector equals the given one.",
+                "type": "Boolean"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 123,
+            "description": "Clones this vector.",
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "A clone of this vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 136,
+            "description": "Adds a vector to this one.",
+            "itemtype": "method",
+            "name": "add",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- The vector to add.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 154,
+            "description": "Adds a scaled vector to this one.",
+            "itemtype": "method",
+            "name": "addScaledVector",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- The vector to scale and add.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "s",
+                    "description": "- A scalar.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 173,
+            "description": "Adds a scalar to this vector.",
+            "itemtype": "method",
+            "name": "addScalar",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- The scalar to add.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 191,
+            "description": "Sets this vector to the sum of two given vectors.",
+            "itemtype": "method",
+            "name": "addVectors",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "a",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "b",
+                    "description": "- Another vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 210,
+            "description": "Subtracts a vector from this vector.",
+            "itemtype": "method",
+            "name": "sub",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- The vector to subtract.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 228,
+            "description": "Subtracts a scalar to this vector.",
+            "itemtype": "method",
+            "name": "subScalar",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- The scalar to subtract.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 246,
+            "description": "Sets this vector to the difference between two given vectors.",
+            "itemtype": "method",
+            "name": "subVectors",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "a",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "b",
+                    "description": "- A second vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 265,
+            "description": "Multiplies this vector with another vector.",
+            "itemtype": "method",
+            "name": "multiply",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 283,
+            "description": "Multiplies this vector with a given scalar.",
+            "itemtype": "method",
+            "name": "multiplyScalar",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- A scalar.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 310,
+            "description": "Sets this vector to the product of two given vectors.",
+            "itemtype": "method",
+            "name": "multiplyVectors",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "a",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "b",
+                    "description": "- Another vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 329,
+            "description": "Divides this vector by another vector.",
+            "itemtype": "method",
+            "name": "divide",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 347,
+            "description": "Divides this vector by a given scalar.",
+            "itemtype": "method",
+            "name": "divideScalar",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "s",
+                    "description": "- A scalar.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 362,
+            "description": "Sets this vector to the quotient of two given vectors.",
+            "itemtype": "method",
+            "name": "divideVectors",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "a",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "b",
+                    "description": "- Another vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 381,
+            "description": "Negates this vector.",
+            "itemtype": "method",
+            "name": "negate",
+            "chainable": 1,
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 398,
+            "description": "Calculates the dot product with another vector.",
+            "itemtype": "method",
+            "name": "dot",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "The dot product.",
+                "type": "Number"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 412,
+            "description": "Calculates the squared length of this vector.",
+            "itemtype": "method",
+            "name": "lengthSq",
+            "return": {
+                "description": "The squared length.",
+                "type": "Number"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 425,
+            "description": "Calculates the length of this vector.",
+            "itemtype": "method",
+            "name": "length",
+            "return": {
+                "description": "The length.",
+                "type": "Number"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 438,
+            "description": "Calculates the distance to a given vector.",
+            "itemtype": "method",
+            "name": "distanceTo",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "The distance.",
+                "type": "Number"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 452,
+            "description": "Calculates the squared distance to a given vector.",
+            "itemtype": "method",
+            "name": "distanceToSquared",
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "The squared distance.",
+                "type": "Number"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 469,
+            "description": "Normalizes this vector.",
+            "itemtype": "method",
+            "name": "normalize",
+            "chainable": 1,
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 483,
+            "description": "Adopts the min value for each component of this vector and the given one.",
+            "itemtype": "method",
+            "name": "min",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 501,
+            "description": "adopts the max value for each component of this vector and the given one.",
+            "itemtype": "method",
+            "name": "max",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "v",
+                    "description": "- A vector.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
+            "file": "src\\math\\vector2.js",
+            "line": 519,
+            "description": "Clamps this vector.",
+            "itemtype": "method",
+            "name": "clamp",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "min",
+                    "description": "- A vector, assumed to be smaller than max.",
+                    "type": "Vector2"
+                },
+                {
+                    "name": "max",
+                    "description": "- A vector, assumed to be greater than min.",
+                    "type": "Vector2"
+                }
+            ],
+            "return": {
+                "description": "This vector.",
+                "type": "Vector2"
+            },
+            "class": "Vector2",
+            "module": "rabbit-hole",
+            "submodule": "math"
+        },
+        {
             "file": "src\\math\\vector3.js",
             "line": 16,
             "description": "The x component.",
@@ -5005,7 +5711,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 107,
+            "line": 105,
             "description": "Stores this vector in an array.",
             "itemtype": "method",
             "name": "toArray",
@@ -5032,7 +5738,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 129,
+            "line": 124,
             "description": "Checks if this vector equals the given one.",
             "itemtype": "method",
             "name": "equals",
@@ -5053,7 +5759,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 143,
+            "line": 138,
             "description": "Clones this vector.",
             "itemtype": "method",
             "name": "clone",
@@ -5067,7 +5773,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 156,
+            "line": 151,
             "description": "Adds a vector to this one.",
             "itemtype": "method",
             "name": "add",
@@ -5089,7 +5795,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 175,
+            "line": 170,
             "description": "Adds a scaled vector to this one.",
             "itemtype": "method",
             "name": "addScaledVector",
@@ -5116,7 +5822,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 195,
+            "line": 190,
             "description": "Adds a scalar to this vector.",
             "itemtype": "method",
             "name": "addScalar",
@@ -5138,7 +5844,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 214,
+            "line": 209,
             "description": "Sets this vector to the sum of two given vectors.",
             "itemtype": "method",
             "name": "addVectors",
@@ -5165,7 +5871,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 234,
+            "line": 229,
             "description": "Subtracts a vector from this vector.",
             "itemtype": "method",
             "name": "sub",
@@ -5187,7 +5893,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 253,
+            "line": 248,
             "description": "Subtracts a scalar to this vector.",
             "itemtype": "method",
             "name": "subScalar",
@@ -5209,7 +5915,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 272,
+            "line": 267,
             "description": "Sets this vector to the difference between two given vectors.",
             "itemtype": "method",
             "name": "subVectors",
@@ -5236,7 +5942,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 292,
+            "line": 287,
             "description": "Multiplies this vector with another vector.",
             "itemtype": "method",
             "name": "multiply",
@@ -5258,7 +5964,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 311,
+            "line": 306,
             "description": "Multiplies this vector with a given scalar.",
             "itemtype": "method",
             "name": "multiplyScalar",
@@ -5280,7 +5986,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 340,
+            "line": 335,
             "description": "Sets this vector to the product of two given vectors.",
             "itemtype": "method",
             "name": "multiplyVectors",
@@ -5307,7 +6013,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 360,
+            "line": 355,
             "description": "Divides this vector by another vector.",
             "itemtype": "method",
             "name": "divide",
@@ -5329,7 +6035,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 379,
+            "line": 374,
             "description": "Divides this vector by a given scalar.",
             "itemtype": "method",
             "name": "divideScalar",
@@ -5351,7 +6057,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 394,
+            "line": 389,
             "description": "Sets this vector to the quotient of two given vectors.",
             "itemtype": "method",
             "name": "divideVectors",
@@ -5378,7 +6084,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 414,
+            "line": 409,
             "description": "Negates this vector.",
             "itemtype": "method",
             "name": "negate",
@@ -5393,7 +6099,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 432,
+            "line": 427,
             "description": "Calculates the dot product with another vector.",
             "itemtype": "method",
             "name": "dot",
@@ -5414,7 +6120,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 446,
+            "line": 441,
             "description": "Calculates the squared length of this vector.",
             "itemtype": "method",
             "name": "lengthSq",
@@ -5428,7 +6134,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 459,
+            "line": 454,
             "description": "Calculates the length of this vector.",
             "itemtype": "method",
             "name": "length",
@@ -5442,7 +6148,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 472,
+            "line": 467,
             "description": "Calculates the distance to a given vector.",
             "itemtype": "method",
             "name": "distanceTo",
@@ -5463,7 +6169,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 486,
+            "line": 481,
             "description": "Calculates the squared distance to a given vector.",
             "itemtype": "method",
             "name": "distanceToSquared",
@@ -5484,7 +6190,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 504,
+            "line": 499,
             "description": "Normalizes this vector.",
             "itemtype": "method",
             "name": "normalize",
@@ -5499,7 +6205,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 518,
+            "line": 513,
             "description": "Adopts the min value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "min",
@@ -5521,7 +6227,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 537,
+            "line": 532,
             "description": "adopts the max value for each component of this vector and the given one.",
             "itemtype": "method",
             "name": "max",
@@ -5543,7 +6249,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 556,
+            "line": 551,
             "description": "Clamps this vector.",
             "itemtype": "method",
             "name": "clamp",
@@ -5570,7 +6276,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 576,
+            "line": 571,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix3",
@@ -5592,7 +6298,7 @@
         },
         {
             "file": "src\\math\\vector3.js",
-            "line": 598,
+            "line": 593,
             "description": "Applies a matrix to this vector.",
             "itemtype": "method",
             "name": "applyMatrix4",

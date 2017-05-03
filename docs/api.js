@@ -42,6 +42,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ThreadPool",
         "Torus",
         "Union",
+        "Vector2",
         "Vector3",
         "Volume",
         "VolumeModifier",
