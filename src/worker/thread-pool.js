@@ -82,7 +82,7 @@ export class ThreadPool extends EventTarget {
 
 			case "error":
 				// Errors are being handled in the worker.
-				window.alert("Encountered an unexpected error.", event.message);
+				console.error("Encountered an unexpected error.", event.message);
 				break;
 
 		}
