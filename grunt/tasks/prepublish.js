@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
 
-	grunt.registerTask("prepublish", ["backup", "rollup:worker", "lemon"]);
+	grunt.registerTask("prepublish", ["backup", "rollup:worker", "inlineImport"]);
 
 };
