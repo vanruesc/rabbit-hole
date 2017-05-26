@@ -1,8 +1,7 @@
 /**
  * Volume management components.
  *
- * @module rabbit-hole
- * @submodule volume
+ * @module rabbit-hole/volume
  */
 
 export { Material } from "./material.js";

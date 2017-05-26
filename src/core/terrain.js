@@ -15,44 +15,39 @@ import * as events from "./terrain-events.js";
 /**
  * A 3D box.
  *
- * @property BOX3
- * @type Box3
+ * @type {Box3}
  * @private
- * @static
- * @final
  */
 
-const BOX3 = new Box3();
+const box3 = new Box3();
 
 /**
  * A 4x4 matrix.
  *
- * @property MATRIX4
- * @type Matrix4
+ * @type {Matrix4}
  * @private
- * @static
- * @final
  */
 
-const MATRIX4 = new Matrix4();
+const matrix4 = new Matrix4();
 
 /**
  * The terrain system.
  *
- * @class Terrain
- * @submodule core
- * @extends EventTarget
- * @implements EventListener
- * @constructor
- * @param {Object} [options] - The options.
- * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
- * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
- * @param {Number} [options.workers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
- * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
- * @param {Number} [options.iterations] - Limits the amount of volume chunks that are being processed during each update.
+ * @implements {EventListener}
  */
 
 export class Terrain extends EventTarget {
+
+	/**
+	 * Constructs a new terrain.
+	 *
+	 * @param {Object} [options] - The options.
+	 * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
+	 * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
+	 * @param {Number} [options.workers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
+	 * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
+	 * @param {Number} [options.iterations] - Limits the amount of volume chunks that are being processed during each update.
+	 */
 
 	constructor(options = {}) {
 
@@ -61,8 +56,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * The terrain object. Add this to your scene.
 		 *
-		 * @property object
-		 * @type Object3D
+		 * @type {Object3D}
 		 */
 
 		this.object = new Object3D();
@@ -71,8 +65,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * The volume of this terrain.
 		 *
-		 * @property volume
-		 * @type Volume
+		 * @type {Volume}
 		 */
 
 		this.volume = new Volume(options.chunkSize, options.resolution);
@@ -80,8 +73,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * A volume chunk iterator.
 		 *
-		 * @property iterator
-		 * @type Iterator
+		 * @type {Iterator}
 		 * @private
 		 */
 
@@ -93,8 +85,7 @@ export class Terrain extends EventTarget {
 		 * Terrain chunks that are further away from the camera will be rendered
 		 * with less vertices.
 		 *
-		 * @property levels
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default log2(resolution)
 		 */
@@ -107,8 +98,7 @@ export class Terrain extends EventTarget {
 		 * Volume chunks that lie in the field of view will be processed over the
 		 * course of several update calls.
 		 *
-		 * @property iterations
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default 1000
 		 */
@@ -118,8 +108,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * A thread pool.
 		 *
-		 * @property threadPool
-		 * @type ThreadPool
+		 * @type {ThreadPool}
 		 * @private
 		 */
 
@@ -129,8 +118,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * Manages pending tasks.
 		 *
-		 * @property scheduler
-		 * @type Scheduler
+		 * @type {Scheduler}
 		 * @private
 		 */
 
@@ -140,8 +128,7 @@ export class Terrain extends EventTarget {
 		 * A chronological sequence of CSG operations that have been executed during
 		 * this session.
 		 *
-		 * @property history
-		 * @type History
+		 * @type {History}
 		 */
 
 		this.history = new History();
@@ -150,8 +137,7 @@ export class Terrain extends EventTarget {
 		 * Keeps track of chunks that are currently being used by a worker. The
 		 * amount of neutered chunks cannot exceed the amount of worker threads.
 		 *
-		 * @property neutered
-		 * @type WeakSet
+		 * @type {WeakSet}
 		 * @private
 		 */
 
@@ -160,8 +146,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * Keeps track of associations between workers and chunks.
 		 *
-		 * @property chunks
-		 * @type WeakMap
+		 * @type {WeakMap}
 		 * @private
 		 */
 
@@ -170,8 +155,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * Keeps track of associations between chunks and meshes.
 		 *
-		 * @property meshes
-		 * @type WeakMap
+		 * @type {WeakMap}
 		 * @private
 		 */
 
@@ -180,8 +164,7 @@ export class Terrain extends EventTarget {
 		/**
 		 * The terrain material.
 		 *
-		 * @property material
-		 * @type MeshTriplanarPhysicalMaterial
+		 * @type {MeshTriplanarPhysicalMaterial}
 		 */
 
 		this.material = new MeshTriplanarPhysicalMaterial();
@@ -191,7 +174,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Lifts the connection of a given chunk to its mesh and removes the geometry.
 	 *
-	 * @method unlinkMesh
 	 * @private
 	 * @param {Chunk} chunk - A volume chunk.
 	 */
@@ -215,7 +197,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Handles worker events.
 	 *
-	 * @method handleEvent
 	 * @private
 	 * @param {WorkerEvent} event - A worker message event.
 	 */
@@ -252,13 +233,13 @@ export class Terrain extends EventTarget {
 
 			if(data.action === Action.EXTRACT) {
 
-				event = events.EXTRACTION_END;
+				event = events.extractionend;
 
 				this.consolidate(chunk, data);
 
 			} else {
 
-				event = events.MODIFICATION_END;
+				event = events.modificationend;
 
 			}
 
@@ -268,7 +249,7 @@ export class Terrain extends EventTarget {
 
 		} else {
 
-			window.alert(data.error);
+			console.error(data.error);
 
 		}
 
@@ -280,7 +261,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Updates geometry chunks with extracted data.
 	 *
-	 * @method consolidate
 	 * @private
 	 * @param {Chunk} chunk - The associated volume chunk.
 	 * @param {Object} data - An object containing the extracted geometry data.
@@ -317,7 +297,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Runs a pending task if a worker is available.
 	 *
-	 * @method runNextTask
 	 * @private
 	 */
 
@@ -336,7 +315,7 @@ export class Terrain extends EventTarget {
 
 				if(task.action === Action.MODIFY) {
 
-					event = events.MODIFICATION_START;
+					event = events.modificationstart;
 
 					worker.postMessage({
 
@@ -354,7 +333,7 @@ export class Terrain extends EventTarget {
 
 				} else {
 
-					event = events.EXTRACTION_START;
+					event = events.extractionstart;
 
 					worker.postMessage({
 
@@ -380,7 +359,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Edits the terrain volume data.
 	 *
-	 * @method edit
 	 * @private
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
@@ -411,7 +389,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Executes the given SDF and adds the generated data to the volume.
 	 *
-	 * @method union
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
@@ -426,7 +403,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Executes the given SDF and subtracts the generated data from the volume.
 	 *
-	 * @method subtract
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
@@ -442,7 +418,6 @@ export class Terrain extends EventTarget {
 	 * Executes the given SDF and discards the volume data that doesn't overlap
 	 * with the generated data.
 	 *
-	 * @method intersect
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
@@ -457,7 +432,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Updates the terrain geometry. This method should be called each frame.
 	 *
-	 * @method update
 	 * @param {PerspectiveCamera} camera - A camera.
 	 */
 
@@ -476,7 +450,7 @@ export class Terrain extends EventTarget {
 		let result;
 
 		iterator.region.setFromMatrix(
-			MATRIX4.multiplyMatrices(
+			matrix4.multiplyMatrices(
 				camera.projectionMatrix,
 				camera.matrixWorldInverse
 			)
@@ -505,7 +479,7 @@ export class Terrain extends EventTarget {
 
 					} else if(data !== null && !data.full) {
 
-						distance = BOX3.copy(chunk).distanceToPoint(camera.position);
+						distance = box3.copy(chunk).distanceToPoint(camera.position);
 						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * levels));
 
 						if(data.lod !== lod) {
@@ -550,7 +524,6 @@ export class Terrain extends EventTarget {
 	 *
 	 * Intersections are sorted by distance, closest first.
 	 *
-	 * @method raycast
 	 * @param {Raycaster} raycaster - A raycaster.
 	 * @return {Array} A list of terrain intersections.
 	 */
@@ -588,7 +561,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Removes all child meshes.
 	 *
-	 * @method clearMeshes
 	 * @private
 	 */
 
@@ -613,8 +585,6 @@ export class Terrain extends EventTarget {
 
 	/**
 	 * Resets this terrain by removing data and closing active worker threads.
-	 *
-	 * @method clear
 	 */
 
 	clear() {
@@ -635,8 +605,6 @@ export class Terrain extends EventTarget {
 
 	/**
 	 * Destroys this terrain and frees internal resources.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() {
@@ -649,7 +617,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Saves a description of the current volume data.
 	 *
-	 * @method save
 	 * @return {String} A URL to the exported save data, or null if there is no data.
 	 */
 
@@ -670,7 +637,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Loads a volume.
 	 *
-	 * @method load
 	 * @param {String} data - The volume description to load.
 	 */
 

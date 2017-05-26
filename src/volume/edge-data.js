@@ -4,14 +4,15 @@
  * With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
  * the number of edges that actually contain the volume's surface is usually
  * much lower.
- *
- * @class EdgeData
- * @submodule volume
- * @constructor
- * @param {Number} n - The grid resolution.
  */
 
 export class EdgeData {
+
+	/**
+	 * Constructs new edge data.
+	 *
+	 * @param {Number} n - The grid resolution.
+	 */
 
 	constructor(n) {
 
@@ -27,8 +28,7 @@ export class EdgeData {
 		 * and Z-plane is defined as A + 1, A + N and A + N² respectively where N is
 		 * the grid resolution + 1.
 		 *
-		 * @property edges
-		 * @type Array
+		 * @type {Uint32Array[]}
 		 */
 
 		this.edges = [
@@ -43,8 +43,7 @@ export class EdgeData {
 		 * Each value describes the relative surface intersection position on the
 		 * respective edge. The values correspond to the order of the edges.
 		 *
-		 * @property zeroCrossings
-		 * @type Array
+		 * @type {Float32Array[]}
 		 */
 
 		this.zeroCrossings = [
@@ -59,8 +58,7 @@ export class EdgeData {
 		 * The vectors are stored as [x, y, z] float triples and correspond to the
 		 * order of the edges.
 		 *
-		 * @property normals
-		 * @type Array
+		 * @type {Float32Array[]}
 		 */
 
 		this.normals = [
@@ -74,7 +72,6 @@ export class EdgeData {
 	/**
 	 * Creates a list of transferable items.
 	 *
-	 * @method createTransferList
 	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
 	 * @return {Array} A transfer list.
 	 */
@@ -118,7 +115,6 @@ export class EdgeData {
 	/**
 	 * Serialises this data.
 	 *
-	 * @method serialise
 	 * @return {Object} The serialised version of the data.
 	 */
 
@@ -135,7 +131,6 @@ export class EdgeData {
 	/**
 	 * Adopts the given serialised data.
 	 *
-	 * @method deserialise
 	 * @param {Object} object - Serialised edge data.
 	 */
 

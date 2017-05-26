@@ -6,11 +6,8 @@ import { Voxel } from "../voxel.js";
 /**
  * A bias for boundary checks.
  *
- * @property BIAS
- * @type Number
+ * @type {Number}
  * @private
- * @static
- * @final
  */
 
 const BIAS = 1e-6;
@@ -18,11 +15,8 @@ const BIAS = 1e-6;
 /**
  * The base QEF error threshold.
  *
- * @property THRESHOLD
- * @type Number
+ * @type {Number}
  * @private
- * @static
- * @final
  */
 
 const THRESHOLD = 1e-2;
@@ -30,26 +24,24 @@ const THRESHOLD = 1e-2;
 /**
  * A QEF error threshold for voxel clustering.
  *
- * @property threshold
- * @type Number
+ * @type {Number}
  * @private
- * @static
  */
 
 let threshold = 0.0;
 
 /**
  * A voxel octant.
- *
- * @class VoxelCell
- * @submodule octree
- * @extends CubicOctant
- * @constructor
- * @param {Vector3} [min] - The lower bounds.
- * @param {Number} [size] - The size of the octant.
  */
 
 export class VoxelCell extends CubicOctant {
+
+	/**
+	 * Constructs a new voxel octant.
+	 *
+	 * @param {Vector3} [min] - The lower bounds.
+	 * @param {Number} [size] - The size of the octant.
+	 */
 
 	constructor(min, size) {
 
@@ -58,8 +50,7 @@ export class VoxelCell extends CubicOctant {
 		/**
 		 * A voxel that contains draw information.
 		 *
-		 * @property voxel
-		 * @type Voxel
+		 * @type {Voxel}
 		 * @default null
 		 */
 
@@ -70,11 +61,14 @@ export class VoxelCell extends CubicOctant {
 	/**
 	 * The level of detail.
 	 *
-	 * @property lod
-	 * @type Number
+	 * @type {Number}
 	 */
 
 	get lod() { return threshold; }
+
+	/**
+	 * @type {Number}
+	 */
 
 	set lod(lod) {
 
@@ -85,7 +79,6 @@ export class VoxelCell extends CubicOctant {
 	/**
 	 * Checks if the given point lies inside this cell's boundaries.
 	 *
-	 * @method contains
 	 * @param {Vector3} p - A point.
 	 * @return {Boolean} Whether the given point lies inside this cell.
 	 */
@@ -109,7 +102,6 @@ export class VoxelCell extends CubicOctant {
 	/**
 	 * Attempts to simplify this cell.
 	 *
-	 * @method collapse
 	 * @return {Number} The amount of removed voxels.
 	 */
 

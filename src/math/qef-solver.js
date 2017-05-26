@@ -7,24 +7,24 @@ import { SingularValueDecomposition } from "./singular-value-decomposition.js";
  *
  * Finds a point inside a voxel that minimises the sum of the squares of the
  * distances to the surface intersection planes associated with the voxel.
- *
- * @class QEFSolver
- * @submodule math
- * @constructor
- * @param {Number} [svdThreshold=1e-6] - A threshold for the Singular Value Decomposition error.
- * @param {Number} [svdSweeps=4] - Number of Singular Value Decomposition sweeps.
- * @param {Number} [pseudoInverseThreshold=1e-6] - A threshold for the pseudo inverse error.
  */
 
 export class QEFSolver {
+
+	/**
+	 * Constructs a new QEF solver.
+	 *
+	 * @param {Number} [svdThreshold=1e-6] - A threshold for the Singular Value Decomposition error.
+	 * @param {Number} [svdSweeps=4] - Number of Singular Value Decomposition sweeps.
+	 * @param {Number} [pseudoInverseThreshold=1e-6] - A threshold for the pseudo inverse error.
+	 */
 
 	constructor(svdThreshold = 1e-6, svdSweeps = 4, pseudoInverseThreshold = 1e-6) {
 
 		/**
 		 * A Singular Value Decomposition error threshold.
 		 *
-		 * @property svdThreshold
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default 1e-6
 		 */
@@ -34,8 +34,7 @@ export class QEFSolver {
 		/**
 		 * The number of Singular Value Decomposition sweeps.
 		 *
-		 * @property svdSweeps
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default 4
 		 */
@@ -45,8 +44,7 @@ export class QEFSolver {
 		/**
 		 * A pseudo inverse error threshold.
 		 *
-		 * @property pseudoInverseThreshold
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default 1e-6
 		 */
@@ -56,8 +54,7 @@ export class QEFSolver {
 		/**
 		 * QEF data.
 		 *
-		 * @property data
-		 * @type QEFData
+		 * @type {QEFData}
 		 * @private
 		 * @default null
 		 */
@@ -67,8 +64,7 @@ export class QEFSolver {
 		/**
 		 * The average of the surface intersection points of a voxel.
 		 *
-		 * @property massPoint
-		 * @type Vector3
+		 * @type {Vector3}
 		 */
 
 		this.massPoint = new Vector3();
@@ -76,8 +72,7 @@ export class QEFSolver {
 		/**
 		 * A symmetric matrix.
 		 *
-		 * @property ata
-		 * @type SymmetricMatrix3
+		 * @type {SymmetricMatrix3}
 		 * @private
 		 */
 
@@ -86,8 +81,7 @@ export class QEFSolver {
 		/**
 		 * A vector.
 		 *
-		 * @property atb
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -96,8 +90,7 @@ export class QEFSolver {
 		/**
 		 * A calculated vertex position.
 		 *
-		 * @property x
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -106,8 +99,7 @@ export class QEFSolver {
 		/**
 		 * Indicates whether this solver has a solution.
 		 *
-		 * @property hasSolution
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.hasSolution = false;
@@ -117,7 +109,6 @@ export class QEFSolver {
 	/**
 	 * Computes the error of the approximated position.
 	 *
-	 * @method computeError
 	 * @return {Number} The QEF error.
 	 */
 
@@ -142,8 +133,6 @@ export class QEFSolver {
 	/**
 	 * Sets the QEF data.
 	 *
-	 * @method setData
-	 * @chainable
 	 * @param {QEFData} d - QEF Data.
 	 * @return {QEFSolver} This solver.
 	 */
@@ -160,7 +149,6 @@ export class QEFSolver {
 	/**
 	 * Solves the Quadratic Error Function.
 	 *
-	 * @method solve
 	 * @return {Vector3} The calculated vertex position.
 	 */
 
@@ -208,8 +196,6 @@ export class QEFSolver {
 
 	/**
 	 * Clears this QEF instance.
-	 *
-	 * @method clear
 	 */
 
 	clear() {

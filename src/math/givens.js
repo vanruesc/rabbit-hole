@@ -1,9 +1,5 @@
 /**
  * A collection of matrix rotation utilities.
- *
- * @class Givens
- * @submodule math
- * @static
  */
 
 export class Givens {
@@ -11,8 +7,6 @@ export class Givens {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot01Post
-	 * @static
 	 * @param {Matrix3} m - The target vector.
 	 * @param {Object} coefficients - Two coefficients.
 	 */
@@ -45,8 +39,6 @@ export class Givens {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot02Post
-	 * @static
 	 * @param {Matrix3} m - The target vector.
 	 * @param {Object} coefficients - Two coefficients.
 	 */
@@ -79,8 +71,6 @@ export class Givens {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot12Post
-	 * @static
 	 * @param {Matrix3} m - The target vector.
 	 * @param {Object} coefficients - Two coefficients.
 	 */

@@ -7,9 +7,6 @@ import { Heightfield } from "../sdf/heightfield.js";
 
 /**
  * An SDF reviver.
- *
- * @class Reviver
- * @static
  */
 
 export class Reviver {
@@ -17,8 +14,6 @@ export class Reviver {
 	/**
 	 * Creates an SDF from the given serialised description.
 	 *
-	 * @method reviveSDF
-	 * @static
 	 * @param {Object} description - A serialised SDF.
 	 * @return {SignedDistanceFunction} An SDF.
 	 */

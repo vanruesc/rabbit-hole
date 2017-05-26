@@ -3,21 +3,20 @@ import { Vector3 } from "./vector3.js";
 
 /**
  * A data container for the QEF solver.
- *
- * @class QEFData
- * @submodule math
- * @constructor
  */
 
 export class QEFData {
+
+	/**
+	 * Constructs a new QEF data container.
+	 */
 
 	constructor() {
 
 		/**
 		 * A symmetric matrix.
 		 *
-		 * @property ata
-		 * @type SymmetricMatrix3
+		 * @type {SymmetricMatrix3}
 		 * @private
 		 */
 
@@ -34,8 +33,7 @@ export class QEFData {
 		/**
 		 * A vector.
 		 *
-		 * @property atb
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -44,8 +42,7 @@ export class QEFData {
 		/**
 		 * Used to calculate the error of the computed position.
 		 *
-		 * @property btb
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.btb = 0;
@@ -53,8 +50,7 @@ export class QEFData {
 		/**
 		 * An accumulation of the surface intersection points.
 		 *
-		 * @property massPoint
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -63,8 +59,7 @@ export class QEFData {
 		/**
 		 * The amount of accumulated surface intersection points.
 		 *
-		 * @property numPoints
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.numPoints = 0;
@@ -73,8 +68,7 @@ export class QEFData {
 		 * The dimension of the mass point. This value is used when mass points are
 		 * accumulated during voxel cell clustering.
 		 *
-		 * @property massPointDimension
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.massPointDimension = 0;
@@ -84,8 +78,6 @@ export class QEFData {
 	/**
 	 * Sets the values of this data instance.
 	 *
-	 * @method set
-	 * @chainable
 	 * @return {QEFData} This data.
 	 */
 
@@ -105,8 +97,6 @@ export class QEFData {
 	/**
 	 * Copies values from a given data instance.
 	 *
-	 * @method copy
-	 * @chainable
 	 * @return {QEFData} This data.
 	 */
 
@@ -119,7 +109,6 @@ export class QEFData {
 	/**
 	 * Adds the given surface intersection point and normal.
 	 *
-	 * @method add
 	 * @param {Vector3} p - An intersection point.
 	 * @param {Vector3} n - A surface normal.
 	 */
@@ -154,7 +143,6 @@ export class QEFData {
 	/**
 	 * Adds an entire data set.
 	 *
-	 * @method addData
 	 * @param {QEFData} d - QEF data.
 	 */
 
@@ -185,8 +173,6 @@ export class QEFData {
 
 	/**
 	 * Clears this data.
-	 *
-	 * @method clear
 	 */
 
 	clear() {
@@ -209,8 +195,6 @@ export class QEFData {
 
 	/**
 	 * Clones this data.
-	 *
-	 * @method clone
 	 */
 
 	clone() {

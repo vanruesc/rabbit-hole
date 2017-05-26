@@ -5,11 +5,7 @@
 /**
  * An edge mask.
  *
- * @property EDGE_MASK
- * @for DualContouring
- * @type Uint8Array
- * @static
- * @final
+ * @type {Uint8Array}
  */
 
 export const EDGE_MASK = new Uint8Array([5, 3, 6]);
@@ -17,11 +13,7 @@ export const EDGE_MASK = new Uint8Array([5, 3, 6]);
 /**
  * A face map.
  *
- * @property FACE_MAP
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Uint8Array[]}
  */
 
 export const FACE_MAP = [
@@ -38,11 +30,7 @@ export const FACE_MAP = [
 /**
  * A face mask for cell processing.
  *
- * @property CELL_PROC_FACE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Uint8Array[]}
  */
 
 export const CELL_PROC_FACE_MASK = [
@@ -65,11 +53,7 @@ export const CELL_PROC_FACE_MASK = [
 /**
  * An edge mask for cell processing.
  *
- * @property CELL_PROC_EDGE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Uint8Array[]}
  */
 
 export const CELL_PROC_EDGE_MASK = [
@@ -86,11 +70,7 @@ export const CELL_PROC_EDGE_MASK = [
 /**
  * A face mask for face processing.
  *
- * @property FACE_PROC_FACE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Array<Uint8Array[]>}
  */
 
 export const FACE_PROC_FACE_MASK = [[
@@ -119,11 +99,7 @@ export const FACE_PROC_FACE_MASK = [[
 /**
  * An edge mask for face processing.
  *
- * @property FACE_PROC_EDGE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Array<Uint8Array[]>}
  */
 
 export const FACE_PROC_EDGE_MASK = [[
@@ -152,11 +128,7 @@ export const FACE_PROC_EDGE_MASK = [[
 /**
  * An edge mask for edge processing.
  *
- * @property EDGE_PROC_EDGE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Array<Uint8Array[]>}
  */
 
 export const EDGE_PROC_EDGE_MASK = [[
@@ -179,11 +151,7 @@ export const EDGE_PROC_EDGE_MASK = [[
 /**
  * An edge mask.
  *
- * @property PROC_EDGE_MASK
- * @for DualContouring
- * @type Array
- * @static
- * @final
+ * @type {Uint8Array[]}
  */
 
 export const PROC_EDGE_MASK = [

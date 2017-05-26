@@ -5,18 +5,18 @@ import { SDFType } from "./sdf-type.js";
 
 /**
  * A Signed Distance Function that describes a box.
- *
- * @class Box
- * @submodule sdf
- * @extends SignedDistanceFunction
- * @constructor
- * @param {Object} parameters - The parameters.
- * @param {Array} parameters.origin - The origin [x, y, z].
- * @param {Array} parameters.halfDimensions - The half size [x, y, z].
- * @param {Number} [material] - A material index.
  */
 
 export class Box extends SignedDistanceFunction {
+
+	/**
+	 * Constructs a new box SDF.
+	 *
+	 * @param {Object} parameters - The parameters.
+	 * @param {Array} parameters.origin - The origin [x, y, z].
+	 * @param {Array} parameters.halfDimensions - The half size [x, y, z].
+	 * @param {Number} [material] - A material index.
+	 */
 
 	constructor(parameters = {}, material) {
 
@@ -25,8 +25,7 @@ export class Box extends SignedDistanceFunction {
 		/**
 		 * The origin.
 		 *
-		 * @property origin
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -35,8 +34,7 @@ export class Box extends SignedDistanceFunction {
 		/**
 		 * The halfDimensions.
 		 *
-		 * @property halfDimensions
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -47,7 +45,6 @@ export class Box extends SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this density field.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 */
 
@@ -65,7 +62,6 @@ export class Box extends SignedDistanceFunction {
 	/**
 	 * Samples the volume's density at the given point in space.
 	 *
-	 * @method sample
 	 * @param {Vector3} position - A position.
 	 * @return {Number} The euclidean distance to the surface.
 	 */
@@ -95,7 +91,6 @@ export class Box extends SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this SDF.
 	 */
 

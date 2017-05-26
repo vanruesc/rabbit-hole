@@ -5,18 +5,18 @@ import { SDFType } from "./sdf-type.js";
 
 /**
  * A Signed Distance Function that describes a plane.
- *
- * @class Plane
- * @submodule sdf
- * @extends SignedDistanceFunction
- * @constructor
- * @param {Object} parameters - The parameters.
- * @param {Array} parameters.normal - The normal [x, y, z].
- * @param {Number} parameters.constant - The constant.
- * @param {Number} [material] - A material index.
  */
 
 export class Plane extends SignedDistanceFunction {
+
+	/**
+	 * Constructs a new plane SDF.
+	 *
+	 * @param {Object} parameters - The parameters.
+	 * @param {Array} parameters.normal - The normal [x, y, z].
+	 * @param {Number} parameters.constant - The constant.
+	 * @param {Number} [material] - A material index.
+	 */
 
 	constructor(parameters = {}, material) {
 
@@ -25,8 +25,7 @@ export class Plane extends SignedDistanceFunction {
 		/**
 		 * The normal.
 		 *
-		 * @property normal
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -35,8 +34,7 @@ export class Plane extends SignedDistanceFunction {
 		/**
 		 * The constant.
 		 *
-		 * @property constant
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 */
 
@@ -47,7 +45,6 @@ export class Plane extends SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this density field.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 * @todo
 	 */
@@ -63,7 +60,6 @@ export class Plane extends SignedDistanceFunction {
 	/**
 	 * Samples the volume's density at the given point in space.
 	 *
-	 * @method sample
 	 * @param {Vector3} position - A position.
 	 * @return {Number} The euclidean distance to the surface.
 	 */
@@ -77,7 +73,6 @@ export class Plane extends SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this SDF.
 	 */
 

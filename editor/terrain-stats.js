@@ -3,21 +3,23 @@ import Stats from "stats.js";
 /**
  * A terrain stats monitor.
  *
- * @class TerrainStats
- * @implements EventListener
- * @constructor
- * @param {Terrain} terrain - A terrain instance.
+ * @implements {EventListener}
  */
 
 export class TerrainStats {
+
+	/**
+	 * Constructs a new stats monitor.
+	 *
+	 * @param {Terrain} terrain - A terrain instance.
+	 */
 
 	constructor(terrain) {
 
 		/**
 		 * A stats monitor.
 		 *
-		 * @property stats
-		 * @type Stats
+		 * @type {Stats}
 		 */
 
 		this.stats = new Stats();
@@ -25,8 +27,7 @@ export class TerrainStats {
 		/**
 		 * The terrain.
 		 *
-		 * @property terrain
-		 * @type Terrain
+		 * @type {Terrain}
 		 * @private
 		 */
 
@@ -35,8 +36,7 @@ export class TerrainStats {
 		/**
 		 * A panel for volume modifications.
 		 *
-		 * @property modificationPanel
-		 * @type Panel
+		 * @type {Panel}
 		 * @private
 		 */
 
@@ -45,8 +45,7 @@ export class TerrainStats {
 		/**
 		 * A panel for surface extractions.
 		 *
-		 * @property extractionPanel
-		 * @type Panel
+		 * @type {Panel}
 		 * @private
 		 */
 
@@ -55,8 +54,7 @@ export class TerrainStats {
 		/**
 		 * Measured delta times.
 		 *
-		 * @property deltas
-		 * @type Map
+		 * @type {Map}
 		 * @private
 		 */
 
@@ -68,8 +66,7 @@ export class TerrainStats {
 		/**
 		 * Event start timestamps.
 		 *
-		 * @property timestamps
-		 * @type Map
+		 * @type {Map}
 		 * @private
 		 */
 
@@ -78,8 +75,7 @@ export class TerrainStats {
 		/**
 		 * Measured delta time maxima.
 		 *
-		 * @property maxDeltas
-		 * @type Map
+		 * @type {Map}
 		 * @private
 		 */
 
@@ -92,7 +88,6 @@ export class TerrainStats {
 	/**
 	 * Handles terrain events.
 	 *
-	 * @method handleEvent
 	 * @param {TerrainEvent} event - A terrain event.
 	 */
 
@@ -120,7 +115,6 @@ export class TerrainStats {
 	/**
 	 * Measures execution time.
 	 *
-	 * @method measureTime
 	 * @private
 	 * @param {TerrainEvent} event - A terrain event.
 	 * @param {Panel} panel - The panel to update.
@@ -150,7 +144,6 @@ export class TerrainStats {
 	/**
 	 * Enables or disables this stats monitor.
 	 *
-	 * @method setEnabled
 	 * @param {Boolean} enabled - Whether this monitor should be enabled or disabled.
 	 */
 
@@ -178,8 +171,6 @@ export class TerrainStats {
 
 	/**
 	 * Removes all event listeners.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() { this.setEnabled(false); }
@@ -187,7 +178,6 @@ export class TerrainStats {
 	/**
 	 * Logs delta times.
 	 *
-	 * @method log
 	 * @private
 	 */
 
@@ -228,7 +218,6 @@ export class TerrainStats {
 	/**
 	 * Registers configuration options.
 	 *
-	 * @method configure
 	 * @param {GUI} gui - A GUI.
 	 */
 

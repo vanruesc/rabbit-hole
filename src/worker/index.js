@@ -1,8 +1,7 @@
 /**
  * Multithreading components.
  *
- * @module rabbit-hole
- * @submodule worker
+ * @module rabbit-hole/worker
  */
 
 export { Action } from "./action.js";

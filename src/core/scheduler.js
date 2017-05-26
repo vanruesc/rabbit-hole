@@ -2,15 +2,15 @@ import { PriorityQueue } from "./priority-queue.js";
 
 /**
  * A task scheduler.
- *
- * @class Scheduler
- * @submodule core
- * @extends PriorityQueue
- * @constructor
- * @param {Number} tiers - The number of priority tiers.
  */
 
 export class Scheduler extends PriorityQueue {
+
+	/**
+	 * Constructs a new task.
+	 *
+	 * @param {Number} tiers - The number of priority tiers.
+	 */
 
 	constructor(tiers) {
 
@@ -19,8 +19,7 @@ export class Scheduler extends PriorityQueue {
 		/**
 		 * Keeps track of associations between elements and tasks.
 		 *
-		 * @property registry
-		 * @type WeakMap
+		 * @type {WeakMap}
 		 * @private
 		 */
 
@@ -29,8 +28,7 @@ export class Scheduler extends PriorityQueue {
 		/**
 		 * The highest priority.
 		 *
-		 * @property maxPriority
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.maxPriority = this.tiers - 1;
@@ -40,7 +38,6 @@ export class Scheduler extends PriorityQueue {
 	/**
 	 * Cancels the task that is currently scheduled for the given element.
 	 *
-	 * @method cancel
 	 * @param {Object} element - The element.
 	 * @return {Boolean} Whether the cancellation succeeded.
 	 */
@@ -68,7 +65,6 @@ export class Scheduler extends PriorityQueue {
 	 * Schedules a task for the given element. Other tasks that are scheduled for
 	 * that element will be cancelled.
 	 *
-	 * @method schedule
 	 * @param {Object} element - The element.
 	 * @param {Task} task - The task.
 	 * @return {Boolean} Whether the task was scheduled.
@@ -99,7 +95,6 @@ export class Scheduler extends PriorityQueue {
 	/**
 	 * Checks if a task is scheduled for the given element.
 	 *
-	 * @method hasTask
 	 * @param {Object} element - The element.
 	 * @return {Boolean} Whether a task is currently scheduled.
 	 */
@@ -113,7 +108,6 @@ export class Scheduler extends PriorityQueue {
 	/**
 	 * Retrieves the task for the given element.
 	 *
-	 * @method getTask
 	 * @param {Object} element - The element.
 	 * @return {Task} The task or undefined if there is none.
 	 */
@@ -127,7 +121,6 @@ export class Scheduler extends PriorityQueue {
 	/**
 	 * Retrieves the head of the queue, or returns null if the queue is empty.
 	 *
-	 * @method poll
 	 * @return {Task} The task with the highest priority or null if there is none.
 	 */
 
@@ -147,8 +140,6 @@ export class Scheduler extends PriorityQueue {
 
 	/**
 	 * Removes all tasks.
-	 *
-	 * @method clear
 	 */
 
 	clear() {

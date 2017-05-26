@@ -1,8 +1,7 @@
 /**
  * A collection of shader materials.
  *
- * @module rabbit-hole
- * @submodule materials
+ * @module rabbit-hole/materials
  */
 
-export { MeshTriplanarPhysicalMaterial } from "./triplanar-physical";
+export { MeshTriplanarPhysicalMaterial } from "./triplanar-physical.js";

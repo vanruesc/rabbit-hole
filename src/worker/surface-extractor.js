@@ -4,55 +4,56 @@ import { Action } from "./action.js";
 
 /**
  * A surface extractor that generates triangles from hermite data.
- *
- * @class SurfaceExtractor
- * @submodule worker
- * @static
  */
 
-export const SurfaceExtractor = {
+export class SurfaceExtractor {
 
 	/**
-	 * An empty chunk of hermite data.
-	 *
-	 * @property chunk
-	 * @type Chunk
-	 * @static
+	 * Constructs a new surface extractor.
 	 */
 
-	chunk: new Chunk(),
+	constructor() {
 
-	/**
-	 * A container for the data that will be returned to the main thread.
-	 *
-	 * @property message
-	 * @type Object
-	 * @static
-	 */
+		/**
+		 * An empty chunk of hermite data.
+		 *
+		 * @type {Chunk}
+		 */
 
-	message: {
-		action: Action.EXTRACT,
-		chunk: null,
-		positions: null,
-		normals: null,
-		indices: null
-	},
+		this.chunk = new Chunk();
 
-	/**
-	 * A list of transferable objects.
-	 *
-	 * @property transferList
-	 * @type Array
-	 * @static
-	 */
+		/**
+		 * A container for the data that will be returned to the main thread.
+		 *
+		 * @type {Object}
+		 * @property {Action} action - The worker action.
+		 * @property {Chunk} chunk - A serialised volume chunk.
+		 * @property {Float32Array} positions - Generated vertices.
+		 * @property {Float32Array} normals - Generated vertices.
+		 * @property {Uint16Array} indices - Generated indices.
+		 */
 
-	transferList: null,
+		this.message = {
+			action: Action.EXTRACT,
+			chunk: null,
+			positions: null,
+			normals: null,
+			indices: null
+		};
+
+		/**
+		 * A list of transferable objects.
+		 *
+		 * @type {ArrayBuffer[]}
+		 */
+
+		this.transferList = null;
+
+	}
 
 	/**
 	 * Extracts a surface from the given hermite data.
 	 *
-	 * @method extract
-	 * @static
 	 * @param {Object} chunk - A serialised volume chunk.
 	 */
 
@@ -92,4 +93,4 @@ export const SurfaceExtractor = {
 
 	}
 
-};
+}

@@ -1,9 +1,5 @@
 /**
- * Run-Length Encoding for numeric data.
- *
- * @class RunLengthEncoder
- * @submodule core
- * @static
+ * Run-Length Encoding for numerical data.
  */
 
 export class RunLengthEncoder {
@@ -11,9 +7,7 @@ export class RunLengthEncoder {
 	/**
 	 * Encodes the given data.
 	 *
-	 * @method encode
-	 * @static
-	 * @param {Array} array - The data to encode.
+	 * @param {Number[]} array - The data to encode.
 	 * @return {Object} The run-lengths and the encoded data.
 	 */
 
@@ -58,10 +52,8 @@ export class RunLengthEncoder {
 	/**
 	 * Decodes the given data.
 	 *
-	 * @method decode
-	 * @static
-	 * @param {Array} runLengths - The run-lengths.
-	 * @param {Array} data - The data to decode.
+	 * @param {Number[]} runLengths - The run-lengths.
+	 * @param {Number[]} data - The data to decode.
 	 * @param {Array} [array] - An optional target.
 	 * @return {Array} The decoded data.
 	 */

@@ -2,14 +2,15 @@ import { Event } from "synthetic-event";
 
 /**
  * A worker event.
- *
- * @class WorkerEvent
- * @submodule events
- * @constructor
- * @param {String} type - The name of the event.
  */
 
 export class WorkerEvent extends Event {
+
+	/**
+	 * Constructs a new worker event.
+	 *
+	 * @param {String} type - The name of the event.
+	 */
 
 	constructor(type) {
 
@@ -18,8 +19,7 @@ export class WorkerEvent extends Event {
 		/**
 		 * A worker.
 		 *
-		 * @property worker
-		 * @type Worker
+		 * @type {Worker}
 		 * @default null
 		 */
 
@@ -28,8 +28,7 @@ export class WorkerEvent extends Event {
 		/**
 		 * A message.
 		 *
-		 * @property data
-		 * @type Object
+		 * @type {Object}
 		 * @default null
 		 */
 

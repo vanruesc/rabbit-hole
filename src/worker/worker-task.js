@@ -2,17 +2,17 @@ import { Task } from "../core/task.js";
 
 /**
  * A worker task.
- *
- * @class WorkerTask
- * @submodule worker
- * @extends Task
- * @constructor
- * @param {Action} action - A worker action.
- * @param {Chunk} chunk - A volume chunk.
- * @param {Number} [priority] - The priority.
  */
 
 export class WorkerTask extends Task {
+
+	/**
+	 * Constructs a new worker task.
+	 *
+	 * @param {Action} action - A worker action.
+	 * @param {Chunk} chunk - A volume chunk.
+	 * @param {Number} [priority] - The priority.
+	 */
 
 	constructor(action, chunk, priority) {
 
@@ -21,8 +21,7 @@ export class WorkerTask extends Task {
 		/**
 		 * A worker action.
 		 *
-		 * @property action
-		 * @type Action
+		 * @type {Action}
 		 * @default null
 		 */
 
@@ -31,8 +30,7 @@ export class WorkerTask extends Task {
 		/**
 		 * A volume chunk.
 		 *
-		 * @property chunk
-		 * @type Chunk
+		 * @type {Chunk}
 		 */
 
 		this.chunk = chunk;

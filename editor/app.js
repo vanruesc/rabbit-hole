@@ -18,18 +18,13 @@ import { Controls } from "./controls/controls.js";
 
 /**
  * The main application.
- *
- * @class App
- * @static
  */
 
 export class App {
 
 	/**
-	 * Initialises the editor app.
+	 * Initialises the editor.
 	 *
-	 * @method initialise
-	 * @static
 	 * @param {HTMLElement} viewport - The viewport.
 	 * @param {HTMLElement} aside - A secondary container.
 	 * @param {Map} assets - Preloaded assets.
@@ -252,16 +247,13 @@ export class App {
 			folder.add(renderer.info.render, "calls").listen();
 			folder.add(renderer.info.render, "vertices").listen();
 			folder.add(renderer.info.render, "faces").listen();
-			folder.add(renderer.info.render, "points").listen();
 
 		}());
 
 		/**
 		 * Toggles between camera mode and edit mode.
 		 *
-		 * @method onKeyDown
 		 * @private
-		 * @static
 		 * @param {Event} event - An event.
 		 */
 
@@ -288,9 +280,7 @@ export class App {
 		/**
 		 * Handles browser resizing.
 		 *
-		 * @method onResize
 		 * @private
-		 * @static
 		 * @param {Event} event - An event.
 		 */
 
@@ -326,9 +316,7 @@ export class App {
 		/**
 		 * The main render loop.
 		 *
-		 * @method render
 		 * @private
-		 * @static
 		 * @param {DOMHighResTimeStamp} now - An execution timestamp.
 		 */
 

@@ -12,23 +12,23 @@ import { Material } from "../material.js";
  * effectively describing its density at every point in 3D space. It yields
  * negative values for points that lie inside the volume and positive values
  * for points outside. The value is zero at the exact boundary of the object.
- *
- * @class SignedDistanceFunction
- * @submodule sdf
- * @constructor
- * @param {SDFType} type - The type of the SDF.
- * @param {Number} [material=Material.SOLID] - A material index. Must be an integer in the range of 1 to 255.
  */
 
 export class SignedDistanceFunction {
+
+	/**
+	 * Constructs a new base SDF.
+	 *
+	 * @param {SDFType} type - The type of the SDF.
+	 * @param {Number} [material=Material.SOLID] - A material index. Must be an integer in the range of 1 to 255.
+	 */
 
 	constructor(type, material = Material.SOLID) {
 
 		/**
 		 * The type of this SDF.
 		 *
-		 * @property type
-		 * @type SDFType
+		 * @type {SDFType}
 		 * @default null
 		 */
 
@@ -37,8 +37,7 @@ export class SignedDistanceFunction {
 		/**
 		 * The operation type.
 		 *
-		 * @property operation
-		 * @type OperationType
+		 * @type {OperationType}
 		 * @default null
 		 */
 
@@ -47,8 +46,7 @@ export class SignedDistanceFunction {
 		/**
 		 * A material index.
 		 *
-		 * @property material
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default Material.SOLID
 		 */
@@ -60,8 +58,7 @@ export class SignedDistanceFunction {
 		 *
 		 * SDFs can be chained to build CSG expressions.
 		 *
-		 * @property children
-		 * @type Array
+		 * @type {SignedDistanceFunction[]}
 		 * @private
 		 */
 
@@ -70,8 +67,7 @@ export class SignedDistanceFunction {
 		/**
 		 * The bounding box of this SDF.
 		 *
-		 * @property bbox
-		 * @type Box3
+		 * @type {Box3}
 		 * @private
 		 * @default null
 		 */
@@ -83,8 +79,7 @@ export class SignedDistanceFunction {
 	/**
 	 * The bounding box of this SDF.
 	 *
-	 * @property boundingBox
-	 * @type Box3
+	 * @type {Box3}
 	 */
 
 	get boundingBox() {
@@ -96,8 +91,7 @@ export class SignedDistanceFunction {
 	/**
 	 * The complete bounding box of this SDF.
 	 *
-	 * @property completeBoundingBox
-	 * @type Box3
+	 * @type {Box3}
 	 */
 
 	get completeBoundingBox() {
@@ -120,8 +114,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Adds the given SDF to this one.
 	 *
-	 * @method union
-	 * @chainable
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 * @return {SignedDistanceFunction} This SDF.
 	 */
@@ -138,8 +130,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Subtracts the given SDF from this one.
 	 *
-	 * @method subtract
-	 * @chainable
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 * @return {SignedDistanceFunction} This SDF.
 	 */
@@ -156,8 +146,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Intersects the given SDF with this one.
 	 *
-	 * @method intersect
-	 * @chainable
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 * @return {SignedDistanceFunction} This SDF.
 	 */
@@ -174,7 +162,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
@@ -205,10 +192,8 @@ export class SignedDistanceFunction {
 	/**
 	 * Translates this SDF into a CSG expression.
 	 *
-	 * @method toCSG
 	 * @return {Operation} A CSG operation.
-	 * @example
-	 *     a.union(b.intersect(c)).union(d).subtract(e) => Difference(Union(a, Intersection(b, c), d), e)
+	 * @example a.union(b.intersect(c)).union(d).subtract(e) => Difference(Union(a, Intersection(b, c), d), e)
 	 */
 
 	toCSG() {
@@ -257,7 +242,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this SDF.
 	 *
-	 * @method computeBoundingBox
 	 * @throws {Error} An error is thrown if the method is not overridden.
 	 * @return {Box3} The bounding box.
 	 */
@@ -271,7 +255,6 @@ export class SignedDistanceFunction {
 	/**
 	 * Samples the volume's density at the given point in space.
 	 *
-	 * @method sample
 	 * @throws {Error} An error is thrown if the method is not overridden.
 	 * @param {Vector3} position - A position.
 	 * @return {Number} The Euclidean distance to the surface.

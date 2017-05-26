@@ -1,19 +1,19 @@
 /**
  * An collection of movement flags.
- *
- * @class MovementState
- * @constructor
  */
 
 export class MovementState {
+
+	/**
+	 * Constructs a new movement state.
+	 */
 
 	constructor() {
 
 		/**
 		 * Movement to the left.
 		 *
-		 * @property left
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.left = false;
@@ -21,8 +21,7 @@ export class MovementState {
 		/**
 		 * Movement to the right.
 		 *
-		 * @property right
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.right = false;
@@ -30,8 +29,7 @@ export class MovementState {
 		/**
 		 * Forward motion.
 		 *
-		 * @property forward
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.forward = false;
@@ -39,8 +37,7 @@ export class MovementState {
 		/**
 		 * Backward motion.
 		 *
-		 * @property backward
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.backward = false;
@@ -48,8 +45,7 @@ export class MovementState {
 		/**
 		 * Ascension.
 		 *
-		 * @property up
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.up = false;
@@ -57,8 +53,7 @@ export class MovementState {
 		/**
 		 * Descent.
 		 *
-		 * @property down
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.down = false;
@@ -66,8 +61,7 @@ export class MovementState {
 		/**
 		 * Movement speed boost.
 		 *
-		 * @property boost
-		 * @type Boolean
+		 * @type {Boolean}
 		 */
 
 		this.boost = false;
@@ -76,8 +70,6 @@ export class MovementState {
 
 	/**
 	 * Resets this state.
-	 *
-	 * @method reset
 	 */
 
 	reset() {

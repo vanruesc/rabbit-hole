@@ -1,45 +1,45 @@
 import { TerrainEvent } from "../events/terrain-event.js";
 
 /**
- * @submodule core
- */
-
-/**
  * Signals the start of a modification task.
  *
- * @event modificationstart
- * @for Terrain
- * @type TerrainEvent
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("modificationstart", myListener);
  */
 
-export const MODIFICATION_START = new TerrainEvent("modificationstart");
+export const modificationstart = new TerrainEvent("modificationstart");
 
 /**
  * Signals the end of a modification task.
  *
- * @event modificationend
- * @for Terrain
- * @type TerrainEvent
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("modificationend", myListener);
  */
 
-export const MODIFICATION_END = new TerrainEvent("modificationend");
+export const modificationend = new TerrainEvent("modificationend");
 
 /**
  * Signals the start of an extraction task.
  *
- * @event extractionstart
- * @for Terrain
- * @type TerrainEvent
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("extractionstart", myListener);
  */
 
-export const EXTRACTION_START = new TerrainEvent("extractionstart");
+export const extractionstart = new TerrainEvent("extractionstart");
 
 /**
  * Signals the end of an extraction task.
  *
- * @event extractionend
- * @for Terrain
- * @type TerrainEvent
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("extractionend", myListener);
  */
 
-export const EXTRACTION_END = new TerrainEvent("extractionend");
+export const extractionend = new TerrainEvent("extractionend");

@@ -6,9 +6,7 @@ import * as tables from "./tables.js";
 /**
  * An edge contouring sub-procedure.
  *
- * @method contourProcessEdge
  * @private
- * @static
  * @param {Array} octants - Four leaf octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
@@ -82,9 +80,7 @@ function contourProcessEdge(octants, dir, indexBuffer) {
 /**
  * An edge contouring procedure.
  *
- * @method contourEdgeProc
  * @private
- * @static
  * @param {Array} octants - Four edge octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
@@ -149,9 +145,7 @@ function contourEdgeProc(octants, dir, indexBuffer) {
 /**
  * A face contouring procedure.
  *
- * @method contourFaceProc
  * @private
- * @static
  * @param {Array} octants - Two face octants.
  * @param {Number} dir - A direction index.
  * @param {Array} indexBuffer - An output list for vertex indices.
@@ -232,9 +226,7 @@ function contourFaceProc(octants, dir, indexBuffer) {
 /**
  * The main contouring procedure.
  *
- * @method contourCellProc
  * @private
- * @static
  * @param {Octant} octant - An octant.
  * @param {Array} indexBuffer - An output list for vertex indices.
  */
@@ -296,9 +288,7 @@ function contourCellProc(octant, indexBuffer) {
  * and its children. The generated vertex indices are stored in the respective
  * voxels during the octree traversal.
  *
- * @method generateVertexIndices
  * @private
- * @static
  * @param {Octant} octant - An octant.
  * @param {Array} vertexBuffer - An array to be filled with vertices.
  * @param {Array} normalBuffer - An array to be filled with normals.
@@ -343,10 +333,6 @@ function generateVertexIndices(octant, positions, normals, index) {
  * presented by Tao Ju in 2002:
  *
  *  http://www.cs.wustl.edu/~taoju/research/dualContour.pdf
- *
- * @class DualContouring
- * @submodule isosurface
- * @static
  */
 
 export class DualContouring {
@@ -355,8 +341,6 @@ export class DualContouring {
 	 * Contours the given chunk of volume data and generates vertices, normals
 	 * and vertex indices.
 	 *
-	 * @method run
-	 * @static
 	 * @param {Chunk} chunk - A chunk of volume data.
 	 * @return {Object} The generated indices, positions and normals, or null if no data was generated.
 	 */

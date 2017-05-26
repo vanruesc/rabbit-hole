@@ -1,8 +1,7 @@
 /**
  * A collection of Signed Distance Function components.
  *
- * @module rabbit-hole
- * @submodule sdf
+ * @module rabbit-hole/volume/sdf
  */
 
 export { SignedDistanceFunction } from "./signed-distance-function.js";

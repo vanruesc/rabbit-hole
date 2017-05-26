@@ -2,14 +2,15 @@ import { Event } from "synthetic-event";
 
 /**
  * A terrain event.
- *
- * @class TerrainEvent
- * @submodule events
- * @constructor
- * @param {String} type - The name of the event.
  */
 
 export class TerrainEvent extends Event {
+
+	/**
+	 * Constructs a new terrain event.
+	 *
+	 * @param {String} type - The name of the event.
+	 */
 
 	constructor(type) {
 
@@ -18,8 +19,7 @@ export class TerrainEvent extends Event {
 		/**
 		 * A volume chunk.
 		 *
-		 * @property chunk
-		 * @type Chunk
+		 * @type {Chunk}
 		 * @default null
 		 */
 

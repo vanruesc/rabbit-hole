@@ -5,10 +5,8 @@ import { EdgeData } from "./edge-data.js";
 /**
  * The material grid resolution.
  *
- * @property resolution
- * @type Number
+ * @type {Number}
  * @private
- * @static
  * @default 0
  */
 
@@ -17,10 +15,8 @@ let resolution = 0;
 /**
  * The total amount of grid point indices.
  *
- * @property indexCount
- * @type Number
+ * @type {Number}
  * @private
- * @static
  * @default 0
  */
 
@@ -28,22 +24,22 @@ let indexCount = 0;
 
 /**
  * Hermite data.
- *
- * @class HermiteData
- * @submodule volume
- * @constructor
- * @param {Boolean} [initialise=true] - Whether the data should be initialised immediately.
  */
 
 export class HermiteData {
+
+	/**
+	 * Constructs a new set of hermite data.
+	 *
+	 * @param {Boolean} [initialise=true] - Whether the data should be initialised immediately.
+	 */
 
 	constructor(initialise = true) {
 
 		/**
 		 * The current level of detail.
 		 *
-		 * @property lod
-		 * @type Number
+		 * @type {Number}
 		 * @default -1
 		 */
 
@@ -52,8 +48,7 @@ export class HermiteData {
 		/**
 		 * Indicates whether this data is currently gone.
 		 *
-		 * @property neutered
-		 * @type Boolean
+		 * @type {Boolean}
 		 * @default false
 		 */
 
@@ -65,8 +60,7 @@ export class HermiteData {
 		 * - The chunk lies outside the volume if there are no solid grid points.
 		 * - The chunk lies completely inside the volume if all points are solid.
 		 *
-		 * @property materials
-		 * @type Number
+		 * @type {Number}
 		 * @default 0
 		 */
 
@@ -75,8 +69,7 @@ export class HermiteData {
 		/**
 		 * The grid points.
 		 *
-		 * @property materialIndices
-		 * @type Uint8Array
+		 * @type {Uint8Array}
 		 */
 
 		this.materialIndices = initialise ? new Uint8Array(indexCount) : null;
@@ -84,8 +77,7 @@ export class HermiteData {
 		/**
 		 * Run-length compression data.
 		 *
-		 * @property runLengths
-		 * @type Uint32Array
+		 * @type {Uint32Array}
 		 * @default null
 		 */
 
@@ -94,8 +86,7 @@ export class HermiteData {
 		/**
 		 * The edge data.
 		 *
-		 * @property edgeData
-		 * @type EdgeData
+		 * @type {EdgeData}
 		 * @default null
 		 */
 
@@ -106,8 +97,7 @@ export class HermiteData {
 	/**
 	 * Indicates whether this data container is empty.
 	 *
-	 * @property empty
-	 * @type Boolean
+	 * @type {Boolean}
 	 */
 
 	get empty() { return (this.materials === 0); }
@@ -115,8 +105,7 @@ export class HermiteData {
 	/**
 	 * Indicates whether this data container is full.
 	 *
-	 * @property full
-	 * @type Boolean
+	 * @type {Boolean}
 	 */
 
 	get full() { return (this.materials === indexCount); }
@@ -124,8 +113,6 @@ export class HermiteData {
 	/**
 	 * Adopts the given data.
 	 *
-	 * @method set
-	 * @chainable
 	 * @param {HermiteData} data - The data to adopt.
 	 * @return {HermiteData} This data.
 	 */
@@ -146,7 +133,6 @@ export class HermiteData {
 	/**
 	 * Sets the specified material index.
 	 *
-	 * @method setMaterialIndex
 	 * @param {Number} index - The index of the material index that should be updated.
 	 * @param {Number} value - The new material index.
 	 */
@@ -175,8 +161,6 @@ export class HermiteData {
 	/**
 	 * Compresses this data.
 	 *
-	 * @method compress
-	 * @chainable
 	 * @return {HermiteData} This data.
 	 */
 
@@ -211,8 +195,6 @@ export class HermiteData {
 	/**
 	 * Decompresses this data.
 	 *
-	 * @method decompress
-	 * @chainable
 	 * @return {HermiteData} This data.
 	 */
 
@@ -235,7 +217,6 @@ export class HermiteData {
 	/**
 	 * Creates a list of transferable items.
 	 *
-	 * @method createTransferList
 	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
 	 * @return {Array} A transfer list.
 	 */
@@ -254,7 +235,6 @@ export class HermiteData {
 	/**
 	 * Serialises this data.
 	 *
-	 * @method serialise
 	 * @return {Object} The serialised version of the data.
 	 */
 
@@ -275,7 +255,6 @@ export class HermiteData {
 	/**
 	 * Adopts the given serialised data.
 	 *
-	 * @method deserialise
 	 * @param {Object} object - Serialised hermite data.
 	 */
 
@@ -310,12 +289,16 @@ export class HermiteData {
 	/**
 	 * The material grid resolution.
 	 *
-	 * @property resolution
-	 * @type Number
-	 * @static
+	 * @type {Number}
 	 */
 
 	static get resolution() { return resolution; }
+
+	/**
+	 * Can only be set once.
+	 *
+	 * @type {Number}
+	 */
 
 	static set resolution(x) {
 

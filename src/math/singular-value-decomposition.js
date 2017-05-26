@@ -6,9 +6,7 @@ import { Schur } from "./schur.js";
 /**
  * Rotates the given matrix.
  *
- * @method rotate01
  * @private
- * @static
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
  * @param {Matrix3} v - A matrix.
  */
@@ -28,9 +26,7 @@ function rotate01(vtav, v) {
 /**
  * Rotates the given matrix.
  *
- * @method rotate02
  * @private
- * @static
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
  * @param {Matrix3} v - A matrix.
  */
@@ -50,9 +46,7 @@ function rotate02(vtav, v) {
 /**
  * Rotates the given matrix.
  *
- * @method rotate12
  * @private
- * @static
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
  * @param {Matrix3} v - A matrix.
  */
@@ -72,9 +66,7 @@ export function rotate12(vtav, v) {
 /**
  * Computes the symmetric Singular Value Decomposition.
  *
- * @method getSymmetricSVD
  * @private
- * @static
  * @param {SymmetricMatrix3} a - A symmetric matrix.
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
  * @param {Matrix3} v - A matrix.
@@ -101,9 +93,7 @@ function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
 /**
  * Computes the pseudo inverse of a given value.
  *
- * @method pinv
  * @private
- * @static
  * @param {Number} x - The value to invert.
  * @param {Number} threshold - A threshold.
  * @return {Number} The inverted value.
@@ -120,9 +110,7 @@ function pinv(x, threshold) {
 /**
  * Calculates the pseudo inverse of the given matrix.
  *
- * @method pseudoInverse
  * @private
- * @static
  * @param {Matrix3} t - The target matrix.
  * @param {SymmetricMatrix3} a - A symmetric matrix.
  * @param {Matrix3} b - A matrix.
@@ -172,10 +160,6 @@ function pseudoInverse(t, a, b, threshold) {
 
 /**
  * A Singular Value Decomposition solver.
- *
- * @class SingularValueDecomposition
- * @submodule math
- * @static
  */
 
 export class SingularValueDecomposition {
@@ -183,8 +167,6 @@ export class SingularValueDecomposition {
 	/**
 	 * Performs the Singular Value Decomposition.
 	 *
-	 * @method solveSymmetric
-	 * @static
 	 * @param {SymmetricMatrix3} a - A symmetric matrix.
 	 * @param {Vector3} b - A vector.
 	 * @param {Vector3} x - A target vector.
@@ -233,8 +215,6 @@ export class SingularValueDecomposition {
 	/**
 	 * Calculates the error of the Singular Value Decomposition.
 	 *
-	 * @method calculateError
-	 * @static
 	 * @param {SymmetricMatrix3} t - A symmetric matrix.
 	 * @param {Vector3} b - A vector.
 	 * @param {Vector3} x - The calculated position.

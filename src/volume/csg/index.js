@@ -1,8 +1,7 @@
 /**
  * A collection of Constructive Solid Geometry components.
  *
- * @module rabbit-hole
- * @submodule csg
+ * @module rabbit-hole/volume/csg
  */
 
 export { ConstructiveSolidGeometry } from "./constructive-solid-geometry.js";

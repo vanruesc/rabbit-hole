@@ -11,9 +11,7 @@ import { VoxelCell } from "./voxel-cell.js";
  * Creates a voxel and builds a material configuration code from the materials
  * in the voxel corners.
  *
- * @method createVoxel
  * @private
- * @static
  * @param {Number} n - The grid resolution.
  * @param {Number} x - A local grid point X-coordinate.
  * @param {Number} y - A local grid point Y-coordinate.
@@ -78,19 +76,23 @@ function createVoxel(n, x, y, z, materialIndices) {
 
 /**
  * A cubic voxel octree.
- *
- * @class VoxelBlock
- * @submodule octree
- * @extends Octree
- * @constructor
- * @param {Chunk} chunk - A volume chunk.
  */
 
 export class VoxelBlock extends Octree {
 
+	/**
+	 * Constructs a new voxel octree.
+	 *
+	 * @param {Chunk} chunk - A volume chunk.
+	 */
+
 	constructor(chunk) {
 
 		super();
+
+		/**
+		 * The root octant.
+		 */
 
 		this.root = new VoxelCell(chunk.min, chunk.size);
 		this.root.lod = chunk.data.lod;
@@ -98,8 +100,7 @@ export class VoxelBlock extends Octree {
 		/**
 		 * The amount of voxels in this block.
 		 *
-		 * @property voxelCount
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.voxelCount = 0;
@@ -113,7 +114,6 @@ export class VoxelBlock extends Octree {
 	/**
 	 * Attempts to simplify the octree by clustering voxels.
 	 *
-	 * @method simplify
 	 * @private
 	 */
 
@@ -127,7 +127,6 @@ export class VoxelBlock extends Octree {
 	 * Creates intermediate voxel cells down to the leaf octant that is described
 	 * by the given local grid coordinates and returns it.
 	 *
-	 * @method getCell
 	 * @private
 	 * @param {Number} n - The grid resolution.
 	 * @param {Number} x - A local grid point X-coordinate.
@@ -165,7 +164,6 @@ export class VoxelBlock extends Octree {
 	/**
 	 * Constructs voxel cells from volume data.
 	 *
-	 * @method construct
 	 * @private
 	 * @param {Chunk} chunk - A volume chunk.
 	 */

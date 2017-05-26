@@ -5,19 +5,19 @@ import { SDFType } from "./sdf-type.js";
 
 /**
  * A Signed Distance Function that describes a torus.
- *
- * @class Torus
- * @submodule sdf
- * @extends SignedDistanceFunction
- * @constructor
- * @param {Object} parameters - The parameters.
- * @param {Array} parameters.origin - The origin [x, y, z].
- * @param {Number} parameters.R - The distance from the center to the tube.
- * @param {Number} parameters.r - The radius of the tube.
- * @param {Number} [material] - A material index.
  */
 
 export class Torus extends SignedDistanceFunction {
+
+	/**
+	 * Constructs a new torus SDF.
+	 *
+	 * @param {Object} parameters - The parameters.
+	 * @param {Array} parameters.origin - The origin [x, y, z].
+	 * @param {Number} parameters.R - The distance from the center to the tube.
+	 * @param {Number} parameters.r - The radius of the tube.
+	 * @param {Number} [material] - A material index.
+	 */
 
 	constructor(parameters = {}, material) {
 
@@ -26,8 +26,7 @@ export class Torus extends SignedDistanceFunction {
 		/**
 		 * The origin.
 		 *
-		 * @property origin
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -36,8 +35,7 @@ export class Torus extends SignedDistanceFunction {
 		/**
 		 * The distance from the center to the tube.
 		 *
-		 * @property R
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 */
 
@@ -46,8 +44,7 @@ export class Torus extends SignedDistanceFunction {
 		/**
 		 * The radius of the tube.
 		 *
-		 * @property r
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 */
 
@@ -58,7 +55,6 @@ export class Torus extends SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this density field.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 */
 
@@ -76,7 +72,6 @@ export class Torus extends SignedDistanceFunction {
 	/**
 	 * Samples the volume's density at the given point in space.
 	 *
-	 * @method sample
 	 * @param {Vector3} position - A position.
 	 * @return {Number} The euclidean distance to the surface.
 	 */
@@ -99,7 +94,6 @@ export class Torus extends SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this SDF.
 	 */
 

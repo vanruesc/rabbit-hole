@@ -1,8 +1,7 @@
 /**
  * Isosurface extraction algorithms.
  *
- * @module rabbit-hole
- * @submodule isosurface
+ * @module rabbit-hole/isosurface
  */
 
 export { DualContouring } from "./dual-contouring";

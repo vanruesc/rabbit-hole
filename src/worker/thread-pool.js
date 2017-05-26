@@ -6,15 +6,16 @@ import worker from "./worker.tmp";
 /**
  * Manages worker threads.
  *
- * @class ThreadPool
- * @submodule worker
- * @extends EventTarget
- * @implements EventListener
- * @constructor
- * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
+ * @implements {EventListener}
  */
 
 export class ThreadPool extends EventTarget {
+
+	/**
+	 * Constructs a new thread pool.
+	 *
+	 * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
+	 */
 
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
 
@@ -23,8 +24,7 @@ export class ThreadPool extends EventTarget {
 		/**
 		 * An object URL to the worker program.
 		 *
-		 * @property workerURL
-		 * @type String
+		 * @type {String}
 		 * @private
 		 */
 
@@ -33,8 +33,7 @@ export class ThreadPool extends EventTarget {
 		/**
 		 * The maximum number of active worker threads.
 		 *
-		 * @property maxWorkers
-		 * @type Number
+		 * @type {Number}
 		 * @default navigator.hardwareConcurrency
 		 */
 
@@ -43,8 +42,7 @@ export class ThreadPool extends EventTarget {
 		/**
 		 * A list of existing workers.
 		 *
-		 * @property workers
-		 * @type Array
+		 * @type {Worker[]}
 		 * @private
 		 */
 
@@ -53,8 +51,7 @@ export class ThreadPool extends EventTarget {
 		/**
 		 * Keeps track of workers that are currently busy.
 		 *
-		 * @property busyWorkers
-		 * @type WeakSet
+		 * @type {WeakSet}
 		 * @private
 		 */
 
@@ -65,7 +62,6 @@ export class ThreadPool extends EventTarget {
 	/**
 	 * Handles events.
 	 *
-	 * @method handleEvent
 	 * @param {Event} event - An event.
 	 */
 
@@ -75,9 +71,9 @@ export class ThreadPool extends EventTarget {
 
 			case "message":
 				this.busyWorkers.delete(event.target);
-				events.MESSAGE.worker = event.target;
-				events.MESSAGE.data = event.data;
-				this.dispatchEvent(events.MESSAGE);
+				events.message.worker = event.target;
+				events.message.data = event.data;
+				this.dispatchEvent(events.message);
 				break;
 
 			case "error":
@@ -92,7 +88,6 @@ export class ThreadPool extends EventTarget {
 	/**
 	 * Closes a worker.
 	 *
-	 * @method closeWorker
 	 * @param {Worker} worker - The worker to close.
 	 */
 
@@ -127,7 +122,6 @@ export class ThreadPool extends EventTarget {
 	/**
 	 * Creates a new worker.
 	 *
-	 * @method createWorker
 	 * @private
 	 * @return {Worker} The worker.
 	 */
@@ -149,7 +143,6 @@ export class ThreadPool extends EventTarget {
 	 * Polls an available worker and returns it. The worker will be excluded from
 	 * subsequent polls until it finishes its task and sends a message back.
 	 *
-	 * @method getWorker
 	 * @return {Worker} A worker or null if all resources are currently exhausted.
 	 */
 
@@ -190,8 +183,6 @@ export class ThreadPool extends EventTarget {
 
 	/**
 	 * Resets this thread pool by closing all workers.
-	 *
-	 * @method clear
 	 */
 
 	clear() {
@@ -206,8 +197,6 @@ export class ThreadPool extends EventTarget {
 
 	/**
 	 * Removes all active workers and releases the worker program blob.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() {

@@ -13,9 +13,7 @@ import { Intersection } from "./intersection.js";
 /**
  * Finds out which grid points lie inside the area of the given operation.
  *
- * @method computeIndexBounds
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @return {Box3} The index bounds.
@@ -64,9 +62,7 @@ function computeIndexBounds(chunk, operation) {
 /**
  * Combines material indices.
  *
- * @method combineMaterialIndices
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
@@ -104,9 +100,7 @@ function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
 /**
  * Generates material indices.
  *
- * @method generateMaterialIndices
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk
  * @param {DensityFunction} operation - A CSG operation.
  * @param {HermiteData} data - A target data set.
@@ -170,9 +164,7 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
 /**
  * Combines edges.
  *
- * @method combineEdges
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
@@ -338,9 +330,7 @@ function combineEdges(chunk, operation, data0, data1) {
 /**
  * Generates edge data.
  *
- * @method generateEdges
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk
  * @param {DensityFunction} operation - A CSG operation.
  * @param {HermiteData} data - A target data set.
@@ -467,9 +457,7 @@ function generateEdges(chunk, operation, data, bounds) {
 /**
  * Either generates or combines volume data based on the operation type.
  *
- * @method update
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set. May be empty or full.
@@ -529,9 +517,7 @@ function update(chunk, operation, data0, data1) {
 /**
  * Executes the given operation.
  *
- * @method execute
  * @private
- * @static
  * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - An operation.
  * @return {HermiteData} The generated data or null if the data is empty.
@@ -605,10 +591,6 @@ function execute(chunk, operation) {
 /**
  * Constructive Solid Geometry combines Signed Distance Functions by using
  * Boolean operators to generate and transform volume data.
- *
- * @class ConstructiveSolidGeometry
- * @submodule csg
- * @static
  */
 
 export class ConstructiveSolidGeometry {
@@ -619,8 +601,6 @@ export class ConstructiveSolidGeometry {
 	 *  1. Generate data by executing the given SDF
 	 *  2. Combine the generated data with the chunk data
 	 *
-	 * @method run
-	 * @static
 	 * @param {Chunk} chunk - The volume chunk that should be modified.
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */

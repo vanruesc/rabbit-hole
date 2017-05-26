@@ -17,10 +17,6 @@ import { Edge } from "../volume/edge.js";
 /**
  * A chunk helper.
  *
- * @class ChunkHelper
- * @submodule helpers
- * @constructor
- * @extends Object3D
  * @param {Chunk} [chunk=null] - A volume data chunk.
  * @param {Boolean} [useMaterialIndices] - Whether points should be created for solid material indices.
  * @param {Boolean} [useEdgeData] - Whether edges with intersection points and normals should be created.
@@ -28,17 +24,28 @@ import { Edge } from "../volume/edge.js";
 
 export class ChunkHelper extends Object3D {
 
+	/**
+	 * Constructs a new chunk helper.
+	 *
+	 * @param {Chunk} [chunk=null] - A volume data chunk.
+	 * @param {Boolean} [useMaterialIndices] - Whether points should be created for solid material indices.
+	 * @param {Boolean} [useEdgeData] - Whether edges with intersection points and normals should be created.
+	 */
+
 	constructor(chunk = null, useMaterialIndices, useEdgeData) {
 
 		super();
+
+		/**
+		 * The name of this object.
+		 */
 
 		this.name = "ChunkHelper";
 
 		/**
 		 * The volume data chunk.
 		 *
-		 * @property chunk
-		 * @type Chunk
+		 * @type {Chunk}
 		 */
 
 		this.chunk = chunk;
@@ -59,8 +66,7 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * The grid points.
 	 *
-	 * @property gridPoints
-	 * @type Object3D
+	 * @type {Object3D}
 	 */
 
 	get gridPoints() { return this.children[0]; }
@@ -68,8 +74,7 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * The edges.
 	 *
-	 * @property edges
-	 * @type Object3D
+	 * @type {Object3D}
 	 */
 
 	get edges() { return this.children[1]; }
@@ -77,8 +82,7 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * The normals.
 	 *
-	 * @property normals
-	 * @type Object3D
+	 * @type {Object3D}
 	 */
 
 	get normals() { return this.children[2]; }
@@ -86,7 +90,6 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * Creates the helper geometry.
 	 *
-	 * @method update
 	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
 	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
 	 */
@@ -114,7 +117,6 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * Creates points for solid material indices.
 	 *
-	 * @method createPoints
 	 * @private
 	 * @param {Chunk} chunk - A volume data chunk.
 	 */
@@ -185,7 +187,6 @@ export class ChunkHelper extends Object3D {
 	/**
 	 * Creates edges with intersection points and normals.
 	 *
-	 * @method createEdges
 	 * @private
 	 * @param {Chunk} chunk - A volume data chunk.
 	 */
@@ -310,8 +311,6 @@ export class ChunkHelper extends Object3D {
 
 	/**
 	 * Destroys the current helper geometry.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() {

@@ -5,52 +5,50 @@ import { Action } from "./action.js";
 
 /**
  * A hermite data modifier that applies CSG operations to volume chunks.
- *
- * @class VolumeModifier
- * @submodule worker
- * @static
  */
 
-export const VolumeModifier = {
+export class VolumeModifier {
 
 	/**
-	 * An empty chunk of hermite data.
-	 *
-	 * @property chunk
-	 * @type Chunk
-	 * @static
+	 * Constructs a new hermite data modifier.
 	 */
 
-	chunk: new Chunk(),
+	constructor() {
 
-	/**
-	 * A container for the data that will be returned to the main thread.
-	 *
-	 * @property message
-	 * @type Object
-	 * @static
-	 */
+		/**
+		 * An empty chunk of hermite data.
+		 *
+		 * @type {Chunk}
+		 */
 
-	message: {
-		action: Action.MODIFY,
-		chunk: null
-	},
+		this.chunk = new Chunk();
 
-	/**
-	 * A list of transferable objects.
-	 *
-	 * @property transferList
-	 * @type Array
-	 * @static
-	 */
+		/**
+		 * A container for the data that will be returned to the main thread.
+		 *
+		 * @type {Object}
+		 * @property {Action} action - The worker action.
+		 * @property {Chunk} chunk - A serialised volume chunk.
+		 */
 
-	transferList: null,
+		this.message = {
+			action: Action.MODIFY,
+			chunk: null
+		};
+
+		/**
+		 * A list of transferable objects.
+		 *
+		 * @type {ArrayBuffer[]}
+		 */
+
+		this.transferList = null;
+
+	}
 
 	/**
 	 * Modifies the given hermite data.
 	 *
-	 * @method modify
-	 * @static
 	 * @param {Chunk} chunk - A volume chunk.
 	 * @param {Object} sdf - A serialised SDF.
 	 */
@@ -68,4 +66,4 @@ export const VolumeModifier = {
 
 	}
 
-};
+}

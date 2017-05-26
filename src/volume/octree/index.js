@@ -1,8 +1,7 @@
 /**
  * Space partitioning components.
  *
- * @module rabbit-hole
- * @submodule octree
+ * @module rabbit-hole/volume/octree
  */
 
 export { Chunk } from "./chunk.js";

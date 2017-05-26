@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="">
+  <title data-ice="title">Source | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/vanruesc/rabbit-hole.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/history.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/priority-queue.js~PriorityQueue.html">PriorityQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/queue.js~Queue.html">Queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/run-length-encoder.js~RunLengthEncoder.html">RunLengthEncoder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/scheduler.js~Scheduler.html">Scheduler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">events</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/terrain-event.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/worker-event.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">helpers</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/helpers/chunk-helper.js~ChunkHelper.html">ChunkHelper</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">isosurface/dual-contouring</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/index.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_EDGE_MASK">CELL_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_FACE_MASK">CELL_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_MASK">EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_PROC_EDGE_MASK">EDGE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_MAP">FACE_MAP</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_EDGE_MASK">FACE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_FACE_MASK">FACE_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PROC_EDGE_MASK">PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">materials</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/materials/triplanar-physical.js~MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/box3.js~Box3.html">Box3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix3.js~Matrix3.html">Matrix3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/qef-data.js~QEFData.html">QEFData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/qef-solver.js~QEFSolver.html">QEFSolver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/schur.js~Schur.html">Schur</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/singular-value-decomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/symmetric-matrix3.js~SymmetricMatrix3.html">SymmetricMatrix3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector2.js~Vector2.html">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector3.js~Vector3.html">Vector3</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/edge-data.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/hermite-data.js~HermiteData.html">HermiteData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/voxel.js~Voxel.html">Voxel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/csg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/constructive-solid-geometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/density-function.js~DensityFunction.html">DensityFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/difference.js~Difference.html">Difference</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/intersection.js~Intersection.html">Intersection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/operation.js~Operation.html">Operation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/union.js~Union.html">Union</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/octree</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/chunk.js~Chunk.html">Chunk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/volume.js~Volume.html">Volume</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/voxel-block.js~VoxelBlock.html">VoxelBlock</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/voxel-cell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/sdf</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/plane.js~Plane.html">Plane</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/reviver.js~Reviver.html">Reviver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/signed-distance-function.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/sphere.js~Sphere.html">Sphere</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/torus.js~Torus.html">Torus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">worker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/surface-extractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/thread-pool.js~ThreadPool.html">ThreadPool</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/volume-modifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/worker-task.js~WorkerTask.html">WorkerTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">384/395</span></h1>
+
+<table class="files-summary" data-ice="files" data-use-coverage="true">
+  <thead>
+    <tr>
+      <td>File</td>
+      <td>Identifier</td>
+      <td class="coverage">Document</td>
+      <td style="display: none;">Size</td>
+      <td style="display: none;">Lines</td>
+      <td style="display: none;">Updated</td>
+    </tr>
+  </thead>
+  <tbody>
+    
+  <tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/history.js.html">src/core/history.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/history.js~History.html">History</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">6/6</span></td>
+      <td style="display: none;" data-ice="size">1640 byte</td>
+      <td style="display: none;" data-ice="lines">114</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:08:30 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/index.js.html">src/core/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">380 byte</td>
+      <td style="display: none;" data-ice="lines">13</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:04:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/priority-queue.js.html#errorLines=158,56">src/core/priority-queue.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/priority-queue.js~PriorityQueue.html">PriorityQueue</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">8/10</span></td>
+      <td style="display: none;" data-ice="size">2621 byte</td>
+      <td style="display: none;" data-ice="lines">162</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:07:21 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/queue.js.html">src/core/queue.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/queue.js~Queue.html">Queue</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">2429 byte</td>
+      <td style="display: none;" data-ice="lines">177</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:17:24 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/run-length-encoder.js.html">src/core/run-length-encoder.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/run-length-encoder.js~RunLengthEncoder.html">RunLengthEncoder</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">3/3</span></td>
+      <td style="display: none;" data-ice="size">1264 byte</td>
+      <td style="display: none;" data-ice="lines">84</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:16:26 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/scheduler.js.html">src/core/scheduler.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/scheduler.js~Scheduler.html">Scheduler</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">9/9</span></td>
+      <td style="display: none;" data-ice="size">2561 byte</td>
+      <td style="display: none;" data-ice="lines">153</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:14:02 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/task.js.html">src/core/task.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/task.js~Task.html">Task</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">422 byte</td>
+      <td style="display: none;" data-ice="lines">35</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:13:12 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/terrain-events.js.html">src/core/terrain-events.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span>
+<span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span>
+<span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span>
+<span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1178 byte</td>
+      <td style="display: none;" data-ice="lines">45</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 11:55:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/core/terrain.js.html">src/core/terrain.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/core/terrain.js~Terrain.html">Terrain</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">15/15</span></td>
+      <td style="display: none;" data-ice="size">12746 byte</td>
+      <td style="display: none;" data-ice="lines">655</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:10:01 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/events/index.js.html">src/events/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">177 byte</td>
+      <td style="display: none;" data-ice="lines">8</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:05:19 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/events/terrain-event.js.html">src/events/terrain-event.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/events/terrain-event.js~TerrainEvent.html">TerrainEvent</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">3/3</span></td>
+      <td style="display: none;" data-ice="size">388 byte</td>
+      <td style="display: none;" data-ice="lines">30</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:02:04 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/events/worker-event.js.html">src/events/worker-event.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/events/worker-event.js~WorkerEvent.html">WorkerEvent</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">484 byte</td>
+      <td style="display: none;" data-ice="lines">39</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:02:40 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/helpers/chunk-helper.js.html">src/helpers/chunk-helper.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/helpers/chunk-helper.js~ChunkHelper.html">ChunkHelper</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">9/9</span></td>
+      <td style="display: none;" data-ice="size">8068 byte</td>
+      <td style="display: none;" data-ice="lines">343</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:15:16 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/helpers/index.js.html">src/helpers/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">127 byte</td>
+      <td style="display: none;" data-ice="lines">7</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:05:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/index.js.html">src/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">804 byte</td>
+      <td style="display: none;" data-ice="lines">62</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:04:06 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/isosurface/dual-contouring/index.js.html">src/isosurface/dual-contouring/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/isosurface/dual-contouring/index.js~DualContouring.html">DualContouring</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
+      <td style="display: none;" data-ice="size">8137 byte</td>
+      <td style="display: none;" data-ice="lines">388</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:16:15 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/isosurface/dual-contouring/tables.js.html">src/isosurface/dual-contouring/tables.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-CELL_PROC_EDGE_MASK">CELL_PROC_EDGE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-CELL_PROC_FACE_MASK">CELL_PROC_FACE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-EDGE_MASK">EDGE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-EDGE_PROC_EDGE_MASK">EDGE_PROC_EDGE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-FACE_MAP">FACE_MAP</a></span>
+<span><a href="variable/index.html#static-variable-FACE_PROC_EDGE_MASK">FACE_PROC_EDGE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-FACE_PROC_FACE_MASK">FACE_PROC_FACE_MASK</a></span>
+<span><a href="variable/index.html#static-variable-PROC_EDGE_MASK">PROC_EDGE_MASK</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">2953 byte</td>
+      <td style="display: none;" data-ice="lines">163</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:01:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/isosurface/index.js.html">src/isosurface/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">142 byte</td>
+      <td style="display: none;" data-ice="lines">7</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:05:08 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/materials/index.js.html">src/materials/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">162 byte</td>
+      <td style="display: none;" data-ice="lines">7</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:18:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/materials/triplanar-physical-chunks.js.html">src/materials/triplanar-physical-chunks.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">1870 byte</td>
+      <td style="display: none;" data-ice="lines">29</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:19:40 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/materials/triplanar-physical.js.html#errorLines=106">src/materials/triplanar-physical.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/materials/triplanar-physical.js~MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">2770 byte</td>
+      <td style="display: none;" data-ice="lines">148</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:21:43 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/box3.js.html">src/math/box3.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/box3.js~Box3.html">Box3</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">12/12</span></td>
+      <td style="display: none;" data-ice="size">2677 byte</td>
+      <td style="display: none;" data-ice="lines">173</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:32:39 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/givens.js.html">src/math/givens.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/givens.js~Givens.html">Givens</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1938 byte</td>
+      <td style="display: none;" data-ice="lines">103</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:30:06 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/index.js.html">src/math/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">548 byte</td>
+      <td style="display: none;" data-ice="lines">18</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:05:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/matrix3.js.html">src/math/matrix3.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/matrix3.js~Matrix3.html">Matrix3</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">7/7</span></td>
+      <td style="display: none;" data-ice="size">1902 byte</td>
+      <td style="display: none;" data-ice="lines">109</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:23:01 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/qef-data.js.html">src/math/qef-data.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/qef-data.js~QEFData.html">QEFData</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">11/11</span></td>
+      <td style="display: none;" data-ice="size">3242 byte</td>
+      <td style="display: none;" data-ice="lines">206</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:24:13 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/qef-solver.js.html">src/math/qef-solver.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/qef-solver.js~QEFSolver.html">QEFSolver</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">3791 byte</td>
+      <td style="display: none;" data-ice="lines">208</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:25:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/schur.js.html">src/math/schur.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/schur.js~Schur.html">Schur</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">2756 byte</td>
+      <td style="display: none;" data-ice="lines">154</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:26:05 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/singular-value-decomposition.js.html">src/math/singular-value-decomposition.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/singular-value-decomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">3/3</span></td>
+      <td style="display: none;" data-ice="size">5132 byte</td>
+      <td style="display: none;" data-ice="lines">246</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:26:41 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/symmetric-matrix3.js.html">src/math/symmetric-matrix3.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/symmetric-matrix3.js~SymmetricMatrix3.html">SymmetricMatrix3</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">11/11</span></td>
+      <td style="display: none;" data-ice="size">3136 byte</td>
+      <td style="display: none;" data-ice="lines">192</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:27:19 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/vector2.js.html">src/math/vector2.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/vector2.js~Vector2.html">Vector2</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">33/33</span></td>
+      <td style="display: none;" data-ice="size">7395 byte</td>
+      <td style="display: none;" data-ice="lines">487</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:29:48 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/math/vector3.js.html">src/math/vector3.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/vector3.js~Vector3.html">Vector3</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">36/36</span></td>
+      <td style="display: none;" data-ice="size">8962 byte</td>
+      <td style="display: none;" data-ice="lines">559</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:31:19 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/constructive-solid-geometry.js.html">src/volume/csg/constructive-solid-geometry.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/constructive-solid-geometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
+      <td style="display: none;" data-ice="size">14600 byte</td>
+      <td style="display: none;" data-ice="lines">673</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:24:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/density-function.js.html#errorLines=49">src/volume/csg/density-function.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/density-function.js~DensityFunction.html">DensityFunction</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">1460 byte</td>
+      <td style="display: none;" data-ice="lines">81</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:26:12 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/difference.js.html">src/volume/csg/difference.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/difference.js~Difference.html">Difference</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1306 byte</td>
+      <td style="display: none;" data-ice="lines">58</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:26:49 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/index.js.html">src/volume/csg/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">482 byte</td>
+      <td style="display: none;" data-ice="lines">13</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:20:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/intersection.js.html">src/volume/csg/intersection.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/intersection.js~Intersection.html">Intersection</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1407 byte</td>
+      <td style="display: none;" data-ice="lines">56</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:21:01 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/operation-type.js.html">src/volume/csg/operation-type.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">547 byte</td>
+      <td style="display: none;" data-ice="lines">18</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:23:11 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/operation.js.html">src/volume/csg/operation.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/operation.js~Operation.html">Operation</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">5/5</span></td>
+      <td style="display: none;" data-ice="size">1424 byte</td>
+      <td style="display: none;" data-ice="lines">88</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:22:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/csg/union.js.html">src/volume/csg/union.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/csg/union.js~Union.html">Union</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">1468 byte</td>
+      <td style="display: none;" data-ice="lines">66</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:23:34 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/edge-data.js.html">src/volume/edge-data.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/edge-data.js~EdgeData.html">EdgeData</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">2784 byte</td>
+      <td style="display: none;" data-ice="lines">145</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:03:21 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/edge.js.html">src/volume/edge.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/edge.js~Edge.html">Edge</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">9/9</span></td>
+      <td style="display: none;" data-ice="size">3334 byte</td>
+      <td style="display: none;" data-ice="lines">189</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:02:20 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/hermite-data.js.html">src/volume/hermite-data.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/hermite-data.js~HermiteData.html">HermiteData</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">19/19</span></td>
+      <td style="display: none;" data-ice="size">5445 byte</td>
+      <td style="display: none;" data-ice="lines">314</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:16:49 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/index.js.html">src/volume/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">627 byte</td>
+      <td style="display: none;" data-ice="lines">38</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:04:56 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/material.js.html">src/volume/material.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-Material">Material</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">242 byte</td>
+      <td style="display: none;" data-ice="lines">14</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:59:08 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/octree/chunk.js.html#errorLines=100">src/volume/octree/chunk.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/octree/chunk.js~Chunk.html">Chunk</a></span></td>
+      <td class="coverage"><span data-ice="coverage">90 %</span><span data-ice="coverageCount" class="coverage-count">9/10</span></td>
+      <td style="display: none;" data-ice="size">2126 byte</td>
+      <td style="display: none;" data-ice="lines">120</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:19:59 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/octree/index.js.html">src/volume/octree/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">261 byte</td>
+      <td style="display: none;" data-ice="lines">11</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:16:32 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/octree/volume.js.html">src/volume/octree/volume.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/octree/volume.js~Volume.html">Volume</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">10/10</span></td>
+      <td style="display: none;" data-ice="size">5268 byte</td>
+      <td style="display: none;" data-ice="lines">277</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:16:22 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/octree/voxel-block.js.html">src/volume/octree/voxel-block.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/octree/voxel-block.js~VoxelBlock.html">VoxelBlock</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">6644 byte</td>
+      <td style="display: none;" data-ice="lines">300</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:17:50 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/octree/voxel-cell.js.html#errorLines=193">src/volume/octree/voxel-cell.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/octree/voxel-cell.js~VoxelCell.html">VoxelCell</a></span></td>
+      <td class="coverage"><span data-ice="coverage">87 %</span><span data-ice="coverageCount" class="coverage-count">7/8</span></td>
+      <td style="display: none;" data-ice="size">3460 byte</td>
+      <td style="display: none;" data-ice="lines">208</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:19:00 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/box.js.html#errorLines=53">src/volume/sdf/box.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/box.js~Box.html">Box</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">2408 byte</td>
+      <td style="display: none;" data-ice="lines">110</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:04:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/heightfield.js.html#errorLines=63">src/volume/sdf/heightfield.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/heightfield.js~Heightfield.html">Heightfield</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">2355 byte</td>
+      <td style="display: none;" data-ice="lines">113</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:06:35 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/index.js.html">src/volume/sdf/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">461 byte</td>
+      <td style="display: none;" data-ice="lines">15</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:06:10 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/plane.js.html#errorLines=54">src/volume/sdf/plane.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/plane.js~Plane.html">Plane</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">1713 byte</td>
+      <td style="display: none;" data-ice="lines">92</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:06:58 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/reviver.js.html">src/volume/sdf/reviver.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/reviver.js~Reviver.html">Reviver</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">2/2</span></td>
+      <td style="display: none;" data-ice="size">1345 byte</td>
+      <td style="display: none;" data-ice="lines">61</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:07:11 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/sdf-type.js.html">src/volume/sdf/sdf-type.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">491 byte</td>
+      <td style="display: none;" data-ice="lines">20</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:13:48 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/signed-distance-function.js.html">src/volume/sdf/signed-distance-function.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/signed-distance-function.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">13/13</span></td>
+      <td style="display: none;" data-ice="size">5141 byte</td>
+      <td style="display: none;" data-ice="lines">269</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:08:54 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/sphere.js.html#errorLines=53">src/volume/sdf/sphere.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/sphere.js~Sphere.html">Sphere</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">1997 byte</td>
+      <td style="display: none;" data-ice="lines">102</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:11:57 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/sdf/torus.js.html#errorLines=63">src/volume/sdf/torus.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/sdf/torus.js~Torus.html">Torus</a></span></td>
+      <td class="coverage"><span data-ice="coverage">83 %</span><span data-ice="coverageCount" class="coverage-count">5/6</span></td>
+      <td style="display: none;" data-ice="size">2280 byte</td>
+      <td style="display: none;" data-ice="lines">114</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 18:12:46 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/volume/voxel.js.html">src/volume/voxel.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/volume/voxel.js~Voxel.html">Voxel</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">1417 byte</td>
+      <td style="display: none;" data-ice="lines">75</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:56:26 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/action.js.html">src/worker/action.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-Action">Action</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">365 byte</td>
+      <td style="display: none;" data-ice="lines">16</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:39:17 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/index.js.html">src/worker/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">213 byte</td>
+      <td style="display: none;" data-ice="lines">9</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 16:04:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/surface-extractor.js.html">src/worker/surface-extractor.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/worker/surface-extractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">6/6</span></td>
+      <td style="display: none;" data-ice="size">2105 byte</td>
+      <td style="display: none;" data-ice="lines">96</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:10:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/thread-pool-events.js.html">src/worker/thread-pool-events.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-message">message</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">1/1</span></td>
+      <td style="display: none;" data-ice="size">301 byte</td>
+      <td style="display: none;" data-ice="lines">12</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:02:25 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/thread-pool.js.html">src/worker/thread-pool.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/worker/thread-pool.js~ThreadPool.html">ThreadPool</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">8/8</span></td>
+      <td style="display: none;" data-ice="size">3727 byte</td>
+      <td style="display: none;" data-ice="lines">211</td>
+      <td style="display: none;" data-ice="updated">2017-05-06 12:09:18 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/volume-modifier.js.html">src/worker/volume-modifier.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/worker/volume-modifier.js~VolumeModifier.html">VolumeModifier</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">6/6</span></td>
+      <td style="display: none;" data-ice="size">1438 byte</td>
+      <td style="display: none;" data-ice="lines">69</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:49:10 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/worker-task.js.html">src/worker/worker-task.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/worker/worker-task.js~WorkerTask.html">WorkerTask</a></span></td>
+      <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">4/4</span></td>
+      <td style="display: none;" data-ice="size">585 byte</td>
+      <td style="display: none;" data-ice="lines">40</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:33:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/worker/worker.js.html">src/worker/worker.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">1884 byte</td>
+      <td style="display: none;" data-ice="lines">92</td>
+      <td style="display: none;" data-ice="updated">2017-05-05 17:44:04 (UTC)</td>
+    </tr>
+</tbody>
+</table>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

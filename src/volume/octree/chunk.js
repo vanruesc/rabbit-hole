@@ -3,16 +3,16 @@ import { HermiteData } from "../hermite-data.js";
 
 /**
  * A cubic volume chunk.
- *
- * @class Chunk
- * @submodule octree
- * @extends CubicOctant
- * @constructor
- * @param {Vector3} min - The lower bounds.
- * @param {Vector3} max - The size.
  */
 
 export class Chunk extends CubicOctant {
+
+	/**
+	 * Constructs a new volume chunk.
+	 *
+	 * @param {Vector3} min - The lower bounds.
+	 * @param {Vector3} max - The size.
+	 */
 
 	constructor(min, size) {
 
@@ -21,8 +21,7 @@ export class Chunk extends CubicOctant {
 		/**
 		 * Hermite data.
 		 *
-		 * @property data
-		 * @type HermiteData
+		 * @type {HermiteData}
 		 * @default null
 		 */
 
@@ -31,8 +30,7 @@ export class Chunk extends CubicOctant {
 		/**
 		 * A CSG operation queue.
 		 *
-		 * @property csg
-		 * @type Queue
+		 * @type {Queue}
 		 * @default null
 		 */
 
@@ -48,18 +46,20 @@ export class Chunk extends CubicOctant {
 	 *
 	 * This value can only be set once.
 	 *
-	 * @property resolution
-	 * @type Number
+	 * @type {Number}
 	 */
 
 	get resolution() { return HermiteData.resolution; }
+
+	/**
+	 * @type {Number}
+	 */
 
 	set resolution(x) { HermiteData.resolution = x; }
 
 	/**
 	 * Creates a list of transferable items.
 	 *
-	 * @method createTransferList
 	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
 	 * @return {Array} A transfer list.
 	 */
@@ -73,7 +73,6 @@ export class Chunk extends CubicOctant {
 	/**
 	 * Serialises this chunk.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this chunk.
 	 */
 
@@ -91,7 +90,6 @@ export class Chunk extends CubicOctant {
 	/**
 	 * Adopts the given serialised data.
 	 *
-	 * @method deserialise
 	 * @param {Object} object - A serialised chunk description.
 	 */
 

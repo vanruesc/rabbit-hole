@@ -5,26 +5,23 @@ import { OperationType } from "./operation-type.js";
 /**
  * The isovalue.
  *
- * @property ISOVALUE
- * @type Number
+ * @type {Number}
  * @private
- * @static
- * @final
  */
 
 const ISOVALUE = 0.0;
 
 /**
  * An operation that describes a density field.
- *
- * @class DensityFunction
- * @submodule csg
- * @extends Operation
- * @constructor
- * @param {SignedDistanceFunction} sdf - An SDF.
  */
 
 export class DensityFunction extends Operation {
+
+	/**
+	 * Constructs a new density function operation.
+	 *
+	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 */
 
 	constructor(sdf) {
 
@@ -33,8 +30,7 @@ export class DensityFunction extends Operation {
 		/**
 		 * An SDF.
 		 *
-		 * @property sdf
-		 * @type SignedDistanceFunction
+		 * @type {SignedDistanceFunction}
 		 * @private
 		 */
 
@@ -45,7 +41,6 @@ export class DensityFunction extends Operation {
 	/**
 	 * Calculates a bounding box for this operation.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 */
 
@@ -60,7 +55,6 @@ export class DensityFunction extends Operation {
 	/**
 	 * Calculates the material index for the given world position.
 	 *
-	 * @method generateMaterialIndex
 	 * @param {Vector3} position - The world position of the material index.
 	 * @return {Number} The material index.
 	 */
@@ -74,7 +68,6 @@ export class DensityFunction extends Operation {
 	/**
 	 * Generates surface intersection data for the specified edge.
 	 *
-	 * @method generateEdge
 	 * @param {Edge} edge - The edge that should be processed.
 	 */
 

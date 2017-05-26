@@ -1,8 +1,7 @@
 /**
  * Mathematical system components.
  *
- * @module rabbit-hole
- * @submodule math
+ * @module rabbit-hole/math
  */
 
 export { SingularValueDecomposition } from "./singular-value-decomposition.js";

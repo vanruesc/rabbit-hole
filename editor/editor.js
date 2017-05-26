@@ -6,35 +6,34 @@ import { OctreeHelper } from "./octree-helper.js";
 /**
  * A mouse position.
  *
- * @property MOUSE
- * @type Vector2
+ * @type {Vector2}
  * @private
- * @static
- * @final
  */
 
-const MOUSE = new Vector2();
+const mouse = new Vector2();
 
 /**
  * A volume editor.
  *
- * @class Editor
- * @implements EventListener
- * @constructor
- * @param {Terrain} terrain - A terrain instance.
- * @param {Camera} camera - A camera.
- * @param {Element} [dom=document.body] - A dom element.
+ * @implements {EventListener}
  */
 
 export class Editor {
+
+	/**
+	 * Constructs a new volume editor.
+	 *
+	 * @param {Terrain} terrain - A terrain instance.
+	 * @param {Camera} camera - A camera.
+	 * @param {Element} [dom=document.body] - A dom element.
+	 */
 
 	constructor(terrain, camera, dom = document.body) {
 
 		/**
 		 * A terrain.
 		 *
-		 * @property terrain
-		 * @type Terrain
+		 * @type {Terrain}
 		 * @private
 		 */
 
@@ -43,8 +42,7 @@ export class Editor {
 		/**
 		 * A camera.
 		 *
-		 * @property camera
-		 * @type PerspectiveCamera
+		 * @type {PerspectiveCamera}
 		 * @private
 		 */
 
@@ -53,8 +51,7 @@ export class Editor {
 		/**
 		 * A dom element.
 		 *
-		 * @property dom
-		 * @type Element
+		 * @type {Element}
 		 * @private
 		 */
 
@@ -63,8 +60,7 @@ export class Editor {
 		/**
 		 * A raycaster.
 		 *
-		 * @property raycaster
-		 * @type Raycaster
+		 * @type {Raycaster}
 		 * @private
 		 */
 
@@ -73,8 +69,7 @@ export class Editor {
 		/**
 		 * The cursor size.
 		 *
-		 * @property cursorSize
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 */
 
@@ -83,8 +78,7 @@ export class Editor {
 		/**
 		 * The cursor.
 		 *
-		 * @property cursor
-		 * @type Mesh
+		 * @type {Mesh}
 		 */
 
 		this.cursor = new Mesh(
@@ -100,8 +94,7 @@ export class Editor {
 		/**
 		 * An octree helper.
 		 *
-		 * @property octreeHelper
-		 * @type OctreeHelper
+		 * @type {OctreeHelper}
 		 */
 
 		this.octreeHelper = new OctreeHelper(this.terrain.volume);
@@ -110,8 +103,7 @@ export class Editor {
 		/**
 		 * An chunk helper.
 		 *
-		 * @property chunkHelper
-		 * @type ChunkHelper
+		 * @type {ChunkHelper}
 		 */
 
 		this.chunkHelper = new ChunkHelper();
@@ -120,25 +112,18 @@ export class Editor {
 		/**
 		 * A delta time.
 		 *
-		 * @property delta
-		 * @type String
+		 * @type {String}
 		 */
 
 		this.delta = "";
 
 		this.setEnabled(true);
 
-		/*	this.terrain.union(new Sphere({
-				origin: [-32, -32, -32],
-				radius: 21
-			})); */
-
 	}
 
 	/**
 	 * Handles events.
 	 *
-	 * @method handleEvent
 	 * @param {Event} event - An event.
 	 */
 
@@ -173,7 +158,6 @@ export class Editor {
 	/**
 	 * Handles pointer button events.
 	 *
-	 * @method handlePointerEvent
 	 * @private
 	 * @param {MouseEvent} event - A mouse event.
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
@@ -204,7 +188,6 @@ export class Editor {
 	/**
 	 * Handles main pointer button events.
 	 *
-	 * @method handleMain
 	 * @private
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
 	 */
@@ -225,7 +208,6 @@ export class Editor {
 	/**
 	 * Handles auxiliary pointer button events.
 	 *
-	 * @method handleAuxiliary
 	 * @private
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
 	 */
@@ -237,7 +219,6 @@ export class Editor {
 	/**
 	 * Handles secondary pointer button events.
 	 *
-	 * @method handleSecondary
 	 * @private
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
 	 */
@@ -258,7 +239,6 @@ export class Editor {
 	/**
 	 * Handles terrain modifications.
 	 *
-	 * @method handleModification
 	 * @private
 	 * @param {TerrainEvent} event - A terrain modification event.
 	 */
@@ -283,7 +263,6 @@ export class Editor {
 	/**
 	 * Raycasts the terrain.
 	 *
-	 * @method raycast
 	 * @param {MouseEvent} event - A mouse event.
 	 */
 
@@ -292,10 +271,10 @@ export class Editor {
 		const raycaster = this.raycaster;
 		const t0 = performance.now();
 
-		MOUSE.x = (event.clientX / window.innerWidth) * 2 - 1;
-		MOUSE.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-		raycaster.setFromCamera(MOUSE, this.camera);
+		raycaster.setFromCamera(mouse, this.camera);
 		const intersects = this.terrain.raycast(raycaster);
 
 		this.delta = (performance.now() - t0).toFixed(2) + " ms";
@@ -315,7 +294,6 @@ export class Editor {
 	/**
 	 * Enables or disables this editor.
 	 *
-	 * @method setEnabled
 	 * @param {Boolean} enabled - Whether this editor should be enabled or disabled.
 	 */
 
@@ -351,16 +329,12 @@ export class Editor {
 
 	/**
 	 * Removes all event listeners.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() { this.setEnabled(false); }
 
 	/**
 	 * Saves memory usage information about the current volume data.
-	 *
-	 * @method logMemory
 	 */
 
 	logMemory() {
@@ -454,8 +428,6 @@ export class Editor {
 
 	/**
 	 * Saves a snapshot of the current terrain data.
-	 *
-	 * @method save
 	 */
 
 	save() {
@@ -470,7 +442,6 @@ export class Editor {
 	/**
 	 * Registers configuration options.
 	 *
-	 * @method configure
 	 * @param {GUI} gui - A GUI.
 	 */
 

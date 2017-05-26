@@ -1,8 +1,7 @@
 /**
  * A collection of events.
  *
- * @module rabbit-hole
- * @submodule events
+ * @module rabbit-hole/events
  */
 
 export { TerrainEvent } from "./terrain-event.js";

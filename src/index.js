@@ -2,7 +2,6 @@
  * Exposure of the library components.
  *
  * @module rabbit-hole
- * @main rabbit-hole
  */
 
 export {

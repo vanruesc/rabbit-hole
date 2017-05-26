@@ -6,21 +6,16 @@ import { Chunk } from "./chunk.js";
 /**
  * A computation helper.
  *
- * @property BOX3
- * @type Box3
+ * @type {Box3}
  * @private
- * @static
- * @final
  */
 
-const BOX3 = new Box3();
+const box3 = new Box3();
 
 /**
  * Rounds the given number up to the next power of two.
  *
- * @method ceil2
  * @private
- * @static
  * @param {Number} n - A number.
  * @return {Number} The next power of two.
  */
@@ -29,28 +24,31 @@ function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
 
 /**
  * A cubic octree that maintains volume chunks.
- *
- * @class Volume
- * @submodule octree
- * @extends Octree
- * @constructor
- * @param {Number} [chunkSize=32] - The size of leaf chunks. Will be rounded up to the next power of two.
- * @param {Number} [resolution=32] - The data resolution of leaf chunks. Will be rounded up to the next power of two. The upper limit is 256.
  */
 
 export class Volume extends Octree {
 
+	/**
+	 * Constructs a new volume octree.
+	 *
+	 * @param {Number} [chunkSize=32] - The size of leaf chunks. Will be rounded up to the next power of two.
+	 * @param {Number} [resolution=32] - The data resolution of leaf chunks. Will be rounded up to the next power of two. The upper limit is 256.
+	 */
+
 	constructor(chunkSize = 32, resolution = 32) {
 
 		super();
+
+		/**
+		 * The root octant.
+		 */
 
 		this.root = new Chunk();
 
 		/**
 		 * The size of a volume chunk.
 		 *
-		 * @property chunkSize
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 * @default 32
 		 */
@@ -67,19 +65,21 @@ export class Volume extends Octree {
 	/**
 	 * The size of the root octant.
 	 *
-	 * @property size
-	 * @type Number
+	 * @type {Number}
 	 */
 
 	get size() { return this.root.size; }
+
+	/**
+	 * @type {Number}
+	 */
 
 	set size(x) { this.root.size = x; }
 
 	/**
 	 * The resolution of the volume data.
 	 *
-	 * @property resolution
-	 * @type Number
+	 * @type {Number}
 	 */
 
 	get resolution() { return this.root.resolution; }
@@ -88,7 +88,6 @@ export class Volume extends Octree {
 	 * Creates leaf octants in the specified region and returns them together with
 	 * existing ones.
 	 *
-	 * @method grow
 	 * @private
 	 * @param {Chunk} octant - An octant.
 	 * @param {Frustum|Box3} region - A region.
@@ -101,10 +100,10 @@ export class Volume extends Octree {
 		let children = octant.children;
 		let i, l;
 
-		BOX3.min = octant.min;
-		BOX3.max = octant.max;
+		box3.min = octant.min;
+		box3.max = octant.max;
 
-		if(region.intersectsBox(BOX3)) {
+		if(region.intersectsBox(box3)) {
 
 			if(children === null && octant.size > size) {
 
@@ -134,7 +133,6 @@ export class Volume extends Octree {
 	/**
 	 * Edits this volume.
 	 *
-	 * @method edit
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 * @return {Array} The chunks that lie inside the operation's region, including newly created ones.
 	 */
@@ -170,7 +168,6 @@ export class Volume extends Octree {
 	/**
 	 * Expands the volume to include the given region.
 	 *
-	 * @method expand
 	 * @private
 	 * @param {Box3} region - A region.
 	 */
@@ -239,7 +236,6 @@ export class Volume extends Octree {
 	/**
 	 * Removes the given chunk and shrinks the volume if possible.
 	 *
-	 * @method prune
 	 * @param {Chunk} chunk - A chunk to remove.
 	 * @todo
 	 */
@@ -251,7 +247,6 @@ export class Volume extends Octree {
 	/**
 	 * Loads a volume.
 	 *
-	 * @method load
 	 * @param {String} data - The volume data to import.
 	 */
 
@@ -266,7 +261,6 @@ export class Volume extends Octree {
 	/**
 	 * Creates a compact representation of the current volume data.
 	 *
-	 * @method toJSON
 	 * @return {Object} A concise representation of this volume.
 	 */
 

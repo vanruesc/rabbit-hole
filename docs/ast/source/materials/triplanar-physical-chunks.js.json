@@ -1,0 +1,1811 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "ShaderChunk",
+            "range": [
+              9,
+              20
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "line": 1,
+                "column": 20
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "ShaderChunk",
+            "range": [
+              9,
+              20
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "line": 1,
+                "column": 20
+              }
+            }
+          },
+          "range": [
+            9,
+            20
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 20
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "three",
+        "raw": "\"three\"",
+        "range": [
+          28,
+          35
+        ],
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 28
+          },
+          "end": {
+            "line": 1,
+            "column": 35
+          }
+        }
+      },
+      "range": [
+        0,
+        36
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 36
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "alphamapTriplanarFragment",
+            "range": [
+              47,
+              72
+            ],
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 32
+              }
+            }
+          },
+          "range": [
+            47,
+            72
+          ],
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 7
+            },
+            "end": {
+              "line": 3,
+              "column": 32
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/alphamap.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/alphamap.triplanar.frag\"",
+        "range": [
+          78,
+          129
+        ],
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 38
+          },
+          "end": {
+            "line": 3,
+            "column": 89
+          }
+        }
+      },
+      "range": [
+        40,
+        130
+      ],
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 90
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "emissivemapTriplanarFragment",
+            "range": [
+              139,
+              167
+            ],
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 7
+              },
+              "end": {
+                "line": 4,
+                "column": 35
+              }
+            }
+          },
+          "range": [
+            139,
+            167
+          ],
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 7
+            },
+            "end": {
+              "line": 4,
+              "column": 35
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/emissivemap.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/emissivemap.triplanar.frag\"",
+        "range": [
+          173,
+          227
+        ],
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 41
+          },
+          "end": {
+            "line": 4,
+            "column": 95
+          }
+        }
+      },
+      "range": [
+        132,
+        228
+      ],
+      "loc": {
+        "start": {
+          "line": 4,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 96
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "mapTriplanarParsFragment",
+            "range": [
+              237,
+              261
+            ],
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 7
+              },
+              "end": {
+                "line": 5,
+                "column": 31
+              }
+            }
+          },
+          "range": [
+            237,
+            261
+          ],
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 7
+            },
+            "end": {
+              "line": 5,
+              "column": 31
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/map.triplanar.pars.frag",
+        "raw": "\"./glsl/triplanar-physical/map.triplanar.pars.frag\"",
+        "range": [
+          267,
+          318
+        ],
+        "loc": {
+          "start": {
+            "line": 5,
+            "column": 37
+          },
+          "end": {
+            "line": 5,
+            "column": 88
+          }
+        }
+      },
+      "range": [
+        230,
+        319
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 89
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "mapTriplanarFragment",
+            "range": [
+              328,
+              348
+            ],
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 7
+              },
+              "end": {
+                "line": 6,
+                "column": 27
+              }
+            }
+          },
+          "range": [
+            328,
+            348
+          ],
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 7
+            },
+            "end": {
+              "line": 6,
+              "column": 27
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/map.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/map.triplanar.frag\"",
+        "range": [
+          354,
+          400
+        ],
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 33
+          },
+          "end": {
+            "line": 6,
+            "column": 79
+          }
+        }
+      },
+      "range": [
+        321,
+        401
+      ],
+      "loc": {
+        "start": {
+          "line": 6,
+          "column": 0
+        },
+        "end": {
+          "line": 6,
+          "column": 80
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "metalnessmapTriplanarFragment",
+            "range": [
+              410,
+              439
+            ],
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 7
+              },
+              "end": {
+                "line": 7,
+                "column": 36
+              }
+            }
+          },
+          "range": [
+            410,
+            439
+          ],
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 7
+            },
+            "end": {
+              "line": 7,
+              "column": 36
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/metalnessmap.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/metalnessmap.triplanar.frag\"",
+        "range": [
+          445,
+          500
+        ],
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 42
+          },
+          "end": {
+            "line": 7,
+            "column": 97
+          }
+        }
+      },
+      "range": [
+        403,
+        501
+      ],
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 98
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "normalTriplanarFragment",
+            "range": [
+              510,
+              533
+            ],
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 7
+              },
+              "end": {
+                "line": 8,
+                "column": 30
+              }
+            }
+          },
+          "range": [
+            510,
+            533
+          ],
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 7
+            },
+            "end": {
+              "line": 8,
+              "column": 30
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/normal.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/normal.triplanar.frag\"",
+        "range": [
+          539,
+          588
+        ],
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 36
+          },
+          "end": {
+            "line": 8,
+            "column": 85
+          }
+        }
+      },
+      "range": [
+        503,
+        589
+      ],
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 86
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "normalmapTriplanarParsFragment",
+            "range": [
+              598,
+              628
+            ],
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 7
+              },
+              "end": {
+                "line": 9,
+                "column": 37
+              }
+            }
+          },
+          "range": [
+            598,
+            628
+          ],
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 37
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/normalmap.triplanar.pars.frag",
+        "raw": "\"./glsl/triplanar-physical/normalmap.triplanar.pars.frag\"",
+        "range": [
+          634,
+          691
+        ],
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 43
+          },
+          "end": {
+            "line": 9,
+            "column": 100
+          }
+        }
+      },
+      "range": [
+        591,
+        692
+      ],
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 101
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "roughnessmapTriplanarFragment",
+            "range": [
+              701,
+              730
+            ],
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 7
+              },
+              "end": {
+                "line": 10,
+                "column": 36
+              }
+            }
+          },
+          "range": [
+            701,
+            730
+          ],
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 10,
+              "column": 36
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/roughnessmap.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/roughnessmap.triplanar.frag\"",
+        "range": [
+          736,
+          791
+        ],
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 42
+          },
+          "end": {
+            "line": 10,
+            "column": 97
+          }
+        }
+      },
+      "range": [
+        694,
+        792
+      ],
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 98
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "specularmapTriplanarFragment",
+            "range": [
+              801,
+              829
+            ],
+            "loc": {
+              "start": {
+                "line": 11,
+                "column": 7
+              },
+              "end": {
+                "line": 11,
+                "column": 35
+              }
+            }
+          },
+          "range": [
+            801,
+            829
+          ],
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 7
+            },
+            "end": {
+              "line": 11,
+              "column": 35
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/specularmap.triplanar.frag",
+        "raw": "\"./glsl/triplanar-physical/specularmap.triplanar.frag\"",
+        "range": [
+          835,
+          889
+        ],
+        "loc": {
+          "start": {
+            "line": 11,
+            "column": 41
+          },
+          "end": {
+            "line": 11,
+            "column": 95
+          }
+        }
+      },
+      "range": [
+        794,
+        890
+      ],
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 0
+        },
+        "end": {
+          "line": 11,
+          "column": 96
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "triplanarParsFragment",
+            "range": [
+              899,
+              920
+            ],
+            "loc": {
+              "start": {
+                "line": 12,
+                "column": 7
+              },
+              "end": {
+                "line": 12,
+                "column": 28
+              }
+            }
+          },
+          "range": [
+            899,
+            920
+          ],
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 7
+            },
+            "end": {
+              "line": 12,
+              "column": 28
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/triplanar.pars.frag",
+        "raw": "\"./glsl/triplanar-physical/triplanar.pars.frag\"",
+        "range": [
+          926,
+          973
+        ],
+        "loc": {
+          "start": {
+            "line": 12,
+            "column": 34
+          },
+          "end": {
+            "line": 12,
+            "column": 81
+          }
+        }
+      },
+      "range": [
+        892,
+        974
+      ],
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 12,
+          "column": 82
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "triplanarParsVertex",
+            "range": [
+              983,
+              1002
+            ],
+            "loc": {
+              "start": {
+                "line": 13,
+                "column": 7
+              },
+              "end": {
+                "line": 13,
+                "column": 26
+              }
+            }
+          },
+          "range": [
+            983,
+            1002
+          ],
+          "loc": {
+            "start": {
+              "line": 13,
+              "column": 7
+            },
+            "end": {
+              "line": 13,
+              "column": 26
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/triplanar.pars.vert",
+        "raw": "\"./glsl/triplanar-physical/triplanar.pars.vert\"",
+        "range": [
+          1008,
+          1055
+        ],
+        "loc": {
+          "start": {
+            "line": 13,
+            "column": 32
+          },
+          "end": {
+            "line": 13,
+            "column": 79
+          }
+        }
+      },
+      "range": [
+        976,
+        1056
+      ],
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 0
+        },
+        "end": {
+          "line": 13,
+          "column": 80
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "triplanarVertex",
+            "range": [
+              1065,
+              1080
+            ],
+            "loc": {
+              "start": {
+                "line": 14,
+                "column": 7
+              },
+              "end": {
+                "line": 14,
+                "column": 22
+              }
+            }
+          },
+          "range": [
+            1065,
+            1080
+          ],
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 7
+            },
+            "end": {
+              "line": 14,
+              "column": 22
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./glsl/triplanar-physical/triplanar.vert",
+        "raw": "\"./glsl/triplanar-physical/triplanar.vert\"",
+        "range": [
+          1086,
+          1128
+        ],
+        "loc": {
+          "start": {
+            "line": 14,
+            "column": 28
+          },
+          "end": {
+            "line": 14,
+            "column": 70
+          }
+        }
+      },
+      "range": [
+        1058,
+        1129
+      ],
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 0
+        },
+        "end": {
+          "line": 14,
+          "column": 71
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "CallExpression",
+        "callee": {
+          "type": "MemberExpression",
+          "computed": false,
+          "object": {
+            "type": "Identifier",
+            "name": "Object",
+            "range": [
+              1133,
+              1139
+            ],
+            "loc": {
+              "start": {
+                "line": 16,
+                "column": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 6
+              }
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "name": "assign",
+            "range": [
+              1140,
+              1146
+            ],
+            "loc": {
+              "start": {
+                "line": 16,
+                "column": 7
+              },
+              "end": {
+                "line": 16,
+                "column": 13
+              }
+            }
+          },
+          "range": [
+            1133,
+            1146
+          ],
+          "loc": {
+            "start": {
+              "line": 16,
+              "column": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 13
+            }
+          }
+        },
+        "arguments": [
+          {
+            "type": "Identifier",
+            "name": "ShaderChunk",
+            "range": [
+              1147,
+              1158
+            ],
+            "loc": {
+              "start": {
+                "line": 16,
+                "column": 14
+              },
+              "end": {
+                "line": 16,
+                "column": 25
+              }
+            }
+          },
+          {
+            "type": "ObjectExpression",
+            "properties": [
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "alphamap_triplanar_fragment",
+                  "raw": "\"alphamap_triplanar_fragment\"",
+                  "range": [
+                    1164,
+                    1193
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 30
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "alphamapTriplanarFragment",
+                  "range": [
+                    1195,
+                    1220
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 17,
+                      "column": 32
+                    },
+                    "end": {
+                      "line": 17,
+                      "column": 57
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1164,
+                  1220
+                ],
+                "loc": {
+                  "start": {
+                    "line": 17,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 57
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "emissivemap_triplanar_fragment",
+                  "raw": "\"emissivemap_triplanar_fragment\"",
+                  "range": [
+                    1224,
+                    1256
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 18,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 33
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "emissivemapTriplanarFragment",
+                  "range": [
+                    1258,
+                    1286
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 18,
+                      "column": 35
+                    },
+                    "end": {
+                      "line": 18,
+                      "column": 63
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1224,
+                  1286
+                ],
+                "loc": {
+                  "start": {
+                    "line": 18,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 63
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "map_triplanar_pars_fragment",
+                  "raw": "\"map_triplanar_pars_fragment\"",
+                  "range": [
+                    1290,
+                    1319
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 19,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 30
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "mapTriplanarParsFragment",
+                  "range": [
+                    1321,
+                    1345
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 19,
+                      "column": 32
+                    },
+                    "end": {
+                      "line": 19,
+                      "column": 56
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1290,
+                  1345
+                ],
+                "loc": {
+                  "start": {
+                    "line": 19,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 56
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "map_triplanar_fragment",
+                  "raw": "\"map_triplanar_fragment\"",
+                  "range": [
+                    1349,
+                    1373
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 20,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 25
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "mapTriplanarFragment",
+                  "range": [
+                    1375,
+                    1395
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 20,
+                      "column": 27
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 47
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1349,
+                  1395
+                ],
+                "loc": {
+                  "start": {
+                    "line": 20,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 47
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "metalnessmap_triplanar_fragment",
+                  "raw": "\"metalnessmap_triplanar_fragment\"",
+                  "range": [
+                    1399,
+                    1432
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 21,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 34
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "metalnessmapTriplanarFragment",
+                  "range": [
+                    1434,
+                    1463
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 21,
+                      "column": 36
+                    },
+                    "end": {
+                      "line": 21,
+                      "column": 65
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1399,
+                  1463
+                ],
+                "loc": {
+                  "start": {
+                    "line": 21,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 21,
+                    "column": 65
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "normal_triplanar_fragment",
+                  "raw": "\"normal_triplanar_fragment\"",
+                  "range": [
+                    1467,
+                    1494
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 22,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 28
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "normalTriplanarFragment",
+                  "range": [
+                    1496,
+                    1519
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 22,
+                      "column": 30
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 53
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1467,
+                  1519
+                ],
+                "loc": {
+                  "start": {
+                    "line": 22,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 22,
+                    "column": 53
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "normalmap_triplanar_pars_fragment",
+                  "raw": "\"normalmap_triplanar_pars_fragment\"",
+                  "range": [
+                    1523,
+                    1558
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 23,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 36
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "normalmapTriplanarParsFragment",
+                  "range": [
+                    1560,
+                    1590
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 23,
+                      "column": 38
+                    },
+                    "end": {
+                      "line": 23,
+                      "column": 68
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1523,
+                  1590
+                ],
+                "loc": {
+                  "start": {
+                    "line": 23,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 68
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "roughnessmap_triplanar_fragment",
+                  "raw": "\"roughnessmap_triplanar_fragment\"",
+                  "range": [
+                    1594,
+                    1627
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 24,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 34
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "roughnessmapTriplanarFragment",
+                  "range": [
+                    1629,
+                    1658
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 24,
+                      "column": 36
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 65
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1594,
+                  1658
+                ],
+                "loc": {
+                  "start": {
+                    "line": 24,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 65
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "specularmap_triplanar_fragment",
+                  "raw": "\"specularmap_triplanar_fragment\"",
+                  "range": [
+                    1662,
+                    1694
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 25,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 33
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "specularmapTriplanarFragment",
+                  "range": [
+                    1696,
+                    1724
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 25,
+                      "column": 35
+                    },
+                    "end": {
+                      "line": 25,
+                      "column": 63
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1662,
+                  1724
+                ],
+                "loc": {
+                  "start": {
+                    "line": 25,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 25,
+                    "column": 63
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "triplanar_pars_fragment",
+                  "raw": "\"triplanar_pars_fragment\"",
+                  "range": [
+                    1728,
+                    1753
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 26,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 26
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "triplanarParsFragment",
+                  "range": [
+                    1755,
+                    1776
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 26,
+                      "column": 28
+                    },
+                    "end": {
+                      "line": 26,
+                      "column": 49
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1728,
+                  1776
+                ],
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 49
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "triplanar_pars_vertex",
+                  "raw": "\"triplanar_pars_vertex\"",
+                  "range": [
+                    1780,
+                    1803
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 27,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 24
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "triplanarParsVertex",
+                  "range": [
+                    1805,
+                    1824
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 27,
+                      "column": 26
+                    },
+                    "end": {
+                      "line": 27,
+                      "column": 45
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1780,
+                  1824
+                ],
+                "loc": {
+                  "start": {
+                    "line": 27,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 27,
+                    "column": 45
+                  }
+                }
+              },
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "triplanar_vertex",
+                  "raw": "\"triplanar_vertex\"",
+                  "range": [
+                    1828,
+                    1846
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 28,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 19
+                    }
+                  }
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "triplanarVertex",
+                  "range": [
+                    1848,
+                    1863
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 28,
+                      "column": 21
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 36
+                    }
+                  }
+                },
+                "kind": "init",
+                "method": false,
+                "shorthand": false,
+                "computed": false,
+                "range": [
+                  1828,
+                  1863
+                ],
+                "loc": {
+                  "start": {
+                    "line": 28,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 36
+                  }
+                }
+              }
+            ],
+            "range": [
+              1160,
+              1866
+            ],
+            "loc": {
+              "start": {
+                "line": 16,
+                "column": 27
+              },
+              "end": {
+                "line": 29,
+                "column": 1
+              }
+            }
+          }
+        ],
+        "range": [
+          1133,
+          1867
+        ],
+        "loc": {
+          "start": {
+            "line": 16,
+            "column": 0
+          },
+          "end": {
+            "line": 29,
+            "column": 2
+          }
+        }
+      },
+      "range": [
+        1133,
+        1868
+      ],
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 0
+        },
+        "end": {
+          "line": 29,
+          "column": 3
+        }
+      }
+    }
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    1868
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 29,
+      "column": 3
+    }
+  },
+  "comments": []
+}

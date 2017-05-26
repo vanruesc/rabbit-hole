@@ -1,15 +1,12 @@
 import { WorkerEvent } from "../events/worker-event.js";
 
 /**
- * @submodule worker
- */
-
-/**
  * A worker message event.
  *
- * @event message
- * @for ThreadPool
- * @type WorkerEvent
+ * This event is dispatched by {@link ThreadPool}.
+ *
+ * @type {WorkerEvent}
+ * @example threadPool.addEventListener("message", myListener);
  */
 
-export const MESSAGE = new WorkerEvent("message");
+export const message = new WorkerEvent("message");

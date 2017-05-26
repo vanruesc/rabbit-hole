@@ -14,6 +14,12 @@ import { OperationType } from "./operation-type.js";
 
 export class Union extends Operation {
 
+	/**
+	 * Constructs a new union operation.
+	 *
+	 * @param {...Operation} children - Child operations.
+	 */
+
 	constructor(...children) {
 
 		super(OperationType.UNION, ...children);
@@ -23,7 +29,6 @@ export class Union extends Operation {
 	/**
 	 * Updates the specified material index.
 	 *
-	 * @method updateMaterialIndex
 	 * @param {Number} index - The index of the material index that needs to be updated.
 	 * @param {HermiteData} data0 - The target volume data.
 	 * @param {HermiteData} data1 - Predominant volume data.
@@ -44,7 +49,6 @@ export class Union extends Operation {
 	/**
 	 * Selects the edge that is closer to the non-solid grid point.
 	 *
-	 * @method selectEdge
 	 * @param {Edge} edge0 - An existing edge.
 	 * @param {Edge} edge1 - A predominant edge.
 	 * @param {Boolean} s - Whether the starting point of the edge is solid.

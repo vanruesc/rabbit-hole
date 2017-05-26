@@ -1,21 +1,21 @@
 /**
  * A task.
- *
- * @class Task
- * @submodule core
- * @constructor
- * @param {Number} [priority=0] - The priority.
  */
 
 export class Task {
+
+	/**
+	 * Constructs a new task.
+	 *
+	 * @param {Number} [priority=0] - The priority.
+	 */
 
 	constructor(priority = 0) {
 
 		/**
 		 * The priority of this task.
 		 *
-		 * @property priority
-		 * @type Number
+		 * @type {Number}
 		 * @default 0
 		 */
 
@@ -24,8 +24,7 @@ export class Task {
 		/**
 		 * The index of this task.
 		 *
-		 * @property index
-		 * @type Number
+		 * @type {Number}
 		 * @default -1
 		 */
 

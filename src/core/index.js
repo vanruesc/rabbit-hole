@@ -1,8 +1,7 @@
 /**
  * Core components.
  *
- * @module rabbit-hole
- * @submodule core
+ * @module rabbit-hole/core
  */
 
 export { History } from "./history.js";

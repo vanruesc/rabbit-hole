@@ -1,43 +1,16 @@
 /**
  * An enumeration of mouse buttons.
  *
- * @class Button
- * @static
+ * @type {Object}
+ * @property {Number} MAIN - The main mouse button, usually the left one.
+ * @property {Number} AUXILIARY - The auxiliary mouse button, usually the middle one.
+ * @property {Number} SECONDARY - The secondary mouse button, usually the right one.
  */
 
 export const Button = {
 
-	/**
-	 * The main mouse button, usually the left one.
-	 *
-	 * @property MAIN
-	 * @type Number
-	 * @static
-	 * @final
-	 */
-
 	MAIN: 0,
-
-	/**
-	 * The auxiliary mouse button, usually the middle one.
-	 *
-	 * @property AUXILIARY
-	 * @type Number
-	 * @static
-	 * @final
-	 */
-
 	AUXILIARY: 1,
-
-	/**
-	 * The secondary mouse button, usually the right one.
-	 *
-	 * @property SECONDARY
-	 * @type Number
-	 * @static
-	 * @final
-	 */
-
 	SECONDARY: 2
 
 };

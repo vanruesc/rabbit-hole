@@ -3,19 +3,27 @@ import { VolumeModifier } from "./volume-modifier.js";
 import { Action } from "./action.js";
 
 /**
- * A worker thread that processes volume data.
+ * A surface extractor.
  *
- * @class Worker
- * @submodule worker
- * @static
+ * @type {SurfaceExtractor}
+ * @private
  */
+
+const surfaceExtractor = new SurfaceExtractor();
+
+/**
+ * A volume modifier.
+ *
+ * @type {VolumeModifier}
+ * @private
+ */
+
+const volumeModifier = new VolumeModifier();
 
 /**
  * Receives and handles messages from the main thread.
  *
- * @method onMessage
  * @private
- * @static
  * @param {Event} event - A message event containing data from the main thread.
  */
 
@@ -26,13 +34,13 @@ self.addEventListener("message", function onMessage(event) {
 	switch(data.action) {
 
 		case Action.EXTRACT:
-			SurfaceExtractor.extract(data.chunk);
-			postMessage(SurfaceExtractor.message, SurfaceExtractor.transferList);
+			surfaceExtractor.extract(data.chunk);
+			postMessage(surfaceExtractor.message, surfaceExtractor.transferList);
 			break;
 
 		case Action.MODIFY:
-			VolumeModifier.modify(data.chunk, data.sdf);
-			postMessage(VolumeModifier.message, VolumeModifier.transferList);
+			volumeModifier.modify(data.chunk, data.sdf);
+			postMessage(volumeModifier.message, volumeModifier.transferList);
 			break;
 
 		case Action.CLOSE:
@@ -46,9 +54,7 @@ self.addEventListener("message", function onMessage(event) {
 /**
  * Returns all data to the main thread and closes the worker.
  *
- * @method onError
  * @private
- * @static
  * @param {Event} event - An error event.
  */
 
@@ -63,8 +69,8 @@ self.addEventListener("error", function onError(event) {
 	const transferList = [];
 
 	const chunks = [
-		SurfaceExtractor.chunk,
-		VolumeModifier.chunk
+		surfaceExtractor.chunk,
+		volumeModifier.chunk
 	];
 
 	// Find out which operator has the data.

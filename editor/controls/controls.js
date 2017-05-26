@@ -6,11 +6,8 @@ import { Key } from "./key.js";
 /**
  * Two PI.
  *
- * @property TWO_PI
- * @type Number
+ * @type {Number}
  * @private
- * @static
- * @final
  */
 
 const TWO_PI = 2 * Math.PI;
@@ -18,22 +15,24 @@ const TWO_PI = 2 * Math.PI;
 /**
  * Movement controls driven by user input.
  *
- * @class Controls
- * @implements EventListener
- * @constructor
- * @param {Object3D} object - An object, usually a camera.
- * @param {Element} [dom=document.body] - A dom element.
+ * @implements {EventListener}
  */
 
 export class Controls {
+
+	/**
+	 * Constructs new controls.
+	 *
+	 * @param {Object3D} object - An object, usually a camera.
+	 * @param {Element} [dom=document.body] - A dom element.
+	 */
 
 	constructor(object, dom = document.body) {
 
 		/**
 		 * An object.
 		 *
-		 * @property object
-		 * @type Object3D
+		 * @type {Object3D}
 		 * @private
 		 */
 
@@ -42,8 +41,7 @@ export class Controls {
 		/**
 		 * A dom element.
 		 *
-		 * @property dom
-		 * @type Element
+		 * @type {Element}
 		 */
 
 		this.dom = dom;
@@ -51,8 +49,7 @@ export class Controls {
 		/**
 		 * A target.
 		 *
-		 * @property target
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -61,8 +58,7 @@ export class Controls {
 		/**
 		 * A spherical coordinate system.
 		 *
-		 * @property spherical
-		 * @type Spherical
+		 * @type {Spherical}
 		 * @private
 		 */
 
@@ -71,8 +67,7 @@ export class Controls {
 		/**
 		 * The camera movement speed.
 		 *
-		 * @property movementSpeed
-		 * @type Number
+		 * @type {Number}
 		 * @default 1.0
 		 */
 
@@ -81,8 +76,7 @@ export class Controls {
 		/**
 		 * A camera movement boost speed.
 		 *
-		 * @property boostSpeed
-		 * @type Number
+		 * @type {Number}
 		 * @default 2.0
 		 */
 
@@ -91,8 +85,7 @@ export class Controls {
 		/**
 		 * The camera look speed.
 		 *
-		 * @property lookSpeed
-		 * @type Number
+		 * @type {Number}
 		 * @default 0.002
 		 */
 
@@ -101,8 +94,7 @@ export class Controls {
 		/**
 		 * A movement state.
 		 *
-		 * @property state
-		 * @type MovementState
+		 * @type {MovementState}
 		 * @private
 		 */
 
@@ -115,7 +107,6 @@ export class Controls {
 	/**
 	 * Handles events.
 	 *
-	 * @method handleEvent
 	 * @param {Event} event - An event.
 	 */
 
@@ -154,7 +145,6 @@ export class Controls {
 	/**
 	 * Enables or disables the look controls based on the pointer lock state.
 	 *
-	 * @method handlePointerLock
 	 * @private
 	 */
 
@@ -175,7 +165,6 @@ export class Controls {
 	/**
 	 * Handles pointer events.
 	 *
-	 * @method handlePointerEvent
 	 * @private
 	 * @param {MouseEvent} event - A mouse event.
 	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
@@ -206,7 +195,6 @@ export class Controls {
 	/**
 	 * Handles main pointer button events.
 	 *
-	 * @method handleMain
 	 * @private
 	 * @param {Boolean} pressed - Whether the pointer button has been pressed down.
 	 */
@@ -236,7 +224,6 @@ export class Controls {
 	/**
 	 * Handles auxiliary pointer button events.
 	 *
-	 * @method handleAuxiliary
 	 * @private
 	 * @param {Boolean} pressed - Whether the pointer button has been pressed down.
 	 */
@@ -262,7 +249,6 @@ export class Controls {
 	/**
 	 * Changes the movement state.
 	 *
-	 * @method changeMovementState
 	 * @private
 	 * @param {KeyboardEvent} event - A keyboard event.
 	 * @param {Boolean} s - The target state.
@@ -314,7 +300,6 @@ export class Controls {
 	/**
 	 * Rotates the object.
 	 *
-	 * @method look
 	 * @private
 	 * @param {MouseEvent} event - A mouse event.
 	 */
@@ -338,7 +323,6 @@ export class Controls {
 	/**
 	 * Moves the object.
 	 *
-	 * @method move
 	 * @private
 	 * @param {Number} delta - A delta time, in seconds.
 	 */
@@ -385,7 +369,6 @@ export class Controls {
 	/**
 	 * Updates the controls to advance movement calculations.
 	 *
-	 * @method update
 	 * @private
 	 * @param {Number} delta - A delta time, in seconds.
 	 */
@@ -399,7 +382,6 @@ export class Controls {
 	/**
 	 * Focuses the object on the given target.
 	 *
-	 * @method focus
 	 * @param {Vector3} target - A target.
 	 */
 
@@ -414,7 +396,6 @@ export class Controls {
 	/**
 	 * Enables or disables the controls.
 	 *
-	 * @method setEnabled
 	 * @param {Boolean} enabled - Whether the controls should be enabled or disabled.
 	 */
 
@@ -453,8 +434,6 @@ export class Controls {
 
 	/**
 	 * Removes all event listeners.
-	 *
-	 * @method dispose
 	 */
 
 	dispose() { this.setEnabled(false); }

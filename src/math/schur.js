@@ -1,10 +1,8 @@
 /**
  * Symmetric Givens coefficients.
  *
- * @property coefficients
- * @type Object
+ * @type {Object}
  * @private
- * @static
  */
 
 const coefficients = {
@@ -15,9 +13,7 @@ const coefficients = {
 /**
  * Caluclates symmetric coefficients for the Givens post rotation step.
  *
- * @method calculateSymmetricCoefficients
  * @private
- * @static
  * @param {Number} aPP - PP.
  * @param {Number} aPQ - PQ.
  * @param {Number} aQQ - QQ.
@@ -47,10 +43,6 @@ function calculateSymmetricCoefficients(aPP, aPQ, aQQ) {
 
 /**
  * A collection of matrix rotation utilities.
- *
- * @class Schur
- * @submodule math
- * @static
  */
 
 export class Schur {
@@ -58,8 +50,6 @@ export class Schur {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot01
-	 * @static
 	 * @param {SymmetricMatrix3} m - A symmetric matrix.
 	 * @return {Object} The coefficients.
 	 */
@@ -94,8 +84,6 @@ export class Schur {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot02
-	 * @static
 	 * @param {SymmetricMatrix3} m - A matrix.
 	 * @return {Object} The coefficients.
 	 */
@@ -131,8 +119,6 @@ export class Schur {
 	/**
 	 * Rotates the given matrix.
 	 *
-	 * @method rot12
-	 * @static
 	 * @param {SymmetricMatrix3} m - A matrix.
 	 * @return {Object} The coefficients.
 	 */

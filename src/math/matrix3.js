@@ -1,23 +1,19 @@
 /**
  * A 3x3 matrix.
- *
- * This class is a copy of THREE.Matrix3. It can be removed as soon as three.js
- * starts supporting ES6 modules.
- *
- * @class Matrix3
- * @submodule math
- * @constructor
  */
 
 export class Matrix3 {
+
+	/**
+	 * Constructs a new matrix3.
+	 */
 
 	constructor() {
 
 		/**
 		 * The matrix elements.
 		 *
-		 * @property elements
-		 * @type Float32Array
+		 * @type {Float32Array}
 		 */
 
 		this.elements = new Float32Array([
@@ -33,8 +29,6 @@ export class Matrix3 {
 	/**
 	 * Sets the values of this matrix.
 	 *
-	 * @method set
-	 * @chainable
 	 * @param {Number} m00 - The value of the first row, first column.
 	 * @param {Number} m01 - The value of the first row, second column.
 	 * @param {Number} m02 - The value of the first row, third column.
@@ -62,8 +56,6 @@ export class Matrix3 {
 	/**
 	 * Sets this matrix to the identity matrix.
 	 *
-	 * @method identity
-	 * @chainable
 	 * @return {Matrix3} This matrix.
 	 */
 
@@ -84,8 +76,6 @@ export class Matrix3 {
 	/**
 	 * Copies the values of a given matrix.
 	 *
-	 * @method copy
-	 * @chainable
 	 * @param {Matrix3} m - A matrix.
 	 * @return {Matrix3} This matrix.
 	 */
@@ -107,7 +97,6 @@ export class Matrix3 {
 	/**
 	 * Clones this matrix.
 	 *
-	 * @method clone
 	 * @return {Matrix3} A clone of this matrix.
 	 */
 

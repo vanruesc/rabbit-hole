@@ -1,20 +1,19 @@
 /**
  * A basic object queue.
- *
- * @class Queue
- * @submodule core
- * @constructor
  */
 
 export class Queue {
+
+	/**
+	 * Constructs a new queue.
+	 */
 
 	constructor() {
 
 		/**
 		 * A list of elements.
 		 *
-		 * @property elements
-		 * @type Array
+		 * @type {Object[]}
 		 * @private
 		 */
 
@@ -23,8 +22,7 @@ export class Queue {
 		/**
 		 * The head of the queue.
 		 *
-		 * @property head
-		 * @type Number
+		 * @type {Number}
 		 * @private
 		 */
 
@@ -33,8 +31,7 @@ export class Queue {
 		/**
 		 * The current size of the queue.
 		 *
-		 * @property size
-		 * @type Number
+		 * @type {Number}
 		 */
 
 		this.size = 0;
@@ -44,7 +41,6 @@ export class Queue {
 	/**
 	 * Adds an element to the queue.
 	 *
-	 * @method add
 	 * @param {Object} element - An arbitrary object.
 	 * @return {Number} The index of the added element.
 	 */
@@ -64,7 +60,6 @@ export class Queue {
 	/**
 	 * Removes an element from the queue.
 	 *
-	 * @method remove
 	 * @param {Number} index - The index of the element.
 	 * @return {Object} The removed element or null if there was none.
 	 */
@@ -118,7 +113,6 @@ export class Queue {
 	 * Retrieves, but does not remove, the head of the queue, or returns null if
 	 * the queue is empty.
 	 *
-	 * @method peek
 	 * @return {Object} The head of the queue.
 	 */
 
@@ -132,7 +126,6 @@ export class Queue {
 	 * Retrieves and removes the head of the queue, or returns null if the queue
 	 * is empty.
 	 *
-	 * @method poll
 	 * @return {Object} The head of the queue.
 	 */
 
@@ -171,8 +164,6 @@ export class Queue {
 
 	/**
 	 * Clears this queue.
-	 *
-	 * @method clear
 	 */
 
 	clear() {

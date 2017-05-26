@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/math/singular-value-decomposition.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/vanruesc/rabbit-hole.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/history.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/priority-queue.js~PriorityQueue.html">PriorityQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/queue.js~Queue.html">Queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/run-length-encoder.js~RunLengthEncoder.html">RunLengthEncoder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/scheduler.js~Scheduler.html">Scheduler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">events</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/terrain-event.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/worker-event.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">helpers</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/helpers/chunk-helper.js~ChunkHelper.html">ChunkHelper</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">isosurface/dual-contouring</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/index.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_EDGE_MASK">CELL_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_FACE_MASK">CELL_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_MASK">EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_PROC_EDGE_MASK">EDGE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_MAP">FACE_MAP</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_EDGE_MASK">FACE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_FACE_MASK">FACE_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PROC_EDGE_MASK">PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">materials</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/materials/triplanar-physical.js~MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/box3.js~Box3.html">Box3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix3.js~Matrix3.html">Matrix3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/qef-data.js~QEFData.html">QEFData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/qef-solver.js~QEFSolver.html">QEFSolver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/schur.js~Schur.html">Schur</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/singular-value-decomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/symmetric-matrix3.js~SymmetricMatrix3.html">SymmetricMatrix3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector2.js~Vector2.html">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector3.js~Vector3.html">Vector3</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/edge-data.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/hermite-data.js~HermiteData.html">HermiteData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/voxel.js~Voxel.html">Voxel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/csg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/constructive-solid-geometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/density-function.js~DensityFunction.html">DensityFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/difference.js~Difference.html">Difference</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/intersection.js~Intersection.html">Intersection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/operation.js~Operation.html">Operation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/union.js~Union.html">Union</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/octree</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/chunk.js~Chunk.html">Chunk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/volume.js~Volume.html">Volume</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/voxel-block.js~VoxelBlock.html">VoxelBlock</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/voxel-cell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/sdf</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/plane.js~Plane.html">Plane</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/reviver.js~Reviver.html">Reviver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/signed-distance-function.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/sphere.js~Sphere.html">Sphere</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/torus.js~Torus.html">Torus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">worker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/surface-extractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/thread-pool.js~ThreadPool.html">ThreadPool</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/volume-modifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/worker-task.js~WorkerTask.html">WorkerTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/math/singular-value-decomposition.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { SymmetricMatrix3 } from &quot;./symmetric-matrix3.js&quot;;
+import { Matrix3 } from &quot;./matrix3.js&quot;;
+import { Givens } from &quot;./givens.js&quot;;
+import { Schur } from &quot;./schur.js&quot;;
+
+/**
+ * Rotates the given matrix.
+ *
+ * @private
+ * @param {SymmetricMatrix3} vtav - A symmetric matrix.
+ * @param {Matrix3} v - A matrix.
+ */
+
+function rotate01(vtav, v) {
+
+	const m01 = vtav.elements[1];
+
+	if(m01 !== 0) {
+
+		Givens.rot01Post(v, Schur.rot01(vtav));
+
+	}
+
+}
+
+/**
+ * Rotates the given matrix.
+ *
+ * @private
+ * @param {SymmetricMatrix3} vtav - A symmetric matrix.
+ * @param {Matrix3} v - A matrix.
+ */
+
+function rotate02(vtav, v) {
+
+	const m02 = vtav.elements[2];
+
+	if(m02 !== 0) {
+
+		Givens.rot02Post(v, Schur.rot02(vtav));
+
+	}
+
+}
+
+/**
+ * Rotates the given matrix.
+ *
+ * @private
+ * @param {SymmetricMatrix3} vtav - A symmetric matrix.
+ * @param {Matrix3} v - A matrix.
+ */
+
+export function rotate12(vtav, v) {
+
+	const m12 = vtav.elements[4];
+
+	if(m12 !== 0) {
+
+		Givens.rot12Post(v, Schur.rot12(vtav));
+
+	}
+
+}
+
+/**
+ * Computes the symmetric Singular Value Decomposition.
+ *
+ * @private
+ * @param {SymmetricMatrix3} a - A symmetric matrix.
+ * @param {SymmetricMatrix3} vtav - A symmetric matrix.
+ * @param {Matrix3} v - A matrix.
+ * @param {Number} threshold - A threshold.
+ * @param {Number} maxSweeps - The maximum number of sweeps.
+ */
+
+function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
+
+	const delta = threshold * vtav.copy(a).norm();
+
+	let i;
+
+	for(i = 0; i &lt; maxSweeps &amp;&amp; vtav.off() &gt; delta; ++i) {
+
+		rotate01(vtav, v);
+		rotate02(vtav, v);
+		rotate12(vtav, v);
+
+	}
+
+}
+
+/**
+ * Computes the pseudo inverse of a given value.
+ *
+ * @private
+ * @param {Number} x - The value to invert.
+ * @param {Number} threshold - A threshold.
+ * @return {Number} The inverted value.
+ */
+
+function pinv(x, threshold) {
+
+	const invX = 1.0 / x;
+
+	return (Math.abs(x) &lt; threshold || Math.abs(invX) &lt; threshold) ? 0.0 : invX;
+
+}
+
+/**
+ * Calculates the pseudo inverse of the given matrix.
+ *
+ * @private
+ * @param {Matrix3} t - The target matrix.
+ * @param {SymmetricMatrix3} a - A symmetric matrix.
+ * @param {Matrix3} b - A matrix.
+ * @param {Number} threshold - A threshold.
+ * @return {Number} A dimension indicating the amount of truncated singular values.
+ */
+
+function pseudoInverse(t, a, b, threshold) {
+
+	const te = t.elements;
+	const ae = a.elements;
+	const be = b.elements;
+
+	const a00 = ae[0];
+	const a11 = ae[3];
+	const a22 = ae[5];
+
+	const a0 = pinv(a00, threshold);
+	const a1 = pinv(a11, threshold);
+	const a2 = pinv(a22, threshold);
+
+	// Count how many singular values have been truncated.
+	const truncatedValues = (a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0);
+
+	// Compute the feature dimension.
+	const dimension = 3 - truncatedValues;
+
+	const b00 = be[0], b01 = be[3], b02 = be[6];
+	const b10 = be[1], b11 = be[4], b12 = be[7];
+	const b20 = be[2], b21 = be[5], b22 = be[8];
+
+	te[0] = b00 * a0 * b00 + b01 * a1 * b01 + b02 * a2 * b02;
+	te[3] = b00 * a0 * b10 + b01 * a1 * b11 + b02 * a2 * b12;
+	te[6] = b00 * a0 * b20 + b01 * a1 * b21 + b02 * a2 * b22;
+
+	te[1] = te[3];
+	te[4] = b10 * a0 * b10 + b11 * a1 * b11 + b12 * a2 * b12;
+	te[7] = b10 * a0 * b20 + b11 * a1 * b21 + b12 * a2 * b22;
+
+	te[2] = te[6];
+	te[5] = te[7];
+	te[8] = b20 * a0 * b20 + b21 * a1 * b21 + b22 * a2 * b22;
+
+	return dimension;
+
+}
+
+/**
+ * A Singular Value Decomposition solver.
+ */
+
+export class SingularValueDecomposition {
+
+	/**
+	 * Performs the Singular Value Decomposition.
+	 *
+	 * @param {SymmetricMatrix3} a - A symmetric matrix.
+	 * @param {Vector3} b - A vector.
+	 * @param {Vector3} x - A target vector.
+	 * @param {Number} svdThreshold - A threshold.
+	 * @param {Number} svdSweeps - The maximum number of SVD sweeps.
+	 * @param {Number} pseudoInverseThreshold - A threshold.
+	 * @return {Number} A dimension indicating the amount of truncated singular values.
+	 */
+
+	static solveSymmetric(a, b, x, svdThreshold, svdSweeps, pseudoInverseThreshold) {
+
+		const v = new Matrix3();
+
+		const pinv = new Matrix3();
+		const vtav = new SymmetricMatrix3();
+
+		let dimension;
+
+		pinv.set(
+
+			0, 0, 0,
+			0, 0, 0,
+			0, 0, 0
+
+		);
+
+		vtav.set(
+
+			0, 0, 0,
+			0, 0,
+			0
+
+		);
+
+		getSymmetricSVD(a, vtav, v, svdThreshold, svdSweeps);
+
+		// Least squares.
+		dimension = pseudoInverse(pinv, vtav, v, pseudoInverseThreshold);
+
+		x.copy(b).applyMatrix3(pinv);
+
+		return dimension;
+
+	}
+
+	/**
+	 * Calculates the error of the Singular Value Decomposition.
+	 *
+	 * @param {SymmetricMatrix3} t - A symmetric matrix.
+	 * @param {Vector3} b - A vector.
+	 * @param {Vector3} x - The calculated position.
+	 * @return {Number} The error.
+	 */
+
+	static calculateError(t, b, x) {
+
+		const e = t.elements;
+		const v = x.clone();
+		const a = new Matrix3();
+
+		// Set symmetrically.
+		a.set(
+
+			e[0], e[1], e[2],
+			e[1], e[3], e[4],
+			e[2], e[4], e[5]
+
+		);
+
+		v.applyMatrix3(a);
+		v.subVectors(b, v);
+
+		return v.lengthSq();
+
+	}
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

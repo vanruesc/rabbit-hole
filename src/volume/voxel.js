@@ -2,13 +2,13 @@ import { Vector3 } from "../math/vector3.js";
 
 /**
  * A cubic voxel that holds information about the surface of a volume.
- *
- * @class Voxel
- * @submodule volume
- * @constructor
  */
 
 export class Voxel {
+
+	/**
+	 * Constructs a new voxel.
+	 */
 
 	constructor() {
 
@@ -20,8 +20,7 @@ export class Voxel {
 		 * value indicates a material change which implies that the voxel contains
 		 * the surface.
 		 *
-		 * @property materials
-		 * @type Number
+		 * @type {Number}
 		 * @default 0
 		 */
 
@@ -30,8 +29,7 @@ export class Voxel {
 		/**
 		 * The amount of edges that exhibit a material change in this voxel.
 		 *
-		 * @property edgeCount
-		 * @type Number
+		 * @type {Number}
 		 * @default 0
 		 */
 
@@ -41,8 +39,7 @@ export class Voxel {
 		 * A generated index for this voxel's vertex. Used during the construction
 		 * of the final polygons.
 		 *
-		 * @property index
-		 * @type Number
+		 * @type {Number}
 		 * @default -1
 		 */
 
@@ -51,8 +48,7 @@ export class Voxel {
 		/**
 		 * The vertex that lies inside this voxel.
 		 *
-		 * @property position
-		 * @type Vector3
+		 * @type {Vector3}
 		 */
 
 		this.position = new Vector3();
@@ -60,8 +56,7 @@ export class Voxel {
 		/**
 		 * The normal of the vertex that lies inside this voxel.
 		 *
-		 * @property normal
-		 * @type Vector3
+		 * @type {Vector3}
 		 */
 
 		this.normal = new Vector3();
@@ -69,8 +64,7 @@ export class Voxel {
 		/**
 		 * A QEF data construct. Used to calculate the vertex position.
 		 *
-		 * @property qefData
-		 * @type QEFData
+		 * @type {QEFData}
 		 * @default null
 		 */
 

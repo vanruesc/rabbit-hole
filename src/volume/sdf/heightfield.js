@@ -5,19 +5,19 @@ import { SDFType } from "./sdf-type.js";
 
 /**
  * A Signed Distance Function that describes a heightfield.
- *
- * @class Sphere
- * @submodule sdf
- * @extends SignedDistanceFunction
- * @constructor
- * @param {Object} parameters - The parameters.
- * @param {Array} parameters.min - The min position [x, y, z].
- * @param {Array} parameters.dimensions - The dimensions [x, y, z].
- * @param {Uint8ClampedArray} parameters.data - The heightmap data.
- * @param {Number} [material] - A material index.
  */
 
 export class Heightfield extends SignedDistanceFunction {
+
+	/**
+	 * Constructs a new heightfield SDF.
+	 *
+	 * @param {Object} parameters - The parameters.
+	 * @param {Array} parameters.min - The min position [x, y, z].
+	 * @param {Array} parameters.dimensions - The dimensions [x, y, z].
+	 * @param {Uint8ClampedArray} parameters.data - The heightmap data.
+	 * @param {Number} [material] - A material index.
+	 */
 
 	constructor(parameters = {}, material) {
 
@@ -26,8 +26,7 @@ export class Heightfield extends SignedDistanceFunction {
 		/**
 		 * The position.
 		 *
-		 * @property min
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -36,8 +35,7 @@ export class Heightfield extends SignedDistanceFunction {
 		/**
 		 * The dimensions.
 		 *
-		 * @property dimensions
-		 * @type Vector3
+		 * @type {Vector3}
 		 * @private
 		 */
 
@@ -46,8 +44,7 @@ export class Heightfield extends SignedDistanceFunction {
 		/**
 		 * The height data.
 		 *
-		 * @property data
-		 * @type Uint8ClampedArray
+		 * @type {Uint8ClampedArray}
 		 * @private
 		 */
 
@@ -58,7 +55,6 @@ export class Heightfield extends SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this density field.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 */
 
@@ -76,7 +72,6 @@ export class Heightfield extends SignedDistanceFunction {
 	/**
 	 * Samples the volume's density at the given point in space.
 	 *
-	 * @method sample
 	 * @param {Vector3} position - A position.
 	 * @return {Number} The euclidean distance to the surface.
 	 */
@@ -98,7 +93,6 @@ export class Heightfield extends SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @method serialise
 	 * @return {Object} A serialised description of this SDF.
 	 */
 

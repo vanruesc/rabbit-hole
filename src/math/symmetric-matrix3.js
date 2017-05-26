@@ -1,20 +1,19 @@
 /**
  * A symmetric 3x3 matrix.
- *
- * @class SymmetricMatrix3
- * @submodule math
- * @constructor
  */
 
 export class SymmetricMatrix3 {
+
+	/**
+	 * Constructs a new symmetric matrix3.
+	 */
 
 	constructor() {
 
 		/**
 		 * The matrix elements.
 		 *
-		 * @property elements
-		 * @type Float32Array
+		 * @type {Float32Array}
 		 */
 
 		this.elements = new Float32Array([
@@ -30,8 +29,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Sets the values of this matrix.
 	 *
-	 * @method set
-	 * @chainable
 	 * @param {Number} m00 - The value of the first row, first column.
 	 * @param {Number} m01 - The value of the first row, second column.
 	 * @param {Number} m02 - The value of the first row, third column.
@@ -56,8 +53,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Sets this matrix to the identity matrix.
 	 *
-	 * @method identity
-	 * @chainable
 	 * @return {SymmetricMatrix3} This matrix.
 	 */
 
@@ -78,8 +73,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Copies values from a given matrix.
 	 *
-	 * @method copy
-	 * @chainable
 	 * @param {Matrix3} m - A matrix.
 	 * @return {SymmetricMatrix3} This matrix.
 	 */
@@ -103,7 +96,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Clones this matrix.
 	 *
-	 * @method clone
 	 * @return {SymmetricMatrix3} A clone of this matrix.
 	 */
 
@@ -116,8 +108,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Adds the values of a given matrix to this one.
 	 *
-	 * @method add
-	 * @chainable
 	 * @param {Matrix3} m - A matrix.
 	 * @return {SymmetricMatrix3} This matrix.
 	 */
@@ -138,7 +128,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Calculates the Frobenius norm of this matrix.
 	 *
-	 * @method norm
 	 * @return {Number} The norm of this matrix.
 	 */
 
@@ -164,7 +153,6 @@ export class SymmetricMatrix3 {
 	 * Calculates the absolute sum of all matrix components except for the main
 	 * diagonal.
 	 *
-	 * @method off
 	 * @return {Number} The offset of this matrix.
 	 */
 
@@ -184,7 +172,6 @@ export class SymmetricMatrix3 {
 	/**
 	 * Applies this symmetric matrix to a vector.
 	 *
-	 * @method applyToVector3
 	 * @param {Vector3} v - The vector to modify.
 	 * @return {Vector3} The modified vector.
 	 */

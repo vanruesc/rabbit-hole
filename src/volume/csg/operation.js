@@ -2,23 +2,23 @@ import { Box3 } from "../../math/box3.js";
 
 /**
  * A CSG operation.
- *
- * @class Operation
- * @submodule csg
- * @constructor
- * @param {OperationType} type - The type of this operation.
- * @param {Operation} ...children - Child operations.
  */
 
 export class Operation {
+
+	/**
+	 * Constructs a new operation.
+	 *
+	 * @param {OperationType} type - The type of this operation.
+	 * @param {Operation} ...children - Child operations.
+	 */
 
 	constructor(type, ...children) {
 
 		/**
 		 * The type of this operation.
 		 *
-		 * @property type
-		 * @type OperationType
+		 * @type {OperationType}
 		 * @default null
 		 */
 
@@ -31,8 +31,7 @@ export class Operation {
 		 * first item in the list will be dominated by the result of the second one,
 		 * etc.
 		 *
-		 * @property children
-		 * @type Array
+		 * @type {Operation[]}
 		 * @private
 		 */
 
@@ -41,8 +40,7 @@ export class Operation {
 		/**
 		 * The bounding box of this operation.
 		 *
-		 * @property bbox
-		 * @type Box3
+		 * @type {Box3}
 		 * @private
 		 * @default null
 		 */
@@ -54,8 +52,7 @@ export class Operation {
 	/**
 	 * The bounding box of this operation.
 	 *
-	 * @property boundingBox
-	 * @type Box3
+	 * @type {Box3}
 	 */
 
 	get boundingBox() {
@@ -67,7 +64,6 @@ export class Operation {
 	/**
 	 * Calculates the bounding box of this operation.
 	 *
-	 * @method computeBoundingBox
 	 * @return {Box3} The bounding box.
 	 */
 

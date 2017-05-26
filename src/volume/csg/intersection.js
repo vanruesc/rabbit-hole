@@ -4,15 +4,15 @@ import { OperationType } from "./operation-type.js";
 
 /**
  * An intersection operation.
- *
- * @class Intersection
- * @submodule csg
- * @extends Operation
- * @constructor
- * @param {Operation} ...children - Child operations.
  */
 
 export class Intersection extends Operation {
+
+	/**
+	 * Constructs a new intersection operation.
+	 *
+	 * @param {...Operation} children - Child operations.
+	 */
 
 	constructor(...children) {
 
@@ -23,7 +23,6 @@ export class Intersection extends Operation {
 	/**
 	 * Updates the specified material index.
 	 *
-	 * @method updateMaterialIndex
 	 * @param {Number} index - The index of the material index that needs to be updated.
 	 * @param {HermiteData} data0 - The target volume data.
 	 * @param {HermiteData} data1 - Predominant volume data.
@@ -40,7 +39,6 @@ export class Intersection extends Operation {
 	/**
 	 * Selects the edge that is closer to the solid grid point.
 	 *
-	 * @method selectEdge
 	 * @param {Edge} edge0 - An existing edge.
 	 * @param {Edge} edge1 - A predominant edge.
 	 * @param {Boolean} s - Whether the starting point of the edge is solid.

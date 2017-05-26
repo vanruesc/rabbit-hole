@@ -10,13 +10,16 @@ import { OperationType } from "../volume/csg/operation-type.js";
 
 export class History {
 
+	/**
+	 * Constructs a new operation history.
+	 */
+
 	constructor() {
 
 		/**
 		 * The elements that have been executed during the current session.
 		 *
-		 * @property elements
-		 * @type Array
+		 * @type {SignedDistanceFunction[]}
 		 * @private
 		 */
 
@@ -27,7 +30,6 @@ export class History {
 	/**
 	 * Adds an SDF to the operation history.
 	 *
-	 * @method push
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 * @return {Number} The new length of the history list.
 	 */
@@ -41,7 +43,6 @@ export class History {
 	/**
 	 * Removes the SDF that was last added to the history and returns it.
 	 *
-	 * @method pop
 	 * @return {SignedDistanceFunction} An SDF.
 	 */
 
@@ -54,7 +55,6 @@ export class History {
 	/**
 	 * Combines all operations into one.
 	 *
-	 * @method combine
 	 * @return {SignedDistanceFunction} An SDF consisting of all past operations, or null if there are none.
 	 */
 
@@ -103,8 +103,6 @@ export class History {
 
 	/**
 	 * Clears this history.
-	 *
-	 * @method clear
 	 */
 
 	clear() {

@@ -3,14 +3,15 @@ import { Queue } from "./queue.js";
 /**
  * A queue that maintains elements in a hierarchy. Elements with a high priority
  * will be served before elements with a lower priority.
- *
- * @class PriorityQueue
- * @submodule core
- * @constructor
- * @param {Number} [tiers=1] - The number of priority tiers. The lowest tier represents the lowest priority.
  */
 
 export class PriorityQueue extends Queue {
+
+	/**
+	 * Constructs a new priority queue.
+	 *
+	 * @param {Number} [tiers=1] - The number of priority tiers. The lowest tier represents the lowest priority.
+	 */
 
 	constructor(tiers = 1) {
 
@@ -29,8 +30,7 @@ export class PriorityQueue extends Queue {
 	/**
 	 * The amount of priority tiers.
 	 *
-	 * @property tiers
-	 * @type Number
+	 * @type {Number}
 	 */
 
 	get tiers() { return this.elements.length; }
@@ -38,7 +38,6 @@ export class PriorityQueue extends Queue {
 	/**
 	 * Adds an element.
 	 *
-	 * @method add
 	 * @param {Object} element - The element.
 	 * @param {Number} [priority] - The priority of the element.
 	 * @return {Number} The index of the added element.
@@ -69,7 +68,6 @@ export class PriorityQueue extends Queue {
 	/**
 	 * Deletes an element.
 	 *
-	 * @method remove
 	 * @param {Object} index - The index of the element.
 	 * @param {Number} [priority] - The priority of the element.
 	 * @return {Object} The removed element or null if there was none.
@@ -105,7 +103,6 @@ export class PriorityQueue extends Queue {
 	 * Retrieves, but does not remove, the head of the queue, or returns null if
 	 * the queue is empty.
 	 *
-	 * @method peek
 	 * @return {Object} The head of the queue.
 	 */
 
@@ -118,7 +115,6 @@ export class PriorityQueue extends Queue {
 	/**
 	 * Retrieves the head of the queue, or returns null if the queue is empty.
 	 *
-	 * @method poll
 	 * @return {Object} The head of the queue.
 	 */
 
@@ -146,8 +142,6 @@ export class PriorityQueue extends Queue {
 
 	/**
 	 * Clears this queue.
-	 *
-	 * @method clear
 	 */
 
 	clear() {

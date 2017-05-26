@@ -6,22 +6,13 @@ import {
 	TextureLoader
 } from "three";
 
-import { Detector } from "./detector.js";
+import { Detector, FeatureId } from "feature-detector";
 import { App } from "./app.js";
-
-/**
- * The entry point of the volume editor.
- *
- * @class Main
- * @static
- */
 
 /**
  * Loads assets.
  *
- * @method loadAssets
  * @private
- * @static
  * @param {Function} callback - A function to call on completion. Assets will be provided as a parameter.
  */
 
@@ -93,54 +84,29 @@ function loadAssets(callback) {
 /**
  * Generates an error message and lists missing key features.
  *
- * @method createErrorMessage
  * @private
- * @static
- * @param {Detector} detector - A detector.
+ * @param {Feature[]} missingFeatures - A list of missing features.
  * @return {HTMLElement} An element that contains the error message.
  */
 
-function createErrorMessage(detector) {
+function createErrorMessage(missingFeatures) {
 
 	const message = document.createElement("p");
-	const features = document.createElement("ul");
+	const missingFeatureList = document.createElement("ul");
 
 	let feature;
+	let i, l;
 
-	if(!detector.canvas) {
+	for(i = 0, l = missingFeatures.length; i < l; ++i) {
 
 		feature = document.createElement("li");
-		feature.appendChild(document.createTextNode("Canvas"));
-		features.appendChild(feature);
+		feature.appendChild(document.createTextNode(missingFeatures[i]));
+		missingFeatureList.appendChild(feature);
 
 	}
 
-	if(!detector.webgl) {
-
-		feature = document.createElement("li");
-		feature.appendChild(document.createTextNode("WebGL"));
-		features.appendChild(feature);
-
-	}
-
-	if(!detector.worker) {
-
-		feature = document.createElement("li");
-		feature.appendChild(document.createTextNode("Worker"));
-		features.appendChild(feature);
-
-	}
-
-	if(!detector.file) {
-
-		feature = document.createElement("li");
-		feature.appendChild(document.createTextNode("Blob"));
-		features.appendChild(feature);
-
-	}
-
-	message.appendChild(document.createTextNode("Missing the following core features:"));
-	message.appendChild(features);
+	message.appendChild(document.createTextNode("The following features are missing:"));
+	message.appendChild(missingFeatureList);
 
 	return message;
 
@@ -149,9 +115,7 @@ function createErrorMessage(detector) {
 /**
  * Starts the volume editor.
  *
- * @method main
  * @private
- * @static
  * @param {Event} event - An event.
  */
 
@@ -163,8 +127,14 @@ window.addEventListener("load", function main(event) {
 	const aside = document.getElementById("aside");
 
 	const detector = new Detector();
+	const missingFeatures = detector.getMissingFeatures(
+		FeatureId.CANVAS,
+		FeatureId.WEBGL,
+		FeatureId.WORKER,
+		FeatureId.FILE
+	);
 
-	if(detector.canvas && detector.webgl && detector.worker && detector.file) {
+	if(missingFeatures === null) {
 
 		loadAssets(function(assets) {
 
@@ -177,7 +147,7 @@ window.addEventListener("load", function main(event) {
 	} else {
 
 		viewport.removeChild(viewport.children[0]);
-		viewport.appendChild(createErrorMessage(detector));
+		viewport.appendChild(createErrorMessage(missingFeatures));
 
 	}
 
