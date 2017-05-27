@@ -488,6 +488,7 @@ export class Editor {
 
 		folder.add(this, "logMemory");
 		folder.add(this, "save");
+		folder.open();
 
 	}
 
