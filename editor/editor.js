@@ -340,7 +340,6 @@ export class Editor {
 	logMemory() {
 
 		const a = document.createElement("a");
-		const chunks = this.terrain.volume.getChunks();
 
 		const n = this.terrain.volume.resolution;
 		const m = Math.pow((n + 1), 3);
@@ -358,12 +357,12 @@ export class Editor {
 		let runLengthCount = 0;
 		let edgeCount = 0;
 
-		let data, edgeData, edges;
-		let i, j, l;
+		let chunk, data, edgeData, edges;
+		let i = 0;
 
-		for(i = 0, j = 0, l = chunks.length; i < l; ++i) {
+		for(chunk of this.terrain.volume) {
 
-			data = chunks[i].data;
+			data = chunk.data;
 
 			if(data !== null) {
 
@@ -375,15 +374,15 @@ export class Editor {
 					edgeData.edges[2].length
 				);
 
-				materialReport += j + ", " + (data.materials + data.runLengths.length * 4) + "\n";
-				edgeReport += j + ", " + edges + "\n";
+				materialReport += i + ", " + (data.materials + data.runLengths.length * 4) + "\n";
+				edgeReport += i + ", " + edges + "\n";
 
 				materialCount += data.materials;
 				runLengthCount += data.runLengths.length;
 				edgeCount += edges;
 
 				++chunkCount;
-				++j;
+				++i;
 
 			}
 
