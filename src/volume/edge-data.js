@@ -11,12 +11,12 @@ export class EdgeData {
 	/**
 	 * Constructs new edge data.
 	 *
-	 * @param {Number} n - The grid resolution.
+	 * @param {Number} x - The amount of edges along the X-axis.
+	 * @param {Number} [y=x] - The amount of edges along the Y-axis. If omitted, this will be the same as x.
+	 * @param {Number} [z=x] - The amount of edges along the Z-axis. If omitted, this will be the same as x.
 	 */
 
-	constructor(n) {
-
-		const c = Math.pow((n + 1), 2) * n;
+	constructor(x, y = x, z = x) {
 
 		/**
 		 * The edges.
@@ -25,16 +25,16 @@ export class EdgeData {
 		 * ending point indices are implicitly defined through the dimension split:
 		 *
 		 * Given a starting point index A, the ending point index B for the X-, Y-
-		 * and Z-plane is defined as A + 1, A + N and A + N² respectively where N is
+		 * and Z-axis is defined as A + 1, A + N and A + N² respectively where N is
 		 * the grid resolution + 1.
 		 *
 		 * @type {Uint32Array[]}
 		 */
 
 		this.edges = [
-			new Uint32Array(c),
-			new Uint32Array(c),
-			new Uint32Array(c)
+			new Uint32Array(x),
+			new Uint32Array(y),
+			new Uint32Array(z)
 		];
 
 		/**
@@ -47,9 +47,9 @@ export class EdgeData {
 		 */
 
 		this.zeroCrossings = [
-			new Float32Array(c),
-			new Float32Array(c),
-			new Float32Array(c)
+			new Float32Array(x),
+			new Float32Array(y),
+			new Float32Array(z)
 		];
 
 		/**
@@ -62,9 +62,9 @@ export class EdgeData {
 		 */
 
 		this.normals = [
-			new Float32Array(c * 3),
-			new Float32Array(c * 3),
-			new Float32Array(c * 3)
+			new Float32Array(x * 3),
+			new Float32Array(y * 3),
+			new Float32Array(z * 3)
 		];
 
 	}
@@ -139,6 +139,19 @@ export class EdgeData {
 		this.edges = object.edges;
 		this.zeroCrossings = object.zeroCrossings;
 		this.normals = object.normals;
+
+	}
+
+	/**
+	 * Calculates the amount of edges for one axis based on a given resolution.
+	 *
+	 * @param {Number} The grid resolution.
+	 * @return {Number} The amount of edges for a single dimension.
+	 */
+
+	static calculate1DEdgeCount(n) {
+
+		return Math.pow((n + 1), 2) * n;
 
 	}
 

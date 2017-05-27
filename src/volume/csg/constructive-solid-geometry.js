@@ -184,7 +184,13 @@ function combineEdges(chunk, operation, data0, data1) {
 
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
-	const edgeData = new EdgeData(chunk.resolution); // edgeData0.edges.length + edgeData1.edges.length
+
+	const edgeCount = EdgeData.calculate1DEdgeCount(chunk.resolution);
+	const edgeData = new EdgeData(
+		Math.min(edgeCount, edgeData0.edges[0].length + edgeData1.edges[0].length),
+		Math.min(edgeCount, edgeData0.edges[1].length + edgeData1.edges[1].length),
+		Math.min(edgeCount, edgeData0.edges[2].length + edgeData1.edges[2].length)
+	);
 	const lengths = new Uint32Array(3);
 
 	let edges1, zeroCrossings1, normals1;
@@ -353,7 +359,7 @@ function generateEdges(chunk, operation, data, bounds) {
 	const offsetB = new Vector3();
 	const edge = new Edge();
 
-	const edgeData = new EdgeData(n);
+	const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
 	const lengths = new Uint32Array(3);
 
 	let edges, zeroCrossings, normals;
