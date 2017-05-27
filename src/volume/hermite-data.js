@@ -170,6 +170,7 @@ export class HermiteData {
 
 		if(this.runLengths === null) {
 
+			// Note: empty sets will never be compressed. They are not worth keeping.
 			if(this.full) {
 
 				encoding = {
@@ -295,7 +296,7 @@ export class HermiteData {
 	static get resolution() { return resolution; }
 
 	/**
-	 * Can only be set once.
+	 * This value can only be set once.
 	 *
 	 * @type {Number}
 	 */

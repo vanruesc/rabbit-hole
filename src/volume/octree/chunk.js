@@ -44,14 +44,14 @@ export class Chunk extends CubicOctant {
 	 * The effective resolution of a chunk is the distance between two adjacent
 	 * grid points in global coordinates.
 	 *
-	 * This value can only be set once.
-	 *
 	 * @type {Number}
 	 */
 
 	get resolution() { return HermiteData.resolution; }
 
 	/**
+	 * This value can only be set once.
+	 *
 	 * @type {Number}
 	 */
 
