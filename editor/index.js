@@ -1,5 +1,4 @@
 import {
-	CubeTextureLoader,
 	FileLoader,
 	LoadingManager,
 	RepeatWrapping,
@@ -23,15 +22,6 @@ function loadAssets(callback) {
 	const loadingManager = new LoadingManager();
 	const fileLoader = new FileLoader(loadingManager);
 	const textureLoader = new TextureLoader(loadingManager);
-	const cubeTextureLoader = new CubeTextureLoader(loadingManager);
-
-	const path = "textures/cube/01/";
-	const format = ".png";
-	const urls = [
-		path + "px" + format, path + "nx" + format,
-		path + "py" + format, path + "ny" + format,
-		path + "pz" + format, path + "nz" + format
-	];
 
 	loadingManager.onProgress = function onProgress(item, loaded, total) {
 
@@ -39,13 +29,7 @@ function loadAssets(callback) {
 
 	};
 
-	cubeTextureLoader.load(urls, function(textureCube) {
-
-		assets.set("sky", textureCube);
-
-	});
-
-	fileLoader.load("terrain/torus.json", function(text) {
+	fileLoader.load("terrain/sphere.json", function(text) {
 
 		assets.set("terrain", text);
 

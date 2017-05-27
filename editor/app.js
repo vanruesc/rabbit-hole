@@ -3,6 +3,7 @@ import {
 	DirectionalLight,
 	FlatShading,
 	FogExp2,
+	GridHelper,
 	HemisphereLight,
 	PerspectiveCamera,
 	Scene,
@@ -43,13 +44,12 @@ export class App {
 		// Scene.
 
 		const scene = new Scene();
-		scene.fog = new FogExp2(0xb5c1af, 0.0025);
-		scene.background = assets.has("sky") ? assets.get("sky") : null;
+		scene.fog = new FogExp2(0xf4f4f4, 0.0025);
 
 		// Renderer.
 
 		const renderer = new WebGLRenderer({
-			logarithmicDepthBuffer: true,
+			// logarithmicDepthBuffer: true,
 			antialias: true
 		});
 
@@ -62,12 +62,16 @@ export class App {
 
 		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
 		const controls = new Controls(camera, renderer.domElement);
-		camera.position.set(20, 1, 20);
+		camera.position.set(15, 8, 15);
 		controls.focus(scene.position);
 		controls.movementSpeed = 4;
 		controls.boostSpeed = 20;
 
 		scene.add(camera);
+
+		// Grid helper.
+
+		scene.add(new GridHelper(16, 64));
 
 		// GUI.
 
@@ -88,8 +92,8 @@ export class App {
 		// Terrain.
 
 		const terrain = new Terrain({
-			resolution: 64,
-			chunkSize: 32
+			resolution: 32,
+			chunkSize: 8
 		});
 
 		terrain.material.uniforms.diffuse.value.setHex(0xffffff);
