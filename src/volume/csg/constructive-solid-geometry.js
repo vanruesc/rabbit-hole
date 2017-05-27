@@ -492,7 +492,11 @@ function update(chunk, operation, data0, data1) {
 
 	} else {
 
-		combineMaterialIndices(chunk, operation, data0, data1, bounds);
+		if(!(data0.full && operation.type === OperationType.UNION)) {
+
+			combineMaterialIndices(chunk, operation, data0, data1, bounds);
+
+		}
 
 	}
 
