@@ -76,6 +76,15 @@ export class Editor {
 		this.cursorSize = 1;
 
 		/**
+		 * The cursor distance.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.cursorDistance = 10;
+
+		/**
 		 * The cursor.
 		 *
 		 * @type {Mesh}
@@ -285,7 +294,9 @@ export class Editor {
 
 		} else {
 
-			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(15).add(raycaster.ray.origin);
+			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(
+				this.cursorDistance + this.cursor.scale.x
+			).add(raycaster.ray.origin);
 
 		}
 
