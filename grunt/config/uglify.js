@@ -1,9 +1,11 @@
 module.exports = {
 
 	worker: {
-		files: {
-			"src/worker/worker.min.tmp": ["src/worker/worker.tmp"]
-		}
+		files: [{
+			expand: true,
+			src: ["src/worker/worker.tmp"],
+			dest: ""
+		}]
 	},
 
 	lib: {
