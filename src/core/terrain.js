@@ -477,7 +477,7 @@ export class Terrain extends EventTarget {
 
 						this.runNextTask();
 
-					} else if(data !== null && !data.full) {
+					} else if(data !== null) {
 
 						distance = box3.copy(chunk).distanceToPoint(camera.position);
 						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * levels));
