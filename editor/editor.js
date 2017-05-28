@@ -1,7 +1,7 @@
 import { Mesh, MeshBasicMaterial, Raycaster, SphereBufferGeometry, Vector2 } from "three";
 import { ChunkHelper, Sphere } from "../src";
 import { Button } from "./controls/button.js";
-import { OctreeHelper } from "./octree-helper.js";
+import OctreeHelper from "octree-helper";
 
 /**
  * A mouse position.

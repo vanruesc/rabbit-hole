@@ -6859,7 +6859,7 @@
 
   										for (j = 0; j < 12; ++j) {
 
-  												edge = EDGES[j];
+  												edge = edges[j];
 
   												indices[d++] = c + edge[0];
   												indices[d++] = c + edge[1];
@@ -6867,7 +6867,7 @@
 
   										for (j = 0; j < 8; ++j, ++c) {
 
-  												corner = PATTERN[j];
+  												corner = corners[j];
 
   												positions[c * 3] = corner[0] === 0 ? min.x : max.x;
   												positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
@@ -6905,17 +6905,19 @@
   				key: "dispose",
   				value: function dispose() {
 
-  						var child = void 0,
+  						var groups = this.children;
+
+  						var group = void 0,
   						    children = void 0;
   						var i = void 0,
   						    j = void 0,
   						    il = void 0,
   						    jl = void 0;
 
-  						for (i = 0, il = this.children.length; i < il; ++i) {
+  						for (i = 0, il = groups.length; i < il; ++i) {
 
-  								child = this.children[i];
-  								children = child.children;
+  								group = groups[i];
+  								children = group.children;
 
   								for (j = 0, jl = children.length; j < jl; ++j) {
 
@@ -6925,18 +6927,22 @@
 
   								while (children.length > 0) {
 
-  										child.remove(children[0]);
+  										group.remove(children[0]);
   								}
   						}
 
-  						while (this.children.length > 0) {
+  						while (groups.length > 0) {
 
-  								this.remove(this.children[0]);
+  								this.remove(groups[0]);
   						}
   				}
   		}]);
   		return OctreeHelper;
   }(three.Object3D);
+
+  var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
+
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
   var mouse = new three.Vector2();
 
