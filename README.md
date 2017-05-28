@@ -8,9 +8,9 @@ A volumetric terrain engine for three.js. This engine has been created in the co
 the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) in cooperation with the
 [Norwegian University of Technology and Science](https://www.ntnu.no).
 
-*[Volume Editor](http://vanruesc.github.io/rabbit-hole/public) &there4;
-[API Reference](http://vanruesc.github.io/rabbit-hole/docs) &there4;
-[Master's Thesis](http://vanruesc.github.io/rabbit-hole/public/volumetric-terrain-rendering-with-webgl.pdf)*
+*[Volume Editor](https://vanruesc.github.io/rabbit-hole/public) &there4;
+[API Reference](https://vanruesc.github.io/rabbit-hole/docs) &there4;
+[Master's Thesis](https://vanruesc.github.io/rabbit-hole/public/volumetric-terrain-rendering-with-webgl.pdf)*
 
 
 ## Installation
