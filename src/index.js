@@ -29,14 +29,10 @@ export {
 
 export {
 	Givens,
-	Matrix3,
 	QEFSolver,
 	QEFData,
 	Schur,
-	SingularValueDecomposition,
-	SymmetricMatrix3,
-	Vector2,
-	Vector3
+	SingularValueDecomposition
 } from "./math";
 
 export {

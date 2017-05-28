@@ -1,5 +1,5 @@
 import { Octree } from "sparse-octree";
-import { Box3 } from "../../math/box3.js";
+import { Box3 } from "math-ds";
 import { OperationType } from "../csg/operation-type.js";
 import { Chunk } from "./chunk.js";
 

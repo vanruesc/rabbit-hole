@@ -1,7 +1,7 @@
 /**
  * Stores edge data separately for each dimension.
  *
- * With a grid resolution N, there are 3 * (N + 1)² * N edges in total, but
+ * With a grid resolution N, there are `3 * (N + 1)² * N` edges in total, but
  * the number of edges that actually contain the volume's surface is usually
  * much lower.
  */
@@ -25,8 +25,8 @@ export class EdgeData {
 		 * ending point indices are implicitly defined through the dimension split:
 		 *
 		 * Given a starting point index A, the ending point index B for the X-, Y-
-		 * and Z-axis is defined as A + 1, A + N and A + N² respectively where N is
-		 * the grid resolution + 1.
+		 * and Z-axis is defined as `A + 1`, `A + N` and `A + N²` respectively where
+		 * N is the grid resolution + 1.
 		 *
 		 * @type {Uint32Array[]}
 		 */

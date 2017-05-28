@@ -1,4 +1,4 @@
-import { Vector3 } from "../math/vector3.js";
+import { Vector3 } from "math-ds";
 
 /**
  * A cubic voxel that holds information about the surface of a volume.

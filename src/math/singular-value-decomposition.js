@@ -1,5 +1,4 @@
-import { SymmetricMatrix3 } from "./symmetric-matrix3.js";
-import { Matrix3 } from "./matrix3.js";
+import { Matrix3, SymmetricMatrix3 } from "math-ds";
 import { Givens } from "./givens.js";
 import { Schur } from "./schur.js";
 

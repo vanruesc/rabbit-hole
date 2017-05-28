@@ -1,6 +1,5 @@
 import { PATTERN } from "sparse-octree";
-import { Box3 } from "../../math/box3.js";
-import { Vector3 } from "../../math/vector3.js";
+import { Box3, Vector3 } from "math-ds";
 import { Material } from "../material.js";
 import { EdgeData } from "../edge-data.js";
 import { HermiteData } from "../hermite-data.js";

@@ -1,5 +1,5 @@
 import { Octree, PATTERN, EDGES } from "sparse-octree";
-import { Vector3 } from "../../math/vector3.js";
+import { Vector3 } from "math-ds";
 import { QEFData } from "../../math/qef-data.js";
 import { QEFSolver } from "../../math/qef-solver.js";
 import { Material } from "../material.js";
