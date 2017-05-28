@@ -882,6 +882,271 @@
   		return MeshTriplanarPhysicalMaterial;
   }(three.ShaderMaterial);
 
+  var Vector2 = function () {
+  	function Vector2() {
+  		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  		classCallCheck(this, Vector2);
+
+
+  		this.x = x;
+
+  		this.y = y;
+  	}
+
+  	createClass(Vector2, [{
+  		key: "set",
+  		value: function set$$1(x, y) {
+
+  			this.x = x;
+  			this.y = y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "copy",
+  		value: function copy(v) {
+
+  			this.x = v.x;
+  			this.y = v.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "fromArray",
+  		value: function fromArray(array) {
+  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+
+  			this.x = array[offset];
+  			this.y = array[offset + 1];
+
+  			return this;
+  		}
+  	}, {
+  		key: "toArray",
+  		value: function toArray$$1() {
+  			var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+
+  			array[offset] = this.x;
+  			array[offset + 1] = this.y;
+
+  			return array;
+  		}
+  	}, {
+  		key: "equals",
+  		value: function equals(v) {
+
+  			return v.x === this.x && v.y === this.y;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor(this.x, this.y);
+  		}
+  	}, {
+  		key: "add",
+  		value: function add(v) {
+
+  			this.x += v.x;
+  			this.y += v.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "addScaledVector",
+  		value: function addScaledVector(v, s) {
+
+  			this.x += v.x * s;
+  			this.y += v.y * s;
+
+  			return this;
+  		}
+  	}, {
+  		key: "addScalar",
+  		value: function addScalar(s) {
+
+  			this.x += s;
+  			this.y += s;
+
+  			return this;
+  		}
+  	}, {
+  		key: "addVectors",
+  		value: function addVectors(a, b) {
+
+  			this.x = a.x + b.x;
+  			this.y = a.y + b.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "sub",
+  		value: function sub(v) {
+
+  			this.x -= v.x;
+  			this.y -= v.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "subScalar",
+  		value: function subScalar(s) {
+
+  			this.x -= s;
+  			this.y -= s;
+
+  			return this;
+  		}
+  	}, {
+  		key: "subVectors",
+  		value: function subVectors(a, b) {
+
+  			this.x = a.x - b.x;
+  			this.y = a.y - b.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "multiply",
+  		value: function multiply(v) {
+
+  			this.x *= v.x;
+  			this.y *= v.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "multiplyScalar",
+  		value: function multiplyScalar(s) {
+
+  			if (isFinite(s)) {
+
+  				this.x *= s;
+  				this.y *= s;
+  			} else {
+
+  				this.x = 0;
+  				this.y = 0;
+  			}
+
+  			return this;
+  		}
+  	}, {
+  		key: "multiplyVectors",
+  		value: function multiplyVectors(a, b) {
+
+  			this.x = a.x * b.x;
+  			this.y = a.y * b.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "divide",
+  		value: function divide(v) {
+
+  			this.x /= v.x;
+  			this.y /= v.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "divideScalar",
+  		value: function divideScalar(s) {
+
+  			return this.multiplyScalar(1 / s);
+  		}
+  	}, {
+  		key: "divideVectors",
+  		value: function divideVectors(a, b) {
+
+  			this.x = a.x / b.x;
+  			this.y = a.y / b.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "negate",
+  		value: function negate() {
+
+  			this.x = -this.x;
+  			this.y = -this.y;
+
+  			return this;
+  		}
+  	}, {
+  		key: "dot",
+  		value: function dot(v) {
+
+  			return this.x * v.x + this.y * v.y;
+  		}
+  	}, {
+  		key: "lengthSq",
+  		value: function lengthSq() {
+
+  			return this.x * this.x + this.y * this.y;
+  		}
+  	}, {
+  		key: "length",
+  		value: function length() {
+
+  			return Math.sqrt(this.x * this.x + this.y * this.y);
+  		}
+  	}, {
+  		key: "distanceTo",
+  		value: function distanceTo(v) {
+
+  			return Math.sqrt(this.distanceToSquared(v));
+  		}
+  	}, {
+  		key: "distanceToSquared",
+  		value: function distanceToSquared(v) {
+
+  			var dx = this.x - v.x;
+  			var dy = this.y - v.y;
+
+  			return dx * dx + dy * dy;
+  		}
+  	}, {
+  		key: "normalize",
+  		value: function normalize() {
+
+  			return this.divideScalar(this.length());
+  		}
+  	}, {
+  		key: "min",
+  		value: function min(v) {
+
+  			this.x = Math.min(this.x, v.x);
+  			this.y = Math.min(this.y, v.y);
+
+  			return this;
+  		}
+  	}, {
+  		key: "max",
+  		value: function max(v) {
+
+  			this.x = Math.max(this.x, v.x);
+  			this.y = Math.max(this.y, v.y);
+
+  			return this;
+  		}
+  	}, {
+  		key: "clamp",
+  		value: function clamp(min, max) {
+
+  			this.x = Math.max(min.x, Math.min(max.x, this.x));
+  			this.y = Math.max(min.y, Math.min(max.y, this.y));
+
+  			return this;
+  		}
+  	}]);
+  	return Vector2;
+  }();
+
   var Vector3$1 = function () {
   	function Vector3$$1() {
   		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -1202,176 +1467,6 @@
   	return Vector3$$1;
   }();
 
-  var Octant = function () {
-  	function Octant() {
-  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1();
-  		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$1();
-  		classCallCheck(this, Octant);
-
-
-  		this.min = min;
-
-  		this.max = max;
-
-  		this.children = null;
-  	}
-
-  	createClass(Octant, [{
-  		key: "getCenter",
-  		value: function getCenter() {
-  			return this.min.clone().add(this.max).multiplyScalar(0.5);
-  		}
-  	}, {
-  		key: "getDimensions",
-  		value: function getDimensions() {
-  			return this.max.clone().sub(this.min);
-  		}
-  	}, {
-  		key: "split",
-  		value: function split(octants) {
-
-  			var min = this.min;
-  			var max = this.max;
-  			var mid = this.getCenter();
-
-  			var i = void 0,
-  			    j = void 0;
-  			var l = 0;
-  			var combination = void 0;
-
-  			var halfDimensions = void 0;
-  			var v = void 0,
-  			    child = void 0,
-  			    octant = void 0;
-
-  			if (Array.isArray(octants)) {
-
-  				halfDimensions = this.getDimensions().multiplyScalar(0.5);
-  				v = [new Vector3$1(), new Vector3$1(), new Vector3$1()];
-  				l = octants.length;
-  			}
-
-  			this.children = [];
-
-  			for (i = 0; i < 8; ++i) {
-
-  				combination = PATTERN[i];
-  				octant = null;
-
-  				if (l > 0) {
-
-  					v[1].addVectors(min, v[0].fromArray(combination).multiply(halfDimensions));
-  					v[2].addVectors(mid, v[0].fromArray(combination).multiply(halfDimensions));
-
-  					for (j = 0; j < l; ++j) {
-
-  						child = octants[j];
-
-  						if (child !== null && v[1].equals(child.min) && v[2].equals(child.max)) {
-
-  							octant = child;
-  							octants[j] = null;
-
-  							break;
-  						}
-  					}
-  				}
-
-  				this.children.push(octant !== null ? octant : new this.constructor(new Vector3$1(combination[0] === 0 ? min.x : mid.x, combination[1] === 0 ? min.y : mid.y, combination[2] === 0 ? min.z : mid.z), new Vector3$1(combination[0] === 0 ? mid.x : max.x, combination[1] === 0 ? mid.y : max.y, combination[2] === 0 ? mid.z : max.z)));
-  			}
-  		}
-  	}]);
-  	return Octant;
-  }();
-
-  var PATTERN = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
-
-  var EDGES = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
-
-  var CubicOctant = function () {
-  		function CubicOctant() {
-  				var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1();
-  				var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  				classCallCheck(this, CubicOctant);
-
-
-  				this.min = min;
-
-  				this.size = size;
-
-  				this.children = null;
-  		}
-
-  		createClass(CubicOctant, [{
-  				key: "getCenter",
-  				value: function getCenter() {
-  						return this.min.clone().addScalar(this.size * 0.5);
-  				}
-  		}, {
-  				key: "getDimensions",
-  				value: function getDimensions() {
-  						return new Vector3$1(this.size, this.size, this.size);
-  				}
-  		}, {
-  				key: "split",
-  				value: function split(octants) {
-
-  						var min = this.min;
-  						var mid = this.getCenter();
-  						var halfSize = this.size * 0.5;
-
-  						var i = void 0,
-  						    j = void 0;
-  						var l = 0;
-  						var combination = void 0;
-
-  						var v = void 0,
-  						    child = void 0,
-  						    octant = void 0;
-
-  						if (Array.isArray(octants)) {
-
-  								v = new Vector3$1();
-  								l = octants.length;
-  						}
-
-  						this.children = [];
-
-  						for (i = 0; i < 8; ++i) {
-
-  								combination = PATTERN[i];
-  								octant = null;
-
-  								if (l > 0) {
-
-  										v.fromArray(combination).multiplyScalar(halfSize).add(min);
-
-  										for (j = 0; j < l; ++j) {
-
-  												child = octants[j];
-
-  												if (child !== null && child.size === halfSize && v.equals(child.min)) {
-
-  														octant = child;
-  														octants[j] = null;
-
-  														break;
-  												}
-  										}
-  								}
-
-  								this.children.push(octant !== null ? octant : new this.constructor(new Vector3$1(combination[0] === 0 ? min.x : mid.x, combination[1] === 0 ? min.y : mid.y, combination[2] === 0 ? min.z : mid.z), halfSize));
-  						}
-  				}
-  		}, {
-  				key: "max",
-  				get: function get$$1() {
-  						return this.min.clone().addScalar(this.size);
-  				}
-  		}]);
-  		return CubicOctant;
-  }();
-
   var Box3$1 = function () {
   	function Box3$$1() {
   		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1(Infinity, Infinity, Infinity);
@@ -1461,6 +1556,332 @@
   	return Box3$$1;
   }();
 
+  var Matrix3 = function () {
+  	function Matrix3() {
+  		classCallCheck(this, Matrix3);
+
+
+  		this.elements = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+  	}
+
+  	createClass(Matrix3, [{
+  		key: "set",
+  		value: function set$$1(m00, m01, m02, m10, m11, m12, m20, m21, m22) {
+
+  			var te = this.elements;
+
+  			te[0] = m00;te[3] = m01;te[6] = m02;
+  			te[1] = m10;te[4] = m11;te[7] = m12;
+  			te[2] = m20;te[5] = m21;te[8] = m22;
+
+  			return this;
+  		}
+  	}, {
+  		key: "identity",
+  		value: function identity() {
+
+  			this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+
+  			return this;
+  		}
+  	}, {
+  		key: "copy",
+  		value: function copy(m) {
+
+  			var me = m.elements;
+
+  			return this.set(me[0], me[3], me[6], me[1], me[4], me[7], me[2], me[5], me[8]);
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return Matrix3;
+  }();
+
+  var SymmetricMatrix3 = function () {
+  	function SymmetricMatrix3() {
+  		classCallCheck(this, SymmetricMatrix3);
+
+
+  		this.elements = new Float32Array([1, 0, 0, 1, 0, 1]);
+  	}
+
+  	createClass(SymmetricMatrix3, [{
+  		key: "set",
+  		value: function set$$1(m00, m01, m02, m11, m12, m22) {
+
+  			var e = this.elements;
+
+  			e[0] = m00;
+  			e[1] = m01;e[3] = m11;
+  			e[2] = m02;e[4] = m12;e[5] = m22;
+
+  			return this;
+  		}
+  	}, {
+  		key: "identity",
+  		value: function identity() {
+
+  			this.set(1, 0, 0, 1, 0, 1);
+
+  			return this;
+  		}
+  	}, {
+  		key: "copy",
+  		value: function copy(m) {
+
+  			var me = m.elements;
+
+  			this.set(me[0], me[1], me[2], me[3], me[4], me[5]);
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}, {
+  		key: "toMatrix3",
+  		value: function toMatrix3(m) {
+
+  			var me = m.elements;
+
+  			m.set(me[0], me[1], me[2], me[1], me[3], me[4], me[2], me[4], me[5]);
+  		}
+  	}, {
+  		key: "add",
+  		value: function add(m) {
+
+  			var te = this.elements;
+  			var me = m.elements;
+
+  			te[0] += me[0];
+  			te[1] += me[1];te[3] += me[3];
+  			te[2] += me[2];te[4] += me[4];te[5] += me[5];
+
+  			return this;
+  		}
+  	}, {
+  		key: "norm",
+  		value: function norm() {
+
+  			var e = this.elements;
+
+  			var m01m01 = e[1] * e[1];
+  			var m02m02 = e[2] * e[2];
+  			var m12m12 = e[4] * e[4];
+
+  			return Math.sqrt(e[0] * e[0] + m01m01 + m02m02 + m01m01 + e[3] * e[3] + m12m12 + m02m02 + m12m12 + e[5] * e[5]);
+  		}
+  	}, {
+  		key: "off",
+  		value: function off() {
+
+  			var e = this.elements;
+
+  			return Math.sqrt(2 * (e[1] * e[1] + e[2] * e[2] + e[4] * e[4]));
+  		}
+  	}, {
+  		key: "applyToVector3",
+  		value: function applyToVector3(v) {
+
+  			var x = v.x,
+  			    y = v.y,
+  			    z = v.z;
+  			var e = this.elements;
+
+  			v.x = e[0] * x + e[1] * y + e[2] * z;
+  			v.y = e[1] * x + e[3] * y + e[4] * z;
+  			v.z = e[2] * x + e[4] * y + e[5] * z;
+
+  			return v;
+  		}
+  	}], [{
+  		key: "calculateIndex",
+  		value: function calculateIndex(i, j) {
+
+  			return 3 - (3 - i) * (2 - i) / 2 + j;
+  		}
+  	}]);
+  	return SymmetricMatrix3;
+  }();
+
+  var Octant = function () {
+  	function Octant() {
+  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1();
+  		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$1();
+  		classCallCheck(this, Octant);
+
+
+  		this.min = min;
+
+  		this.max = max;
+
+  		this.children = null;
+  	}
+
+  	createClass(Octant, [{
+  		key: "getCenter",
+  		value: function getCenter() {
+  			return this.min.clone().add(this.max).multiplyScalar(0.5);
+  		}
+  	}, {
+  		key: "getDimensions",
+  		value: function getDimensions() {
+  			return this.max.clone().sub(this.min);
+  		}
+  	}, {
+  		key: "split",
+  		value: function split(octants) {
+
+  			var min = this.min;
+  			var max = this.max;
+  			var mid = this.getCenter();
+
+  			var i = void 0,
+  			    j = void 0;
+  			var l = 0;
+  			var combination = void 0;
+
+  			var halfDimensions = void 0;
+  			var v = void 0,
+  			    child = void 0,
+  			    octant = void 0;
+
+  			if (Array.isArray(octants)) {
+
+  				halfDimensions = this.getDimensions().multiplyScalar(0.5);
+  				v = [new Vector3$1(), new Vector3$1(), new Vector3$1()];
+  				l = octants.length;
+  			}
+
+  			this.children = [];
+
+  			for (i = 0; i < 8; ++i) {
+
+  				combination = PATTERN[i];
+  				octant = null;
+
+  				if (l > 0) {
+
+  					v[1].addVectors(min, v[0].fromArray(combination).multiply(halfDimensions));
+  					v[2].addVectors(mid, v[0].fromArray(combination).multiply(halfDimensions));
+
+  					for (j = 0; j < l; ++j) {
+
+  						child = octants[j];
+
+  						if (child !== null && v[1].equals(child.min) && v[2].equals(child.max)) {
+
+  							octant = child;
+  							octants[j] = null;
+
+  							break;
+  						}
+  					}
+  				}
+
+  				this.children.push(octant !== null ? octant : new this.constructor(new Vector3$1(combination[0] === 0 ? min.x : mid.x, combination[1] === 0 ? min.y : mid.y, combination[2] === 0 ? min.z : mid.z), new Vector3$1(combination[0] === 0 ? mid.x : max.x, combination[1] === 0 ? mid.y : max.y, combination[2] === 0 ? mid.z : max.z)));
+  			}
+  		}
+  	}]);
+  	return Octant;
+  }();
+
+  var PATTERN = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
+
+  var EDGES = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+
+  var CubicOctant = function () {
+  	function CubicOctant() {
+  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1();
+  		var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  		classCallCheck(this, CubicOctant);
+
+
+  		this.min = min;
+
+  		this.size = size;
+
+  		this.children = null;
+  	}
+
+  	createClass(CubicOctant, [{
+  		key: "getCenter",
+  		value: function getCenter() {
+  			return this.min.clone().addScalar(this.size * 0.5);
+  		}
+  	}, {
+  		key: "getDimensions",
+  		value: function getDimensions() {
+  			return new Vector3$1(this.size, this.size, this.size);
+  		}
+  	}, {
+  		key: "split",
+  		value: function split(octants) {
+
+  			var min = this.min;
+  			var mid = this.getCenter();
+  			var halfSize = this.size * 0.5;
+
+  			var i = void 0,
+  			    j = void 0;
+  			var l = 0;
+  			var combination = void 0;
+
+  			var v = void 0,
+  			    child = void 0,
+  			    octant = void 0;
+
+  			if (Array.isArray(octants)) {
+
+  				v = new Vector3$1();
+  				l = octants.length;
+  			}
+
+  			this.children = [];
+
+  			for (i = 0; i < 8; ++i) {
+
+  				combination = PATTERN[i];
+  				octant = null;
+
+  				if (l > 0) {
+
+  					v.fromArray(combination).multiplyScalar(halfSize).add(min);
+
+  					for (j = 0; j < l; ++j) {
+
+  						child = octants[j];
+
+  						if (child !== null && child.size === halfSize && v.equals(child.min)) {
+
+  							octant = child;
+  							octants[j] = null;
+
+  							break;
+  						}
+  					}
+  				}
+
+  				this.children.push(octant !== null ? octant : new this.constructor(new Vector3$1(combination[0] === 0 ? min.x : mid.x, combination[1] === 0 ? min.y : mid.y, combination[2] === 0 ? min.z : mid.z), halfSize));
+  			}
+  		}
+  	}, {
+  		key: "max",
+  		get: function get$$1() {
+  			return this.min.clone().addScalar(this.size);
+  		}
+  	}]);
+  	return CubicOctant;
+  }();
+
   var IteratorResult = function () {
   	function IteratorResult() {
   		var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -1484,7 +1905,7 @@
   	return IteratorResult;
   }();
 
-  var BOX3$1 = new Box3$1();
+  var box3$3 = new Box3$1();
 
   var OctreeIterator = function () {
   		function OctreeIterator(octree) {
@@ -1518,10 +1939,10 @@
 
   						if (root !== null) {
 
-  								BOX3$1.min = root.min;
-  								BOX3$1.max = root.max;
+  								box3$3.min = root.min;
+  								box3$3.max = root.max;
 
-  								if (!this.cull || this.region.intersectsBox(BOX3$1)) {
+  								if (!this.cull || this.region.intersectsBox(box3$3)) {
 
   										this.trace.push(root);
   										this.indices.push(0);
@@ -1563,10 +1984,10 @@
 
   												if (cull) {
 
-  														BOX3$1.min = child.min;
-  														BOX3$1.max = child.max;
+  														box3$3.min = child.min;
+  														box3$3.max = child.max;
 
-  														if (!region.intersectsBox(BOX3$1)) {
+  														if (!region.intersectsBox(box3$3)) {
   																continue;
   														}
   												}
@@ -1814,7 +2235,7 @@
   	return OctreeRaycaster;
   }();
 
-  var BOX3 = new Box3$1();
+  var box3$2 = new Box3$1();
 
   function _getDepth(octant) {
 
@@ -1848,10 +2269,10 @@
   	var i = void 0,
   	    l = void 0;
 
-  	BOX3.min = octant.min;
-  	BOX3.max = octant.max;
+  	box3$2.min = octant.min;
+  	box3$2.max = octant.max;
 
-  	if (region.intersectsBox(BOX3)) {
+  	if (region.intersectsBox(box3$2)) {
 
   		if (children !== null) {
 
@@ -1908,7 +2329,6 @@
   	}, {
   		key: "getDepth",
   		value: function getDepth() {
-
   			return _getDepth(this.root);
   		}
   	}, {
@@ -2512,415 +2932,6 @@
   	return PointOctree;
   }(Octree);
 
-  var Vector3$2 = function () {
-  	function Vector3$$1() {
-  		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  		var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  		classCallCheck(this, Vector3$$1);
-
-
-  		this.x = x;
-
-  		this.y = y;
-
-  		this.z = z;
-  	}
-
-  	createClass(Vector3$$1, [{
-  		key: "set",
-  		value: function set$$1(x, y, z) {
-
-  			this.x = x;
-  			this.y = y;
-  			this.z = z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "copy",
-  		value: function copy(v) {
-
-  			this.x = v.x;
-  			this.y = v.y;
-  			this.z = v.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "fromArray",
-  		value: function fromArray(array) {
-  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-
-  			this.x = array[offset];
-  			this.y = array[offset + 1];
-  			this.z = array[offset + 2];
-
-  			return this;
-  		}
-  	}, {
-  		key: "toArray",
-  		value: function toArray$$1() {
-  			var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-
-  			array[offset] = this.x;
-  			array[offset + 1] = this.y;
-  			array[offset + 2] = this.z;
-
-  			return array;
-  		}
-  	}, {
-  		key: "equals",
-  		value: function equals(v) {
-
-  			return v.x === this.x && v.y === this.y && v.z === this.z;
-  		}
-  	}, {
-  		key: "clone",
-  		value: function clone() {
-
-  			return new this.constructor(this.x, this.y, this.z);
-  		}
-  	}, {
-  		key: "add",
-  		value: function add(v) {
-
-  			this.x += v.x;
-  			this.y += v.y;
-  			this.z += v.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addScaledVector",
-  		value: function addScaledVector(v, s) {
-
-  			this.x += v.x * s;
-  			this.y += v.y * s;
-  			this.z += v.z * s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addScalar",
-  		value: function addScalar(s) {
-
-  			this.x += s;
-  			this.y += s;
-  			this.z += s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addVectors",
-  		value: function addVectors(a, b) {
-
-  			this.x = a.x + b.x;
-  			this.y = a.y + b.y;
-  			this.z = a.z + b.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "sub",
-  		value: function sub(v) {
-
-  			this.x -= v.x;
-  			this.y -= v.y;
-  			this.z -= v.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "subScalar",
-  		value: function subScalar(s) {
-
-  			this.x -= s;
-  			this.y -= s;
-  			this.z -= s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "subVectors",
-  		value: function subVectors(a, b) {
-
-  			this.x = a.x - b.x;
-  			this.y = a.y - b.y;
-  			this.z = a.z - b.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiply",
-  		value: function multiply(v) {
-
-  			this.x *= v.x;
-  			this.y *= v.y;
-  			this.z *= v.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiplyScalar",
-  		value: function multiplyScalar(s) {
-
-  			if (isFinite(s)) {
-
-  				this.x *= s;
-  				this.y *= s;
-  				this.z *= s;
-  			} else {
-
-  				this.x = 0;
-  				this.y = 0;
-  				this.z = 0;
-  			}
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiplyVectors",
-  		value: function multiplyVectors(a, b) {
-
-  			this.x = a.x * b.x;
-  			this.y = a.y * b.y;
-  			this.z = a.z * b.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "divide",
-  		value: function divide(v) {
-
-  			this.x /= v.x;
-  			this.y /= v.y;
-  			this.z /= v.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "divideScalar",
-  		value: function divideScalar(s) {
-
-  			return this.multiplyScalar(1 / s);
-  		}
-  	}, {
-  		key: "divideVectors",
-  		value: function divideVectors(a, b) {
-
-  			this.x = a.x / b.x;
-  			this.y = a.y / b.y;
-  			this.z = a.z / b.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "negate",
-  		value: function negate() {
-
-  			this.x = -this.x;
-  			this.y = -this.y;
-  			this.z = -this.z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "dot",
-  		value: function dot(v) {
-
-  			return this.x * v.x + this.y * v.y + this.z * v.z;
-  		}
-  	}, {
-  		key: "lengthSq",
-  		value: function lengthSq() {
-
-  			return this.x * this.x + this.y * this.y + this.z * this.z;
-  		}
-  	}, {
-  		key: "length",
-  		value: function length() {
-
-  			return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-  		}
-  	}, {
-  		key: "distanceTo",
-  		value: function distanceTo(v) {
-
-  			return Math.sqrt(this.distanceToSquared(v));
-  		}
-  	}, {
-  		key: "distanceToSquared",
-  		value: function distanceToSquared(v) {
-
-  			var dx = this.x - v.x;
-  			var dy = this.y - v.y;
-  			var dz = this.z - v.z;
-
-  			return dx * dx + dy * dy + dz * dz;
-  		}
-  	}, {
-  		key: "normalize",
-  		value: function normalize() {
-
-  			return this.divideScalar(this.length());
-  		}
-  	}, {
-  		key: "min",
-  		value: function min(v) {
-
-  			this.x = Math.min(this.x, v.x);
-  			this.y = Math.min(this.y, v.y);
-  			this.z = Math.min(this.z, v.z);
-
-  			return this;
-  		}
-  	}, {
-  		key: "max",
-  		value: function max(v) {
-
-  			this.x = Math.max(this.x, v.x);
-  			this.y = Math.max(this.y, v.y);
-  			this.z = Math.max(this.z, v.z);
-
-  			return this;
-  		}
-  	}, {
-  		key: "clamp",
-  		value: function clamp(min, max) {
-
-  			this.x = Math.max(min.x, Math.min(max.x, this.x));
-  			this.y = Math.max(min.y, Math.min(max.y, this.y));
-  			this.z = Math.max(min.z, Math.min(max.z, this.z));
-
-  			return this;
-  		}
-  	}, {
-  		key: "applyMatrix3",
-  		value: function applyMatrix3(m) {
-
-  			var x = this.x,
-  			    y = this.y,
-  			    z = this.z;
-  			var e = m.elements;
-
-  			this.x = e[0] * x + e[3] * y + e[6] * z;
-  			this.y = e[1] * x + e[4] * y + e[7] * z;
-  			this.z = e[2] * x + e[5] * y + e[8] * z;
-
-  			return this;
-  		}
-  	}, {
-  		key: "applyMatrix4",
-  		value: function applyMatrix4(m) {
-
-  			var x = this.x,
-  			    y = this.y,
-  			    z = this.z;
-  			var e = m.elements;
-
-  			this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
-  			this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
-  			this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
-
-  			return this;
-  		}
-  	}]);
-  	return Vector3$$1;
-  }();
-
-  var Box3$2 = function () {
-  	function Box3$$1() {
-  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$2(Infinity, Infinity, Infinity);
-  		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$2(-Infinity, -Infinity, -Infinity);
-  		classCallCheck(this, Box3$$1);
-
-
-  		this.min = min;
-
-  		this.max = max;
-  	}
-
-  	createClass(Box3$$1, [{
-  		key: "set",
-  		value: function set$$1(min, max) {
-
-  			this.min.copy(min);
-  			this.max.copy(max);
-
-  			return this;
-  		}
-  	}, {
-  		key: "copy",
-  		value: function copy(b) {
-
-  			this.min.copy(b.min);
-  			this.max.copy(b.max);
-
-  			return this;
-  		}
-  	}, {
-  		key: "clone",
-  		value: function clone() {
-
-  			return new this.constructor().copy(this);
-  		}
-  	}, {
-  		key: "expandByPoint",
-  		value: function expandByPoint(p) {
-
-  			this.min.min(p);
-  			this.max.max(p);
-
-  			return this;
-  		}
-  	}, {
-  		key: "union",
-  		value: function union(b) {
-
-  			this.min.min(b.min);
-  			this.max.max(b.max);
-
-  			return this;
-  		}
-  	}, {
-  		key: "setFromPoints",
-  		value: function setFromPoints(points) {
-
-  			var i = void 0,
-  			    l = void 0;
-
-  			for (i = 0, l = points.length; i < l; ++i) {
-
-  				this.expandByPoint(points[i]);
-  			}
-
-  			return this;
-  		}
-  	}, {
-  		key: "setFromCenterAndSize",
-  		value: function setFromCenterAndSize(center, size) {
-
-  			var halfSize = size.clone().multiplyScalar(0.5);
-
-  			this.min.copy(center).sub(halfSize);
-  			this.max.copy(center).add(halfSize);
-
-  			return this;
-  		}
-  	}, {
-  		key: "intersectsBox",
-  		value: function intersectsBox(box) {
-
-  			return !(box.max.x < this.min.x || box.min.x > this.max.x || box.max.y < this.min.y || box.min.y > this.max.y || box.max.z < this.min.z || box.min.z > this.max.z);
-  		}
-  	}]);
-  	return Box3$$1;
-  }();
-
   var Material = {
 
     AIR: 0,
@@ -3229,7 +3240,7 @@
   	return Chunk;
   }(CubicOctant);
 
-  var box3$1 = new Box3$2();
+  var box3$1 = new Box3$1();
 
   function ceil2(n) {
   	return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n))));
@@ -3423,7 +3434,7 @@
   						var i = void 0,
   						    l = void 0;
 
-  						this.bbox = new Box3$2();
+  						this.bbox = new Box3$1();
 
   						for (i = 0, l = children.length; i < l; ++i) {
 
@@ -3744,7 +3755,7 @@
 
   				var _this = possibleConstructorReturn(this, (Sphere.__proto__ || Object.getPrototypeOf(Sphere)).call(this, SDFType.SPHERE, material));
 
-  				_this.origin = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.origin))))();
+  				_this.origin = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.origin))))();
 
   				_this.radius = parameters.radius;
 
@@ -3755,7 +3766,7 @@
   				key: "computeBoundingBox",
   				value: function computeBoundingBox() {
 
-  						this.bbox = new Box3$2();
+  						this.bbox = new Box3$1();
 
   						this.bbox.min.copy(this.origin).subScalar(this.radius);
   						this.bbox.max.copy(this.origin).addScalar(this.radius);
@@ -3803,9 +3814,9 @@
 
   				var _this = possibleConstructorReturn(this, (Box.__proto__ || Object.getPrototypeOf(Box)).call(this, SDFType.BOX, material));
 
-  				_this.origin = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.origin))))();
+  				_this.origin = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.origin))))();
 
-  				_this.halfDimensions = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.halfDimensions))))();
+  				_this.halfDimensions = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.halfDimensions))))();
 
   				return _this;
   		}
@@ -3814,7 +3825,7 @@
   				key: "computeBoundingBox",
   				value: function computeBoundingBox() {
 
-  						this.bbox = new Box3$2();
+  						this.bbox = new Box3$1();
 
   						this.bbox.min.subVectors(this.origin, this.halfDimensions);
   						this.bbox.max.addVectors(this.origin, this.halfDimensions);
@@ -3869,7 +3880,7 @@
 
   		var _this = possibleConstructorReturn(this, (Plane.__proto__ || Object.getPrototypeOf(Plane)).call(this, SDFType.PLANE, material));
 
-  		_this.normal = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.normal))))();
+  		_this.normal = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.normal))))();
 
   		_this.constant = parameters.constant;
 
@@ -3880,7 +3891,7 @@
   		key: "computeBoundingBox",
   		value: function computeBoundingBox() {
 
-  			this.bbox = new Box3$2();
+  			this.bbox = new Box3$1();
 
   			return this.bbox;
   		}
@@ -3917,7 +3928,7 @@
 
   				var _this = possibleConstructorReturn(this, (Torus.__proto__ || Object.getPrototypeOf(Torus)).call(this, SDFType.TORUS, material));
 
-  				_this.origin = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.origin))))();
+  				_this.origin = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.origin))))();
 
   				_this.R = parameters.R;
 
@@ -3930,7 +3941,7 @@
   				key: "computeBoundingBox",
   				value: function computeBoundingBox() {
 
-  						this.bbox = new Box3$2();
+  						this.bbox = new Box3$1();
 
   						this.bbox.min.copy(this.origin).subScalar(this.R).subScalar(this.r);
   						this.bbox.max.copy(this.origin).addScalar(this.R).addScalar(this.r);
@@ -3980,9 +3991,9 @@
 
   				var _this = possibleConstructorReturn(this, (Heightfield.__proto__ || Object.getPrototypeOf(Heightfield)).call(this, SDFType.HEIGHTFIELD, material));
 
-  				_this.min = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.min))))();
+  				_this.min = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.min))))();
 
-  				_this.dimensions = new (Function.prototype.bind.apply(Vector3$2, [null].concat(toConsumableArray(parameters.size))))();
+  				_this.dimensions = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.size))))();
 
   				_this.data = parameters.data;
 
@@ -3993,7 +4004,7 @@
   				key: "computeBoundingBox",
   				value: function computeBoundingBox() {
 
-  						this.bbox = new Box3$2();
+  						this.bbox = new Box3$1();
 
   						this.bbox.min.copy(this.min);
   						this.bbox.max.addVectors(this.min, this.dimensions);
@@ -4110,7 +4121,7 @@
 
   var message = new WorkerEvent("message");
 
-  var worker = "!function(){\"use strict\";function t(t,i,n,e,r,s){var o=0;return t>i&&t>n?(r<t&&(o|=2),s<t&&(o|=1)):i>n?(e<i&&(o|=4),s<i&&(o|=1)):(e<n&&(o|=4),r<n&&(o|=2)),o}function i(t,i,n,e){var r=void 0,s=0;return i<n?(r=i,s=0):(r=n,s=1),e<r&&(s=2),Z[t][s]}function n(e,r,s,o,a,u,l,h,c){var d=e.children,y=void 0,v=void 0,f=void 0,m=void 0;if(a>=0&&u>=0&&l>=0)if(null===d)c.push(e);else{y=t(r,s,o,v=.5*(r+a),f=.5*(s+u),m=.5*(o+l));do{switch(y){case 0:n(d[X[8]],r,s,o,v,f,m,h,c),y=i(y,v,f,m);break;case 1:n(d[X[8]^X[1]],r,s,m,v,f,l,h,c),y=i(y,v,f,l);break;case 2:n(d[X[8]^X[2]],r,f,o,v,u,m,h,c),y=i(y,v,u,m);break;case 3:n(d[X[8]^X[3]],r,f,m,v,u,l,h,c),y=i(y,v,u,l);break;case 4:n(d[X[8]^X[4]],v,s,o,a,f,m,h,c),y=i(y,a,f,m);break;case 5:n(d[X[8]^X[5]],v,s,m,a,f,l,h,c),y=i(y,a,f,l);break;case 6:n(d[X[8]^X[6]],v,f,o,a,u,m,h,c),y=i(y,a,u,m);break;case 7:n(d[X[8]^X[7]],v,f,m,a,u,l,h,c),y=8}}while(y<8)}}function e(t){var i=t.children,n=0,r=void 0,s=void 0,o=void 0;if(null!==i)for(r=0,s=i.length;r<s;++r)(o=1+e(i[r]))>n&&(n=o);return n}function r(t,i,n){var e=t.children,s=void 0,o=void 0;if(K.min=t.min,K.max=t.max,i.intersectsBox(K))if(null!==e)for(s=0,o=e.length;s<o;++s)r(e[s],i,n);else n.push(t)}function s(t,i,n,e){var r=t.children,o=void 0,a=void 0;if(n===i)e.push(t);else if(null!==r)for(++n,o=0,a=r.length;o<a;++o)s(r[o],i,n,e)}function o(t){var i=t.children,n=0,e=void 0,r=void 0;if(null!==i)for(e=0,r=i.length;e<r;++e)n+=o(i[e]);else null!==t.points&&(n=t.points.length);return n}function a(t,i,n,e,r,s,o){var u=t.children,l=!1,h=!1,c=void 0,d=void 0;if(t.contains(i,r)){if(null===u){if(null===t.points)t.points=[],t.data=[];else for(c=0,d=t.points.length;!l&&c<d;++c)l=t.points[c].equals(i);l?(t.data[c-1]=n,h=!0):t.points.length<s||e===o?(t.points.push(i.clone()),t.data.push(n),h=!0):(t.split(),t.redistribute(r),u=t.children)}if(null!==u)for(++e,c=0,d=u.length;!h&&c<d;++c)h=a(u[c],i,n,e,r,s,o)}return h}function u(t,i,n,e,r){var s=t.children,a=!1,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0;if(t.contains(n,e))if(null!==s)for(l=0,h=s.length;!a&&l<h;++l)a=u(s[l],t,n,e,r);else if(null!==t.points)for(c=t.points,d=t.data,l=0,h=c.length;!a&&l<h;++l)c[l].equals(n)&&(l<(y=h-1)&&(c[l]=c[y],d[l]=d[y]),c.pop(),d.pop(),null!==i&&o(i)<=r&&i.merge(),a=!0);return a}function l(t,i,n,e){var r=t.children,s=null,o=void 0,a=void 0,u=void 0;if(t.contains(i,n))if(null!==r)for(o=0,a=r.length;null===s&&o<a;++o)s=l(r[o],i,n,e);else for(o=0,a=(u=t.points).length;null===s&&o<a;++o)i.distanceToSquared(u[o])<=e&&(s=t.data[o]);return s}function h(t,i,n,e){var r=t.points,s=t.children,o=null,a=n,u=void 0,l=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0;if(null!==s)for(u=0,l=(y=s.map(function(t){return{octant:t,distance:t.distanceToCenterSquared(i)}}).sort(function(t,i){return t.distance-i.distance})).length;u<l;++u)(v=y[u].octant).contains(i,a)&&null!==(f=h(v,i,a,e))&&(d=f.point.distanceToSquared(i),(!e||d>0)&&d<a&&(a=d,o=f));else if(null!==r)for(u=0,l=r.length;u<l;++u)c=r[u],d=i.distanceToSquared(c),(!e||d>0)&&d<a&&(a=d,o={point:c.clone(),data:t.data[u]});return o}function c(t,i,n,e,r){var s=t.points,o=t.children,a=n*n,u=void 0,l=void 0,h=void 0,d=void 0,y=void 0;if(null!==o)for(u=0,l=o.length;u<l;++u)(y=o[u]).contains(i,n)&&c(y,i,n,e,r);else if(null!==s)for(u=0,l=s.length;u<l;++u)h=s[u],d=i.distanceToSquared(h),(!e||d>0)&&d<=a&&r.push({point:h.clone(),data:t.data[u]})}function d(t,i,n){var e=void 0,r=void 0,s=void 0;0===i?(st.c=1,st.s=0):(e=(n-t)/(2*i),r=Math.sqrt(1+e*e),s=1/(e>=0?e+r:e-r),st.c=1/Math.sqrt(1+s*s),st.s=s*st.c)}function y(t,i){0!==t.elements[1]&&rt.rot01Post(i,ot.rot01(t))}function v(t,i){0!==t.elements[2]&&rt.rot02Post(i,ot.rot02(t))}function f(t,i){0!==t.elements[4]&&rt.rot12Post(i,ot.rot12(t))}function m(t,i,n,e,r){var s=e*i.copy(t).norm(),o=void 0;for(o=0;o<r&&i.off()>s;++o)y(i,n),v(i,n),f(i,n)}function p(t,i){var n=1/t;return Math.abs(t)<i||Math.abs(n)<i?0:n}function x(t,i,n,e){var r=t.elements,s=i.elements,o=n.elements,a=s[0],u=s[3],l=s[5],h=p(a,e),c=p(u,e),d=p(l,e),y=3-((0===h)+(0===c)+(0===d)),v=o[0],f=o[3],m=o[6],x=o[1],g=o[4],k=o[7],w=o[2],z=o[5],b=o[8];return r[0]=v*h*v+f*c*f+m*d*m,r[3]=v*h*x+f*c*g+m*d*k,r[6]=v*h*w+f*c*z+m*d*b,r[1]=r[3],r[4]=x*h*x+g*c*g+k*d*k,r[7]=x*h*w+g*c*z+k*d*b,r[2]=r[6],r[5]=r[7],r[8]=w*h*w+z*c*z+b*d*b,y}function g(t,i,n,e,r){var s=t+1,o=s*s,a=new yt,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0;for(u=0,d=0;d<8;++d)c=(e+(h=B[d])[2])*o+(n+h[1])*s+(i+h[0]),u|=Math.min(r[c],$.SOLID)<<d;for(l=0,d=0;d<12;++d)(u>>q[d][0]&1)!==(u>>q[d][1]&1)&&++l;return a.materials=u,a.edgeCount=l,a.qefData=new nt,a}function k(t,i,n){var e=[-1,-1,-1,-1],r=[!1,!1,!1,!1],s=1/0,o=0,a=!1,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0,v=void 0;for(v=0;v<4;++v)d=t[v],y=zt[i][v],u=q[y][0],l=q[y][1],h=d.voxel.materials>>u&1,c=d.voxel.materials>>l&1,d.size<s&&(s=d.size,o=v,a=h!==$.AIR),e[v]=d.voxel.index,r[v]=h!==c;r[o]&&(a?(n.push(e[0]),n.push(e[3]),n.push(e[1]),n.push(e[0]),n.push(e[2]),n.push(e[3])):(n.push(e[0]),n.push(e[1]),n.push(e[3]),n.push(e[0]),n.push(e[3]),n.push(e[2])))}function w(t,i,n){var e=[0,0,0,0],r=void 0,s=void 0,o=void 0,a=void 0;if(null!==t[0].voxel&&null!==t[1].voxel&&null!==t[2].voxel&&null!==t[3].voxel)k(t,i,n);else for(o=0;o<2;++o){for(e[0]=wt[i][o][0],e[1]=wt[i][o][1],e[2]=wt[i][o][2],e[3]=wt[i][o][3],r=[],a=0;a<4;++a)if(null!==(s=t[a]).voxel)r[a]=s;else{if(null===s.children)break;r[a]=s.children[e[a]]}4===a&&w(r,wt[i][o][4],n)}}function z(t,i,n){var e=[0,0,0,0],r=[[0,0,1,1],[0,1,0,1]],s=void 0,o=void 0,a=void 0,u=void 0,l=void 0;if(null!==t[0].children||null!==t[1].children){for(u=0;u<4;++u)e[0]=gt[i][u][0],e[1]=gt[i][u][1],z([null===t[0].children?t[0]:t[0].children[e[0]],null===t[1].children?t[1]:t[1].children[e[1]]],gt[i][u][2],n);for(u=0;u<4;++u){for(e[0]=kt[i][u][1],e[1]=kt[i][u][2],e[2]=kt[i][u][3],e[3]=kt[i][u][4],o=r[kt[i][u][0]],s=[],l=0;l<4;++l)if(null!==(a=t[o[l]]).voxel)s[l]=a;else{if(null===a.children)break;s[l]=a.children[e[l]]}4===l&&w(s,kt[i][u][5],n)}}}function b(t,i){var n=t.children,e=[0,0,0,0],r=void 0;if(null!==n){for(r=0;r<8;++r)b(n[r],i);for(r=0;r<12;++r)e[0]=pt[r][0],e[1]=pt[r][1],z([n[e[0]],n[e[1]]],pt[r][2],i);for(r=0;r<6;++r)e[0]=xt[r][0],e[1]=xt[r][1],e[2]=xt[r][2],e[3]=xt[r][3],w([n[e[0]],n[e[1]],n[e[2]],n[e[3]]],xt[r][4],i)}}function A(t,i,n,e){var r=void 0,s=void 0;if(null!==t.children)for(r=0;r<8;++r)e=A(t.children[r],i,n,e);else null!==t.voxel&&((s=t.voxel).index=e,i[3*e]=s.position.x,i[3*e+1]=s.position.y,i[3*e+2]=s.position.z,n[3*e]=s.normal.x,n[3*e+1]=s.normal.y,n[3*e+2]=s.normal.z,++e);return e}function U(t,i){var n=t.size,e=t.resolution,r=new tt(0,0,0),s=new tt(e,e,e),o=new Pt(t.min,t.max);return i.type!==Et.INTERSECTION&&(i.boundingBox.intersectsBox(o)?(r.copy(i.boundingBox.min).max(o.min).sub(o.min),r.x=Math.ceil(r.x*e/n),r.y=Math.ceil(r.y*e/n),r.z=Math.ceil(r.z*e/n),s.copy(i.boundingBox.max).min(o.max).sub(o.min),s.x=Math.floor(s.x*e/n),s.y=Math.floor(s.y*e/n),s.z=Math.floor(s.z*e/n)):(r.set(e,e,e),s.set(0,0,0))),new Pt(r,s)}function M(t,i,n,e,r){var s=t.resolution+1,o=s*s,a=r.max.x,u=r.max.y,l=r.max.z,h=void 0,c=void 0,d=void 0;for(d=r.min.z;d<=l;++d)for(c=r.min.y;c<=u;++c)for(h=r.min.x;h<=a;++h)i.updateMaterialIndex(d*o+c*s+h,n,e)}function I(t,i,n,e){var r=t.size,s=t.resolution,o=s+1,a=o*o,u=n.materialIndices,l=t.min,h=new tt,c=new tt,d=e.max.x,y=e.max.y,v=e.max.z,f=void 0,m=0,p=void 0,x=void 0,g=void 0;for(g=e.min.z;g<=v;++g)for(h.z=g*r/s,x=e.min.y;x<=y;++x)for(h.y=x*r/s,p=e.min.x;p<=d;++p)h.x=p*r/s,(f=i.generateMaterialIndex(c.addVectors(l,h)))!==$.AIR&&(u[g*a+x*o+p]=f,++m);n.materials=m}function S(t,i,n,e){var r=t.resolution+1,s=new Uint32Array([1,r,r*r]),o=n.materialIndices,a=new dt,u=new dt,l=e.edgeData,h=n.edgeData,c=Ut.calculate1DEdgeCount(t.resolution),d=new Ut(Math.min(c,h.edges[0].length+l.edges[0].length),Math.min(c,h.edges[1].length+l.edges[1].length),Math.min(c,h.edges[2].length+l.edges[2].length)),y=new Uint32Array(3),v=void 0,f=void 0,m=void 0,p=void 0,x=void 0,g=void 0,k=void 0,w=void 0,z=void 0,b=void 0,A=void 0,U=void 0,M=void 0,I=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0,C=void 0,T=void 0;for(_=0,D=0;D<3;_=0,++D){for(v=l.edges[D],p=h.edges[D],k=d.edges[D],f=l.zeroCrossings[D],x=h.zeroCrossings[D],w=d.zeroCrossings[D],m=l.normals[D],g=h.normals[D],z=d.normals[D],C=v.length,T=p.length,P=0,E=0;P<C;++P)if(b=v[P],A=b+s[D],I=o[b],S=o[A],I!==S&&(I===$.AIR||S===$.AIR)){for(a.t=f[P],a.n.x=m[3*P],a.n.y=m[3*P+1],a.n.z=m[3*P+2],i.type===Et.DIFFERENCE&&a.n.negate(),O=a;E<T&&p[E]<=b;)M=(U=p[E])+s[D],u.t=x[E],u.n.x=g[3*E],u.n.y=g[3*E+1],u.n.z=g[3*E+2],I=o[U],U<b?I===(S=o[M])||I!==$.AIR&&S!==$.AIR||(k[_]=U,w[_]=u.t,z[3*_]=u.n.x,z[3*_+1]=u.n.y,z[3*_+2]=u.n.z,++_):O=i.selectEdge(u,a,I===$.SOLID),++E;k[_]=b,w[_]=O.t,z[3*_]=O.n.x,z[3*_+1]=O.n.y,z[3*_+2]=O.n.z,++_}for(;E<T;)M=(U=p[E])+s[D],(I=o[U])===(S=o[M])||I!==$.AIR&&S!==$.AIR||(k[_]=U,w[_]=x[E],z[3*_]=g[3*E],z[3*_+1]=g[3*E+1],z[3*_+2]=g[3*E+2],++_),++E;y[D]=_}return{edgeData:d,lengths:y}}function O(t,i,n,e){var r=t.size,s=t.resolution,o=s+1,a=o*o,u=new Uint32Array([1,o,a]),l=n.materialIndices,h=t.min,c=new tt,d=new tt,y=new dt,v=new Ut(Ut.calculate1DEdgeCount(s)),f=new Uint32Array(3),m=void 0,p=void 0,x=void 0,g=void 0,k=void 0,w=void 0,z=void 0,b=void 0,A=void 0,U=void 0,M=void 0,I=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0;for(O=4,I=0,S=0;S<3;O>>=1,I=0,++S){switch(_=B[O],m=v.edges[S],p=v.zeroCrossings[S],x=v.normals[S],w=e.min.x,A=e.max.x,z=e.min.y,U=e.max.y,b=e.min.z,M=e.max.z,S){case 0:w=Math.max(w-1,0),A=Math.min(A,s-1);break;case 1:z=Math.max(z-1,0),U=Math.min(U,s-1);break;case 2:b=Math.max(b-1,0),M=Math.min(M,s-1)}for(E=b;E<=M;++E)for(P=z;P<=U;++P)for(D=w;D<=A;++D)k=(g=E*a+P*o+D)+u[S],l[g]!==l[k]&&(c.set(D*r/s,P*r/s,E*r/s),d.set((D+_[0])*r/s,(P+_[1])*r/s,(E+_[2])*r/s),y.a.addVectors(h,c),y.b.addVectors(h,d),i.generateEdge(y),m[I]=g,p[I]=y.t,x[3*I]=y.n.x,x[3*I+1]=y.n.y,x[3*I+2]=y.n.z,++I);f[S]=I}return{edgeData:v,lengths:f}}function _(t,i,n,e){var r=U(t,i),s=void 0,o=void 0,a=void 0,u=void 0,l=!1;if(i.type===Et.DENSITY_FUNCTION?I(t,i,n,r):n.empty?i.type===Et.UNION&&(n.set(e),l=!0):n.full&&i.type===Et.UNION||M(t,i,n,e,r),!l&&!n.empty&&!n.full){for(o=(s=i.type===Et.DENSITY_FUNCTION?O(t,i,n,r):S(t,i,n,e)).edgeData,a=s.lengths,u=0;u<3;++u)o.edges[u]=o.edges[u].slice(0,a[u]),o.zeroCrossings[u]=o.zeroCrossings[u].slice(0,a[u]),o.normals[u]=o.normals[u].slice(0,3*a[u]);n.edgeData=o}}function D(t,i){var n=i.children,e=void 0,r=void 0,s=void 0,o=void 0;for(i.type===Et.DENSITY_FUNCTION&&_(t,i,e=new St),s=0,o=n.length;s<o&&(r=D(t,n[s]),void 0===e?e=r:null!==r?null===e?i.type===Et.UNION&&(e=r):_(t,i,e,r):i.type===Et.INTERSECTION&&(e=null),null!==e||i.type===Et.UNION);++s);return null!==e&&e.empty?null:e}var P=function(t,i){if(!(t instanceof i))throw new TypeError(\"Cannot call a class as a function\")},E=function(){function t(t,i){for(var n=0;n<i.length;n++){var e=i[n];e.enumerable=e.enumerable||!1,e.configurable=!0,\"value\"in e&&(e.writable=!0),Object.defineProperty(t,e.key,e)}}return function(i,n,e){return n&&t(i.prototype,n),e&&t(i,e),i}}(),C=function t(i,n,e){null===i&&(i=Function.prototype);var r=Object.getOwnPropertyDescriptor(i,n);if(void 0===r){var s=Object.getPrototypeOf(i);return null===s?void 0:t(s,n,e)}if(\"value\"in r)return r.value;var o=r.get;if(void 0!==o)return o.call(e)},T=function(t,i){if(\"function\"!=typeof i&&null!==i)throw new TypeError(\"Super expression must either be null or a function, not \"+typeof i);t.prototype=Object.create(i&&i.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),i&&(Object.setPrototypeOf?Object.setPrototypeOf(t,i):t.__proto__=i)},N=function(t,i){if(!t)throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");return!i||\"object\"!=typeof i&&\"function\"!=typeof i?t:i},F=function(t){if(Array.isArray(t)){for(var i=0,n=Array(t.length);i<t.length;i++)n[i]=t[i];return n}return Array.from(t)},R=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;P(this,t),this.x=i,this.y=n,this.z=e}return E(t,[{key:\"set\",value:function(t,i,n){return this.x=t,this.y=i,this.z=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this}},{key:\"multiplyScalar\",value:function(t){return isFinite(t)?(this.x*=t,this.y*=t,this.z*=t):(this.x=0,this.y=0,this.z=0),this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this}},{key:\"divideScalar\",value:function(t){return this.multiplyScalar(1/t)}},{key:\"divideVectors\",value:function(t,i){return this.x=t.x/i.x,this.y=t.y/i.y,this.z=t.z/i.z,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z}},{key:\"lengthSq\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,n=this.y-t.y,e=this.z-t.z;return i*i+n*n+e*e}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this}},{key:\"applyMatrix3\",value:function(t){var i=this.x,n=this.y,e=this.z,r=t.elements;return this.x=r[0]*i+r[3]*n+r[6]*e,this.y=r[1]*i+r[4]*n+r[7]*e,this.z=r[2]*i+r[5]*n+r[8]*e,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,n=this.y,e=this.z,r=t.elements;return this.x=r[0]*i+r[4]*n+r[8]*e+r[12],this.y=r[1]*i+r[5]*n+r[9]*e+r[13],this.z=r[2]*i+r[6]*n+r[10]*e+r[14],this}}]),t}(),L=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new R;P(this,t),this.min=i,this.max=n,this.children=null}return E(t,[{key:\"getCenter\",value:function(){return this.min.clone().add(this.max).multiplyScalar(.5)}},{key:\"getDimensions\",value:function(){return this.max.clone().sub(this.min)}},{key:\"split\",value:function(t){var i=this.min,n=this.max,e=this.getCenter(),r=void 0,s=void 0,o=0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0;for(Array.isArray(t)&&(u=this.getDimensions().multiplyScalar(.5),l=[new R,new R,new R],o=t.length),this.children=[],r=0;r<8;++r){if(a=B[r],c=null,o>0)for(l[1].addVectors(i,l[0].fromArray(a).multiply(u)),l[2].addVectors(e,l[0].fromArray(a).multiply(u)),s=0;s<o;++s)if(null!==(h=t[s])&&l[1].equals(h.min)&&l[2].equals(h.max)){c=h,t[s]=null;break}this.children.push(null!==c?c:new this.constructor(new R(0===a[0]?i.x:e.x,0===a[1]?i.y:e.y,0===a[2]?i.z:e.z),new R(0===a[0]?e.x:n.x,0===a[1]?e.y:n.y,0===a[2]?e.z:n.z)))}}}]),t}(),B=[new Uint8Array([0,0,0]),new Uint8Array([0,0,1]),new Uint8Array([0,1,0]),new Uint8Array([0,1,1]),new Uint8Array([1,0,0]),new Uint8Array([1,0,1]),new Uint8Array([1,1,0]),new Uint8Array([1,1,1])],q=[new Uint8Array([0,4]),new Uint8Array([1,5]),new Uint8Array([2,6]),new Uint8Array([3,7]),new Uint8Array([0,2]),new Uint8Array([1,3]),new Uint8Array([4,6]),new Uint8Array([5,7]),new Uint8Array([0,1]),new Uint8Array([2,3]),new Uint8Array([4,5]),new Uint8Array([6,7])],V=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;P(this,t),this.min=i,this.size=n,this.children=null}return E(t,[{key:\"getCenter\",value:function(){return this.min.clone().addScalar(.5*this.size)}},{key:\"getDimensions\",value:function(){return new R(this.size,this.size,this.size)}},{key:\"split\",value:function(t){var i=this.min,n=this.getCenter(),e=.5*this.size,r=void 0,s=void 0,o=0,a=void 0,u=void 0,l=void 0,h=void 0;for(Array.isArray(t)&&(u=new R,o=t.length),this.children=[],r=0;r<8;++r){if(a=B[r],h=null,o>0)for(u.fromArray(a).multiplyScalar(e).add(i),s=0;s<o;++s)if(null!==(l=t[s])&&l.size===e&&u.equals(l.min)){h=l,t[s]=null;break}this.children.push(null!==h?h:new this.constructor(new R(0===a[0]?i.x:n.x,0===a[1]?i.y:n.y,0===a[2]?i.z:n.z),e))}}},{key:\"max\",get:function(){return this.min.clone().addScalar(this.size)}}]),t}(),j=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R(1/0,1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new R(-1/0,-1/0,-1/0);P(this,t),this.min=i,this.max=n}return E(t,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,n=void 0;for(i=0,n=t.length;i<n;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var n=i.clone().multiplyScalar(.5);return this.min.copy(t).sub(n),this.max.copy(t).add(n),this}},{key:\"intersectsBox\",value:function(t){return!(t.max.x<this.min.x||t.min.x>this.max.x||t.max.y<this.min.y||t.min.y>this.max.y||t.max.z<this.min.z||t.min.z>this.max.z)}}]),t}(),H=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]&&arguments[1];P(this,t),this.value=i,this.done=n}return E(t,[{key:\"reset\",value:function(){this.value=null,this.done=!1}}]),t}(),Y=new j,G=function(){function t(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;P(this,t),this.octree=i,this.region=n,this.cull=null!==n,this.result=new H,this.trace=null,this.indices=null,this.reset()}return E(t,[{key:\"reset\",value:function(){var t=this.octree.root;return this.trace=[],this.indices=[],null!==t&&(Y.min=t.min,Y.max=t.max,this.cull&&!this.region.intersectsBox(Y)||(this.trace.push(t),this.indices.push(0))),this.result.reset(),this}},{key:\"next\",value:function(){for(var t=this.cull,i=this.region,n=this.indices,e=this.trace,r=null,s=e.length-1,o=void 0,a=void 0,u=void 0;null===r&&s>=0;)if(o=n[s],a=e[s].children,++n[s],o<8)if(null!==a){if(u=a[o],t&&(Y.min=u.min,Y.max=u.max,!i.intersectsBox(Y)))continue;e.push(u),n.push(0),++s}else r=e.pop(),n.pop();else e.pop(),n.pop(),--s;return this.result.value=r,this.result.done=null===r,this.result}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),t}(),X=new Uint8Array([0,1,2,3,4,5,6,7,0]),Z=[new Uint8Array([4,2,1]),new Uint8Array([5,3,8]),new Uint8Array([6,8,3]),new Uint8Array([7,8,8]),new Uint8Array([8,6,5]),new Uint8Array([8,7,8]),new Uint8Array([8,8,7]),new Uint8Array([8,8,8])],J=function(){function t(){P(this,t)}return E(t,null,[{key:\"intersectOctree\",value:function(t,i,e){var r=t.getDimensions(),s=r.clone().multiplyScalar(.5),o=t.min.clone().sub(t.min),a=t.max.clone().sub(t.min),u=i.ray.direction.clone(),l=i.ray.origin.clone();l.sub(t.getCenter()).add(s);var h=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0,m=void 0,p=void 0,x=void 0;X[8]=X[0],u.x<0&&(l.x=r.x-l.x,u.x=-u.x,X[8]|=X[4]),u.y<0&&(l.y=r.y-l.y,u.y=-u.y,X[8]|=X[2]),u.z<0&&(l.z=r.z-l.z,u.z=-u.z,X[8]|=X[1]),h=1/u.x,c=1/u.y,d=1/u.z,y=(o.x-l.x)*h,v=(a.x-l.x)*h,f=(o.y-l.y)*c,m=(a.y-l.y)*c,p=(o.z-l.z)*d,x=(a.z-l.z)*d,Math.max(Math.max(y,f),p)<Math.min(Math.min(v,m),x)&&n(t.root,y,f,p,v,m,x,i,e)}}]),t}(),K=new j,Q=function(){function t(i,n){P(this,t),this.root=void 0!==i&&void 0!==n?new L(i,n):null}return E(t,[{key:\"getCenter\",value:function(){return this.root.getCenter()}},{key:\"getDimensions\",value:function(){return this.root.getDimensions()}},{key:\"getDepth\",value:function(){return e(this.root)}},{key:\"cull\",value:function(t){var i=[];return r(this.root,t,i),i}},{key:\"findOctantsByLevel\",value:function(t){var i=[];return s(this.root,t,0,i),i}},{key:\"raycast\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return J.intersectOctree(this,t,i),i}},{key:\"leaves\",value:function(t){return new G(this,t)}},{key:Symbol.iterator,value:function(){return new G(this)}},{key:\"min\",get:function(){return this.root.min}},{key:\"max\",get:function(){return this.root.max}},{key:\"children\",get:function(){return this.root.children}}]),t}(),W=function(t){function i(t,n){P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,t,n));return e.points=null,e.data=null,e}return T(i,t),E(i,[{key:\"distanceToSquared\",value:function(t){return t.clone().clamp(this.min,this.max).sub(t).lengthSq()}},{key:\"distanceToCenterSquared\",value:function(t){var i=this.getCenter(),n=t.x-i.x,e=t.y-i.x,r=t.z-i.z;return n*n+e*e+r*r}},{key:\"contains\",value:function(t,i){var n=this.min,e=this.max;return t.x>=n.x-i&&t.y>=n.y-i&&t.z>=n.z-i&&t.x<=e.x+i&&t.y<=e.y+i&&t.z<=e.z+i}},{key:\"redistribute\",value:function(t){var i=this.children,n=this.points,e=this.data,r=void 0,s=void 0,o=void 0,a=void 0,u=void 0;if(null!==i)for(;n.length>0;)for(a=n.pop(),u=e.pop(),r=0,s=i.length;r<s;++r)if((o=i[r]).contains(a,t)){null===o.points&&(o.points=[],o.data=[]),o.points.push(a),o.data.push(u);break}this.points=null,this.data=null}},{key:\"merge\",value:function(){var t=this.children,i=void 0,n=void 0,e=void 0;if(null!==t){for(this.points=[],this.data=[],i=0,n=t.length;i<n;++i)if(null!==(e=t[i]).points){var r,s;(r=this.points).push.apply(r,F(e.points)),(s=this.data).push.apply(s,F(e.data))}this.children=null}}}]),i}(L),$=(function(t){function i(t,n){var e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:8,s=arguments.length>4&&void 0!==arguments[4]?arguments[4]:8;P(this,i);var o=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this));return o.root=new W(t,n),o.bias=Math.max(0,e),o.biasSquared=o.bias*o.bias,o.maxPoints=Math.max(1,Math.round(r)),o.maxDepth=Math.max(0,Math.round(s)),o}T(i,t),E(i,[{key:\"countPoints\",value:function(){return o(this.root)}},{key:\"add\",value:function(t,i){a(this.root,t,i,0,this.bias,this.maxPoints,this.maxDepth)}},{key:\"remove\",value:function(t){u(this.root,null,t,this.bias,this.maxPoints)}},{key:\"fetch\",value:function(t){return l(this.root,t,this.bias,this.biasSquared)}},{key:\"findNearestPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1/0,n=arguments.length>2&&void 0!==arguments[2]&&arguments[2];return h(this.root,t,i,n)}},{key:\"findPoints\",value:function(t,i){var n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],e=[];return c(this.root,t,i,n,e),e}},{key:\"raycast\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],e=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"raycast\",this).call(this,t);return e.length>0&&this.testPoints(e,t,n),n}},{key:\"testPoints\",value:function(t,i,n){var e=i.params.Points.threshold,r=e*e,s=void 0,o=void 0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0;for(l=0,c=t.length;l<c;++l)if(y=t[l],null!==(v=y.points))for(h=0,d=v.length;h<d;++h)f=v[h],(u=i.ray.distanceSqToPoint(f))<r&&(s=i.ray.closestPointToPoint(f),(o=i.ray.origin.distanceTo(s))>=i.near&&o<=i.far&&(a=Math.sqrt(u),n.push({distance:o,distanceToRay:a,point:s.clone(),object:y.data[h]})))}}])}(Q),{AIR:0,SOLID:1}),tt=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;P(this,t),this.x=i,this.y=n,this.z=e}return E(t,[{key:\"set\",value:function(t,i,n){return this.x=t,this.y=i,this.z=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this}},{key:\"multiplyScalar\",value:function(t){return isFinite(t)?(this.x*=t,this.y*=t,this.z*=t):(this.x=0,this.y=0,this.z=0),this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this}},{key:\"divideScalar\",value:function(t){return this.multiplyScalar(1/t)}},{key:\"divideVectors\",value:function(t,i){return this.x=t.x/i.x,this.y=t.y/i.y,this.z=t.z/i.z,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z}},{key:\"lengthSq\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,n=this.y-t.y,e=this.z-t.z;return i*i+n*n+e*e}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this}},{key:\"applyMatrix3\",value:function(t){var i=this.x,n=this.y,e=this.z,r=t.elements;return this.x=r[0]*i+r[3]*n+r[6]*e,this.y=r[1]*i+r[4]*n+r[7]*e,this.z=r[2]*i+r[5]*n+r[8]*e,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,n=this.y,e=this.z,r=t.elements;return this.x=r[0]*i+r[4]*n+r[8]*e+r[12],this.y=r[1]*i+r[5]*n+r[9]*e+r[13],this.z=r[2]*i+r[6]*n+r[10]*e+r[14],this}}]),t}(),it=function(){function t(){P(this,t),this.elements=new Float32Array([1,0,0,1,0,1])}return E(t,[{key:\"set\",value:function(t,i,n,e,r,s){var o=this.elements;return o[0]=t,o[1]=i,o[2]=n,o[3]=e,o[4]=r,o[5]=s,this}},{key:\"identity\",value:function(){return this.set(1,0,0,1,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements;return this.set(i[0],i[1],i[2],i[3],i[4],i[5]),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"add\",value:function(t){var i=this.elements,n=t.elements;return i[0]+=n[0],i[1]+=n[1],i[2]+=n[2],i[3]+=n[3],i[4]+=n[4],i[5]+=n[5],this}},{key:\"norm\",value:function(){var t=this.elements,i=t[1]*t[1],n=t[2]*t[2],e=t[4]*t[4];return Math.sqrt(t[0]*t[0]+i+n+i+t[3]*t[3]+e+n+e+t[5]*t[5])}},{key:\"off\",value:function(){var t=this.elements;return Math.sqrt(2*(t[1]*t[1]+t[2]*t[2]+t[4]*t[4]))}},{key:\"applyToVector3\",value:function(t){var i=t.x,n=t.y,e=t.z,r=this.elements;return t.x=r[0]*i+r[1]*n+r[2]*e,t.y=r[1]*i+r[3]*n+r[4]*e,t.z=r[2]*i+r[4]*n+r[5]*e,t}}]),t}(),nt=function(){function t(){P(this,t),this.ata=new it,this.ata.set(0,0,0,0,0,0),this.atb=new tt,this.btb=0,this.massPoint=new tt,this.numPoints=0,this.massPointDimension=0}return E(t,[{key:\"set\",value:function(t,i,n,e,r){return this.ata.copy(t),this.atb.copy(i),this.btb=n,this.massPoint.copy(e),this.numPoints=r,this}},{key:\"copy\",value:function(t){return this.set(t.ata,t.atb,t.btb,t.massPoint,t.numPoints)}},{key:\"add\",value:function(t,i){var n=i.x,e=i.y,r=i.z,s=i.dot(t),o=this.ata.elements,a=this.atb;o[0]+=n*n,o[1]+=n*e,o[2]+=n*r,o[3]+=e*e,o[4]+=e*r,o[5]+=r*r,a.x+=s*n,a.y+=s*e,a.z+=s*r,this.btb+=s*s,this.massPoint.add(t),++this.numPoints}},{key:\"addData\",value:function(t){this.ata.add(t.ata),this.atb.add(t.atb),this.btb+=t.btb,this.massPoint.add(t.massPoint),this.numPoints+=t.numPoints}},{key:\"clear\",value:function(){this.ata.set(0,0,0,0,0,0),this.atb.set(0,0,0),this.btb=0,this.massPoint.set(0,0,0),this.numPoints=0}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),t}(),et=function(){function t(){P(this,t),this.elements=new Float32Array([1,0,0,0,1,0,0,0,1])}return E(t,[{key:\"set\",value:function(t,i,n,e,r,s,o,a,u){var l=this.elements;return l[0]=t,l[3]=i,l[6]=n,l[1]=e,l[4]=r,l[7]=s,l[2]=o,l[5]=a,l[8]=u,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,1,0,0,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements;return this.set(i[0],i[3],i[6],i[1],i[4],i[7],i[2],i[5],i[8])}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),t}(),rt=function(){function t(){P(this,t)}return E(t,null,[{key:\"rot01Post\",value:function(t,i){var n=t.elements,e=n[0],r=n[3],s=n[1],o=n[4],a=n[2],u=n[5],l=i.c,h=i.s;n[0]=l*e-h*r,n[3]=h*e+l*r,n[1]=l*s-h*o,n[4]=h*s+l*o,n[2]=l*a-h*u,n[5]=h*a+l*u}},{key:\"rot02Post\",value:function(t,i){var n=t.elements,e=n[0],r=n[6],s=n[1],o=n[7],a=n[2],u=n[8],l=i.c,h=i.s;n[0]=l*e-h*r,n[6]=h*e+l*r,n[1]=l*s-h*o,n[7]=h*s+l*o,n[2]=l*a-h*u,n[8]=h*a+l*u}},{key:\"rot12Post\",value:function(t,i){var n=t.elements,e=n[3],r=n[6],s=n[4],o=n[7],a=n[5],u=n[8],l=i.c,h=i.s;n[3]=l*e-h*r,n[6]=h*e+l*r,n[4]=l*s-h*o,n[7]=h*s+l*o,n[5]=l*a-h*u,n[8]=h*a+l*u}}]),t}(),st={c:0,s:0},ot=function(){function t(){P(this,t)}return E(t,null,[{key:\"rot01\",value:function(t){var i=t.elements,n=i[0],e=i[1],r=i[2],s=i[3],o=i[4];d(n,e,s);var a=st.c,u=st.s,l=a*a,h=u*u,c=2*a*u*e;return i[0]=l*n-c+h*s,i[1]=0,i[2]=a*r-u*o,i[3]=h*n+c+l*s,i[4]=u*r+a*o,st}},{key:\"rot02\",value:function(t){var i=t.elements,n=i[0],e=i[1],r=i[2],s=i[4],o=i[5];d(n,r,o);var a=st.c,u=st.s,l=a*a,h=u*u,c=2*a*u*r;return i[0]=l*n-c+h*o,i[1]=a*e-u*s,i[2]=0,i[4]=u*e+a*s,i[5]=h*n+c+l*o,st}},{key:\"rot12\",value:function(t){var i=t.elements,n=i[1],e=i[2],r=i[3],s=i[4],o=i[5];d(r,s,o);var a=st.c,u=st.s,l=a*a,h=u*u,c=2*a*u*s;return i[1]=a*n-u*e,i[2]=u*n+a*e,i[3]=l*r-c+h*o,i[4]=0,i[5]=h*r+c+l*o,st}}]),t}(),at=function(){function t(){P(this,t)}return E(t,null,[{key:\"solveSymmetric\",value:function(t,i,n,e,r,s){var o=new et,a=new et,u=new it,l=void 0;return a.set(0,0,0,0,0,0,0,0,0),u.set(0,0,0,0,0,0),m(t,u,o,e,r),l=x(a,u,o,s),n.copy(i).applyMatrix3(a),l}},{key:\"calculateError\",value:function(t,i,n){var e=t.elements,r=n.clone(),s=new et;return s.set(e[0],e[1],e[2],e[1],e[3],e[4],e[2],e[4],e[5]),r.applyMatrix3(s),r.subVectors(i,r),r.lengthSq()}}]),t}(),ut=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1e-6,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:4,e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1e-6;P(this,t),this.svdThreshold=i,this.svdSweeps=n,this.pseudoInverseThreshold=e,this.data=null,this.massPoint=new tt,this.ata=new it,this.atb=new tt,this.x=new tt,this.hasSolution=!1}return E(t,[{key:\"computeError\",value:function(){var t=this.x,i=1/0,n=void 0;return this.hasSolution&&(n=this.ata.applyToVector3(t.clone()),i=t.dot(n)-2*t.dot(this.atb)+this.data.btb),i}},{key:\"setData\",value:function(t){return this.data=t,this.hasSolution=!1,this}},{key:\"solve\",value:function(){var t=this.data,i=this.massPoint,n=this.ata,e=this.atb,r=this.x,s=void 0;return!this.hasSolution&&null!==t&&t.numPoints>0&&(i.copy(t.massPoint),i.divideScalar(t.numPoints),n.copy(t.ata),e.copy(t.atb),s=n.applyToVector3(i.clone()),e.sub(s),r.set(0,0,0),t.massPointDimension=at.solveSymmetric(n,e,r,this.svdThreshold,this.svdSweeps,this.pseudoInverseThreshold),r.add(i),e.copy(t.atb),this.hasSolution=!0),r}},{key:\"clear\",value:function(){this.data=null,this.hasSolution=!1}}]),t}(),lt=new tt,ht=new tt,ct=new tt,dt=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new tt,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new tt;P(this,t),this.a=i,this.b=n,this.t=0,this.n=new tt}return E(t,[{key:\"approximateZeroCrossing\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:8,n=Math.max(1,i-1),e=0,r=1,s=0,o=0,a=void 0,u=void 0;for(lt.subVectors(this.b,this.a);o<=n&&(s=(e+r)/2,ht.addVectors(this.a,ct.copy(lt).multiplyScalar(s)),u=t.sample(ht),!(Math.abs(u)<=.01||(r-e)/2<=1e-6));)ht.addVectors(this.a,ct.copy(lt).multiplyScalar(e)),a=t.sample(ht),Math.sign(u)===Math.sign(a)?e=s:r=s,++o;this.t=s}},{key:\"computeZeroCrossingPosition\",value:function(){return lt.subVectors(this.b,this.a).multiplyScalar(this.t).add(this.a)}},{key:\"computeSurfaceNormal\",value:function(t){var i=this.computeZeroCrossingPosition(),n=.001,e=t.sample(ht.addVectors(i,ct.set(n,0,0)))-t.sample(ht.subVectors(i,ct.set(n,0,0))),r=t.sample(ht.addVectors(i,ct.set(0,n,0)))-t.sample(ht.subVectors(i,ct.set(0,n,0))),s=t.sample(ht.addVectors(i,ct.set(0,0,n)))-t.sample(ht.subVectors(i,ct.set(0,0,n)));this.n.set(e,r,s).normalize()}}]),t}(),yt=function t(){P(this,t),this.materials=0,this.edgeCount=0,this.index=-1,this.position=new tt,this.normal=new tt,this.qefData=null},vt=0,ft=function(t){function i(t,n){P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,t,n));return e.voxel=null,e}return T(i,t),E(i,[{key:\"contains\",value:function(t){var i=this.min,n=this.size;return t.x>=i.x-1e-6&&t.y>=i.y-1e-6&&t.z>=i.z-1e-6&&t.x<=i.x+n+1e-6&&t.y<=i.y+n+1e-6&&t.z<=i.z+n+1e-6}},{key:\"collapse\",value:function(){var t=this.children,i=new Int16Array([-1,-1,-1,-1,-1,-1,-1,-1]),n=-1,e=null!==t,r=0,s=void 0,o=void 0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0;if(e){for(s=new nt,c=0,d=0;d<8;++d)r+=(a=t[d]).collapse(),l=a.voxel,null!==a.children?e=!1:null!==l&&(s.addData(l.qefData),n=l.materials>>7-d&1,i[d]=l.materials>>d&1,++c);if(e&&(o=new ut,h=o.setData(s).solve(),o.computeError()<=vt)){for((l=new yt).position.copy(this.contains(h)?h:o.massPoint),d=0;d<8;++d)u=i[d],a=t[d],-1===u?l.materials|=n<<d:(l.materials|=u<<d,l.normal.add(a.voxel.normal));l.normal.normalize(),l.qefData=s,this.voxel=l,this.children=null,r+=c-1}}return r}},{key:\"lod\",get:function(){return vt},set:function(t){vt=.01+t*t*t}}]),i}(V),mt=function(t){function i(t){P(this,i);var n=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this));return n.root=new ft(t.min,t.size),n.root.lod=t.data.lod,n.voxelCount=0,n.construct(t),n.simplify(),n}return T(i,t),E(i,[{key:\"simplify\",value:function(){this.voxelCount-=this.root.collapse()}},{key:\"getCell\",value:function(t,i,n,e){var r=this.root,s=0;for(t>>=1;t>0;t>>=1,s=0)i>=t&&(s+=4,i-=t),n>=t&&(s+=2,n-=t),e>=t&&(s+=1,e-=t),null===r.children&&r.split(),r=r.children[s];return r}},{key:\"construct\",value:function(t){var i=t.size,n=t.resolution,e=n+1,r=e*e,s=t.data,o=s.edgeData,a=s.materialIndices,u=new ut,l=t.min,h=new tt,c=new tt,d=new tt,y=new dt,v=[new Uint8Array([0,1,2,3]),new Uint8Array([0,1,4,5]),new Uint8Array([0,2,4,6])],f=0,m=void 0,p=void 0,x=void 0,k=void 0,w=void 0,z=void 0,b=void 0,A=void 0,U=void 0,M=void 0,I=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0,C=void 0,T=void 0,N=void 0,F=void 0;for(M=4,I=0;I<3;++I,M>>=1)for(A=B[M],m=o.edges[I],p=o.zeroCrossings[I],x=o.normals[I],k=v[I],S=0,_=m.length;S<_;++S)for(C=(F=m[S])%e,T=Math.trunc(F%r/e),N=Math.trunc(F/r),h.set(C*i/n,T*i/n,N*i/n),c.set((C+A[0])*i/n,(T+A[1])*i/n,(N+A[2])*i/n),y.a.addVectors(l,h),y.b.addVectors(l,c),y.t=p[S],y.n.fromArray(x,3*S),d.copy(y.computeZeroCrossingPosition()),O=0;O<4;++O)D=C-(w=B[k[O]])[0],P=T-w[1],E=N-w[2],D>=0&&P>=0&&E>=0&&D<n&&P<n&&E<n&&(null===(U=this.getCell(n,D,P,E)).voxel&&(U.voxel=g(n,D,P,E,a),++f),(z=U.voxel).normal.add(y.n),z.qefData.add(d,y.n),z.qefData.numPoints===z.edgeCount&&(b=u.setData(z.qefData).solve(),z.position.copy(U.contains(b)?b:u.massPoint),z.normal.normalize()));this.voxelCount=f}}]),i}(Q),pt=[new Uint8Array([0,4,0]),new Uint8Array([1,5,0]),new Uint8Array([2,6,0]),new Uint8Array([3,7,0]),new Uint8Array([0,2,1]),new Uint8Array([4,6,1]),new Uint8Array([1,3,1]),new Uint8Array([5,7,1]),new Uint8Array([0,1,2]),new Uint8Array([2,3,2]),new Uint8Array([4,5,2]),new Uint8Array([6,7,2])],xt=[new Uint8Array([0,1,2,3,0]),new Uint8Array([4,5,6,7,0]),new Uint8Array([0,4,1,5,1]),new Uint8Array([2,6,3,7,1]),new Uint8Array([0,2,4,6,2]),new Uint8Array([1,3,5,7,2])],gt=[[new Uint8Array([4,0,0]),new Uint8Array([5,1,0]),new Uint8Array([6,2,0]),new Uint8Array([7,3,0])],[new Uint8Array([2,0,1]),new Uint8Array([6,4,1]),new Uint8Array([3,1,1]),new Uint8Array([7,5,1])],[new Uint8Array([1,0,2]),new Uint8Array([3,2,2]),new Uint8Array([5,4,2]),new Uint8Array([7,6,2])]],kt=[[new Uint8Array([1,4,0,5,1,1]),new Uint8Array([1,6,2,7,3,1]),new Uint8Array([0,4,6,0,2,2]),new Uint8Array([0,5,7,1,3,2])],[new Uint8Array([0,2,3,0,1,0]),new Uint8Array([0,6,7,4,5,0]),new Uint8Array([1,2,0,6,4,2]),new Uint8Array([1,3,1,7,5,2])],[new Uint8Array([1,1,0,3,2,0]),new Uint8Array([1,5,4,7,6,0]),new Uint8Array([0,1,5,0,4,1]),new Uint8Array([0,3,7,2,6,1])]],wt=[[new Uint8Array([3,2,1,0,0]),new Uint8Array([7,6,5,4,0])],[new Uint8Array([5,1,4,0,1]),new Uint8Array([7,3,6,2,1])],[new Uint8Array([6,4,2,0,2]),new Uint8Array([7,5,3,1,2])]],zt=[new Uint8Array([3,2,1,0]),new Uint8Array([7,5,6,4]),new Uint8Array([11,10,9,8])],bt=function(){function t(){P(this,t)}return E(t,null,[{key:\"run\",value:function(t){var i=[],n=new mt(t),e=n.voxelCount,r=null,s=null,o=null;return e>65536?console.warn(\"Could not create geometry for chunk at position\",this.chunk.min,\"with lod\",this.chunk.data.lod,\"(vertex count of\",e,\"exceeds limit of 65536)\"):e>0&&(s=new Float32Array(3*e),o=new Float32Array(3*e),A(n.root,s,o,0),b(n.root,i),r={indices:new Uint16Array(i),positions:s,normals:o}),r}}]),t}(),At=function(){function t(){P(this,t)}return E(t,null,[{key:\"encode\",value:function(t){var i=[],n=[],e=t[0],r=1,s=void 0,o=void 0;for(s=1,o=t.length;s<o;++s)e!==t[s]?(i.push(r),n.push(e),e=t[s],r=1):++r;return i.push(r),n.push(e),{runLengths:i,data:n}}},{key:\"decode\",value:function(t,i){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],e=void 0,r=void 0,s=void 0,o=void 0,a=void 0,u=0;for(r=0,o=i.length;r<o;++r)for(e=i[r],s=0,a=t[r];s<a;++s)n[u++]=e;return n}}]),t}(),Ut=function(){function t(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i,e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:i;P(this,t),this.edges=[new Uint32Array(i),new Uint32Array(n),new Uint32Array(e)],this.zeroCrossings=[new Float32Array(i),new Float32Array(n),new Float32Array(e)],this.normals=[new Float32Array(3*i),new Float32Array(3*n),new Float32Array(3*e)]}return E(t,[{key:\"createTransferList\",value:function(){for(var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=[this.edges[0],this.edges[1],this.edges[2],this.zeroCrossings[0],this.zeroCrossings[1],this.zeroCrossings[2],this.normals[0],this.normals[1],this.normals[2]],n=void 0;i.length>0;)null!==(n=i.pop())&&t.push(n.buffer);return t}},{key:\"serialise\",value:function(){return{edges:this.edges,zeroCrossings:this.zeroCrossings,normals:this.normals}}},{key:\"deserialise\",value:function(t){this.edges=t.edges,this.zeroCrossings=t.zeroCrossings,this.normals=t.normals}}],[{key:\"calculate1DEdgeCount\",value:function(t){return Math.pow(t+1,2)*t}}]),t}(),Mt=0,It=0,St=function(){function t(){var i=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];P(this,t),this.lod=-1,this.neutered=!1,this.materials=0,this.materialIndices=i?new Uint8Array(It):null,this.runLengths=null,this.edgeData=null}return E(t,[{key:\"set\",value:function(t){return this.lod=t.lod,this.neutered=t.neutered,this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,this.edgeData=t.edgeData,this}},{key:\"setMaterialIndex\",value:function(t,i){this.materialIndices[t]===$.AIR?i!==$.AIR&&++this.materials:i===$.AIR&&--this.materials,this.materialIndices[t]=i}},{key:\"compress\",value:function(){var t=void 0;return null===this.runLengths&&(t=this.full?{runLengths:[this.materialIndices.length],data:[$.SOLID]}:At.encode(this.materialIndices),this.runLengths=new Uint32Array(t.runLengths),this.materialIndices=new Uint8Array(t.data)),this}},{key:\"decompress\",value:function(){return null!==this.runLengths&&(this.materialIndices=At.decode(this.runLengths,this.materialIndices,new Uint8Array(It)),this.runLengths=null),this}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.edgeData&&this.edgeData.createTransferList(t),t.push(this.materialIndices.buffer),t.push(this.runLengths.buffer),t}},{key:\"serialise\",value:function(){return this.neutered=!0,{lod:this.lod,materials:this.materials,materialIndices:this.materialIndices,runLengths:this.runLengths,edgeData:null!==this.edgeData?this.edgeData.serialise():null}}},{key:\"deserialise\",value:function(t){this.lod=t.lod,this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,null!==t.edgeData?(null===this.edgeData&&(this.edgeData=new Ut(0)),this.edgeData.deserialise(t.edgeData)):this.edgeData=null,this.neutered=!1}},{key:\"empty\",get:function(){return 0===this.materials}},{key:\"full\",get:function(){return this.materials===It}}],[{key:\"resolution\",get:function(){return Mt},set:function(t){0===Mt&&(Mt=Math.max(1,Math.min(256,t)),It=Math.pow(Mt+1,3))}}]),t}(),Ot=function(t){function i(t,n){P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,t,n));return e.data=null,e.csg=null,e}return T(i,t),E(i,[{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.data?this.data.createTransferList(t):t}},{key:\"serialise\",value:function(){return{resolution:this.resolution,min:this.min.toArray(),size:this.size,data:null!==this.data?this.data.serialise():null}}},{key:\"deserialise\",value:function(t){this.resolution=t.resolution,this.min.fromArray(t.min),this.size=t.size,null!==t.data?(null===this.data&&(this.data=new St(!1)),this.data.deserialise(t.data)):this.data=null}},{key:\"resolution\",get:function(){return St.resolution},set:function(t){St.resolution=t}}]),i}(V),_t={EXTRACT:\"worker.extract\",MODIFY:\"worker.modify\",CLOSE:\"worker.close\"},Dt=function(){function t(){P(this,t),this.chunk=new Ot,this.message={action:_t.EXTRACT,chunk:null,positions:null,normals:null,indices:null},this.transferList=null}return E(t,[{key:\"extract\",value:function(t){var i=this.message,n=[];this.chunk.deserialise(t),this.chunk.data.decompress();var e=bt.run(this.chunk);null!==e?(i.indices=e.indices,i.positions=e.positions,i.normals=e.normals,n.push(i.indices.buffer),n.push(i.positions.buffer),n.push(i.normals.buffer)):(i.indices=null,i.positions=null,i.normals=null),this.chunk.deserialise(t),i.chunk=this.chunk.serialise(),this.transferList=this.chunk.createTransferList(n)}}]),t}(),Pt=function(){function t(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new tt(1/0,1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new tt(-1/0,-1/0,-1/0);P(this,t),this.min=i,this.max=n}return E(t,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,n=void 0;for(i=0,n=t.length;i<n;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var n=i.clone().multiplyScalar(.5);return this.min.copy(t).sub(n),this.max.copy(t).add(n),this}},{key:\"intersectsBox\",value:function(t){return!(t.max.x<this.min.x||t.min.x>this.max.x||t.max.y<this.min.y||t.min.y>this.max.y||t.max.z<this.min.z||t.min.z>this.max.z)}}]),t}(),Et={UNION:\"csg.union\",DIFFERENCE:\"csg.difference\",INTERSECTION:\"csg.intersection\",DENSITY_FUNCTION:\"csg.densityfunction\"},Ct=function(){function t(i){P(this,t),this.type=i;for(var n=arguments.length,e=Array(n>1?n-1:0),r=1;r<n;r++)e[r-1]=arguments[r];this.children=e,this.bbox=null}return E(t,[{key:\"computeBoundingBox\",value:function(){var t=this.children,i=void 0,n=void 0;for(this.bbox=new Pt,i=0,n=t.length;i<n;++i)this.bbox.union(t[i].boundingBox);return this.bbox}},{key:\"boundingBox\",get:function(){return null!==this.bbox?this.bbox:this.computeBoundingBox()}}]),t}(),Tt=function(t){function i(){var t;P(this,i);for(var n=arguments.length,e=Array(n),r=0;r<n;r++)e[r]=arguments[r];return N(this,(t=i.__proto__||Object.getPrototypeOf(i)).call.apply(t,[this,Et.UNION].concat(e)))}return T(i,t),E(i,[{key:\"updateMaterialIndex\",value:function(t,i,n){var e=n.materialIndices[t];e!==$.AIR&&i.setMaterialIndex(t,e)}},{key:\"selectEdge\",value:function(t,i,n){return n?t.t>i.t?t:i:t.t<i.t?t:i}}]),i}(Ct),Nt=function(t){function i(){var t;P(this,i);for(var n=arguments.length,e=Array(n),r=0;r<n;r++)e[r]=arguments[r];return N(this,(t=i.__proto__||Object.getPrototypeOf(i)).call.apply(t,[this,Et.DIFFERENCE].concat(e)))}return T(i,t),E(i,[{key:\"updateMaterialIndex\",value:function(t,i,n){n.materialIndices[t]!==$.AIR&&i.setMaterialIndex(t,$.AIR)}},{key:\"selectEdge\",value:function(t,i,n){return n?t.t<i.t?t:i:t.t>i.t?t:i}}]),i}(Ct),Ft=function(t){function i(){var t;P(this,i);for(var n=arguments.length,e=Array(n),r=0;r<n;r++)e[r]=arguments[r];return N(this,(t=i.__proto__||Object.getPrototypeOf(i)).call.apply(t,[this,Et.INTERSECTION].concat(e)))}return T(i,t),E(i,[{key:\"updateMaterialIndex\",value:function(t,i,n){var e=n.materialIndices[t];i.setMaterialIndex(t,i.materialIndices[t]!==$.AIR&&e!==$.AIR?e:$.AIR)}},{key:\"selectEdge\",value:function(t,i,n){return n?t.t<i.t?t:i:t.t>i.t?t:i}}]),i}(Ct),Rt=function(){function t(){P(this,t)}return E(t,null,[{key:\"run\",value:function(t,i){null===t.data?i.operation===Et.UNION&&(t.data=new St,t.data.edgeData=new Ut(0)):t.data.decompress();var n=i.toCSG(),e=null!==t.data?D(t,n):null;if(null!==e){switch(i.operation){case Et.UNION:n=new Tt(n);break;case Et.DIFFERENCE:n=new Nt(n);break;case Et.INTERSECTION:n=new Ft(n)}_(t,n,t.data,e),t.data.lod=-1}null!==t.data&&(t.data.empty?t.data=null:t.data.compress())}}]),t}(),Lt={SPHERE:\"sdf.sphere\",BOX:\"sdf.box\",TORUS:\"sdf.torus\",PLANE:\"sdf.plane\",HEIGHTFIELD:\"sdf.heightfield\"},Bt=function(t){function i(t){P(this,i);var n=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Et.DENSITY_FUNCTION));return n.sdf=t,n}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=this.sdf.computeBoundingBox(),this.bbox}},{key:\"generateMaterialIndex\",value:function(t){return this.sdf.sample(t)<=0?this.sdf.material:$.AIR}},{key:\"generateEdge\",value:function(t){t.approximateZeroCrossing(this.sdf),t.computeSurfaceNormal(this.sdf)}}]),i}(Ct),qt=function(){function t(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:$.SOLID;P(this,t),this.type=i,this.operation=null,this.material=Math.min(255,Math.max($.SOLID,Math.trunc(n))),this.children=[],this.bbox=null}return E(t,[{key:\"union\",value:function(t){return t.operation=Et.UNION,this.children.push(t),this}},{key:\"subtract\",value:function(t){return t.operation=Et.DIFFERENCE,this.children.push(t),this}},{key:\"intersect\",value:function(t){return t.operation=Et.INTERSECTION,this.children.push(t),this}},{key:\"serialise\",value:function(){var t={type:this.type,operation:this.operation,material:this.material,parameters:null,children:[]},i=this.children,n=void 0,e=void 0;for(n=0,e=i.length;n<e;++n)t.children.push(i[n].serialise());return t}},{key:\"toCSG\",value:function(){var t=this.children,i=new Bt(this),n=void 0,e=void 0,r=void 0,s=void 0;for(r=0,s=t.length;r<s;++r){if(e=t[r],n!==e.operation)switch(n=e.operation){case Et.UNION:i=new Tt(i);break;case Et.DIFFERENCE:i=new Nt(i);break;case Et.INTERSECTION:i=new Ft(i)}i.children.push(e.toCSG())}return i}},{key:\"computeBoundingBox\",value:function(){throw new Error(\"SDF: bounding box method not implemented!\")}},{key:\"sample\",value:function(t){throw new Error(\"SDF: sample method not implemented!\")}},{key:\"boundingBox\",get:function(){return null!==this.bbox?this.bbox:this.computeBoundingBox()}},{key:\"completeBoundingBox\",get:function(){var t=this.children,i=this.boundingBox.clone(),n=void 0,e=void 0;for(n=0,e=t.length;n<e;++n)i.union(t[n].completeBoundingBox);return i}}]),t}(),Vt=function(t){function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments[1];P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Lt.SPHERE,n));return e.origin=new(Function.prototype.bind.apply(tt,[null].concat(F(t.origin)))),e.radius=t.radius,e}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new Pt,this.bbox.min.copy(this.origin).subScalar(this.radius),this.bbox.max.copy(this.origin).addScalar(this.radius),this.bbox}},{key:\"sample\",value:function(t){var i=this.origin,n=t.x-i.x,e=t.y-i.y,r=t.z-i.z;return Math.sqrt(n*n+e*e+r*r)-this.radius}},{key:\"serialise\",value:function(){var t=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),radius:this.radius},t}}]),i}(qt),jt=function(t){function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments[1];P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Lt.BOX,n));return e.origin=new(Function.prototype.bind.apply(tt,[null].concat(F(t.origin)))),e.halfDimensions=new(Function.prototype.bind.apply(tt,[null].concat(F(t.halfDimensions)))),e}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new Pt,this.bbox.min.subVectors(this.origin,this.halfDimensions),this.bbox.max.addVectors(this.origin,this.halfDimensions),this.bbox}},{key:\"sample\",value:function(t){var i=this.origin,n=this.halfDimensions,e=Math.abs(t.x-i.x)-n.x,r=Math.abs(t.y-i.y)-n.y,s=Math.abs(t.z-i.z)-n.z,o=Math.max(e,Math.max(r,s)),a=Math.max(e,0),u=Math.max(r,0),l=Math.max(s,0),h=Math.sqrt(a*a+u*u+l*l);return Math.min(o,0)+h}},{key:\"serialise\",value:function(){var t=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),halfDimensions:this.halfDimensions.toArray()},t}}]),i}(qt),Ht=function(t){function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments[1];P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Lt.PLANE,n));return e.normal=new(Function.prototype.bind.apply(tt,[null].concat(F(t.normal)))),e.constant=t.constant,e}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new Pt,this.bbox}},{key:\"sample\",value:function(t){return this.normal.dot(t)+this.constant}},{key:\"serialise\",value:function(){var t=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"serialise\",this).call(this);return t.parameters={normal:this.normal.toArray(),constant:this.constant},t}}]),i}(qt),Yt=function(t){function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments[1];P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Lt.TORUS,n));return e.origin=new(Function.prototype.bind.apply(tt,[null].concat(F(t.origin)))),e.R=t.R,e.r=t.r,e}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new Pt,this.bbox.min.copy(this.origin).subScalar(this.R).subScalar(this.r),this.bbox.max.copy(this.origin).addScalar(this.R).addScalar(this.r),this.bbox}},{key:\"sample\",value:function(t){var i=this.origin,n=t.x-i.x,e=t.y-i.y,r=t.z-i.z,s=Math.sqrt(n*n+r*r)-this.R;return Math.sqrt(s*s+e*e)-this.r}},{key:\"serialise\",value:function(){var t=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),R:this.R,r:this.r},t}}]),i}(qt),Gt=function(t){function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},n=arguments[1];P(this,i);var e=N(this,(i.__proto__||Object.getPrototypeOf(i)).call(this,Lt.HEIGHTFIELD,n));return e.min=new(Function.prototype.bind.apply(tt,[null].concat(F(t.min)))),e.dimensions=new(Function.prototype.bind.apply(tt,[null].concat(F(t.size)))),e.data=t.data,e}return T(i,t),E(i,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new Pt,this.bbox.min.copy(this.min),this.bbox.max.addVectors(this.min,this.dimensions),this.bbox}},{key:\"sample\",value:function(t){var i=this.min,n=this.dimensions,e=Math.max(i.x,Math.min(i.x+n.x,t.x-i.x)),r=Math.max(i.z,Math.min(i.z+n.z,t.z-i.z));return t.y-i.y-this.data[r*n.x+e]/255*n.y}},{key:\"serialise\",value:function(){var t=C(i.prototype.__proto__||Object.getPrototypeOf(i.prototype),\"serialise\",this).call(this);return t.parameters={min:this.min.toArray(),dimensions:this.dimensions.toArray(),data:this.data},t}}]),i}(qt),Xt=function(){function t(){P(this,t)}return E(t,null,[{key:\"reviveSDF\",value:function(t){var i=void 0,n=void 0,e=void 0;switch(t.type){case Lt.SPHERE:i=new Vt(t.parameters,t.material);break;case Lt.BOX:i=new jt(t.parameters,t.material);break;case Lt.TORUS:i=new Yt(t.parameters,t.material);break;case Lt.PLANE:i=new Ht(t.parameters,t.material);break;case Lt.HEIGHTFIELD:i=new Gt(t.parameters,t.material)}for(i.operation=t.operation,n=0,e=t.children.length;n<e;++n)i.children.push(this.reviveSDF(t.children[n]));return i}}]),t}(),Zt=function(){function t(){P(this,t),this.chunk=new Ot,this.message={action:_t.MODIFY,chunk:null},this.transferList=null}return E(t,[{key:\"modify\",value:function(t,i){this.chunk.deserialise(t),Rt.run(this.chunk,Xt.reviveSDF(i)),this.message.chunk=this.chunk.serialise(),this.transferList=this.chunk.createTransferList()}}]),t}(),Jt=new Dt,Kt=new Zt;self.addEventListener(\"message\",function(t){var i=t.data;switch(i.action){case _t.EXTRACT:Jt.extract(i.chunk),postMessage(Jt.message,Jt.transferList);break;case _t.MODIFY:Kt.modify(i.chunk,i.sdf),postMessage(Kt.message,Kt.transferList);break;case _t.CLOSE:default:close()}}),self.addEventListener(\"error\",function(t){var i={action:_t.CLOSE,error:t.message,data:null},n=[],e=[Jt.chunk,Kt.chunk];null===e[0].data||e[0].data.neutered?null===e[1].data||e[1].data.neutered||(i.chunk=e[1].serialise(),e[1].createTransferList(n)):(i.chunk=e[0].serialise(),e[0].createTransferList(n)),postMessage(i,n),close()})}();";
+  var worker = "!function(){\"use strict\";function t(t,n,e,i,r,s){var o=0;return t>n&&t>e?(r<t&&(o|=2),s<t&&(o|=1)):n>e?(i<n&&(o|=4),s<n&&(o|=1)):(i<e&&(o|=4),r<e&&(o|=2)),o}function n(t,n,e,i){var r=void 0,s=0;return n<e?(r=n,s=0):(r=e,s=1),i<r&&(s=2),K[t][s]}function e(i,r,s,o,a,u,l,h,c){var d=i.children,y=void 0,v=void 0,f=void 0,m=void 0;if(a>=0&&u>=0&&l>=0)if(null===d)c.push(i);else{y=t(r,s,o,v=.5*(r+a),f=.5*(s+u),m=.5*(o+l));do{switch(y){case 0:e(d[J[8]],r,s,o,v,f,m,h,c),y=n(y,v,f,m);break;case 1:e(d[J[8]^J[1]],r,s,m,v,f,l,h,c),y=n(y,v,f,l);break;case 2:e(d[J[8]^J[2]],r,f,o,v,u,m,h,c),y=n(y,v,u,m);break;case 3:e(d[J[8]^J[3]],r,f,m,v,u,l,h,c),y=n(y,v,u,l);break;case 4:e(d[J[8]^J[4]],v,s,o,a,f,m,h,c),y=n(y,a,f,m);break;case 5:e(d[J[8]^J[5]],v,s,m,a,f,l,h,c),y=n(y,a,f,l);break;case 6:e(d[J[8]^J[6]],v,f,o,a,u,m,h,c),y=n(y,a,u,m);break;case 7:e(d[J[8]^J[7]],v,f,m,a,u,l,h,c),y=8}}while(y<8)}}function i(t){var n=t.children,e=0,r=void 0,s=void 0,o=void 0;if(null!==n)for(r=0,s=n.length;r<s;++r)(o=1+i(n[r]))>e&&(e=o);return e}function r(t,n,e){var i=t.children,s=void 0,o=void 0;if(W.min=t.min,W.max=t.max,n.intersectsBox(W))if(null!==i)for(s=0,o=i.length;s<o;++s)r(i[s],n,e);else e.push(t)}function s(t,n,e,i){var r=t.children,o=void 0,a=void 0;if(e===n)i.push(t);else if(null!==r)for(++e,o=0,a=r.length;o<a;++o)s(r[o],n,e,i)}function o(t){var n=t.children,e=0,i=void 0,r=void 0;if(null!==n)for(i=0,r=n.length;i<r;++i)e+=o(n[i]);else null!==t.points&&(e=t.points.length);return e}function a(t,n,e,i,r,s,o){var u=t.children,l=!1,h=!1,c=void 0,d=void 0;if(t.contains(n,r)){if(null===u){if(null===t.points)t.points=[],t.data=[];else for(c=0,d=t.points.length;!l&&c<d;++c)l=t.points[c].equals(n);l?(t.data[c-1]=e,h=!0):t.points.length<s||i===o?(t.points.push(n.clone()),t.data.push(e),h=!0):(t.split(),t.redistribute(r),u=t.children)}if(null!==u)for(++i,c=0,d=u.length;!h&&c<d;++c)h=a(u[c],n,e,i,r,s,o)}return h}function u(t,n,e,i,r){var s=t.children,a=!1,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0;if(t.contains(e,i))if(null!==s)for(l=0,h=s.length;!a&&l<h;++l)a=u(s[l],t,e,i,r);else if(null!==t.points)for(c=t.points,d=t.data,l=0,h=c.length;!a&&l<h;++l)c[l].equals(e)&&(l<(y=h-1)&&(c[l]=c[y],d[l]=d[y]),c.pop(),d.pop(),null!==n&&o(n)<=r&&n.merge(),a=!0);return a}function l(t,n,e,i){var r=t.children,s=null,o=void 0,a=void 0,u=void 0;if(t.contains(n,e))if(null!==r)for(o=0,a=r.length;null===s&&o<a;++o)s=l(r[o],n,e,i);else for(o=0,a=(u=t.points).length;null===s&&o<a;++o)n.distanceToSquared(u[o])<=i&&(s=t.data[o]);return s}function h(t,n,e,i){var r=t.points,s=t.children,o=null,a=e,u=void 0,l=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0;if(null!==s)for(u=0,l=(y=s.map(function(t){return{octant:t,distance:t.distanceToCenterSquared(n)}}).sort(function(t,n){return t.distance-n.distance})).length;u<l;++u)(v=y[u].octant).contains(n,a)&&null!==(f=h(v,n,a,i))&&(d=f.point.distanceToSquared(n),(!i||d>0)&&d<a&&(a=d,o=f));else if(null!==r)for(u=0,l=r.length;u<l;++u)c=r[u],d=n.distanceToSquared(c),(!i||d>0)&&d<a&&(a=d,o={point:c.clone(),data:t.data[u]});return o}function c(t,n,e,i,r){var s=t.points,o=t.children,a=e*e,u=void 0,l=void 0,h=void 0,d=void 0,y=void 0;if(null!==o)for(u=0,l=o.length;u<l;++u)(y=o[u]).contains(n,e)&&c(y,n,e,i,r);else if(null!==s)for(u=0,l=s.length;u<l;++u)h=s[u],d=n.distanceToSquared(h),(!i||d>0)&&d<=a&&r.push({point:h.clone(),data:t.data[u]})}function d(t,n,e){var i=void 0,r=void 0,s=void 0;0===n?(rt.c=1,rt.s=0):(i=(e-t)/(2*n),r=Math.sqrt(1+i*i),s=1/(i>=0?i+r:i-r),rt.c=1/Math.sqrt(1+s*s),rt.s=s*rt.c)}function y(t,n){0!==t.elements[1]&&it.rot01Post(n,st.rot01(t))}function v(t,n){0!==t.elements[2]&&it.rot02Post(n,st.rot02(t))}function f(t,n){0!==t.elements[4]&&it.rot12Post(n,st.rot12(t))}function m(t,n,e,i,r){var s=i*n.copy(t).norm(),o=void 0;for(o=0;o<r&&n.off()>s;++o)y(n,e),v(n,e),f(n,e)}function p(t,n){var e=1/t;return Math.abs(t)<n||Math.abs(e)<n?0:e}function x(t,n,e,i){var r=t.elements,s=n.elements,o=e.elements,a=s[0],u=s[3],l=s[5],h=p(a,i),c=p(u,i),d=p(l,i),y=3-((0===h)+(0===c)+(0===d)),v=o[0],f=o[3],m=o[6],x=o[1],g=o[4],k=o[7],w=o[2],b=o[5],z=o[8];return r[0]=v*h*v+f*c*f+m*d*m,r[3]=v*h*x+f*c*g+m*d*k,r[6]=v*h*w+f*c*b+m*d*z,r[1]=r[3],r[4]=x*h*x+g*c*g+k*d*k,r[7]=x*h*w+g*c*b+k*d*z,r[2]=r[6],r[5]=r[7],r[8]=w*h*w+b*c*b+z*d*z,y}function g(t,n,e,i,r){var s=t+1,o=s*s,a=new dt,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0;for(u=0,d=0;d<8;++d)c=(i+(h=j[d])[2])*o+(e+h[1])*s+(n+h[0]),u|=Math.min(r[c],nt.SOLID)<<d;for(l=0,d=0;d<12;++d)(u>>H[d][0]&1)!==(u>>H[d][1]&1)&&++l;return a.materials=u,a.edgeCount=l,a.qefData=new et,a}function k(t,n,e){var i=[-1,-1,-1,-1],r=[!1,!1,!1,!1],s=1/0,o=0,a=!1,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0,v=void 0;for(v=0;v<4;++v)d=t[v],y=wt[n][v],u=H[y][0],l=H[y][1],h=d.voxel.materials>>u&1,c=d.voxel.materials>>l&1,d.size<s&&(s=d.size,o=v,a=h!==nt.AIR),i[v]=d.voxel.index,r[v]=h!==c;r[o]&&(a?(e.push(i[0]),e.push(i[3]),e.push(i[1]),e.push(i[0]),e.push(i[2]),e.push(i[3])):(e.push(i[0]),e.push(i[1]),e.push(i[3]),e.push(i[0]),e.push(i[3]),e.push(i[2])))}function w(t,n,e){var i=[0,0,0,0],r=void 0,s=void 0,o=void 0,a=void 0;if(null!==t[0].voxel&&null!==t[1].voxel&&null!==t[2].voxel&&null!==t[3].voxel)k(t,n,e);else for(o=0;o<2;++o){for(i[0]=kt[n][o][0],i[1]=kt[n][o][1],i[2]=kt[n][o][2],i[3]=kt[n][o][3],r=[],a=0;a<4;++a)if(null!==(s=t[a]).voxel)r[a]=s;else{if(null===s.children)break;r[a]=s.children[i[a]]}4===a&&w(r,kt[n][o][4],e)}}function b(t,n,e){var i=[0,0,0,0],r=[[0,0,1,1],[0,1,0,1]],s=void 0,o=void 0,a=void 0,u=void 0,l=void 0;if(null!==t[0].children||null!==t[1].children){for(u=0;u<4;++u)i[0]=xt[n][u][0],i[1]=xt[n][u][1],b([null===t[0].children?t[0]:t[0].children[i[0]],null===t[1].children?t[1]:t[1].children[i[1]]],xt[n][u][2],e);for(u=0;u<4;++u){for(i[0]=gt[n][u][1],i[1]=gt[n][u][2],i[2]=gt[n][u][3],i[3]=gt[n][u][4],o=r[gt[n][u][0]],s=[],l=0;l<4;++l)if(null!==(a=t[o[l]]).voxel)s[l]=a;else{if(null===a.children)break;s[l]=a.children[i[l]]}4===l&&w(s,gt[n][u][5],e)}}}function z(t,n){var e=t.children,i=[0,0,0,0],r=void 0;if(null!==e){for(r=0;r<8;++r)z(e[r],n);for(r=0;r<12;++r)i[0]=mt[r][0],i[1]=mt[r][1],b([e[i[0]],e[i[1]]],mt[r][2],n);for(r=0;r<6;++r)i[0]=pt[r][0],i[1]=pt[r][1],i[2]=pt[r][2],i[3]=pt[r][3],w([e[i[0]],e[i[1]],e[i[2]],e[i[3]]],pt[r][4],n)}}function A(t,n,e,i){var r=void 0,s=void 0;if(null!==t.children)for(r=0;r<8;++r)i=A(t.children[r],n,e,i);else null!==t.voxel&&((s=t.voxel).index=i,n[3*i]=s.position.x,n[3*i+1]=s.position.y,n[3*i+2]=s.position.z,e[3*i]=s.normal.x,e[3*i+1]=s.normal.y,e[3*i+2]=s.normal.z,++i);return i}function U(t,n){var e=t.size,i=t.resolution,r=new R(0,0,0),s=new R(i,i,i),o=new L(t.min,t.max);return n.type!==Dt.INTERSECTION&&(n.boundingBox.intersectsBox(o)?(r.copy(n.boundingBox.min).max(o.min).sub(o.min),r.x=Math.ceil(r.x*i/e),r.y=Math.ceil(r.y*i/e),r.z=Math.ceil(r.z*i/e),s.copy(n.boundingBox.max).min(o.max).sub(o.min),s.x=Math.floor(s.x*i/e),s.y=Math.floor(s.y*i/e),s.z=Math.floor(s.z*i/e)):(r.set(i,i,i),s.set(0,0,0))),new L(r,s)}function I(t,n,e,i,r){var s=t.resolution+1,o=s*s,a=r.max.x,u=r.max.y,l=r.max.z,h=void 0,c=void 0,d=void 0;for(d=r.min.z;d<=l;++d)for(c=r.min.y;c<=u;++c)for(h=r.min.x;h<=a;++h)n.updateMaterialIndex(d*o+c*s+h,e,i)}function M(t,n,e,i){var r=t.size,s=t.resolution,o=s+1,a=o*o,u=e.materialIndices,l=t.min,h=new R,c=new R,d=i.max.x,y=i.max.y,v=i.max.z,f=void 0,m=0,p=void 0,x=void 0,g=void 0;for(g=i.min.z;g<=v;++g)for(h.z=g*r/s,x=i.min.y;x<=y;++x)for(h.y=x*r/s,p=i.min.x;p<=d;++p)h.x=p*r/s,(f=n.generateMaterialIndex(c.addVectors(l,h)))!==nt.AIR&&(u[g*a+x*o+p]=f,++m);e.materials=m}function S(t,n,e,i){var r=t.resolution+1,s=new Uint32Array([1,r,r*r]),o=e.materialIndices,a=new ct,u=new ct,l=i.edgeData,h=e.edgeData,c=At.calculate1DEdgeCount(t.resolution),d=new At(Math.min(c,h.edges[0].length+l.edges[0].length),Math.min(c,h.edges[1].length+l.edges[1].length),Math.min(c,h.edges[2].length+l.edges[2].length)),y=new Uint32Array(3),v=void 0,f=void 0,m=void 0,p=void 0,x=void 0,g=void 0,k=void 0,w=void 0,b=void 0,z=void 0,A=void 0,U=void 0,I=void 0,M=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0,C=void 0,T=void 0;for(_=0,D=0;D<3;_=0,++D){for(v=l.edges[D],p=h.edges[D],k=d.edges[D],f=l.zeroCrossings[D],x=h.zeroCrossings[D],w=d.zeroCrossings[D],m=l.normals[D],g=h.normals[D],b=d.normals[D],C=v.length,T=p.length,P=0,E=0;P<C;++P)if(z=v[P],A=z+s[D],M=o[z],S=o[A],M!==S&&(M===nt.AIR||S===nt.AIR)){for(a.t=f[P],a.n.x=m[3*P],a.n.y=m[3*P+1],a.n.z=m[3*P+2],n.type===Dt.DIFFERENCE&&a.n.negate(),O=a;E<T&&p[E]<=z;)I=(U=p[E])+s[D],u.t=x[E],u.n.x=g[3*E],u.n.y=g[3*E+1],u.n.z=g[3*E+2],M=o[U],U<z?M===(S=o[I])||M!==nt.AIR&&S!==nt.AIR||(k[_]=U,w[_]=u.t,b[3*_]=u.n.x,b[3*_+1]=u.n.y,b[3*_+2]=u.n.z,++_):O=n.selectEdge(u,a,M===nt.SOLID),++E;k[_]=z,w[_]=O.t,b[3*_]=O.n.x,b[3*_+1]=O.n.y,b[3*_+2]=O.n.z,++_}for(;E<T;)I=(U=p[E])+s[D],(M=o[U])===(S=o[I])||M!==nt.AIR&&S!==nt.AIR||(k[_]=U,w[_]=x[E],b[3*_]=g[3*E],b[3*_+1]=g[3*E+1],b[3*_+2]=g[3*E+2],++_),++E;y[D]=_}return{edgeData:d,lengths:y}}function O(t,n,e,i){var r=t.size,s=t.resolution,o=s+1,a=o*o,u=new Uint32Array([1,o,a]),l=e.materialIndices,h=t.min,c=new R,d=new R,y=new ct,v=new At(At.calculate1DEdgeCount(s)),f=new Uint32Array(3),m=void 0,p=void 0,x=void 0,g=void 0,k=void 0,w=void 0,b=void 0,z=void 0,A=void 0,U=void 0,I=void 0,M=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0;for(O=4,M=0,S=0;S<3;O>>=1,M=0,++S){switch(_=j[O],m=v.edges[S],p=v.zeroCrossings[S],x=v.normals[S],w=i.min.x,A=i.max.x,b=i.min.y,U=i.max.y,z=i.min.z,I=i.max.z,S){case 0:w=Math.max(w-1,0),A=Math.min(A,s-1);break;case 1:b=Math.max(b-1,0),U=Math.min(U,s-1);break;case 2:z=Math.max(z-1,0),I=Math.min(I,s-1)}for(E=z;E<=I;++E)for(P=b;P<=U;++P)for(D=w;D<=A;++D)k=(g=E*a+P*o+D)+u[S],l[g]!==l[k]&&(c.set(D*r/s,P*r/s,E*r/s),d.set((D+_[0])*r/s,(P+_[1])*r/s,(E+_[2])*r/s),y.a.addVectors(h,c),y.b.addVectors(h,d),n.generateEdge(y),m[M]=g,p[M]=y.t,x[3*M]=y.n.x,x[3*M+1]=y.n.y,x[3*M+2]=y.n.z,++M);f[S]=M}return{edgeData:v,lengths:f}}function _(t,n,e,i){var r=U(t,n),s=void 0,o=void 0,a=void 0,u=void 0,l=!1;if(n.type===Dt.DENSITY_FUNCTION?M(t,n,e,r):e.empty?n.type===Dt.UNION&&(e.set(i),l=!0):e.full&&n.type===Dt.UNION||I(t,n,e,i,r),!l&&!e.empty&&!e.full){for(o=(s=n.type===Dt.DENSITY_FUNCTION?O(t,n,e,r):S(t,n,e,i)).edgeData,a=s.lengths,u=0;u<3;++u)o.edges[u]=o.edges[u].slice(0,a[u]),o.zeroCrossings[u]=o.zeroCrossings[u].slice(0,a[u]),o.normals[u]=o.normals[u].slice(0,3*a[u]);e.edgeData=o}}function D(t,n){var e=n.children,i=void 0,r=void 0,s=void 0,o=void 0;for(n.type===Dt.DENSITY_FUNCTION&&_(t,n,i=new Mt),s=0,o=e.length;s<o&&(r=D(t,e[s]),void 0===i?i=r:null!==r?null===i?n.type===Dt.UNION&&(i=r):_(t,n,i,r):n.type===Dt.INTERSECTION&&(i=null),null!==i||n.type===Dt.UNION);++s);return null!==i&&i.empty?null:i}var P=function(t,n){if(!(t instanceof n))throw new TypeError(\"Cannot call a class as a function\")},E=function(){function t(t,n){for(var e=0;e<n.length;e++){var i=n[e];i.enumerable=i.enumerable||!1,i.configurable=!0,\"value\"in i&&(i.writable=!0),Object.defineProperty(t,i.key,i)}}return function(n,e,i){return e&&t(n.prototype,e),i&&t(n,i),n}}(),C=function t(n,e,i){null===n&&(n=Function.prototype);var r=Object.getOwnPropertyDescriptor(n,e);if(void 0===r){var s=Object.getPrototypeOf(n);return null===s?void 0:t(s,e,i)}if(\"value\"in r)return r.value;var o=r.get;if(void 0!==o)return o.call(i)},T=function(t,n){if(\"function\"!=typeof n&&null!==n)throw new TypeError(\"Super expression must either be null or a function, not \"+typeof n);t.prototype=Object.create(n&&n.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),n&&(Object.setPrototypeOf?Object.setPrototypeOf(t,n):t.__proto__=n)},N=function(t,n){if(!t)throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");return!n||\"object\"!=typeof n&&\"function\"!=typeof n?t:n},F=function(t){if(Array.isArray(t)){for(var n=0,e=Array(t.length);n<t.length;n++)e[n]=t[n];return e}return Array.from(t)},R=(function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;P(this,t),this.x=n,this.y=e}E(t,[{key:\"set\",value:function(t,n){return this.x=t,this.y=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this}},{key:\"fromArray\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[n],this.y=t[n+1],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[n]=this.x,t[n+1]=this.y,t}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y)}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this}},{key:\"addScaledVector\",value:function(t,n){return this.x+=t.x*n,this.y+=t.y*n,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this}},{key:\"addVectors\",value:function(t,n){return this.x=t.x+n.x,this.y=t.y+n.y,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this}},{key:\"subVectors\",value:function(t,n){return this.x=t.x-n.x,this.y=t.y-n.y,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this}},{key:\"multiplyScalar\",value:function(t){return isFinite(t)?(this.x*=t,this.y*=t):(this.x=0,this.y=0),this}},{key:\"multiplyVectors\",value:function(t,n){return this.x=t.x*n.x,this.y=t.y*n.y,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this}},{key:\"divideScalar\",value:function(t){return this.multiplyScalar(1/t)}},{key:\"divideVectors\",value:function(t,n){return this.x=t.x/n.x,this.y=t.y/n.y,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y}},{key:\"lengthSq\",value:function(){return this.x*this.x+this.y*this.y}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y)}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"distanceToSquared\",value:function(t){var n=this.x-t.x,e=this.y-t.y;return n*n+e*e}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this}},{key:\"clamp\",value:function(t,n){return this.x=Math.max(t.x,Math.min(n.x,this.x)),this.y=Math.max(t.y,Math.min(n.y,this.y)),this}}])}(),function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;P(this,t),this.x=n,this.y=e,this.z=i}return E(t,[{key:\"set\",value:function(t,n,e){return this.x=t,this.y=n,this.z=e,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this}},{key:\"fromArray\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[n],this.y=t[n+1],this.z=t[n+2],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[n]=this.x,t[n+1]=this.y,t[n+2]=this.z,t}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this}},{key:\"addScaledVector\",value:function(t,n){return this.x+=t.x*n,this.y+=t.y*n,this.z+=t.z*n,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this}},{key:\"addVectors\",value:function(t,n){return this.x=t.x+n.x,this.y=t.y+n.y,this.z=t.z+n.z,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this}},{key:\"subVectors\",value:function(t,n){return this.x=t.x-n.x,this.y=t.y-n.y,this.z=t.z-n.z,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this}},{key:\"multiplyScalar\",value:function(t){return isFinite(t)?(this.x*=t,this.y*=t,this.z*=t):(this.x=0,this.y=0,this.z=0),this}},{key:\"multiplyVectors\",value:function(t,n){return this.x=t.x*n.x,this.y=t.y*n.y,this.z=t.z*n.z,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this}},{key:\"divideScalar\",value:function(t){return this.multiplyScalar(1/t)}},{key:\"divideVectors\",value:function(t,n){return this.x=t.x/n.x,this.y=t.y/n.y,this.z=t.z/n.z,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z}},{key:\"lengthSq\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"distanceToSquared\",value:function(t){var n=this.x-t.x,e=this.y-t.y,i=this.z-t.z;return n*n+e*e+i*i}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this}},{key:\"clamp\",value:function(t,n){return this.x=Math.max(t.x,Math.min(n.x,this.x)),this.y=Math.max(t.y,Math.min(n.y,this.y)),this.z=Math.max(t.z,Math.min(n.z,this.z)),this}},{key:\"applyMatrix3\",value:function(t){var n=this.x,e=this.y,i=this.z,r=t.elements;return this.x=r[0]*n+r[3]*e+r[6]*i,this.y=r[1]*n+r[4]*e+r[7]*i,this.z=r[2]*n+r[5]*e+r[8]*i,this}},{key:\"applyMatrix4\",value:function(t){var n=this.x,e=this.y,i=this.z,r=t.elements;return this.x=r[0]*n+r[4]*e+r[8]*i+r[12],this.y=r[1]*n+r[5]*e+r[9]*i+r[13],this.z=r[2]*n+r[6]*e+r[10]*i+r[14],this}}]),t}()),L=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R(1/0,1/0,1/0),e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new R(-1/0,-1/0,-1/0);P(this,t),this.min=n,this.max=e}return E(t,[{key:\"set\",value:function(t,n){return this.min.copy(t),this.max.copy(n),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"setFromPoints\",value:function(t){var n=void 0,e=void 0;for(n=0,e=t.length;n<e;++n)this.expandByPoint(t[n]);return this}},{key:\"setFromCenterAndSize\",value:function(t,n){var e=n.clone().multiplyScalar(.5);return this.min.copy(t).sub(e),this.max.copy(t).add(e),this}},{key:\"intersectsBox\",value:function(t){return!(t.max.x<this.min.x||t.min.x>this.max.x||t.max.y<this.min.y||t.min.y>this.max.y||t.max.z<this.min.z||t.min.z>this.max.z)}}]),t}(),q=function(){function t(){P(this,t),this.elements=new Float32Array([1,0,0,0,1,0,0,0,1])}return E(t,[{key:\"set\",value:function(t,n,e,i,r,s,o,a,u){var l=this.elements;return l[0]=t,l[3]=n,l[6]=e,l[1]=i,l[4]=r,l[7]=s,l[2]=o,l[5]=a,l[8]=u,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,1,0,0,0,1),this}},{key:\"copy\",value:function(t){var n=t.elements;return this.set(n[0],n[3],n[6],n[1],n[4],n[7],n[2],n[5],n[8])}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),t}(),B=function(){function t(){P(this,t),this.elements=new Float32Array([1,0,0,1,0,1])}return E(t,[{key:\"set\",value:function(t,n,e,i,r,s){var o=this.elements;return o[0]=t,o[1]=n,o[3]=i,o[2]=e,o[4]=r,o[5]=s,this}},{key:\"identity\",value:function(){return this.set(1,0,0,1,0,1),this}},{key:\"copy\",value:function(t){var n=t.elements;return this.set(n[0],n[1],n[2],n[3],n[4],n[5]),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"toMatrix3\",value:function(t){var n=t.elements;t.set(n[0],n[1],n[2],n[1],n[3],n[4],n[2],n[4],n[5])}},{key:\"add\",value:function(t){var n=this.elements,e=t.elements;return n[0]+=e[0],n[1]+=e[1],n[3]+=e[3],n[2]+=e[2],n[4]+=e[4],n[5]+=e[5],this}},{key:\"norm\",value:function(){var t=this.elements,n=t[1]*t[1],e=t[2]*t[2],i=t[4]*t[4];return Math.sqrt(t[0]*t[0]+n+e+n+t[3]*t[3]+i+e+i+t[5]*t[5])}},{key:\"off\",value:function(){var t=this.elements;return Math.sqrt(2*(t[1]*t[1]+t[2]*t[2]+t[4]*t[4]))}},{key:\"applyToVector3\",value:function(t){var n=t.x,e=t.y,i=t.z,r=this.elements;return t.x=r[0]*n+r[1]*e+r[2]*i,t.y=r[1]*n+r[3]*e+r[4]*i,t.z=r[2]*n+r[4]*e+r[5]*i,t}}],[{key:\"calculateIndex\",value:function(t,n){return 3-(3-t)*(2-t)/2+n}}]),t}(),V=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new R;P(this,t),this.min=n,this.max=e,this.children=null}return E(t,[{key:\"getCenter\",value:function(){return this.min.clone().add(this.max).multiplyScalar(.5)}},{key:\"getDimensions\",value:function(){return this.max.clone().sub(this.min)}},{key:\"split\",value:function(t){var n=this.min,e=this.max,i=this.getCenter(),r=void 0,s=void 0,o=0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0;for(Array.isArray(t)&&(u=this.getDimensions().multiplyScalar(.5),l=[new R,new R,new R],o=t.length),this.children=[],r=0;r<8;++r){if(a=j[r],c=null,o>0)for(l[1].addVectors(n,l[0].fromArray(a).multiply(u)),l[2].addVectors(i,l[0].fromArray(a).multiply(u)),s=0;s<o;++s)if(null!==(h=t[s])&&l[1].equals(h.min)&&l[2].equals(h.max)){c=h,t[s]=null;break}this.children.push(null!==c?c:new this.constructor(new R(0===a[0]?n.x:i.x,0===a[1]?n.y:i.y,0===a[2]?n.z:i.z),new R(0===a[0]?i.x:e.x,0===a[1]?i.y:e.y,0===a[2]?i.z:e.z)))}}}]),t}(),j=[new Uint8Array([0,0,0]),new Uint8Array([0,0,1]),new Uint8Array([0,1,0]),new Uint8Array([0,1,1]),new Uint8Array([1,0,0]),new Uint8Array([1,0,1]),new Uint8Array([1,1,0]),new Uint8Array([1,1,1])],H=[new Uint8Array([0,4]),new Uint8Array([1,5]),new Uint8Array([2,6]),new Uint8Array([3,7]),new Uint8Array([0,2]),new Uint8Array([1,3]),new Uint8Array([4,6]),new Uint8Array([5,7]),new Uint8Array([0,1]),new Uint8Array([2,3]),new Uint8Array([4,5]),new Uint8Array([6,7])],Y=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;P(this,t),this.min=n,this.size=e,this.children=null}return E(t,[{key:\"getCenter\",value:function(){return this.min.clone().addScalar(.5*this.size)}},{key:\"getDimensions\",value:function(){return new R(this.size,this.size,this.size)}},{key:\"split\",value:function(t){var n=this.min,e=this.getCenter(),i=.5*this.size,r=void 0,s=void 0,o=0,a=void 0,u=void 0,l=void 0,h=void 0;for(Array.isArray(t)&&(u=new R,o=t.length),this.children=[],r=0;r<8;++r){if(a=j[r],h=null,o>0)for(u.fromArray(a).multiplyScalar(i).add(n),s=0;s<o;++s)if(null!==(l=t[s])&&l.size===i&&u.equals(l.min)){h=l,t[s]=null;break}this.children.push(null!==h?h:new this.constructor(new R(0===a[0]?n.x:e.x,0===a[1]?n.y:e.y,0===a[2]?n.z:e.z),i))}}},{key:\"max\",get:function(){return this.min.clone().addScalar(this.size)}}]),t}(),G=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,e=arguments.length>1&&void 0!==arguments[1]&&arguments[1];P(this,t),this.value=n,this.done=e}return E(t,[{key:\"reset\",value:function(){this.value=null,this.done=!1}}]),t}(),X=new L,Z=function(){function t(n){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;P(this,t),this.octree=n,this.region=e,this.cull=null!==e,this.result=new G,this.trace=null,this.indices=null,this.reset()}return E(t,[{key:\"reset\",value:function(){var t=this.octree.root;return this.trace=[],this.indices=[],null!==t&&(X.min=t.min,X.max=t.max,this.cull&&!this.region.intersectsBox(X)||(this.trace.push(t),this.indices.push(0))),this.result.reset(),this}},{key:\"next\",value:function(){for(var t=this.cull,n=this.region,e=this.indices,i=this.trace,r=null,s=i.length-1,o=void 0,a=void 0,u=void 0;null===r&&s>=0;)if(o=e[s],a=i[s].children,++e[s],o<8)if(null!==a){if(u=a[o],t&&(X.min=u.min,X.max=u.max,!n.intersectsBox(X)))continue;i.push(u),e.push(0),++s}else r=i.pop(),e.pop();else i.pop(),e.pop(),--s;return this.result.value=r,this.result.done=null===r,this.result}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),t}(),J=new Uint8Array([0,1,2,3,4,5,6,7,0]),K=[new Uint8Array([4,2,1]),new Uint8Array([5,3,8]),new Uint8Array([6,8,3]),new Uint8Array([7,8,8]),new Uint8Array([8,6,5]),new Uint8Array([8,7,8]),new Uint8Array([8,8,7]),new Uint8Array([8,8,8])],Q=function(){function t(){P(this,t)}return E(t,null,[{key:\"intersectOctree\",value:function(t,n,i){var r=t.getDimensions(),s=r.clone().multiplyScalar(.5),o=t.min.clone().sub(t.min),a=t.max.clone().sub(t.min),u=n.ray.direction.clone(),l=n.ray.origin.clone();l.sub(t.getCenter()).add(s);var h=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0,m=void 0,p=void 0,x=void 0;J[8]=J[0],u.x<0&&(l.x=r.x-l.x,u.x=-u.x,J[8]|=J[4]),u.y<0&&(l.y=r.y-l.y,u.y=-u.y,J[8]|=J[2]),u.z<0&&(l.z=r.z-l.z,u.z=-u.z,J[8]|=J[1]),h=1/u.x,c=1/u.y,d=1/u.z,y=(o.x-l.x)*h,v=(a.x-l.x)*h,f=(o.y-l.y)*c,m=(a.y-l.y)*c,p=(o.z-l.z)*d,x=(a.z-l.z)*d,Math.max(Math.max(y,f),p)<Math.min(Math.min(v,m),x)&&e(t.root,y,f,p,v,m,x,n,i)}}]),t}(),W=new L,$=function(){function t(n,e){P(this,t),this.root=void 0!==n&&void 0!==e?new V(n,e):null}return E(t,[{key:\"getCenter\",value:function(){return this.root.getCenter()}},{key:\"getDimensions\",value:function(){return this.root.getDimensions()}},{key:\"getDepth\",value:function(){return i(this.root)}},{key:\"cull\",value:function(t){var n=[];return r(this.root,t,n),n}},{key:\"findOctantsByLevel\",value:function(t){var n=[];return s(this.root,t,0,n),n}},{key:\"raycast\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return Q.intersectOctree(this,t,n),n}},{key:\"leaves\",value:function(t){return new Z(this,t)}},{key:Symbol.iterator,value:function(){return new Z(this)}},{key:\"min\",get:function(){return this.root.min}},{key:\"max\",get:function(){return this.root.max}},{key:\"children\",get:function(){return this.root.children}}]),t}(),tt=function(t){function n(t,e){P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,t,e));return i.points=null,i.data=null,i}return T(n,t),E(n,[{key:\"distanceToSquared\",value:function(t){return t.clone().clamp(this.min,this.max).sub(t).lengthSq()}},{key:\"distanceToCenterSquared\",value:function(t){var n=this.getCenter(),e=t.x-n.x,i=t.y-n.x,r=t.z-n.z;return e*e+i*i+r*r}},{key:\"contains\",value:function(t,n){var e=this.min,i=this.max;return t.x>=e.x-n&&t.y>=e.y-n&&t.z>=e.z-n&&t.x<=i.x+n&&t.y<=i.y+n&&t.z<=i.z+n}},{key:\"redistribute\",value:function(t){var n=this.children,e=this.points,i=this.data,r=void 0,s=void 0,o=void 0,a=void 0,u=void 0;if(null!==n)for(;e.length>0;)for(a=e.pop(),u=i.pop(),r=0,s=n.length;r<s;++r)if((o=n[r]).contains(a,t)){null===o.points&&(o.points=[],o.data=[]),o.points.push(a),o.data.push(u);break}this.points=null,this.data=null}},{key:\"merge\",value:function(){var t=this.children,n=void 0,e=void 0,i=void 0;if(null!==t){for(this.points=[],this.data=[],n=0,e=t.length;n<e;++n)if(null!==(i=t[n]).points){var r,s;(r=this.points).push.apply(r,F(i.points)),(s=this.data).push.apply(s,F(i.data))}this.children=null}}}]),n}(V),nt=(function(t){function n(t,e){var i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:8,s=arguments.length>4&&void 0!==arguments[4]?arguments[4]:8;P(this,n);var o=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this));return o.root=new tt(t,e),o.bias=Math.max(0,i),o.biasSquared=o.bias*o.bias,o.maxPoints=Math.max(1,Math.round(r)),o.maxDepth=Math.max(0,Math.round(s)),o}T(n,t),E(n,[{key:\"countPoints\",value:function(){return o(this.root)}},{key:\"add\",value:function(t,n){a(this.root,t,n,0,this.bias,this.maxPoints,this.maxDepth)}},{key:\"remove\",value:function(t){u(this.root,null,t,this.bias,this.maxPoints)}},{key:\"fetch\",value:function(t){return l(this.root,t,this.bias,this.biasSquared)}},{key:\"findNearestPoint\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1/0,e=arguments.length>2&&void 0!==arguments[2]&&arguments[2];return h(this.root,t,n,e)}},{key:\"findPoints\",value:function(t,n){var e=arguments.length>2&&void 0!==arguments[2]&&arguments[2],i=[];return c(this.root,t,n,e,i),i}},{key:\"raycast\",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],i=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"raycast\",this).call(this,t);return i.length>0&&this.testPoints(i,t,e),e}},{key:\"testPoints\",value:function(t,n,e){var i=n.params.Points.threshold,r=i*i,s=void 0,o=void 0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0,y=void 0,v=void 0,f=void 0;for(l=0,c=t.length;l<c;++l)if(y=t[l],null!==(v=y.points))for(h=0,d=v.length;h<d;++h)f=v[h],(u=n.ray.distanceSqToPoint(f))<r&&(s=n.ray.closestPointToPoint(f),(o=n.ray.origin.distanceTo(s))>=n.near&&o<=n.far&&(a=Math.sqrt(u),e.push({distance:o,distanceToRay:a,point:s.clone(),object:y.data[h]})))}}])}($),{AIR:0,SOLID:1}),et=function(){function t(){P(this,t),this.ata=new B,this.ata.set(0,0,0,0,0,0),this.atb=new R,this.btb=0,this.massPoint=new R,this.numPoints=0,this.massPointDimension=0}return E(t,[{key:\"set\",value:function(t,n,e,i,r){return this.ata.copy(t),this.atb.copy(n),this.btb=e,this.massPoint.copy(i),this.numPoints=r,this}},{key:\"copy\",value:function(t){return this.set(t.ata,t.atb,t.btb,t.massPoint,t.numPoints)}},{key:\"add\",value:function(t,n){var e=n.x,i=n.y,r=n.z,s=n.dot(t),o=this.ata.elements,a=this.atb;o[0]+=e*e,o[1]+=e*i,o[2]+=e*r,o[3]+=i*i,o[4]+=i*r,o[5]+=r*r,a.x+=s*e,a.y+=s*i,a.z+=s*r,this.btb+=s*s,this.massPoint.add(t),++this.numPoints}},{key:\"addData\",value:function(t){this.ata.add(t.ata),this.atb.add(t.atb),this.btb+=t.btb,this.massPoint.add(t.massPoint),this.numPoints+=t.numPoints}},{key:\"clear\",value:function(){this.ata.set(0,0,0,0,0,0),this.atb.set(0,0,0),this.btb=0,this.massPoint.set(0,0,0),this.numPoints=0}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),t}(),it=function(){function t(){P(this,t)}return E(t,null,[{key:\"rot01Post\",value:function(t,n){var e=t.elements,i=e[0],r=e[3],s=e[1],o=e[4],a=e[2],u=e[5],l=n.c,h=n.s;e[0]=l*i-h*r,e[3]=h*i+l*r,e[1]=l*s-h*o,e[4]=h*s+l*o,e[2]=l*a-h*u,e[5]=h*a+l*u}},{key:\"rot02Post\",value:function(t,n){var e=t.elements,i=e[0],r=e[6],s=e[1],o=e[7],a=e[2],u=e[8],l=n.c,h=n.s;e[0]=l*i-h*r,e[6]=h*i+l*r,e[1]=l*s-h*o,e[7]=h*s+l*o,e[2]=l*a-h*u,e[8]=h*a+l*u}},{key:\"rot12Post\",value:function(t,n){var e=t.elements,i=e[3],r=e[6],s=e[4],o=e[7],a=e[5],u=e[8],l=n.c,h=n.s;e[3]=l*i-h*r,e[6]=h*i+l*r,e[4]=l*s-h*o,e[7]=h*s+l*o,e[5]=l*a-h*u,e[8]=h*a+l*u}}]),t}(),rt={c:0,s:0},st=function(){function t(){P(this,t)}return E(t,null,[{key:\"rot01\",value:function(t){var n=t.elements,e=n[0],i=n[1],r=n[2],s=n[3],o=n[4];d(e,i,s);var a=rt.c,u=rt.s,l=a*a,h=u*u,c=2*a*u*i;return n[0]=l*e-c+h*s,n[1]=0,n[2]=a*r-u*o,n[3]=h*e+c+l*s,n[4]=u*r+a*o,rt}},{key:\"rot02\",value:function(t){var n=t.elements,e=n[0],i=n[1],r=n[2],s=n[4],o=n[5];d(e,r,o);var a=rt.c,u=rt.s,l=a*a,h=u*u,c=2*a*u*r;return n[0]=l*e-c+h*o,n[1]=a*i-u*s,n[2]=0,n[4]=u*i+a*s,n[5]=h*e+c+l*o,rt}},{key:\"rot12\",value:function(t){var n=t.elements,e=n[1],i=n[2],r=n[3],s=n[4],o=n[5];d(r,s,o);var a=rt.c,u=rt.s,l=a*a,h=u*u,c=2*a*u*s;return n[1]=a*e-u*i,n[2]=u*e+a*i,n[3]=l*r-c+h*o,n[4]=0,n[5]=h*r+c+l*o,rt}}]),t}(),ot=function(){function t(){P(this,t)}return E(t,null,[{key:\"solveSymmetric\",value:function(t,n,e,i,r,s){var o=new q,a=new q,u=new B,l=void 0;return a.set(0,0,0,0,0,0,0,0,0),u.set(0,0,0,0,0,0),m(t,u,o,i,r),l=x(a,u,o,s),e.copy(n).applyMatrix3(a),l}},{key:\"calculateError\",value:function(t,n,e){var i=t.elements,r=e.clone(),s=new q;return s.set(i[0],i[1],i[2],i[1],i[3],i[4],i[2],i[4],i[5]),r.applyMatrix3(s),r.subVectors(n,r),r.lengthSq()}}]),t}(),at=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1e-6,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:4,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1e-6;P(this,t),this.svdThreshold=n,this.svdSweeps=e,this.pseudoInverseThreshold=i,this.data=null,this.massPoint=new R,this.ata=new B,this.atb=new R,this.x=new R,this.hasSolution=!1}return E(t,[{key:\"computeError\",value:function(){var t=this.x,n=1/0,e=void 0;return this.hasSolution&&(e=this.ata.applyToVector3(t.clone()),n=t.dot(e)-2*t.dot(this.atb)+this.data.btb),n}},{key:\"setData\",value:function(t){return this.data=t,this.hasSolution=!1,this}},{key:\"solve\",value:function(){var t=this.data,n=this.massPoint,e=this.ata,i=this.atb,r=this.x,s=void 0;return!this.hasSolution&&null!==t&&t.numPoints>0&&(n.copy(t.massPoint),n.divideScalar(t.numPoints),e.copy(t.ata),i.copy(t.atb),s=e.applyToVector3(n.clone()),i.sub(s),r.set(0,0,0),t.massPointDimension=ot.solveSymmetric(e,i,r,this.svdThreshold,this.svdSweeps,this.pseudoInverseThreshold),r.add(n),i.copy(t.atb),this.hasSolution=!0),r}},{key:\"clear\",value:function(){this.data=null,this.hasSolution=!1}}]),t}(),ut=new R,lt=new R,ht=new R,ct=function(){function t(){var n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new R,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new R;P(this,t),this.a=n,this.b=e,this.t=0,this.n=new R}return E(t,[{key:\"approximateZeroCrossing\",value:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:8,e=Math.max(1,n-1),i=0,r=1,s=0,o=0,a=void 0,u=void 0;for(ut.subVectors(this.b,this.a);o<=e&&(s=(i+r)/2,lt.addVectors(this.a,ht.copy(ut).multiplyScalar(s)),u=t.sample(lt),!(Math.abs(u)<=.01||(r-i)/2<=1e-6));)lt.addVectors(this.a,ht.copy(ut).multiplyScalar(i)),a=t.sample(lt),Math.sign(u)===Math.sign(a)?i=s:r=s,++o;this.t=s}},{key:\"computeZeroCrossingPosition\",value:function(){return ut.subVectors(this.b,this.a).multiplyScalar(this.t).add(this.a)}},{key:\"computeSurfaceNormal\",value:function(t){var n=this.computeZeroCrossingPosition(),e=.001,i=t.sample(lt.addVectors(n,ht.set(e,0,0)))-t.sample(lt.subVectors(n,ht.set(e,0,0))),r=t.sample(lt.addVectors(n,ht.set(0,e,0)))-t.sample(lt.subVectors(n,ht.set(0,e,0))),s=t.sample(lt.addVectors(n,ht.set(0,0,e)))-t.sample(lt.subVectors(n,ht.set(0,0,e)));this.n.set(i,r,s).normalize()}}]),t}(),dt=function t(){P(this,t),this.materials=0,this.edgeCount=0,this.index=-1,this.position=new R,this.normal=new R,this.qefData=null},yt=0,vt=function(t){function n(t,e){P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,t,e));return i.voxel=null,i}return T(n,t),E(n,[{key:\"contains\",value:function(t){var n=this.min,e=this.size;return t.x>=n.x-1e-6&&t.y>=n.y-1e-6&&t.z>=n.z-1e-6&&t.x<=n.x+e+1e-6&&t.y<=n.y+e+1e-6&&t.z<=n.z+e+1e-6}},{key:\"collapse\",value:function(){var t=this.children,n=new Int16Array([-1,-1,-1,-1,-1,-1,-1,-1]),e=-1,i=null!==t,r=0,s=void 0,o=void 0,a=void 0,u=void 0,l=void 0,h=void 0,c=void 0,d=void 0;if(i){for(s=new et,c=0,d=0;d<8;++d)r+=(a=t[d]).collapse(),l=a.voxel,null!==a.children?i=!1:null!==l&&(s.addData(l.qefData),e=l.materials>>7-d&1,n[d]=l.materials>>d&1,++c);if(i&&(o=new at,h=o.setData(s).solve(),o.computeError()<=yt)){for((l=new dt).position.copy(this.contains(h)?h:o.massPoint),d=0;d<8;++d)u=n[d],a=t[d],-1===u?l.materials|=e<<d:(l.materials|=u<<d,l.normal.add(a.voxel.normal));l.normal.normalize(),l.qefData=s,this.voxel=l,this.children=null,r+=c-1}}return r}},{key:\"lod\",get:function(){return yt},set:function(t){yt=.01+t*t*t}}]),n}(Y),ft=function(t){function n(t){P(this,n);var e=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this));return e.root=new vt(t.min,t.size),e.root.lod=t.data.lod,e.voxelCount=0,e.construct(t),e.simplify(),e}return T(n,t),E(n,[{key:\"simplify\",value:function(){this.voxelCount-=this.root.collapse()}},{key:\"getCell\",value:function(t,n,e,i){var r=this.root,s=0;for(t>>=1;t>0;t>>=1,s=0)n>=t&&(s+=4,n-=t),e>=t&&(s+=2,e-=t),i>=t&&(s+=1,i-=t),null===r.children&&r.split(),r=r.children[s];return r}},{key:\"construct\",value:function(t){var n=t.size,e=t.resolution,i=e+1,r=i*i,s=t.data,o=s.edgeData,a=s.materialIndices,u=new at,l=t.min,h=new R,c=new R,d=new R,y=new ct,v=[new Uint8Array([0,1,2,3]),new Uint8Array([0,1,4,5]),new Uint8Array([0,2,4,6])],f=0,m=void 0,p=void 0,x=void 0,k=void 0,w=void 0,b=void 0,z=void 0,A=void 0,U=void 0,I=void 0,M=void 0,S=void 0,O=void 0,_=void 0,D=void 0,P=void 0,E=void 0,C=void 0,T=void 0,N=void 0,F=void 0;for(I=4,M=0;M<3;++M,I>>=1)for(A=j[I],m=o.edges[M],p=o.zeroCrossings[M],x=o.normals[M],k=v[M],S=0,_=m.length;S<_;++S)for(C=(F=m[S])%i,T=Math.trunc(F%r/i),N=Math.trunc(F/r),h.set(C*n/e,T*n/e,N*n/e),c.set((C+A[0])*n/e,(T+A[1])*n/e,(N+A[2])*n/e),y.a.addVectors(l,h),y.b.addVectors(l,c),y.t=p[S],y.n.fromArray(x,3*S),d.copy(y.computeZeroCrossingPosition()),O=0;O<4;++O)D=C-(w=j[k[O]])[0],P=T-w[1],E=N-w[2],D>=0&&P>=0&&E>=0&&D<e&&P<e&&E<e&&(null===(U=this.getCell(e,D,P,E)).voxel&&(U.voxel=g(e,D,P,E,a),++f),(b=U.voxel).normal.add(y.n),b.qefData.add(d,y.n),b.qefData.numPoints===b.edgeCount&&(z=u.setData(b.qefData).solve(),b.position.copy(U.contains(z)?z:u.massPoint),b.normal.normalize()));this.voxelCount=f}}]),n}($),mt=[new Uint8Array([0,4,0]),new Uint8Array([1,5,0]),new Uint8Array([2,6,0]),new Uint8Array([3,7,0]),new Uint8Array([0,2,1]),new Uint8Array([4,6,1]),new Uint8Array([1,3,1]),new Uint8Array([5,7,1]),new Uint8Array([0,1,2]),new Uint8Array([2,3,2]),new Uint8Array([4,5,2]),new Uint8Array([6,7,2])],pt=[new Uint8Array([0,1,2,3,0]),new Uint8Array([4,5,6,7,0]),new Uint8Array([0,4,1,5,1]),new Uint8Array([2,6,3,7,1]),new Uint8Array([0,2,4,6,2]),new Uint8Array([1,3,5,7,2])],xt=[[new Uint8Array([4,0,0]),new Uint8Array([5,1,0]),new Uint8Array([6,2,0]),new Uint8Array([7,3,0])],[new Uint8Array([2,0,1]),new Uint8Array([6,4,1]),new Uint8Array([3,1,1]),new Uint8Array([7,5,1])],[new Uint8Array([1,0,2]),new Uint8Array([3,2,2]),new Uint8Array([5,4,2]),new Uint8Array([7,6,2])]],gt=[[new Uint8Array([1,4,0,5,1,1]),new Uint8Array([1,6,2,7,3,1]),new Uint8Array([0,4,6,0,2,2]),new Uint8Array([0,5,7,1,3,2])],[new Uint8Array([0,2,3,0,1,0]),new Uint8Array([0,6,7,4,5,0]),new Uint8Array([1,2,0,6,4,2]),new Uint8Array([1,3,1,7,5,2])],[new Uint8Array([1,1,0,3,2,0]),new Uint8Array([1,5,4,7,6,0]),new Uint8Array([0,1,5,0,4,1]),new Uint8Array([0,3,7,2,6,1])]],kt=[[new Uint8Array([3,2,1,0,0]),new Uint8Array([7,6,5,4,0])],[new Uint8Array([5,1,4,0,1]),new Uint8Array([7,3,6,2,1])],[new Uint8Array([6,4,2,0,2]),new Uint8Array([7,5,3,1,2])]],wt=[new Uint8Array([3,2,1,0]),new Uint8Array([7,5,6,4]),new Uint8Array([11,10,9,8])],bt=function(){function t(){P(this,t)}return E(t,null,[{key:\"run\",value:function(t){var n=[],e=new ft(t),i=e.voxelCount,r=null,s=null,o=null;return i>65536?console.warn(\"Could not create geometry for chunk at position\",this.chunk.min,\"with lod\",this.chunk.data.lod,\"(vertex count of\",i,\"exceeds limit of 65536)\"):i>0&&(s=new Float32Array(3*i),o=new Float32Array(3*i),A(e.root,s,o,0),z(e.root,n),r={indices:new Uint16Array(n),positions:s,normals:o}),r}}]),t}(),zt=function(){function t(){P(this,t)}return E(t,null,[{key:\"encode\",value:function(t){var n=[],e=[],i=t[0],r=1,s=void 0,o=void 0;for(s=1,o=t.length;s<o;++s)i!==t[s]?(n.push(r),e.push(i),i=t[s],r=1):++r;return n.push(r),e.push(i),{runLengths:n,data:e}}},{key:\"decode\",value:function(t,n){var e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],i=void 0,r=void 0,s=void 0,o=void 0,a=void 0,u=0;for(r=0,o=n.length;r<o;++r)for(i=n[r],s=0,a=t[r];s<a;++s)e[u++]=i;return e}}]),t}(),At=function(){function t(n){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:n,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:n;P(this,t),this.edges=[new Uint32Array(n),new Uint32Array(e),new Uint32Array(i)],this.zeroCrossings=[new Float32Array(n),new Float32Array(e),new Float32Array(i)],this.normals=[new Float32Array(3*n),new Float32Array(3*e),new Float32Array(3*i)]}return E(t,[{key:\"createTransferList\",value:function(){for(var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],n=[this.edges[0],this.edges[1],this.edges[2],this.zeroCrossings[0],this.zeroCrossings[1],this.zeroCrossings[2],this.normals[0],this.normals[1],this.normals[2]],e=void 0;n.length>0;)null!==(e=n.pop())&&t.push(e.buffer);return t}},{key:\"serialise\",value:function(){return{edges:this.edges,zeroCrossings:this.zeroCrossings,normals:this.normals}}},{key:\"deserialise\",value:function(t){this.edges=t.edges,this.zeroCrossings=t.zeroCrossings,this.normals=t.normals}}],[{key:\"calculate1DEdgeCount\",value:function(t){return Math.pow(t+1,2)*t}}]),t}(),Ut=0,It=0,Mt=function(){function t(){var n=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];P(this,t),this.lod=-1,this.neutered=!1,this.materials=0,this.materialIndices=n?new Uint8Array(It):null,this.runLengths=null,this.edgeData=null}return E(t,[{key:\"set\",value:function(t){return this.lod=t.lod,this.neutered=t.neutered,this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,this.edgeData=t.edgeData,this}},{key:\"setMaterialIndex\",value:function(t,n){this.materialIndices[t]===nt.AIR?n!==nt.AIR&&++this.materials:n===nt.AIR&&--this.materials,this.materialIndices[t]=n}},{key:\"compress\",value:function(){var t=void 0;return null===this.runLengths&&(t=this.full?{runLengths:[this.materialIndices.length],data:[nt.SOLID]}:zt.encode(this.materialIndices),this.runLengths=new Uint32Array(t.runLengths),this.materialIndices=new Uint8Array(t.data)),this}},{key:\"decompress\",value:function(){return null!==this.runLengths&&(this.materialIndices=zt.decode(this.runLengths,this.materialIndices,new Uint8Array(It)),this.runLengths=null),this}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.edgeData&&this.edgeData.createTransferList(t),t.push(this.materialIndices.buffer),t.push(this.runLengths.buffer),t}},{key:\"serialise\",value:function(){return this.neutered=!0,{lod:this.lod,materials:this.materials,materialIndices:this.materialIndices,runLengths:this.runLengths,edgeData:null!==this.edgeData?this.edgeData.serialise():null}}},{key:\"deserialise\",value:function(t){this.lod=t.lod,this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,null!==t.edgeData?(null===this.edgeData&&(this.edgeData=new At(0)),this.edgeData.deserialise(t.edgeData)):this.edgeData=null,this.neutered=!1}},{key:\"empty\",get:function(){return 0===this.materials}},{key:\"full\",get:function(){return this.materials===It}}],[{key:\"resolution\",get:function(){return Ut},set:function(t){0===Ut&&(Ut=Math.max(1,Math.min(256,t)),It=Math.pow(Ut+1,3))}}]),t}(),St=function(t){function n(t,e){P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,t,e));return i.data=null,i.csg=null,i}return T(n,t),E(n,[{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.data?this.data.createTransferList(t):t}},{key:\"serialise\",value:function(){return{resolution:this.resolution,min:this.min.toArray(),size:this.size,data:null!==this.data?this.data.serialise():null}}},{key:\"deserialise\",value:function(t){this.resolution=t.resolution,this.min.fromArray(t.min),this.size=t.size,null!==t.data?(null===this.data&&(this.data=new Mt(!1)),this.data.deserialise(t.data)):this.data=null}},{key:\"resolution\",get:function(){return Mt.resolution},set:function(t){Mt.resolution=t}}]),n}(Y),Ot={EXTRACT:\"worker.extract\",MODIFY:\"worker.modify\",CLOSE:\"worker.close\"},_t=function(){function t(){P(this,t),this.chunk=new St,this.message={action:Ot.EXTRACT,chunk:null,positions:null,normals:null,indices:null},this.transferList=null}return E(t,[{key:\"extract\",value:function(t){var n=this.message,e=[];this.chunk.deserialise(t),this.chunk.data.decompress();var i=bt.run(this.chunk);null!==i?(n.indices=i.indices,n.positions=i.positions,n.normals=i.normals,e.push(n.indices.buffer),e.push(n.positions.buffer),e.push(n.normals.buffer)):(n.indices=null,n.positions=null,n.normals=null),this.chunk.deserialise(t),n.chunk=this.chunk.serialise(),this.transferList=this.chunk.createTransferList(e)}}]),t}(),Dt={UNION:\"csg.union\",DIFFERENCE:\"csg.difference\",INTERSECTION:\"csg.intersection\",DENSITY_FUNCTION:\"csg.densityfunction\"},Pt=function(){function t(n){P(this,t),this.type=n;for(var e=arguments.length,i=Array(e>1?e-1:0),r=1;r<e;r++)i[r-1]=arguments[r];this.children=i,this.bbox=null}return E(t,[{key:\"computeBoundingBox\",value:function(){var t=this.children,n=void 0,e=void 0;for(this.bbox=new L,n=0,e=t.length;n<e;++n)this.bbox.union(t[n].boundingBox);return this.bbox}},{key:\"boundingBox\",get:function(){return null!==this.bbox?this.bbox:this.computeBoundingBox()}}]),t}(),Et=function(t){function n(){var t;P(this,n);for(var e=arguments.length,i=Array(e),r=0;r<e;r++)i[r]=arguments[r];return N(this,(t=n.__proto__||Object.getPrototypeOf(n)).call.apply(t,[this,Dt.UNION].concat(i)))}return T(n,t),E(n,[{key:\"updateMaterialIndex\",value:function(t,n,e){var i=e.materialIndices[t];i!==nt.AIR&&n.setMaterialIndex(t,i)}},{key:\"selectEdge\",value:function(t,n,e){return e?t.t>n.t?t:n:t.t<n.t?t:n}}]),n}(Pt),Ct=function(t){function n(){var t;P(this,n);for(var e=arguments.length,i=Array(e),r=0;r<e;r++)i[r]=arguments[r];return N(this,(t=n.__proto__||Object.getPrototypeOf(n)).call.apply(t,[this,Dt.DIFFERENCE].concat(i)))}return T(n,t),E(n,[{key:\"updateMaterialIndex\",value:function(t,n,e){e.materialIndices[t]!==nt.AIR&&n.setMaterialIndex(t,nt.AIR)}},{key:\"selectEdge\",value:function(t,n,e){return e?t.t<n.t?t:n:t.t>n.t?t:n}}]),n}(Pt),Tt=function(t){function n(){var t;P(this,n);for(var e=arguments.length,i=Array(e),r=0;r<e;r++)i[r]=arguments[r];return N(this,(t=n.__proto__||Object.getPrototypeOf(n)).call.apply(t,[this,Dt.INTERSECTION].concat(i)))}return T(n,t),E(n,[{key:\"updateMaterialIndex\",value:function(t,n,e){var i=e.materialIndices[t];n.setMaterialIndex(t,n.materialIndices[t]!==nt.AIR&&i!==nt.AIR?i:nt.AIR)}},{key:\"selectEdge\",value:function(t,n,e){return e?t.t<n.t?t:n:t.t>n.t?t:n}}]),n}(Pt),Nt=function(){function t(){P(this,t)}return E(t,null,[{key:\"run\",value:function(t,n){null===t.data?n.operation===Dt.UNION&&(t.data=new Mt,t.data.edgeData=new At(0)):t.data.decompress();var e=n.toCSG(),i=null!==t.data?D(t,e):null;if(null!==i){switch(n.operation){case Dt.UNION:e=new Et(e);break;case Dt.DIFFERENCE:e=new Ct(e);break;case Dt.INTERSECTION:e=new Tt(e)}_(t,e,t.data,i),t.data.lod=-1}null!==t.data&&(t.data.empty?t.data=null:t.data.compress())}}]),t}(),Ft={SPHERE:\"sdf.sphere\",BOX:\"sdf.box\",TORUS:\"sdf.torus\",PLANE:\"sdf.plane\",HEIGHTFIELD:\"sdf.heightfield\"},Rt=function(t){function n(t){P(this,n);var e=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Dt.DENSITY_FUNCTION));return e.sdf=t,e}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=this.sdf.computeBoundingBox(),this.bbox}},{key:\"generateMaterialIndex\",value:function(t){return this.sdf.sample(t)<=0?this.sdf.material:nt.AIR}},{key:\"generateEdge\",value:function(t){t.approximateZeroCrossing(this.sdf),t.computeSurfaceNormal(this.sdf)}}]),n}(Pt),Lt=function(){function t(n){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:nt.SOLID;P(this,t),this.type=n,this.operation=null,this.material=Math.min(255,Math.max(nt.SOLID,Math.trunc(e))),this.children=[],this.bbox=null}return E(t,[{key:\"union\",value:function(t){return t.operation=Dt.UNION,this.children.push(t),this}},{key:\"subtract\",value:function(t){return t.operation=Dt.DIFFERENCE,this.children.push(t),this}},{key:\"intersect\",value:function(t){return t.operation=Dt.INTERSECTION,this.children.push(t),this}},{key:\"serialise\",value:function(){var t={type:this.type,operation:this.operation,material:this.material,parameters:null,children:[]},n=this.children,e=void 0,i=void 0;for(e=0,i=n.length;e<i;++e)t.children.push(n[e].serialise());return t}},{key:\"toCSG\",value:function(){var t=this.children,n=new Rt(this),e=void 0,i=void 0,r=void 0,s=void 0;for(r=0,s=t.length;r<s;++r){if(i=t[r],e!==i.operation)switch(e=i.operation){case Dt.UNION:n=new Et(n);break;case Dt.DIFFERENCE:n=new Ct(n);break;case Dt.INTERSECTION:n=new Tt(n)}n.children.push(i.toCSG())}return n}},{key:\"computeBoundingBox\",value:function(){throw new Error(\"SDF: bounding box method not implemented!\")}},{key:\"sample\",value:function(t){throw new Error(\"SDF: sample method not implemented!\")}},{key:\"boundingBox\",get:function(){return null!==this.bbox?this.bbox:this.computeBoundingBox()}},{key:\"completeBoundingBox\",get:function(){var t=this.children,n=this.boundingBox.clone(),e=void 0,i=void 0;for(e=0,i=t.length;e<i;++e)n.union(t[e].completeBoundingBox);return n}}]),t}(),qt=function(t){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Ft.SPHERE,e));return i.origin=new(Function.prototype.bind.apply(R,[null].concat(F(t.origin)))),i.radius=t.radius,i}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new L,this.bbox.min.copy(this.origin).subScalar(this.radius),this.bbox.max.copy(this.origin).addScalar(this.radius),this.bbox}},{key:\"sample\",value:function(t){var n=this.origin,e=t.x-n.x,i=t.y-n.y,r=t.z-n.z;return Math.sqrt(e*e+i*i+r*r)-this.radius}},{key:\"serialise\",value:function(){var t=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),radius:this.radius},t}}]),n}(Lt),Bt=function(t){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Ft.BOX,e));return i.origin=new(Function.prototype.bind.apply(R,[null].concat(F(t.origin)))),i.halfDimensions=new(Function.prototype.bind.apply(R,[null].concat(F(t.halfDimensions)))),i}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new L,this.bbox.min.subVectors(this.origin,this.halfDimensions),this.bbox.max.addVectors(this.origin,this.halfDimensions),this.bbox}},{key:\"sample\",value:function(t){var n=this.origin,e=this.halfDimensions,i=Math.abs(t.x-n.x)-e.x,r=Math.abs(t.y-n.y)-e.y,s=Math.abs(t.z-n.z)-e.z,o=Math.max(i,Math.max(r,s)),a=Math.max(i,0),u=Math.max(r,0),l=Math.max(s,0),h=Math.sqrt(a*a+u*u+l*l);return Math.min(o,0)+h}},{key:\"serialise\",value:function(){var t=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),halfDimensions:this.halfDimensions.toArray()},t}}]),n}(Lt),Vt=function(t){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Ft.PLANE,e));return i.normal=new(Function.prototype.bind.apply(R,[null].concat(F(t.normal)))),i.constant=t.constant,i}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new L,this.bbox}},{key:\"sample\",value:function(t){return this.normal.dot(t)+this.constant}},{key:\"serialise\",value:function(){var t=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"serialise\",this).call(this);return t.parameters={normal:this.normal.toArray(),constant:this.constant},t}}]),n}(Lt),jt=function(t){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Ft.TORUS,e));return i.origin=new(Function.prototype.bind.apply(R,[null].concat(F(t.origin)))),i.R=t.R,i.r=t.r,i}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new L,this.bbox.min.copy(this.origin).subScalar(this.R).subScalar(this.r),this.bbox.max.copy(this.origin).addScalar(this.R).addScalar(this.r),this.bbox}},{key:\"sample\",value:function(t){var n=this.origin,e=t.x-n.x,i=t.y-n.y,r=t.z-n.z,s=Math.sqrt(e*e+r*r)-this.R;return Math.sqrt(s*s+i*i)-this.r}},{key:\"serialise\",value:function(){var t=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"serialise\",this).call(this);return t.parameters={origin:this.origin.toArray(),R:this.R,r:this.r},t}}]),n}(Lt),Ht=function(t){function n(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];P(this,n);var i=N(this,(n.__proto__||Object.getPrototypeOf(n)).call(this,Ft.HEIGHTFIELD,e));return i.min=new(Function.prototype.bind.apply(R,[null].concat(F(t.min)))),i.dimensions=new(Function.prototype.bind.apply(R,[null].concat(F(t.size)))),i.data=t.data,i}return T(n,t),E(n,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new L,this.bbox.min.copy(this.min),this.bbox.max.addVectors(this.min,this.dimensions),this.bbox}},{key:\"sample\",value:function(t){var n=this.min,e=this.dimensions,i=Math.max(n.x,Math.min(n.x+e.x,t.x-n.x)),r=Math.max(n.z,Math.min(n.z+e.z,t.z-n.z));return t.y-n.y-this.data[r*e.x+i]/255*e.y}},{key:\"serialise\",value:function(){var t=C(n.prototype.__proto__||Object.getPrototypeOf(n.prototype),\"serialise\",this).call(this);return t.parameters={min:this.min.toArray(),dimensions:this.dimensions.toArray(),data:this.data},t}}]),n}(Lt),Yt=function(){function t(){P(this,t)}return E(t,null,[{key:\"reviveSDF\",value:function(t){var n=void 0,e=void 0,i=void 0;switch(t.type){case Ft.SPHERE:n=new qt(t.parameters,t.material);break;case Ft.BOX:n=new Bt(t.parameters,t.material);break;case Ft.TORUS:n=new jt(t.parameters,t.material);break;case Ft.PLANE:n=new Vt(t.parameters,t.material);break;case Ft.HEIGHTFIELD:n=new Ht(t.parameters,t.material)}for(n.operation=t.operation,e=0,i=t.children.length;e<i;++e)n.children.push(this.reviveSDF(t.children[e]));return n}}]),t}(),Gt=function(){function t(){P(this,t),this.chunk=new St,this.message={action:Ot.MODIFY,chunk:null},this.transferList=null}return E(t,[{key:\"modify\",value:function(t,n){this.chunk.deserialise(t),Nt.run(this.chunk,Yt.reviveSDF(n)),this.message.chunk=this.chunk.serialise(),this.transferList=this.chunk.createTransferList()}}]),t}(),Xt=new _t,Zt=new Gt;self.addEventListener(\"message\",function(t){var n=t.data;switch(n.action){case Ot.EXTRACT:Xt.extract(n.chunk),postMessage(Xt.message,Xt.transferList);break;case Ot.MODIFY:Zt.modify(n.chunk,n.sdf),postMessage(Zt.message,Zt.transferList);break;case Ot.CLOSE:default:close()}}),self.addEventListener(\"error\",function(t){var n={action:Ot.CLOSE,error:t.message,data:null},e=[],i=[Xt.chunk,Zt.chunk];null===i[0].data||i[0].data.neutered?null===i[1].data||i[1].data.neutered||(n.chunk=i[1].serialise(),i[1].createTransferList(e)):(n.chunk=i[0].serialise(),i[0].createTransferList(e)),postMessage(n,e),close()})}();";
 
   var ThreadPool = function (_EventTarget) {
   		inherits(ThreadPool, _EventTarget);
@@ -4696,16 +4707,16 @@
 
   var THRESHOLD = 1e-6;
 
-  var ab = new Vector3$2();
+  var ab = new Vector3$1();
 
-  var p = new Vector3$2();
+  var p = new Vector3$1();
 
-  var v = new Vector3$2();
+  var v = new Vector3$1();
 
   var Edge = function () {
   		function Edge() {
-  				var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$2();
-  				var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$2();
+  				var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3$1();
+  				var b = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$1();
   				classCallCheck(this, Edge);
 
 
@@ -4715,7 +4726,7 @@
 
   				this.t = 0.0;
 
-  				this.n = new Vector3$2();
+  				this.n = new Vector3$1();
   		}
 
   		createClass(Edge, [{
@@ -5064,148 +5075,6 @@
   		}]);
   		return ChunkHelper;
   }(three.Object3D);
-
-  var SymmetricMatrix3 = function () {
-  	function SymmetricMatrix3() {
-  		classCallCheck(this, SymmetricMatrix3);
-
-
-  		this.elements = new Float32Array([1, 0, 0, 1, 0, 1]);
-  	}
-
-  	createClass(SymmetricMatrix3, [{
-  		key: "set",
-  		value: function set$$1(m00, m01, m02, m11, m12, m22) {
-
-  			var e = this.elements;
-
-  			e[0] = m00;e[1] = m01;e[2] = m02;
-  			e[3] = m11;e[4] = m12;
-  			e[5] = m22;
-
-  			return this;
-  		}
-  	}, {
-  		key: "identity",
-  		value: function identity() {
-
-  			this.set(1, 0, 0, 1, 0, 1);
-
-  			return this;
-  		}
-  	}, {
-  		key: "copy",
-  		value: function copy(m) {
-
-  			var me = m.elements;
-
-  			this.set(me[0], me[1], me[2], me[3], me[4], me[5]);
-
-  			return this;
-  		}
-  	}, {
-  		key: "clone",
-  		value: function clone() {
-
-  			return new this.constructor().copy(this);
-  		}
-  	}, {
-  		key: "add",
-  		value: function add(m) {
-
-  			var te = this.elements;
-  			var me = m.elements;
-
-  			te[0] += me[0];te[1] += me[1];te[2] += me[2];
-  			te[3] += me[3];te[4] += me[4];
-  			te[5] += me[5];
-
-  			return this;
-  		}
-  	}, {
-  		key: "norm",
-  		value: function norm() {
-
-  			var e = this.elements;
-
-  			var m01m01 = e[1] * e[1];
-  			var m02m02 = e[2] * e[2];
-  			var m12m12 = e[4] * e[4];
-
-  			return Math.sqrt(e[0] * e[0] + m01m01 + m02m02 + m01m01 + e[3] * e[3] + m12m12 + m02m02 + m12m12 + e[5] * e[5]);
-  		}
-  	}, {
-  		key: "off",
-  		value: function off() {
-
-  			var e = this.elements;
-
-  			return Math.sqrt(2 * (e[1] * e[1] + e[2] * e[2] + e[4] * e[4]));
-  		}
-  	}, {
-  		key: "applyToVector3",
-  		value: function applyToVector3(v) {
-
-  			var x = v.x,
-  			    y = v.y,
-  			    z = v.z;
-  			var e = this.elements;
-
-  			v.x = e[0] * x + e[1] * y + e[2] * z;
-  			v.y = e[1] * x + e[3] * y + e[4] * z;
-  			v.z = e[2] * x + e[4] * y + e[5] * z;
-
-  			return v;
-  		}
-  	}]);
-  	return SymmetricMatrix3;
-  }();
-
-  var Matrix3 = function () {
-  	function Matrix3() {
-  		classCallCheck(this, Matrix3);
-
-
-  		this.elements = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
-  	}
-
-  	createClass(Matrix3, [{
-  		key: "set",
-  		value: function set$$1(m00, m01, m02, m10, m11, m12, m20, m21, m22) {
-
-  			var te = this.elements;
-
-  			te[0] = m00;te[3] = m01;te[6] = m02;
-  			te[1] = m10;te[4] = m11;te[7] = m12;
-  			te[2] = m20;te[5] = m21;te[8] = m22;
-
-  			return this;
-  		}
-  	}, {
-  		key: "identity",
-  		value: function identity() {
-
-  			this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
-
-  			return this;
-  		}
-  	}, {
-  		key: "copy",
-  		value: function copy(m) {
-
-  			var me = m.elements;
-
-  			return this.set(me[0], me[3], me[6], me[1], me[4], me[7], me[2], me[5], me[8]);
-  		}
-  	}, {
-  		key: "clone",
-  		value: function clone() {
-
-  			return new this.constructor().copy(this);
-  		}
-  	}]);
-  	return Matrix3;
-  }();
 
   var Givens = function () {
   		function Givens() {
@@ -5564,271 +5433,6 @@
   	return SingularValueDecomposition;
   }();
 
-  var Vector2 = function () {
-  	function Vector2() {
-  		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  		classCallCheck(this, Vector2);
-
-
-  		this.x = x;
-
-  		this.y = y;
-  	}
-
-  	createClass(Vector2, [{
-  		key: "set",
-  		value: function set$$1(x, y) {
-
-  			this.x = x;
-  			this.y = y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "copy",
-  		value: function copy(v) {
-
-  			this.x = v.x;
-  			this.y = v.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "fromArray",
-  		value: function fromArray(array) {
-  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-
-  			this.x = array[offset];
-  			this.y = array[offset + 1];
-
-  			return this;
-  		}
-  	}, {
-  		key: "toArray",
-  		value: function toArray$$1() {
-  			var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  			var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-
-  			array[offset] = this.x;
-  			array[offset + 1] = this.y;
-
-  			return array;
-  		}
-  	}, {
-  		key: "equals",
-  		value: function equals(v) {
-
-  			return v.x === this.x && v.y === this.y;
-  		}
-  	}, {
-  		key: "clone",
-  		value: function clone() {
-
-  			return new this.constructor(this.x, this.y);
-  		}
-  	}, {
-  		key: "add",
-  		value: function add(v) {
-
-  			this.x += v.x;
-  			this.y += v.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addScaledVector",
-  		value: function addScaledVector(v, s) {
-
-  			this.x += v.x * s;
-  			this.y += v.y * s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addScalar",
-  		value: function addScalar(s) {
-
-  			this.x += s;
-  			this.y += s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "addVectors",
-  		value: function addVectors(a, b) {
-
-  			this.x = a.x + b.x;
-  			this.y = a.y + b.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "sub",
-  		value: function sub(v) {
-
-  			this.x -= v.x;
-  			this.y -= v.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "subScalar",
-  		value: function subScalar(s) {
-
-  			this.x -= s;
-  			this.y -= s;
-
-  			return this;
-  		}
-  	}, {
-  		key: "subVectors",
-  		value: function subVectors(a, b) {
-
-  			this.x = a.x - b.x;
-  			this.y = a.y - b.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiply",
-  		value: function multiply(v) {
-
-  			this.x *= v.x;
-  			this.y *= v.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiplyScalar",
-  		value: function multiplyScalar(s) {
-
-  			if (isFinite(s)) {
-
-  				this.x *= s;
-  				this.y *= s;
-  			} else {
-
-  				this.x = 0;
-  				this.y = 0;
-  			}
-
-  			return this;
-  		}
-  	}, {
-  		key: "multiplyVectors",
-  		value: function multiplyVectors(a, b) {
-
-  			this.x = a.x * b.x;
-  			this.y = a.y * b.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "divide",
-  		value: function divide(v) {
-
-  			this.x /= v.x;
-  			this.y /= v.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "divideScalar",
-  		value: function divideScalar(s) {
-
-  			return this.multiplyScalar(1 / s);
-  		}
-  	}, {
-  		key: "divideVectors",
-  		value: function divideVectors(a, b) {
-
-  			this.x = a.x / b.x;
-  			this.y = a.y / b.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "negate",
-  		value: function negate() {
-
-  			this.x = -this.x;
-  			this.y = -this.y;
-
-  			return this;
-  		}
-  	}, {
-  		key: "dot",
-  		value: function dot(v) {
-
-  			return this.x * v.x + this.y * v.y;
-  		}
-  	}, {
-  		key: "lengthSq",
-  		value: function lengthSq() {
-
-  			return this.x * this.x + this.y * this.y;
-  		}
-  	}, {
-  		key: "length",
-  		value: function length() {
-
-  			return Math.sqrt(this.x * this.x + this.y * this.y);
-  		}
-  	}, {
-  		key: "distanceTo",
-  		value: function distanceTo(v) {
-
-  			return Math.sqrt(this.distanceToSquared(v));
-  		}
-  	}, {
-  		key: "distanceToSquared",
-  		value: function distanceToSquared(v) {
-
-  			var dx = this.x - v.x;
-  			var dy = this.y - v.y;
-
-  			return dx * dx + dy * dy;
-  		}
-  	}, {
-  		key: "normalize",
-  		value: function normalize() {
-
-  			return this.divideScalar(this.length());
-  		}
-  	}, {
-  		key: "min",
-  		value: function min(v) {
-
-  			this.x = Math.min(this.x, v.x);
-  			this.y = Math.min(this.y, v.y);
-
-  			return this;
-  		}
-  	}, {
-  		key: "max",
-  		value: function max(v) {
-
-  			this.x = Math.max(this.x, v.x);
-  			this.y = Math.max(this.y, v.y);
-
-  			return this;
-  		}
-  	}, {
-  		key: "clamp",
-  		value: function clamp(min, max) {
-
-  			this.x = Math.max(min.x, Math.min(max.x, this.x));
-  			this.y = Math.max(min.y, Math.min(max.y, this.y));
-
-  			return this;
-  		}
-  	}]);
-  	return Vector2;
-  }();
-
   var QEFSolver = function () {
   		function QEFSolver() {
   				var svdThreshold = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1e-6;
@@ -5845,13 +5449,13 @@
 
   				this.data = null;
 
-  				this.massPoint = new Vector3$2();
+  				this.massPoint = new Vector3$1();
 
   				this.ata = new SymmetricMatrix3();
 
-  				this.atb = new Vector3$2();
+  				this.atb = new Vector3$1();
 
-  				this.x = new Vector3$2();
+  				this.x = new Vector3$1();
 
   				this.hasSolution = false;
   		}
@@ -5937,11 +5541,11 @@
 
   				this.ata.set(0, 0, 0, 0, 0, 0);
 
-  				this.atb = new Vector3$2();
+  				this.atb = new Vector3$1();
 
   				this.btb = 0;
 
-  				this.massPoint = new Vector3$2();
+  				this.massPoint = new Vector3$1();
 
   				this.numPoints = 0;
 
@@ -6037,9 +5641,9 @@
 
   		this.index = -1;
 
-  		this.position = new Vector3$2();
+  		this.position = new Vector3$1();
 
-  		this.normal = new Vector3$2();
+  		this.normal = new Vector3$1();
 
   		this.qefData = null;
   };
@@ -6289,9 +5893,9 @@
   						var qefSolver = new QEFSolver();
 
   						var base = chunk.min;
-  						var offsetA = new Vector3$2();
-  						var offsetB = new Vector3$2();
-  						var intersection = new Vector3$2();
+  						var offsetA = new Vector3$1();
+  						var offsetB = new Vector3$1();
+  						var intersection = new Vector3$1();
   						var edge = new Edge();
 
   						var sequences = [new Uint8Array([0, 1, 2, 3]), new Uint8Array([0, 1, 4, 5]), new Uint8Array([0, 2, 4, 6])];
@@ -6394,10 +5998,10 @@
   	var s = chunk.size;
   	var n = chunk.resolution;
 
-  	var min = new Vector3$2(0, 0, 0);
-  	var max = new Vector3$2(n, n, n);
+  	var min = new Vector3$1(0, 0, 0);
+  	var max = new Vector3$1(n, n, n);
 
-  	var region = new Box3$2(chunk.min, chunk.max);
+  	var region = new Box3$1(chunk.min, chunk.max);
 
   	if (operation.type !== OperationType.INTERSECTION) {
 
@@ -6420,7 +6024,7 @@
   		}
   	}
 
-  	return new Box3$2(min, max);
+  	return new Box3$1(min, max);
   }
 
   function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
@@ -6458,8 +6062,8 @@
   	var materialIndices = data.materialIndices;
 
   	var base = chunk.min;
-  	var offset = new Vector3$2();
-  	var position = new Vector3$2();
+  	var offset = new Vector3$1();
+  	var position = new Vector3$1();
 
   	var X = bounds.max.x;
   	var Y = bounds.max.y;
@@ -6662,8 +6266,8 @@
   	var materialIndices = data.materialIndices;
 
   	var base = chunk.min;
-  	var offsetA = new Vector3$2();
-  	var offsetB = new Vector3$2();
+  	var offsetA = new Vector3$1();
+  	var offsetB = new Vector3$1();
   	var edge = new Edge();
 
   	var edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
@@ -6921,14 +6525,10 @@
   exports.ChunkHelper = ChunkHelper;
   exports.MeshTriplanarPhysicalMaterial = MeshTriplanarPhysicalMaterial;
   exports.Givens = Givens;
-  exports.Matrix3 = Matrix3;
   exports.QEFSolver = QEFSolver;
   exports.QEFData = QEFData;
   exports.Schur = Schur;
   exports.SingularValueDecomposition = SingularValueDecomposition;
-  exports.SymmetricMatrix3 = SymmetricMatrix3;
-  exports.Vector2 = Vector2;
-  exports.Vector3 = Vector3$2;
   exports.Edge = Edge;
   exports.EdgeData = EdgeData;
   exports.HermiteData = HermiteData;
