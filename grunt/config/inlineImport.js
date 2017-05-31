@@ -9,7 +9,7 @@ module.exports = {
 	},
 
 	materials: {
-		src: "src/materials/*/index.js"
+		src: "src/materials/*.js"
 	},
 
 	worker: {

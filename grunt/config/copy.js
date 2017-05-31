@@ -4,7 +4,7 @@ module.exports = {
 		expand: true,
 		cwd: "src",
 		src: [
-			"materials/*/index.js",
+			"materials/*.js",
 			"worker/thread-pool.js"
 		],
 		dest: "backup",
