@@ -63,26 +63,21 @@ self.addEventListener("error", function onError(event) {
 	const message = {
 		action: Action.CLOSE,
 		error: event.message,
-		data: null
+		chunk: null
 	};
 
 	const transferList = [];
-
-	const chunks = [
-		surfaceExtractor.chunk,
-		volumeModifier.chunk
-	];
+	const chunks = [surfaceExtractor.chunk, volumeModifier.chunk];
 
 	// Find out which operator has the data.
-	if(chunks[0].data !== null && !chunks[0].data.neutered) {
+	const chunk = (chunks[0].data !== null && !chunks[0].data.neutered) ?
+		chunk[0] : (chunks[1].data !== null && !chunks[1].data.neutered) ?
+			chunk[1] : null;
 
-		message.chunk = chunks[0].serialise();
-		chunks[0].createTransferList(transferList);
+	if(chunk !== null) {
 
-	} else if(chunks[1].data !== null && !chunks[1].data.neutered) {
-
-		message.chunk = chunks[1].serialise();
-		chunks[1].createTransferList(transferList);
+		message.chunk = chunk.serialise();
+		chunk.createTransferList(transferList);
 
 	}
 
