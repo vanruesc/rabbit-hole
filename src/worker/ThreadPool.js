@@ -1,6 +1,7 @@
 import { EventTarget } from "synthetic-event";
-import { Action } from "./action.js";
+import { Action } from "./Action.js";
 import * as events from "./thread-pool-events.js";
+
 import worker from "./worker.tmp";
 
 /**

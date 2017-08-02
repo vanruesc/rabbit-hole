@@ -1,4 +1,4 @@
-import { Task } from "../core/task.js";
+import { Task } from "../core/Task.js";
 
 /**
  * A worker task.

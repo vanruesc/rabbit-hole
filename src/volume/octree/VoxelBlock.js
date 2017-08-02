@@ -1,11 +1,11 @@
 import { Octree, PATTERN, EDGES } from "sparse-octree";
 import { Vector3 } from "math-ds";
-import { QEFData } from "../../math/qef-data.js";
-import { QEFSolver } from "../../math/qef-solver.js";
-import { Material } from "../material.js";
-import { Edge } from "../edge.js";
-import { Voxel } from "../voxel.js";
-import { VoxelCell } from "./voxel-cell.js";
+import { QEFData } from "../../math/QEFData.js";
+import { QEFSolver } from "../../math/QEFSolver.js";
+import { Material } from "../Material.js";
+import { Edge } from "../Edge.js";
+import { Voxel } from "../Voxel.js";
+import { VoxelCell } from "./VoxelCell.js";
 
 /**
  * Creates a voxel and builds a material configuration code from the materials

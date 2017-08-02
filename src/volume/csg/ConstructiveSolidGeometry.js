@@ -1,13 +1,13 @@
 import { PATTERN } from "sparse-octree";
 import { Box3, Vector3 } from "math-ds";
-import { Material } from "../material.js";
-import { EdgeData } from "../edge-data.js";
-import { HermiteData } from "../hermite-data.js";
-import { Edge } from "../edge.js";
-import { OperationType } from "./operation-type.js";
-import { Union } from "./union.js";
-import { Difference } from "./difference.js";
-import { Intersection } from "./intersection.js";
+import { Material } from "../Material.js";
+import { EdgeData } from "../EdgeData.js";
+import { HermiteData } from "../HermiteData.js";
+import { Edge } from "../Edge.js";
+import { OperationType } from "./OperationType.js";
+import { Union } from "./Union.js";
+import { Difference } from "./Difference.js";
+import { Intersection } from "./Intersection.js";
 
 /**
  * Finds out which grid points lie inside the area of the given operation.

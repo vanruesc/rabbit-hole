@@ -1,9 +1,9 @@
-import { OperationType } from "../csg/operation-type.js";
-import { Union } from "../csg/union.js";
-import { Difference } from "../csg/difference.js";
-import { Intersection } from "../csg/intersection.js";
-import { DensityFunction } from "../csg/density-function.js";
-import { Material } from "../material.js";
+import { OperationType } from "../csg/OperationType.js";
+import { Union } from "../csg/Union.js";
+import { Difference } from "../csg/Difference.js";
+import { Intersection } from "../csg/Intersection.js";
+import { DensityFunction } from "../csg/DensityFunction.js";
+import { Material } from "../Material.js";
 
 /**
  * An abstract Signed Distance Function.

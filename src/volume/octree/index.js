@@ -4,8 +4,8 @@
  * @module rabbit-hole/volume/octree
  */
 
-export { Chunk } from "./chunk.js";
-export { Volume } from "./volume.js";
+export { Chunk } from "./Chunk.js";
+export { Volume } from "./Volume.js";
 
-export { VoxelBlock } from "./voxel-block.js";
-export { VoxelCell } from "./voxel-cell.js";
+export { VoxelBlock } from "./VoxelBlock.js";
+export { VoxelCell } from "./VoxelCell.js";

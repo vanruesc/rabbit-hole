@@ -1,6 +1,6 @@
 import { EDGES } from "sparse-octree";
-import { Material } from "../../volume/material.js";
-import { VoxelBlock } from "../../volume/octree/voxel-block.js";
+import { Material } from "../../volume/Material.js";
+import { VoxelBlock } from "../../volume/octree/VoxelBlock.js";
 import * as tables from "./tables.js";
 
 /**
@@ -331,7 +331,6 @@ function generateVertexIndices(octant, positions, normals, index) {
 /**
  * Dual Contouring is an isosurface extraction technique that was originally
  * presented by Tao Ju in 2002:
- *
  *  http://www.cs.wustl.edu/~taoju/research/dualContour.pdf
  */
 

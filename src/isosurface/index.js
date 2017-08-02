@@ -4,4 +4,4 @@
  * @module rabbit-hole/isosurface
  */
 
-export { DualContouring } from "./dual-contouring";
+export { DualContouring } from "./dual-contouring/DualContouring.js";

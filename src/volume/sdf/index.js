@@ -4,12 +4,12 @@
  * @module rabbit-hole/volume/sdf
  */
 
-export { SignedDistanceFunction } from "./signed-distance-function.js";
-export { SDFType } from "./sdf-type.js";
-export { Reviver } from "./reviver.js";
+export { SignedDistanceFunction } from "./SignedDistanceFunction.js";
+export { SDFType } from "./SDFType.js";
+export { SDFReviver } from "./SDFReviver.js";
 
-export { Heightfield } from "./heightfield.js";
-export { Sphere } from "./sphere.js";
-export { Torus } from "./torus.js";
-export { Plane } from "./plane.js";
-export { Box } from "./box.js";
+export { Heightfield } from "./Heightfield.js";
+export { Sphere } from "./Sphere.js";
+export { Torus } from "./Torus.js";
+export { Plane } from "./Plane.js";
+export { Box } from "./Box.js";

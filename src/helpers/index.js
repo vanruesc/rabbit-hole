@@ -4,4 +4,4 @@
  * @module rabbit-hole/helpers
  */
 
-export { ChunkHelper } from "./chunk-helper.js";
+export { ChunkHelper } from "./ChunkHelper.js";

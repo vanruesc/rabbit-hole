@@ -4,10 +4,10 @@
  * @module rabbit-hole/core
  */
 
-export { History } from "./history.js";
-export { PriorityQueue } from "./priority-queue.js";
-export { Queue } from "./queue.js";
-export { RunLengthEncoder } from "./run-length-encoder.js";
-export { Scheduler } from "./scheduler.js";
-export { Task } from "./task.js";
-export { Terrain } from "./terrain.js";
+export { History } from "./History.js";
+export { PriorityQueue } from "./PriorityQueue.js";
+export { Queue } from "./Queue.js";
+export { RunLengthEncoder } from "./RunLengthEncoder.js";
+export { Scheduler } from "./Scheduler.js";
+export { Task } from "./Task.js";
+export { Terrain } from "./Terrain.js";

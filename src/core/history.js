@@ -1,11 +1,7 @@
-import { OperationType } from "../volume/csg/operation-type.js";
+import { OperationType } from "../volume/csg/OperationType.js";
 
 /**
  * An operation history.
- *
- * @class History
- * @submodule core
- * @constructor
  */
 
 export class History {

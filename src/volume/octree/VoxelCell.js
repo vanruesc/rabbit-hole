@@ -1,7 +1,7 @@
 import { CubicOctant } from "sparse-octree";
-import { QEFData } from "../../math/qef-data.js";
-import { QEFSolver } from "../../math/qef-solver.js";
-import { Voxel } from "../voxel.js";
+import { QEFData } from "../../math/QEFData.js";
+import { QEFSolver } from "../../math/QEFSolver.js";
+import { Voxel } from "../Voxel.js";
 
 /**
  * A bias for boundary checks.

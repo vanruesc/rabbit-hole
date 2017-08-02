@@ -1,4 +1,4 @@
-import { Queue } from "./queue.js";
+import { Queue } from "./Queue.js";
 
 /**
  * A queue that maintains elements in a hierarchy. Elements with a high priority

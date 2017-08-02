@@ -1,4 +1,4 @@
-import { WorkerEvent } from "../events/worker-event.js";
+import { WorkerEvent } from "../events/WorkerEvent.js";
 
 /**
  * A worker message event.

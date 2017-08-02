@@ -4,5 +4,5 @@
  * @module rabbit-hole/events
  */
 
-export { TerrainEvent } from "./terrain-event.js";
-export { WorkerEvent } from "./worker-event.js";
+export { TerrainEvent } from "./TerrainEvent.js";
+export { WorkerEvent } from "./WorkerEvent.js";

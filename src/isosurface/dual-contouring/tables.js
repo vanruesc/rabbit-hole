@@ -1,8 +1,4 @@
 /**
- * @submodule isosurface
- */
-
-/**
  * An edge mask.
  *
  * @type {Uint8Array}

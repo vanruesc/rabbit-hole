@@ -1,4 +1,4 @@
-import { TerrainEvent } from "../events/terrain-event.js";
+import { TerrainEvent } from "../events/TerrainEvent.js";
 
 /**
  * Signals the start of a modification task.

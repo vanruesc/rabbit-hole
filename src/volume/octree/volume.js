@@ -1,7 +1,7 @@
 import { Octree } from "sparse-octree";
 import { Box3 } from "math-ds";
-import { OperationType } from "../csg/operation-type.js";
-import { Chunk } from "./chunk.js";
+import { OperationType } from "../csg/OperationType.js";
+import { Chunk } from "./Chunk.js";
 
 /**
  * A computation helper.

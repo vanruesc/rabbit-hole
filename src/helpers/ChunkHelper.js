@@ -11,8 +11,8 @@ import {
 } from "three";
 
 import { PATTERN } from "sparse-octree";
-import { Material } from "../volume/material.js";
-import { Edge } from "../volume/edge.js";
+import { Material } from "../volume/Material.js";
+import { Edge } from "../volume/Edge.js";
 
 /**
  * A chunk helper.

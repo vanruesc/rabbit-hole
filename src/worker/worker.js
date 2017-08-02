@@ -1,6 +1,6 @@
-import { SurfaceExtractor } from "./surface-extractor.js";
-import { VolumeModifier } from "./volume-modifier.js";
-import { Action } from "./action.js";
+import { SurfaceExtractor } from "./SurfaceExtractor.js";
+import { VolumeModifier } from "./VolumeModifier.js";
+import { Action } from "./Action.js";
 
 /**
  * A surface extractor.

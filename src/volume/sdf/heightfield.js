@@ -1,6 +1,6 @@
 import { Box3, Vector3 } from "math-ds";
-import { SignedDistanceFunction } from "./signed-distance-function.js";
-import { SDFType } from "./sdf-type.js";
+import { SignedDistanceFunction } from "./SignedDistanceFunction.js";
+import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a heightfield.

@@ -1,4 +1,4 @@
-import { PriorityQueue } from "./priority-queue.js";
+import { PriorityQueue } from "./PriorityQueue.js";
 
 /**
  * A task scheduler.

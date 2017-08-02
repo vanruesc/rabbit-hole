@@ -4,9 +4,9 @@
  * @module rabbit-hole/math
  */
 
-export { SingularValueDecomposition } from "./singular-value-decomposition.js";
-export { Givens } from "./givens.js";
-export { Schur } from "./schur.js";
+export { SingularValueDecomposition } from "./SingularValueDecomposition.js";
+export { Givens } from "./Givens.js";
+export { Schur } from "./Schur.js";
 
-export { QEFSolver } from "./qef-solver.js";
-export { QEFData } from "./qef-data.js";
+export { QEFSolver } from "./QEFSolver.js";
+export { QEFData } from "./QEFData.js";

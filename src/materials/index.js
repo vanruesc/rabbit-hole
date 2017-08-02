@@ -4,4 +4,4 @@
  * @module rabbit-hole/materials
  */
 
-export { MeshTriplanarPhysicalMaterial } from "./triplanar-physical.js";
+export { MeshTriplanarPhysicalMaterial } from "./MeshTriplanarPhysicalMaterial.js";

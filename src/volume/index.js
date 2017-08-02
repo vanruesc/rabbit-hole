@@ -4,11 +4,11 @@
  * @module rabbit-hole/volume
  */
 
-export { Material } from "./material.js";
-export { Edge } from "./edge.js";
-export { EdgeData } from "./edge-data.js";
-export { HermiteData } from "./hermite-data.js";
-export { Voxel } from "./voxel.js";
+export { Material } from "./Material.js";
+export { Edge } from "./Edge.js";
+export { EdgeData } from "./EdgeData.js";
+export { HermiteData } from "./HermiteData.js";
+export { Voxel } from "./Voxel.js";
 
 export {
 	Chunk,

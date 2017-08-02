@@ -1,6 +1,6 @@
 import { Matrix3, SymmetricMatrix3 } from "math-ds";
-import { Givens } from "./givens.js";
-import { Schur } from "./schur.js";
+import { Givens } from "./Givens.js";
+import { Schur } from "./Schur.js";
 
 /**
  * Rotates the given matrix.

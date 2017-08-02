@@ -1,5 +1,5 @@
 import { SymmetricMatrix3, Vector3 } from "math-ds";
-import { SingularValueDecomposition } from "./singular-value-decomposition.js";
+import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
 
 /**
  * A Quaratic Error Function solver.

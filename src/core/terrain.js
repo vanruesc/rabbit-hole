@@ -1,15 +1,15 @@
 import { Box3, BufferAttribute, BufferGeometry, Frustum, Mesh, Matrix4, Object3D } from "three";
 import { EventTarget } from "synthetic-event";
-import { MeshTriplanarPhysicalMaterial } from "../materials/triplanar-physical";
-import { Volume } from "../volume/octree/volume.js";
-import { OperationType } from "../volume/csg/operation-type.js";
-import { Reviver } from "../volume/sdf/reviver.js";
-import { Action } from "../worker/action.js";
-import { ThreadPool } from "../worker/thread-pool.js";
-import { WorkerTask } from "../worker/worker-task.js";
-import { History } from "./history.js";
-import { Scheduler } from "./scheduler.js";
-import { Queue } from "./queue.js";
+import { MeshTriplanarPhysicalMaterial } from "../materials";
+import { Volume } from "../volume/octree/Volume.js";
+import { OperationType } from "../volume/csg/OperationType.js";
+import { SDFReviver } from "../volume/sdf/SDFReviver.js";
+import { Action } from "../worker/Action.js";
+import { ThreadPool } from "../worker/ThreadPool.js";
+import { WorkerTask } from "../worker/WorkerTask.js";
+import { History } from "./History.js";
+import { Scheduler } from "./Scheduler.js";
+import { Queue } from "./Queue.js";
 import * as events from "./terrain-events.js";
 
 /**
@@ -645,7 +645,7 @@ export class Terrain extends EventTarget {
 		this.clear();
 
 		this.edit(
-			Reviver.reviveSDF(
+			SDFReviver.reviveSDF(
 				JSON.parse(data)
 			)
 		);

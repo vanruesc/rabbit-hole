@@ -1,15 +1,15 @@
-import { SDFType } from "../sdf/sdf-type.js";
-import { Sphere } from "../sdf/sphere.js";
-import { Box } from "../sdf/box.js";
-import { Plane } from "../sdf/plane.js";
-import { Torus } from "../sdf/torus.js";
-import { Heightfield } from "../sdf/heightfield.js";
+import { SDFType } from "../sdf/SDFType.js";
+import { Sphere } from "../sdf/Sphere.js";
+import { Box } from "../sdf/Box.js";
+import { Plane } from "../sdf/Plane.js";
+import { Torus } from "../sdf/Torus.js";
+import { Heightfield } from "../sdf/Heightfield.js";
 
 /**
  * An SDF reviver.
  */
 
-export class Reviver {
+export class SDFReviver {
 
 	/**
 	 * Creates an SDF from the given serialised description.

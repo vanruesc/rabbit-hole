@@ -1,6 +1,6 @@
 import { DualContouring } from "../isosurface";
-import { Chunk } from "../volume/octree/chunk.js";
-import { Action } from "./action.js";
+import { Chunk } from "../volume/octree/Chunk.js";
+import { Action } from "./Action.js";
 
 /**
  * A surface extractor that generates triangles from hermite data.

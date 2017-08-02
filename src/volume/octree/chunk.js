@@ -1,5 +1,5 @@
 import { CubicOctant } from "sparse-octree";
-import { HermiteData } from "../hermite-data.js";
+import { HermiteData } from "../HermiteData.js";
 
 /**
  * A cubic volume chunk.
