@@ -6,7 +6,7 @@ import {
 } from "three";
 
 import { Detector, FeatureId } from "feature-detector";
-import { App } from "./app.js";
+import { App } from "./App.js";
 
 /**
  * Loads assets.

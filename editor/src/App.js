@@ -1,21 +1,19 @@
 import {
 	Clock,
 	DirectionalLight,
-	FlatShading,
 	FogExp2,
 	GridHelper,
 	HemisphereLight,
 	PerspectiveCamera,
 	Scene,
-	SmoothShading,
 	WebGLRenderer
 } from "three";
 
 import dat from "dat.gui";
-import { Terrain } from "../src";
-import { Editor } from "./editor.js";
-import { TerrainStats } from "./terrain-stats.js";
-import { Controls } from "./controls/controls.js";
+import { Terrain } from "../../src";
+import { Editor } from "./Editor.js";
+import { TerrainStats } from "./TerrainStats.js";
+import { Controls } from "./controls/Controls.js";
 
 /**
  * The main application.
@@ -151,7 +149,6 @@ export class App {
 					diffuse: terrain.material.uniforms.diffuse.value.getHex(),
 					roughness: terrain.material.uniforms.roughness.value,
 					metalness: terrain.material.uniforms.metalness.value,
-					flatshading: (terrain.material.shading === FlatShading),
 					wireframe: terrain.material.wireframe
 				},
 
@@ -190,14 +187,7 @@ export class App {
 
 			});
 
-			subfolder.add(params.terrain, "flatshading").onChange(function() {
-
-				const shading = params.terrain.flatshading ? FlatShading : SmoothShading;
-
-				terrain.material.shading = shading;
-				terrain.material.needsUpdate = true;
-
-			});
+			subfolder.add(terrain.material, "flatShading");
 
 			subfolder.add(params.terrain, "wireframe").onChange(function() {
 

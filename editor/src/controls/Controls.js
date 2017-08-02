@@ -1,7 +1,7 @@
 import { Spherical, Vector3 } from "three";
-import { MovementState } from "./movement-state.js";
-import { Button } from "./button.js";
-import { Key } from "./key.js";
+import { MovementState } from "./MovementState.js";
+import { Button } from "./Button.js";
+import { Key } from "./Key.js";
 
 /**
  * Two PI.
