@@ -1,23 +1,24 @@
-/**
- * rabbit-hole v0.0.0 build Aug 03 2017
- * https://github.com/vanruesc/rabbit-hole
- * Copyright 2017 Raoul van Rüschen, Zlib
- */
+(function (three,dat,Stats) {
+  'use strict';
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('three')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'three'], factory) :
-  (factory((global.RABBITHOLE = {}),global.THREE));
-}(this, (function (exports,three) { 'use strict';
+  dat = dat && dat.hasOwnProperty('default') ? dat['default'] : dat;
+  Stats = Stats && Stats.hasOwnProperty('default') ? Stats['default'] : Stats;
 
-  var OperationType = {
-
-    UNION: "csg.union",
-    DIFFERENCE: "csg.difference",
-    INTERSECTION: "csg.intersection",
-    DENSITY_FUNCTION: "csg.densityfunction"
-
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
   };
+
+
+
+
+
+
+
+
+
+
 
   var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -134,6 +135,278 @@
     } else {
       return Array.from(arr);
     }
+  };
+
+  var Feature = function () {
+  	function Feature() {
+  		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  		classCallCheck(this, Feature);
+
+
+  		this.name = name;
+
+  		this.root = (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" && self.self === self ? self : (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" && global.global === global ? global : this;
+
+  		this.supported = false;
+  	}
+
+  	createClass(Feature, [{
+  		key: "toString",
+  		value: function toString() {
+
+  			return this.name;
+  		}
+  	}]);
+  	return Feature;
+  }();
+
+  var FeatureId = {
+
+    CANVAS: "feature.canvas",
+    FILE: "feature.file",
+    TYPED_ARRAY: "feature.typed-array",
+    WEBGL: "feature.webgl",
+    WORKER: "feature.worker"
+
+  };
+
+  var CanvasFeature = function (_Feature) {
+  	inherits(CanvasFeature, _Feature);
+
+  	function CanvasFeature() {
+  		classCallCheck(this, CanvasFeature);
+
+  		var _this = possibleConstructorReturn(this, (CanvasFeature.__proto__ || Object.getPrototypeOf(CanvasFeature)).call(this, "Canvas"));
+
+  		_this.supported = _this.root.CanvasRenderingContext2D !== undefined;
+
+  		return _this;
+  	}
+
+  	return CanvasFeature;
+  }(Feature);
+
+  var FileFeature = function (_Feature) {
+  	inherits(FileFeature, _Feature);
+
+  	function FileFeature() {
+  		classCallCheck(this, FileFeature);
+
+  		var _this = possibleConstructorReturn(this, (FileFeature.__proto__ || Object.getPrototypeOf(FileFeature)).call(this, "File"));
+
+  		_this.supported = _this.root.File !== undefined && _this.root.FileReader !== undefined && _this.root.FileList !== undefined && _this.root.Blob !== undefined;
+
+  		return _this;
+  	}
+
+  	return FileFeature;
+  }(Feature);
+
+  var TypedArrayFeature = function (_Feature) {
+  	inherits(TypedArrayFeature, _Feature);
+
+  	function TypedArrayFeature() {
+  		classCallCheck(this, TypedArrayFeature);
+
+  		var _this = possibleConstructorReturn(this, (TypedArrayFeature.__proto__ || Object.getPrototypeOf(TypedArrayFeature)).call(this, "Typed Array"));
+
+  		_this.supported = _this.root.ArrayBuffer !== undefined;
+
+  		return _this;
+  	}
+
+  	return TypedArrayFeature;
+  }(Feature);
+
+  var WebGLFeature = function (_Feature) {
+  		inherits(WebGLFeature, _Feature);
+
+  		function WebGLFeature() {
+  				classCallCheck(this, WebGLFeature);
+
+  				var _this = possibleConstructorReturn(this, (WebGLFeature.__proto__ || Object.getPrototypeOf(WebGLFeature)).call(this, "WebGL"));
+
+  				_this.supported = function (root) {
+
+  						var supported = root.WebGLRenderingContext !== undefined;
+  						var canvas = void 0,
+  						    context = void 0;
+
+  						if (supported) {
+
+  								canvas = document.createElement("canvas");
+  								context = canvas.getContext("webgl");
+
+  								if (context === null) {
+
+  										if (canvas.getContext("experimental-webgl") === null) {
+
+  												supported = false;
+  										}
+  								}
+  						}
+
+  						return supported;
+  				}(_this.root);
+
+  				return _this;
+  		}
+
+  		return WebGLFeature;
+  }(Feature);
+
+  var WorkerFeature = function (_Feature) {
+  	inherits(WorkerFeature, _Feature);
+
+  	function WorkerFeature() {
+  		classCallCheck(this, WorkerFeature);
+
+  		var _this = possibleConstructorReturn(this, (WorkerFeature.__proto__ || Object.getPrototypeOf(WorkerFeature)).call(this, "Web Worker"));
+
+  		_this.supported = _this.root.Worker !== undefined;
+
+  		return _this;
+  	}
+
+  	return WorkerFeature;
+  }(Feature);
+
+  var Detector = function () {
+  	function Detector() {
+  		classCallCheck(this, Detector);
+
+
+  		this.features = new Map();
+
+  		this.features.set(FeatureId.CANVAS, new CanvasFeature());
+  		this.features.set(FeatureId.FILE, new FileFeature());
+  		this.features.set(FeatureId.TYPED_ARRAY, new TypedArrayFeature());
+  		this.features.set(FeatureId.WEBGL, new WebGLFeature());
+  		this.features.set(FeatureId.WORKER, new WorkerFeature());
+  	}
+
+  	createClass(Detector, [{
+  		key: "getFeatures",
+  		value: function getFeatures(missing, featureIds) {
+
+  			var features = [];
+
+  			var featureId = void 0,
+  			    feature = void 0;
+
+  			if (featureIds.length > 0) {
+  				var _iteratorNormalCompletion = true;
+  				var _didIteratorError = false;
+  				var _iteratorError = undefined;
+
+  				try {
+
+  					for (var _iterator = featureIds[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+  						featureId = _step.value;
+
+
+  						feature = this.features.get(featureId);
+
+  						if (feature !== undefined && feature.supported === !missing) {
+
+  							features.push(feature);
+  						}
+  					}
+  				} catch (err) {
+  					_didIteratorError = true;
+  					_iteratorError = err;
+  				} finally {
+  					try {
+  						if (!_iteratorNormalCompletion && _iterator.return) {
+  							_iterator.return();
+  						}
+  					} finally {
+  						if (_didIteratorError) {
+  							throw _iteratorError;
+  						}
+  					}
+  				}
+  			} else {
+  				var _iteratorNormalCompletion2 = true;
+  				var _didIteratorError2 = false;
+  				var _iteratorError2 = undefined;
+
+  				try {
+
+  					for (var _iterator2 = this.features.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+  						feature = _step2.value;
+
+
+  						if (feature.supported === !missing) {
+
+  							features.push(feature);
+  						}
+  					}
+  				} catch (err) {
+  					_didIteratorError2 = true;
+  					_iteratorError2 = err;
+  				} finally {
+  					try {
+  						if (!_iteratorNormalCompletion2 && _iterator2.return) {
+  							_iterator2.return();
+  						}
+  					} finally {
+  						if (_didIteratorError2) {
+  							throw _iteratorError2;
+  						}
+  					}
+  				}
+  			}
+
+  			return features.length > 0 ? features : null;
+  		}
+  	}, {
+  		key: "getMissingFeatures",
+  		value: function getMissingFeatures() {
+  			for (var _len = arguments.length, featureIds = Array(_len), _key = 0; _key < _len; _key++) {
+  				featureIds[_key] = arguments[_key];
+  			}
+
+  			return this.getFeatures(true, featureIds);
+  		}
+  	}, {
+  		key: "getSupportedFeatures",
+  		value: function getSupportedFeatures() {
+  			for (var _len2 = arguments.length, featureIds = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+  				featureIds[_key2] = arguments[_key2];
+  			}
+
+  			return this.getFeatures(false, featureIds);
+  		}
+  	}, {
+  		key: "get",
+  		value: function get$$1(featureId) {
+
+  			return this.features.get(featureId);
+  		}
+  	}, {
+  		key: "set",
+  		value: function set$$1(featureId, feature) {
+
+  			return this.features.set(featureId, feature);
+  		}
+  	}, {
+  		key: "getMessage",
+  		value: function getMessage(feature) {
+
+  			return "The " + feature + " feature is " + (feature.supported ? "supported" : "missing") + " in the current environment.";
+  		}
+  	}]);
+  	return Detector;
+  }();
+
+  var OperationType = {
+
+    UNION: "csg.union",
+    DIFFERENCE: "csg.difference",
+    INTERSECTION: "csg.intersection",
+    DENSITY_FUNCTION: "csg.densityfunction"
+
   };
 
   var History = function () {
@@ -882,11 +1155,11 @@
   		return MeshTriplanarPhysicalMaterial;
   }(three.ShaderMaterial);
 
-  var Vector2 = function () {
-  	function Vector2() {
+  var Vector2$1 = function () {
+  	function Vector2$$1() {
   		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  		classCallCheck(this, Vector2);
+  		classCallCheck(this, Vector2$$1);
 
 
   		this.x = x;
@@ -894,7 +1167,7 @@
   		this.y = y;
   	}
 
-  	createClass(Vector2, [{
+  	createClass(Vector2$$1, [{
   		key: "set",
   		value: function set$$1(x, y) {
 
@@ -1144,7 +1417,7 @@
   			return this;
   		}
   	}]);
-  	return Vector2;
+  	return Vector2$$1;
   }();
 
   var Vector3$1 = function () {
@@ -6513,42 +6786,1280 @@
   	return ConstructiveSolidGeometry;
   }();
 
-  exports.History = History;
-  exports.PriorityQueue = PriorityQueue;
-  exports.Queue = Queue;
-  exports.RunLengthEncoder = RunLengthEncoder;
-  exports.Scheduler = Scheduler;
-  exports.Task = Task;
-  exports.Terrain = Terrain;
-  exports.TerrainEvent = TerrainEvent;
-  exports.WorkerEvent = WorkerEvent;
-  exports.ChunkHelper = ChunkHelper;
-  exports.MeshTriplanarPhysicalMaterial = MeshTriplanarPhysicalMaterial;
-  exports.Givens = Givens;
-  exports.QEFSolver = QEFSolver;
-  exports.QEFData = QEFData;
-  exports.Schur = Schur;
-  exports.SingularValueDecomposition = SingularValueDecomposition;
-  exports.Edge = Edge;
-  exports.EdgeData = EdgeData;
-  exports.HermiteData = HermiteData;
-  exports.Material = Material;
-  exports.Voxel = Voxel;
-  exports.Chunk = Chunk;
-  exports.Volume = Volume;
-  exports.VoxelBlock = VoxelBlock;
-  exports.VoxelCell = VoxelCell;
-  exports.SignedDistanceFunction = SignedDistanceFunction;
-  exports.Heightfield = Heightfield;
-  exports.Sphere = Sphere;
-  exports.Torus = Torus;
-  exports.Plane = Plane;
-  exports.Box = Box;
-  exports.ConstructiveSolidGeometry = ConstructiveSolidGeometry;
-  exports.Intersection = Intersection;
-  exports.Difference = Difference;
-  exports.Union = Union;
+  var OctreeHelper = function (_Object3D) {
+  		inherits(OctreeHelper, _Object3D);
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+  		function OctreeHelper() {
+  				var octree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  				classCallCheck(this, OctreeHelper);
 
-})));
+  				var _this = possibleConstructorReturn(this, (OctreeHelper.__proto__ || Object.getPrototypeOf(OctreeHelper)).call(this));
+
+  				_this.name = "OctreeHelper";
+
+  				_this.octree = octree;
+
+  				_this.update();
+
+  				return _this;
+  		}
+
+  		createClass(OctreeHelper, [{
+  				key: "createLineSegments",
+  				value: function createLineSegments(octants) {
+
+  						var maxOctants = Math.pow(2, 16) / 8 - 1;
+  						var group = new three.Object3D();
+
+  						var material = new three.LineBasicMaterial({
+  								color: 0xffffff * Math.random()
+  						});
+
+  						var octantCount = octants.length;
+  						var vertexCount = void 0;
+  						var length = void 0;
+
+  						var indices = void 0,
+  						    positions = void 0;
+  						var octant = void 0,
+  						    min = void 0,
+  						    max = void 0;
+  						var geometry = void 0;
+
+  						var i = void 0,
+  						    j = void 0,
+  						    c = void 0,
+  						    d = void 0,
+  						    n = void 0;
+  						var corner = void 0,
+  						    edge = void 0;
+
+  						for (i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
+
+  								length += octantCount < maxOctants ? octantCount : maxOctants;
+  								octantCount -= maxOctants;
+
+  								vertexCount = length * 8;
+  								indices = new Uint16Array(vertexCount * 3);
+  								positions = new Float32Array(vertexCount * 3);
+
+  								for (c = 0, d = 0; i < length; ++i) {
+
+  										octant = octants[i];
+  										min = octant.min;
+  										max = octant.max;
+
+  										for (j = 0; j < 12; ++j) {
+
+  												edge = edges[j];
+
+  												indices[d++] = c + edge[0];
+  												indices[d++] = c + edge[1];
+  										}
+
+  										for (j = 0; j < 8; ++j, ++c) {
+
+  												corner = corners[j];
+
+  												positions[c * 3] = corner[0] === 0 ? min.x : max.x;
+  												positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
+  												positions[c * 3 + 2] = corner[2] === 0 ? min.z : max.z;
+  										}
+  								}
+
+  								geometry = new three.BufferGeometry();
+  								geometry.setIndex(new three.BufferAttribute(indices, 1));
+  								geometry.addAttribute("position", new three.BufferAttribute(positions, 3));
+
+  								group.add(new three.LineSegments(geometry, material));
+  						}
+
+  						this.add(group);
+  				}
+  		}, {
+  				key: "update",
+  				value: function update() {
+
+  						var depth = this.octree !== null ? this.octree.getDepth() : -1;
+
+  						var level = 0;
+
+  						this.dispose();
+
+  						while (level <= depth) {
+
+  								this.createLineSegments(this.octree.findOctantsByLevel(level));
+
+  								++level;
+  						}
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+
+  						var groups = this.children;
+
+  						var group = void 0,
+  						    children = void 0;
+  						var i = void 0,
+  						    j = void 0,
+  						    il = void 0,
+  						    jl = void 0;
+
+  						for (i = 0, il = groups.length; i < il; ++i) {
+
+  								group = groups[i];
+  								children = group.children;
+
+  								for (j = 0, jl = children.length; j < jl; ++j) {
+
+  										children[j].geometry.dispose();
+  										children[j].material.dispose();
+  								}
+
+  								while (children.length > 0) {
+
+  										group.remove(children[0]);
+  								}
+  						}
+
+  						while (groups.length > 0) {
+
+  								this.remove(groups[0]);
+  						}
+  				}
+  		}]);
+  		return OctreeHelper;
+  }(three.Object3D);
+
+  var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
+
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+
+  var Button = {
+
+    MAIN: 0,
+    AUXILIARY: 1,
+    SECONDARY: 2
+
+  };
+
+  var mouse = new three.Vector2();
+
+  var Editor = function () {
+  		function Editor(terrain, camera) {
+  				var dom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
+  				classCallCheck(this, Editor);
+
+
+  				this.terrain = terrain;
+
+  				this.camera = camera;
+
+  				this.dom = dom;
+
+  				this.raycaster = new three.Raycaster();
+
+  				this.cursorSize = 1;
+
+  				this.cursorDistance = 10;
+
+  				this.cursor = new three.Mesh(new three.SphereBufferGeometry(this.cursorSize, 16, 16), new three.MeshBasicMaterial({
+  						transparent: true,
+  						opacity: 0.5,
+  						color: 0x0096ff,
+  						fog: false
+  				}));
+
+  				this.octreeHelper = new OctreeHelper(this.terrain.volume);
+  				this.octreeHelper.visible = false;
+
+  				this.chunkHelper = new ChunkHelper();
+  				this.chunkHelper.visible = false;
+
+  				this.searchTime = "";
+
+  				this.setEnabled(true);
+  		}
+
+  		createClass(Editor, [{
+  				key: "handleEvent",
+  				value: function handleEvent(event) {
+
+  						switch (event.type) {
+
+  								case "mousemove":
+  										this.raycast(event);
+  										break;
+
+  								case "mousedown":
+  										this.handlePointerEvent(event, true);
+  										break;
+
+  								case "mouseup":
+  										this.handlePointerEvent(event, false);
+  										break;
+
+  								case "contextmenu":
+  										event.preventDefault();
+  										break;
+
+  								case "modificationend":
+  										this.handleModification(event);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handlePointerEvent",
+  				value: function handlePointerEvent(event, pressed) {
+
+  						event.preventDefault();
+
+  						switch (event.button) {
+
+  								case Button.MAIN:
+  										this.handleMain(pressed);
+  										break;
+
+  								case Button.AUXILIARY:
+  										this.handleAuxiliary(pressed);
+  										break;
+
+  								case Button.SECONDARY:
+  										this.handleSecondary(pressed);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handleMain",
+  				value: function handleMain(pressed) {
+
+  						if (pressed) {
+
+  								this.terrain.union(new Sphere({
+  										origin: this.cursor.position.toArray(),
+  										radius: this.cursorSize
+  								}));
+  						}
+  				}
+  		}, {
+  				key: "handleAuxiliary",
+  				value: function handleAuxiliary(pressed) {}
+  		}, {
+  				key: "handleSecondary",
+  				value: function handleSecondary(pressed) {
+
+  						if (pressed) {
+
+  								this.terrain.subtract(new Sphere({
+  										origin: this.cursor.position.toArray(),
+  										radius: this.cursorSize
+  								}));
+  						}
+  				}
+  		}, {
+  				key: "handleModification",
+  				value: function handleModification(event) {
+
+  						if (this.chunkHelper.visible) {
+
+  								this.chunkHelper.chunk = event.chunk;
+  								this.chunkHelper.update(false, true);
+  						}
+
+  						if (this.octreeHelper.visible) {
+
+  								this.octreeHelper.update();
+  						}
+  				}
+  		}, {
+  				key: "raycast",
+  				value: function raycast(event) {
+
+  						var raycaster = this.raycaster;
+  						var t0 = performance.now();
+
+  						mouse.x = event.clientX / window.innerWidth * 2 - 1;
+  						mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  						raycaster.setFromCamera(mouse, this.camera);
+  						var intersects = this.terrain.raycast(raycaster);
+
+  						this.searchTime = (performance.now() - t0).toFixed(2) + " ms";
+
+  						if (intersects.length > 0) {
+
+  								this.cursor.position.copy(intersects[0].point);
+  						} else {
+
+  								this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(this.cursorDistance + this.cursor.scale.x).add(raycaster.ray.origin);
+  						}
+  				}
+  		}, {
+  				key: "setEnabled",
+  				value: function setEnabled(enabled) {
+
+  						var terrain = this.terrain;
+  						var dom = this.dom;
+
+  						if (enabled) {
+
+  								this.cursor.position.copy(this.camera.position);
+  								this.cursor.visible = true;
+
+  								terrain.addEventListener("modificationend", this);
+  								dom.addEventListener("contextmenu", this);
+  								dom.addEventListener("mousemove", this);
+  								dom.addEventListener("mousedown", this);
+  								dom.addEventListener("mouseup", this);
+  						} else {
+
+  								this.cursor.visible = false;
+
+  								terrain.removeEventListener("modificationend", this);
+  								dom.removeEventListener("contextmenu", this);
+  								dom.removeEventListener("mousemove", this);
+  								dom.removeEventListener("mousedown", this);
+  								dom.removeEventListener("mouseup", this);
+  						}
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+  						this.setEnabled(false);
+  				}
+  		}, {
+  				key: "logMemory",
+  				value: function logMemory() {
+
+  						var a = document.createElement("a");
+
+  						var n = this.terrain.volume.resolution;
+  						var m = Math.pow(n + 1, 3);
+  						var c = 3 * Math.pow(n + 1, 2) * n;
+
+  						var materialReport = "";
+  						var edgeReport = "";
+
+  						var maxMaterials = 0;
+  						var maxEdges = 0;
+
+  						var chunkCount = 0;
+
+  						var materialCount = 0;
+  						var runLengthCount = 0;
+  						var edgeCount = 0;
+
+  						var chunk = void 0,
+  						    data = void 0,
+  						    edgeData = void 0,
+  						    edges = void 0;
+  						var i = 0;
+
+  						var _iteratorNormalCompletion = true;
+  						var _didIteratorError = false;
+  						var _iteratorError = undefined;
+
+  						try {
+  								for (var _iterator = this.terrain.volume[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+  										chunk = _step.value;
+
+
+  										data = chunk.data;
+
+  										if (data !== null) {
+
+  												edgeData = data.edgeData;
+
+  												edges = edgeData.edges[0].length + edgeData.edges[1].length + edgeData.edges[2].length;
+
+  												materialReport += i + ", " + (data.materials + data.runLengths.length * 4) + "\n";
+  												edgeReport += i + ", " + edges + "\n";
+
+  												materialCount += data.materials;
+  												runLengthCount += data.runLengths.length;
+  												edgeCount += edges;
+
+  												++chunkCount;
+  												++i;
+  										}
+  								}
+  						} catch (err) {
+  								_didIteratorError = true;
+  								_iteratorError = err;
+  						} finally {
+  								try {
+  										if (!_iteratorNormalCompletion && _iterator.return) {
+  												_iterator.return();
+  										}
+  								} finally {
+  										if (_didIteratorError) {
+  												throw _iteratorError;
+  										}
+  								}
+  						}
+
+  						maxMaterials = chunkCount * m;
+  						maxEdges = chunkCount * c;
+
+  						var report = "Volume Chunks: " + chunkCount + "\n\n";
+
+  						report += "Total Materials: " + materialCount + " (" + maxMaterials + " max)\n";
+  						report += "Total Run-Lengths: " + runLengthCount + "\n";
+  						report += "Compression Ratio: " + (maxMaterials / (materialCount + runLengthCount * 4)).toFixed(2) + "\n";
+  						report += "Space Savings: " + ((1 - (materialCount + runLengthCount * 4) / maxMaterials) * 100).toFixed(2) + "%\n";
+  						report += "Estimated Memory Usage: " + ((materialCount * 8 + runLengthCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
+
+  						report += "\n";
+
+  						report += "Total Edges: " + edgeCount + " (" + maxEdges + " max)\n";
+  						report += "Compression Ratio: " + (maxEdges / edgeCount).toFixed(2) + "\n";
+  						report += "Space Savings: " + ((1 - edgeCount / maxEdges) * 100).toFixed(2) + "%\n";
+  						report += "Estimated Memory Usage: " + ((edgeCount * 32 + edgeCount * 32 + 3 * edgeCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
+
+  						report += "\n";
+
+  						report += "Material Counts\n\n";
+  						report += materialReport;
+
+  						report += "\n";
+
+  						report += "Edge Counts\n\n";
+  						report += edgeReport + "\n";
+
+  						a.href = URL.createObjectURL(new Blob([report], {
+  								type: "text/plain"
+  						}));
+
+  						a.download = "memory.txt";
+  						a.click();
+  				}
+  		}, {
+  				key: "save",
+  				value: function save() {
+
+  						var a = document.createElement("a");
+  						a.href = this.terrain.save();
+  						a.download = "terrain.json";
+  						a.click();
+  				}
+  		}, {
+  				key: "configure",
+  				value: function configure(gui) {
+  						var _this = this;
+
+  						var folder = gui.addFolder("Editor");
+
+  						var params = {
+  								hermiteData: this.chunkHelper.visible,
+  								octree: this.octreeHelper.visible
+  						};
+
+  						folder.add(this, "searchTime").listen();
+
+  						folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(function () {
+
+  								_this.cursor.scale.set(_this.cursorSize, _this.cursorSize, _this.cursorSize);
+  						});
+
+  						folder.add(params, "hermiteData").onChange(function () {
+
+  								_this.chunkHelper.dispose();
+  								_this.chunkHelper.visible = params.hermiteData;
+  						});
+
+  						folder.add(params, "octree").onChange(function () {
+
+  								_this.octreeHelper.update();
+  								_this.octreeHelper.visible = params.octree;
+  						});
+
+  						folder.add(this, "logMemory");
+  						folder.add(this, "save");
+  						folder.open();
+  				}
+  		}]);
+  		return Editor;
+  }();
+
+  var TerrainStats = function () {
+  		function TerrainStats(terrain) {
+  				classCallCheck(this, TerrainStats);
+
+
+  				this.stats = new Stats();
+
+  				this.terrain = terrain;
+
+  				this.modificationPanel = this.stats.addPanel(new Stats.Panel("CSG", "#ff8", "#221"));
+
+  				this.extractionPanel = this.stats.addPanel(new Stats.Panel("DC", "#f8f", "#212"));
+
+  				this.deltas = {
+  						modificationend: [],
+  						extractionend: []
+  				};
+
+  				this.timestamps = new Map();
+
+  				this.maxDeltas = new Map();
+
+  				this.setEnabled(true);
+  		}
+
+  		createClass(TerrainStats, [{
+  				key: "handleEvent",
+  				value: function handleEvent(event) {
+
+  						switch (event.type) {
+
+  								case "extractionstart":
+  								case "modificationstart":
+  										this.timestamps.set(event.chunk, performance.now());
+  										break;
+
+  								case "modificationend":
+  										this.measureTime(event, this.modificationPanel);
+  										break;
+
+  								case "extractionend":
+  										this.measureTime(event, this.extractionPanel);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "measureTime",
+  				value: function measureTime(event, panel) {
+
+  						var maxDeltas = this.maxDeltas;
+  						var timestamps = this.timestamps;
+
+  						var delta = performance.now() - timestamps.get(event.chunk);
+  						var maxDelta = maxDeltas.has(event.type) ? maxDeltas.get(event.type) : 0.0;
+
+  						if (delta > maxDelta) {
+
+  								maxDeltas.set(event.type, delta);
+  						}
+
+  						this.deltas[event.type].push(delta);
+
+  						panel.update(delta, maxDelta);
+  						timestamps.delete(event.chunk);
+  				}
+  		}, {
+  				key: "setEnabled",
+  				value: function setEnabled(enabled) {
+
+  						var terrain = this.terrain;
+
+  						if (enabled) {
+
+  								terrain.addEventListener("modificationstart", this);
+  								terrain.addEventListener("extractionstart", this);
+  								terrain.addEventListener("modificationend", this);
+  								terrain.addEventListener("extractionend", this);
+  						} else {
+
+  								terrain.removeEventListener("modificationstart", this);
+  								terrain.removeEventListener("extractionstart", this);
+  								terrain.removeEventListener("modificationend", this);
+  								terrain.removeEventListener("extractionend", this);
+  						}
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+  						this.setEnabled(false);
+  				}
+  		}, {
+  				key: "log",
+  				value: function log() {
+
+  						var deltas = this.deltas;
+  						var a = document.createElement("a");
+
+  						var text = "";
+  						var i = void 0,
+  						    l = void 0;
+
+  						text += "Modifications\n\n";
+
+  						for (i = 0, l = deltas.modificationend.length; i < l; ++i) {
+
+  								text += i + ", " + deltas.modificationend[i] + "\n";
+  						}
+
+  						text += "\n\n";
+  						text += "Extractions\n\n";
+
+  						for (i = 0, l = deltas.extractionend.length; i < l; ++i) {
+
+  								text += i + ", " + deltas.extractionend[i] + "\n";
+  						}
+
+  						a.href = URL.createObjectURL(new Blob([text], {
+  								type: "text/plain"
+  						}));
+
+  						a.download = "stats.txt";
+  						a.click();
+  				}
+  		}, {
+  				key: "configure",
+  				value: function configure(gui) {
+
+  						var folder = gui.addFolder("Stats");
+
+  						folder.add(this, "log");
+  				}
+  		}]);
+  		return TerrainStats;
+  }();
+
+  var MovementState = function () {
+  		function MovementState() {
+  				classCallCheck(this, MovementState);
+
+
+  				this.left = false;
+
+  				this.right = false;
+
+  				this.forward = false;
+
+  				this.backward = false;
+
+  				this.up = false;
+
+  				this.down = false;
+
+  				this.boost = false;
+  		}
+
+  		createClass(MovementState, [{
+  				key: "reset",
+  				value: function reset() {
+
+  						this.left = false;
+  						this.right = false;
+  						this.forward = false;
+  						this.backward = false;
+
+  						this.up = false;
+  						this.down = false;
+  						this.boost = false;
+  				}
+  		}]);
+  		return MovementState;
+  }();
+
+  var Key = {
+
+    WASD: [87, 65, 83, 68],
+    X: 88,
+    ARROWS: [37, 38, 39, 40],
+    SPACE: 32,
+    SHIFT: 16,
+    CTRL: 17,
+    ALT: 18
+
+  };
+
+  var TWO_PI = 2 * Math.PI;
+
+  var Controls = function () {
+  		function Controls(object) {
+  				var dom = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.body;
+  				classCallCheck(this, Controls);
+
+
+  				this.object = object;
+
+  				this.dom = dom;
+
+  				this.target = new three.Vector3();
+
+  				this.spherical = new three.Spherical();
+
+  				this.movementSpeed = 1.0;
+
+  				this.boostSpeed = 2.0;
+
+  				this.lookSpeed = 0.002;
+
+  				this.state = new MovementState();
+
+  				this.setEnabled(true);
+  		}
+
+  		createClass(Controls, [{
+  				key: "handleEvent",
+  				value: function handleEvent(event) {
+
+  						switch (event.type) {
+
+  								case "mousemove":
+  										this.look(event);
+  										break;
+
+  								case "mousedown":
+  										this.handlePointerEvent(event, true);
+  										break;
+
+  								case "mouseup":
+  										this.handlePointerEvent(event, false);
+  										break;
+
+  								case "keydown":
+  										this.changeMovementState(event, true);
+  										break;
+
+  								case "keyup":
+  										this.changeMovementState(event, false);
+  										break;
+
+  								case "pointerlockchange":
+  										this.handlePointerLock();
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handlePointerLock",
+  				value: function handlePointerLock() {
+
+  						if (document.pointerLockElement === this.dom) {
+
+  								this.dom.addEventListener("mousemove", this);
+  						} else {
+
+  								this.dom.removeEventListener("mousemove", this);
+  						}
+  				}
+  		}, {
+  				key: "handlePointerEvent",
+  				value: function handlePointerEvent(event, pressed) {
+
+  						event.preventDefault();
+
+  						switch (event.button) {
+
+  								case Button.MAIN:
+  										this.handleMain(pressed);
+  										break;
+
+  								case Button.AUXILIARY:
+  										this.handleAuxiliary(pressed);
+  										break;
+
+  								case Button.SECONDARY:
+  										this.handleSecondary(pressed);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handleMain",
+  				value: function handleMain(pressed) {
+
+  						if (document.pointerLockElement !== this.dom && pressed) {
+
+  								if (this.dom.requestPointerLock !== undefined) {
+
+  										this.dom.requestPointerLock();
+  								}
+  						} else {
+
+  								if (document.exitPointerLock !== undefined) {
+
+  										document.exitPointerLock();
+  								}
+  						}
+  				}
+  		}, {
+  				key: "handleAuxiliary",
+  				value: function handleAuxiliary(pressed) {}
+  		}, {
+  				key: "handleSecondary",
+  				value: function handleSecondary(pressed) {
+
+  						this.handleMain(pressed);
+  				}
+  		}, {
+  				key: "changeMovementState",
+  				value: function changeMovementState(event, s) {
+
+  						var state = this.state;
+
+  						switch (event.keyCode) {
+
+  								case Key.WASD[0]:
+  								case Key.ARROWS[1]:
+  										state.forward = s;
+  										break;
+
+  								case Key.WASD[1]:
+  								case Key.ARROWS[0]:
+  										state.left = s;
+  										break;
+
+  								case Key.WASD[2]:
+  								case Key.ARROWS[3]:
+  										state.backward = s;
+  										break;
+
+  								case Key.WASD[3]:
+  								case Key.ARROWS[2]:
+  										state.right = s;
+  										break;
+
+  								case Key.SPACE:
+  										event.preventDefault();
+  										state.up = s;
+  										break;
+
+  								case Key.X:
+  										state.down = s;
+  										break;
+
+  								case Key.SHIFT:
+  										state.boost = s;
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "look",
+  				value: function look(event) {
+
+  						var s = this.spherical;
+
+  						s.theta -= event.movementX * this.lookSpeed;
+  						s.phi += event.movementY * this.lookSpeed;
+
+  						s.theta %= TWO_PI;
+  						s.makeSafe();
+
+  						this.object.lookAt(this.target.setFromSpherical(s).add(this.object.position));
+  				}
+  		}, {
+  				key: "move",
+  				value: function move(delta) {
+
+  						var object = this.object;
+  						var state = this.state;
+
+  						var step = delta * (state.boost ? this.boostSpeed : this.movementSpeed);
+
+  						if (state.backward) {
+
+  								object.translateZ(step);
+  						} else if (state.forward) {
+
+  								object.translateZ(-step);
+  						}
+
+  						if (state.right) {
+
+  								object.translateX(step);
+  						} else if (state.left) {
+
+  								object.translateX(-step);
+  						}
+
+  						if (state.up) {
+
+  								object.translateY(step);
+  						} else if (state.down) {
+
+  								object.translateY(-step);
+  						}
+  				}
+  		}, {
+  				key: "update",
+  				value: function update(delta) {
+
+  						this.move(delta);
+  				}
+  		}, {
+  				key: "focus",
+  				value: function focus(target) {
+
+  						this.object.lookAt(target);
+  						this.target.subVectors(target, this.object.position);
+  						this.spherical.setFromVector3(this.target);
+  				}
+  		}, {
+  				key: "setEnabled",
+  				value: function setEnabled(enabled) {
+
+  						var dom = this.dom;
+
+  						this.state.reset();
+
+  						if (enabled) {
+
+  								document.addEventListener("pointerlockchange", this);
+  								document.body.addEventListener("keyup", this);
+  								document.body.addEventListener("keydown", this);
+  								dom.addEventListener("mousedown", this);
+  								dom.addEventListener("mouseup", this);
+  						} else {
+
+  								document.removeEventListener("pointerlockchange", this);
+  								document.body.removeEventListener("keyup", this);
+  								document.body.removeEventListener("keydown", this);
+  								dom.removeEventListener("mousedown", this);
+  								dom.removeEventListener("mouseup", this);
+  								dom.removeEventListener("mousemove", this);
+  						}
+
+  						if (document.exitPointerLock !== undefined) {
+
+  								document.exitPointerLock();
+  						}
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+  						this.setEnabled(false);
+  				}
+  		}]);
+  		return Controls;
+  }();
+
+  var App = function () {
+  		function App() {
+  				classCallCheck(this, App);
+  		}
+
+  		createClass(App, null, [{
+  				key: "initialise",
+  				value: function initialise(viewport, aside, assets) {
+
+  						var width = window.innerWidth;
+  						var height = window.innerHeight;
+  						var aspect = width / height;
+
+  						var clock = new three.Clock();
+
+  						var scene = new three.Scene();
+  						scene.fog = new three.FogExp2(0xf4f4f4, 0.0025);
+
+  						var renderer = new three.WebGLRenderer({
+  								antialias: true
+  						});
+
+  						renderer.setSize(width, height);
+  						renderer.setClearColor(scene.fog.color);
+  						renderer.setPixelRatio(window.devicePixelRatio);
+  						viewport.appendChild(renderer.domElement);
+
+  						var camera = new three.PerspectiveCamera(50, aspect, 0.1, 1000);
+  						var controls = new Controls(camera, renderer.domElement);
+  						camera.position.set(15, 8, 15);
+  						controls.focus(scene.position);
+  						controls.movementSpeed = 4;
+  						controls.boostSpeed = 20;
+
+  						scene.add(camera);
+
+  						scene.add(new three.GridHelper(16, 64));
+
+  						var gui = new dat.GUI({ autoPlace: false });
+  						aside.appendChild(gui.domElement);
+
+  						var hemisphereLight = new three.HemisphereLight(0x3284ff, 0xffc87f, 0.6);
+  						var directionalLight = new three.DirectionalLight(0xfff4e5);
+
+  						hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
+  						directionalLight.position.set(1.75, 1.75, -1).multiplyScalar(50);
+
+  						scene.add(directionalLight);
+  						scene.add(hemisphereLight);
+
+  						var terrain = new Terrain({
+  								resolution: 32,
+  								chunkSize: 8
+  						});
+
+  						terrain.material.uniforms.diffuse.value.setHex(0xffffff);
+  						terrain.material.uniforms.offsetRepeat.value.set(0, 0, 1, 1);
+
+  						terrain.material.uniforms.roughness.value = 0.6;
+  						terrain.material.uniforms.metalness.value = 0.2;
+
+  						terrain.material.setMaps(assets.get("diffuseXZ"), assets.get("diffuseY"), assets.get("diffuseXZ"));
+
+  						terrain.material.setNormalMaps(assets.get("normalmapXZ"), assets.get("normalmapY"), assets.get("normalmapXZ"));
+
+  						terrain.load(assets.get("terrain"));
+
+  						scene.add(terrain.object);
+
+  						var terrainStats = new TerrainStats(terrain);
+  						terrainStats.configure(gui);
+
+  						var stats = terrainStats.stats;
+  						stats.dom.id = "stats";
+  						stats.showPanel(3);
+
+  						aside.appendChild(stats.dom);
+
+  						var editor = new Editor(terrain, camera, renderer.domElement);
+  						editor.setEnabled(false);
+  						editor.configure(gui);
+
+  						scene.add(editor.cursor);
+  						scene.add(editor.octreeHelper);
+  						scene.add(editor.chunkHelper);
+
+  						(function () {
+
+  								var params = {
+
+  										terrain: {
+  												diffuse: terrain.material.uniforms.diffuse.value.getHex(),
+  												roughness: terrain.material.uniforms.roughness.value,
+  												metalness: terrain.material.uniforms.metalness.value,
+  												wireframe: terrain.material.wireframe
+  										},
+
+  										directionalLight: {
+  												color: directionalLight.color.getHex(),
+  												intensity: directionalLight.intensity
+  										},
+
+  										hemisphereLight: {
+  												color: hemisphereLight.color.getHex(),
+  												groundColor: hemisphereLight.groundColor.getHex(),
+  												intensity: hemisphereLight.intensity
+  										}
+
+  								};
+
+  								var folder = gui.addFolder("Terrain");
+
+  								var subfolder = folder.addFolder("Material");
+
+  								subfolder.addColor(params.terrain, "diffuse").onChange(function () {
+
+  										terrain.material.uniforms.diffuse.value.setHex(params.terrain.diffuse);
+  								});
+
+  								subfolder.add(params.terrain, "roughness").min(0.0).max(1.0).step(0.01).onChange(function () {
+
+  										terrain.material.uniforms.roughness.value = params.terrain.roughness;
+  								});
+
+  								subfolder.add(params.terrain, "metalness").min(0.0).max(1.0).step(0.01).onChange(function () {
+
+  										terrain.material.uniforms.metalness.value = params.terrain.metalness;
+  								});
+
+  								subfolder.add(terrain.material, "flatShading");
+
+  								subfolder.add(params.terrain, "wireframe").onChange(function () {
+
+  										terrain.material.wireframe = params.terrain.wireframe;
+  										terrain.material.needsUpdate = true;
+  								});
+
+  								folder.add(terrain.object, "visible");
+
+  								folder = gui.addFolder("Light");
+
+  								subfolder = folder.addFolder("Directional");
+
+  								subfolder.addColor(params.directionalLight, "color").onChange(function () {
+
+  										directionalLight.color.setHex(params.directionalLight.color);
+  								});
+
+  								subfolder.add(params.directionalLight, "intensity").min(0.0).max(1.0).step(0.01).onChange(function () {
+
+  										directionalLight.intensity = params.directionalLight.intensity;
+  								});
+
+  								subfolder = folder.addFolder("Hemisphere");
+
+  								subfolder.addColor(params.hemisphereLight, "color").onChange(function () {
+
+  										hemisphereLight.color.setHex(params.hemisphereLight.color);
+  								});
+
+  								subfolder.addColor(params.hemisphereLight, "groundColor").onChange(function () {
+
+  										hemisphereLight.color.setHex(params.hemisphereLight.groundColor);
+  								});
+
+  								subfolder.add(params.hemisphereLight, "intensity").min(0.0).max(1.0).step(0.01).onChange(function () {
+
+  										hemisphereLight.intensity = params.hemisphereLight.intensity;
+  								});
+
+  								folder = gui.addFolder("Info");
+
+  								folder.add(renderer.info.memory, "geometries").listen();
+  								folder.add(renderer.info.memory, "textures").listen();
+  								folder.add(renderer.info.render, "calls").listen();
+  								folder.add(renderer.info.render, "vertices").listen();
+  								folder.add(renderer.info.render, "faces").listen();
+  						})();
+
+  						document.addEventListener("keydown", function () {
+
+  								var flag = false;
+
+  								return function onKeyDown(event) {
+
+  										if (event.altKey) {
+
+  												event.preventDefault();
+  												controls.setEnabled(flag);
+  												editor.setEnabled(!flag);
+
+  												flag = !flag;
+  										}
+  								};
+  						}());
+
+  						window.addEventListener("resize", function () {
+
+  								var id = 0;
+
+  								function handleResize(event) {
+
+  										var width = event.target.innerWidth;
+  										var height = event.target.innerHeight;
+
+  										renderer.setSize(width, height);
+  										camera.aspect = width / height;
+  										camera.updateProjectionMatrix();
+
+  										id = 0;
+  								}
+
+  								return function onResize(event) {
+
+  										if (id === 0) {
+
+  												id = setTimeout(handleResize, 66, event);
+  										}
+  								};
+  						}());
+
+  						(function render(now) {
+
+  								requestAnimationFrame(render);
+
+  								stats.begin();
+
+  								controls.update(clock.getDelta());
+  								terrain.update(camera);
+  								renderer.render(scene, camera);
+
+  								stats.end();
+  						})();
+  				}
+  		}]);
+  		return App;
+  }();
+
+  function loadAssets(callback) {
+
+  	var assets = new Map();
+
+  	var loadingManager = new three.LoadingManager();
+  	var fileLoader = new three.FileLoader(loadingManager);
+  	var textureLoader = new three.TextureLoader(loadingManager);
+
+  	loadingManager.onProgress = function onProgress(item, loaded, total) {
+
+  		if (loaded === total) {
+  			callback(assets);
+  		}
+  	};
+
+  	fileLoader.load("terrain/sphere.json", function (text) {
+
+  		assets.set("terrain", text);
+  	});
+
+  	textureLoader.load("textures/diffuse/05.jpg", function (texture) {
+
+  		texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  		assets.set("diffuseXZ", texture);
+  	});
+
+  	textureLoader.load("textures/diffuse/03.jpg", function (texture) {
+
+  		texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  		assets.set("diffuseY", texture);
+  	});
+
+  	textureLoader.load("textures/normal/05.png", function (texture) {
+
+  		texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  		assets.set("normalmapXZ", texture);
+  	});
+
+  	textureLoader.load("textures/normal/03.png", function (texture) {
+
+  		texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  		assets.set("normalmapY", texture);
+  	});
+  }
+
+  function createErrorMessage(missingFeatures) {
+
+  	var message = document.createElement("p");
+  	var missingFeatureList = document.createElement("ul");
+
+  	var feature = void 0;
+  	var i = void 0,
+  	    l = void 0;
+
+  	for (i = 0, l = missingFeatures.length; i < l; ++i) {
+
+  		feature = document.createElement("li");
+  		feature.appendChild(document.createTextNode(missingFeatures[i]));
+  		missingFeatureList.appendChild(feature);
+  	}
+
+  	message.appendChild(document.createTextNode("The following features are missing:"));
+  	message.appendChild(missingFeatureList);
+
+  	return message;
+  }
+
+  window.addEventListener("load", function main(event) {
+
+  	window.removeEventListener("load", main);
+
+  	var viewport = document.getElementById("viewport");
+  	var aside = document.getElementById("aside");
+
+  	var detector = new Detector();
+  	var missingFeatures = detector.getMissingFeatures(FeatureId.CANVAS, FeatureId.WEBGL, FeatureId.WORKER, FeatureId.FILE);
+
+  	if (missingFeatures === null) {
+
+  		loadAssets(function (assets) {
+
+  			viewport.removeChild(viewport.children[0]);
+  			aside.style.visibility = "visible";
+  			App.initialise(viewport, aside, assets);
+  		});
+  	} else {
+
+  		viewport.removeChild(viewport.children[0]);
+  		viewport.appendChild(createErrorMessage(missingFeatures));
+  	}
+  });
+
+}(THREE,dat,Stats));
