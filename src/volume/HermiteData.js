@@ -1,6 +1,6 @@
-import { RunLengthEncoder } from "../core/run-length-encoder.js";
-import { Material } from "./material.js";
-import { EdgeData } from "./edge-data.js";
+import { RunLengthEncoder } from "../core/RunLengthEncoder.js";
+import { Material } from "./Material.js";
+import { EdgeData } from "./EdgeData.js";
 
 /**
  * The material grid resolution.
