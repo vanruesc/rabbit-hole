@@ -7,30 +7,8 @@ module.exports = function(grunt) {
 	return {
 
 		options: {
-			globals: {
-				"dat.gui": "dat",
-				"stats.js": "Stats",
-				"three": "THREE"
-			},
-			external: [
-				"dat.gui",
-				"stats.js",
-				"three"
-			],
 			plugins() {
-				return grunt.option("production") ? [
-					resolve({
-						jsnext: true
-					}),
-					string({
-						include: [
-							"**/*.frag",
-							"**/*.vert",
-							"**/*.tmp"
-						]
-					}),
-					babel()
-				] : [
+				return [
 					resolve({
 						jsnext: true
 					}),
@@ -41,7 +19,7 @@ module.exports = function(grunt) {
 							"**/*.tmp"
 						]
 					})
-				];
+				].concat(grunt.option("production") ? [babel()] : []);
 			}
 		},
 
@@ -55,6 +33,12 @@ module.exports = function(grunt) {
 
 		lib: {
 			options: {
+				globals: {
+					"three": "THREE"
+				},
+				external: [
+					"three"
+				],
 				format: "umd",
 				moduleName: "<%= package.name.replace(/-/g, \"\").toUpperCase() %>",
 				banner: "<%= banner %>"
@@ -65,10 +49,38 @@ module.exports = function(grunt) {
 
 		editor: {
 			options: {
+				globals: {
+					"dat.gui": "dat",
+					"stats.js": "Stats",
+					"three": "THREE"
+				},
+				external: [
+					"dat.gui",
+					"stats.js",
+					"three"
+				],
 				format: "iife"
 			},
-			src: "editor/index.js",
-			dest: "public/index.js"
+			src: "editor/src/index.js",
+			dest: "public/editor/index.js"
+		},
+
+		demo: {
+			options: {
+				globals: {
+					"dat.gui": "dat",
+					"stats.js": "Stats",
+					"three": "THREE"
+				},
+				external: [
+					"dat.gui",
+					"stats.js",
+					"three"
+				],
+				format: "iife"
+			},
+			src: "demo/src/index.js",
+			dest: "public/demo/index.js"
 		}
 
 	};
