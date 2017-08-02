@@ -10,7 +10,11 @@ module.exports = {
 	],
 
 	editor: [
-		"editor/**/*.js"
+		"editor/src/**/*.js"
+	],
+
+	demo: [
+		"demo/src/**/*.js"
 	],
 
 	test: [

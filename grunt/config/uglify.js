@@ -19,7 +19,13 @@ module.exports = {
 
 	editor: {
 		files: {
-			"public/index.min.js": ["public/index.js"]
+			"public/editor/index.min.js": ["public/editor/index.js"]
+		}
+	},
+
+	demo: {
+		files: {
+			"public/demo/index.min.js": ["public/demo/index.js"]
 		}
 	}
 
