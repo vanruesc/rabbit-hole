@@ -97,7 +97,7 @@ export class App {
 		});
 
 		terrain.material.uniforms.diffuse.value.setHex(0xffffff);
-		terrain.material.uniforms.offsetRepeat.value.set(0, 0, 0.5, 0.5);
+		terrain.material.uniforms.offsetRepeat.value.set(0, 0, 1, 1);
 
 		terrain.material.uniforms.roughness.value = 0.6;
 		terrain.material.uniforms.metalness.value = 0.2;

@@ -119,12 +119,12 @@ export class Editor {
 		this.chunkHelper.visible = false;
 
 		/**
-		 * A delta time.
+		 * A search time.
 		 *
 		 * @type {String}
 		 */
 
-		this.delta = "";
+		this.searchTime = "";
 
 		this.setEnabled(true);
 
@@ -286,7 +286,7 @@ export class Editor {
 		raycaster.setFromCamera(mouse, this.camera);
 		const intersects = this.terrain.raycast(raycaster);
 
-		this.delta = (performance.now() - t0).toFixed(2) + " ms";
+		this.searchTime = (performance.now() - t0).toFixed(2) + " ms";
 
 		if(intersects.length > 0) {
 
@@ -464,7 +464,7 @@ export class Editor {
 			octree: this.octreeHelper.visible
 		};
 
-		folder.add(this, "delta").listen();
+		folder.add(this, "searchTime").listen();
 
 		folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(() => {
 
