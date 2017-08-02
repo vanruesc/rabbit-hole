@@ -1,0 +1,273 @@
+{
+  "coverage": "96.29%",
+  "expectCount": 297,
+  "actualCount": 286,
+  "files": {
+    "src/worker/Action.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/Box.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        52
+      ]
+    },
+    "src/isosurface/dual-contouring/tables.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/volume/octree/Chunk.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        100
+      ]
+    },
+    "src/helpers/ChunkHelper.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/volume/csg/ConstructiveSolidGeometry.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/volume/csg/DensityFunction.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        49
+      ]
+    },
+    "src/volume/csg/Difference.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/isosurface/dual-contouring/DualContouring.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/volume/Edge.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/volume/EdgeData.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/math/Givens.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/Heightfield.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        62
+      ]
+    },
+    "src/volume/HermiteData.js": {
+      "expectCount": 19,
+      "actualCount": 19,
+      "undocumentLines": []
+    },
+    "src/core/History.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/volume/csg/Intersection.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/volume/Material.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/materials/MeshTriplanarPhysicalMaterial.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        106
+      ]
+    },
+    "src/volume/csg/Operation.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/volume/csg/OperationType.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/Plane.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        53
+      ]
+    },
+    "src/core/PriorityQueue.js": {
+      "expectCount": 10,
+      "actualCount": 8,
+      "undocumentLines": [
+        56,
+        158
+      ]
+    },
+    "src/math/QEFData.js": {
+      "expectCount": 11,
+      "actualCount": 11,
+      "undocumentLines": []
+    },
+    "src/math/QEFSolver.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/core/Queue.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/core/RunLengthEncoder.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/SDFReviver.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/SDFType.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/core/Scheduler.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/math/Schur.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/SignedDistanceFunction.js": {
+      "expectCount": 13,
+      "actualCount": 13,
+      "undocumentLines": []
+    },
+    "src/math/SingularValueDecomposition.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/Sphere.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        52
+      ]
+    },
+    "src/worker/SurfaceExtractor.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/core/Task.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/core/Terrain.js": {
+      "expectCount": 15,
+      "actualCount": 15,
+      "undocumentLines": []
+    },
+    "src/events/TerrainEvent.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/worker/ThreadPool.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/volume/sdf/Torus.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        62
+      ]
+    },
+    "src/volume/csg/Union.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/volume/octree/Volume.js": {
+      "expectCount": 10,
+      "actualCount": 10,
+      "undocumentLines": []
+    },
+    "src/worker/VolumeModifier.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/volume/Voxel.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/volume/octree/VoxelBlock.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/volume/octree/VoxelCell.js": {
+      "expectCount": 8,
+      "actualCount": 7,
+      "undocumentLines": [
+        193
+      ]
+    },
+    "src/events/WorkerEvent.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/worker/WorkerTask.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/core/terrain-events.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/worker/thread-pool-events.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    }
+  }
+}

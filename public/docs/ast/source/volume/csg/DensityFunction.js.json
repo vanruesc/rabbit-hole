@@ -1,0 +1,2339 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "Material",
+            "range": [
+              9,
+              17
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "line": 1,
+                "column": 17
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "Material",
+            "range": [
+              9,
+              17
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "line": 1,
+                "column": 17
+              }
+            }
+          },
+          "range": [
+            9,
+            17
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 17
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../Material.js",
+        "raw": "\"../Material.js\"",
+        "range": [
+          25,
+          41
+        ],
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 25
+          },
+          "end": {
+            "line": 1,
+            "column": 41
+          }
+        }
+      },
+      "range": [
+        0,
+        42
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 42
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "Operation",
+            "range": [
+              53,
+              62
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 9
+              },
+              "end": {
+                "line": 2,
+                "column": 18
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "Operation",
+            "range": [
+              53,
+              62
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 9
+              },
+              "end": {
+                "line": 2,
+                "column": 18
+              }
+            }
+          },
+          "range": [
+            53,
+            62
+          ],
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 9
+            },
+            "end": {
+              "line": 2,
+              "column": 18
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./Operation.js",
+        "raw": "\"./Operation.js\"",
+        "range": [
+          70,
+          86
+        ],
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 26
+          },
+          "end": {
+            "line": 2,
+            "column": 42
+          }
+        }
+      },
+      "range": [
+        44,
+        87
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 43
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "OperationType",
+            "range": [
+              98,
+              111
+            ],
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 22
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "OperationType",
+            "range": [
+              98,
+              111
+            ],
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 22
+              }
+            }
+          },
+          "range": [
+            98,
+            111
+          ],
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 9
+            },
+            "end": {
+              "line": 3,
+              "column": 22
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "./OperationType.js",
+        "raw": "\"./OperationType.js\"",
+        "range": [
+          119,
+          139
+        ],
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 30
+          },
+          "end": {
+            "line": 3,
+            "column": 50
+          }
+        }
+      },
+      "range": [
+        89,
+        140
+      ],
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 51
+        }
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\r\n * The isovalue.\r\n *\r\n * @type {Number}\r\n * @private\r\n ",
+          "range": [
+            144,
+            206
+          ],
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "ISOVALUE",
+            "range": [
+              216,
+              224
+            ],
+            "loc": {
+              "start": {
+                "line": 12,
+                "column": 6
+              },
+              "end": {
+                "line": 12,
+                "column": 14
+              }
+            }
+          },
+          "init": {
+            "type": "Literal",
+            "value": 0,
+            "raw": "0.0",
+            "range": [
+              227,
+              230
+            ],
+            "loc": {
+              "start": {
+                "line": 12,
+                "column": 17
+              },
+              "end": {
+                "line": 12,
+                "column": 20
+              }
+            }
+          },
+          "range": [
+            216,
+            230
+          ],
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 6
+            },
+            "end": {
+              "line": 12,
+              "column": 20
+            }
+          }
+        }
+      ],
+      "kind": "const",
+      "range": [
+        210,
+        231
+      ],
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 12,
+          "column": 21
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\r\n * The isovalue.\r\n *\r\n * @type {Number}\r\n * @private\r\n ",
+          "range": [
+            144,
+            206
+          ],
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 3
+            }
+          }
+        }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\r\n * An operation that describes a density field.\r\n ",
+          "range": [
+            235,
+            292
+          ],
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "ClassDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "DensityFunction",
+          "range": [
+            309,
+            324
+          ],
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 13
+            },
+            "end": {
+              "line": 18,
+              "column": 28
+            }
+          }
+        },
+        "superClass": {
+          "type": "Identifier",
+          "name": "Operation",
+          "range": [
+            333,
+            342
+          ],
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 37
+            },
+            "end": {
+              "line": 18,
+              "column": 46
+            }
+          }
+        },
+        "body": {
+          "type": "ClassBody",
+          "body": [
+            {
+              "type": "MethodDefinition",
+              "key": {
+                "type": "Identifier",
+                "name": "constructor",
+                "range": [
+                  469,
+                  480
+                ],
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 26,
+                    "column": 12
+                  }
+                }
+              },
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "sdf",
+                    "range": [
+                      481,
+                      484
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 26,
+                        "column": 13
+                      },
+                      "end": {
+                        "line": 26,
+                        "column": 16
+                      }
+                    }
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Super",
+                          "range": [
+                            493,
+                            498
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 28,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 28,
+                              "column": 7
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "Identifier",
+                              "name": "OperationType",
+                              "range": [
+                                499,
+                                512
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 28,
+                                  "column": 8
+                                },
+                                "end": {
+                                  "line": 28,
+                                  "column": 21
+                                }
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "DENSITY_FUNCTION",
+                              "range": [
+                                513,
+                                529
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 28,
+                                  "column": 22
+                                },
+                                "end": {
+                                  "line": 28,
+                                  "column": 38
+                                }
+                              }
+                            },
+                            "range": [
+                              499,
+                              529
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 28,
+                                "column": 8
+                              },
+                              "end": {
+                                "line": 28,
+                                "column": 38
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          493,
+                          530
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 28,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 28,
+                            "column": 39
+                          }
+                        }
+                      },
+                      "range": [
+                        493,
+                        531
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 28,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 28,
+                          "column": 40
+                        }
+                      },
+                      "trailingComments": [
+                        {
+                          "type": "Block",
+                          "value": "*\r\n\t\t * An SDF.\r\n\t\t *\r\n\t\t * @type {SignedDistanceFunction}\r\n\t\t * @private\r\n\t\t ",
+                          "range": [
+                            537,
+                            619
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 30,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 5
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "ThisExpression",
+                            "range": [
+                              625,
+                              629
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 37,
+                                "column": 2
+                              },
+                              "end": {
+                                "line": 37,
+                                "column": 6
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "sdf",
+                            "range": [
+                              630,
+                              633
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 37,
+                                "column": 7
+                              },
+                              "end": {
+                                "line": 37,
+                                "column": 10
+                              }
+                            }
+                          },
+                          "range": [
+                            625,
+                            633
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 37,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 37,
+                              "column": 10
+                            }
+                          }
+                        },
+                        "right": {
+                          "type": "Identifier",
+                          "name": "sdf",
+                          "range": [
+                            636,
+                            639
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 37,
+                              "column": 13
+                            },
+                            "end": {
+                              "line": 37,
+                              "column": 16
+                            }
+                          }
+                        },
+                        "range": [
+                          625,
+                          639
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 37,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 37,
+                            "column": 16
+                          }
+                        }
+                      },
+                      "range": [
+                        625,
+                        640
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 37,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 37,
+                          "column": 17
+                        }
+                      },
+                      "leadingComments": [
+                        {
+                          "type": "Block",
+                          "value": "*\r\n\t\t * An SDF.\r\n\t\t *\r\n\t\t * @type {SignedDistanceFunction}\r\n\t\t * @private\r\n\t\t ",
+                          "range": [
+                            537,
+                            619
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 30,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 35,
+                              "column": 5
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "range": [
+                    486,
+                    646
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 26,
+                      "column": 18
+                    },
+                    "end": {
+                      "line": 39,
+                      "column": 2
+                    }
+                  }
+                },
+                "generator": false,
+                "expression": false,
+                "range": [
+                  480,
+                  646
+                ],
+                "loc": {
+                  "start": {
+                    "line": 26,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 2
+                  }
+                }
+              },
+              "kind": "constructor",
+              "computed": false,
+              "range": [
+                469,
+                646
+              ],
+              "loc": {
+                "start": {
+                  "line": 26,
+                  "column": 1
+                },
+                "end": {
+                  "line": 39,
+                  "column": 2
+                }
+              },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Constructs a new density function operation.\r\n\t *\r\n\t * @param {SignedDistanceFunction} sdf - An SDF.\r\n\t ",
+                  "range": [
+                    349,
+                    464
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 20,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "trailingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Calculates a bounding box for this operation.\r\n\t *\r\n\t * @return {Box3} The bounding box.\r\n\t ",
+                  "range": [
+                    651,
+                    754
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 41,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "static": false
+            },
+            {
+              "type": "MethodDefinition",
+              "key": {
+                "type": "Identifier",
+                "name": "computeBoundingBox",
+                "range": [
+                  759,
+                  777
+                ],
+                "loc": {
+                  "start": {
+                    "line": 47,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 47,
+                    "column": 19
+                  }
+                }
+              },
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "AssignmentExpression",
+                        "operator": "=",
+                        "left": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "ThisExpression",
+                            "range": [
+                              787,
+                              791
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 49,
+                                "column": 2
+                              },
+                              "end": {
+                                "line": 49,
+                                "column": 6
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "bbox",
+                            "range": [
+                              792,
+                              796
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 49,
+                                "column": 7
+                              },
+                              "end": {
+                                "line": 49,
+                                "column": 11
+                              }
+                            }
+                          },
+                          "range": [
+                            787,
+                            796
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 49,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 49,
+                              "column": 11
+                            }
+                          }
+                        },
+                        "right": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "ThisExpression",
+                                "range": [
+                                  799,
+                                  803
+                                ],
+                                "loc": {
+                                  "start": {
+                                    "line": 49,
+                                    "column": 14
+                                  },
+                                  "end": {
+                                    "line": 49,
+                                    "column": 18
+                                  }
+                                }
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "sdf",
+                                "range": [
+                                  804,
+                                  807
+                                ],
+                                "loc": {
+                                  "start": {
+                                    "line": 49,
+                                    "column": 19
+                                  },
+                                  "end": {
+                                    "line": 49,
+                                    "column": 22
+                                  }
+                                }
+                              },
+                              "range": [
+                                799,
+                                807
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 49,
+                                  "column": 14
+                                },
+                                "end": {
+                                  "line": 49,
+                                  "column": 22
+                                }
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "computeBoundingBox",
+                              "range": [
+                                808,
+                                826
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 49,
+                                  "column": 23
+                                },
+                                "end": {
+                                  "line": 49,
+                                  "column": 41
+                                }
+                              }
+                            },
+                            "range": [
+                              799,
+                              826
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 49,
+                                "column": 14
+                              },
+                              "end": {
+                                "line": 49,
+                                "column": 41
+                              }
+                            }
+                          },
+                          "arguments": [],
+                          "range": [
+                            799,
+                            828
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 49,
+                              "column": 14
+                            },
+                            "end": {
+                              "line": 49,
+                              "column": 43
+                            }
+                          }
+                        },
+                        "range": [
+                          787,
+                          828
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 49,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 49,
+                            "column": 43
+                          }
+                        }
+                      },
+                      "range": [
+                        787,
+                        829
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 49,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 49,
+                          "column": 44
+                        }
+                      }
+                    },
+                    {
+                      "type": "ReturnStatement",
+                      "argument": {
+                        "type": "MemberExpression",
+                        "computed": false,
+                        "object": {
+                          "type": "ThisExpression",
+                          "range": [
+                            842,
+                            846
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 51,
+                              "column": 9
+                            },
+                            "end": {
+                              "line": 51,
+                              "column": 13
+                            }
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "bbox",
+                          "range": [
+                            847,
+                            851
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 51,
+                              "column": 14
+                            },
+                            "end": {
+                              "line": 51,
+                              "column": 18
+                            }
+                          }
+                        },
+                        "range": [
+                          842,
+                          851
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 51,
+                            "column": 9
+                          },
+                          "end": {
+                            "line": 51,
+                            "column": 18
+                          }
+                        }
+                      },
+                      "range": [
+                        835,
+                        852
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 51,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 51,
+                          "column": 19
+                        }
+                      }
+                    }
+                  ],
+                  "range": [
+                    780,
+                    858
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 47,
+                      "column": 22
+                    },
+                    "end": {
+                      "line": 53,
+                      "column": 2
+                    }
+                  }
+                },
+                "generator": false,
+                "expression": false,
+                "range": [
+                  777,
+                  858
+                ],
+                "loc": {
+                  "start": {
+                    "line": 47,
+                    "column": 19
+                  },
+                  "end": {
+                    "line": 53,
+                    "column": 2
+                  }
+                }
+              },
+              "kind": "method",
+              "computed": false,
+              "range": [
+                759,
+                858
+              ],
+              "loc": {
+                "start": {
+                  "line": 47,
+                  "column": 1
+                },
+                "end": {
+                  "line": 53,
+                  "column": 2
+                }
+              },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Calculates a bounding box for this operation.\r\n\t *\r\n\t * @return {Box3} The bounding box.\r\n\t ",
+                  "range": [
+                    651,
+                    754
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 41,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "trailingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Calculates the material index for the given world position.\r\n\t *\r\n\t * @param {Vector3} position - The world position of the material index.\r\n\t * @return {Number} The material index.\r\n\t ",
+                  "range": [
+                    863,
+                    1059
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 55,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "static": false
+            },
+            {
+              "type": "MethodDefinition",
+              "key": {
+                "type": "Identifier",
+                "name": "generateMaterialIndex",
+                "range": [
+                  1064,
+                  1085
+                ],
+                "loc": {
+                  "start": {
+                    "line": 62,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 62,
+                    "column": 22
+                  }
+                }
+              },
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "position",
+                    "range": [
+                      1086,
+                      1094
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 62,
+                        "column": 23
+                      },
+                      "end": {
+                        "line": 62,
+                        "column": 31
+                      }
+                    }
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ReturnStatement",
+                      "argument": {
+                        "type": "ConditionalExpression",
+                        "test": {
+                          "type": "BinaryExpression",
+                          "operator": "<=",
+                          "left": {
+                            "type": "CallExpression",
+                            "callee": {
+                              "type": "MemberExpression",
+                              "computed": false,
+                              "object": {
+                                "type": "MemberExpression",
+                                "computed": false,
+                                "object": {
+                                  "type": "ThisExpression",
+                                  "range": [
+                                    1111,
+                                    1115
+                                  ],
+                                  "loc": {
+                                    "start": {
+                                      "line": 64,
+                                      "column": 10
+                                    },
+                                    "end": {
+                                      "line": 64,
+                                      "column": 14
+                                    }
+                                  }
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "name": "sdf",
+                                  "range": [
+                                    1116,
+                                    1119
+                                  ],
+                                  "loc": {
+                                    "start": {
+                                      "line": 64,
+                                      "column": 15
+                                    },
+                                    "end": {
+                                      "line": 64,
+                                      "column": 18
+                                    }
+                                  }
+                                },
+                                "range": [
+                                  1111,
+                                  1119
+                                ],
+                                "loc": {
+                                  "start": {
+                                    "line": 64,
+                                    "column": 10
+                                  },
+                                  "end": {
+                                    "line": 64,
+                                    "column": 18
+                                  }
+                                }
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "name": "sample",
+                                "range": [
+                                  1120,
+                                  1126
+                                ],
+                                "loc": {
+                                  "start": {
+                                    "line": 64,
+                                    "column": 19
+                                  },
+                                  "end": {
+                                    "line": 64,
+                                    "column": 25
+                                  }
+                                }
+                              },
+                              "range": [
+                                1111,
+                                1126
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 64,
+                                  "column": 10
+                                },
+                                "end": {
+                                  "line": 64,
+                                  "column": 25
+                                }
+                              }
+                            },
+                            "arguments": [
+                              {
+                                "type": "Identifier",
+                                "name": "position",
+                                "range": [
+                                  1127,
+                                  1135
+                                ],
+                                "loc": {
+                                  "start": {
+                                    "line": 64,
+                                    "column": 26
+                                  },
+                                  "end": {
+                                    "line": 64,
+                                    "column": 34
+                                  }
+                                }
+                              }
+                            ],
+                            "range": [
+                              1111,
+                              1136
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 10
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 35
+                              }
+                            }
+                          },
+                          "right": {
+                            "type": "Identifier",
+                            "name": "ISOVALUE",
+                            "range": [
+                              1140,
+                              1148
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 39
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 47
+                              }
+                            }
+                          },
+                          "range": [
+                            1111,
+                            1148
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 64,
+                              "column": 10
+                            },
+                            "end": {
+                              "line": 64,
+                              "column": 47
+                            }
+                          }
+                        },
+                        "consequent": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "ThisExpression",
+                              "range": [
+                                1152,
+                                1156
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 64,
+                                  "column": 51
+                                },
+                                "end": {
+                                  "line": 64,
+                                  "column": 55
+                                }
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "sdf",
+                              "range": [
+                                1157,
+                                1160
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 64,
+                                  "column": 56
+                                },
+                                "end": {
+                                  "line": 64,
+                                  "column": 59
+                                }
+                              }
+                            },
+                            "range": [
+                              1152,
+                              1160
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 51
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 59
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "material",
+                            "range": [
+                              1161,
+                              1169
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 60
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 68
+                              }
+                            }
+                          },
+                          "range": [
+                            1152,
+                            1169
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 64,
+                              "column": 51
+                            },
+                            "end": {
+                              "line": 64,
+                              "column": 68
+                            }
+                          }
+                        },
+                        "alternate": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "Material",
+                            "range": [
+                              1172,
+                              1180
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 71
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 79
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "AIR",
+                            "range": [
+                              1181,
+                              1184
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 64,
+                                "column": 80
+                              },
+                              "end": {
+                                "line": 64,
+                                "column": 83
+                              }
+                            }
+                          },
+                          "range": [
+                            1172,
+                            1184
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 64,
+                              "column": 71
+                            },
+                            "end": {
+                              "line": 64,
+                              "column": 83
+                            }
+                          }
+                        },
+                        "range": [
+                          1110,
+                          1184
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 64,
+                            "column": 9
+                          },
+                          "end": {
+                            "line": 64,
+                            "column": 83
+                          }
+                        }
+                      },
+                      "range": [
+                        1103,
+                        1185
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 64,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 64,
+                          "column": 84
+                        }
+                      }
+                    }
+                  ],
+                  "range": [
+                    1096,
+                    1191
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 62,
+                      "column": 33
+                    },
+                    "end": {
+                      "line": 66,
+                      "column": 2
+                    }
+                  }
+                },
+                "generator": false,
+                "expression": false,
+                "range": [
+                  1085,
+                  1191
+                ],
+                "loc": {
+                  "start": {
+                    "line": 62,
+                    "column": 22
+                  },
+                  "end": {
+                    "line": 66,
+                    "column": 2
+                  }
+                }
+              },
+              "kind": "method",
+              "computed": false,
+              "range": [
+                1064,
+                1191
+              ],
+              "loc": {
+                "start": {
+                  "line": 62,
+                  "column": 1
+                },
+                "end": {
+                  "line": 66,
+                  "column": 2
+                }
+              },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Calculates the material index for the given world position.\r\n\t *\r\n\t * @param {Vector3} position - The world position of the material index.\r\n\t * @return {Number} The material index.\r\n\t ",
+                  "range": [
+                    863,
+                    1059
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 55,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 60,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "trailingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Generates surface intersection data for the specified edge.\r\n\t *\r\n\t * @param {Edge} edge - The edge that should be processed.\r\n\t ",
+                  "range": [
+                    1196,
+                    1336
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 68,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 72,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "static": false
+            },
+            {
+              "type": "MethodDefinition",
+              "key": {
+                "type": "Identifier",
+                "name": "generateEdge",
+                "range": [
+                  1341,
+                  1353
+                ],
+                "loc": {
+                  "start": {
+                    "line": 74,
+                    "column": 1
+                  },
+                  "end": {
+                    "line": 74,
+                    "column": 13
+                  }
+                }
+              },
+              "value": {
+                "type": "FunctionExpression",
+                "id": null,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "name": "edge",
+                    "range": [
+                      1354,
+                      1358
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 74,
+                        "column": 14
+                      },
+                      "end": {
+                        "line": 74,
+                        "column": 18
+                      }
+                    }
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "body": [
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "edge",
+                            "range": [
+                              1367,
+                              1371
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 76,
+                                "column": 2
+                              },
+                              "end": {
+                                "line": 76,
+                                "column": 6
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "approximateZeroCrossing",
+                            "range": [
+                              1372,
+                              1395
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 76,
+                                "column": 7
+                              },
+                              "end": {
+                                "line": 76,
+                                "column": 30
+                              }
+                            }
+                          },
+                          "range": [
+                            1367,
+                            1395
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 76,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 76,
+                              "column": 30
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "ThisExpression",
+                              "range": [
+                                1396,
+                                1400
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 76,
+                                  "column": 31
+                                },
+                                "end": {
+                                  "line": 76,
+                                  "column": 35
+                                }
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "sdf",
+                              "range": [
+                                1401,
+                                1404
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 76,
+                                  "column": 36
+                                },
+                                "end": {
+                                  "line": 76,
+                                  "column": 39
+                                }
+                              }
+                            },
+                            "range": [
+                              1396,
+                              1404
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 76,
+                                "column": 31
+                              },
+                              "end": {
+                                "line": 76,
+                                "column": 39
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          1367,
+                          1405
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 76,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 76,
+                            "column": 40
+                          }
+                        }
+                      },
+                      "range": [
+                        1367,
+                        1406
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 76,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 76,
+                          "column": 41
+                        }
+                      }
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "expression": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "MemberExpression",
+                          "computed": false,
+                          "object": {
+                            "type": "Identifier",
+                            "name": "edge",
+                            "range": [
+                              1410,
+                              1414
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 77,
+                                "column": 2
+                              },
+                              "end": {
+                                "line": 77,
+                                "column": 6
+                              }
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "name": "computeSurfaceNormal",
+                            "range": [
+                              1415,
+                              1435
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 77,
+                                "column": 7
+                              },
+                              "end": {
+                                "line": 77,
+                                "column": 27
+                              }
+                            }
+                          },
+                          "range": [
+                            1410,
+                            1435
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 77,
+                              "column": 2
+                            },
+                            "end": {
+                              "line": 77,
+                              "column": 27
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "MemberExpression",
+                            "computed": false,
+                            "object": {
+                              "type": "ThisExpression",
+                              "range": [
+                                1436,
+                                1440
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 77,
+                                  "column": 28
+                                },
+                                "end": {
+                                  "line": 77,
+                                  "column": 32
+                                }
+                              }
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "sdf",
+                              "range": [
+                                1441,
+                                1444
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 77,
+                                  "column": 33
+                                },
+                                "end": {
+                                  "line": 77,
+                                  "column": 36
+                                }
+                              }
+                            },
+                            "range": [
+                              1436,
+                              1444
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 77,
+                                "column": 28
+                              },
+                              "end": {
+                                "line": 77,
+                                "column": 36
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          1410,
+                          1445
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 77,
+                            "column": 2
+                          },
+                          "end": {
+                            "line": 77,
+                            "column": 37
+                          }
+                        }
+                      },
+                      "range": [
+                        1410,
+                        1446
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 77,
+                          "column": 2
+                        },
+                        "end": {
+                          "line": 77,
+                          "column": 38
+                        }
+                      }
+                    }
+                  ],
+                  "range": [
+                    1360,
+                    1452
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 74,
+                      "column": 20
+                    },
+                    "end": {
+                      "line": 79,
+                      "column": 2
+                    }
+                  }
+                },
+                "generator": false,
+                "expression": false,
+                "range": [
+                  1353,
+                  1452
+                ],
+                "loc": {
+                  "start": {
+                    "line": 74,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 79,
+                    "column": 2
+                  }
+                }
+              },
+              "kind": "method",
+              "computed": false,
+              "range": [
+                1341,
+                1452
+              ],
+              "loc": {
+                "start": {
+                  "line": 74,
+                  "column": 1
+                },
+                "end": {
+                  "line": 79,
+                  "column": 2
+                }
+              },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\r\n\t * Generates surface intersection data for the specified edge.\r\n\t *\r\n\t * @param {Edge} edge - The edge that should be processed.\r\n\t ",
+                  "range": [
+                    1196,
+                    1336
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 68,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 72,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "static": false
+            }
+          ],
+          "range": [
+            343,
+            1457
+          ],
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 47
+            },
+            "end": {
+              "line": 81,
+              "column": 1
+            }
+          }
+        },
+        "range": [
+          303,
+          1457
+        ],
+        "loc": {
+          "start": {
+            "line": 18,
+            "column": 7
+          },
+          "end": {
+            "line": 81,
+            "column": 1
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\r\n * An operation that describes a density field.\r\n ",
+            "range": [
+              235,
+              292
+            ],
+            "loc": {
+              "start": {
+                "line": 14,
+                "column": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null,
+      "range": [
+        296,
+        1457
+      ],
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 0
+        },
+        "end": {
+          "line": 81,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\r\n * An operation that describes a density field.\r\n ",
+          "range": [
+            235,
+            292
+          ],
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 0
+            },
+            "end": {
+              "line": 16,
+              "column": 3
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    1457
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 81,
+      "column": 1
+    }
+  },
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\r\n * The isovalue.\r\n *\r\n * @type {Number}\r\n * @private\r\n ",
+      "range": [
+        144,
+        206
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n * An operation that describes a density field.\r\n ",
+      "range": [
+        235,
+        292
+      ],
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n\t * Constructs a new density function operation.\r\n\t *\r\n\t * @param {SignedDistanceFunction} sdf - An SDF.\r\n\t ",
+      "range": [
+        349,
+        464
+      ],
+      "loc": {
+        "start": {
+          "line": 20,
+          "column": 1
+        },
+        "end": {
+          "line": 24,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n\t\t * An SDF.\r\n\t\t *\r\n\t\t * @type {SignedDistanceFunction}\r\n\t\t * @private\r\n\t\t ",
+      "range": [
+        537,
+        619
+      ],
+      "loc": {
+        "start": {
+          "line": 30,
+          "column": 2
+        },
+        "end": {
+          "line": 35,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n\t * Calculates a bounding box for this operation.\r\n\t *\r\n\t * @return {Box3} The bounding box.\r\n\t ",
+      "range": [
+        651,
+        754
+      ],
+      "loc": {
+        "start": {
+          "line": 41,
+          "column": 1
+        },
+        "end": {
+          "line": 45,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n\t * Calculates the material index for the given world position.\r\n\t *\r\n\t * @param {Vector3} position - The world position of the material index.\r\n\t * @return {Number} The material index.\r\n\t ",
+      "range": [
+        863,
+        1059
+      ],
+      "loc": {
+        "start": {
+          "line": 55,
+          "column": 1
+        },
+        "end": {
+          "line": 60,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\r\n\t * Generates surface intersection data for the specified edge.\r\n\t *\r\n\t * @param {Edge} edge - The edge that should be processed.\r\n\t ",
+      "range": [
+        1196,
+        1336
+      ],
+      "loc": {
+        "start": {
+          "line": 68,
+          "column": 1
+        },
+        "end": {
+          "line": 72,
+          "column": 4
+        }
+      }
+    }
+  ]
+}

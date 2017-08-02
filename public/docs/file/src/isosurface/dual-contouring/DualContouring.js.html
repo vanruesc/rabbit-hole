@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/isosurface/dual-contouring/DualContouring.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/vanruesc/rabbit-hole.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/History.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/PriorityQueue.js~PriorityQueue.html">PriorityQueue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/RunLengthEncoder.js~RunLengthEncoder.html">RunLengthEncoder</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Scheduler.js~Scheduler.html">Scheduler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">events</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/TerrainEvent.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/WorkerEvent.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">helpers</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/helpers/ChunkHelper.js~ChunkHelper.html">ChunkHelper</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">isosurface/dual-contouring</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_EDGE_MASK">CELL_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_FACE_MASK">CELL_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_MASK">EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_PROC_EDGE_MASK">EDGE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_MAP">FACE_MAP</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_EDGE_MASK">FACE_PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_FACE_MASK">FACE_PROC_FACE_MASK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PROC_EDGE_MASK">PROC_EDGE_MASK</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">materials</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFData.js~QEFData.html">QEFData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFSolver.js~QEFSolver.html">QEFSolver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Schur.js~Schur.html">Schur</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Voxel.js~Voxel.html">Voxel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/csg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/DensityFunction.js~DensityFunction.html">DensityFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Difference.js~Difference.html">Difference</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Intersection.js~Intersection.html">Intersection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html">Operation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Union.js~Union.html">Union</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/octree</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/Chunk.js~Chunk.html">Chunk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/Volume.js~Volume.html">Volume</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/VoxelBlock.js~VoxelBlock.html">VoxelBlock</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/VoxelCell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/sdf</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Plane.js~Plane.html">Plane</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SDFReviver.js~SDFReviver.html">SDFReviver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Sphere.js~Sphere.html">Sphere</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Torus.js~Torus.html">Torus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">worker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/ThreadPool.js~ThreadPool.html">ThreadPool</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/VolumeModifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/WorkerTask.js~WorkerTask.html">WorkerTask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/isosurface/dual-contouring/DualContouring.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EDGES } from &quot;sparse-octree&quot;;
+import { Material } from &quot;../../volume/Material.js&quot;;
+import { VoxelBlock } from &quot;../../volume/octree/VoxelBlock.js&quot;;
+import * as tables from &quot;./tables.js&quot;;
+
+/**
+ * An edge contouring sub-procedure.
+ *
+ * @private
+ * @param {Array} octants - Four leaf octants.
+ * @param {Number} dir - A direction index.
+ * @param {Array} indexBuffer - An output list for vertex indices.
+ */
+
+function contourProcessEdge(octants, dir, indexBuffer) {
+
+	const indices = [-1, -1, -1, -1];
+	const signChange = [false, false, false, false];
+
+	let minSize = Infinity;
+	let minIndex = 0;
+	let flip = false;
+
+	let c1, c2, m1, m2;
+	let octant, edge;
+	let i;
+
+	for(i = 0; i &lt; 4; ++i) {
+
+		octant = octants[i];
+		edge = tables.PROC_EDGE_MASK[dir][i];
+
+		c1 = EDGES[edge][0];
+		c2 = EDGES[edge][1];
+
+		m1 = (octant.voxel.materials &gt;&gt; c1) &amp; 1;
+		m2 = (octant.voxel.materials &gt;&gt; c2) &amp; 1;
+
+		if(octant.size &lt; minSize) {
+
+			minSize = octant.size;
+			minIndex = i;
+			flip = (m1 !== Material.AIR);
+
+		}
+
+		indices[i] = octant.voxel.index;
+		signChange[i] = (m1 !== m2);
+
+	}
+
+	if(signChange[minIndex]) {
+
+		if(!flip) {
+
+			indexBuffer.push(indices[0]);
+			indexBuffer.push(indices[1]);
+			indexBuffer.push(indices[3]);
+
+			indexBuffer.push(indices[0]);
+			indexBuffer.push(indices[3]);
+			indexBuffer.push(indices[2]);
+
+		} else {
+
+			indexBuffer.push(indices[0]);
+			indexBuffer.push(indices[3]);
+			indexBuffer.push(indices[1]);
+
+			indexBuffer.push(indices[0]);
+			indexBuffer.push(indices[2]);
+			indexBuffer.push(indices[3]);
+
+		}
+
+	}
+
+}
+
+/**
+ * An edge contouring procedure.
+ *
+ * @private
+ * @param {Array} octants - Four edge octants.
+ * @param {Number} dir - A direction index.
+ * @param {Array} indexBuffer - An output list for vertex indices.
+ */
+
+function contourEdgeProc(octants, dir, indexBuffer) {
+
+	const c = [0, 0, 0, 0];
+
+	let edgeOctants;
+	let octant;
+	let i, j;
+
+	if(octants[0].voxel !== null &amp;&amp; octants[1].voxel !== null &amp;&amp;
+		octants[2].voxel !== null &amp;&amp; octants[3].voxel !== null) {
+
+		contourProcessEdge(octants, dir, indexBuffer);
+
+	} else {
+
+		for(i = 0; i &lt; 2; ++i) {
+
+			c[0] = tables.EDGE_PROC_EDGE_MASK[dir][i][0];
+			c[1] = tables.EDGE_PROC_EDGE_MASK[dir][i][1];
+			c[2] = tables.EDGE_PROC_EDGE_MASK[dir][i][2];
+			c[3] = tables.EDGE_PROC_EDGE_MASK[dir][i][3];
+
+			edgeOctants = [];
+
+			for(j = 0; j &lt; 4; ++j) {
+
+				octant = octants[j];
+
+				if(octant.voxel !== null) {
+
+					edgeOctants[j] = octant;
+
+				} else if(octant.children !== null) {
+
+					edgeOctants[j] = octant.children[c[j]];
+
+				} else {
+
+					break;
+
+				}
+
+			}
+
+			if(j === 4) {
+
+				contourEdgeProc(edgeOctants, tables.EDGE_PROC_EDGE_MASK[dir][i][4], indexBuffer);
+
+			}
+
+		}
+
+	}
+
+}
+
+/**
+ * A face contouring procedure.
+ *
+ * @private
+ * @param {Array} octants - Two face octants.
+ * @param {Number} dir - A direction index.
+ * @param {Array} indexBuffer - An output list for vertex indices.
+ */
+
+function contourFaceProc(octants, dir, indexBuffer) {
+
+	const c = [0, 0, 0, 0];
+
+	const orders = [
+		[0, 0, 1, 1],
+		[0, 1, 0, 1]
+	];
+
+	let faceOctants, edgeOctants;
+	let order, octant;
+	let i, j;
+
+	if(octants[0].children !== null || octants[1].children !== null) {
+
+		for(i = 0; i &lt; 4; ++i) {
+
+			c[0] = tables.FACE_PROC_FACE_MASK[dir][i][0];
+			c[1] = tables.FACE_PROC_FACE_MASK[dir][i][1];
+
+			faceOctants = [
+				(octants[0].children === null) ? octants[0] : octants[0].children[c[0]],
+				(octants[1].children === null) ? octants[1] : octants[1].children[c[1]]
+			];
+
+			contourFaceProc(faceOctants, tables.FACE_PROC_FACE_MASK[dir][i][2], indexBuffer);
+
+		}
+
+		for(i = 0; i &lt; 4; ++i) {
+
+			c[0] = tables.FACE_PROC_EDGE_MASK[dir][i][1];
+			c[1] = tables.FACE_PROC_EDGE_MASK[dir][i][2];
+			c[2] = tables.FACE_PROC_EDGE_MASK[dir][i][3];
+			c[3] = tables.FACE_PROC_EDGE_MASK[dir][i][4];
+
+			order = orders[tables.FACE_PROC_EDGE_MASK[dir][i][0]];
+
+			edgeOctants = [];
+
+			for(j = 0; j &lt; 4; ++j) {
+
+				octant = octants[order[j]];
+
+				if(octant.voxel !== null) {
+
+					edgeOctants[j] = octant;
+
+				} else if(octant.children !== null) {
+
+					edgeOctants[j] = octant.children[c[j]];
+
+				} else {
+
+					break;
+
+				}
+
+			}
+
+			if(j === 4) {
+
+				contourEdgeProc(edgeOctants, tables.FACE_PROC_EDGE_MASK[dir][i][5], indexBuffer);
+
+			}
+
+		}
+
+	}
+
+}
+
+/**
+ * The main contouring procedure.
+ *
+ * @private
+ * @param {Octant} octant - An octant.
+ * @param {Array} indexBuffer - An output list for vertex indices.
+ */
+
+function contourCellProc(octant, indexBuffer) {
+
+	const children = octant.children;
+	const c = [0, 0, 0, 0];
+
+	let faceOctants, edgeOctants;
+	let i;
+
+	if(children !== null) {
+
+		for(i = 0; i &lt; 8; ++i) {
+
+			contourCellProc(children[i], indexBuffer);
+
+		}
+
+		for(i = 0; i &lt; 12; ++i) {
+
+			c[0] = tables.CELL_PROC_FACE_MASK[i][0];
+			c[1] = tables.CELL_PROC_FACE_MASK[i][1];
+
+			faceOctants = [
+				children[c[0]],
+				children[c[1]]
+			];
+
+			contourFaceProc(faceOctants, tables.CELL_PROC_FACE_MASK[i][2], indexBuffer);
+
+		}
+
+		for(i = 0; i &lt; 6; ++i) {
+
+			c[0] = tables.CELL_PROC_EDGE_MASK[i][0];
+			c[1] = tables.CELL_PROC_EDGE_MASK[i][1];
+			c[2] = tables.CELL_PROC_EDGE_MASK[i][2];
+			c[3] = tables.CELL_PROC_EDGE_MASK[i][3];
+
+			edgeOctants = [
+				children[c[0]],
+				children[c[1]],
+				children[c[2]],
+				children[c[3]]
+			];
+
+			contourEdgeProc(edgeOctants, tables.CELL_PROC_EDGE_MASK[i][4], indexBuffer);
+
+		}
+
+	}
+
+}
+
+/**
+ * Collects positions and normals from the voxel information of the given octant
+ * and its children. The generated vertex indices are stored in the respective
+ * voxels during the octree traversal.
+ *
+ * @private
+ * @param {Octant} octant - An octant.
+ * @param {Array} vertexBuffer - An array to be filled with vertices.
+ * @param {Array} normalBuffer - An array to be filled with normals.
+ * @param {Number} index - The next vertex index.
+ */
+
+function generateVertexIndices(octant, positions, normals, index) {
+
+	let i, voxel;
+
+	if(octant.children !== null) {
+
+		for(i = 0; i &lt; 8; ++i) {
+
+			index = generateVertexIndices(octant.children[i], positions, normals, index);
+
+		}
+
+	} else if(octant.voxel !== null) {
+
+		voxel = octant.voxel;
+		voxel.index = index;
+
+		positions[index * 3] = voxel.position.x;
+		positions[index * 3 + 1] = voxel.position.y;
+		positions[index * 3 + 2] = voxel.position.z;
+
+		normals[index * 3] = voxel.normal.x;
+		normals[index * 3 + 1] = voxel.normal.y;
+		normals[index * 3 + 2] = voxel.normal.z;
+
+		++index;
+
+	}
+
+	return index;
+
+}
+
+/**
+ * Dual Contouring is an isosurface extraction technique that was originally
+ * presented by Tao Ju in 2002:
+ *  http://www.cs.wustl.edu/~taoju/research/dualContour.pdf
+ */
+
+export class DualContouring {
+
+	/**
+	 * Contours the given chunk of volume data and generates vertices, normals
+	 * and vertex indices.
+	 *
+	 * @param {Chunk} chunk - A chunk of volume data.
+	 * @return {Object} The generated indices, positions and normals, or null if no data was generated.
+	 */
+
+	static run(chunk) {
+
+		const indexBuffer = [];
+
+		const voxelBlock = new VoxelBlock(chunk);
+
+		// Each voxel contains one vertex.
+		const vertexCount = voxelBlock.voxelCount;
+
+		let result = null;
+		let indices = null;
+		let positions = null;
+		let normals = null;
+
+		if(vertexCount &gt; 65536) {
+
+			console.warn(
+				&quot;Could not create geometry for chunk at position&quot;, this.chunk.min,
+				&quot;with lod&quot;, this.chunk.data.lod, &quot;(vertex count of&quot;, vertexCount,
+				&quot;exceeds limit of 65536)&quot;
+			);
+
+		} else if(vertexCount &gt; 0) {
+
+			positions = new Float32Array(vertexCount * 3);
+			normals = new Float32Array(vertexCount * 3);
+
+			generateVertexIndices(voxelBlock.root, positions, normals, 0);
+			contourCellProc(voxelBlock.root, indexBuffer);
+
+			indices = new Uint16Array(indexBuffer);
+
+			result = { indices, positions, normals };
+
+		}
+
+		return result;
+
+	}
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
