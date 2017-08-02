@@ -50,7 +50,6 @@ void main() {
 	vec3 totalEmissiveRadiance = emissive;
 
 	#include <logdepthbuf_fragment>
-	#include <normal_flip>
 	#include <normal_triplanar_fragment>
 	#include <map_triplanar_fragment>
 	#include <color_fragment>

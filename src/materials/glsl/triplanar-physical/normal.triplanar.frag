@@ -10,6 +10,12 @@
 
 	vec3 normal = normalize( vNormal ) * flipNormal;
 
+	#ifdef DOUBLE_SIDED
+
+		normal = normal * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+
+	#endif
+
 #endif
 
 #ifdef USE_NORMALMAP
