@@ -28,7 +28,7 @@ export class VolumeModifier {
 		 *
 		 * @type {Object}
 		 * @property {Action} action - The worker action.
-		 * @property {Chunk} chunk - A serialised volume chunk.
+		 * @property {Object} chunk - A serialised volume chunk.
 		 */
 
 		this.message = {

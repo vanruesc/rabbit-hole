@@ -27,7 +27,7 @@ export class SurfaceExtractor {
 		 *
 		 * @type {Object}
 		 * @property {Action} action - The worker action.
-		 * @property {Chunk} chunk - A serialised volume chunk.
+		 * @property {Object} chunk - A serialised volume chunk.
 		 * @property {Float32Array} positions - Generated vertices.
 		 * @property {Float32Array} normals - Generated vertices.
 		 * @property {Uint16Array} indices - Generated indices.

@@ -23,7 +23,7 @@ export class ThreadPool extends EventTarget {
 		super();
 
 		/**
-		 * An object URL to the worker program.
+		 * An object URL that points to the worker program.
 		 *
 		 * @type {String}
 		 * @private
@@ -151,9 +151,10 @@ export class ThreadPool extends EventTarget {
 
 		let worker = null;
 
-		let i;
+		let i, l;
 
-		for(i = this.workers.length - 1; i >= 0; --i) {
+		// Check if an existing worker is available.
+		for(i = 0, l = this.workers.length; i < l; ++i) {
 
 			if(!this.busyWorkers.has(this.workers[i])) {
 
@@ -166,7 +167,7 @@ export class ThreadPool extends EventTarget {
 
 		}
 
-		// Check if all existing workers are busy.
+		// Try to create a new worker if all existing ones are busy.
 		if(worker === null && this.workers.length < this.maxWorkers) {
 
 			if(this.workerURL !== null) {
@@ -203,7 +204,6 @@ export class ThreadPool extends EventTarget {
 	dispose() {
 
 		this.clear();
-
 		URL.revokeObjectURL(this.workerURL);
 		this.workerURL = null;
 
