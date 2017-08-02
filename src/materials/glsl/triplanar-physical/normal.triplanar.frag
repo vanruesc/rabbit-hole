@@ -8,7 +8,7 @@
 
 #else
 
-	vec3 normal = normalize( vNormal ) * flipNormal;
+	vec3 normal = normalize( vNormal );
 
 	#ifdef DOUBLE_SIDED
 
