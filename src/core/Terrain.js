@@ -197,7 +197,6 @@ export class Terrain extends EventTarget {
 	/**
 	 * Handles worker events.
 	 *
-	 * @private
 	 * @param {WorkerEvent} event - A worker message event.
 	 */
 
