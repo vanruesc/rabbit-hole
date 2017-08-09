@@ -1,4 +1,4 @@
-import { EDGES } from "sparse-octree";
+import { edges } from "sparse-octree";
 import { Material } from "../../volume/Material.js";
 import { VoxelBlock } from "../../volume/octree/VoxelBlock.js";
 import * as tables from "./tables.js";
@@ -30,8 +30,8 @@ function contourProcessEdge(octants, dir, indexBuffer) {
 		octant = octants[i];
 		edge = tables.PROC_EDGE_MASK[dir][i];
 
-		c1 = EDGES[edge][0];
-		c2 = EDGES[edge][1];
+		c1 = edges[edge][0];
+		c2 = edges[edge][1];
 
 		m1 = (octant.voxel.materials >> c1) & 1;
 		m2 = (octant.voxel.materials >> c2) & 1;

@@ -10,7 +10,7 @@ import {
 	VertexColors
 } from "three";
 
-import { PATTERN } from "sparse-octree";
+import { pattern } from "sparse-octree";
 import { Material } from "../volume/Material.js";
 import { Edge } from "../volume/Edge.js";
 
@@ -231,7 +231,7 @@ export class ChunkHelper extends Object3D {
 
 		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
 
-			axis = PATTERN[a];
+			axis = pattern[a];
 
 			edges = edgeData.edges[d];
 			zeroCrossings = edgeData.zeroCrossings[d];

@@ -1,4 +1,4 @@
-import { Octree, PATTERN, EDGES } from "sparse-octree";
+import { Octree, pattern, edges } from "sparse-octree";
 import { Vector3 } from "math-ds";
 import { QEFData } from "../../math/QEFData.js";
 import { QEFSolver } from "../../math/QEFSolver.js";
@@ -37,7 +37,7 @@ function createVoxel(n, x, y, z, materialIndices) {
 	for(materials = 0, i = 0; i < 8; ++i) {
 
 		// Translate the coordinates into a one-dimensional grid point index.
-		offset = PATTERN[i];
+		offset = pattern[i];
 		index = (z + offset[2]) * mm + (y + offset[1]) * m + (x + offset[0]);
 
 		// Convert the identified material index into a binary value.
@@ -51,8 +51,8 @@ function createVoxel(n, x, y, z, materialIndices) {
 	// Find out how many edges intersect with the implicit surface.
 	for(edgeCount = 0, i = 0; i < 12; ++i) {
 
-		c1 = EDGES[i][0];
-		c2 = EDGES[i][1];
+		c1 = edges[i][0];
+		c2 = edges[i][1];
 
 		m1 = (materials >> c1) & 1;
 		m2 = (materials >> c2) & 1;
@@ -208,7 +208,7 @@ export class VoxelBlock extends Octree {
 
 		for(a = 4, d = 0; d < 3; ++d, a >>= 1) {
 
-			axis = PATTERN[a];
+			axis = pattern[a];
 
 			edges = edgeData.edges[d];
 			zeroCrossings = edgeData.zeroCrossings[d];
@@ -250,7 +250,7 @@ export class VoxelBlock extends Octree {
 				for(j = 0; j < 4; ++j) {
 
 					// Rotate around the edge.
-					offset = PATTERN[sequence[j]];
+					offset = pattern[sequence[j]];
 
 					x2 = x - offset[0];
 					y2 = y - offset[1];
