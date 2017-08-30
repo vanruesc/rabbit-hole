@@ -67,3 +67,10 @@ export {
 	Union
 } from "./volume/csg";
 
+export {
+	SparseVoxelOctree,
+	VoxelCell,
+	KeyDesign,
+	WorldOctant,
+	WorldOctree
+} from "./octree";

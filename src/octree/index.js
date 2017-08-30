@@ -8,3 +8,9 @@ export {
 	SparseVoxelOctree,
 	VoxelCell
 } from "./voxel";
+
+export {
+	KeyDesign,
+	WorldOctree,
+	WorldOctant
+} from "./world";
