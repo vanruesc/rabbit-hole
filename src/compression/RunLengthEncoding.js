@@ -2,13 +2,42 @@
  * Run-Length Encoding for numerical data.
  */
 
-export class RunLengthEncoder {
+export class RunLengthEncoding {
+
+	/**
+	 * Constructs a new container for Run-Length encoded data.
+	 *
+	 * @param {Number[]} [runLengths=null] - The run lengths.
+	 * @param {Number[]} [data=null] - The encoded data.
+	 */
+
+	constructor(runLengths = null, data = null) {
+
+		/**
+		 * The run lengths.
+		 *
+		 * @type {Number[]}
+		 * @default null
+		 */
+
+		this.runLengths = runLengths;
+
+		/**
+		 * The encoded data.
+		 *
+		 * @type {Number[]}
+		 * @default null
+		 */
+
+		this.data = data;
+
+	}
 
 	/**
 	 * Encodes the given data.
 	 *
 	 * @param {Number[]} array - The data to encode.
-	 * @return {Object} The run-lengths and the encoded data.
+	 * @return {RunLengthEncoding} The run-lengths and the encoded data.
 	 */
 
 	static encode(array) {
@@ -42,10 +71,7 @@ export class RunLengthEncoder {
 		runLengths.push(count);
 		data.push(previous);
 
-		return {
-			runLengths,
-			data
-		};
+		return new RunLengthEncoding(runLengths, data);
 
 	}
 

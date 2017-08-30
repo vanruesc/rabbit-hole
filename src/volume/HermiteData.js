@@ -1,4 +1,4 @@
-import { RunLengthEncoder } from "../core/RunLengthEncoder.js";
+import { RunLengthEncoding } from "../compression/RunLengthEncoding.js";
 import { Material } from "./Material.js";
 import { EdgeData } from "./EdgeData.js";
 
@@ -111,6 +111,14 @@ export class HermiteData {
 	get full() { return (this.materials === indexCount); }
 
 	/**
+	 * Indicates whether this data is currently compressed.
+	 *
+	 * @type {Boolean}
+	 */
+
+	get compressed() { return (this.runLengths !== null); }
+
+	/**
 	 * Adopts the given data.
 	 *
 	 * @param {HermiteData} data - The data to adopt.
@@ -161,75 +169,60 @@ export class HermiteData {
 	/**
 	 * Compresses this data.
 	 *
-	 * @return {HermiteData} This data.
+	 * @param {HermiteData} [target=this] - An optional target data set. If none is provided, the original data will be replaced with the compressed data.
+	 * @return {HermiteData} The target data set.
 	 */
 
-	compress() {
+	compress(target = this) {
 
 		let encoding;
 
-		if(this.runLengths === null) {
+		if(!this.compressed) {
 
-			// Note: empty sets will never be compressed. They are not worth keeping.
+			// Note: empty sets won't be compressed. They can be discarded.
 			if(this.full) {
 
-				encoding = {
-					runLengths: [this.materialIndices.length],
-					data: [Material.SOLID]
-				};
+				// This deliberately destroys material variations!
+				encoding = new RunLengthEncoding(
+					[this.materialIndices.length],
+					[Material.SOLID]
+				);
 
 			} else {
 
-				encoding = RunLengthEncoder.encode(this.materialIndices);
+				encoding = RunLengthEncoding.encode(this.materialIndices);
 
 			}
 
-			this.runLengths = new Uint32Array(encoding.runLengths);
-			this.materialIndices = new Uint8Array(encoding.data);
+			target.runLengths = new Uint32Array(encoding.runLengths);
+			target.materialIndices = new Uint8Array(encoding.data);
 
 		}
 
-		return this;
+		return target;
 
 	}
 
 	/**
 	 * Decompresses this data.
 	 *
-	 * @return {HermiteData} This data.
+	 * @param {HermiteData} [target=this] - An optional target data set. If none is provided, the compressed data will be replaced with the decompressed data.
+	 * @return {HermiteData} The target data set.
 	 */
 
-	decompress() {
+	decompress(target = this) {
 
-		if(this.runLengths !== null) {
+		if(this.compressed) {
 
-			this.materialIndices = RunLengthEncoder.decode(
+			target.materialIndices = RunLengthEncoding.decode(
 				this.runLengths, this.materialIndices, new Uint8Array(indexCount)
 			);
 
-			this.runLengths = null;
+			target.runLengths = null;
 
 		}
 
-		return this;
-
-	}
-
-	/**
-	 * Creates a list of transferable items.
-	 *
-	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
-	 * @return {Array} A transfer list.
-	 */
-
-	createTransferList(transferList = []) {
-
-		if(this.edgeData !== null) { this.edgeData.createTransferList(transferList); }
-
-		transferList.push(this.materialIndices.buffer);
-		transferList.push(this.runLengths.buffer);
-
-		return transferList;
+		return target;
 
 	}
 
@@ -284,6 +277,24 @@ export class HermiteData {
 		}
 
 		this.neutered = false;
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An existing list that the transferable items should be added to.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		if(this.edgeData !== null) { this.edgeData.createTransferList(transferList); }
+
+		transferList.push(this.materialIndices.buffer);
+		transferList.push(this.runLengths.buffer);
+
+		return transferList;
 
 	}
 
