@@ -1,7 +1,7 @@
 "use strict";
 
 const lib = require("../build/rabbit-hole");
-const THREE = require("three");
+const Vector3 = require("three").Vector3;
 
 module.exports = {
 
@@ -12,24 +12,26 @@ module.exports = {
 			const qefData = new lib.QEFData();
 			const qefSolver = new lib.QEFSolver();
 
-			const expected = new THREE.Vector3(-6, 5, 4);
+			const expected = new Vector3(0, 0, 0);
 
-			const p0 = new THREE.Vector3(4, 5, 10);
-			const n0 = new THREE.Vector3(0, 1, 0);
+			const p0 = new Vector3(0, 0.5, -0.5);
+			const n0 = new Vector3(1, 0, 0);
 
-			const p1 = new THREE.Vector3(-6, -3, 1);
-			const n1 = new THREE.Vector3(1, 0, 0);
+			const p1 = new Vector3(-0.5, 0, -0.5);
+			const n1 = new Vector3(0, 1, 0);
 
-			const p2 = new THREE.Vector3(2, -8, 4);
-			const n2 = new THREE.Vector3(0, 0, 1);
+			const p2 = new Vector3(-0.5, 0.5, 0);
+			const n2 = new Vector3(0, 0, 1);
 
 			qefData.add(p0, n0);
 			qefData.add(p1, n1);
 			qefData.add(p2, n2);
 
-			const solution = qefSolver.setData(qefData).solve();
+			const solution = new Vector3();
+			const error = qefSolver.setData(qefData).solve(solution);
 
-			test.ok(solution.equals(expected), "least squares");
+			test.equal(error, 0, "incorrect error");
+			test.ok(solution.equals(expected), "least squares result mismatch");
 			test.done();
 
 		}
