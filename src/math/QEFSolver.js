@@ -127,7 +127,7 @@ export class QEFSolver {
 
 		if(!this.hasSolution && data !== null && data.numPoints > 0) {
 
-			// Divide the mas point sum to get the average.
+			// Divide the mass point sum to get the average.
 			p.copy(data.massPointSum).divideScalar(data.numPoints);
 			massPoint.copy(p);
 
