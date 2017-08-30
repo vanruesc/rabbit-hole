@@ -139,6 +139,25 @@ export class HermiteData {
 	}
 
 	/**
+	 * Removes all data.
+	 *
+	 * @return {HermiteData} This data.
+	 */
+
+	clear() {
+
+		this.lod = -1;
+		this.neutered = false;
+		this.materials = 0;
+		this.materialIndices = null;
+		this.runLengths = null;
+		this.edgeData = null;
+
+		return this;
+
+	}
+
+	/**
 	 * Sets the specified material index.
 	 *
 	 * @param {Number} index - The index of the material index that should be updated.
