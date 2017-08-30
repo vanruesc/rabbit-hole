@@ -1,9 +1,63 @@
-import { Matrix3, SymmetricMatrix3 } from "math-ds";
+import { Matrix3, SymmetricMatrix3, Vector2, Vector3 } from "math-ds";
 import { Givens } from "./Givens.js";
 import { Schur } from "./Schur.js";
 
 /**
- * Rotates the given matrix.
+ * A threshold for pseudo inversions.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const PSEUDOINVERSE_THRESHOLD = 1e-6;
+
+/**
+ * The number of SVD sweeps.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const SVD_SWEEPS = 5;
+
+/**
+ * A symmetric matrix.
+ *
+ * @type {SymmetricMatrix3}
+ * @private
+ */
+
+const sm = new SymmetricMatrix3();
+
+/**
+ * A matrix.
+ *
+ * @type {Matrix3}
+ * @private
+ */
+
+const m = new Matrix3();
+
+/**
+ * A vector.
+ *
+ * @type {Vector2}
+ * @private
+ */
+
+const a = new Vector2();
+
+/**
+ * A vector that holds the singular values.
+ *
+ * @type {Vector3}
+ * @private
+ */
+
+const b = new Vector3();
+
+/**
+ * Rotates the matrix element from the first row, second column.
  *
  * @private
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
@@ -12,18 +66,38 @@ import { Schur } from "./Schur.js";
 
 function rotate01(vtav, v) {
 
-	const m01 = vtav.elements[1];
+	const se = vtav.elements;
+	const ve = v.elements;
 
-	if(m01 !== 0) {
+	let coefficients;
 
-		Givens.rot01Post(v, Schur.rot01(vtav));
+	if(se[1] !== 0.0) {
+
+		coefficients = Givens.calculateCoefficients(se[0], se[1], se[3]);
+
+		Schur.rotateQXY(a.set(se[0], se[3]), se[1], coefficients);
+		se[0] = a.x; se[3] = a.y;
+
+		Schur.rotateXY(a.set(se[2], se[4]), coefficients);
+		se[2] = a.x; se[4] = a.y;
+
+		se[1] = 0.0;
+
+		Schur.rotateXY(a.set(ve[0], ve[3]), coefficients);
+		ve[0] = a.x; ve[3] = a.y;
+
+		Schur.rotateXY(a.set(ve[1], ve[4]), coefficients);
+		ve[1] = a.x; ve[4] = a.y;
+
+		Schur.rotateXY(a.set(ve[2], ve[5]), coefficients);
+		ve[2] = a.x; ve[5] = a.y;
 
 	}
 
 }
 
 /**
- * Rotates the given matrix.
+ * Rotates the matrix element from the first row, third column.
  *
  * @private
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
@@ -32,60 +106,101 @@ function rotate01(vtav, v) {
 
 function rotate02(vtav, v) {
 
-	const m02 = vtav.elements[2];
+	const se = vtav.elements;
+	const ve = v.elements;
 
-	if(m02 !== 0) {
+	let coefficients;
 
-		Givens.rot02Post(v, Schur.rot02(vtav));
+	if(se[2] !== 0.0) {
+
+		coefficients = Givens.calculateCoefficients(se[0], se[2], se[5]);
+
+		Schur.rotateQXY(a.set(se[0], se[5]), se[2], coefficients);
+		se[0] = a.x; se[5] = a.y;
+
+		Schur.rotateXY(a.set(se[1], se[4]), coefficients);
+		se[1] = a.x; se[4] = a.y;
+
+		se[2] = 0.0;
+
+		Schur.rotateXY(a.set(ve[0], ve[6]), coefficients);
+		ve[0] = a.x; ve[6] = a.y;
+
+		Schur.rotateXY(a.set(ve[1], ve[7]), coefficients);
+		ve[1] = a.x; ve[7] = a.y;
+
+		Schur.rotateXY(a.set(ve[2], ve[8]), coefficients);
+		ve[2] = a.x; ve[8] = a.y;
 
 	}
 
 }
 
 /**
- * Rotates the given matrix.
+ * Rotates the matrix element from the second row, third column.
  *
  * @private
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
  * @param {Matrix3} v - A matrix.
  */
 
-export function rotate12(vtav, v) {
+function rotate12(vtav, v) {
 
-	const m12 = vtav.elements[4];
+	const se = vtav.elements;
+	const ve = v.elements;
 
-	if(m12 !== 0) {
+	let coefficients;
 
-		Givens.rot12Post(v, Schur.rot12(vtav));
+	if(se[4] !== 0.0) {
+
+		coefficients = Givens.calculateCoefficients(se[3], se[4], se[5]);
+
+		Schur.rotateQXY(a.set(se[3], se[5]), se[4], coefficients);
+		se[3] = a.x; se[5] = a.y;
+
+		Schur.rotateXY(a.set(se[1], se[2]), coefficients);
+		se[1] = a.x; se[2] = a.y;
+
+		se[4] = 0.0;
+
+		Schur.rotateXY(a.set(ve[3], ve[6]), coefficients);
+		ve[3] = a.x; ve[6] = a.y;
+
+		Schur.rotateXY(a.set(ve[4], ve[7]), coefficients);
+		ve[4] = a.x; ve[7] = a.y;
+
+		Schur.rotateXY(a.set(ve[5], ve[8]), coefficients);
+		ve[5] = a.x; ve[8] = a.y;
 
 	}
 
 }
 
 /**
- * Computes the symmetric Singular Value Decomposition.
+ * Calculates the singular values.
  *
  * @private
- * @param {SymmetricMatrix3} a - A symmetric matrix.
  * @param {SymmetricMatrix3} vtav - A symmetric matrix.
- * @param {Matrix3} v - A matrix.
- * @param {Number} threshold - A threshold.
- * @param {Number} maxSweeps - The maximum number of sweeps.
+ * @param {Matrix3} v - An identity matrix.
+ * @return {Vector3} The singular values.
  */
 
-function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
+function solveSymmetric(vtav, v) {
 
-	const delta = threshold * vtav.copy(a).norm();
+	const e = vtav.elements;
 
 	let i;
 
-	for(i = 0; i < maxSweeps && vtav.off() > delta; ++i) {
+	for(i = 0; i < SVD_SWEEPS; ++i) {
 
+		// Rotate the upper right (lower left) triagonal.
 		rotate01(vtav, v);
 		rotate02(vtav, v);
 		rotate12(vtav, v);
 
 	}
+
+	return b.set(e[0], e[3], e[5]);
 
 }
 
@@ -94,151 +209,85 @@ function getSymmetricSVD(a, vtav, v, threshold, maxSweeps) {
  *
  * @private
  * @param {Number} x - The value to invert.
- * @param {Number} threshold - A threshold.
  * @return {Number} The inverted value.
  */
 
-function pinv(x, threshold) {
+function invert(x) {
 
 	const invX = 1.0 / x;
 
-	return (Math.abs(x) < threshold || Math.abs(invX) < threshold) ? 0.0 : invX;
+	return (Math.abs(x) < PSEUDOINVERSE_THRESHOLD || Math.abs(invX) < PSEUDOINVERSE_THRESHOLD) ? 0.0 : invX;
 
 }
 
 /**
- * Calculates the pseudo inverse of the given matrix.
+ * Calculates the pseudo inverse of v using the singular values.
  *
  * @private
- * @param {Matrix3} t - The target matrix.
- * @param {SymmetricMatrix3} a - A symmetric matrix.
- * @param {Matrix3} b - A matrix.
- * @param {Number} threshold - A threshold.
- * @return {Number} A dimension indicating the amount of truncated singular values.
+ * @param {Matrix3} v - A matrix.
+ * @param {Vector3} sigma - The singular values.
+ * @return {Matrix3} The inverted matrix.
  */
 
-function pseudoInverse(t, a, b, threshold) {
+function pseudoInverse(v, sigma) {
 
-	const te = t.elements;
-	const ae = a.elements;
-	const be = b.elements;
+	const ve = v.elements;
 
-	const a00 = ae[0];
-	const a11 = ae[3];
-	const a22 = ae[5];
+	const v00 = ve[0], v01 = ve[3], v02 = ve[6];
+	const v10 = ve[1], v11 = ve[4], v12 = ve[7];
+	const v20 = ve[2], v21 = ve[5], v22 = ve[8];
 
-	const a0 = pinv(a00, threshold);
-	const a1 = pinv(a11, threshold);
-	const a2 = pinv(a22, threshold);
+	const d0 = invert(sigma.x);
+	const d1 = invert(sigma.y);
+	const d2 = invert(sigma.z);
 
-	// Count how many singular values have been truncated.
-	const truncatedValues = (a0 === 0.0) + (a1 === 0.0) + (a2 === 0.0);
+	return v.set(
 
-	// Compute the feature dimension.
-	const dimension = 3 - truncatedValues;
+		// First row.
+		v00 * d0 * v00 + v01 * d1 * v01 + v02 * d2 * v02,
+		v00 * d0 * v10 + v01 * d1 * v11 + v02 * d2 * v12,
+		v00 * d0 * v20 + v01 * d1 * v21 + v02 * d2 * v22,
 
-	const b00 = be[0], b01 = be[3], b02 = be[6];
-	const b10 = be[1], b11 = be[4], b12 = be[7];
-	const b20 = be[2], b21 = be[5], b22 = be[8];
+		// Second row.
+		v10 * d0 * v00 + v11 * d1 * v01 + v12 * d2 * v02,
+		v10 * d0 * v10 + v11 * d1 * v11 + v12 * d2 * v12,
+		v10 * d0 * v20 + v11 * d1 * v21 + v12 * d2 * v22,
 
-	te[0] = b00 * a0 * b00 + b01 * a1 * b01 + b02 * a2 * b02;
-	te[3] = b00 * a0 * b10 + b01 * a1 * b11 + b02 * a2 * b12;
-	te[6] = b00 * a0 * b20 + b01 * a1 * b21 + b02 * a2 * b22;
+		// Third row.
+		v20 * d0 * v00 + v21 * d1 * v01 + v22 * d2 * v02,
+		v20 * d0 * v10 + v21 * d1 * v11 + v22 * d2 * v12,
+		v20 * d0 * v20 + v21 * d1 * v21 + v22 * d2 * v22
 
-	te[1] = te[3];
-	te[4] = b10 * a0 * b10 + b11 * a1 * b11 + b12 * a2 * b12;
-	te[7] = b10 * a0 * b20 + b11 * a1 * b21 + b12 * a2 * b22;
-
-	te[2] = te[6];
-	te[5] = te[7];
-	te[8] = b20 * a0 * b20 + b21 * a1 * b21 + b22 * a2 * b22;
-
-	return dimension;
+	);
 
 }
 
 /**
  * A Singular Value Decomposition solver.
+ *
+ * Decomposes the given linear system into the matrices U, D and V and solves
+ * the equation: U D V^T x = b.
+ *
+ * See http://mathworld.wolfram.com/SingularValueDecomposition.html for more
+ * information.
  */
 
 export class SingularValueDecomposition {
 
 	/**
-	 * Performs the Singular Value Decomposition.
+	 * Performs the Singular Value Decomposition to solve the given linear system.
 	 *
-	 * @param {SymmetricMatrix3} a - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - A target vector.
-	 * @param {Number} svdThreshold - A threshold.
-	 * @param {Number} svdSweeps - The maximum number of SVD sweeps.
-	 * @param {Number} pseudoInverseThreshold - A threshold.
-	 * @return {Number} A dimension indicating the amount of truncated singular values.
+	 * @param {SymmetricMatrix3} ata - A symmetric matrix.
+	 * @param {Vector3} atb - A vector.
+	 * @param {Vector3} x - The target vector.
 	 */
 
-	static solveSymmetric(a, b, x, svdThreshold, svdSweeps, pseudoInverseThreshold) {
+	static solve(ata, atb, x) {
 
-		const v = new Matrix3();
+		const sigma = solveSymmetric(sm.copy(ata), m.identity());
+		const invV = pseudoInverse(m, sigma);
 
-		const pinv = new Matrix3();
-		const vtav = new SymmetricMatrix3();
-
-		let dimension;
-
-		pinv.set(
-
-			0, 0, 0,
-			0, 0, 0,
-			0, 0, 0
-
-		);
-
-		vtav.set(
-
-			0, 0, 0,
-			0, 0,
-			0
-
-		);
-
-		getSymmetricSVD(a, vtav, v, svdThreshold, svdSweeps);
-
-		// Least squares.
-		dimension = pseudoInverse(pinv, vtav, v, pseudoInverseThreshold);
-
-		x.copy(b).applyMatrix3(pinv);
-
-		return dimension;
-
-	}
-
-	/**
-	 * Calculates the error of the Singular Value Decomposition.
-	 *
-	 * @param {SymmetricMatrix3} t - A symmetric matrix.
-	 * @param {Vector3} b - A vector.
-	 * @param {Vector3} x - The calculated position.
-	 * @return {Number} The error.
-	 */
-
-	static calculateError(t, b, x) {
-
-		const e = t.elements;
-		const v = x.clone();
-		const a = new Matrix3();
-
-		// Set symmetrically.
-		a.set(
-
-			e[0], e[1], e[2],
-			e[1], e[3], e[4],
-			e[2], e[4], e[5]
-
-		);
-
-		v.applyMatrix3(a);
-		v.subVectors(b, v);
-
-		return v.lengthSq();
+		x.copy(atb).applyMatrix3(invV);
 
 	}
 

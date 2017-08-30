@@ -2,56 +2,34 @@ import { SymmetricMatrix3, Vector3 } from "math-ds";
 import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
 
 /**
+ * A point.
+ *
+ * @type {Vector3}
+ * @private
+ */
+
+const p = new Vector3();
+
+/**
  * A Quaratic Error Function solver.
  *
  * Finds a point inside a voxel that minimises the sum of the squares of the
  * distances to the surface intersection planes associated with the voxel.
+ *
+ * Based on an implementation by Leonard Ritter and Nick Gildea:
+ *  https://github.com/nickgildea/qef
  */
 
 export class QEFSolver {
 
 	/**
 	 * Constructs a new QEF solver.
-	 *
-	 * @param {Number} [svdThreshold=1e-6] - A threshold for the Singular Value Decomposition error.
-	 * @param {Number} [svdSweeps=4] - Number of Singular Value Decomposition sweeps.
-	 * @param {Number} [pseudoInverseThreshold=1e-6] - A threshold for the pseudo inverse error.
 	 */
 
-	constructor(svdThreshold = 1e-6, svdSweeps = 4, pseudoInverseThreshold = 1e-6) {
+	constructor() {
 
 		/**
-		 * A Singular Value Decomposition error threshold.
-		 *
-		 * @type {Number}
-		 * @private
-		 * @default 1e-6
-		 */
-
-		this.svdThreshold = svdThreshold;
-
-		/**
-		 * The number of Singular Value Decomposition sweeps.
-		 *
-		 * @type {Number}
-		 * @private
-		 * @default 4
-		 */
-
-		this.svdSweeps = svdSweeps;
-
-		/**
-		 * A pseudo inverse error threshold.
-		 *
-		 * @type {Number}
-		 * @private
-		 * @default 1e-6
-		 */
-
-		this.pseudoInverseThreshold = pseudoInverseThreshold;
-
-		/**
-		 * QEF data.
+		 * QEF data. Will be used destructively.
 		 *
 		 * @type {QEFData}
 		 * @private
@@ -61,15 +39,7 @@ export class QEFSolver {
 		this.data = null;
 
 		/**
-		 * The average of the surface intersection points of a voxel.
-		 *
-		 * @type {Vector3}
-		 */
-
-		this.massPoint = new Vector3();
-
-		/**
-		 * A symmetric matrix.
+		 * ATA.
 		 *
 		 * @type {SymmetricMatrix3}
 		 * @private
@@ -78,7 +48,7 @@ export class QEFSolver {
 		this.ata = new SymmetricMatrix3();
 
 		/**
-		 * A vector.
+		 * ATb.
 		 *
 		 * @type {Vector3}
 		 * @private
@@ -87,13 +57,12 @@ export class QEFSolver {
 		this.atb = new Vector3();
 
 		/**
-		 * A calculated vertex position.
+		 * The mass point of the current QEF data set.
 		 *
 		 * @type {Vector3}
-		 * @private
 		 */
 
-		this.x = new Vector3();
+		this.massPoint = new Vector3();
 
 		/**
 		 * Indicates whether this solver has a solution.
@@ -102,30 +71,6 @@ export class QEFSolver {
 		 */
 
 		this.hasSolution = false;
-
-	}
-
-	/**
-	 * Computes the error of the approximated position.
-	 *
-	 * @return {Number} The QEF error.
-	 */
-
-	computeError() {
-
-		const x = this.x;
-
-		let error = Infinity;
-		let atax;
-
-		if(this.hasSolution) {
-
-			atax = this.ata.applyToVector3(x.clone());
-			error = x.dot(atax) - 2.0 * x.dot(this.atb) + this.data.btb;
-
-		}
-
-		return error;
 
 	}
 
@@ -146,61 +91,58 @@ export class QEFSolver {
 	}
 
 	/**
-	 * Solves the Quadratic Error Function.
+	 * Computes the error of the approximated position.
 	 *
-	 * @return {Vector3} The calculated vertex position.
+	 * @param {SymmetricMatrix3} ata - ATA.
+	 * @param {Vector3} atb - ATb.
+	 * @param {Vector3} x - The calculated vertex position.
+	 * @return {Number} The QEF error.
 	 */
 
-	solve() {
+	calculateError(ata, atb, x) {
+
+		p.copy(x);
+		ata.applyToVector3(p);
+		p.subVectors(atb, p);
+
+		return p.dot(p);
+
+	}
+
+	/**
+	 * Solves the Quadratic Error Function.
+	 *
+	 * @param {Vector3} x - A target vector to store the vertex position in.
+	 * @return {Number} The error of the solution.
+	 */
+
+	solve(x) {
 
 		const data = this.data;
 		const massPoint = this.massPoint;
-		const ata = this.ata;
-		const atb = this.atb;
-		const x = this.x;
+		const ata = this.ata.copy(data.ata);
+		const atb = this.atb.copy(data.atb);
 
-		let mp;
+		let error = Infinity;
 
 		if(!this.hasSolution && data !== null && data.numPoints > 0) {
 
-			// The mass point is a sum, so divide it to make it the average.
-			massPoint.copy(data.massPoint);
-			massPoint.divideScalar(data.numPoints);
+			// Divide the mas point sum to get the average.
+			p.copy(data.massPointSum).divideScalar(data.numPoints);
+			massPoint.copy(p);
 
-			ata.copy(data.ata);
-			atb.copy(data.atb);
+			ata.applyToVector3(p);
+			atb.sub(p);
 
-			mp = ata.applyToVector3(massPoint.clone());
-			atb.sub(mp);
-
-			x.set(0, 0, 0);
-
-			data.massPointDimension = SingularValueDecomposition.solveSymmetric(
-				ata, atb, x, this.svdThreshold, this.svdSweeps, this.pseudoInverseThreshold
-			);
-
-			// svdError = SingularValueDecomposition.calculateError(ata, atb, x);
-
+			SingularValueDecomposition.solve(ata, atb, x);
+			error = this.calculateError(ata, atb, x);
 			x.add(massPoint);
-
-			atb.copy(data.atb);
 
 			this.hasSolution = true;
 
 		}
 
-		return x;
-
-	}
-
-	/**
-	 * Clears this QEF instance.
-	 */
-
-	clear() {
-
-		this.data = null;
-		this.hasSolution = false;
+		return error;
 
 	}
 
