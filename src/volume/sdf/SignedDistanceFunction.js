@@ -250,7 +250,7 @@ export class SignedDistanceFunction {
 
 	computeBoundingBox() {
 
-		throw new Error("SDF: bounding box method not implemented!");
+		throw new Error("SignedDistanceFunction#computeBoundingBox method not implemented!");
 
 	}
 
@@ -264,7 +264,7 @@ export class SignedDistanceFunction {
 
 	sample(position) {
 
-		throw new Error("SDF: sample method not implemented!");
+		throw new Error("SignedDistanceFunction#sample method not implemented!");
 
 	}
 
