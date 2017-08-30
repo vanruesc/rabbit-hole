@@ -337,13 +337,17 @@ export class HermiteData {
 	/**
 	 * The material grid resolution.
 	 *
+	 * The effective resolution of a chunk of Hermite data is the distance between
+	 * two adjacent grid points with respect to the size of the containing world
+	 * octant.
+	 *
 	 * @type {Number}
 	 */
 
 	static get resolution() { return resolution; }
 
 	/**
-	 * This value can only be set once.
+	 * This value can only be set once. The upper limit is 256.
 	 *
 	 * @type {Number}
 	 */

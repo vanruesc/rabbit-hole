@@ -163,7 +163,7 @@ export class EdgeData {
 	/**
 	 * Calculates the amount of edges for one axis based on a given resolution.
 	 *
-	 * @param {Number} The grid resolution.
+	 * @param {Number} n - The grid resolution.
 	 * @return {Number} The amount of edges for a single dimension.
 	 */
 
