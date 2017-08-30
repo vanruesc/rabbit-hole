@@ -12,13 +12,6 @@ export { HermiteData } from "./HermiteData.js";
 export { Voxel } from "./Voxel.js";
 
 export {
-	Chunk,
-	Volume,
-	VoxelBlock,
-	VoxelCell
-} from "./octree";
-
-export {
 	ConstructiveSolidGeometry,
 	DensityFunction,
 	Difference,

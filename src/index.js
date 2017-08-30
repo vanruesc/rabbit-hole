@@ -48,19 +48,22 @@ export {
 	EdgeIterator,
 	HermiteData,
 	Material,
-	Voxel,
-	Chunk,
-	Volume,
-	VoxelBlock,
-	VoxelCell,
-	SignedDistanceFunction,
-	Heightfield,
-	Sphere,
-	Torus,
-	Plane,
-	Box,
-	ConstructiveSolidGeometry,
-	Intersection,
-	Difference,
-	Union
+	Voxel
 } from "./volume";
+
+export {
+	Box,
+	Heightfield,
+	Plane,
+	SignedDistanceFunction,
+	Sphere,
+	Torus
+} from "./volume/sdf";
+
+export {
+	ConstructiveSolidGeometry,
+	Difference,
+	Intersection,
+	Union
+} from "./volume/csg";
+
