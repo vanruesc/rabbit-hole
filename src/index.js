@@ -8,11 +8,14 @@ export {
 	History,
 	PriorityQueue,
 	Queue,
-	RunLengthEncoder,
 	Scheduler,
 	Task,
 	Terrain
 } from "./core";
+
+export {
+	RunLengthEncoding
+} from "./compression";
 
 export {
 	TerrainEvent,
@@ -34,6 +37,10 @@ export {
 	Schur,
 	SingularValueDecomposition
 } from "./math";
+
+export {
+	BinaryUtils
+} from "./utils";
 
 export {
 	Edge,
