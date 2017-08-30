@@ -1,5 +1,5 @@
 /**
- * A basic object queue.
+ * A FIFO queue.
  */
 
 export class Queue {
