@@ -37,12 +37,12 @@ module.exports = {
 
 			const materialIndices = data.materialIndices;
 
+			test.equal(data.materialIndices.length, 8, "should allocate space for 8 material indices");
+
 			materialIndices[0] = 0; materialIndices[1] = 0;
 			materialIndices[2] = 0; materialIndices[3] = 0;
 			materialIndices[4] = 1; materialIndices[5] = 1;
 			materialIndices[6] = 0; materialIndices[7] = 0;
-
-			test.equal(data.materialIndices.length, 8, "should allocate space for 8 material indices");
 
 			data.compress();
 
