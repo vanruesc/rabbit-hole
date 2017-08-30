@@ -4,6 +4,16 @@ import { VoxelBlock } from "../../volume/octree/VoxelBlock.js";
 import * as tables from "./tables.js";
 
 /**
+ * The maximum number of vertices. Vertex indices use 16 bits.
+ *
+ * @type {Number}
+ * @private
+ * @final
+ */
+
+const MAX_VERTEX_COUNT = Math.pow(2, 16) - 1;
+
+/**
  * An edge contouring sub-procedure.
  *
  * @private
@@ -358,12 +368,11 @@ export class DualContouring {
 		let positions = null;
 		let normals = null;
 
-		if(vertexCount > 65536) {
+		if(vertexCount > MAX_VERTEX_COUNT) {
 
 			console.warn(
-				"Could not create geometry for chunk at position", this.chunk.min,
-				"with lod", this.chunk.data.lod, "(vertex count of", vertexCount,
-				"exceeds limit of 65536)"
+				"Could not create geometry for cell at position", octree.min,
+				"(vertex count of", vertexCount, "exceeds limit of ", MAX_VERTEX_COUNT, ")"
 			);
 
 		} else if(vertexCount > 0) {
