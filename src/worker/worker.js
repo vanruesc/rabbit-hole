@@ -1,3 +1,5 @@
+import { HermiteData } from "../volume/HermiteData.js";
+import { Response } from "./messages/Response.js";
 import { SurfaceExtractor } from "./SurfaceExtractor.js";
 import { VolumeModifier } from "./VolumeModifier.js";
 import { Action } from "./Action.js";
@@ -29,18 +31,27 @@ const volumeModifier = new VolumeModifier();
 
 self.addEventListener("message", function onMessage(event) {
 
-	const data = event.data;
+	// Unpack the request.
+	const request = event.data;
 
-	switch(data.action) {
+	switch(request.action) {
 
 		case Action.EXTRACT:
-			surfaceExtractor.extract(data.chunk);
-			postMessage(surfaceExtractor.message, surfaceExtractor.transferList);
+			surfaceExtractor.process(request);
+			postMessage(surfaceExtractor.response, surfaceExtractor.transferList);
 			break;
 
 		case Action.MODIFY:
-			volumeModifier.modify(data.chunk, data.sdf);
-			postMessage(volumeModifier.message, volumeModifier.transferList);
+			volumeModifier.process(request);
+			postMessage(volumeModifier.response, volumeModifier.transferList);
+			break;
+
+		case Action.RESAMPLE:
+			// @todo
+			break;
+
+		case Action.CONFIGURE:
+			HermiteData.resolution = request.resolution;
 			break;
 
 		case Action.CLOSE:
@@ -55,33 +66,31 @@ self.addEventListener("message", function onMessage(event) {
  * Returns all data to the main thread and closes the worker.
  *
  * @private
- * @param {Event} event - An error event.
+ * @param {ErrorEvent} event - An error event.
  */
 
 self.addEventListener("error", function onError(event) {
 
-	const message = {
-		action: Action.CLOSE,
-		error: event.message,
-		chunk: null
-	};
-
 	const transferList = [];
-	const chunks = [surfaceExtractor.chunk, volumeModifier.chunk];
+	const response = new Response(Action.CLOSE);
 
-	// Find out which operator has the data.
-	const chunk = (chunks[0].data !== null && !chunks[0].data.neutered) ?
-		chunk[0] : (chunks[1].data !== null && !chunks[1].data.neutered) ?
-			chunk[1] : null;
+	// Attach the error event.
+	response.error = event;
 
-	if(chunk !== null) {
+	// Find out which processor has the data.
+	const data = (surfaceExtractor.data !== null && !surfaceExtractor.data.neutered) ?
+		surfaceExtractor.data : (volumeModifier.data !== null && !volumeModifier.data.neutered) ?
+			volumeModifier.data : null;
 
-		message.chunk = chunk.serialise();
-		chunk.createTransferList(transferList);
+	if(data !== null) {
+
+		response.data = data.serialize();
+		data.createTransferList(transferList);
 
 	}
 
-	postMessage(message, transferList);
+	// Send the data back and close this worker.
+	postMessage(response, transferList);
 	close();
 
 });
