@@ -4,6 +4,12 @@ module.exports = {
 		reporter: "default"
 	},
 
-	files: ["test/**/*.js"]
+	tests: {
+		src: ["test/*.test.js"]
+	},
+
+	experiments: {
+		src: ["test/experiments/*.test.js"]
+	}
 
 };
