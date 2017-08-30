@@ -1,4 +1,5 @@
 import { EventTarget } from "synthetic-event";
+import { Request } from "./messages/Request.js";
 import { Action } from "./Action.js";
 import * as events from "./thread-pool-events.js";
 
@@ -79,7 +80,7 @@ export class ThreadPool extends EventTarget {
 
 			case "error":
 				// Errors are being handled in the worker.
-				console.error("Encountered an unexpected error.", event.message);
+				console.error("Encountered an unexpected error.", event);
 				break;
 
 		}
@@ -103,9 +104,7 @@ export class ThreadPool extends EventTarget {
 
 		} else {
 
-			worker.postMessage({
-				action: Action.CLOSE
-			});
+			worker.postMessage(new Request(Action.CLOSE));
 
 		}
 
@@ -204,7 +203,9 @@ export class ThreadPool extends EventTarget {
 	dispose() {
 
 		this.clear();
+
 		URL.revokeObjectURL(this.workerURL);
+
 		this.workerURL = null;
 
 	}
