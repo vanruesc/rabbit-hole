@@ -11,12 +11,12 @@ export class EdgeData {
 	/**
 	 * Constructs new edge data.
 	 *
-	 * @param {Number} x - The amount of edges along the X-axis.
+	 * @param {Number} [x=0] - The amount of edges along the X-axis. If <= 0, no memory will be allocated.
 	 * @param {Number} [y=x] - The amount of edges along the Y-axis. If omitted, this will be the same as x.
 	 * @param {Number} [z=x] - The amount of edges along the Z-axis. If omitted, this will be the same as x.
 	 */
 
-	constructor(x, y = x, z = x) {
+	constructor(x = 0, y = x, z = x) {
 
 		/**
 		 * The edges.
@@ -31,7 +31,7 @@ export class EdgeData {
 		 * @type {Uint32Array[]}
 		 */
 
-		this.edges = [
+		this.indices = (x <= 0) ? null : [
 			new Uint32Array(x),
 			new Uint32Array(y),
 			new Uint32Array(z)
@@ -46,7 +46,7 @@ export class EdgeData {
 		 * @type {Float32Array[]}
 		 */
 
-		this.zeroCrossings = [
+		this.zeroCrossings = (x <= 0) ? null : [
 			new Float32Array(x),
 			new Float32Array(y),
 			new Float32Array(z)
@@ -61,7 +61,7 @@ export class EdgeData {
 		 * @type {Float32Array[]}
 		 */
 
-		this.normals = [
+		this.normals = (x <= 0) ? null : [
 			new Float32Array(x * 3),
 			new Float32Array(y * 3),
 			new Float32Array(z * 3)
