@@ -1,7 +1,7 @@
 /**
- * A collection of helpers.
+ * A collection of data visualisation tools.
  *
  * @module rabbit-hole/helpers
  */
 
-export { ChunkHelper } from "./ChunkHelper.js";
+export { HermiteDataHelper } from "./HermiteDataHelper.js";

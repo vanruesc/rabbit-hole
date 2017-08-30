@@ -23,7 +23,7 @@ export {
 } from "./events";
 
 export {
-	ChunkHelper
+	HermiteDataHelper
 } from "./helpers";
 
 export {
