@@ -74,7 +74,7 @@ export class ThreadPool extends EventTarget {
 			case "message":
 				this.busyWorkers.delete(event.target);
 				events.message.worker = event.target;
-				events.message.data = event.data;
+				events.message.response = event.data;
 				this.dispatchEvent(events.message);
 				break;
 

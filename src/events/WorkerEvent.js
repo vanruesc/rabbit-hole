@@ -26,13 +26,13 @@ export class WorkerEvent extends Event {
 		this.worker = null;
 
 		/**
-		 * A message.
+		 * A worker response.
 		 *
-		 * @type {Object}
+		 * @type {Response}
 		 * @default null
 		 */
 
-		this.data = null;
+		this.response = null;
 
 	}
 
