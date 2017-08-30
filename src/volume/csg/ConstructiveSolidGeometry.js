@@ -10,23 +10,40 @@ import { Difference } from "./Difference.js";
 import { Intersection } from "./Intersection.js";
 
 /**
+ * The world size of the current data cell.
+ *
+ * @type {Number}
+ * @private
+ */
+
+let cellSize = 0;
+
+/**
+ * The lower bounds of the current data cell.
+ *
+ * @type {Vector3}
+ * @private
+ */
+
+const cellPosition = new Vector3();
+
+/**
  * Finds out which grid points lie inside the area of the given operation.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @return {Box3} The index bounds.
  */
 
-function computeIndexBounds(chunk, operation) {
+function computeIndexBounds(operation) {
 
-	const s = chunk.size;
-	const n = chunk.resolution;
+	const s = cellSize;
+	const n = HermiteData.resolution;
 
 	const min = new Vector3(0, 0, 0);
 	const max = new Vector3(n, n, n);
 
-	const region = new Box3(chunk.min, chunk.max);
+	const region = new Box3(cellPosition, cellPosition.clone().addScalar(cellSize));
 
 	if(operation.type !== OperationType.INTERSECTION) {
 
@@ -62,16 +79,16 @@ function computeIndexBounds(chunk, operation) {
  * Combines material indices.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
  * @param {HermiteData} data1 - A predominant data set.
  * @param {Box3} bounds - Grid iteration limits.
  */
 
-function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
+function combineMaterialIndices(operation, data0, data1, bounds) {
 
-	const m = chunk.resolution + 1;
+	const n = HermiteData.resolution;
+	const m = n + 1;
 	const mm = m * m;
 
 	const X = bounds.max.x;
@@ -100,22 +117,21 @@ function combineMaterialIndices(chunk, operation, data0, data1, bounds) {
  * Generates material indices.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk
  * @param {DensityFunction} operation - A CSG operation.
  * @param {HermiteData} data - A target data set.
  * @param {Box3} bounds - Grid iteration limits.
  */
 
-function generateMaterialIndices(chunk, operation, data, bounds) {
+function generateMaterialIndices(operation, data, bounds) {
 
-	const s = chunk.size;
-	const n = chunk.resolution;
+	const s = cellSize;
+	const n = HermiteData.resolution;
 	const m = n + 1;
 	const mm = m * m;
 
 	const materialIndices = data.materialIndices;
 
-	const base = chunk.min;
+	const base = cellPosition;
 	const offset = new Vector3();
 	const position = new Vector3();
 
@@ -164,18 +180,19 @@ function generateMaterialIndices(chunk, operation, data, bounds) {
  * Combines edges.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set.
  * @param {HermiteData} data1 - A predominant data set.
  * @return {Object} The generated edge data.
  */
 
-function combineEdges(chunk, operation, data0, data1) {
+function combineEdges(operation, data0, data1) {
 
-	const m = chunk.resolution + 1;
-	const indexOffsets = new Uint32Array([1, m, m * m]);
+	const n = HermiteData.resolution;
+	const m = n + 1;
+	const mm = m * m;
 
+	const indexOffsets = new Uint32Array([1, m, mm]);
 	const materialIndices = data0.materialIndices;
 
 	const edge1 = new Edge();
@@ -184,13 +201,14 @@ function combineEdges(chunk, operation, data0, data1) {
 	const edgeData1 = data1.edgeData;
 	const edgeData0 = data0.edgeData;
 
-	const edgeCount = EdgeData.calculate1DEdgeCount(chunk.resolution);
-	const edgeData = new EdgeData(
-		Math.min(edgeCount, edgeData0.edges[0].length + edgeData1.edges[0].length),
-		Math.min(edgeCount, edgeData0.edges[1].length + edgeData1.edges[1].length),
-		Math.min(edgeCount, edgeData0.edges[2].length + edgeData1.edges[2].length)
-	);
 	const lengths = new Uint32Array(3);
+	const edgeCount = EdgeData.calculate1DEdgeCount(n);
+
+	const edgeData = new EdgeData(
+		Math.min(edgeCount, edgeData0.indices[0].length + edgeData1.indices[0].length),
+		Math.min(edgeCount, edgeData0.indices[1].length + edgeData1.indices[1].length),
+		Math.min(edgeCount, edgeData0.indices[2].length + edgeData1.indices[2].length)
+	);
 
 	let edges1, zeroCrossings1, normals1;
 	let edges0, zeroCrossings0, normals0;
@@ -207,9 +225,9 @@ function combineEdges(chunk, operation, data0, data1) {
 	// Process the edges along the X-axis, then Y and finally Z.
 	for(c = 0, d = 0; d < 3; c = 0, ++d) {
 
-		edges1 = edgeData1.edges[d];
-		edges0 = edgeData0.edges[d];
-		edges = edgeData.edges[d];
+		edges1 = edgeData1.indices[d];
+		edges0 = edgeData0.indices[d];
+		edges = edgeData.indices[d];
 
 		zeroCrossings1 = edgeData1.zeroCrossings[d];
 		zeroCrossings0 = edgeData0.zeroCrossings[d];
@@ -336,30 +354,29 @@ function combineEdges(chunk, operation, data0, data1) {
  * Generates edge data.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk
  * @param {DensityFunction} operation - A CSG operation.
  * @param {HermiteData} data - A target data set.
  * @param {Box3} bounds - Grid iteration limits.
  * @return {Object} The generated edge data.
  */
 
-function generateEdges(chunk, operation, data, bounds) {
+function generateEdges(operation, data, bounds) {
 
-	const s = chunk.size;
-	const n = chunk.resolution;
+	const s = cellSize;
+	const n = HermiteData.resolution;
 	const m = n + 1;
 	const mm = m * m;
 
 	const indexOffsets = new Uint32Array([1, m, mm]);
 	const materialIndices = data.materialIndices;
 
-	const base = chunk.min;
+	const base = cellPosition;
 	const offsetA = new Vector3();
 	const offsetB = new Vector3();
 	const edge = new Edge();
 
-	const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
 	const lengths = new Uint32Array(3);
+	const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
 
 	let edges, zeroCrossings, normals;
 	let indexA, indexB;
@@ -376,7 +393,7 @@ function generateEdges(chunk, operation, data, bounds) {
 		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
 		axis = pattern[a];
 
-		edges = edgeData.edges[d];
+		edges = edgeData.indices[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
 		normals = edgeData.normals[d];
 
@@ -463,22 +480,22 @@ function generateEdges(chunk, operation, data, bounds) {
  * Either generates or combines volume data based on the operation type.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - A CSG operation.
  * @param {HermiteData} data0 - A target data set. May be empty or full.
  * @param {HermiteData} [data1] - A predominant data set. Cannot be null.
  */
 
-function update(chunk, operation, data0, data1) {
+function update(operation, data0, data1) {
 
-	const bounds = computeIndexBounds(chunk, operation);
+	const bounds = computeIndexBounds(operation);
 
 	let result, edgeData, lengths, d;
 	let done = false;
 
+	// Grid points.
 	if(operation.type === OperationType.DENSITY_FUNCTION) {
 
-		generateMaterialIndices(chunk, operation, data0, bounds);
+		generateMaterialIndices(operation, data0, bounds);
 
 	} else if(data0.empty) {
 
@@ -493,17 +510,18 @@ function update(chunk, operation, data0, data1) {
 
 		if(!(data0.full && operation.type === OperationType.UNION)) {
 
-			combineMaterialIndices(chunk, operation, data0, data1, bounds);
+			combineMaterialIndices(operation, data0, data1, bounds);
 
 		}
 
 	}
 
+	// Edges.
 	if(!done && !data0.empty && !data0.full) {
 
 		result = (operation.type === OperationType.DENSITY_FUNCTION) ?
-			generateEdges(chunk, operation, data0, bounds) :
-			combineEdges(chunk, operation, data0, data1);
+			generateEdges(operation, data0, bounds) :
+			combineEdges(operation, data0, data1);
 
 		edgeData = result.edgeData;
 		lengths = result.lengths;
@@ -511,7 +529,7 @@ function update(chunk, operation, data0, data1) {
 		// Cut off empty data.
 		for(d = 0; d < 3; ++d) {
 
-			edgeData.edges[d] = edgeData.edges[d].slice(0, lengths[d]);
+			edgeData.indices[d] = edgeData.indices[d].slice(0, lengths[d]);
 			edgeData.zeroCrossings[d] = edgeData.zeroCrossings[d].slice(0, lengths[d]);
 			edgeData.normals[d] = edgeData.normals[d].slice(0, lengths[d] * 3);
 
@@ -524,15 +542,14 @@ function update(chunk, operation, data0, data1) {
 }
 
 /**
- * Executes the given operation.
+ * Executes the given operation to generate data.
  *
  * @private
- * @param {Chunk} chunk - A volume chunk.
  * @param {Operation} operation - An operation.
  * @return {HermiteData} The generated data or null if the data is empty.
  */
 
-function execute(chunk, operation) {
+function execute(operation) {
 
 	const children = operation.children;
 
@@ -545,7 +562,7 @@ function execute(chunk, operation) {
 		result = new HermiteData();
 
 		// Use the density function to generate data.
-		update(chunk, operation, result);
+		update(operation, result);
 
 	}
 
@@ -553,7 +570,7 @@ function execute(chunk, operation) {
 	for(i = 0, l = children.length; i < l; ++i) {
 
 		// Generate the full result of the child operation recursively.
-		data = execute(chunk, children[i]);
+		data = execute(children[i]);
 
 		if(result === undefined) {
 
@@ -573,7 +590,7 @@ function execute(chunk, operation) {
 			} else {
 
 				// Combine the two data sets.
-				update(chunk, operation, result, data);
+				update(operation, result, data);
 
 			}
 
@@ -605,38 +622,44 @@ function execute(chunk, operation) {
 export class ConstructiveSolidGeometry {
 
 	/**
-	 * Transforms the given chunk of hermite data in two steps:
+	 * Transforms the given Hermite data in two steps:
 	 *
 	 *  1. Generate data by executing the given SDF
-	 *  2. Combine the generated data with the chunk data
+	 *  2. Combine the generated data with the given data
 	 *
-	 * @param {Chunk} chunk - The volume chunk that should be modified.
+	 * @param {Number[]} min - The lower bounds of the volume data cell.
+	 * @param {Number} size - The size of the volume data cell.
+	 * @param {HermiteData} data - The volume data that should be modified.
 	 * @param {SignedDistanceFunction} sdf - An SDF.
+	 * @return {HermiteData} The modified data or null if the result is empty.
 	 */
 
-	static run(chunk, sdf) {
+	static run(min, size, data, sdf) {
 
-		if(chunk.data === null) {
+		cellPosition.fromArray(min);
+		cellSize = size;
+
+		if(data === null) {
 
 			if(sdf.operation === OperationType.UNION) {
 
-				chunk.data = new HermiteData();
-				chunk.data.edgeData = new EdgeData(0);
+				// Prepare an empty target.
+				data = new HermiteData(false);
 
 			}
 
 		} else {
 
-			chunk.data.decompress();
+			data.decompress();
 
 		}
 
 		// Step 1.
 		let operation = sdf.toCSG();
 
-		const data = (chunk.data !== null) ? execute(chunk, operation) : null;
+		const generatedData = (data !== null) ? execute(operation) : null;
 
-		if(data !== null) {
+		if(generatedData !== null) {
 
 			// Wrap the operation in a super operation.
 			switch(sdf.operation) {
@@ -656,26 +679,28 @@ export class ConstructiveSolidGeometry {
 			}
 
 			// Step 2.
-			update(chunk, operation, chunk.data, data);
+			update(operation, data, generatedData);
 
-			// Provoke a geometry extraction.
-			chunk.data.lod = -1;
+			// Provoke an isosurface extraction.
+			data.contoured = false;
 
 		}
 
-		if(chunk.data !== null) {
+		if(data !== null) {
 
-			if(chunk.data.empty) {
+			if(data.empty) {
 
-				chunk.data = null;
+				data = null;
 
 			} else {
 
-				chunk.data.compress();
+				data.compress();
 
 			}
 
 		}
+
+		return data;
 
 	}
 
