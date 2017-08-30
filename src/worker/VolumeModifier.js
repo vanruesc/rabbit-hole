@@ -1,68 +1,59 @@
-import { Chunk } from "../volume/octree/Chunk.js";
 import { ConstructiveSolidGeometry } from "../volume/csg/ConstructiveSolidGeometry.js";
 import { SDFReviver } from "../volume/sdf/SDFReviver.js";
-import { Action } from "./Action.js";
+import { ModificationResponse } from "./messages/ModificationResponse.js";
+import { DataProcessor } from "./DataProcessor.js";
 
 /**
- * A hermite data modifier that applies CSG operations to volume chunks.
+ * A modifier that applies CSG operations to Hermite data.
  */
 
-export class VolumeModifier {
+export class VolumeModifier extends DataProcessor {
 
 	/**
-	 * Constructs a new hermite data modifier.
+	 * Constructs a new Hermite data modifier.
 	 */
 
 	constructor() {
 
-		/**
-		 * An empty chunk of hermite data.
-		 *
-		 * @type {Chunk}
-		 */
-
-		this.chunk = new Chunk();
+		super();
 
 		/**
 		 * A container for the data that will be returned to the main thread.
 		 *
-		 * @type {Object}
-		 * @property {Action} action - The worker action.
-		 * @property {Object} chunk - A serialised volume chunk.
+		 * @type {ModificationResponse}
 		 */
 
-		this.message = {
-			action: Action.MODIFY,
-			chunk: null
-		};
-
-		/**
-		 * A list of transferable objects.
-		 *
-		 * @type {ArrayBuffer[]}
-		 */
-
-		this.transferList = null;
+		this.response = new ModificationResponse();
 
 	}
 
 	/**
-	 * Modifies the given hermite data.
+	 * Modifies the given Hermite data using the provided SDF.
 	 *
-	 * @param {Chunk} chunk - A volume chunk.
-	 * @param {Object} sdf - A serialised SDF.
+	 * @param {ModificationRequest} request - A modification request.
 	 */
 
-	modify(chunk, sdf) {
+	process(request) {
 
-		// Adopt the provided chunk data.
-		this.chunk.deserialise(chunk);
+		// Adopt the provided data.
+		const data = (request.data !== null) ? this.data.deserialize(request.data) : null;
 
 		// Revive the SDF and execute it.
-		ConstructiveSolidGeometry.run(this.chunk, SDFReviver.reviveSDF(sdf));
+		const result = ConstructiveSolidGeometry.run(
+			request.cellSize, request.cellPosition,
+			data, SDFReviver.reviveSDF(request.sdf)
+		);
 
-		this.message.chunk = this.chunk.serialise();
-		this.transferList = this.chunk.createTransferList();
+		// Send the generated data back.
+		this.response.data = null;
+		this.transferList = [];
+
+		if(result !== null) {
+
+			this.response.data = result.serialize();
+			result.createTransferList(this.transferList);
+
+		}
 
 	}
 

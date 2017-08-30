@@ -1,12 +1,12 @@
-import { DualContouring } from "../isosurface";
-import { Chunk } from "../volume/octree/Chunk.js";
-import { Action } from "./Action.js";
+import { DualContouring } from "../isosurface/dual-contouring/DualContouring.js";
+import { ExtractionResponse } from "./messages/ExtractionResponse.js";
+import { DataProcessor } from "./DataProcessor.js";
 
 /**
- * A surface extractor that generates triangles from hermite data.
+ * A surface extractor that generates a polygonal mesh from Hermite data.
  */
 
-export class SurfaceExtractor {
+export class SurfaceExtractor extends DataProcessor {
 
 	/**
 	 * Constructs a new surface extractor.
@@ -14,82 +14,50 @@ export class SurfaceExtractor {
 
 	constructor() {
 
-		/**
-		 * An empty chunk of hermite data.
-		 *
-		 * @type {Chunk}
-		 */
-
-		this.chunk = new Chunk();
+		super();
 
 		/**
 		 * A container for the data that will be returned to the main thread.
 		 *
-		 * @type {Object}
-		 * @property {Action} action - The worker action.
-		 * @property {Object} chunk - A serialised volume chunk.
-		 * @property {Float32Array} positions - Generated vertices.
-		 * @property {Float32Array} normals - Generated vertices.
-		 * @property {Uint16Array} indices - Generated indices.
+		 * @type {ExtractionResponse}
 		 */
 
-		this.message = {
-			action: Action.EXTRACT,
-			chunk: null,
-			positions: null,
-			normals: null,
-			indices: null
-		};
-
-		/**
-		 * A list of transferable objects.
-		 *
-		 * @type {ArrayBuffer[]}
-		 */
-
-		this.transferList = null;
+		this.response = new ExtractionResponse();
 
 	}
 
 	/**
-	 * Extracts a surface from the given hermite data.
+	 * Extracts a surface from the given Hermite data.
 	 *
-	 * @param {Object} chunk - A serialised volume chunk.
+	 * @param {ExtractionRequest} request - An extraction request.
 	 */
 
-	extract(chunk) {
+	process(request) {
 
-		const message = this.message;
+		// Unpack the provided volume data and generate the isosurface.
+		const data = this.data.deserialize(request.data).decompress();
+		const isosurface = DualContouring.run(request.cellPosition, request.cellSize, data);
+
+		const response = this.response;
 		const transferList = [];
 
-		// Adopt the provided chunk data.
-		this.chunk.deserialise(chunk);
-		this.chunk.data.decompress();
+		if(isosurface !== null) {
 
-		const result = DualContouring.run(this.chunk);
+			response.isosurface = isosurface;
 
-		if(result !== null) {
-
-			message.indices = result.indices;
-			message.positions = result.positions;
-			message.normals = result.normals;
-
-			transferList.push(message.indices.buffer);
-			transferList.push(message.positions.buffer);
-			transferList.push(message.normals.buffer);
+			transferList.push(isosurface.indices.buffer);
+			transferList.push(isosurface.positions.buffer);
+			transferList.push(isosurface.normals.buffer);
 
 		} else {
 
-			message.indices = null;
-			message.positions = null;
-			message.normals = null;
+			response.isosurface = null;
 
 		}
 
-		// Simply send the already compressed and serialised chunk back.
-		this.chunk.deserialise(chunk);
-		message.chunk = this.chunk.serialise();
-		this.transferList = this.chunk.createTransferList(transferList);
+		// Drop the decompressed data and send the original data back.
+		response.data = data.deserialize(request.data).serialize();
+		this.transferList = data.createTransferList(transferList);
 
 	}
 
