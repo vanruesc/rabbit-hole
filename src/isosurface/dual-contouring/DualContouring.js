@@ -1,6 +1,7 @@
 import { edges } from "sparse-octree";
 import { Material } from "../../volume/Material.js";
 import { VoxelBlock } from "../../volume/octree/VoxelBlock.js";
+import { Isosurface } from "../Isosurface.js";
 import * as tables from "./tables.js";
 
 /**
@@ -351,7 +352,7 @@ export class DualContouring {
 	 * and vertex indices.
 	 *
 	 * @param {Chunk} chunk - A chunk of volume data.
-	 * @return {Object} The generated indices, positions and normals, or null if no data was generated.
+	 * @return {Isosurface} The generated isosurface or null if no data was generated.
 	 */
 
 	static run(chunk) {
@@ -385,7 +386,7 @@ export class DualContouring {
 
 			indices = new Uint16Array(indexBuffer);
 
-			result = { indices, positions, normals };
+			result = new Isosurface(indices, positions, normals);
 
 		}
 

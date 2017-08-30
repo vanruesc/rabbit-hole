@@ -5,3 +5,4 @@
  */
 
 export { DualContouring } from "./dual-contouring/DualContouring.js";
+export { Isosurface } from "./Isosurface.js";
