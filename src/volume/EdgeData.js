@@ -1,3 +1,5 @@
+import { EdgeIterator } from "./EdgeIterator.js";
+
 /**
  * Stores edge data separately for each dimension.
  *
@@ -157,6 +159,62 @@ export class EdgeData {
 		}
 
 		return transferList;
+
+	}
+
+	/**
+	 * Returns a new edge iterator.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @return {EdgeIterator} An iterator.
+	 */
+
+	edges(cellPosition, cellSize) {
+
+		return new EdgeIterator(this, cellPosition, cellSize);
+
+	}
+
+	/**
+	 * Creates a new edge iterator that only returns edges along the the X-axis.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @return {EdgeIterator} An iterator.
+	 */
+
+	edgesX(cellPosition, cellSize) {
+
+		return new EdgeIterator(this, cellPosition, cellSize, 0, 1);
+
+	}
+
+	/**
+	 * Creates a new edge iterator that only returns edges along the the Y-axis.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @return {EdgeIterator} An iterator.
+	 */
+
+	edgesY(cellPosition, cellSize) {
+
+		return new EdgeIterator(this, cellPosition, cellSize, 1, 2);
+
+	}
+
+	/**
+	 * Creates a new edge iterator that only returns edges along the the Z-axis.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @return {EdgeIterator} An iterator.
+	 */
+
+	edgesZ(cellPosition, cellSize) {
+
+		return new EdgeIterator(this, cellPosition, cellSize, 2, 3);
 
 	}
 

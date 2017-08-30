@@ -45,6 +45,7 @@ export {
 export {
 	Edge,
 	EdgeData,
+	EdgeIterator,
 	HermiteData,
 	Material,
 	Voxel,
