@@ -4,6 +4,8 @@ import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a plane.
+ *
+ * @implements {Serializable}
  */
 
 export class Plane extends SignedDistanceFunction {
@@ -75,7 +77,7 @@ export class Plane extends SignedDistanceFunction {
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = super.serialise();
 

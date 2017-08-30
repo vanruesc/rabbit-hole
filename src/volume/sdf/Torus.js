@@ -4,6 +4,8 @@ import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a torus.
+ *
+ * @implements {Serializable}
  */
 
 export class Torus extends SignedDistanceFunction {
@@ -96,7 +98,7 @@ export class Torus extends SignedDistanceFunction {
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = super.serialise();
 

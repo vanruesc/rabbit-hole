@@ -4,6 +4,8 @@ import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a heightfield.
+ *
+ * @implements {Serializable}
  */
 
 export class Heightfield extends SignedDistanceFunction {
@@ -95,7 +97,7 @@ export class Heightfield extends SignedDistanceFunction {
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = super.serialise();
 

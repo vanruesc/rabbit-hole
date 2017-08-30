@@ -22,11 +22,11 @@ export class TransferableContainer {
 	 * instances of classes like `ArrayBuffer`, `MessagePort` or `ImageBitmap`.
 	 *
 	 * @throws {Error} An error is thrown if the method is not overridden.
-	 * @param {Array} [transferList] - An existing list that the transferable items should be added to.
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
 	 * @return {Transferable[]} The transfer list. Null is not an acceptable value for the transferList.
 	 */
 
-	createTransferList(transferList) {
+	createTransferList(transferList = []) {
 
 		throw new Error("TransferableContainer#createTransferList method not implemented!");
 

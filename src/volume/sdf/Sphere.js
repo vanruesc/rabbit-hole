@@ -4,6 +4,8 @@ import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a sphere.
+ *
+ * @implements {Serializable}
  */
 
 export class Sphere extends SignedDistanceFunction {
@@ -85,7 +87,7 @@ export class Sphere extends SignedDistanceFunction {
 	 * @return {Object} A concise representation of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = super.serialise();
 

@@ -4,6 +4,8 @@ import { SDFType } from "./SDFType.js";
 
 /**
  * A Signed Distance Function that describes a box.
+ *
+ * @implements {Serializable}
  */
 
 export class Box extends SignedDistanceFunction {
@@ -93,7 +95,7 @@ export class Box extends SignedDistanceFunction {
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = super.serialise();
 

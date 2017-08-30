@@ -24,6 +24,10 @@ let indexCount = 0;
 
 /**
  * Hermite data.
+ *
+ * @implements {Serializable}
+ * @implements {Deserializable}
+ * @implements {TransferableContainer}
  */
 
 export class HermiteData {
@@ -248,10 +252,10 @@ export class HermiteData {
 	/**
 	 * Serialises this data.
 	 *
-	 * @return {Object} The serialised version of the data.
+	 * @return {Object} The serialised data.
 	 */
 
-	serialise() {
+	serialize() {
 
 		this.neutered = true;
 
@@ -260,7 +264,7 @@ export class HermiteData {
 			materials: this.materials,
 			materialIndices: this.materialIndices,
 			runLengths: this.runLengths,
-			edgeData: (this.edgeData !== null) ? this.edgeData.serialise() : null
+			edgeData: (this.edgeData !== null) ? this.edgeData.serialize() : null
 		};
 
 	}
@@ -268,41 +272,54 @@ export class HermiteData {
 	/**
 	 * Adopts the given serialised data.
 	 *
-	 * @param {Object} object - Serialised hermite data.
+	 * @param {Object} object - Serialised Hermite data. Can be null.
+	 * @return {Deserializable} This object or null if the given serialised data was null. 
 	 */
 
-	deserialise(object) {
+	deserialize(object) {
 
-		this.lod = object.lod;
-		this.materials = object.materials;
+		let result = this;
 
-		this.materialIndices = object.materialIndices;
-		this.runLengths = object.runLengths;
+		if(object !== null) {
 
-		if(object.edgeData !== null) {
+			this.lod = object.lod;
+			this.materials = object.materials;
 
-			if(this.edgeData === null) {
+			this.materialIndices = object.materialIndices;
+			this.runLengths = object.runLengths;
 
-				this.edgeData = new EdgeData(0);
+			if(object.edgeData !== null) {
+
+				if(this.edgeData === null) {
+
+					this.edgeData = new EdgeData(0);
+
+				}
+
+				this.edgeData.deserialize(object.edgeData);
+
+			} else {
+
+				this.edgeData = null;
 
 			}
 
-			this.edgeData.deserialise(object.edgeData);
+			this.neutered = false;
 
 		} else {
 
-			this.edgeData = null;
+			result = null;
 
 		}
 
-		this.neutered = false;
+		return result;
 
 	}
 
 	/**
 	 * Creates a list of transferable items.
 	 *
-	 * @param {Array} [transferList] - An existing list that the transferable items should be added to.
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
 	 * @return {Transferable[]} The transfer list.
 	 */
 

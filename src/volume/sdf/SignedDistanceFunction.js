@@ -12,6 +12,8 @@ import { Material } from "../Material.js";
  * effectively describing its density at every point in 3D space. It yields
  * negative values for points that lie inside the volume and positive values
  * for points outside. The value is zero at the exact boundary of the object.
+ *
+ * @implements {Serializable}
  */
 
 export class SignedDistanceFunction {
@@ -165,7 +167,7 @@ export class SignedDistanceFunction {
 	 * @return {Object} A serialised description of this SDF.
 	 */
 
-	serialise() {
+	serialize() {
 
 		const result = {
 			type: this.type,
@@ -181,7 +183,7 @@ export class SignedDistanceFunction {
 
 		for(i = 0, l = children.length; i < l; ++i) {
 
-			result.children.push(children[i].serialise());
+			result.children.push(children[i].serialize());
 
 		}
 

@@ -4,6 +4,10 @@
  * With a grid resolution N, there are `3 * (N + 1)² * N` edges in total, but
  * the number of edges that actually contain the volume's surface is usually
  * much lower.
+ *
+ * @implements {Serializable}
+ * @implements {Deserializable}
+ * @implements {TransferableContainer}
  */
 
 export class EdgeData {
@@ -70,10 +74,53 @@ export class EdgeData {
 	}
 
 	/**
+	 * Serialises this data.
+	 *
+	 * @return {Object} The serialised data.
+	 */
+
+	serialize() {
+
+		return {
+			edges: this.edges,
+			zeroCrossings: this.zeroCrossings,
+			normals: this.normals
+		};
+
+	}
+
+	/**
+	 * Adopts the given serialised data.
+	 *
+	 * @param {Object} object - Serialised edge data. Can be null.
+	 * @return {Deserializable} This object or null if the given serialised data was null. 
+	 */
+
+	deserialize(object) {
+
+		let result = this;
+
+		if(object !== null) {
+
+			this.edges = object.edges;
+			this.zeroCrossings = object.zeroCrossings;
+			this.normals = object.normals;
+
+		} else {
+
+			result = null;
+
+		}
+
+		return result;
+
+	}
+
+	/**
 	 * Creates a list of transferable items.
 	 *
-	 * @param {Array} [transferList] - An existing list to be filled with transferable items.
-	 * @return {Array} A transfer list.
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
 	 */
 
 	createTransferList(transferList = []) {
@@ -95,10 +142,11 @@ export class EdgeData {
 		];
 
 		let array;
+		let i, l;
 
-		while(arrays.length > 0) {
+		for(i = 0, l = arrays.length; i < l; ++i) {
 
-			array = arrays.pop();
+			array = arrays[i];
 
 			if(array !== null) {
 
@@ -109,36 +157,6 @@ export class EdgeData {
 		}
 
 		return transferList;
-
-	}
-
-	/**
-	 * Serialises this data.
-	 *
-	 * @return {Object} The serialised version of the data.
-	 */
-
-	serialise() {
-
-		return {
-			edges: this.edges,
-			zeroCrossings: this.zeroCrossings,
-			normals: this.normals
-		};
-
-	}
-
-	/**
-	 * Adopts the given serialised data.
-	 *
-	 * @param {Object} object - Serialised edge data.
-	 */
-
-	deserialise(object) {
-
-		this.edges = object.edges;
-		this.zeroCrossings = object.zeroCrossings;
-		this.normals = object.normals;
 
 	}
 
