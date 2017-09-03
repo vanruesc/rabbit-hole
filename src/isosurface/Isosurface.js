@@ -15,7 +15,7 @@ export class Isosurface {
 	constructor(indices, positions, normals) {
 
 		/**
-		 * A set of vertex indices that describes triangles.
+		 * A set of vertex indices that describe triangles.
 		 *
 		 * @type {Uint16Array}
 		 * @default null
