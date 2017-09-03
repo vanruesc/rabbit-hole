@@ -164,6 +164,22 @@ export class WorldOctree {
 	}
 
 	/**
+	 * Removed all octants.
+	 */
+
+	clear() {
+
+		let i, l;
+
+		for(i = 0, l = this.grids.length; i < l; ++i) {
+
+			this.grids[i].clear();
+
+		}
+
+	}
+
+	/**
 	 * Checks if the given point lies inside this octree's boundaries.
 	 *
 	 * @param {Vector3} point - A point.
