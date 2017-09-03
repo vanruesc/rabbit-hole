@@ -84,7 +84,7 @@ self.addEventListener("error", function onError(event) {
 
 	if(data !== null) {
 
-		response.data = data.serialize();
+		response.data = data.compress().serialize();
 		data.createTransferList(transferList);
 
 	}
