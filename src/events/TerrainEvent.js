@@ -25,6 +25,15 @@ export class TerrainEvent extends Event {
 
 		this.chunk = null;
 
+		/**
+		 * An error event.
+		 *
+		 * @type {ErrorEvent}
+		 * @default null
+		 */
+
+		this.error = null;
+
 	}
 
 }
