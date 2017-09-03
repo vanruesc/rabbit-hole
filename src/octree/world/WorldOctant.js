@@ -2,7 +2,7 @@
  * A world octant.
  *
  * This octant is a volume data container. Its position is implicitly defined
- * by its key and its size is defined by the LOD grid in which it resides.
+ * by its key while its size is defined by the LOD grid in which it resides.
  */
 
 export class WorldOctant {
