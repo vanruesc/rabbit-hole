@@ -88,7 +88,7 @@ export class WorldOctree {
 	}
 
 	/**
-	 * The amount of detail levels. 
+	 * The amount of detail levels. This value can not be changed.
 	 *
 	 * @type {Number}
 	 */
