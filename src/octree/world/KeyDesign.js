@@ -76,7 +76,7 @@ export class KeyDesign {
 
 		if(x + y + z > BITS) {
 
-			console.error("Invalid bit allotment");
+			console.warn("Invalid bit allotment");
 
 			x = Math.round(BITS * 0.4);
 			y = Math.round(BITS * 0.2);
