@@ -177,7 +177,7 @@ export class EdgeData {
 	}
 
 	/**
-	 * Creates a new edge iterator that only returns edges along the the X-axis.
+	 * Creates a new edge iterator that only returns edges along the X-axis.
 	 *
 	 * @param {Vector3} cellPosition - The position of the volume data cell.
 	 * @param {Number} cellSize - The size of the volume data cell.
@@ -191,7 +191,7 @@ export class EdgeData {
 	}
 
 	/**
-	 * Creates a new edge iterator that only returns edges along the the Y-axis.
+	 * Creates a new edge iterator that only returns edges along the Y-axis.
 	 *
 	 * @param {Vector3} cellPosition - The position of the volume data cell.
 	 * @param {Number} cellSize - The size of the volume data cell.
@@ -205,7 +205,7 @@ export class EdgeData {
 	}
 
 	/**
-	 * Creates a new edge iterator that only returns edges along the the Z-axis.
+	 * Creates a new edge iterator that only returns edges along the Z-axis.
 	 *
 	 * @param {Vector3} cellPosition - The position of the volume data cell.
 	 * @param {Number} cellSize - The size of the volume data cell.

@@ -13,7 +13,7 @@ export class DataProcessor {
 	constructor() {
 
 		/**
-		 * An empty set of Hermite data. Serves as a tool for the deserialization of
+		 * An empty set of Hermite data. Serves as a deserialization target for
 		 * volume data received from the main thread.
 		 *
 		 * @type {HermiteData}

@@ -110,12 +110,13 @@ export class EdgeIterator {
 		 * The axes of the existing edges.
 		 *
 		 * @type {Uint8Array[]}
+		 * @private
 		 */
 
 		this.axes = null;
 
 		/**
-		 * The amount of edges in each dimensions.
+		 * The amount of edges for each internal set of edges (X -> Y -> Z).
 		 *
 		 * @type {Number[]}
 		 */

@@ -205,7 +205,7 @@ export class HermiteData {
 			// Note: empty sets won't be compressed. They can be discarded.
 			if(this.full) {
 
-				// This deliberately destroys material variations!
+				// This deliberately destroys material variations to save space!
 				encoding = new RunLengthEncoding(
 					[this.materialIndices.length],
 					[Material.SOLID]
