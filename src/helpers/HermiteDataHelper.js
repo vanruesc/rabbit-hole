@@ -276,9 +276,12 @@ export class HermiteDataHelper extends Object3D {
 			edgeColor = axisColors[d];
 			edges = edgeIterators[d];
 
+			// Are there any edges for this dimension?
 			if(edges.lengths.length > 0) {
 
+				// There can only be one lengths entry per iterator.
 				vertexCount = edges.lengths[0] * 2;
+
 				edgePositions = new Float32Array(vertexCount * 3);
 				edgeColors = new Float32Array(vertexCount * 3);
 				normalPositions = new Float32Array(vertexCount * 3);
