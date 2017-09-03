@@ -59,6 +59,16 @@ export class ThreadPool extends EventTarget {
 
 		this.busyWorkers = new WeakSet();
 
+		/**
+		 * A configuration request.
+		 *
+		 * This object will be sent to each newly created worker.
+		 *
+		 * @type {ConfigurationRequest}
+		 */
+
+		this.configurationRequest = new ConfigurationRequest();
+
 	}
 
 	/**
@@ -134,6 +144,8 @@ export class ThreadPool extends EventTarget {
 
 		worker.addEventListener("message", this);
 		worker.addEventListener("error", this);
+
+		worker.postMessage(this.configurationRequest);
 
 		return worker;
 
