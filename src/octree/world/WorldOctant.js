@@ -34,6 +34,15 @@ export class WorldOctant {
 
 		this.csg = null;
 
+		/**
+		 * An isosurface mesh.
+		 *
+		 * @type {Mesh}
+		 * @default null
+		 */
+
+		this.mesh = null;
+
 	}
 
 }
