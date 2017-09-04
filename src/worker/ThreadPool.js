@@ -1,5 +1,5 @@
 import { EventTarget } from "synthetic-event";
-import { Request } from "./messages/Request.js";
+import { ConfigurationRequest, Request } from "./messages";
 import { Action } from "./Action.js";
 import * as events from "./thread-pool-events.js";
 
