@@ -6,6 +6,7 @@ import { BinaryUtils } from "../../utils/BinaryUtils.js";
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const DWORD_BITS = 32;
@@ -15,6 +16,7 @@ const DWORD_BITS = 32;
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const RANGE_DWORD = Math.pow(2, DWORD_BITS);
@@ -24,6 +26,7 @@ const RANGE_DWORD = Math.pow(2, DWORD_BITS);
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const BITS = 53;
@@ -36,6 +39,7 @@ const BITS = 53;
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const HI_BITS = 21;
@@ -48,6 +52,7 @@ const HI_BITS = 21;
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const LO_BITS = 32;
@@ -109,7 +114,7 @@ export class KeyDesign {
 		this.z = z;
 
 		/**
-		 * The amount of different integer values that can be represented with X.
+		 * The amount of distinct integers that can be represented with X bits.
 		 *
 		 * @type {Number}
 		 */
@@ -117,7 +122,7 @@ export class KeyDesign {
 		this.rangeX = Math.pow(2, this.x);
 
 		/**
-		 * The amount of different integer values that can be represented with Y.
+		 * The amount of distinct integers that can be represented with Y bits.
 		 *
 		 * @type {Number}
 		 */
@@ -125,7 +130,7 @@ export class KeyDesign {
 		this.rangeY = Math.pow(2, this.y);
 
 		/**
-		 * The amount of different integer values that can be represented with Z.
+		 * The amount of distinct integers that can be represented with Z bits.
 		 *
 		 * @type {Number}
 		 */
@@ -133,7 +138,7 @@ export class KeyDesign {
 		this.rangeZ = Math.pow(2, this.z);
 
 		/**
-		 * The amount of different integer values that can be represented with X+Y.
+		 * The amount of distinct integers that can be represented with X + Y bits.
 		 *
 		 * @type {Number}
 		 * @private
@@ -186,6 +191,8 @@ export class KeyDesign {
 
 	/**
 	 * Creates bit masks for the extraction of coordinates from keys.
+	 *
+	 * @private
 	 */
 
 	updateBitMasks() {
@@ -296,6 +303,7 @@ export class KeyDesign {
 	 * For more information see: http://2ality.com/2012/04/number-encoding.html
 	 *
 	 * @type {Number}
+	 * @final
 	 */
 
 	static get BITS() { return BITS; }
@@ -307,6 +315,7 @@ export class KeyDesign {
 	 * All 53bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
+	 * @final
 	 */
 
 	static get HI_BITS() { return HI_BITS; }
@@ -318,6 +327,7 @@ export class KeyDesign {
 	 * All 53bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
+	 * @final
 	 */
 
 	static get LO_BITS() { return LO_BITS; }
