@@ -79,23 +79,13 @@ export class KeyDesign {
 
 	constructor(x = Math.round(BITS * 0.4), y = Math.round(BITS * 0.2), z = x) {
 
-		if(x + y + z > BITS) {
-
-			console.warn("Invalid bit allotment");
-
-			x = Math.round(BITS * 0.4);
-			y = Math.round(BITS * 0.2);
-			z = x;
-
-		}
-
 		/**
 		 * The amount of bits reserved for the X-coordinate.
 		 *
 		 * @type {Number}
 		 */
 
-		this.x = x;
+		this.x = 0;
 
 		/**
 		 * The amount of bits reserved for the Y-coordinate.
@@ -103,7 +93,7 @@ export class KeyDesign {
 		 * @type {Number}
 		 */
 
-		this.y = y;
+		this.y = 0;
 
 		/**
 		 * The amount of bits reserved for the Z-coordinate.
@@ -111,7 +101,7 @@ export class KeyDesign {
 		 * @type {Number}
 		 */
 
-		this.z = z;
+		this.z = 0;
 
 		/**
 		 * The amount of distinct integers that can be represented with X bits.
@@ -119,7 +109,7 @@ export class KeyDesign {
 		 * @type {Number}
 		 */
 
-		this.rangeX = Math.pow(2, this.x);
+		this.rangeX = 0;
 
 		/**
 		 * The amount of distinct integers that can be represented with Y bits.
@@ -127,7 +117,7 @@ export class KeyDesign {
 		 * @type {Number}
 		 */
 
-		this.rangeY = Math.pow(2, this.y);
+		this.rangeY = 0;
 
 		/**
 		 * The amount of distinct integers that can be represented with Z bits.
@@ -135,7 +125,7 @@ export class KeyDesign {
 		 * @type {Number}
 		 */
 
-		this.rangeZ = Math.pow(2, this.z);
+		this.rangeZ = 0;
 
 		/**
 		 * The amount of distinct integers that can be represented with X + Y bits.
@@ -144,7 +134,7 @@ export class KeyDesign {
 		 * @private
 		 */
 
-		this.rangeXY = Math.pow(2, this.x + this.y);
+		this.rangeXY = 0;
 
 		/**
 		 * The key range divided by two. 
@@ -152,11 +142,7 @@ export class KeyDesign {
 		 * @type {Vector3}
 		 */
 
-		this.halfRange = new Vector3(
-			this.rangeX / 2,
-			this.rangeY / 2,
-			this.rangeZ / 2
-		);
+		this.halfRange = null;
 
 		/**
 		 * A bit mask for the X-coordinate. The first item holds the low bits while
@@ -184,6 +170,48 @@ export class KeyDesign {
 		 */
 
 		this.maskZ = [0, 0];
+
+		this.set(x, y, z);
+
+	}
+
+	/**
+	 * Sets the bit distribution.
+	 *
+	 * Make sure to clear your octree after changing the key design!
+	 *
+	 * @param {Number} [x] - The amount of bits used for the X-coordinate.
+	 * @param {Number} [y] - The amount of bits used for the Y-coordinate.
+	 * @param {Number} [z] - The amount of bits used for the Z-coordinate.
+	 */
+
+	set(x, y, z) {
+
+		if(x + y + z > BITS) {
+
+			console.warn("Invalid bit allotment");
+
+			x = Math.round(BITS * 0.4);
+			y = Math.round(BITS * 0.2);
+			z = x;
+
+		}
+
+		this.x = x;
+		this.y = y;
+		this.z = z;
+
+		this.rangeX = Math.pow(2, this.x);
+		this.rangeY = Math.pow(2, this.y);
+		this.rangeZ = Math.pow(2, this.z);
+
+		this.rangeXY = Math.pow(2, this.x + this.y);
+
+		this.halfRange = new Vector3(
+			this.rangeX / 2,
+			this.rangeY / 2,
+			this.rangeZ / 2
+		);
 
 		this.updateBitMasks();
 
