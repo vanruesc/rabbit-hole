@@ -114,6 +114,21 @@ export class SignedDistanceFunction {
 	}
 
 	/**
+	 * Sets the CSG operation type of this SDF.
+	 *
+	 * @param {OperationType} operation - The CSG operation type.
+	 * @return {SignedDistanceFunction} This SDF.
+	 */
+
+	setOperationType(operation) {
+
+		this.operation = operation;
+
+		return this;
+
+	}
+
+	/**
 	 * Adds the given SDF to this one.
 	 *
 	 * @param {SignedDistanceFunction} sdf - An SDF.
