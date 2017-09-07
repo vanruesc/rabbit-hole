@@ -24,6 +24,15 @@ export class ConfigurationRequest extends Request {
 
 		this.resolution = 0;
 
+		/**
+		 * An error threshold for QEF-based mesh simplification.
+		 *
+		 * @type {Number}
+		 * @default 1e-2
+		 */
+
+		this.errorThreshold = 1e-2;
+
 	}
 
 }

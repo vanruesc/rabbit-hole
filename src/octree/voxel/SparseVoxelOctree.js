@@ -99,7 +99,6 @@ export class SparseVoxelOctree extends Octree {
 		 */
 
 		this.root = new VoxelCell(new Vector3(...min), size);
-		// this.root.lod = data.lod;
 
 		/**
 		 * The amount of voxels in this octree.

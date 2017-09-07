@@ -1,4 +1,5 @@
 import { HermiteData } from "../volume/HermiteData.js";
+import { VoxelCell } from "../octree/voxel/VoxelCell.js";
 import { Response } from "./messages/Response.js";
 import { SurfaceExtractor } from "./SurfaceExtractor.js";
 import { VolumeModifier } from "./VolumeModifier.js";
@@ -52,6 +53,7 @@ self.addEventListener("message", function onMessage(event) {
 
 		case Action.CONFIGURE:
 			HermiteData.resolution = request.resolution;
+			VoxelCell.errorThreshold = request.errorThreshold;
 			break;
 
 		case Action.CLOSE:

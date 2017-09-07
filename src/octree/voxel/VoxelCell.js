@@ -23,13 +23,13 @@ const qefSolver = new QEFSolver();
 const BIAS = 1e-6;
 
 /**
- * A QEF error threshold for voxel clustering.
+ * An error threshold for QEF-based voxel clustering.
  *
  * @type {Number}
  * @private
  */
 
-let errorThreshold = 1e-2;
+let errorThreshold = -1;
 
 /**
  * A voxel octant.
@@ -56,26 +56,6 @@ export class VoxelCell extends CubicOctant {
 		 */
 
 		this.voxel = null;
-
-	}
-
-	/**
-	 * The mesh simplification error threshold.
-	 *
-	 * @type {Number}
-	 */
-
-	get errorThreshold() { return errorThreshold; }
-
-	/**
-	 * The error threshold controls the mesh simplification.
-	 *
-	 * @type {Number}
-	 */
-
-	set errorThreshold(x) {
-
-		errorThreshold = x;
 
 	}
 
@@ -205,5 +185,26 @@ export class VoxelCell extends CubicOctant {
 		return removedVoxels;
 
 	}
+
+	/**
+	 * An error threshold for QEF-based voxel clustering (mesh simplification).
+	 *
+	 * @type {Number}
+	 */
+
+	static get errorThreshold() { return errorThreshold; }
+
+	/**
+	 * The mesh simplification error threshold.
+	 *
+	 * A bigger threshold allows more voxel cells to collapse which results in
+	 * less vertices being created.
+	 *
+	 * An error threshold of -1 disables the mesh simplification.
+	 *
+	 * @type {Number}
+	 */
+
+	static set errorThreshold(x) { errorThreshold = x; }
 
 }
