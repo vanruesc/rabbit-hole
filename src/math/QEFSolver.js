@@ -113,7 +113,7 @@ export class QEFSolver {
 	 * Solves the Quadratic Error Function.
 	 *
 	 * @param {Vector3} x - A target vector to store the vertex position in.
-	 * @return {Number} The error of the solution.
+	 * @return {Number} The quadratic error of the solution.
 	 */
 
 	solve(x) {

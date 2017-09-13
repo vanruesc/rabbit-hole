@@ -277,9 +277,9 @@ export class SingularValueDecomposition {
 	/**
 	 * Performs the Singular Value Decomposition to solve the given linear system.
 	 *
-	 * @param {SymmetricMatrix3} ata - A symmetric matrix.
-	 * @param {Vector3} atb - A vector.
-	 * @param {Vector3} x - The target vector.
+	 * @param {SymmetricMatrix3} ata - ATA. Will not be modified.
+	 * @param {Vector3} atb - ATb. Will not be modified.
+	 * @param {Vector3} x - A target vector to store the result in.
 	 */
 
 	static solve(ata, atb, x) {
