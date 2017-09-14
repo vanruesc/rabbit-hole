@@ -163,7 +163,7 @@ export class WorldOctree {
 	}
 
 	/**
-	 * Removed all octants.
+	 * Removes all octants.
 	 */
 
 	clear() {
