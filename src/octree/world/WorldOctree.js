@@ -1,5 +1,6 @@
 import { Vector3 } from "math-ds";
 import { KeyDesign } from "./KeyDesign.js";
+import { WorldOctantIterator } from "./WorldOctantIterator.js";
 
 /**
  * A point.
@@ -211,7 +212,7 @@ export class WorldOctree {
 
 	findOctantsByLevel(level) {
 
-		return this.grids[level];
+		return this.octants(level);
 
 	}
 
@@ -324,14 +325,18 @@ export class WorldOctree {
 	}
 
 	/**
-	 * Creates an iterator that returns the LOD zero octants.
+	 * Returns a new world octant iterator.
 	 *
-	 * @return {WorldOctreeIterator} An iterator.
+	 * The octants returned by this iterator are augmented with explicit
+	 * positional information. See {@link WorldOctantWrapper} for more details.
+	 *
+	 * @param {Number} [lod=0] - The LOD grid to consider.
+	 * @return {WorldOctantIterator} An iterator.
 	 */
 
-	[Symbol.iterator]() {
+	octants(lod = 0) {
 
-		return null;
+		return new WorldOctantIterator(this, lod);
 
 	}
 

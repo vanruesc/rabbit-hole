@@ -75,5 +75,7 @@ export {
 	KeyDesign,
 	KeyIterator,
 	WorldOctant,
+	WorldOctantIterator,
+	WorldOctantWrapper,
 	WorldOctree
 } from "./octree";
