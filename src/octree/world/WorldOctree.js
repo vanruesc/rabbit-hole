@@ -307,22 +307,6 @@ export class WorldOctree {
 	}
 
 	/**
-	 * Creates an iterator that returns the LOD zero octants.
-	 *
-	 * When a cull region is provided, the iterator will only return octants that
-	 * intersect with that region.
-	 *
-	 * @param {Frustum|Box3} [region] - A cull region.
-	 * @return {WorldOctreeIterator} An iterator.
-	 */
-
-	cull(region) {
-
-		return null;
-
-	}
-
-	/**
 	 * Returns a new world octant iterator.
 	 *
 	 * The octants returned by this iterator are augmented with explicit
