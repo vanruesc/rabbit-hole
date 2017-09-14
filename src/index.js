@@ -73,6 +73,7 @@ export {
 	IntermediateWorldOctant,
 	LeafWorldOctant,
 	KeyDesign,
+	KeyIterator,
 	WorldOctant,
 	WorldOctree
 } from "./octree";

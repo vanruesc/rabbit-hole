@@ -1,5 +1,6 @@
 import { Vector3 } from "math-ds";
 import { BinaryUtils } from "../../utils/BinaryUtils.js";
+import { KeyIterator } from "./KeyIterator.js";
 
 /**
  * The amount of bits of a DWord.
@@ -286,6 +287,20 @@ export class KeyDesign {
 	packKey(position) {
 
 		return position.z * this.rangeXY + position.y * this.rangeX + position.x;
+
+	}
+
+	/**
+	 * Returns a new key range iterator.
+	 *
+	 * @param {Vector3} min - The lower key index bounds.
+	 * @param {Vector3} min - The upper key index bounds.
+	 * @return {KeyIterator} An iterator.
+	 */
+
+	keyRange(min, max) {
+
+		return new KeyIterator(this, min, max);
 
 	}
 

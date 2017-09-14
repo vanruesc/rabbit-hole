@@ -13,6 +13,7 @@ export {
 	IntermediateWorldOctant,
 	LeafWorldOctant,
 	KeyDesign,
-	WorldOctree,
-	WorldOctant
+	KeyIterator,
+	WorldOctant,
+	WorldOctree
 } from "./world";

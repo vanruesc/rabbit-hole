@@ -8,5 +8,7 @@ export { IntermediateWorldOctant } from "./IntermediateWorldOctant.js";
 export { LeafWorldOctant } from "./LeafWorldOctant.js";
 
 export { KeyDesign } from "./KeyDesign.js";
+export { KeyIterator } from "./KeyIterator.js";
+
 export { WorldOctant } from "./WorldOctant.js";
 export { WorldOctree } from "./WorldOctree.js";
