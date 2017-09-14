@@ -153,7 +153,7 @@ export class VoxelCell extends CubicOctant {
 
 						if(sign === -1) {
 
-							// Underdetermined, use mid sign instead.
+							// Undetermined, use mid sign instead.
 							voxel.materials |= (midSign << i);
 
 						} else {
