@@ -352,11 +352,11 @@ export class HermiteData {
 	 * @type {Number}
 	 */
 
-	static set resolution(x) {
+	static set resolution(value) {
 
 		if(resolution === 0) {
 
-			resolution = Math.max(1, Math.min(256, x));
+			resolution = Math.max(1, Math.min(256, value));
 			indexCount = Math.pow((resolution + 1), 3);
 
 		}

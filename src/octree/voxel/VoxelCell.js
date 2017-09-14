@@ -205,6 +205,6 @@ export class VoxelCell extends CubicOctant {
 	 * @type {Number}
 	 */
 
-	static set errorThreshold(x) { errorThreshold = x; }
+	static set errorThreshold(value) { errorThreshold = value; }
 
 }
