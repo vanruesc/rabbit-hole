@@ -68,4 +68,4 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Contributing
 
-Maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+Please refer to the [contribution guidelines](https://github.com/vanruesc/rabbit-hole/blob/master/CONTRIBUTING.md).
