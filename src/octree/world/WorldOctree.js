@@ -185,7 +185,7 @@ export class WorldOctree {
 	 * @return {Boolean} Whether the given point lies inside this octree.
 	 */
 
-	contains(point) {
+	containsPoint(point) {
 
 		const min = this.min;
 		const max = this.max;
