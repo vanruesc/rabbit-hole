@@ -18,8 +18,6 @@ const p = new Vector3();
  * allows direct access to different LOD layers, octant neighbors and parents.
  *
  * The world octree is axis-aligned and can't be rotated.
- *
- * @implements {Iterable}
  */
 
 export class WorldOctree {
