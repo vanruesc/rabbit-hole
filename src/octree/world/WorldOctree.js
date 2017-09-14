@@ -215,42 +215,14 @@ export class WorldOctree {
 	}
 
 	/**
-	 * Retrieves the octant of the specified LOD that contains the given point.
-	 *
-	 * @param {Number} key - An octant key.
-	 * @param {Number} [lod=0] - A LOD value.
-	 * @return {WorldOctant} The requested octant or undefined if it doesn't exist.
-	 */
-
-	getOctant(key, lod = 0) {
-
-		const grid = this.getGrid(lod);
-
-		let result;
-
-		if(grid !== undefined) {
-
-			result = grid.get(key);
-
-		} else {
-
-			console.error("Invalid LOD", lod);
-
-		}
-
-		return result;
-
-	}
-
-	/**
-	 * Retrieves the octant of the specified LOD that contains the given point.
+	 * Retrieves the octant of a specific LOD that contains the given point.
 	 *
 	 * @param {Vector3} point - A point.
 	 * @param {Number} [lod=0] - A LOD value.
 	 * @return {WorldOctant} The octant that contains the point or undefined if it doesn't exist.
 	 */
 
-	getOctantXXX(point, lod = 0) {
+	getOctantByPoint(point, lod = 0) {
 
 		const keyDesign = this.keyDesign;
 		const cellSize = this.cellSize;
@@ -260,20 +232,19 @@ export class WorldOctree {
 
 		if(grid !== undefined) {
 
-			if(this.contains(point)) {
+			if(this.containsPoint(point)) {
 
-				// Translate to unsigned integer coordinates.
-				p.set(
+				// Translate to zero-based unsigned coordinates.
+				a.copy(point).sub(this.min);
 
-					Math.trunc(point.x / cellSize),
-					Math.trunc(point.y / cellSize),
-					Math.trunc(point.z / cellSize)
+				// Calculate integer coordinates.
+				b.set(
+					Math.trunc(a.x / cellSize),
+					Math.trunc(a.y / cellSize),
+					Math.trunc(a.z / cellSize)
+				);
 
-				).sub(this.min);
-
-				// create Octant if not exist
-
-				result = grid.get(keyDesign.packKey(p));
+				result = grid.get(keyDesign.packKey(b));
 
 			} else {
 
