@@ -70,6 +70,8 @@ export {
 export {
 	SparseVoxelOctree,
 	VoxelCell,
+	IntermediateWorldOctant,
+	LeafWorldOctant,
 	KeyDesign,
 	WorldOctant,
 	WorldOctree

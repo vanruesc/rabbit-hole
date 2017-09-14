@@ -10,6 +10,8 @@ export {
 } from "./voxel";
 
 export {
+	IntermediateWorldOctant,
+	LeafWorldOctant,
 	KeyDesign,
 	WorldOctree,
 	WorldOctant

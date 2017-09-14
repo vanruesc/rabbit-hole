@@ -23,19 +23,7 @@ export class WorldOctant {
 		this.data = null;
 
 		/**
-		 * A CSG operation queue.
-		 *
-		 * If this queue is not empty, the volume data has to be modified before it
-		 * can be contoured.
-		 *
-		 * @type {Queue}
-		 * @default null
-		 */
-
-		this.csg = null;
-
-		/**
-		 * An isosurface mesh.
+		 * A generated isosurface mesh.
 		 *
 		 * @type {Mesh}
 		 * @default null
