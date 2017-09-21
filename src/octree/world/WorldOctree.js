@@ -253,6 +253,32 @@ export class WorldOctree {
 	}
 
 	/**
+	 * Calculates key coordinates based on a given position and LOD.
+	 *
+	 * @param {Vector3} position - A position.
+	 * @param {Number} lod - The target LOD.
+	 * @param {Vector3} [target] - A vector to store the result in. If none is provided, a new one will be created.
+	 * @return {Vector3} The key coordinates.
+	 */
+
+	calculateKeyCoordinates(position, lod, target = new Vector3()) {
+
+		const cellSize = this.cellSize << lod;
+
+		// Translate to the origin (zero-based unsigned coordinates).
+		v.subVectors(position, this.min);
+
+		target.set(
+			Math.trunc(v.x / cellSize),
+			Math.trunc(v.y / cellSize),
+			Math.trunc(v.z / cellSize)
+		);
+
+		return target;
+
+	}
+
+	/**
 	 * Retrieves the octant of a specific LOD that contains the given point.
 	 *
 	 * @param {Vector3} point - A point.
@@ -297,32 +323,6 @@ export class WorldOctree {
 		}
 
 		return result;
-
-	}
-
-	/**
-	 * Calculates key coordinates based on a given position and LOD.
-	 *
-	 * @param {Vector3} position - A position.
-	 * @param {Number} lod - The target LOD.
-	 * @param {Vector3} [target] - A vector to store the result in. If none is provided, a new one will be created.
-	 * @return {Vector3} The key coordinates.
-	 */
-
-	calculateKeyCoordinates(position, lod, target = new Vector3()) {
-
-		const cellSize = this.cellSize << lod;
-
-		// Translate the position to the origin (zero-based unsigned coordinates).
-		position.sub(this.min);
-
-		target.set(
-			Math.trunc(position.x / cellSize),
-			Math.trunc(position.y / cellSize),
-			Math.trunc(position.z / cellSize)
-		);
-
-		return target;
 
 	}
 
