@@ -146,6 +146,14 @@ export class WorldOctree {
 	get levels() { return this.grids.length; }
 
 	/**
+	 * The LOD zero octant grid.
+	 *
+	 * @type {Number}
+	 */
+
+	get lodZero() { return this.grids[0]; }
+
+	/**
 	 * Computes the center of this world.
 	 *
 	 * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.
