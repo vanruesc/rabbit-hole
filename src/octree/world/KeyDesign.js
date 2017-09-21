@@ -132,7 +132,6 @@ export class KeyDesign {
 		 * The amount of distinct integers that can be represented with X + Y bits.
 		 *
 		 * @type {Number}
-		 * @private
 		 */
 
 		this.rangeXY = 0;
@@ -150,6 +149,7 @@ export class KeyDesign {
 		 * the second item holds the high bits.
 		 *
 		 * @type {Number}
+		 * @private
 		 */
 
 		this.maskX = [0, 0];
@@ -159,6 +159,7 @@ export class KeyDesign {
 		 * the second item holds the high bits.
 		 *
 		 * @type {Number}
+		 * @private
 		 */
 
 		this.maskY = [0, 0];
@@ -168,6 +169,7 @@ export class KeyDesign {
 		 * the second item holds the high bits.
 		 *
 		 * @type {Number}
+		 * @private
 		 */
 
 		this.maskZ = [0, 0];
@@ -293,8 +295,8 @@ export class KeyDesign {
 	/**
 	 * Returns a new key range iterator.
 	 *
-	 * @param {Vector3} min - The lower key index bounds.
-	 * @param {Vector3} min - The upper key index bounds.
+	 * @param {Vector3} min - The lower key index bounds (zero-based unsigned integer coordinates).
+	 * @param {Vector3} min - The upper key index bounds (zero-based unsigned integer coordinates).
 	 * @return {KeyIterator} An iterator.
 	 */
 

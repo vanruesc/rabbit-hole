@@ -68,7 +68,7 @@ const box = new Box3();
  * The purpose of this linear octree is to efficiently organise volume data. It
  * allows direct access to different LOD layers, octant neighbors and parents.
  *
- * The world octree is axis-aligned and can't be rotated.
+ * The world octree is axis-aligned and cannot be rotated.
  */
 
 export class WorldOctree {
