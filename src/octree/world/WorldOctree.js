@@ -166,6 +166,19 @@ export class WorldOctree {
 	}
 
 	/**
+	 * Returns the size of the cells in the specified LOD grid.
+	 *
+	 * @param {Number} [lod=0] - The LOD.
+	 * @return {Number} The cell size.
+	 */
+
+	getCellSize(lod = 0) {
+
+		return this.cellSize << lod;
+
+	}
+
+	/**
 	 * Computes the center of this world.
 	 *
 	 * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.
