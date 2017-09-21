@@ -92,7 +92,7 @@ export class WorldOctantIterator {
 
 		if(grid !== undefined) {
 
-			this.cellSize = world.cellSize << lod;
+			this.cellSize = world.getCellSize(lod);
 			this.iterator = grid.entries();
 			this.result.reset();
 
