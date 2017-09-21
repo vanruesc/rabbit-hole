@@ -272,8 +272,8 @@ export class WorldOctree {
 
 			if(this.containsPoint(point)) {
 
-				// Translate to zero-based unsigned coordinates.
-				a.copy(point).sub(this.min);
+				// Translate to the origin (zero-based unsigned coordinates).
+				v.subVectors(point, this.min);
 
 				// Calculate integer coordinates.
 				v.set(
