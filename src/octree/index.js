@@ -17,5 +17,6 @@ export {
 	WorldOctant,
 	WorldOctantIterator,
 	WorldOctantWrapper,
-	WorldOctree
+	WorldOctree,
+	WorldOctreeCSG
 } from "./world";
