@@ -113,6 +113,8 @@ export class WorldOctree {
 
 		this.grids = [];
 
+		levels = Math.max(levels, 1);
+
 		while(this.grids.length < levels) {
 
 			this.grids.push(new Map());
