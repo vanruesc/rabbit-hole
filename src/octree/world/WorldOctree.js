@@ -12,6 +12,7 @@ import { WorldOctantIterator } from "./WorldOctantIterator.js";
  *
  * @type {Vector3}
  * @private
+ * @final
  */
 
 const a = new Vector3();

@@ -9,6 +9,7 @@ import { HermiteData } from "./HermiteData.js";
  *
  * @type {Edge}
  * @private
+ * @final
  */
 
 const edge = new Edge();
@@ -18,6 +19,7 @@ const edge = new Edge();
  *
  * @type {Vector3}
  * @private
+ * @final
  */
 
 const offsetA = new Vector3();
@@ -27,6 +29,7 @@ const offsetA = new Vector3();
  *
  * @type {Vector3}
  * @private
+ * @final
  */
 
 const offsetB = new Vector3();

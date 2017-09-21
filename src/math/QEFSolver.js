@@ -6,6 +6,7 @@ import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
  *
  * @type {Vector3}
  * @private
+ * @final
  */
 
 const p = new Vector3();

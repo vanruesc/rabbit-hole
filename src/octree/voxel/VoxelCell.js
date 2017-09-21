@@ -9,6 +9,7 @@ import { Voxel } from "../../volume/Voxel.js";
  *
  * @type {QEFSolver}
  * @private
+ * @final
  */
 
 const qefSolver = new QEFSolver();
@@ -18,6 +19,7 @@ const qefSolver = new QEFSolver();
  *
  * @type {Number}
  * @private
+ * @final
  */
 
 const BIAS = 1e-6;
