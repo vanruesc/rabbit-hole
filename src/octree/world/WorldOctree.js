@@ -289,7 +289,6 @@ export class WorldOctree {
 	getOctantByPoint(point, lod = 0) {
 
 		const keyDesign = this.keyDesign;
-		const cellSize = this.cellSize;
 		const grid = this.getGrid(lod);
 
 		let result;
@@ -298,16 +297,7 @@ export class WorldOctree {
 
 			if(this.containsPoint(point)) {
 
-				// Translate to the origin (zero-based unsigned coordinates).
-				v.subVectors(point, this.min);
-
-				// Calculate integer coordinates.
-				v.set(
-					Math.trunc(v.x / cellSize),
-					Math.trunc(v.y / cellSize),
-					Math.trunc(v.z / cellSize)
-				);
-
+				this.calculateKeyCoordinates(point, lod, v);
 				result = grid.get(keyDesign.packKey(v));
 
 			} else {
