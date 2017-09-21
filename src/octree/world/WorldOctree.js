@@ -154,6 +154,18 @@ export class WorldOctree {
 	get lodZero() { return this.grids[0]; }
 
 	/**
+	 * Returns the key design.
+	 *
+	 * @return {KeyDesign} The key design.
+	 */
+
+	getKeyDesign() {
+
+		return this.keyDesign;
+
+	}
+
+	/**
 	 * Computes the center of this world.
 	 *
 	 * @param {Vector3} [target] - A target vector. If none is provided, a new one will be created.
