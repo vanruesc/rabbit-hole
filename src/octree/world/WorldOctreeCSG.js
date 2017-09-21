@@ -161,7 +161,6 @@ export class WorldOctreeCSG {
 	static applyUnion(world, region, sdf) {
 
 		const keyDesign = world.getKeyDesign();
-		const cellSize = world.getCellSize();
 		const lodZero = world.lodZero;
 
 		const a = b1.min;
@@ -170,8 +169,8 @@ export class WorldOctreeCSG {
 		const d = b2.max;
 		const range = b2;
 
-		let grid, size, halfSize;
-		let key, octant, offset;
+		let key, offset;
+		let grid, octant;
 		let lod, i;
 
 		// Process LOD N to 1.
