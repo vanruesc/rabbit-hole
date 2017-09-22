@@ -1,4 +1,5 @@
 import { Vector3 } from "math-ds";
+import { pattern } from "sparse-octree";
 import { KeyDesign } from "./KeyDesign.js";
 import { WorldOctantIterator } from "./WorldOctantIterator.js";
 import { WorldOctreeCSG } from "./WorldOctreeCSG.js";
@@ -13,6 +14,145 @@ import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";
  */
 
 const v = new Vector3();
+
+/**
+ * Calculates an offset index from octant key coordinates.
+ *
+ * The index identifies the octant's positional offset relative to its parent:
+ *
+ * ```text
+ *  0: [0, 0, 0]
+ *  1: [0, 0, 1]
+ *  2: [0, 1, 0]
+ *  3: [0, 1, 1]
+ *  4: [1, 0, 0]
+ *  5: [1, 0, 1]
+ *  6: [1, 1, 0]
+ *  7: [1, 1, 1]
+ * ```
+ *
+ * Note: This binary pattern is defined by the external sparse-octree module.
+ *
+ * @private
+ * @param {Number} x - The X-coordinate of the octant key.
+ * @param {Number} y - The Y-coordinate of the octant key.
+ * @param {Number} z - The Z-coordinate of the octant key.
+ * @return {Number} The index of the relative position offset.
+ */
+
+function calculateOffsetIndex(x, y, z) {
+
+	const offsetX = x % 2;
+	const offsetY = y % 2;
+	const offsetZ = z % 2;
+
+	return offsetX * 4 + offsetY * 2 + offsetZ;
+
+}
+
+/**
+ * Recursively deletes octant children.
+ *
+ * @param {WorldOctree} world - A world octree.
+ * @param {WorldOctant} octant - The current octant.
+ * @param {Number} keyX - The X-coordinate of the current octant key.
+ * @param {Number} keyY - The Y-coordinate of the current octant key.
+ * @param {Number} keyZ - The Z-coordinate of the current octant key.
+ * @param {Number} lod - The current LOD value.
+ */
+
+function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
+
+	let grid, keyDesign;
+	let children, child;
+	let offset, key, i;
+
+	// The octants from LOD zero have no children.
+	if(lod > 0) {
+
+		// Look at the next lower LOD.
+		--lod;
+
+		grid = world.getGrid(lod);
+		keyDesign = world.getKeyDesign();
+		children = octant.children;
+
+		// Translate the key coordinates to the next lower LOD.
+		keyX <<= 1; keyY <<= 1; keyZ <<= 1;
+
+		for(i = 0; i < 8; ++i) {
+
+			// Check if the child exists.
+			if(children & (1 << i) === 1) {
+
+				offset = pattern[i];
+
+				v.set(
+					keyX + offset[0],
+					keyY + offset[1],
+					keyZ + offset[2]
+				);
+
+				key = keyDesign.packKey(v);
+
+				// Fetch the child and remove it from the grid.
+				child = grid.get(key);
+				grid.delete(key);
+
+				removeChildren(world, child, v.x, v.y, v.z, lod);
+
+			}
+
+		}
+
+	}
+
+}
+
+/**
+ * Recursively removes empty parent nodes.
+ *
+ * @param {WorldOctree} world - A world octree.
+ * @param {Number} keyX - The X-coordinate of the deleted octant's key.
+ * @param {Number} keyY - The Y-coordinate of the deleted octant's key.
+ * @param {Number} keyZ - The Z-coordinate of the deleted octant's key.
+ * @param {Number} lod - The current LOD value.
+ */
+
+function prune(world, keyX, keyY, keyZ, lod) {
+
+	let grid, i, key, parent;
+
+	if(lod < world.levels) {
+
+		// Look at the next higher LOD grid.
+		grid = world.getGrid(++lod);
+
+		// Determine the position of the deleted octant relative to its parent.
+		i = calculateOffsetIndex(keyX, keyY, keyZ);
+
+		// Translate the key coordinates to the next higher LOD.
+		v.set(keyX >> 1, keyY >> 1, keyZ >> 1);
+
+		// The resulting coordinates identify the parent octant.
+		key = world.keyDesign.packKey(v);
+		parent = grid.get(key);
+
+		// Unset the existence flag of the deleted child.
+		parent.children &= ~(1 << i);
+
+		// Check if there are any children left.
+		if(parent.children === 0) {
+
+			// Remove the empty parent and recur.
+			grid.delete(key);
+			prune(world, parent, v.x, v.y, v.z, lod);
+
+		}
+
+	}
+
+}
 
 /**
  * An octree that subdivides space for fast spatial searches.
@@ -313,6 +453,49 @@ export class WorldOctree {
 		}
 
 		return result;
+
+	}
+
+	/**
+	 * Removes a specific octant.
+	 *
+	 * Children and empty parent nodes will be removed as well.
+	 *
+	 * @param {Number} key - The key of the octant that should be removed.
+	 * @param {Number} [lod=0] - The LOD of the octant.
+	 */
+
+	removeOctant(key, lod = 0) {
+
+		const keyDesign = this.keyDesign;
+		const grid = this.getGrid(lod);
+
+		if(grid !== undefined) {
+
+			if(grid.has(key)) {
+
+				keyDesign.unpackKey(key, v);
+
+				// Recursively delete all children in the lower LOD grids.
+				removeChildren(this, grid.get(key), v.x, v.y, v.z, lod);
+
+				// Remove the octant.
+				grid.delete(key);
+
+				// Recursively delete empty parent nodes.
+				prune(this, v.x, v.y, v.z, lod);
+
+			} else {
+
+				console.error("No octant found", key);
+
+			}
+
+		} else {
+
+			console.error("Invalid LOD", lod);
+
+		}
 
 	}
 
