@@ -93,7 +93,7 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 		--lod;
 
 		grid = world.getGrid(lod);
-		keyDesign = world.keyDesign;
+		keyDesign = world.getKeyDesign();
 		children = octant.children;
 		range = ranges[lod];
 
