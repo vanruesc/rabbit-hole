@@ -317,7 +317,7 @@ export class WorldOctreeCSG {
 
 				keyDesign.unpackKey(key, v);
 
-				// Modify affected LOD zero cells, recur until done.
+				// Recursively modify affected LOD zero cells.
 				applyDifference(world, sdf, v.x, v.y, v.z, lod);
 
 			}
