@@ -1,12 +1,6 @@
 "use strict";
 
-const lib = require("../build/rabbit-hole");
-
-function almostEqual(a, b) {
-
-	return (Math.abs(a - b) < 1e-2);
-
-}
+const HermiteData = require("../../build/rabbit-hole").HermiteData;
 
 module.exports = {
 
@@ -14,17 +8,17 @@ module.exports = {
 
 		"allows resolution to be set once": function(test) {
 
-			lib.HermiteData.resolution = 1;
-			lib.HermiteData.resolution = 2;
+			HermiteData.resolution = 1;
+			HermiteData.resolution = 2;
 
-			test.equal(lib.HermiteData.resolution, 1, "data resolution should not change again");
+			test.equal(HermiteData.resolution, 1, "data resolution should not change again");
 			test.done();
 
 		},
 
 		"can be instantiated": function(test) {
 
-			const data = new lib.HermiteData();
+			const data = new HermiteData();
 
 			test.ok(data);
 			test.done();
@@ -33,7 +27,7 @@ module.exports = {
 
 		"can be compressed and decompressed": function(test) {
 
-			const data = new lib.HermiteData();
+			const data = new HermiteData();
 
 			const materialIndices = data.materialIndices;
 
@@ -66,29 +60,6 @@ module.exports = {
 
 			}()), "should restore the original data");
 
-			test.done();
-
-		}
-
-	},
-
-	"Edge": {
-
-		"can approximate the Zero Crossing": function(test) {
-
-			const edge = new lib.Edge();
-
-			const sdf = new lib.Sphere({
-				origin: [0, 0, 0],
-				radius: 2
-			});
-
-			edge.a.set(1, 0, 0);
-			edge.b.set(2, 0, 0);
-
-			edge.approximateZeroCrossing(sdf);
-
-			test.ok(almostEqual(edge.t, 1.0), "should compute a correct interpolation value");
 			test.done();
 
 		}

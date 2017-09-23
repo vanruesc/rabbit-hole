@@ -1,7 +1,7 @@
 "use strict";
 
-const lib = require("../build/rabbit-hole");
-const THREE = require("three");
+const KeyDesign = require("../../build/rabbit-hole").KeyDesign;
+const Vector3 = require("math-ds").Vector3;
 
 module.exports = {
 
@@ -9,7 +9,7 @@ module.exports = {
 
 		"can be instantiated": function(test) {
 
-			const keyDesign = new lib.KeyDesign();
+			const keyDesign = new KeyDesign();
 
 			test.ok(keyDesign);
 			test.done();
@@ -18,9 +18,9 @@ module.exports = {
 
 		"can pack and unpack keys": function(test) {
 
-			const keyDesign = new lib.KeyDesign(21, 11, 21);
+			const keyDesign = new KeyDesign(21, 11, 21);
 
-			const position = new THREE.Vector3(11, 22, 33);
+			const position = new Vector3(11, 22, 33);
 			const key = keyDesign.packKey(position);
 
 			test.ok(key >= 0, "should be able to generate a key");

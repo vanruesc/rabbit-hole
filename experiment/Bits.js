@@ -1,6 +1,6 @@
 "use strict";
 
-const lib = require("../build/rabbit-hole");
+const lib = require("../../build/rabbit-hole");
 const createBinaryString = lib.BinaryUtils.createBinaryString;
 
 // Bit Allotment.

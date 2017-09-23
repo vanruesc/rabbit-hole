@@ -1,7 +1,10 @@
 "use strict";
 
-const lib = require("../build/rabbit-hole");
-const Vector3 = require("three").Vector3;
+const lib = require("../../build/rabbit-hole");
+const QEFData = lib.QEFData;
+const QEFSolver = lib.QEFSolver;
+
+const Vector3 = require("math-ds").Vector3;
 
 module.exports = {
 
@@ -9,8 +12,8 @@ module.exports = {
 
 		"correctly solves least squares systems": function(test) {
 
-			const qefData = new lib.QEFData();
-			const qefSolver = new lib.QEFSolver();
+			const qefData = new QEFData();
+			const qefSolver = new QEFSolver();
 
 			const expected = new Vector3(0, 0, 0);
 

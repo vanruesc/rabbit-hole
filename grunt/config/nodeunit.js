@@ -5,11 +5,11 @@ module.exports = {
 	},
 
 	tests: {
-		src: ["test/*.test.js"]
+		src: ["test/**/*.js"]
 	},
 
 	experiments: {
-		src: ["test/*.experiment.js"]
+		src: ["experiment/**/*.js"]
 	}
 
 };
