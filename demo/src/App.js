@@ -171,6 +171,9 @@ export class App {
 			demo = demos.get(app.demo);
 			demo.load(activateDemo);
 
+			// Update the url.
+			window.location.hash = app.demo;
+
 		}
 
 		loadDemo();
