@@ -81,17 +81,32 @@ export class ThreadPool extends EventTarget {
 
 		switch(event.type) {
 
-			case "message":
+			case "message": {
+
 				this.busyWorkers.delete(event.target);
+
 				events.message.worker = event.target;
 				events.message.response = event.data;
+
 				this.dispatchEvent(events.message);
+
+				if(this.workers.length > this.maxWorkers) {
+
+					this.closeWorker(event.target);
+
+				}
+
 				break;
 
-			case "error":
+			}
+
+			case "error": {
+
 				// Errors are being handled in the worker.
-				console.error("Encountered an unexpected error.", event);
+				console.error("Encountered an unexpected error", event);
 				break;
+
+			}
 
 		}
 
