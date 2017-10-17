@@ -13,6 +13,9 @@ export class KeyIterator {
 	/**
 	 * Constructs a new key iterator.
 	 *
+	 * This iterator returns all keys in the specified coordinate range, including
+	 * those at min and max.
+	 *
 	 * @param {KeyDesign} keyDesign - A key design.
 	 * @param {Vector3} min - The lower index bounds (zero-based unsigned integer coordinates).
 	 * @param {Vector3} max - The upper index bounds (zero-based unsigned integer coordinates).
@@ -66,15 +69,6 @@ export class KeyIterator {
 		this.key = new Vector3();
 
 		/**
-		 * The key coordinate step sizes.
-		 *
-		 * @type {Uint32Array}
-		 * @private
-		 */
-
-		this.steps = new Uint32Array(3);
-
-		/**
 		 * The iteration limits.
 		 *
 		 * @type {Vector3}
@@ -105,17 +99,25 @@ export class KeyIterator {
 	reset() {
 
 		const keyDesign = this.keyDesign;
-		const steps = this.steps;
 		const min = this.min;
 		const max = this.max;
 
-		steps[0] = 1;
-		steps[1] = keyDesign.rangeX;
-		steps[2] = keyDesign.rangeXY;
+		if(min.x <= max.x && min.y <= max.y && min.z <= max.z) {
 
-		this.keyBase.set(min.x, min.y * keyDesign.rangeX, min.z * keyDesign.rangeXY);
-		this.limit.set(max.x, max.y * keyDesign.rangeX, max.z * keyDesign.rangeXY);
-		this.key.copy(this.keyBase);
+			this.keyBase.set(min.x, min.y * keyDesign.rangeX, min.z * keyDesign.rangeXY);
+			this.limit.set(max.x, max.y * keyDesign.rangeX, max.z * keyDesign.rangeXY);
+			this.key.copy(this.keyBase);
+
+		} else {
+
+			// The range is invalid. Return no keys.
+			this.keyBase.set(1, 1, 1);
+			this.limit.set(0, 0, 0);
+			this.key.copy(this.keyBase);
+
+			console.error("Invalid key range", min, max);
+
+		}
 
 		this.result.reset();
 
@@ -132,29 +134,28 @@ export class KeyIterator {
 	next() {
 
 		const result = this.result;
+		const keyDesign = this.keyDesign;
 		const keyBase = this.keyBase;
 		const limit = this.limit;
-		const steps = this.steps;
 		const key = this.key;
 
-		// if(key.x <= limit.x && key.y <= limit.y && key.z <= limit.z) {
 		if(key.z <= limit.z) {
 
 			// Put the key pieces together.
 			result.value = key.z + key.y + key.x;
 
 			// Advance the key coordinates.
-			key.x += steps[0];
+			++key.x;
 
 			if(key.x > limit.x) {
 
 				key.x = keyBase.x;
-				key.y += steps[1];
+				key.y += keyDesign.rangeX;
 
 				if(key.y > limit.y) {
 
 					key.y = keyBase.y;
-					key.z += steps[2];
+					key.z += keyDesign.rangeXY;
 
 				}
 
