@@ -351,7 +351,7 @@ export class WorldOctree {
 
 	getGrid(lod) {
 
-		return (lod > 0 && lod < this.grids.length) ? this.grids[lod] : undefined;
+		return (lod >= 0 && lod < this.grids.length) ? this.grids[lod] : undefined;
 
 	}
 
