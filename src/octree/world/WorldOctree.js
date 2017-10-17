@@ -126,10 +126,10 @@ function prune(world, keyX, keyY, keyZ, lod) {
 
 	let grid, i, key, parent;
 
-	if(lod < world.levels) {
+	if(++lod < world.levels) {
 
 		// Look at the next higher LOD grid.
-		grid = world.getGrid(++lod);
+		grid = world.getGrid(lod);
 
 		// Determine the position of the deleted octant relative to its parent.
 		i = calculateOffsetIndex(keyX, keyY, keyZ);
@@ -138,7 +138,7 @@ function prune(world, keyX, keyY, keyZ, lod) {
 		v.set(keyX >> 1, keyY >> 1, keyZ >> 1);
 
 		// The resulting coordinates identify the parent octant.
-		key = world.keyDesign.packKey(v);
+		key = world.getKeyDesign().packKey(v);
 		parent = grid.get(key);
 
 		// Unset the existence flag of the deleted child.
@@ -149,7 +149,7 @@ function prune(world, keyX, keyY, keyZ, lod) {
 
 			// Remove the empty parent and recur.
 			grid.delete(key);
-			prune(world, parent, v.x, v.y, v.z, lod);
+			prune(world, v.x, v.y, v.z, lod);
 
 		}
 
