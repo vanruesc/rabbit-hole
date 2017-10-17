@@ -2,6 +2,7 @@ import { Vector3 } from "math-ds";
 import { pattern } from "sparse-octree";
 import { KeyDesign } from "./KeyDesign.js";
 import { WorldOctantIterator } from "./WorldOctantIterator.js";
+import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
 import { WorldOctreeCSG } from "./WorldOctreeCSG.js";
 import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";
 
@@ -214,22 +215,34 @@ export class WorldOctree {
 		}
 
 		/**
-		 * The lower bounds of this world.
+		 * An empty octant wrapper that merely holds the bounds of this world.
 		 *
-		 * @type {Vector3}
+		 * @type {WorldOctantWrapper}
+		 * @private
 		 */
 
-		this.min = this.keyDesign.halfRange.clone().multiplyScalar(-this.cellSize);
+		this.bounds = new WorldOctantWrapper();
 
-		/**
-		 * The upper bounds of this world.
-		 *
-		 * @type {Vector3}
-		 */
-
-		this.max = this.keyDesign.halfRange.clone().multiplyScalar(this.cellSize);
+		this.bounds.min.copy(this.keyDesign.halfRange).multiplyScalar(-this.cellSize);
+		this.bounds.max.copy(this.keyDesign.halfRange).multiplyScalar(this.cellSize);
 
 	}
+
+	/**
+	 * The lower bounds of this world.
+	 *
+	 * @type {Vector3}
+	 */
+
+	get min() { return this.bounds.min; }
+
+	/**
+	 * The upper bounds of this world.
+	 *
+	 * @type {Vector3}
+	 */
+
+	get max() { return this.bounds.max; }
 
 	/**
 	 * The amount of detail levels. This value can not be changed.
@@ -279,9 +292,9 @@ export class WorldOctree {
 	 * @return {Vector3} A vector that describes the center of this world.
 	 */
 
-	getCenter(target = new Vector3()) {
+	getCenter(target) {
 
-		return target.addVectors(this.min, this.max).multiplyScalar(0.5);
+		return this.bounds.getCenter(target);
 
 	}
 
@@ -308,9 +321,9 @@ export class WorldOctree {
 	 * @return {Vector3} A vector that describes the size of this world.
 	 */
 
-	getDimensions(target = new Vector3()) {
+	getDimensions(target) {
 
-		return target.subVectors(this.max, this.min);
+		return this.bounds.getDimensions(target);
 
 	}
 
@@ -365,17 +378,7 @@ export class WorldOctree {
 
 	containsPoint(point) {
 
-		const min = this.min;
-		const max = this.max;
-
-		return (
-			point.x >= min.x &&
-			point.y >= min.y &&
-			point.z >= min.z &&
-			point.x <= max.x &&
-			point.y <= max.y &&
-			point.z <= max.z
-		);
+		return this.bounds.containsPoint(point);
 
 	}
 
