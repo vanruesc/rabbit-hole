@@ -473,20 +473,24 @@ export class WorldOctree {
 		const keyDesign = this.keyDesign;
 		const grid = this.getGrid(lod);
 
+		let keyX, keyY, keyZ;
+
 		if(grid !== undefined) {
 
 			if(grid.has(key)) {
 
+				// Note: the vector v will be modified by removeChildren and prune.
 				keyDesign.unpackKey(key, v);
+				keyX = v.x; keyY = v.y; keyZ = v.z;
 
 				// Recursively delete all children in the lower LOD grids.
-				removeChildren(this, grid.get(key), v.x, v.y, v.z, lod);
+				removeChildren(this, grid.get(key), keyX, keyY, keyZ, lod);
 
 				// Remove the octant.
 				grid.delete(key);
 
 				// Recursively delete empty parent nodes.
-				prune(this, v.x, v.y, v.z, lod);
+				prune(this, keyX, keyY, keyZ, lod);
 
 			} else {
 
