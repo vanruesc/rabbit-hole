@@ -55,6 +55,7 @@ export {
 	Box,
 	Heightfield,
 	Plane,
+	SDFType,
 	SignedDistanceFunction,
 	Sphere,
 	Torus
@@ -64,6 +65,7 @@ export {
 	ConstructiveSolidGeometry,
 	Difference,
 	Intersection,
+	OperationType,
 	Union
 } from "./volume/csg";
 
