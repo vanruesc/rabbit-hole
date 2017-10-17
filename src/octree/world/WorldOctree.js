@@ -527,13 +527,12 @@ export class WorldOctree {
 	 *
 	 * @param {Raycaster} raycaster - A raycaster.
 	 * @param {Array} [intersects] - An optional target list to be filled with the intersecting octants.
-	 * @param {Array} [earlyExit=false] - Whether the method should return on the first hit.
 	 * @return {WorldOctant[]} The intersecting octants.
 	 */
 
-	raycast(raycaster, intersects = [], earlyExit = false) {
+	raycast(raycaster, intersects = []) {
 
-		return intersects;
+		return WorldOctreeRaycaster.intersectWorldOctree(this, raycaster, intersects);
 
 	}
 
