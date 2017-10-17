@@ -15,7 +15,7 @@ export class WorldOctantWrapper {
 	constructor(octant = null) {
 
 		/**
-		 * The world octant.
+		 * A world octant.
 		 *
 		 * @type {WorldOctant}
 		 * @default null
@@ -24,7 +24,7 @@ export class WorldOctantWrapper {
 		this.octant = octant;
 
 		/**
-		 * The lower bounds of the world octant.
+		 * The lower bounds.
 		 *
 		 * @type {Vector3}
 		 * @default new Vector3()
@@ -33,7 +33,7 @@ export class WorldOctantWrapper {
 		this.min = new Vector3();
 
 		/**
-		 * The upper bound of the world octant.
+		 * The upper bounds.
 		 *
 		 * @type {Vector3}
 		 * @default new Vector3()

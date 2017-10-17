@@ -457,7 +457,7 @@ export class WorldOctree {
 	}
 
 	/**
-	 * Removes a specific octant.
+	 * Removes a specific octant by a given key.
 	 *
 	 * Children and empty parent nodes will be removed as well.
 	 *
@@ -513,12 +513,13 @@ export class WorldOctree {
 
 	/**
 	 * Finds the octants that intersect with the given ray. The intersecting
-	 * octants are sorted by distance, closest first.
+	 * octants are sorted by distance, closest first. Empty octants will not be
+	 * included in the result.
 	 *
 	 * @param {Raycaster} raycaster - A raycaster.
 	 * @param {Array} [intersects] - An optional target list to be filled with the intersecting octants.
 	 * @param {Array} [earlyExit=false] - Whether the method should return on the first hit.
-	 * @return {Octant[]} The intersecting octants.
+	 * @return {WorldOctant[]} The intersecting octants.
 	 */
 
 	raycast(raycaster, intersects = [], earlyExit = false) {

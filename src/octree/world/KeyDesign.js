@@ -295,8 +295,11 @@ export class KeyDesign {
 	/**
 	 * Returns a new key range iterator.
 	 *
+	 * The key iterator will return all keys in the specified coordinate range,
+	 * including those at min and max.
+	 *
 	 * @param {Vector3} min - The lower key index bounds (zero-based unsigned integer coordinates).
-	 * @param {Vector3} min - The upper key index bounds (zero-based unsigned integer coordinates).
+	 * @param {Vector3} max - The upper key index bounds (zero-based unsigned integer coordinates).
 	 * @return {KeyIterator} An iterator.
 	 */
 
