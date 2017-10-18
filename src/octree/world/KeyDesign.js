@@ -204,11 +204,11 @@ export class KeyDesign {
 		this.y = y;
 		this.z = z;
 
-		this.rangeX = Math.pow(2, this.x);
-		this.rangeY = Math.pow(2, this.y);
-		this.rangeZ = Math.pow(2, this.z);
+		this.rangeX = Math.pow(2, x);
+		this.rangeY = Math.pow(2, y);
+		this.rangeZ = Math.pow(2, z);
 
-		this.rangeXY = Math.pow(2, this.x + this.y);
+		this.rangeXY = Math.pow(2, x + y);
 
 		this.halfRange = new Vector3(
 			this.rangeX / 2,
