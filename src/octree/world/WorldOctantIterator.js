@@ -122,6 +122,7 @@ export class WorldOctantIterator {
 		if(!internalResult.done) {
 
 			this.keyDesign.unpackKey(value[0], octantWrapper.min);
+			octantWrapper.min.multiplyScalar(this.cellSize);
 			octantWrapper.min.add(this.world.min);
 			octantWrapper.max.copy(octantWrapper.min).addScalar(this.cellSize);
 			octantWrapper.octant = value[1];
