@@ -103,7 +103,7 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 		for(i = 0; i < 8; ++i) {
 
 			// Check if the child exists.
-			if(children & (1 << i) === 1) {
+			if((children & (1 << i)) !== 0) {
 
 				offset = pattern[i];
 

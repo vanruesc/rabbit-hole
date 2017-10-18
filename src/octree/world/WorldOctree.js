@@ -84,7 +84,7 @@ function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
 		for(i = 0; i < 8; ++i) {
 
 			// Check if the child exists.
-			if(children & (1 << i) !== 0) {
+			if((children & (1 << i)) !== 0) {
 
 				offset = pattern[i];
 
