@@ -228,26 +228,26 @@ export class KeyDesign {
 
 	updateBitMasks() {
 
-		const X_BITS = this.x;
-		const Y_BITS = this.y;
-		const Z_BITS = this.z;
+		const xBits = this.x;
+		const yBits = this.y;
+		const zBits = this.z;
 
 		const maskX = this.maskX;
 		const maskY = this.maskY;
 		const maskZ = this.maskZ;
 
-		const hiShiftX = DWORD_BITS - Math.max(0, X_BITS - LO_BITS);
-		const hiShiftY = DWORD_BITS - Math.max(0, Y_BITS + X_BITS - LO_BITS);
-		const hiShiftZ = DWORD_BITS - Math.max(0, Z_BITS + Y_BITS + X_BITS - LO_BITS);
+		const hiShiftX = DWORD_BITS - Math.max(0, xBits - LO_BITS);
+		const hiShiftY = DWORD_BITS - Math.max(0, yBits + xBits - LO_BITS);
+		const hiShiftZ = DWORD_BITS - Math.max(0, zBits + yBits + xBits - LO_BITS);
 
 		maskX[1] = (hiShiftX < DWORD_BITS) ? ~0 >>> hiShiftX : 0;
-		maskX[0] = ~0 >>> Math.max(0, LO_BITS - X_BITS);
+		maskX[0] = ~0 >>> Math.max(0, LO_BITS - xBits);
 
 		maskY[1] = (((hiShiftY < DWORD_BITS) ? ~0 >>> hiShiftY : 0) & ~maskX[1]) >>> 0;
-		maskY[0] = ((~0 >>> Math.max(0, LO_BITS - (X_BITS + Y_BITS))) & ~maskX[0]) >>> 0;
+		maskY[0] = ((~0 >>> Math.max(0, LO_BITS - (xBits + yBits))) & ~maskX[0]) >>> 0;
 
 		maskZ[1] = (((hiShiftZ < DWORD_BITS) ? ~0 >>> hiShiftZ : 0) & ~maskY[1] & ~maskX[1]) >>> 0;
-		maskZ[0] = ((~0 >>> Math.max(0, LO_BITS - (X_BITS + Y_BITS + Z_BITS))) & ~maskY[0] & ~maskX[0]) >>> 0;
+		maskZ[0] = ((~0 >>> Math.max(0, LO_BITS - (xBits + yBits + zBits))) & ~maskY[0] & ~maskX[0]) >>> 0;
 
 	}
 

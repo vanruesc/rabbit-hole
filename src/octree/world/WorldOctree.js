@@ -38,7 +38,7 @@ const v = new Vector3();
  * @param {Number} x - The X-coordinate of the octant key.
  * @param {Number} y - The Y-coordinate of the octant key.
  * @param {Number} z - The Z-coordinate of the octant key.
- * @return {Number} The index of the relative position offset.
+ * @return {Number} The index of the relative position offset. Range: [0, 7].
  */
 
 function calculateOffsetIndex(x, y, z) {
@@ -47,7 +47,8 @@ function calculateOffsetIndex(x, y, z) {
 	const offsetY = y % 2;
 	const offsetZ = z % 2;
 
-	return offsetX * 4 + offsetY * 2 + offsetZ;
+	// Use a reversed packing order for correct indexing (X * 4 + Y * 2 + Z).
+	return (offsetX << 2) + (offsetY << 1) + offsetZ;
 
 }
 
@@ -481,7 +482,7 @@ export class WorldOctree {
 
 			if(grid.has(key)) {
 
-				// Note: the vector v will be modified by removeChildren and prune.
+				// Note: v will be modified by removeChildren and prune.
 				keyDesign.unpackKey(key, v);
 				keyX = v.x; keyY = v.y; keyZ = v.z;
 

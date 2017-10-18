@@ -83,8 +83,7 @@ const ranges = [];
 
 function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 
-	let grid, keyDesign;
-	let children, child;
+	let grid, keyDesign, children;
 	let range, offset, i;
 
 	if(lod > 0) {
@@ -116,10 +115,8 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 				// Check if the child is affected.
 				if(range.containsPoint(p)) {
 
-					// Fetch the child.
-					child = grid.get(keyDesign.packKey(p));
-
-					applyDifference(world, sdf, child, p.x, p.y, p.z, lod);
+					// Apply the difference operation to the child.
+					applyDifference(world, sdf, grid.get(keyDesign.packKey(p)), p.x, p.y, p.z, lod);
 
 				}
 
@@ -384,6 +381,10 @@ export class WorldOctreeCSG {
 
 			case OperationType.INTERSECTION:
 				this.applyIntersection(world, sdf);
+				break;
+
+			default:
+				console.error("No CSG operation type specified", sdf);
 				break;
 
 		}
