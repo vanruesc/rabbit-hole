@@ -177,7 +177,7 @@ export class WorldOctree {
 	 *
 	 * @param {Number} [cellSize=20] - The size of the smallest octants in LOD zero.
 	 * @param {Number} [levels=16] - The amount of detail levels.
-	 * @param {Number} [keyDesign] - The bit allotments for the octant coordinates.
+	 * @param {KeyDesign} [keyDesign] - The bit allotments for the octant coordinates.
 	 */
 
 	constructor(cellSize = 20, levels = 16, keyDesign = new KeyDesign()) {
