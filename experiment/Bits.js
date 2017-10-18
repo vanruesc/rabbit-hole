@@ -1,6 +1,6 @@
 "use strict";
 
-const lib = require("../../build/rabbit-hole");
+const lib = require("../build/rabbit-hole");
 const createBinaryString = lib.BinaryUtils.createBinaryString;
 
 // Bit Allotment.
@@ -90,14 +90,14 @@ module.exports = {
 			const yBits = 11;
 			const zBits = 21;
 
-			const yOffset = Math.pow(2, xBits);
-			const zOffset = Math.pow(2, yBits + xBits);
+			const rangeX = Math.pow(2, xBits);
+			const rangeXY = Math.pow(2, xBits + yBits);
 
 			const x = 42;
 			const y = 23;
 			const z = 11;
 
-			const i = z * zOffset + y * yOffset + x;
+			const i = z * rangeXY + y * rangeX + x;
 
 			const hi = Math.trunc(i / Math.pow(2, 32));
 			const lo = i % Math.pow(2, 32);
