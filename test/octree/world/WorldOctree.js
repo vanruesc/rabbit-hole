@@ -132,7 +132,8 @@ module.exports = {
 
 			world.raycast(raycaster, intersects);
 
-			test.equal(intersects.length, 0);
+			test.equal(world.lodZero.size, 8, "should have eight octants in LOD zero");
+			test.equal(intersects.length, 1);
 			test.done();
 
 		}

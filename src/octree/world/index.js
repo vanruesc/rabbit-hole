@@ -15,3 +15,4 @@ export { WorldOctantIterator } from "./WorldOctantIterator.js";
 export { WorldOctantWrapper } from "./WorldOctantWrapper.js";
 export { WorldOctree } from "./WorldOctree.js";
 export { WorldOctreeCSG } from "./WorldOctreeCSG.js";
+export { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";

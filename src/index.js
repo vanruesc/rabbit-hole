@@ -80,5 +80,6 @@ export {
 	WorldOctantIterator,
 	WorldOctantWrapper,
 	WorldOctree,
-	WorldOctreeCSG
+	WorldOctreeCSG,
+	WorldOctreeRaycaster
 } from "./octree";
