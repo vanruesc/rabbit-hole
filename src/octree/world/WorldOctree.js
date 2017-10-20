@@ -17,42 +17,6 @@ import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";
 const v = new Vector3();
 
 /**
- * Calculates an offset index from octant key coordinates.
- *
- * The index identifies the octant's positional offset relative to its parent:
- *
- * ```text
- *  0: [0, 0, 0]
- *  1: [0, 0, 1]
- *  2: [0, 1, 0]
- *  3: [0, 1, 1]
- *  4: [1, 0, 0]
- *  5: [1, 0, 1]
- *  6: [1, 1, 0]
- *  7: [1, 1, 1]
- * ```
- *
- * Note: This binary pattern is defined by the external sparse-octree module.
- *
- * @private
- * @param {Number} x - The X-coordinate of the octant key.
- * @param {Number} y - The Y-coordinate of the octant key.
- * @param {Number} z - The Z-coordinate of the octant key.
- * @return {Number} The index of the relative position offset. Range: [0, 7].
- */
-
-function calculateOffsetIndex(x, y, z) {
-
-	const offsetX = x % 2;
-	const offsetY = y % 2;
-	const offsetZ = z % 2;
-
-	// Use a reversed packing order for correct indexing (X * 4 + Y * 2 + Z).
-	return (offsetX << 2) + (offsetY << 1) + offsetZ;
-
-}
-
-/**
  * Recursively deletes octant children.
  *
  * @param {WorldOctree} world - A world octree.
@@ -133,7 +97,7 @@ function prune(world, keyX, keyY, keyZ, lod) {
 		grid = world.getGrid(lod);
 
 		// Determine the position of the deleted octant relative to its parent.
-		i = calculateOffsetIndex(keyX, keyY, keyZ);
+		i = WorldOctree.calculateOffsetIndex(keyX, keyY, keyZ);
 
 		// Translate the key coordinates to the next higher LOD.
 		v.set(keyX >> 1, keyY >> 1, keyZ >> 1);
@@ -550,6 +514,41 @@ export class WorldOctree {
 	octants(lod = 0) {
 
 		return new WorldOctantIterator(this, lod);
+
+	}
+
+	/**
+	 * Calculates an offset index from octant key coordinates.
+	 *
+	 * The index identifies the octant's positional offset relative to its parent:
+	 *
+	 * ```text
+	 *  0: [0, 0, 0]
+	 *  1: [0, 0, 1]
+	 *  2: [0, 1, 0]
+	 *  3: [0, 1, 1]
+	 *  4: [1, 0, 0]
+	 *  5: [1, 0, 1]
+	 *  6: [1, 1, 0]
+	 *  7: [1, 1, 1]
+	 * ```
+	 *
+	 * Note: This binary pattern is defined by the external sparse-octree module.
+	 *
+	 * @param {Number} x - The X-coordinate of the octant key.
+	 * @param {Number} y - The Y-coordinate of the octant key.
+	 * @param {Number} z - The Z-coordinate of the octant key.
+	 * @return {Number} The index of the relative position offset. Range: [0, 7].
+	 */
+
+	static calculateOffsetIndex(x, y, z) {
+
+		const offsetX = x % 2;
+		const offsetY = y % 2;
+		const offsetZ = z % 2;
+
+		// Use a reversed packing order for correct indexing (X * 4 + Y * 2 + Z).
+		return (offsetX << 2) + (offsetY << 1) + offsetZ;
 
 	}
 
