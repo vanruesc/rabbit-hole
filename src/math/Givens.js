@@ -17,7 +17,7 @@ const coefficients = new Vector2();
 export class Givens {
 
 	/**
-	 * Caluclates symmetric Givens coefficients.
+	 * Calculates symmetric Givens coefficients.
 	 *
 	 * @param {Number} aPP - PP.
 	 * @param {Number} aPQ - PQ.

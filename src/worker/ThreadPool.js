@@ -16,7 +16,7 @@ export class ThreadPool extends EventTarget {
 	/**
 	 * Constructs a new thread pool.
 	 *
-	 * @param {Number} [maxWorkers] - Limits the amount of active workers. The default limit is the amount of logical processors.
+	 * @param {Number} [maxWorkers=navigator.hardwareConcurrency] - Limits the amount of active workers. The default limit is the amount of logical processors.
 	 */
 
 	constructor(maxWorkers = navigator.hardwareConcurrency) {
