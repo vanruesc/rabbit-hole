@@ -1,3 +1,4 @@
+import { HermiteData } from "../../volume/HermiteData.js";
 import { Action } from "../Action.js";
 import { Request } from "./Request.js";
 
@@ -19,10 +20,10 @@ export class ConfigurationRequest extends Request {
 		 * The global grid resolution of the Hermite data chunks.
 		 *
 		 * @type {Number}
-		 * @default 0
+		 * @default HermiteData.resolution
 		 */
 
-		this.resolution = 0;
+		this.resolution = HermiteData.resolution;
 
 		/**
 		 * An error threshold for QEF-based mesh simplification.
