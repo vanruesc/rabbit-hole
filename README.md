@@ -60,7 +60,7 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Features
 
-- [Multithreading](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+- [Multithreading](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)
 - Level of Detail
 - [Tri-Planar Texture Mapping](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch01.html)
 - Real-time volume construction and destruction
