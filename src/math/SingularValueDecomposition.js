@@ -220,9 +220,9 @@ function solveSymmetric(vtav, v) {
 
 function invert(x) {
 
-	const invX = 1.0 / x;
+	const invX = (Math.abs(x) < PSEUDOINVERSE_THRESHOLD) ? 0.0 : 1.0 / x;
 
-	return (Math.abs(x) < PSEUDOINVERSE_THRESHOLD || Math.abs(invX) < PSEUDOINVERSE_THRESHOLD) ? 0.0 : invX;
+	return (Math.abs(invX) < PSEUDOINVERSE_THRESHOLD) ? 0.0 : invX;
 
 }
 
