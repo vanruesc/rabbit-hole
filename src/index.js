@@ -5,12 +5,16 @@
  */
 
 export {
+	Deserializable,
 	History,
 	PriorityQueue,
 	Queue,
 	Scheduler,
 	Task,
 	Terrain
+	Serializable,
+	Terrain,
+	TransferableContainer
 } from "./core";
 
 export {
@@ -39,6 +43,21 @@ export {
 } from "./math";
 
 export {
+	IntermediateWorldOctant,
+	KeyDesign,
+	KeyIterator,
+	LeafWorldOctant,
+	SparseVoxelOctree,
+	VoxelCell,
+	WorldOctant,
+	WorldOctantIterator,
+	WorldOctantWrapper,
+	WorldOctree,
+	WorldOctreeCSG,
+	WorldOctreeRaycaster
+} from "./octree";
+
+export {
 	BinaryUtils
 } from "./utils";
 
@@ -52,16 +71,6 @@ export {
 } from "./volume";
 
 export {
-	Box,
-	Heightfield,
-	Plane,
-	SDFType,
-	SignedDistanceFunction,
-	Sphere,
-	Torus
-} from "./volume/sdf";
-
-export {
 	ConstructiveSolidGeometry,
 	Difference,
 	Intersection,
@@ -70,16 +79,11 @@ export {
 } from "./volume/csg";
 
 export {
-	SparseVoxelOctree,
-	VoxelCell,
-	IntermediateWorldOctant,
-	LeafWorldOctant,
-	KeyDesign,
-	KeyIterator,
-	WorldOctant,
-	WorldOctantIterator,
-	WorldOctantWrapper,
-	WorldOctree,
-	WorldOctreeCSG,
-	WorldOctreeRaycaster
-} from "./octree";
+	Box,
+	Heightfield,
+	Plane,
+	SDFType,
+	SignedDistanceFunction,
+	Sphere,
+	Torus
+} from "./volume/sdf";
