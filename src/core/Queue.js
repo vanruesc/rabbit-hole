@@ -1,5 +1,7 @@
 /**
  * A FIFO queue.
+ *
+ * Elements are added to the end of the queue and removed from the front.
  */
 
 export class Queue {
@@ -28,105 +30,52 @@ export class Queue {
 
 		this.head = 0;
 
-		/**
-		 * The current size of the queue.
-		 *
-		 * @type {Number}
-		 */
-
-		this.size = 0;
-
 	}
+
+	/**
+	 * The current size of the queue.
+	 *
+	 * @type {Number}
+	 */
+
+	get size() { return (this.elements.length - this.head); }
+
+	/**
+	 * Returns true if the queue is empty, and false otherwise.
+	 *
+	 * @type {Boolean}
+	 */
+
+	get empty() { return (this.elements.length === 0); }
 
 	/**
 	 * Adds an element to the queue.
 	 *
 	 * @param {Object} element - An arbitrary object.
-	 * @return {Number} The index of the added element.
 	 */
 
 	add(element) {
 
-		const index = this.elements.length;
-
 		this.elements.push(element);
 
-		++this.size;
-
-		return index;
-
 	}
 
 	/**
-	 * Removes an element from the queue.
+	 * Retrieves, but does not remove, the head of the queue.
 	 *
-	 * @param {Number} index - The index of the element.
-	 * @return {Object} The removed element or null if there was none.
-	 */
-
-	remove(index) {
-
-		const elements = this.elements;
-		const length = elements.length;
-
-		let element = null;
-
-		if(this.size > 0 && index >= 0 && index < length) {
-
-			element = elements[index];
-
-			if(element !== null) {
-
-				elements[index] = null;
-
-				--this.size;
-
-				if(this.size > 0) {
-
-					while(this.head < length && elements[this.head] === null) {
-
-						++this.head;
-
-					}
-
-					if(this.head === length) {
-
-						this.clear();
-
-					}
-
-				} else {
-
-					this.clear();
-
-				}
-
-			}
-
-		}
-
-		return element;
-
-	}
-
-	/**
-	 * Retrieves, but does not remove, the head of the queue, or returns null if
-	 * the queue is empty.
-	 *
-	 * @return {Object} The head of the queue.
+	 * @return {Object} The head of the queue, or undefined if the queue is empty.
 	 */
 
 	peek() {
 
-		return (this.size > 0) ? this.elements[this.head] : null;
+		return (this.elements.length > 0) ? this.elements[this.head] : undefined;
 
 	}
 
 	/**
-	 * Retrieves and removes the head of the queue, or returns null if the queue
-	 * is empty.
+	 * Retrieves and removes the head of the queue.
 	 *
-	 * @return {Object} The head of the queue.
+	 * @return {Object} The head of the queue, or undefined if the queue is empty.
 	 */
 
 	poll() {
@@ -134,25 +83,17 @@ export class Queue {
 		const elements = this.elements;
 		const length = elements.length;
 
-		let element = null;
+		let element;
 
-		if(this.size > 0) {
+		if(length > 0) {
 
 			element = elements[this.head++];
 
-			while(this.head < length && elements[this.head] === null) {
+			// Remove free space if necessary.
+			if(this.head * 2 >= length) {
 
-				++this.head;
-
-			}
-
-			if(this.head === length) {
-
-				this.clear();
-
-			} else {
-
-				--this.size;
+				this.elements = elements.slice(this.head);
+				this.head = 0;
 
 			}
 
@@ -163,14 +104,13 @@ export class Queue {
 	}
 
 	/**
-	 * Clears this queue.
+	 * Resets this queue.
 	 */
 
 	clear() {
 
 		this.elements = [];
 		this.head = 0;
-		this.size = 0;
 
 	}
 
