@@ -2,6 +2,9 @@
  * A FIFO queue.
  *
  * Elements are added to the end of the queue and removed from the front.
+ *
+ * Based on:
+ *  http://code.stephenmorley.org/javascript/queues/
  */
 
 export class Queue {
