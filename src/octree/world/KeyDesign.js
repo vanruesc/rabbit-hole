@@ -137,7 +137,7 @@ export class KeyDesign {
 		this.rangeXY = 0;
 
 		/**
-		 * The key range divided by two. 
+		 * The key range divided by two.
 		 *
 		 * @type {Vector3}
 		 */

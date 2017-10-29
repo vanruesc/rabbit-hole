@@ -147,7 +147,7 @@ export class WorldOctree {
 	constructor(cellSize = 20, levels = 16, keyDesign = new KeyDesign()) {
 
 		/**
-		 * The LOD zero cell size. 
+		 * The LOD zero cell size.
 		 *
 		 * @type {Number}
 		 * @private
@@ -156,7 +156,7 @@ export class WorldOctree {
 		this.cellSize = cellSize;
 
 		/**
-		 * The octant key design. 
+		 * The octant key design.
 		 *
 		 * @type {KeyDesign}
 		 * @private
@@ -165,7 +165,7 @@ export class WorldOctree {
 		this.keyDesign = keyDesign;
 
 		/**
-		 * The octant LOD grids. 
+		 * The octant LOD grids.
 		 *
 		 * @type {Map[]}
 		 * @private
@@ -296,7 +296,7 @@ export class WorldOctree {
 
 	/**
 	 * The world octree depth is constant and corresponds to the amount of detail
-	 * levels. 
+	 * levels.
 	 *
 	 * @return {Number} The octree depth.
 	 */

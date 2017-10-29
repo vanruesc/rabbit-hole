@@ -283,7 +283,7 @@ export class HermiteData {
 	 * Adopts the given serialised data.
 	 *
 	 * @param {Object} object - Serialised Hermite data. Can be null.
-	 * @return {Deserializable} This object or null if the given serialised data was null. 
+	 * @return {Deserializable} This object or null if the given serialised data was null.
 	 */
 
 	deserialize(object) {
