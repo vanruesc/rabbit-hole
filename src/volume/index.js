@@ -22,11 +22,9 @@ export {
 } from "./csg";
 
 export {
-	Box,
 	Heightfield,
-	Plane,
 	SDFType,
 	SignedDistanceFunction,
-	Sphere,
-	Torus
+	SuperPrimitive,
+	SuperPrimitivePreset
 } from "./sdf";

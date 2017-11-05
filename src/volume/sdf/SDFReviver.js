@@ -1,9 +1,6 @@
 import { SDFType } from "../sdf/SDFType.js";
-import { Sphere } from "../sdf/Sphere.js";
-import { Box } from "../sdf/Box.js";
-import { Plane } from "../sdf/Plane.js";
-import { Torus } from "../sdf/Torus.js";
 import { Heightfield } from "../sdf/Heightfield.js";
+import { SuperPrimitive } from "../sdf/SuperPrimitive.js";
 
 /**
  * An SDF reviver.
@@ -24,20 +21,8 @@ export class SDFReviver {
 
 		switch(description.type) {
 
-			case SDFType.SPHERE:
-				sdf = new Sphere(description.parameters, description.material);
-				break;
-
-			case SDFType.BOX:
-				sdf = new Box(description.parameters, description.material);
-				break;
-
-			case SDFType.TORUS:
-				sdf = new Torus(description.parameters, description.material);
-				break;
-
-			case SDFType.PLANE:
-				sdf = new Plane(description.parameters, description.material);
+			case SDFType.SUPER_PRIMITIVE:
+				sdf = new SuperPrimitive(description.parameters, description.material);
 				break;
 
 			case SDFType.HEIGHTFIELD:

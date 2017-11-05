@@ -79,11 +79,9 @@ export {
 } from "./volume/csg";
 
 export {
-	Box,
 	Heightfield,
-	Plane,
 	SDFType,
 	SignedDistanceFunction,
-	Sphere,
-	Torus
+	SuperPrimitive,
+	SuperPrimitivePreset
 } from "./volume/sdf";
