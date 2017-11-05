@@ -3,6 +3,26 @@ import { SignedDistanceFunction } from "./SignedDistanceFunction.js";
 import { SDFType } from "./SDFType.js";
 
 /**
+ * Reads the image data of the given texture.
+ *
+ * @private
+ * @param {Texture} texture - The texture.
+ * @return {ImageData} The image data.
+ */
+
+function readImageData(texture) {
+
+	const canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
+	const context = canvas.getContext("2d");
+	const image = texture.image;
+
+	context.drawImage(image, 0, 0);
+
+	return context.getImageData(0, 0, image.width, image.height);
+
+}
+
+/**
  * A Signed Distance Function that describes a heightfield.
  *
  * @implements {Serializable}
@@ -106,6 +126,41 @@ export class Heightfield extends SignedDistanceFunction {
 			dimensions: this.dimensions.toArray(),
 			data: this.data
 		};
+
+		return result;
+
+	}
+
+	/**
+	 * Reads the image data of a given heightmap and returns a greyscale array.
+	 *
+	 * @pram {Texture} texture - A texture.
+	 * @return {Uint8ClampedArray} The greyscale image data or null if it couldn't be created.
+	 */
+
+	static readHeightData(texture) {
+
+		const imageData = (typeof document === "undefined") ? null : readImageData(texture);
+
+		let result = null;
+		let data;
+
+		let i, j, l;
+
+		if(imageData !== null) {
+
+			data = imageData.data;
+
+			// Reduce image data to greyscale format.
+			result = new Uint8ClampedArray(data.length / 4);
+
+			for(i = 0, j = 0, l = data.length; i < l; ++i, j += 4) {
+
+				result[i] = data[j];
+
+			}
+
+		}
 
 		return result;
 
