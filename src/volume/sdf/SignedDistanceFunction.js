@@ -14,6 +14,7 @@ import { Material } from "../Material.js";
  * for points outside. The value is zero at the exact boundary of the object.
  *
  * @implements {Serializable}
+ * @implements {TransferableContainer}
  */
 
 export class SignedDistanceFunction {
@@ -203,6 +204,19 @@ export class SignedDistanceFunction {
 		}
 
 		return result;
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		return transferList;
 
 	}
 
