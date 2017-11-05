@@ -4,10 +4,13 @@
  * @module rabbit-hole/worker/messages
  */
 
-export { ConfigurationRequest } from "./ConfigurationRequest.js";
+export { ConfigurationMessage } from "./ConfigurationMessage.js";
+export { DataMessage } from "./DataMessage.js";
+export { Message } from "./Message.js";
+
 export { ExtractionRequest } from "./ExtractionRequest.js";
 export { ExtractionResponse } from "./ExtractionResponse.js";
 export { ModificationRequest } from "./ModificationRequest.js";
 export { ModificationResponse } from "./ModificationResponse.js";
-export { Request } from "./Request.js";
-export { Response } from "./Response.js";
+export { ResamplingRequest } from "./ResamplingRequest.js";
+export { ResamplingResponse } from "./ResamplingResponse.js";

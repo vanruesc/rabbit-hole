@@ -1,11 +1,11 @@
 import { Action } from "../Action.js";
-import { Response } from "./Response.js";
+import { DataMessage } from "./DataMessage.js";
 
 /**
  * A modification response.
  */
 
-export class ModificationResponse extends Response {
+export class ModificationResponse extends DataMessage {
 
 	/**
 	 * Constructs a new modification response.
@@ -14,6 +14,15 @@ export class ModificationResponse extends Response {
 	constructor() {
 
 		super(Action.MODIFY);
+
+		/**
+		 * A serialised SDF.
+		 *
+		 * @type {Object}
+		 * @default null
+		 */
+
+		this.sdf = null;
 
 	}
 

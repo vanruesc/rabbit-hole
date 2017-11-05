@@ -6,12 +6,14 @@
 
 export {
 	ConfigurationRequest,
+	DataMessage,
+	Message,
 	ExtractionRequest,
 	ExtractionResponse,
 	ModificationRequest,
 	ModificationResponse,
-	Request,
-	Response
+	ResamplingRequest,
+	ResamplingResponse
 } from "./messages";
 
 export { Action } from "./Action.js";

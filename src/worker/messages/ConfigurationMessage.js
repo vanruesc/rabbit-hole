@@ -1,15 +1,15 @@
 import { HermiteData } from "../../volume/HermiteData.js";
 import { Action } from "../Action.js";
-import { Request } from "./Request.js";
+import { Message } from "./Message.js";
 
 /**
- * A configuration request.
+ * A configuration message.
  */
 
-export class ConfigurationRequest extends Request {
+export class ConfigurationMessage extends Message {
 
 	/**
-	 * Constructs a new configuration request.
+	 * Constructs a new configuration message.
 	 */
 
 	constructor() {

@@ -16,9 +16,9 @@ export class ExtractionResponse extends Response {
 		super(Action.EXTRACT);
 
 		/**
-		 * An isosurface.
+		 * A serialised isosurface.
 		 *
-		 * @type {Isosurface}
+		 * @type {Object}
 		 * @default null
 		 */
 

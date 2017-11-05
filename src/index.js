@@ -85,3 +85,15 @@ export {
 	SuperPrimitive,
 	SuperPrimitivePreset
 } from "./volume/sdf";
+
+export {
+	ConfigurationRequest,
+	DataMessage,
+	Message,
+	ExtractionRequest,
+	ExtractionResponse,
+	ModificationRequest,
+	ModificationResponse,
+	ResamplingRequest,
+	ResamplingResponse
+} from "./worker/messages";

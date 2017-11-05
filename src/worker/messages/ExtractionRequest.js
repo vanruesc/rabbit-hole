@@ -1,11 +1,11 @@
 import { Action } from "../Action.js";
-import { Request } from "./Request.js";
+import { DataMessage } from "./DataMessage.js";
 
 /**
  * An extraction request.
  */
 
-export class ExtractionRequest extends Request {
+export class ExtractionRequest extends DataMessage {
 
 	/**
 	 * Constructs a new extraction request.
