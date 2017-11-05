@@ -132,6 +132,21 @@ export class Heightfield extends SignedDistanceFunction {
 	}
 
 	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		transferList.push(this.data.buffer);
+
+		return transferList;
+
+	}
+
+	/**
 	 * Reads the image data of a given heightmap and returns a greyscale array.
 	 *
 	 * @pram {Texture} texture - A texture.
