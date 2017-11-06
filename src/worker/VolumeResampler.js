@@ -26,13 +26,13 @@ export class VolumeResampler extends DataProcessor {
 		this.response = new ResamplingResponse();
 
 		/**
-		 * An empty set of Hermite data. Serves as a resampling target.
+		 * The result of the resampling process.
 		 *
 		 * @type {HermiteData}
 		 * @private
 		 */
 
-		this.data = new HermiteData(false);
+		this.data = null;
 
 	}
 
@@ -47,18 +47,8 @@ export class VolumeResampler extends DataProcessor {
 	respond() {
 
 		const response = super.respond();
-		const data = this.data;
 
-		if(data !== null) {
-
-			// Compress the generated data in place and send it back.
-			response.data = data.compress().serialize();
-
-		} else {
-
-			response.data = null;
-
-		}
+		response.data = (this.data !== null) ? this.data.serialize() : null;
 
 		return response;
 
@@ -75,13 +65,7 @@ export class VolumeResampler extends DataProcessor {
 
 		super.createTransferList(transferList);
 
-		if(this.data !== null) {
-
-			this.data.createTransferList(transferList);
-
-		}
-
-		return transferList;
+		return (this.data !== null) ? this.data.createTransferList(transferList) : transferList;
 
 	}
 

@@ -48,18 +48,9 @@ export class VolumeModifier extends DataProcessor {
 
 		// The container group contains the modified data.
 		const response = super.respond();
-		const sdf = this.sdf;
 
-		if(sdf !== null) {
-
-			// Send the SDF back as it may contain transferable data.
-			response.sdf = sdf.serialize();
-
-		} else {
-
-			response.sdf = null;
-
-		}
+		// Send the SDF back as it may contain transferable data.
+		response.sdf = (this.sdf !== null) ? this.sdf.serialize() : null;
 
 		return response;
 
@@ -76,13 +67,7 @@ export class VolumeModifier extends DataProcessor {
 
 		super.createTransferList(transferList);
 
-		if(this.sdf !== null) {
-
-			this.sdf.createTransferList(transferList);
-
-		}
-
-		return transferList;
+		return (this.sdf !== null) ? this.sdf.createTransferList(transferList) : transferList;
 
 	}
 

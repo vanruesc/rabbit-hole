@@ -25,7 +25,7 @@ export class SurfaceExtractor extends DataProcessor {
 		this.response = new ExtractionResponse();
 
 		/**
-		 * An isosurface.
+		 * The result of the isosurface extraction process.
 		 *
 		 * @type {Isosurface}
 		 * @private
@@ -46,18 +46,8 @@ export class SurfaceExtractor extends DataProcessor {
 	respond() {
 
 		const response = super.respond();
-		const isosurface = this.isosurface;
 
-		if(isosurface !== null) {
-
-			// Send the isosurface back.
-			response.isosurface = isosurface.serialise();
-
-		} else {
-
-			response.isosurface = null;
-
-		}
+		response.isosurface = (this.isosurface !== null) ? this.isosurface.serialise() : null;
 
 		return response;
 
@@ -74,13 +64,7 @@ export class SurfaceExtractor extends DataProcessor {
 
 		super.createTransferList(transferList);
 
-		if(this.isosurface !== null) {
-
-			this.isosurface.createTransferList(transferList);
-
-		}
-
-		return transferList;
+		return (this.isosurface !== null) ? this.isosurface.createTransferList(transferList) : transferList;
 
 	}
 
