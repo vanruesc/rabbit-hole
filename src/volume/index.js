@@ -4,6 +4,7 @@
  * @module rabbit-hole/volume
  */
 
+export { ContainerGroup } from "./ContainerGroup.js";
 export { Edge } from "./Edge.js";
 export { EdgeData } from "./EdgeData.js";
 export { EdgeIterator } from "./EdgeIterator.js";
