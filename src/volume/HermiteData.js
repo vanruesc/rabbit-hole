@@ -58,7 +58,7 @@ function resample(data, offset, lengths, target) {
 export class HermiteData {
 
 	/**
-	 * Constructs a new set of hermite data.
+	 * Constructs a new set of Hermite data.
 	 *
 	 * @param {Boolean} [initialise=true] - Whether the data should be initialised immediately.
 	 */
