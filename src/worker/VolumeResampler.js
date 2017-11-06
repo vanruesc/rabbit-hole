@@ -96,8 +96,14 @@ export class VolumeResampler extends DataProcessor {
 		// Reset the container group and adopt the provided data.
 		const containerGroup = super.process(request).containerGroup;
 
-		// Resample the given data into a new set of volume data and compress it.
-		this.data = HermiteData.resample(containerGroup, this.data).compress();
+		// Resample the given data into a new set of volume data.
+		const result = this.data = HermiteData.resample(containerGroup);
+
+		if(result !== null) {
+
+			result.compress();
+
+		}
 
 		return this;
 
