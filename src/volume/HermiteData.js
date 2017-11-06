@@ -51,7 +51,7 @@ export class HermiteData {
 	constructor(initialise = true) {
 
 		/**
-		 * The current level of detail.
+		 * The level of detail.
 		 *
 		 * @type {Number}
 		 * @default -1
