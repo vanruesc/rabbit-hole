@@ -25,6 +25,65 @@ export class VolumeModifier extends DataProcessor {
 
 		this.response = new ModificationResponse();
 
+		/**
+		 * An SDF.
+		 *
+		 * @type {SignedDistanceFunction}
+		 * @private
+		 */
+
+		this.sdf = null;
+
+	}
+
+	/**
+	 * Prepares a response that can be send back to the main thread.
+	 *
+	 * Should be used together with {@link VolumeModifier#createTransferList}.
+	 *
+	 * @return {ModificationResponse} A response.
+	 */
+
+	respond() {
+
+		// The container group contains the modified data.
+		const response = super.respond();
+		const sdf = this.sdf;
+
+		if(sdf !== null) {
+
+			// Send the SDF back as it may contain transferable data.
+			response.sdf = sdf.serialize();
+
+		} else {
+
+			response.sdf = null;
+
+		}
+
+		return response;
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		super.createTransferList(transferList);
+
+		if(this.sdf !== null) {
+
+			this.sdf.createTransferList(transferList);
+
+		}
+
+		return transferList;
+
 	}
 
 	/**
@@ -35,25 +94,30 @@ export class VolumeModifier extends DataProcessor {
 
 	process(request) {
 
-		// Adopt the provided data.
-		const data = (request.data !== null) ? this.data.deserialize(request.data) : null;
+		// Reset the container group and adopt the provided data.
+		const containerGroup = super.process(request).containerGroup;
+		const children = containerGroup.children;
+		const cellPositions = request.cellPositions;
+		const cellSizes = request.cellSizes;
 
-		// Revive the SDF and execute it.
-		const result = ConstructiveSolidGeometry.run(
-			request.cellSize, request.cellPosition,
-			data, SDFReviver.reviveSDF(request.sdf)
-		);
+		// Revive the SDF.
+		const sdf = this.sdf = SDFReviver.reviveSDF(request.sdf);
 
-		// Send the generated data back.
-		this.response.data = null;
-		this.transferList = [];
+		let result;
+		let i, l;
 
-		if(result !== null) {
+		// Apply the SDF to the provided data sets, one by one.
+		for(i = 0, l = request.size; i < l; ++i) {
 
-			this.response.data = result.serialize();
-			result.createTransferList(this.transferList);
+			// The resulting data is uncompressed.
+			result = ConstructiveSolidGeometry.run(cellPositions[i], cellSizes[i], children[i], sdf);
+
+			// Update the data entry with the compressed result.
+			children[i] = (result !== null) ? result.compress() : null;
 
 		}
+
+		return this;
 
 	}
 

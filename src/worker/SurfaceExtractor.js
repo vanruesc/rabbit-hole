@@ -24,6 +24,64 @@ export class SurfaceExtractor extends DataProcessor {
 
 		this.response = new ExtractionResponse();
 
+		/**
+		 * An isosurface.
+		 *
+		 * @type {Isosurface}
+		 * @private
+		 */
+
+		this.isosurface = null;
+
+	}
+
+	/**
+	 * Prepares a response that can be send back to the main thread.
+	 *
+	 * Should be used together with {@link SurfaceExtractor#createTransferList}.
+	 *
+	 * @return {ExtractionResponse} A response.
+	 */
+
+	respond() {
+
+		const response = super.respond();
+		const isosurface = this.isosurface;
+
+		if(isosurface !== null) {
+
+			// Send the isosurface back.
+			response.isosurface = isosurface.serialise();
+
+		} else {
+
+			response.isosurface = null;
+
+		}
+
+		return response;
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		super.createTransferList(transferList);
+
+		if(this.isosurface !== null) {
+
+			this.isosurface.createTransferList(transferList);
+
+		}
+
+		return transferList;
+
 	}
 
 	/**
@@ -34,30 +92,13 @@ export class SurfaceExtractor extends DataProcessor {
 
 	process(request) {
 
-		// Unpack the provided volume data and generate the isosurface.
-		const data = this.data.deserialize(request.data).decompress();
-		const isosurface = DualContouring.run(request.cellPosition, request.cellSize, data);
+		// Reset the container group and adopt the provided data.
+		const containerGroup = super.process(request).containerGroup;
 
-		const response = this.response;
-		const transferList = [];
+		// Generate the isosurface.
+		this.isosurface = DualContouring.run(containerGroup);
 
-		if(isosurface !== null) {
-
-			response.isosurface = isosurface;
-
-			transferList.push(isosurface.indices.buffer);
-			transferList.push(isosurface.positions.buffer);
-			transferList.push(isosurface.normals.buffer);
-
-		} else {
-
-			response.isosurface = null;
-
-		}
-
-		// Drop the decompressed data and send the original data back.
-		response.data = data.deserialize(request.data).serialize();
-		this.transferList = data.createTransferList(transferList);
+		return this;
 
 	}
 

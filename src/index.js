@@ -88,6 +88,14 @@ export {
 } from "./volume/sdf";
 
 export {
+	Action,
+	DataProcessor,
+	SurfaceExtractor,
+	ThreadPool,
+	VolumeModifier
+} from "./worker";
+
+export {
 	ConfigurationRequest,
 	DataMessage,
 	Message,
