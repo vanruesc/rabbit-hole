@@ -92,7 +92,8 @@ export {
 	DataProcessor,
 	SurfaceExtractor,
 	ThreadPool,
-	VolumeModifier
+	VolumeModifier,
+	VolumeResampler
 } from "./worker";
 
 export {
