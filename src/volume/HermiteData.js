@@ -1,3 +1,4 @@
+import { pattern } from "sparse-octree";
 import { RunLengthEncoding } from "../compression/RunLengthEncoding.js";
 import { Material } from "./Material.js";
 import { EdgeData } from "./EdgeData.js";
@@ -31,6 +32,20 @@ let indexCount = 0;
  */
 
 function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
+
+/**
+ * Resamples the given data.
+ *
+ * @private
+ * @param {HermiteData} data - A set of Hermite data.
+ * @param {Uint8Array} offset - An offset.
+ * @param {Uint32Array} lengths - An edge counter.
+ * @param {HermiteData} target - A target data set.
+ */
+
+function resample(data, offset, lengths, target) {
+
+}
 
 /**
  * Hermite data.
@@ -372,6 +387,100 @@ export class HermiteData {
 			indexCount = Math.pow((resolution + 1), 3);
 
 		}
+
+	}
+
+	/**
+	 * Creates a new set of Hermite data by resampling existing data.
+	 *
+	 * The provided data must adhere to the octant layout specified in the
+	 * external `sparse-octree` module.
+	 *
+	 * @param {ContainerGroup} containerGroup - A Hermite data container group. The provided data will be decompressed on-demand.
+	 * @param {HermiteData} [target] - An optional target data set to store the result in. If none is provided, a new data set will be created.
+	 * @return {HermiteData} The resampled data or null if the result is empty.
+	 */
+
+	static resample(containerGroup, target = null) {
+
+		const children = containerGroup.children;
+		const length = Math.min(children.length, 8);
+
+		let edgeData, edgeCount;
+		let data, lengths;
+		let i, d;
+
+		let edgeCountX = 0;
+		let edgeCountY = 0;
+		let edgeCountZ = 0;
+
+		if(!containerGroup.empty) {
+
+			// Create an empty target container if none has been provided.
+			if(target === null) {
+
+				target = new HermiteData(false);
+
+			}
+
+			// Find out how many edges there are.
+			for(i = 0; i < length; ++i) {
+
+				if(children[i] !== null) {
+
+					edgeData = children[i].edgeData;
+					edgeCountX += edgeData.indices[0].length;
+					edgeCountY += edgeData.indices[1].length;
+					edgeCountZ += edgeData.indices[2].length;
+
+				}
+
+			}
+
+			// Keeps track of the actual amount of preserved edges.
+			lengths = new Uint32Array(3);
+
+			// The new data cannot contain more edges than this for each dimension.
+			edgeCount = EdgeData.calculate1DEdgeCount(resolution);
+
+			// Initialise the target data container.
+			target.materialIndices = new Uint8Array(indexCount);
+			target.edgeData = new EdgeData(
+				Math.min(edgeCount, edgeCountX),
+				Math.min(edgeCount, edgeCountY),
+				Math.min(edgeCount, edgeCountZ)
+			);
+
+			// Create an empty container for decompressed data.
+			data = new HermiteData(false);
+
+			// Decompress and resample the data sets one by one.
+			for(i = 0; i < length; ++i) {
+
+				if(children[i] !== null) {
+
+					// Each decompression frees the previously decompressed data.
+					resample(children[i].decompress(data), pattern[i], lengths, target);
+
+				}
+
+			}
+
+			// Cut off empty data.
+			edgeData = target.edgeData;
+
+			for(d = 0; d < 3; ++d) {
+
+				edgeData.indices[d] = edgeData.indices[d].slice(0, lengths[d]);
+				edgeData.zeroCrossings[d] = edgeData.zeroCrossings[d].slice(0, lengths[d]);
+				edgeData.normals[d] = edgeData.normals[d].slice(0, lengths[d] * 3);
+
+			}
+
+
+		}
+
+		return target;
 
 	}
 
