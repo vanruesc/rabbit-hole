@@ -46,11 +46,11 @@ scene.add(terrain.object);
 ##### Constructive Solid Geometry
 
 ```javascript
-import { Sphere, Box, Torus } from "rabbit-hole";
+import { SuperPrimitive, SuperPrimitivePreset } from "rabbit-hole";
 
-const a = new Torus(...);
-const b = new Sphere(...);
-const c = new Box(...);
+const a = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+const b = SuperPrimitive.create(SuperPrimitivePreset.TORUS);
+const c = SuperPrimitive.create(SuperPrimitivePreset.CUBE);
 
 terrain.union(a);
 terrain.subtract(b.intersect(c).subtract(a));
