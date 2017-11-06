@@ -632,7 +632,7 @@ export class ConstructiveSolidGeometry {
 	 * @param {Number} size - The size of the volume data cell.
 	 * @param {HermiteData} data - The volume data that should be modified.
 	 * @param {SignedDistanceFunction} sdf - An SDF.
-	 * @return {HermiteData} The modified data or null if the result is empty.
+	 * @return {HermiteData} The modified, uncompressed data or null if the result is empty.
 	 */
 
 	static run(min, size, data, sdf) {
@@ -687,21 +687,7 @@ export class ConstructiveSolidGeometry {
 
 		}
 
-		if(data !== null) {
-
-			if(data.empty) {
-
-				data = null;
-
-			} else {
-
-				data.compress();
-
-			}
-
-		}
-
-		return data;
+		return (data !== null && data.empty) ? null : data;
 
 	}
 
