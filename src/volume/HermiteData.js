@@ -397,15 +397,15 @@ export class HermiteData {
 	 * external `sparse-octree` module.
 	 *
 	 * @param {ContainerGroup} containerGroup - A Hermite data container group. The provided data will be decompressed on-demand.
-	 * @param {HermiteData} [target] - An optional target data set to store the result in. If none is provided, a new data set will be created.
 	 * @return {HermiteData} The resampled data or null if the result is empty.
 	 */
 
-	static resample(containerGroup, target = null) {
+	static resample(containerGroup) {
 
 		const children = containerGroup.children;
 		const length = Math.min(children.length, 8);
 
+		let result;
 		let edgeData, edgeCount;
 		let data, lengths;
 		let i, d;
@@ -416,12 +416,8 @@ export class HermiteData {
 
 		if(!containerGroup.empty) {
 
-			// Create an empty target container if none has been provided.
-			if(target === null) {
-
-				target = new HermiteData(false);
-
-			}
+			// Create an empty target container.
+			result = new HermiteData(false);
 
 			// Find out how many edges there are.
 			for(i = 0; i < length; ++i) {
@@ -437,15 +433,12 @@ export class HermiteData {
 
 			}
 
-			// Keeps track of the actual amount of preserved edges.
-			lengths = new Uint32Array(3);
-
 			// The new data cannot contain more edges than this for each dimension.
 			edgeCount = EdgeData.calculate1DEdgeCount(resolution);
 
 			// Initialise the target data container.
-			target.materialIndices = new Uint8Array(indexCount);
-			target.edgeData = new EdgeData(
+			result.materialIndices = new Uint8Array(indexCount);
+			result.edgeData = new EdgeData(
 				Math.min(edgeCount, edgeCountX),
 				Math.min(edgeCount, edgeCountY),
 				Math.min(edgeCount, edgeCountZ)
@@ -454,20 +447,23 @@ export class HermiteData {
 			// Create an empty container for decompressed data.
 			data = new HermiteData(false);
 
+			// Keeps track of the actual amount of preserved edges.
+			lengths = new Uint32Array(3);
+
 			// Decompress and resample the data sets one by one.
 			for(i = 0; i < length; ++i) {
 
 				if(children[i] !== null) {
 
 					// Each decompression frees the previously decompressed data.
-					resample(children[i].decompress(data), pattern[i], lengths, target);
+					resample(children[i].decompress(data), pattern[i], lengths, result);
 
 				}
 
 			}
 
 			// Cut off empty data.
-			edgeData = target.edgeData;
+			edgeData = result.edgeData;
 
 			for(d = 0; d < 3; ++d) {
 
@@ -480,7 +476,7 @@ export class HermiteData {
 
 		}
 
-		return target;
+		return (result !== null && result.empty) ? null : result;
 
 	}
 
