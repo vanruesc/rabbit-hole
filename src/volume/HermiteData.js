@@ -245,15 +245,12 @@ export class HermiteData {
 
 	decompress(target = this) {
 
-		if(this.compressed) {
-
-			target.materialIndices = RunLengthEncoding.decode(
+		target.materialIndices = !this.compressed ?
+			this.materialIndices : RunLengthEncoding.decode(
 				this.runLengths, this.materialIndices, new Uint8Array(indexCount)
 			);
 
-			target.runLengths = null;
-
-		}
+		target.runLengths = null;
 
 		return target;
 
