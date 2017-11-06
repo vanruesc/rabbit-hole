@@ -1,19 +1,10 @@
 import { HermiteData } from "../volume/HermiteData.js";
 import { VoxelCell } from "../octree/voxel/VoxelCell.js";
-import { Response } from "./messages/Response.js";
+import { Message } from "./messages/Message.js";
 import { SurfaceExtractor } from "./SurfaceExtractor.js";
 import { VolumeModifier } from "./VolumeModifier.js";
+import { VolumeResampler } from "./VolumeResampler.js";
 import { Action } from "./Action.js";
-
-/**
- * A surface extractor.
- *
- * @type {SurfaceExtractor}
- * @private
- * @final
- */
-
-const surfaceExtractor = new SurfaceExtractor();
 
 /**
  * A volume modifier.
@@ -26,6 +17,35 @@ const surfaceExtractor = new SurfaceExtractor();
 const volumeModifier = new VolumeModifier();
 
 /**
+ * A volume resampler.
+ *
+ * @type {VolumeResampler}
+ * @private
+ * @final
+ */
+
+const volumeResampler = new VolumeResampler();
+
+/**
+ * A surface extractor.
+ *
+ * @type {SurfaceExtractor}
+ * @private
+ * @final
+ */
+
+const surfaceExtractor = new SurfaceExtractor();
+
+/**
+ * The current action.
+ *
+ * @type {Action}
+ * @private
+ */
+
+let action = null;
+
+/**
  * Receives and handles messages from the main thread.
  *
  * @private
@@ -36,21 +56,29 @@ self.addEventListener("message", function onMessage(event) {
 
 	// Unpack the request.
 	const request = event.data;
+	action = request.action;
 
-	switch(request.action) {
-
-		case Action.EXTRACT:
-			surfaceExtractor.process(request);
-			postMessage(surfaceExtractor.response, surfaceExtractor.transferList);
-			break;
+	switch(action) {
 
 		case Action.MODIFY:
-			volumeModifier.process(request);
-			postMessage(volumeModifier.response, volumeModifier.transferList);
+			postMessage(
+				volumeModifier.process(request).respond(),
+				volumeModifier.createTransferList()
+			);
 			break;
 
 		case Action.RESAMPLE:
-			// @todo
+			postMessage(
+				volumeResampler.process(request).respond(),
+				volumeResampler.createTransferList()
+			);
+			break;
+
+		case Action.EXTRACT:
+			postMessage(
+				surfaceExtractor.process(request).respond(),
+				surfaceExtractor.createTransferList()
+			);
 			break;
 
 		case Action.CONFIGURE:
@@ -75,26 +103,34 @@ self.addEventListener("message", function onMessage(event) {
 
 self.addEventListener("error", function onError(event) {
 
-	const transferList = [];
-	const response = new Response(Action.CLOSE);
+	const processor = (action === Action.MODIFY) ?
+		volumeModifier : (action === Action.RESAMPLE) ?
+			volumeResampler : (action === Action.EXTRACT) ?
+				surfaceExtractor : null;
 
-	// Attach the error event.
-	response.error = event;
+	let response;
 
-	// Find out which processor has the data.
-	const data = (surfaceExtractor.data !== null && !surfaceExtractor.data.neutered) ?
-		surfaceExtractor.data : (volumeModifier.data !== null && !volumeModifier.data.neutered) ?
-			volumeModifier.data : null;
+	if(processor !== null) {
 
-	if(data !== null) {
+		// Evacuate the data.
+		response = processor.respond();
 
-		response.data = data.compress().serialize();
-		data.createTransferList(transferList);
+		// Adjust the action and attach the error event.
+		response.action = Action.CLOSE;
+		response.error = event;
+
+		postMessage(response, processor.createTransferList());
+
+	} else {
+
+		// An unexpected error occured during configuration or closure.
+		response = new Message(Action.CLOSE);
+		response.error = event;
+
+		postMessage(response);
 
 	}
 
-	// Send the data back and close this worker.
-	postMessage(response, transferList);
 	close();
 
 });
