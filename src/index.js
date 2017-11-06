@@ -62,6 +62,7 @@ export {
 } from "./utils";
 
 export {
+	ContainerGroup,
 	Edge,
 	EdgeData,
 	EdgeIterator,
