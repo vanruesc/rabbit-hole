@@ -299,7 +299,8 @@ export class HermiteData {
 
 				if(this.edgeData === null) {
 
-					this.edgeData = new EdgeData(0);
+					// Create an empty edge data container.
+					this.edgeData = new EdgeData();
 
 				}
 
