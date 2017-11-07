@@ -171,7 +171,7 @@ export class WorldOctreeCSG {
 		let lod, i;
 
 		// Process LOD N to 1.
-		for(lod = world.levels - 1; lod > 0; --lod) {
+		for(lod = world.getDepth(); lod > 0; --lod) {
 
 			grid = world.getGrid(lod);
 
