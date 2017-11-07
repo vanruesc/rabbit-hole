@@ -326,9 +326,9 @@ export class WorldOctreeCSG {
 	/**
 	 * Modifies all existing octants.
 	 *
-	 * Warning: This CSG operation is highly destructive when used as a primary
-	 * operation. It should rather be used in CSG composites where it can only
-	 * affect local data.
+	 * Warning: This CSG operation is highly destructive and expensive when used
+	 * as a primary operation. It should rather be used in CSG composites where it
+	 * can only affect local data.
 	 *
 	 * @private
 	 * @param {WorldOctree} world - A world octree.
