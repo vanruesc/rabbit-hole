@@ -225,61 +225,71 @@ export class SuperPrimitive extends SignedDistanceFunction {
  * @private
  */
 
-const superPrimitivePresets = [[
+const superPrimitivePresets = [
 
-		// Cube.
+	// Cube.
+	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([0.0, 0.0, 0.0])
 
-	], [
+	],
 
-		// Cylinder.
+	// Cylinder.
+	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([1.0, 0.0, 0.0])
 
-	], [
+	],
 
-		// Cone.
+	// Cone.
+	[
 		new Float32Array([0.0, 0.0, 1.0, 1.0]),
 		new Float32Array([0.0, 0.0, 1.0])
 
-	], [
+	],
 
-		// Pill.
+	// Pill.
+	[
 		new Float32Array([1.0, 1.0, 2.0, 1.0]),
 		new Float32Array([1.0, 1.0, 0.0])
 
-	], [
+	],
 
-		// Sphere.
+	// Sphere.
+	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([1.0, 1.0, 0.0])
 
-	], [
+	],
 
-		// Pellet.
+	// Pellet.
+	[
 		new Float32Array([1.0, 1.0, 0.25, 1.0]),
 		new Float32Array([1.0, 0.25, 0.0])
 
-	], [
+	],
 
-		// Torus.
+	// Torus.
+	[
 		new Float32Array([1.0, 1.0, 0.25, 0.25]),
 		new Float32Array([1.0, 0.25, 0.0])
 
-	], [
+	],
 
-		// Pipe.
+	// Pipe.
+	[
 		new Float32Array([1.0, 1.0, 1.0, 0.25]),
 		new Float32Array([1.0, 0.1, 0.0])
 
-	], [
+	],
 
-		// Corridor.
+	// Corridor.
+	[
 		new Float32Array([1.0, 1.0, 1.0, 0.25]),
 		new Float32Array([0.1, 0.1, 0.0])
+	]
 
-]];
+];
 
 /**
  * An enumeration of super primitive presets.

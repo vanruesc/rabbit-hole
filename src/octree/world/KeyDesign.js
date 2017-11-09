@@ -354,7 +354,11 @@ export class KeyDesign {
 	 * @final
 	 */
 
-	static get BITS() { return BITS; }
+	static get BITS() {
+
+		return BITS;
+
+	}
 
 	/**
 	 * The amount of available bits in the high DWord.
@@ -366,7 +370,11 @@ export class KeyDesign {
 	 * @final
 	 */
 
-	static get HI_BITS() { return HI_BITS; }
+	static get HI_BITS() {
+
+		return HI_BITS;
+
+	}
 
 	/**
 	 * The amount of available bits in the low DWord.
@@ -378,6 +386,10 @@ export class KeyDesign {
 	 * @final
 	 */
 
-	static get LO_BITS() { return LO_BITS; }
+	static get LO_BITS() {
+
+		return LO_BITS;
+
+	}
 
 }

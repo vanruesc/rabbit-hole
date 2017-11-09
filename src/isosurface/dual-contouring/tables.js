@@ -69,28 +69,30 @@ export const cellProcEdgeMask = [
  * @type {Array<Uint8Array[]>}
  */
 
-export const faceProcFaceMask = [[
+export const faceProcFaceMask = [
 
+	[
 		new Uint8Array([4, 0, 0]),
 		new Uint8Array([5, 1, 0]),
 		new Uint8Array([6, 2, 0]),
 		new Uint8Array([7, 3, 0])
+	],
 
-	], [
-
+	[
 		new Uint8Array([2, 0, 1]),
 		new Uint8Array([6, 4, 1]),
 		new Uint8Array([3, 1, 1]),
 		new Uint8Array([7, 5, 1])
+	],
 
-	], [
-
+	[
 		new Uint8Array([1, 0, 2]),
 		new Uint8Array([3, 2, 2]),
 		new Uint8Array([5, 4, 2]),
 		new Uint8Array([7, 6, 2])
+	]
 
-]];
+];
 
 /**
  * An edge mask for face processing.
@@ -98,28 +100,30 @@ export const faceProcFaceMask = [[
  * @type {Array<Uint8Array[]>}
  */
 
-export const faceProcEdgeMask = [[
+export const faceProcEdgeMask = [
 
+	[
 		new Uint8Array([1, 4, 0, 5, 1, 1]),
 		new Uint8Array([1, 6, 2, 7, 3, 1]),
 		new Uint8Array([0, 4, 6, 0, 2, 2]),
 		new Uint8Array([0, 5, 7, 1, 3, 2])
+	],
 
-	], [
-
+	[
 		new Uint8Array([0, 2, 3, 0, 1, 0]),
 		new Uint8Array([0, 6, 7, 4, 5, 0]),
 		new Uint8Array([1, 2, 0, 6, 4, 2]),
 		new Uint8Array([1, 3, 1, 7, 5, 2])
+	],
 
-	], [
-
+	[
 		new Uint8Array([1, 1, 0, 3, 2, 0]),
 		new Uint8Array([1, 5, 4, 7, 6, 0]),
 		new Uint8Array([0, 1, 5, 0, 4, 1]),
 		new Uint8Array([0, 3, 7, 2, 6, 1])
+	]
 
-]];
+];
 
 /**
  * An edge mask for edge processing.
@@ -127,22 +131,24 @@ export const faceProcEdgeMask = [[
  * @type {Array<Uint8Array[]>}
  */
 
-export const edgeProcEdgeMask = [[
+export const edgeProcEdgeMask = [
 
+	[
 		new Uint8Array([3, 2, 1, 0, 0]),
 		new Uint8Array([7, 6, 5, 4, 0])
+	],
 
-	], [
-
+	[
 		new Uint8Array([5, 1, 4, 0, 1]),
 		new Uint8Array([7, 3, 6, 2, 1])
+	],
 
-	], [
-
+	[
 		new Uint8Array([6, 4, 2, 0, 2]),
 		new Uint8Array([7, 5, 3, 1, 2])
+	]
 
-]];
+];
 
 /**
  * An edge mask.

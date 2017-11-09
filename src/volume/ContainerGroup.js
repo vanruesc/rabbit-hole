@@ -32,7 +32,11 @@ export class ContainerGroup {
 	 * @type {Boolean}
 	 */
 
-	get empty() { return (this.children === null || this.children.length === 0); }
+	get empty() {
+
+		return (this.children === null || this.children.length === 0);
+
+	}
 
 	/**
 	 * Performs a shallow copy of the provided container group.

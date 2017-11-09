@@ -201,7 +201,11 @@ export class WorldOctree {
 	 * @type {Vector3}
 	 */
 
-	get min() { return this.bounds.min; }
+	get min() {
+
+		return this.bounds.min;
+
+	}
 
 	/**
 	 * The upper bounds of this world.
@@ -209,7 +213,11 @@ export class WorldOctree {
 	 * @type {Vector3}
 	 */
 
-	get max() { return this.bounds.max; }
+	get max() {
+
+		return this.bounds.max;
+
+	}
 
 	/**
 	 * The amount of detail levels. This value can not be changed.
@@ -217,7 +225,11 @@ export class WorldOctree {
 	 * @type {Number}
 	 */
 
-	get levels() { return this.grids.length; }
+	get levels() {
+
+		return this.grids.length;
+
+	}
 
 	/**
 	 * The LOD zero octant grid.
@@ -225,7 +237,11 @@ export class WorldOctree {
 	 * @type {Number}
 	 */
 
-	get lodZero() { return this.grids[0]; }
+	get lodZero() {
+
+		return this.grids[0];
+
+	}
 
 	/**
 	 * Returns the key design.

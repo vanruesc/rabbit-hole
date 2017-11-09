@@ -25,7 +25,11 @@ function loadAssets(callback) {
 
 	loadingManager.onProgress = function onProgress(item, loaded, total) {
 
-		if(loaded === total) { callback(assets); }
+		if(loaded === total) {
+
+			callback(assets);
+
+		}
 
 	};
 

@@ -347,7 +347,7 @@ export class EdgeEditor extends EventTarget {
 	}
 
 	/**
-	 * Updates an edge data entry.
+	 * Adopts the edte data of the currently selected edge.
 	 *
 	 * @private
 	 */
@@ -598,9 +598,25 @@ export class EdgeEditor extends EventTarget {
 		});
 
 		let folder = gui.addFolder("Edge Adjustment");
-		folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(function() { editor.updateEdgeData(); });
-		folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() { editor.updateEdgeData(); });
-		folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() { editor.updateEdgeData(); });
+
+		folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(function() {
+
+			editor.updateEdgeData();
+
+		});
+
+		folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() {
+
+			editor.updateEdgeData();
+
+		});
+
+		folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() {
+
+			editor.updateEdgeData();
+
+		});
+
 		folder.open();
 
 	}

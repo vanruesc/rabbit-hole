@@ -31,7 +31,11 @@ let indexCount = 0;
  * @return {Number} The next power of two.
  */
 
-function ceil2(n) { return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n)))); }
+function ceil2(n) {
+
+	return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n))));
+
+}
 
 /**
  * Resamples the given data.
@@ -129,7 +133,11 @@ export class HermiteData {
 	 * @type {Boolean}
 	 */
 
-	get empty() { return (this.materials === 0); }
+	get empty() {
+
+		return (this.materials === 0);
+
+	}
 
 	/**
 	 * Indicates whether this data container is full.
@@ -137,7 +145,11 @@ export class HermiteData {
 	 * @type {Boolean}
 	 */
 
-	get full() { return (this.materials === indexCount); }
+	get full() {
+
+		return (this.materials === indexCount);
+
+	}
 
 	/**
 	 * Indicates whether this data is currently compressed.
@@ -145,7 +157,11 @@ export class HermiteData {
 	 * @type {Boolean}
 	 */
 
-	get compressed() { return (this.runLengths !== null); }
+	get compressed() {
+
+		return (this.runLengths !== null);
+
+	}
 
 	/**
 	 * Adopts the given data.
@@ -371,7 +387,11 @@ export class HermiteData {
 	 * @type {Number}
 	 */
 
-	static get resolution() { return resolution; }
+	static get resolution() {
+
+		return resolution;
+
+	}
 
 	/**
 	 * This value can only be set once. The upper limit is 256.

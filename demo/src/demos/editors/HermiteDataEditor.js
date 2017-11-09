@@ -2,11 +2,7 @@ import { Vector3 } from "three";
 import { pattern } from "sparse-octree";
 import { EventTarget } from "synthetic-event";
 
-import {
-	EdgeData,
-	HermiteData,
-	QEFData
-} from "../../../../src";
+import { EdgeData, HermiteData, QEFData } from "../../../../src";
 
 import { DataEvent } from "../events/DataEvent.js";
 import { GridPointEditor } from "./GridPointEditor.js";
@@ -108,7 +104,11 @@ export class HermiteDataEditor extends EventTarget {
 	 * @type {Group}
 	 */
 
-	get gridPoints() { return this.gridPointEditor.gridPoints; }
+	get gridPoints() {
+
+		return this.gridPointEditor.gridPoints;
+
+	}
 
 	/**
 	 * A group of lines that represent the edges.
@@ -116,7 +116,11 @@ export class HermiteDataEditor extends EventTarget {
 	 * @type {Group}
 	 */
 
-	get edges() { return this.edgeEditor.edges; }
+	get edges() {
+
+		return this.edgeEditor.edges;
+
+	}
 
 	/**
 	 * A group of planes that represent the isosurface edge intersections.
@@ -124,7 +128,11 @@ export class HermiteDataEditor extends EventTarget {
 	 * @type {Group}
 	 */
 
-	get planes() { return this.edgeEditor.planes; }
+	get planes() {
+
+		return this.edgeEditor.planes;
+
+	}
 
 	/**
 	 * Creates new edge data from the material indices.

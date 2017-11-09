@@ -1,4 +1,11 @@
-import { Mesh, MeshBasicMaterial, Raycaster, SphereBufferGeometry, Vector2 } from "three";
+import {
+	Mesh,
+	MeshBasicMaterial,
+	Raycaster,
+	SphereBufferGeometry,
+	Vector2
+} from "three";
+
 import OctreeHelper from "octree-helper";
 import { ChunkHelper, Sphere } from "../../src";
 import { Button } from "./controls/Button.js";
@@ -342,7 +349,11 @@ export class Editor {
 	 * Removes all event listeners.
 	 */
 
-	dispose() { this.setEnabled(false); }
+	dispose() {
+
+		this.setEnabled(false);
+
+	}
 
 	/**
 	 * Saves memory usage information about the current volume data.

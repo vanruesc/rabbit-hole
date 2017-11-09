@@ -173,7 +173,11 @@ export class TerrainStats {
 	 * Removes all event listeners.
 	 */
 
-	dispose() { this.setEnabled(false); }
+	dispose() {
+
+		this.setEnabled(false);
+
+	}
 
 	/**
 	 * Logs delta times.

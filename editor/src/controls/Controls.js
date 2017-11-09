@@ -436,6 +436,10 @@ export class Controls {
 	 * Removes all event listeners.
 	 */
 
-	dispose() { this.setEnabled(false); }
+	dispose() {
+
+		this.setEnabled(false);
+
+	}
 
 }

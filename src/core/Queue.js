@@ -41,7 +41,11 @@ export class Queue {
 	 * @type {Number}
 	 */
 
-	get size() { return (this.elements.length - this.head); }
+	get size() {
+
+		return (this.elements.length - this.head);
+
+	}
 
 	/**
 	 * Returns true if the queue is empty, and false otherwise.
@@ -49,7 +53,11 @@ export class Queue {
 	 * @type {Boolean}
 	 */
 
-	get empty() { return (this.elements.length === 0); }
+	get empty() {
+
+		return (this.elements.length === 0);
+
+	}
 
 	/**
 	 * Adds an element to the queue.

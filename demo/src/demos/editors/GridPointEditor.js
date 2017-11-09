@@ -9,11 +9,7 @@ import {
 } from "three";
 
 import { Event, EventTarget } from "synthetic-event";
-
-import {
-	HermiteData,
-	Material
-} from "../../../../src";
+import { HermiteData, Material } from "../../../../src";
 
 /**
  * A mouse position.

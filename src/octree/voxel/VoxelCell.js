@@ -194,7 +194,11 @@ export class VoxelCell extends CubicOctant {
 	 * @type {Number}
 	 */
 
-	static get errorThreshold() { return errorThreshold; }
+	static get errorThreshold() {
+
+		return errorThreshold;
+
+	}
 
 	/**
 	 * The mesh simplification error threshold.
@@ -207,6 +211,10 @@ export class VoxelCell extends CubicOctant {
 	 * @type {Number}
 	 */
 
-	static set errorThreshold(value) { errorThreshold = value; }
+	static set errorThreshold(value) {
+
+		errorThreshold = value;
+
+	}
 
 }

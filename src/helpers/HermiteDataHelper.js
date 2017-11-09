@@ -104,7 +104,11 @@ export class HermiteDataHelper extends Object3D {
 	 * @type {Object3D}
 	 */
 
-	get gridPoints() { return this.children[0]; }
+	get gridPoints() {
+
+		return this.children[0];
+
+	}
 
 	/**
 	 * The edges.
@@ -112,7 +116,11 @@ export class HermiteDataHelper extends Object3D {
 	 * @type {Object3D}
 	 */
 
-	get edges() { return this.children[1]; }
+	get edges() {
+
+		return this.children[1];
+
+	}
 
 	/**
 	 * The normals.
@@ -120,7 +128,11 @@ export class HermiteDataHelper extends Object3D {
 	 * @type {Object3D}
 	 */
 
-	get normals() { return this.children[2]; }
+	get normals() {
+
+		return this.children[2];
+
+	}
 
 	/**
 	 * Creates the helper geometry.
