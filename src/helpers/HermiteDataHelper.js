@@ -151,16 +151,8 @@ export class HermiteDataHelper extends Object3D {
 
 		if(this.cellPosition !== null && this.cellSize > 0 && data !== null && !data.empty) {
 
-			if(data.compressed) {
-
-				data.decompress(decompressedData);
-				decompressedData.edgeData = data.edgeData;
-
-			} else {
-
-				decompressedData.set(data);
-
-			}
+			data.decompress(decompressedData);
+			decompressedData.edgeData = data.edgeData;
 
 			if(useMaterialIndices) {
 
