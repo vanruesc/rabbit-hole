@@ -96,6 +96,8 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 		children = octant.children;
 		range = ranges[lod];
 
+		octant.clear();
+
 		// Translate the key coordinates to the next lower LOD.
 		keyX <<= 1; keyY <<= 1; keyZ <<= 1;
 
@@ -212,6 +214,10 @@ export class WorldOctreeCSG {
 
 					}
 
+				} else {
+
+					grid.get(key).clear();
+
 				}
 
 			}
@@ -251,6 +257,24 @@ export class WorldOctreeCSG {
 	/**
 	 * Modifies existing octants in the specified region with the given SDF.
 	 *
+	 * Calculating an entry LOD depending on the longest side of the affected
+	 * region could improve performance, but by skipping higher LOD grid some
+	 * intermediate octants won't be cleared.
+	 *
+	 * ```js
+	 * const min = region.min;
+	 * const max = region.max;
+	 *
+	 * const s = Math.max(
+	 * 	Math.max(Math.max(Math.abs(min.x), Math.abs(min.y)), Math.abs(min.z)),
+	 * 	Math.max(Math.max(Math.abs(max.x), Math.abs(max.y)), Math.abs(max.z))
+	 * );
+	 *
+	 * const quotientCeiled = Math.ceil(s / world.getCellSize());
+	 * const doublingsCeiled = Math.ceil(Math.log2(quotientCeiled));
+	 * const lod = Math.min(doublingsCeiled, world.getDepth());
+	 * ```
+	 *
 	 * @private
 	 * @param {WorldOctree} world - A world octree.
 	 * @param {Box3} region - The affected region.
@@ -259,20 +283,7 @@ export class WorldOctreeCSG {
 
 	static applyDifference(world, region, sdf) {
 
-		const min = region.min;
-		const max = region.max;
-
-		// Find the longest side of the region.
-		const s = Math.max(
-			Math.max(Math.max(Math.abs(min.x), Math.abs(min.y)), Math.abs(min.z)),
-			Math.max(Math.max(Math.abs(max.x), Math.abs(max.y)), Math.abs(max.z))
-		);
-
-		// Calculate the entry LOD. Octants from higher LOD grids will be skipped.
-		const quotientCeiled = Math.ceil(s / world.getCellSize());
-		const doublingsCeiled = Math.ceil(Math.log2(quotientCeiled));
-		const lod = Math.min(doublingsCeiled, world.levels - 1);
-
+		const lod = world.getDepth();
 		const keyDesign = world.getKeyDesign();
 		const grid = world.getGrid(lod);
 
@@ -337,7 +348,18 @@ export class WorldOctreeCSG {
 
 	static applyIntersection(world, sdf) {
 
-		let octant;
+		let lod, octant;
+
+		// Invalidate the data of all intermediate octants.
+		for(lod = world.getDepth(); lod > 0; --lod) {
+
+			for(octant of world.getGrid(lod).values()) {
+
+				octant.clear();
+
+			}
+
+		}
 
 		for(octant of world.lodZero.values()) {
 
