@@ -551,6 +551,9 @@ export class WorldOctree {
 	 *
 	 * Note: This binary pattern is defined by the external sparse-octree module.
 	 *
+	 * For more information on fast bitwise modulo with power of two divisors see:
+	 *  https://graphics.stanford.edu/~seander/bithacks.html#ModulusDivisionEasy
+	 *
 	 * @param {Number} x - The X-coordinate of the octant key.
 	 * @param {Number} y - The Y-coordinate of the octant key.
 	 * @param {Number} z - The Z-coordinate of the octant key.
@@ -559,9 +562,10 @@ export class WorldOctree {
 
 	static calculateOffsetIndex(x, y, z) {
 
-		const offsetX = x % 2;
-		const offsetY = y % 2;
-		const offsetZ = z % 2;
+		// Bitwise modulo: n % (1 << s) = n & ((1 << s) - 1) for positive integers.
+		const offsetX = x & 1;
+		const offsetY = y & 1;
+		const offsetZ = z & 1;
 
 		// Use a reversed packing order for correct indexing (X * 4 + Y * 2 + Z).
 		return (offsetX << 2) + (offsetY << 1) + offsetZ;
