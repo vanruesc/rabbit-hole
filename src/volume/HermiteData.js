@@ -436,8 +436,8 @@ export class HermiteData {
 
 		if(!containerGroup.empty) {
 
-			// Create an empty target container.
-			result = new HermiteData(false);
+			// Create a new target container.
+			result = new HermiteData();
 
 			// Find out how many edges there are.
 			for(i = 0; i < length; ++i) {
@@ -453,11 +453,8 @@ export class HermiteData {
 
 			}
 
-			// The new data cannot contain more edges than this for each dimension.
+			// Initialise the target edge data subcontainer.
 			edgeCount = EdgeData.calculate1DEdgeCount(resolution);
-
-			// Initialise the target data container.
-			result.materialIndices = new Uint8Array(indexCount);
 			result.edgeData = new EdgeData(
 				Math.min(edgeCount, edgeCountX),
 				Math.min(edgeCount, edgeCountY),
@@ -467,7 +464,7 @@ export class HermiteData {
 			// Create an empty container for decompressed data.
 			data = new HermiteData(false);
 
-			// Keeps track of the actual amount of preserved edges.
+			// Keep track of the actual amount of preserved edges.
 			lengths = new Uint32Array(3);
 
 			// Decompress and resample the data sets one by one.
