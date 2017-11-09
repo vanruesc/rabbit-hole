@@ -43,12 +43,16 @@ export class IntermediateWorldOctant extends WorldOctant {
 	 * Removes the mesh data and the resampled volume data from this octant.
 	 *
 	 * The octant may be processed again to generate new data if needed.
+	 *
+	 * @return {IntermediateWorldOctant} This octant.
 	 */
 
 	clear() {
 
 		this.data = null;
 		this.mesh = null;
+
+		return this;
 
 	}
 
