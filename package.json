@@ -52,23 +52,21 @@
 	},
 
 	"dependencies": {
-		"dat.gui": "0.6.x",
-		"feature-detector": "0.x.x",
 		"iterator-result": "0.x.x",
 		"math-ds": "0.x.x",
-		"octree-helper": "0.x.x",
 		"sparse-octree": "4.x.x",
-		"stats.js": "0.17.x",
 		"synthetic-event": "0.x.x",
 		"three": "0.88.x"
 	},
 
 	"devDependencies": {
 		"@vanruesc/grunt-esdoc": "0.x.x",
+		"dat.gui": "0.6.x",
 		"babel-core": "6.x.x",
 		"babel-preset-es2015-rollup": "3.x.x",
 		"esdoc-standard-plugin": "1.x.x",
 		"eslint-config-delta": "0.x.x",
+		"feature-detector": "0.x.x",
 		"grunt": "1.x.x",
 		"grunt-cli": "1.x.x",
 		"grunt-contrib-clean": "1.x.x",
@@ -80,9 +78,12 @@
 		"grunt-rollup": "6.x.x",
 		"jit-grunt": "0.x.x",
 		"load-grunt-config": "0.x.x",
+		"octree-helper": "0.x.x",
+		"rabbit-hole-three": "0.x.x",
 		"rollup-plugin-babel": "3.x.x",
 		"rollup-plugin-node-resolve": "3.x.x",
 		"rollup-plugin-string": "2.x.x",
+		"stats.js": "0.17.x",
 		"time-grunt": "1.x.x"
 	}
 }
