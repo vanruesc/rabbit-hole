@@ -214,6 +214,7 @@ function combineEdges(operation, data0, data1) {
 	let edges1, zeroCrossings1, normals1;
 	let edges0, zeroCrossings0, normals0;
 	let edges, zeroCrossings, normals;
+	let indexOffset;
 
 	let indexA1, indexB1;
 	let indexA0, indexB0;
@@ -238,6 +239,8 @@ function combineEdges(operation, data0, data1) {
 		normals0 = edgeData0.normals[d];
 		normals = edgeData.normals[d];
 
+		indexOffset = indexOffsets[d];
+
 		il = edges1.length;
 		jl = edges0.length;
 
@@ -245,7 +248,7 @@ function combineEdges(operation, data0, data1) {
 		for(i = 0, j = 0; i < il; ++i) {
 
 			indexA1 = edges1[i];
-			indexB1 = indexA1 + indexOffsets[d];
+			indexB1 = indexA1 + indexOffset;
 
 			m1 = materialIndices[indexA1];
 			m2 = materialIndices[indexB1];
@@ -269,7 +272,7 @@ function combineEdges(operation, data0, data1) {
 				while(j < jl && edges0[j] <= indexA1) {
 
 					indexA0 = edges0[j];
-					indexB0 = indexA0 + indexOffsets[d];
+					indexB0 = indexA0 + indexOffset;
 
 					edge0.t = zeroCrossings0[j];
 					edge0.n.x = normals0[j * 3];
@@ -322,7 +325,7 @@ function combineEdges(operation, data0, data1) {
 		while(j < jl) {
 
 			indexA0 = edges0[j];
-			indexB0 = indexA0 + indexOffsets[d];
+			indexB0 = indexA0 + indexOffset;
 
 			m1 = materialIndices[indexA0];
 			m2 = materialIndices[indexB0];
@@ -379,7 +382,7 @@ function generateEdges(operation, data, bounds) {
 	const lengths = new Uint32Array(3);
 	const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
 
-	let edges, zeroCrossings, normals;
+	let edges, zeroCrossings, normals, indexOffset;
 	let indexA, indexB;
 
 	let minX, minY, minZ;
@@ -397,6 +400,7 @@ function generateEdges(operation, data, bounds) {
 		edges = edgeData.indices[d];
 		zeroCrossings = edgeData.zeroCrossings[d];
 		normals = edgeData.normals[d];
+		indexOffset = indexOffsets[d];
 
 		minX = bounds.min.x; maxX = bounds.max.x;
 		minY = bounds.min.y; maxY = bounds.max.y;
@@ -430,7 +434,7 @@ function generateEdges(operation, data, bounds) {
 				for(x = minX; x <= maxX; ++x) {
 
 					indexA = z * mm + y * m + x;
-					indexB = indexA + indexOffsets[d];
+					indexB = indexA + indexOffset;
 
 					// Check if the edge exhibits a material change.
 					if(materialIndices[indexA] !== materialIndices[indexB]) {
