@@ -35,8 +35,8 @@ const BITS = 53;
 /**
  * The amount of available high bits.
  *
- * In JavaScript, bit operations can only be applied to DWords (32bit).
- * All 53bit keys must be split into a high and a low part for processing.
+ * In JavaScript, bit operations can only be applied to DWords (32-bit).
+ * All 53-bit keys must be split into a high and a low part for processing.
  *
  * @type {Number}
  * @private
@@ -48,8 +48,8 @@ const HI_BITS = 21;
 /**
  * The amount of available low bits.
  *
- * In JavaScript, bit operations can only be applied to DWords (32bit).
- * All 53bit keys must be split into a high and a low part for processing.
+ * In JavaScript, bit operations can only be applied to DWords (32-bit).
+ * All 53-bit keys must be split into a high and a low part for processing.
  *
  * @type {Number}
  * @private
@@ -346,7 +346,7 @@ export class KeyDesign {
 	 * The total amount of available bits for safe integers.
 	 *
 	 * JavaScript uses IEEE 754 binary64 Doubles for Numbers and, as a result,
-	 * only supports 53bit integers as of ES2015.
+	 * only supports 53-bit integers as of ES2015.
 	 *
 	 * For more information see: http://2ality.com/2012/04/number-encoding.html
 	 *
@@ -363,8 +363,8 @@ export class KeyDesign {
 	/**
 	 * The amount of available bits in the high DWord.
 	 *
-	 * In JavaScript, bit operations can only be applied to DWords (32bit).
-	 * All 53bit keys must be split into a high and a low part for processing.
+	 * In JavaScript, bit operations can only be applied to DWords (32-bit).
+	 * All 53-bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
 	 * @final
@@ -379,8 +379,8 @@ export class KeyDesign {
 	/**
 	 * The amount of available bits in the low DWord.
 	 *
-	 * In JavaScript, bit operations can only be applied to DWords (32bit).
-	 * All 53bit keys must be split into a high and a low part for processing.
+	 * In JavaScript, bit operations can only be applied to DWords (32-bit).
+	 * All 53-bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
 	 * @final

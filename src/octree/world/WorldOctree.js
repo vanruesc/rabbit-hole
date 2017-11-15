@@ -126,7 +126,7 @@ function prune(world, keyX, keyY, keyZ, lod) {
  * An octree that subdivides space for fast spatial searches.
  *
  * The purpose of this linear octree is to efficiently organise volume data. It
- * allows direct access to different LOD layers, octant neighbors and parents.
+ * allows direct access to different LOD layers, octant neighbours and parents.
  *
  * The world octree is axis-aligned and cannot be rotated.
  */
@@ -137,7 +137,7 @@ export class WorldOctree {
 	 * Constructs a new world octree.
 	 *
 	 * Each octant can be uniquely identified by a 3D coordinate and a LOD value.
-	 * The individual values for X, Y and Z are combined into a 53bit key.
+	 * The individual values for X, Y and Z are combined into a 53-bit key.
 	 *
 	 * @param {Number} [cellSize=20] - The size of the smallest octants in LOD zero.
 	 * @param {Number} [levels=16] - The amount of detail levels.
