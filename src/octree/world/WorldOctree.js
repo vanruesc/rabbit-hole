@@ -100,7 +100,7 @@ function prune(world, keyX, keyY, keyZ, lod) {
 		i = WorldOctree.calculateOffsetIndex(keyX, keyY, keyZ);
 
 		// Translate the key coordinates to the next higher LOD.
-		v.set(keyX >> 1, keyY >> 1, keyZ >> 1);
+		v.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
 
 		// The resulting coordinates identify the parent octant.
 		key = world.getKeyDesign().packKey(v);
