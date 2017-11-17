@@ -190,7 +190,8 @@ export class KeyDesign {
 
 	set(x, y, z) {
 
-		if(x + y + z > BITS) {
+		// Bit operations currently only work on DWords.
+		if(x + y + z > BITS || x > DWORD_BITS || y > DWORD_BITS || z > DWORD_BITS) {
 
 			console.warn("Invalid bit allotment");
 
