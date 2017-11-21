@@ -8,6 +8,60 @@ import { Voxel } from "../../volume/Voxel.js";
 import { VoxelCell } from "./VoxelCell.js";
 
 /**
+ * Creates intermediate voxel cells down to the leaf octant that is described
+ * by the given local grid coordinates and returns it.
+ *
+ * @private
+ * @param {VoxelCell} cell - The root octant.
+ * @param {Number} n - The grid resolution.
+ * @param {Number} x - A local grid point X-coordinate.
+ * @param {Number} y - A local grid point Y-coordinate.
+ * @param {Number} z - A local grid point Z-coordinate.
+ * @return {VoxelCell} A leaf voxel cell.
+ */
+
+function getCell(cell, n, x, y, z) {
+
+	let i = 0;
+
+	for(n = n >> 1; n > 0; n >>= 1, i = 0) {
+
+		// YZ.
+		if(x >= n) {
+
+			i += 4; x -= n;
+
+		}
+
+		// XZ.
+		if(y >= n) {
+
+			i += 2; y -= n;
+
+		}
+
+		// XY.
+		if(z >= n) {
+
+			i += 1; z -= n;
+
+		}
+
+		if(cell.children === null) {
+
+			cell.split();
+
+		}
+
+		cell = cell.children[i];
+
+	}
+
+	return cell;
+
+}
+
+/**
  * Creates a voxel and builds a material configuration code from the materials
  * in the voxel corners.
  *
@@ -132,62 +186,6 @@ export class SparseVoxelOctree extends Octree {
 	}
 
 	/**
-	 * Creates intermediate voxel cells down to the leaf octant that is described
-	 * by the given local grid coordinates and returns it.
-	 *
-	 * @private
-	 * @param {Number} n - The grid resolution.
-	 * @param {Number} x - A local grid point X-coordinate.
-	 * @param {Number} y - A local grid point Y-coordinate.
-	 * @param {Number} z - A local grid point Z-coordinate.
-	 * @return {VoxelCell} A leaf voxel cell.
-	 */
-
-	getCell(n, x, y, z) {
-
-		let cell = this.root;
-		let i = 0;
-
-		for(n = n >> 1; n > 0; n >>= 1, i = 0) {
-
-			// Identify the next octant by the grid coordinates.
-
-			if(x >= n) {
-
-				// YZ.
-				i += 4; x -= n;
-
-			}
-
-			if(y >= n) {
-
-				// XZ.
-				i += 2; y -= n;
-
-			}
-
-			if(z >= n) {
-
-				// XY.
-				i += 1; z -= n;
-
-			}
-
-			if(cell.children === null) {
-
-				cell.split();
-
-			}
-
-			cell = cell.children[i];
-
-		}
-
-		return cell;
-
-	}
-
-	/**
 	 * Constructs voxel cells from volume data.
 	 *
 	 * @private
@@ -247,7 +245,7 @@ export class SparseVoxelOctree extends Octree {
 					// Check if the adjusted coordinates still lie inside the grid bounds.
 					if(x >= 0 && y >= 0 && z >= 0 && x < n && y < n && z < n) {
 
-						cell = this.getCell(n, x, y, z);
+						cell = getCell(this.root, n, x, y, z);
 
 						if(cell.voxel === null) {
 
