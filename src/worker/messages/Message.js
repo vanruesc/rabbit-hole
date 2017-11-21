@@ -19,7 +19,7 @@ export class Message {
 		 * A worker action.
 		 *
 		 * When a message is sent to another execution context, it will be copied
-		 * using the Structured Cloning algorithm. This automatic process turns the
+		 * using the Structured Clone algorithm. This automatic process turns the
 		 * message into a plain object. The explicit action flag serves as a
 		 * reliable identifier.
 		 *
