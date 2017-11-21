@@ -40,8 +40,8 @@ module.exports = {
 			test.equal(q.poll(), item0, "should retrieve the first item");
 			test.equal(q.size, 1, "should have one remaining item");
 			test.equal(q.poll(), item1, "should retrieve the second item");
-			test.equal(q.size, 0, "should be empty");
-			test.equal(q.poll(), null, "should return null");
+			test.ok(q.empty, "should be empty");
+			test.equal(q.poll(), undefined, "should return undefined");
 			test.done();
 
 		},
@@ -52,7 +52,7 @@ module.exports = {
 			const item0 = {};
 			const item1 = {};
 
-			test.equal(q.peek(), null, "should return null");
+			test.equal(q.peek(), undefined, "should return undefined");
 
 			q.add(item0);
 			q.add(item1);
@@ -73,8 +73,8 @@ module.exports = {
 			q.add(item1);
 			q.clear();
 
-			test.equal(q.size, 0, "should be empty");
-			test.equal(q.poll(), null, "should return null");
+			test.ok(q.empty, "should be empty");
+			test.equal(q.poll(), undefined, "should return undefined");
 			test.done();
 
 		}

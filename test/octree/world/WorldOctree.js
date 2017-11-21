@@ -3,7 +3,8 @@
 const lib = require("../../../build/rabbit-hole");
 const WorldOctree = lib.WorldOctree;
 const OperationType = lib.OperationType;
-const Sphere = lib.Sphere;
+const SuperPrimitive = lib.SuperPrimitive;
+const SuperPrimitivePreset = lib.SuperPrimitivePreset;
 
 const Vector3 = require("math-ds").Vector3;
 const Raycaster = require("three").Raycaster;
@@ -37,10 +38,8 @@ module.exports = {
 
 			const world = new WorldOctree(20, 3);
 
-			const sphere = new Sphere({
-				origin: [10, 10, 10],
-				radius: 1
-			});
+			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+			sphere.origin.set(10, 10, 10);
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 
@@ -56,10 +55,8 @@ module.exports = {
 
 			const world = new WorldOctree(20, 1);
 
-			const sphere = new Sphere({
-				origin: [10, 10, 10],
-				radius: 1
-			});
+			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+			sphere.origin.set(10, 10, 10);
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 			world.applyCSG(sphere.setOperationType(OperationType.DIFFERENCE));
@@ -73,10 +70,8 @@ module.exports = {
 
 			const world = new WorldOctree(20, 1);
 
-			const sphere = new Sphere({
-				origin: [10, 10, 10],
-				radius: 1
-			});
+			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+			sphere.origin.set(10, 10, 10);
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 			world.applyCSG(sphere.setOperationType(OperationType.INTERSECTION));
@@ -90,10 +85,8 @@ module.exports = {
 
 			const world = new WorldOctree(20, 3);
 
-			const sphere = new Sphere({
-				origin: [10, 20, 10],
-				radius: 1
-			});
+			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+			sphere.origin.set(10, 10, 10);
 
 			const keyCoordinates = world.calculateKeyCoordinates(new Vector3(10, 20, 10), 1);
 
@@ -117,10 +110,8 @@ module.exports = {
 
 			const world = new WorldOctree(20, 2);
 
-			const sphere = new Sphere({
-				origin: [0, 0, 0],
-				radius: 10
-			});
+			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+			sphere.origin.set(10, 10, 10);
 
 			const raycaster = new Raycaster();
 			const intersects = [];
