@@ -1,9 +1,8 @@
 import { Box3, Vector3 } from "math-ds";
 import { pattern } from "sparse-octree";
-import { Queue } from "../../core/Queue.js";
 import { OperationType } from "../../volume/csg/OperationType.js";
 import { IntermediateWorldOctant } from "./IntermediateWorldOctant.js";
-import { LeafWorldOctant } from "./LeafWorldOctant.js";
+import { WorldOctant } from "./LeafWorldOctant.js";
 
 /**
  * A point.
@@ -86,6 +85,8 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 	let grid, keyDesign, children;
 	let range, offset, i;
 
+	octant.csg.add(sdf);
+
 	if(lod > 0) {
 
 		// Look at the next lower LOD.
@@ -95,8 +96,6 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 		keyDesign = world.getKeyDesign();
 		children = octant.children;
 		range = ranges[lod];
-
-		octant.clear();
 
 		// Translate the key coordinates to the next lower LOD.
 		keyX <<= 1; keyY <<= 1; keyZ <<= 1;
@@ -125,16 +124,6 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 			}
 
 		}
-
-	} else {
-
-		if(octant.csg === null) {
-
-			octant.csg = new Queue();
-
-		}
-
-		octant.csg.add(sdf);
 
 	}
 
@@ -188,6 +177,7 @@ export class WorldOctreeCSG {
 				if(!grid.has(key)) {
 
 					octant = new IntermediateWorldOctant();
+					octant.csg.add(sdf);
 					grid.set(key, octant);
 
 					// Translate the key coordinates to the next lower LOD.
@@ -214,10 +204,6 @@ export class WorldOctreeCSG {
 
 					}
 
-				} else {
-
-					grid.get(key).clear();
-
 				}
 
 			}
@@ -232,19 +218,12 @@ export class WorldOctreeCSG {
 
 			if(!lodZero.has(key)) {
 
-				octant = new LeafWorldOctant();
-				octant.csg = new Queue();
+				octant = new WorldOctant();
 				lodZero.set(key, octant);
 
 			} else {
 
 				octant = lodZero.get(key);
-
-				if(octant.csg === null) {
-
-					octant.csg = new Queue();
-
-				}
 
 			}
 
@@ -350,26 +329,13 @@ export class WorldOctreeCSG {
 
 		let lod, octant;
 
-		// Invalidate the data of all intermediate octants.
 		for(lod = world.getDepth(); lod > 0; --lod) {
 
 			for(octant of world.getGrid(lod).values()) {
 
-				octant.clear();
+				octant.csg.add(sdf);
 
 			}
-
-		}
-
-		for(octant of world.lodZero.values()) {
-
-			if(octant.csg === null) {
-
-				octant.csg = new Queue();
-
-			}
-
-			octant.csg.add(sdf);
 
 		}
 

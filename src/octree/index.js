@@ -11,7 +11,6 @@ export {
 
 export {
 	IntermediateWorldOctant,
-	LeafWorldOctant,
 	KeyDesign,
 	KeyIterator,
 	WorldOctant,

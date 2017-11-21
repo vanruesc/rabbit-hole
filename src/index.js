@@ -46,7 +46,6 @@ export {
 	IntermediateWorldOctant,
 	KeyDesign,
 	KeyIterator,
-	LeafWorldOctant,
 	SparseVoxelOctree,
 	VoxelCell,
 	WorldOctant,
