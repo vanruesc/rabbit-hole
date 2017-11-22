@@ -12,5 +12,3 @@ export { ExtractionRequest } from "./ExtractionRequest.js";
 export { ExtractionResponse } from "./ExtractionResponse.js";
 export { ModificationRequest } from "./ModificationRequest.js";
 export { ModificationResponse } from "./ModificationResponse.js";
-export { ResamplingRequest } from "./ResamplingRequest.js";
-export { ResamplingResponse } from "./ResamplingResponse.js";

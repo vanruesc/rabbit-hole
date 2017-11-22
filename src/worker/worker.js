@@ -3,7 +3,6 @@ import { VoxelCell } from "../octree/voxel/VoxelCell.js";
 import { Message } from "./messages/Message.js";
 import { SurfaceExtractor } from "./SurfaceExtractor.js";
 import { VolumeModifier } from "./VolumeModifier.js";
-import { VolumeResampler } from "./VolumeResampler.js";
 import { Action } from "./Action.js";
 
 /**
@@ -15,16 +14,6 @@ import { Action } from "./Action.js";
  */
 
 const volumeModifier = new VolumeModifier();
-
-/**
- * A volume resampler.
- *
- * @type {VolumeResampler}
- * @private
- * @final
- */
-
-const volumeResampler = new VolumeResampler();
 
 /**
  * A surface extractor.
@@ -67,13 +56,6 @@ self.addEventListener("message", function onMessage(event) {
 			);
 			break;
 
-		case Action.RESAMPLE:
-			postMessage(
-				volumeResampler.process(request).respond(),
-				volumeResampler.createTransferList()
-			);
-			break;
-
 		case Action.EXTRACT:
 			postMessage(
 				surfaceExtractor.process(request).respond(),
@@ -104,9 +86,8 @@ self.addEventListener("message", function onMessage(event) {
 self.addEventListener("error", function onError(event) {
 
 	const processor = (action === Action.MODIFY) ?
-		volumeModifier : (action === Action.RESAMPLE) ?
-			volumeResampler : (action === Action.EXTRACT) ?
-				surfaceExtractor : null;
+		volumeModifier : (action === Action.EXTRACT) ?
+			surfaceExtractor : null;
 
 	let response;
 

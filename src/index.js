@@ -91,8 +91,7 @@ export {
 	DataProcessor,
 	SurfaceExtractor,
 	ThreadPool,
-	VolumeModifier,
-	VolumeResampler
+	VolumeModifier
 } from "./worker";
 
 export {
@@ -102,7 +101,5 @@ export {
 	ExtractionRequest,
 	ExtractionResponse,
 	ModificationRequest,
-	ModificationResponse,
-	ResamplingRequest,
-	ResamplingResponse
+	ModificationResponse
 } from "./worker/messages";
