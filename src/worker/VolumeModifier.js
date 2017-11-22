@@ -79,28 +79,17 @@ export class VolumeModifier extends DataProcessor {
 
 	process(request) {
 
-		// Reset the container group and adopt the provided data.
-		const containerGroup = super.process(request).containerGroup;
-		const children = containerGroup.children;
-		const cellPositions = request.cellPositions;
-		const cellSizes = request.cellSizes;
+		// Adopt the provided data.
+		const data = super.process(request).getData();
 
 		// Revive the SDF.
 		const sdf = this.sdf = SDFReviver.reviveSDF(request.sdf);
 
-		let result;
-		let i, l;
+		// The resulting data is uncompressed.
+		const result = ConstructiveSolidGeometry.run(request.cellPosition, request.cellSize, data, sdf);
 
-		// Apply the SDF to the provided data sets, one by one.
-		for(i = 0, l = request.size; i < l; ++i) {
-
-			// The resulting data is uncompressed.
-			result = ConstructiveSolidGeometry.run(cellPositions[i], cellSizes[i], children[i], sdf);
-
-			// Update the data entry with the compressed result.
-			children[i] = (result !== null) ? result.compress() : null;
-
-		}
+		// Overwrite the data and compress it.
+		super.data = (result !== null) ? result.compress() : null;
 
 		return this;
 

@@ -25,25 +25,25 @@ export class ModificationRequest extends DataMessage {
 		this.sdf = null;
 
 		/**
-		 * The world size of the volume data cells.
+		 * The world size of the volume data cell.
 		 *
-		 * @type {Array}
-		 * @default null
+		 * @type {Number}
+		 * @default 0
 		 */
 
-		this.cellSizes = null;
+		this.cellSize = 0;
 
 		/**
 		 * The world positions of the volume data cells.
 		 *
-		 * Together with the world sizes, these base positions describes the region
-		 * of the volume data cells in world space.
+		 * Together with the world size, this base position describes the region of
+		 * the volume data cell in world space.
 		 *
 		 * @type {Number[]}
 		 * @default null
 		 */
 
-		this.cellPositions = null;
+		this.cellPosition = null;
 
 	}
 

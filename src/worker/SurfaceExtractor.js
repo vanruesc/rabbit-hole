@@ -76,11 +76,11 @@ export class SurfaceExtractor extends DataProcessor {
 
 	process(request) {
 
-		// Reset the container group and adopt the provided data.
-		const containerGroup = super.process(request).containerGroup;
+		// Adopt the provided data.
+		const data = super.process(request).getData();
 
 		// Generate the isosurface.
-		this.isosurface = DualContouring.run(containerGroup);
+		this.isosurface = DualContouring.run(data);
 
 		return this;
 

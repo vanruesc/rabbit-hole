@@ -1,15 +1,14 @@
-import { ContainerGroup } from "../volume/ContainerGroup.js";
 import { HermiteData } from "../volume/HermiteData.js";
 
 /**
- * A Hermite data group.
+ * An empty set of Hermite data.
  *
- * @type {ContainerGroup}
+ * @type {HermiteData}
  * @private
  * @final
  */
 
-const containerGroup = new ContainerGroup();
+const data = new HermiteData(false);
 
 /**
  * A volume data processor.
@@ -26,39 +25,36 @@ export class DataProcessor {
 	constructor() {
 
 		/**
-		 * A Hermite data group that acts as a fixed-size backup pool.
+		 * A set of Hermite data that will be used during processing.
 		 *
-		 * @type {ContainerGroup}
-		 * @private
-		 */
-
-		this.containerGroupBase = new ContainerGroup(
-
-			new HermiteData(false), new HermiteData(false),
-			new HermiteData(false), new HermiteData(false),
-
-			new HermiteData(false), new HermiteData(false),
-			new HermiteData(false), new HermiteData(false)
-
-		);
-
-		/**
-		 * The active Hermite data group that will be used during processing.
-		 *
-		 * @type {ContainerGroup}
+		 * @type {HermiteData}
 		 * @protected
+		 * @default null
 		 */
 
-		this.containerGroup = null;
+		this.data = null;
 
 		/**
 		 * A container for the data that will be returned to the main thread.
 		 *
 		 * @type {DataMessage}
 		 * @protected
+		 * @default null
 		 */
 
 		this.response = null;
+
+	}
+
+	/**
+	 * Returns the data of this processor.
+	 *
+	 * @return {HermiteData} The data.
+	 */
+
+	getData() {
+
+		return this.data;
 
 	}
 
@@ -72,7 +68,7 @@ export class DataProcessor {
 
 	respond() {
 
-		this.response.containerGroup = this.containerGroup.serialize();
+		this.response.data = this.data.serialize();
 
 		return this.response;
 
@@ -87,9 +83,9 @@ export class DataProcessor {
 
 	createTransferList(transferList = []) {
 
-		if(this.containerGroup !== null) {
+		if(this.data !== null) {
 
-			this.containerGroup.createTransferList(transferList);
+			this.data.createTransferList(transferList);
 
 		}
 
@@ -106,7 +102,7 @@ export class DataProcessor {
 
 	process(request) {
 
-		this.containerGroup = containerGroup.copy(this.containerGroupBase).deserialize(request.containerGroup);
+		this.data = data.deserialize(request.data);
 
 		return this;
 

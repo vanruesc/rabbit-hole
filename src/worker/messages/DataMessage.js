@@ -17,13 +17,13 @@ export class DataMessage extends Message {
 		super(action);
 
 		/**
-		 * A group of data containers.
+		 * A serialised data container.
 		 *
-		 * @type {Array}
+		 * @type {Object}
 		 * @default null
 		 */
 
-		this.containerGroup = null;
+		this.data = null;
 
 	}
 
