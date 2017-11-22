@@ -31,6 +31,11 @@ export {
 } from "./helpers";
 
 export {
+	DualContouring,
+	Isosurface
+} from "./isosurface";
+
+export {
 	MeshTriplanarPhysicalMaterial
 } from "./materials";
 
