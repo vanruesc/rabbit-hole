@@ -355,8 +355,17 @@ export class HermiteData {
 
 		}
 
-		transferList.push(this.materialIndices.buffer);
-		transferList.push(this.runLengths.buffer);
+		if(this.materialIndices !== null) {
+
+			transferList.push(this.materialIndices.buffer);
+
+		}
+
+		if(this.runLengths !== null) {
+
+			transferList.push(this.runLengths.buffer);
+
+		}
 
 		return transferList;
 
