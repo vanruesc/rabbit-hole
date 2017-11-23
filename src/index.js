@@ -7,7 +7,6 @@
 export {
 	Deserializable,
 	Queue,
-	Scheduler,
 	Task,
 	Terrain
 	Serializable,
