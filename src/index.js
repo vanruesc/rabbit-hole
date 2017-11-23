@@ -6,7 +6,6 @@
 
 export {
 	Deserializable,
-	PriorityQueue,
 	Queue,
 	Scheduler,
 	Task,
