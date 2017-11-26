@@ -48,7 +48,7 @@ export class Isosurface {
 		this.normals = null;
 
 		/**
-		 * A set of material indices.
+		 * A set of UV coordinates.
 		 *
 		 * @type {Float32Array}
 		 * @default null

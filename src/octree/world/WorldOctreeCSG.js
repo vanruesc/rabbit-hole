@@ -238,7 +238,7 @@ export class WorldOctreeCSG {
 	 *
 	 * Calculating an entry LOD depending on the longest side of the affected
 	 * region could improve performance, but by skipping higher LOD grid some
-	 * intermediate octants won't be cleared.
+	 * intermediate octants won't be affected by the SDF.
 	 *
 	 * ```js
 	 * const min = region.min;
