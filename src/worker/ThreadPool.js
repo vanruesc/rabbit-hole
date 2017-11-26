@@ -8,6 +8,7 @@ import worker from "./worker.tmp";
 /**
  * Manages worker threads.
  *
+ * @implements {Disposable}
  * @implements {EventListener}
  */
 

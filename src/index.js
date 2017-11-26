@@ -6,9 +6,9 @@
 
 export {
 	Deserializable,
+	Disposable,
 	Queue,
 	Task,
-	Terrain
 	Serializable,
 	Terrain,
 	TransferableContainer
