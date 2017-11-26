@@ -1,6 +1,5 @@
 import { edges } from "sparse-octree";
 import { Material } from "../../volume/Material.js";
-import { SparseVoxelOctree } from "../../octree/voxel/SparseVoxelOctree.js";
 import { Isosurface } from "../Isosurface.js";
 import * as tables from "./tables.js";
 
@@ -350,24 +349,22 @@ export class DualContouring {
 	/**
 	 * Contours the given volume data.
 	 *
-	 * @param {Vector3} min - The lower bounds of the volume data cell.
-	 * @param {Number} size - The size of the volume data cell.
-	 * @param {HermiteData} data - The volume data.
+	 * @param {SparseVoxelOctree} octree - A voxel octree.
 	 * @return {Isosurface} The generated isosurface or null if no data was generated.
 	 */
 
-	static run(min, size, data) {
+	static run(octree) {
 
 		const indexBuffer = [];
-		const octree = new SparseVoxelOctree(min, size, data);
 
 		// Each voxel contains one vertex.
 		const vertexCount = octree.voxelCount;
 
 		let result = null;
-		let indices = null;
 		let positions = null;
 		let normals = null;
+		let uvs = null;
+		let materials = null;
 
 		if(vertexCount > MAX_VERTEX_COUNT) {
 
@@ -380,13 +377,19 @@ export class DualContouring {
 
 			positions = new Float32Array(vertexCount * 3);
 			normals = new Float32Array(vertexCount * 3);
+			uvs = new Float32Array(vertexCount * 2);
+			materials = new Uint8Array(vertexCount);
 
 			generateVertexIndices(octree.root, positions, normals, 0);
 			contourCellProc(octree.root, indexBuffer);
 
-			indices = new Uint16Array(indexBuffer);
-
-			result = new Isosurface(indices, positions, normals);
+			result = new Isosurface(
+				new Uint16Array(indexBuffer),
+				positions,
+				normals,
+				uvs,
+				materials
+			);
 
 		}
 

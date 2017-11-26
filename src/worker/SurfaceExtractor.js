@@ -1,4 +1,6 @@
 import { DualContouring } from "../isosurface/dual-contouring/DualContouring.js";
+import { SparseVoxelOctree } from "../octree/voxel/SparseVoxelOctree.js";
+import { HermiteData } from "../volume/HermiteData.js";
 import { ExtractionResponse } from "./messages/ExtractionResponse.js";
 import { DataProcessor } from "./DataProcessor.js";
 
@@ -23,6 +25,15 @@ export class SurfaceExtractor extends DataProcessor {
 		 */
 
 		this.response = new ExtractionResponse();
+
+		/**
+		 * A target container for decompressed data.
+		 *
+		 * @type {HermiteData}
+		 * @private
+		 */
+
+		this.decompressionTarget = new HermiteData(false);
 
 		/**
 		 * The result of the isosurface extraction process.
@@ -79,8 +90,14 @@ export class SurfaceExtractor extends DataProcessor {
 		// Adopt the provided data.
 		const data = super.process(request).getData();
 
+		// Decompress the data and build an SVO.
+		const octree = new SparseVoxelOctree(data.decompress(this.decompressionTarget));
+
 		// Generate the isosurface.
-		this.isosurface = DualContouring.run(data);
+		this.isosurface = DualContouring.run(octree);
+
+		// Release the decompressed data.
+		this.decompressionTarget.clear();
 
 		return this;
 
