@@ -137,12 +137,12 @@ export class SparseVoxelOctree extends Octree {
 	/**
 	 * Constructs a new voxel octree.
 	 *
-	 * @param {Number[]} min - The lower bounds of this octree as an array.
-	 * @param {Number} size - The size of this octree.
 	 * @param {HermiteData} data - A set of volume data.
+	 * @param {Vector3} [min] - The lower bounds of this octree.
+	 * @param {Number} [size=1] - The size of this octree.
 	 */
 
-	constructor(min, size, data) {
+	constructor(data, min = new Vector3(), size = 1) {
 
 		super();
 
@@ -152,7 +152,7 @@ export class SparseVoxelOctree extends Octree {
 		 * @type {VoxelCell}
 		 */
 
-		this.root = new VoxelCell(new Vector3(...min), size);
+		this.root = new VoxelCell(min, size);
 
 		/**
 		 * The amount of voxels in this octree.
