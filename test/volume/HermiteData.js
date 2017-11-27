@@ -6,16 +6,6 @@ module.exports = {
 
 	"Hermite Data": {
 
-		"allows resolution to be set once": function(test) {
-
-			HermiteData.resolution = 1;
-			HermiteData.resolution = 2;
-
-			test.equal(HermiteData.resolution, 1, "data resolution should not change again");
-			test.done();
-
-		},
-
 		"can be instantiated": function(test) {
 
 			const data = new HermiteData();

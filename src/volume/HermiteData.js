@@ -388,19 +388,17 @@ export class HermiteData {
 	}
 
 	/**
-	 * This value can only be set once. The upper limit is 256.
+	 * Warning: this value should only be set once.
+	 *
+	 * The upper limit is 256.
 	 *
 	 * @type {Number}
 	 */
 
-	static set resolution(value = 0) {
+	static set resolution(value) {
 
-		if(resolution === 0) {
-
-			resolution = Math.max(1, Math.min(256, ceil2(value)));
-			indexCount = Math.pow((resolution + 1), 3);
-
-		}
+		resolution = Math.max(1, Math.min(256, ceil2(value)));
+		indexCount = Math.pow((resolution + 1), 3);
 
 	}
 
