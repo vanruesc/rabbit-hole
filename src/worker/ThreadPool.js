@@ -1,5 +1,5 @@
 import { EventTarget } from "synthetic-event";
-import { ConfigurationRequest, Request } from "./messages";
+import { ConfigurationMessage, Message } from "./messages";
 import { Action } from "./Action.js";
 import * as events from "./thread-pool-events.js";
 
@@ -61,14 +61,14 @@ export class ThreadPool extends EventTarget {
 		this.busyWorkers = new WeakSet();
 
 		/**
-		 * A configuration request.
+		 * A configuration message.
 		 *
 		 * This object will be sent to each newly created worker.
 		 *
-		 * @type {ConfigurationRequest}
+		 * @type {ConfigurationMessage}
 		 */
 
-		this.configurationRequest = new ConfigurationRequest();
+		this.configurationMessage = new ConfigurationMessage();
 
 	}
 
@@ -130,7 +130,7 @@ export class ThreadPool extends EventTarget {
 
 		} else {
 
-			worker.postMessage(new Request(Action.CLOSE));
+			worker.postMessage(new Message(Action.CLOSE));
 
 		}
 
@@ -161,7 +161,7 @@ export class ThreadPool extends EventTarget {
 		worker.addEventListener("message", this);
 		worker.addEventListener("error", this);
 
-		worker.postMessage(this.configurationRequest);
+		worker.postMessage(this.configurationMessage);
 
 		return worker;
 

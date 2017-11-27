@@ -5,7 +5,7 @@
  */
 
 export {
-	ConfigurationRequest,
+	ConfigurationMessage,
 	DataMessage,
 	Message,
 	ExtractionRequest,

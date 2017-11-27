@@ -1,11 +1,11 @@
 import { Action } from "../Action.js";
-import { Response } from "./Response.js";
+import { DataMessage } from "./DataMessage.js";
 
 /**
  * An extraction response.
  */
 
-export class ExtractionResponse extends Response {
+export class ExtractionResponse extends DataMessage {
 
 	/**
 	 * Constructs a new extraction response.
