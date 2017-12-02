@@ -287,7 +287,7 @@ export class SVODemo extends Demo {
 		const presets = Object.keys(SuperPrimitivePreset);
 
 		const params = {
-			"SVO preset": presets[this.superPrimitivePreset],
+			"SDF preset": presets[this.superPrimitivePreset],
 			"level mask": octreeHelper.children.length - 1,
 			"contour": () => {
 
@@ -297,9 +297,9 @@ export class SVODemo extends Demo {
 			}
 		};
 
-		gui.add(params, "SVO preset", presets).onChange(() => {
+		gui.add(params, "SDF preset", presets).onChange(() => {
 
-			this.superPrimitivePreset = SuperPrimitivePreset[params["SVO preset"]];
+			this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
 			this.createHermiteData();
 			this.createSVO();
 
