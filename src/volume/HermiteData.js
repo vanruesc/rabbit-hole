@@ -218,7 +218,7 @@ export class HermiteData {
 	/**
 	 * Compresses this data.
 	 *
-	 * @param {HermiteData} [target=this] - An optional target data set. If none is provided, the original data will be replaced with the compressed data.
+	 * @param {HermiteData} [target=this] - A target data set. The compressed data will be assigned to this set.
 	 * @return {HermiteData} The target data set.
 	 */
 
@@ -243,10 +243,17 @@ export class HermiteData {
 
 			}
 
-			target.runLengths = new Uint32Array(encoding.runLengths);
 			target.materialIndices = new Uint8Array(encoding.data);
+			target.runLengths = new Uint32Array(encoding.runLengths);
+
+		} else {
+
+			target.materialIndices = this.materialIndices;
+			target.runLengths = this.runLengths;
 
 		}
+
+		target.materials = this.materials;
 
 		return target;
 
@@ -255,7 +262,7 @@ export class HermiteData {
 	/**
 	 * Decompresses this data.
 	 *
-	 * @param {HermiteData} [target=this] - An optional target data set. If none is provided, the compressed data will be replaced with the decompressed data.
+	 * @param {HermiteData} [target=this] - A target data set. If none is provided, the compressed data will be replaced with the decompressed data.
 	 * @return {HermiteData} The target data set.
 	 */
 
@@ -267,6 +274,7 @@ export class HermiteData {
 			);
 
 		target.runLengths = null;
+		target.materials = this.materials;
 
 		return target;
 
