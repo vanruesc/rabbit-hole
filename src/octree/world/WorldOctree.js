@@ -506,14 +506,14 @@ export class WorldOctree {
 	 * octants are sorted by distance, closest first. Empty octants will not be
 	 * included in the result.
 	 *
-	 * @param {Raycaster} raycaster - A raycaster.
+	 * @param {Ray} ray - A ray.
 	 * @param {Array} [intersects] - An optional target list to be filled with the intersecting octants.
 	 * @return {WorldOctant[]} The intersecting octants.
 	 */
 
-	raycast(raycaster, intersects = []) {
+	raycast(ray, intersects = []) {
 
-		return WorldOctreeRaycaster.intersectWorldOctree(this, raycaster, intersects);
+		return WorldOctreeRaycaster.intersectWorldOctree(this, ray, intersects);
 
 	}
 

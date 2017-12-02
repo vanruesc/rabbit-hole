@@ -213,11 +213,10 @@ function findNextOctant(currentOctant, tx1, ty1, tz1) {
  * @param {Number} tx1 - Ray projection parameter. Initial tx1 = (maxX - rayOriginX) / rayDirectionX.
  * @param {Number} ty1 - Ray projection parameter. Initial ty1 = (maxY - rayOriginY) / rayDirectionY.
  * @param {Number} tz1 - Ray projection parameter. Initial tz1 = (maxZ - rayOriginZ) / rayDirectionZ.
- * @param {Raycaster} raycaster - The raycaster.
  * @param {WorldOctant[]} intersects - An array to be filled with the intersecting octants.
  */
 
-function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1, ty1, tz1, raycaster, intersects) {
+function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1, ty1, tz1, intersects) {
 
 	let grid, keyDesign;
 	let children, offset;
@@ -262,7 +261,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tz0, txm, tym, tzm, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
 
 						}
 
@@ -277,7 +276,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tzm, txm, tym, tz1, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
 
 						}
 
@@ -292,7 +291,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tz0, txm, ty1, tzm, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
 
 						}
 
@@ -307,7 +306,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tzm, txm, ty1, tz1, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
 
 						}
 
@@ -322,7 +321,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tz0, tx1, tym, tzm, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
 
 						}
 
@@ -337,7 +336,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tzm, tx1, tym, tz1, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
 
 						}
 
@@ -352,7 +351,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tz0, tx1, ty1, tzm, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
 
 						}
 
@@ -367,7 +366,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 							offset = pattern[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tzm, tx1, ty1, tz1, raycaster, intersects);
+							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
 
 						}
 
@@ -395,11 +394,11 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
  * @param {WorldOctree} world - The world octree.
  * @param {WorldOctantWrapper} subtree - A world octant, enriched with positional information.
  * @param {Vector3} keyCoordinates - The key coordinates of the octant.
- * @param {Raycaster} raycaster - A raycaster.
+ * @param {Ray} ray - A ray.
  * @param {WorldOctant[]} intersects - The intersecting octants. Sorted by distance, closest first
  */
 
-function intersectSubtree(world, subtree, keyCoordinates, raycaster, intersects) {
+function intersectSubtree(world, subtree, keyCoordinates, ray, intersects) {
 
 	// Translate the octant extents to the scene origin.
 	const min = b.min.set(0, 0, 0);
@@ -408,8 +407,8 @@ function intersectSubtree(world, subtree, keyCoordinates, raycaster, intersects)
 	const dimensions = subtree.getDimensions(d.min);
 	const halfDimensions = d.max.copy(dimensions).multiplyScalar(0.5);
 
-	const origin = r.origin.copy(raycaster.ray.origin);
-	const direction = r.direction.copy(raycaster.ray.direction);
+	const origin = r.origin.copy(ray.origin);
+	const direction = r.direction.copy(ray.direction);
 
 	let invDirX, invDirY, invDirZ;
 	let tx0, tx1, ty0, ty1, tz0, tz1;
@@ -463,7 +462,7 @@ function intersectSubtree(world, subtree, keyCoordinates, raycaster, intersects)
 		world, subtree.octant,
 		keyCoordinates.x, keyCoordinates.y, keyCoordinates.z, world.getDepth(),
 		tx0, ty0, tz0, tx1, ty1, tz1,
-		raycaster, intersects
+		intersects
 	);
 
 }
@@ -495,12 +494,12 @@ export class WorldOctreeRaycaster {
 	 * Finds (pseudo) leaf octants that intersect with the given ray.
 	 *
 	 * @param {WorldOctree} world - A world octree.
-	 * @param {Raycaster} raycaster - A raycaster. Its `far` property determines the end of the ray. Infinity will be sanitised.
+	 * @param {Ray} ray - A ray.
 	 * @param {Array} [intersects] - An optional target list to be filled with the intersecting octants.
 	 * @return {WorldOctant[]} The intersecting octants. Sorted by distance, closest first.
 	 */
 
-	static intersectWorldOctree(world, raycaster, intersects = []) {
+	static intersectWorldOctree(world, ray, intersects = []) {
 
 		const lod = world.getDepth();
 		const grid = world.getGrid(lod);
@@ -512,7 +511,7 @@ export class WorldOctreeRaycaster {
 		const keyCoordinates1 = l.end;
 
 		// Find the point at which the ray enters the world grid.
-		const a = !world.containsPoint(r.copy(raycaster.ray).origin) ?
+		const a = !world.containsPoint(r.copy(ray).origin) ?
 			r.intersectBox(world, r.origin) :
 			r.origin;
 
@@ -529,7 +528,7 @@ export class WorldOctreeRaycaster {
 			// Phase 1: Initialisation.
 
 			// Find the ending point.
-			t = (raycaster.far === Infinity) ? cellSize << 1 : raycaster.far;
+			t = cellSize << 1;
 			b = r.at(t, v);
 
 			// Calculate the starting and ending cell coordinates.
@@ -567,7 +566,7 @@ export class WorldOctreeRaycaster {
 						octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
 
 						// Raycast the subtree and collect intersecting children.
-						intersectSubtree(world, octantWrapper, keyCoordinates0, raycaster, intersects);
+						intersectSubtree(world, octantWrapper, keyCoordinates0, ray, intersects);
 
 					} else {
 
