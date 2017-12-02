@@ -178,49 +178,6 @@ export class SignedDistanceFunction {
 	}
 
 	/**
-	 * Serialises this SDF.
-	 *
-	 * @return {Object} A serialised description of this SDF.
-	 */
-
-	serialize() {
-
-		const result = {
-			type: this.type,
-			operation: this.operation,
-			material: this.material,
-			parameters: null,
-			children: []
-		};
-
-		const children = this.children;
-
-		let i, l;
-
-		for(i = 0, l = children.length; i < l; ++i) {
-
-			result.children.push(children[i].serialize());
-
-		}
-
-		return result;
-
-	}
-
-	/**
-	 * Creates a list of transferable items.
-	 *
-	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
-	 * @return {Transferable[]} The transfer list.
-	 */
-
-	createTransferList(transferList = []) {
-
-		return transferList;
-
-	}
-
-	/**
 	 * Translates this SDF into a CSG expression.
 	 *
 	 * @return {Operation} A CSG operation.
@@ -267,6 +224,48 @@ export class SignedDistanceFunction {
 		}
 
 		return operation;
+
+	}
+
+	/**
+	 * Serialises this SDF.
+	 *
+	 * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.
+	 * @return {Object} The serialised data.
+	 */
+
+	serialize(deflate = false) {
+
+		const result = {
+			type: this.type,
+			operation: this.operation,
+			material: this.material,
+			parameters: null,
+			children: []
+		};
+
+		let i, l;
+
+		for(i = 0, l = this.children.length; i < l; ++i) {
+
+			result.children.push(this.children[i].serialize(deflate));
+
+		}
+
+		return result;
+
+	}
+
+	/**
+	 * Creates a list of transferable items.
+	 *
+	 * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.
+	 * @return {Transferable[]} The transfer list.
+	 */
+
+	createTransferList(transferList = []) {
+
+		return transferList;
 
 	}
 

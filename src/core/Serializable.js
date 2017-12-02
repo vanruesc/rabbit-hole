@@ -13,10 +13,11 @@ export class Serializable {
 	 * Serialises this data.
 	 *
 	 * @throws {Error} An error is thrown if the method is not overridden.
+	 * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.
 	 * @return {Object} The serialised data.
 	 */
 
-	serialize() {
+	serialize(deflate = false) {
 
 		throw new Error("Serializable#serialise method not implemented!");
 

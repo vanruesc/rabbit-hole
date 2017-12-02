@@ -114,10 +114,11 @@ export class Heightfield extends SignedDistanceFunction {
 	/**
 	 * Serialises this SDF.
 	 *
-	 * @return {Object} A serialised description of this SDF.
+	 * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.
+	 * @return {Object} The serialised data.
 	 */
 
-	serialize() {
+	serialize(deflate = false) {
 
 		const result = super.serialise();
 

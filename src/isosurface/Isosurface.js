@@ -70,10 +70,11 @@ export class Isosurface {
 	/**
 	 * Serialises this isosurface.
 	 *
-	 * @return {Object} The serialised isosurface.
+	 * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.
+	 * @return {Object} The serialised data.
 	 */
 
-	serialize() {
+	serialize(deflate = false) {
 
 		return {
 			indices: this.indices,

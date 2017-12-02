@@ -275,10 +275,11 @@ export class HermiteData {
 	/**
 	 * Serialises this data.
 	 *
+	 * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.
 	 * @return {Object} The serialised data.
 	 */
 
-	serialize() {
+	serialize(deflate = false) {
 
 		this.neutered = true;
 
