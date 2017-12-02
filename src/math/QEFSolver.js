@@ -12,6 +12,25 @@ import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
 const p = new Vector3();
 
 /**
+ * Computes the error of the approximated position.
+ *
+ * @private
+ * @param {SymmetricMatrix3} ata - ATA.
+ * @param {Vector3} atb - ATb.
+ * @param {Vector3} x - The calculated vertex position.
+ * @return {Number} The QEF error.
+ */
+
+function calculateError(ata, atb, x) {
+
+	ata.applyToVector3(p.copy(x));
+	p.subVectors(atb, p);
+
+	return p.dot(p);
+
+}
+
+/**
  * A Quaratic Error Function solver.
  *
  * Finds a point inside a voxel that minimises the sum of the squares of the
@@ -92,25 +111,6 @@ export class QEFSolver {
 	}
 
 	/**
-	 * Computes the error of the approximated position.
-	 *
-	 * @param {SymmetricMatrix3} ata - ATA.
-	 * @param {Vector3} atb - ATb.
-	 * @param {Vector3} x - The calculated vertex position.
-	 * @return {Number} The QEF error.
-	 */
-
-	calculateError(ata, atb, x) {
-
-		p.copy(x);
-		ata.applyToVector3(p);
-		p.subVectors(atb, p);
-
-		return p.dot(p);
-
-	}
-
-	/**
 	 * Solves the Quadratic Error Function.
 	 *
 	 * @param {Vector3} x - A target vector to store the vertex position in.
@@ -136,7 +136,7 @@ export class QEFSolver {
 			atb.sub(p);
 
 			SingularValueDecomposition.solve(ata, atb, x);
-			error = this.calculateError(ata, atb, x);
+			error = calculateError(ata, data.atb, x);
 			x.add(massPoint);
 
 			this.hasSolution = true;
