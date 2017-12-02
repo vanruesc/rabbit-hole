@@ -2,7 +2,7 @@ import { Box3, Vector3 } from "math-ds";
 import { pattern } from "sparse-octree";
 import { OperationType } from "../../volume/csg/OperationType.js";
 import { IntermediateWorldOctant } from "./IntermediateWorldOctant.js";
-import { WorldOctant } from "./LeafWorldOctant.js";
+import { WorldOctant } from "./WorldOctant.js";
 
 /**
  * A point.
