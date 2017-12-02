@@ -32,13 +32,13 @@ export class SDFLoader extends EventTarget {
 		this.descriptions = null;
 
 		/**
-		 * A collection of images that need to be loaded.
+		 * A collection that maps images to their respective serialised SDFs.
 		 *
 		 * @type {WeakMap}
 		 * @private
 		 */
 
-		this.images = new WeakMap();
+		this.imageMap = new WeakMap();
 
 	}
 
@@ -48,7 +48,7 @@ export class SDFLoader extends EventTarget {
 
 	clear() {
 
-		this.images = new WeakMap();
+		this.imageMap = new WeakMap();
 
 	}
 
@@ -79,15 +79,15 @@ export class SDFLoader extends EventTarget {
 	progress(event = null) {
 
 		const item = (event !== null) ? event.target : null;
-		const images = this.images;
+		const imageMap = this.imageMap;
 
 		let description;
 
 		if(item !== null) {
 
-			if(images.has(item)) {
+			if(imageMap.has(item)) {
 
-				description = images.get(item);
+				description = imageMap.get(item);
 				description.image = item;
 
 			}
@@ -116,7 +116,7 @@ export class SDFLoader extends EventTarget {
 
 		const image = new Image();
 
-		this.items.set(image, description);
+		this.imageMap.set(image, description);
 		++this.items;
 
 		image.addEventListener("load", this);
