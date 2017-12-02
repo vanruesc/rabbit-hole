@@ -19,6 +19,7 @@ export {
 } from "./compression";
 
 export {
+	SDFLoaderEvent,
 	TerrainEvent,
 	WorkerEvent
 } from "./events";
@@ -31,6 +32,10 @@ export {
 	DualContouring,
 	Isosurface
 } from "./isosurface";
+
+export {
+	SDFLoader
+} from "./loaders";
 
 export {
 	MeshTriplanarPhysicalMaterial
