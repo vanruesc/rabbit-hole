@@ -145,13 +145,14 @@ export class SVODemo extends Demo {
 
 	createHermiteData() {
 
+		const preset = this.superPrimitivePreset;
 		const cellPosition = this.cellPosition.toArray();
 		const cellSize = this.cellSize;
-		const halfSize = cellSize / 2;
+		const scale = (cellSize / 2) - ((preset === SuperPrimitivePreset.PILL) ? 0.275 : 0.075);
 
-		const sdf = SuperPrimitive.create(this.superPrimitivePreset);
+		const sdf = SuperPrimitive.create(preset);
 		sdf.origin.set(0, 0, 0);
-		sdf.setScale(halfSize - 0.075);
+		sdf.setScale(scale);
 
 		this.hermiteData = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
 
