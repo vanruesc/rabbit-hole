@@ -97,7 +97,7 @@ export {
 } from "./worker";
 
 export {
-	ConfigurationRequest,
+	ConfigurationMessage,
 	DataMessage,
 	Message,
 	ExtractionRequest,
