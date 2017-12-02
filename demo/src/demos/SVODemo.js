@@ -1,5 +1,7 @@
 import {
 	BoxBufferGeometry,
+	BufferAttribute,
+	BufferGeometry,
 	Mesh,
 	MeshBasicMaterial,
 	OrbitControls,
@@ -10,6 +12,7 @@ import OctreeHelper from "octree-helper";
 
 import {
 	ConstructiveSolidGeometry,
+	DualContouring,
 	HermiteData,
 	OperationType,
 	SparseVoxelOctree,
@@ -81,6 +84,15 @@ export class SVODemo extends Demo {
 
 		this.octreeHelper = null;
 
+		/**
+		 * A generated mesh.
+		 *
+		 * @type {Mesh}
+		 * @private
+		 */
+
+		this.mesh = null;
+
 	}
 
 	/**
@@ -148,6 +160,40 @@ export class SVODemo extends Demo {
 	}
 
 	/**
+	 * Extracts an isosurface form the current SVO.
+	 *
+	 * @private
+	 */
+
+	contour() {
+
+		const isosurface = DualContouring.run(this.octreeHelper.octree);
+
+		let mesh, geometry;
+
+		if(isosurface !== null) {
+
+			if(this.mesh !== null) {
+
+				this.mesh.geometry.dispose();
+				this.scene.remove(this.mesh);
+
+			}
+
+			geometry = new BufferGeometry();
+			geometry.setIndex(new BufferAttribute(isosurface.indices, 1));
+			geometry.addAttribute("position", new BufferAttribute(isosurface.positions, 3));
+			geometry.addAttribute("normal", new BufferAttribute(isosurface.normals, 3));
+			mesh = new Mesh(geometry, new MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+
+			this.mesh = mesh;
+			this.scene.add(mesh);
+
+		}
+
+	}
+
+	/**
 	 * Creates the scene.
 	 */
 
@@ -173,7 +219,7 @@ export class SVODemo extends Demo {
 
 		// Camera.
 
-		camera.near = 0.1;
+		camera.near = 0.01;
 		camera.far = 25;
 		camera.position.set(0, 0, 2);
 		camera.lookAt(controls.target);
@@ -241,22 +287,34 @@ export class SVODemo extends Demo {
 		const presets = Object.keys(SuperPrimitivePreset);
 
 		const params = {
-			"preset": presets[this.superPrimitivePreset],
-			"level mask": octreeHelper.children.length - 1
+			"SVO preset": presets[this.superPrimitivePreset],
+			"level mask": octreeHelper.children.length - 1,
+			"contour": () => {
+
+				this.contour();
+				this.octreeHelper.visible = false;
+
+			}
 		};
 
-		let folder = gui.addFolder("SVO");
-		folder.add(params, "preset", presets).onChange(() => {
+		gui.add(params, "SVO preset", presets).onChange(() => {
 
-			this.superPrimitivePreset = SuperPrimitivePreset[params.preset];
+			this.superPrimitivePreset = SuperPrimitivePreset[params["SVO preset"]];
 			this.createHermiteData();
 			this.createSVO();
 
+			if(this.mesh !== null) {
+
+				this.scene.remove(this.mesh);
+
+			}
+
+			this.octreeHelper.visible = true;
+			params["level mask"] = this.octreeHelper.children.length - 1;
+
 		});
 
-		folder.open();
-
-		folder = gui.addFolder("Octree Helper");
+		const folder = gui.addFolder("Octree Helper");
 		folder.add(params, "level mask").min(0).max(octreeHelper.children.length).step(1).onChange(() => {
 
 			let i, l;
@@ -267,9 +325,11 @@ export class SVODemo extends Demo {
 
 			}
 
-		});
+		}).listen();
 
 		folder.open();
+
+		gui.add(params, "contour");
 
 	}
 
