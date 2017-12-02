@@ -83,7 +83,7 @@ export class VolumeModifier extends DataProcessor {
 		const data = super.process(request).getData();
 
 		// Revive the SDF.
-		const sdf = this.sdf = SDFReviver.reviveSDF(request.sdf);
+		const sdf = this.sdf = SDFReviver.revive(request.sdf);
 
 		// The resulting data is uncompressed.
 		const result = ConstructiveSolidGeometry.run(request.cellPosition, request.cellSize, data, sdf);

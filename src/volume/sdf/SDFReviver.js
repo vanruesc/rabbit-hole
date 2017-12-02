@@ -1,6 +1,7 @@
-import { SDFType } from "../sdf/SDFType.js";
-import { Heightfield } from "../sdf/Heightfield.js";
-import { SuperPrimitive } from "../sdf/SuperPrimitive.js";
+import { FractalNoise } from "./FractalNoise.js";
+import { Heightfield } from "./Heightfield.js";
+import { SDFType } from "./SDFType.js";
+import { SuperPrimitive } from "./SuperPrimitive.js";
 
 /**
  * An SDF reviver.
@@ -12,21 +13,25 @@ export class SDFReviver {
 	 * Creates an SDF from the given serialised description.
 	 *
 	 * @param {Object} description - A serialised SDF.
-	 * @return {SignedDistanceFunction} An SDF.
+	 * @return {SignedDistanceFunction} A deserialized SDF.
 	 */
 
-	static reviveSDF(description) {
+	revive(description) {
 
 		let sdf, i, l;
 
 		switch(description.type) {
 
-			case SDFType.SUPER_PRIMITIVE:
-				sdf = new SuperPrimitive(description.parameters, description.material);
+			case SDFType.FRACTAL_NOISE:
+				sdf = new FractalNoise(description.parameters, description.material);
 				break;
 
 			case SDFType.HEIGHTFIELD:
 				sdf = new Heightfield(description.parameters, description.material);
+				break;
+
+			case SDFType.SUPER_PRIMITIVE:
+				sdf = new SuperPrimitive(description.parameters, description.material);
 				break;
 
 		}
@@ -35,7 +40,7 @@ export class SDFReviver {
 
 		for(i = 0, l = description.children.length; i < l; ++i) {
 
-			sdf.children.push(this.reviveSDF(description.children[i]));
+			sdf.children.push(this.revive(description.children[i]));
 
 		}
 
