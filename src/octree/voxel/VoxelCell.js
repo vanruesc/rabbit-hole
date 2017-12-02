@@ -94,10 +94,10 @@ export class VoxelCell extends CubicOctant {
 
 		const children = this.children;
 
-		const signs = new Int16Array([
+		const signs = [
 			-1, -1, -1, -1,
 			-1, -1, -1, -1
-		]);
+		];
 
 		const position = new Vector3();
 
