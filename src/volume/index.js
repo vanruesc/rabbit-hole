@@ -24,6 +24,7 @@ export {
 export {
 	FractalNoise,
 	Heightfield,
+	SDFReviver,
 	SDFType,
 	SignedDistanceFunction,
 	SuperPrimitive,
