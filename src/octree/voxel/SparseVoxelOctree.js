@@ -162,8 +162,11 @@ export class SparseVoxelOctree extends Octree {
 
 		this.voxelCount = 0;
 
-		// Create voxel cells from Hermite data.
-		this.construct(data);
+		if(data !== null && data.edgeData !== null) {
+
+			this.construct(data);
+
+		}
 
 		if(VoxelCell.errorThreshold >= 0) {
 
