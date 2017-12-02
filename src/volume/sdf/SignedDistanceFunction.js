@@ -270,6 +270,18 @@ export class SignedDistanceFunction {
 	}
 
 	/**
+	 * Returns a plain object that describes this SDF.
+	 *
+	 * @return {Object} A simple description of this SDF.
+	 */
+
+	toJSON() {
+
+		return this.serialize(true);
+
+	}
+
+	/**
 	 * Calculates the bounding box of this SDF.
 	 *
 	 * @throws {Error} An error is thrown if the method is not overridden.
