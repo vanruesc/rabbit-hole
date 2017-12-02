@@ -5,8 +5,9 @@
  */
 
 export { SignedDistanceFunction } from "./SignedDistanceFunction.js";
-export { SDFType } from "./SDFType.js";
 export { SDFReviver } from "./SDFReviver.js";
+export { SDFType } from "./SDFType.js";
 
+export { FractalNoise } from "./FractalNoise.js";
 export { Heightfield } from "./Heightfield.js";
 export { SuperPrimitive, SuperPrimitivePreset } from "./SuperPrimitive.js";

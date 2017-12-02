@@ -22,6 +22,7 @@ export {
 } from "./csg";
 
 export {
+	FractalNoise,
 	Heightfield,
 	SDFType,
 	SignedDistanceFunction,

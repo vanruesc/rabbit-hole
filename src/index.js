@@ -80,6 +80,7 @@ export {
 } from "./volume/csg";
 
 export {
+	FractalNoise,
 	Heightfield,
 	SDFType,
 	SignedDistanceFunction,

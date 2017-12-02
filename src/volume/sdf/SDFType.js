@@ -2,13 +2,15 @@
  * An enumeration of SDF types.
  *
  * @type {Object}
- * @property {String} SUPER_PRIMITIVE - A super primitive description.
  * @property {String} HEIGHTFIELD - A heightfield description.
+ * @property {String} FRACTAL_NOISE - A fractal noise description.
+ * @property {String} SUPER_PRIMITIVE - A super primitive description.
  */
 
 export const SDFType = {
 
-	SUPER_PRIMITIVE: "sdf.superprimitive",
-	HEIGHTFIELD: "sdf.heightfield"
+	HEIGHTFIELD: "sdf.heightfield",
+	FRACTAL_NOISE: "sdf.fractalnoise",
+	SUPER_PRIMITIVE: "sdf.superprimitive"
 
 };
