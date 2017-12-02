@@ -3,6 +3,7 @@ import dat from "dat.gui";
 import Stats from "stats.js";
 
 import { QEFDemo } from "./demos/QEFDemo.js";
+import { SVODemo } from "./demos/SVODemo.js";
 
 /**
  * A demo application.
@@ -70,6 +71,7 @@ export class App {
 			const demos = new Map();
 
 			demos.set("qef", new QEFDemo(renderer));
+			demos.set("svo", new SVODemo(renderer));
 
 			return demos;
 
