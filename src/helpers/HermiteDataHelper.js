@@ -139,6 +139,7 @@ export class HermiteDataHelper extends Object3D {
 	 *
 	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
 	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
+	 * @return {HermiteDataHelper} This helper.
 	 */
 
 	update(useMaterialIndices = false, useEdgeData = true) {
@@ -169,6 +170,8 @@ export class HermiteDataHelper extends Object3D {
 			decompressedData.clear();
 
 		}
+
+		return this;
 
 	}
 
