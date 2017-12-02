@@ -91,10 +91,10 @@ export class SurfaceExtractor extends DataProcessor {
 		const data = super.process(request).getData();
 
 		// Decompress the data and build an SVO.
-		const octree = new SparseVoxelOctree(data.decompress(this.decompressionTarget));
+		const svo = new SparseVoxelOctree(data.decompress(this.decompressionTarget));
 
 		// Generate the isosurface.
-		this.isosurface = DualContouring.run(octree);
+		this.isosurface = DualContouring.run(svo);
 
 		// Release the decompressed data.
 		this.decompressionTarget.clear();
