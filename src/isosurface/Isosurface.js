@@ -26,7 +26,7 @@ export class Isosurface {
 		 * @type {Uint16Array}
 		 */
 
-		this.indices = null;
+		this.indices = indices;
 
 		/**
 		 * A set of vertices.
@@ -34,7 +34,7 @@ export class Isosurface {
 		 * @type {Float32Array}
 		 */
 
-		this.positions = null;
+		this.positions = positions;
 
 		/**
 		 * A set of normals.
@@ -42,7 +42,7 @@ export class Isosurface {
 		 * @type {Float32Array}
 		 */
 
-		this.normals = null;
+		this.normals = normals;
 
 		/**
 		 * A set of UV coordinates.
@@ -50,7 +50,7 @@ export class Isosurface {
 		 * @type {Float32Array}
 		 */
 
-		this.uvs = null;
+		this.uvs = uvs;
 
 		/**
 		 * A set of material indices.
@@ -58,7 +58,7 @@ export class Isosurface {
 		 * @type {Uint8Array}
 		 */
 
-		this.materials = null;
+		this.materials = materials;
 
 	}
 
