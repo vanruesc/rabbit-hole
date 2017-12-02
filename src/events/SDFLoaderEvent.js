@@ -20,7 +20,6 @@ export class SDFLoaderEvent extends Event {
 		 * A list of serialised SDFs.
 		 *
 		 * @type {Array}
-		 * @default null
 		 */
 
 		this.descriptions = null;

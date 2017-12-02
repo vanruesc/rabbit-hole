@@ -10,7 +10,6 @@ import { Action } from "./Action.js";
  *
  * @type {VolumeModifier}
  * @private
- * @final
  */
 
 const volumeModifier = new VolumeModifier();
@@ -20,7 +19,6 @@ const volumeModifier = new VolumeModifier();
  *
  * @type {SurfaceExtractor}
  * @private
- * @final
  */
 
 const surfaceExtractor = new SurfaceExtractor();

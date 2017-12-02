@@ -17,7 +17,6 @@ export class RunLengthEncoding {
 		 * The run lengths.
 		 *
 		 * @type {Number[]}
-		 * @default null
 		 */
 
 		this.runLengths = runLengths;
@@ -26,7 +25,6 @@ export class RunLengthEncoding {
 		 * The encoded data.
 		 *
 		 * @type {Number[]}
-		 * @default null
 		 */
 
 		this.data = data;

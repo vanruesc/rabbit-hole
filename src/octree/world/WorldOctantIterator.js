@@ -33,7 +33,6 @@ export class WorldOctantIterator {
 		 *
 		 * @type {Number}
 		 * @private
-		 * @default 0
 		 */
 
 		this.lod = lod;

@@ -32,7 +32,6 @@ export class IntermediateWorldOctant extends WorldOctant {
 		 * ```
 		 *
 		 * @type {Number}
-		 * @default 0
 		 */
 
 		this.children = 0;

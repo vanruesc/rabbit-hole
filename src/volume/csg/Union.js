@@ -4,12 +4,6 @@ import { OperationType } from "./OperationType.js";
 
 /**
  * A union operation.
- *
- * @class Union
- * @submodule csg
- * @extends Operation
- * @constructor
- * @param {Operation} ...children - Child operations.
  */
 
 export class Union extends Operation {

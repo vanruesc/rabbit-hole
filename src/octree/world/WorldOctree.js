@@ -11,7 +11,6 @@ import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const v = new Vector3();

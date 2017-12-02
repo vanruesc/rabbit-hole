@@ -18,7 +18,6 @@ export class WorldOctantWrapper {
 		 * A world octant.
 		 *
 		 * @type {WorldOctant}
-		 * @default null
 		 */
 
 		this.octant = octant;
@@ -27,7 +26,6 @@ export class WorldOctantWrapper {
 		 * The lower bounds.
 		 *
 		 * @type {Vector3}
-		 * @default new Vector3()
 		 */
 
 		this.min = new Vector3();
@@ -36,7 +34,6 @@ export class WorldOctantWrapper {
 		 * The upper bounds.
 		 *
 		 * @type {Vector3}
-		 * @default new Vector3()
 		 */
 
 		this.max = new Vector3();

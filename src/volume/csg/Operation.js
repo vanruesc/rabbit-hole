@@ -19,7 +19,6 @@ export class Operation {
 		 * The type of this operation.
 		 *
 		 * @type {OperationType}
-		 * @default null
 		 */
 
 		this.type = type;
@@ -42,7 +41,6 @@ export class Operation {
 		 *
 		 * @type {Box3}
 		 * @private
-		 * @default null
 		 */
 
 		this.bbox = null;

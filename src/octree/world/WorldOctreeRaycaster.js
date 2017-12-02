@@ -7,7 +7,6 @@ import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const v = new Vector3();
@@ -17,7 +16,6 @@ const v = new Vector3();
  *
  * @type {Line3}
  * @private
- * @final
  */
 
 const l = new Line3();
@@ -27,7 +25,6 @@ const l = new Line3();
  *
  * @type {Box3}
  * @private
- * @final
  */
 
 const b = new Box3();
@@ -37,7 +34,6 @@ const b = new Box3();
  *
  * @type {Box3}
  * @private
- * @final
  */
 
 const d = new Box3();
@@ -47,7 +43,6 @@ const d = new Box3();
  *
  * @type {Ray}
  * @private
- * @final
  */
 
 const r = new Ray();
@@ -58,7 +53,6 @@ const r = new Ray();
  *
  * @type {Uint8Array[]}
  * @private
- * @final
  */
 
 const octantTable = [

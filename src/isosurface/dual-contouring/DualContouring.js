@@ -8,7 +8,6 @@ import * as tables from "./tables.js";
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const MAX_VERTEX_COUNT = Math.pow(2, 16) - 1;

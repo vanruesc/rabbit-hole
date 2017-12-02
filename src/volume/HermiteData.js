@@ -7,7 +7,6 @@ import { Material } from "./Material.js";
  *
  * @type {Number}
  * @private
- * @default 0
  */
 
 let resolution = 0;
@@ -17,7 +16,6 @@ let resolution = 0;
  *
  * @type {Number}
  * @private
- * @default 0
  */
 
 let indexCount = 0;
@@ -58,7 +56,6 @@ export class HermiteData {
 		 * The level of detail.
 		 *
 		 * @type {Number}
-		 * @default -1
 		 */
 
 		this.lod = -1;
@@ -79,7 +76,6 @@ export class HermiteData {
 		 * - The chunk lies completely inside the volume if all points are solid.
 		 *
 		 * @type {Number}
-		 * @default 0
 		 */
 
 		this.materials = 0;
@@ -96,7 +92,6 @@ export class HermiteData {
 		 * Run-length compression data.
 		 *
 		 * @type {Uint32Array}
-		 * @default null
 		 */
 
 		this.runLengths = null;
@@ -105,7 +100,6 @@ export class HermiteData {
 		 * The edge data.
 		 *
 		 * @type {EdgeData}
-		 * @default null
 		 */
 
 		this.edgeData = null;

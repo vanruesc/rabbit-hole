@@ -21,7 +21,6 @@ export class Voxel {
 		 * the surface.
 		 *
 		 * @type {Number}
-		 * @default 0
 		 */
 
 		this.materials = 0;
@@ -30,7 +29,6 @@ export class Voxel {
 		 * The amount of edges that exhibit a material change in this voxel.
 		 *
 		 * @type {Number}
-		 * @default 0
 		 */
 
 		this.edgeCount = 0;
@@ -40,7 +38,6 @@ export class Voxel {
 		 * of the final polygons.
 		 *
 		 * @type {Number}
-		 * @default -1
 		 */
 
 		this.index = -1;
@@ -65,7 +62,6 @@ export class Voxel {
 		 * A QEF data construct. Used to calculate the vertex position.
 		 *
 		 * @type {QEFData}
-		 * @default null
 		 */
 
 		this.qefData = null;

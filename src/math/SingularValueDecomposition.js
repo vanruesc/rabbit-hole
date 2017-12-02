@@ -7,7 +7,6 @@ import { Schur } from "./Schur.js";
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const PSEUDOINVERSE_THRESHOLD = 1e-1;
@@ -17,7 +16,6 @@ const PSEUDOINVERSE_THRESHOLD = 1e-1;
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const SVD_SWEEPS = 5;
@@ -27,7 +25,6 @@ const SVD_SWEEPS = 5;
  *
  * @type {SymmetricMatrix3}
  * @private
- * @final
  */
 
 const sm = new SymmetricMatrix3();
@@ -37,7 +34,6 @@ const sm = new SymmetricMatrix3();
  *
  * @type {Matrix3}
  * @private
- * @final
  */
 
 const m = new Matrix3();
@@ -47,7 +43,6 @@ const m = new Matrix3();
  *
  * @type {Vector2}
  * @private
- * @final
  */
 
 const a = new Vector2();
@@ -57,7 +52,6 @@ const a = new Vector2();
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const b = new Vector3();

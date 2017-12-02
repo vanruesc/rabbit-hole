@@ -20,7 +20,6 @@ export class WorldOctant {
 		 * Hermite data.
 		 *
 		 * @type {HermiteData}
-		 * @default null
 		 */
 
 		this.data = null;
@@ -32,7 +31,6 @@ export class WorldOctant {
 		 * can be contoured.
 		 *
 		 * @type {Queue}
-		 * @default null
 		 */
 
 		this.csg = new Queue();
@@ -41,7 +39,6 @@ export class WorldOctant {
 		 * A generated isosurface mesh.
 		 *
 		 * @type {Mesh}
-		 * @default null
 		 */
 
 		this.mesh = null;

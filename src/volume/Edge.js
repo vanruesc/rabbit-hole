@@ -5,7 +5,6 @@ import { Vector3 } from "math-ds";
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const ISOVALUE_BIAS = 1e-4;
@@ -15,7 +14,6 @@ const ISOVALUE_BIAS = 1e-4;
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const INTERVAL_THRESHOLD = 1e-6;
@@ -25,7 +23,6 @@ const INTERVAL_THRESHOLD = 1e-6;
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const ab = new Vector3();
@@ -35,7 +32,6 @@ const ab = new Vector3();
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const p = new Vector3();
@@ -45,7 +41,6 @@ const p = new Vector3();
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const v = new Vector3();
@@ -85,7 +80,6 @@ export class Edge {
 		 * The index of the starting material grid point.
 		 *
 		 * @type {Number}
-		 * @default -1
 		 */
 
 		this.index = -1;

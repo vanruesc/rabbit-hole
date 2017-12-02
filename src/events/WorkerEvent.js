@@ -20,7 +20,6 @@ export class WorkerEvent extends Event {
 		 * A worker.
 		 *
 		 * @type {Worker}
-		 * @default null
 		 */
 
 		this.worker = null;
@@ -29,7 +28,6 @@ export class WorkerEvent extends Event {
 		 * A worker response.
 		 *
 		 * @type {Response}
-		 * @default null
 		 */
 
 		this.response = null;

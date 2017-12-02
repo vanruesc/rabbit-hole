@@ -24,7 +24,6 @@ export class Isosurface {
 		 * A set of vertex indices that describe triangles.
 		 *
 		 * @type {Uint16Array}
-		 * @default null
 		 */
 
 		this.indices = null;
@@ -33,7 +32,6 @@ export class Isosurface {
 		 * A set of vertices.
 		 *
 		 * @type {Float32Array}
-		 * @default null
 		 */
 
 		this.positions = null;
@@ -42,7 +40,6 @@ export class Isosurface {
 		 * A set of normals.
 		 *
 		 * @type {Float32Array}
-		 * @default null
 		 */
 
 		this.normals = null;
@@ -51,7 +48,6 @@ export class Isosurface {
 		 * A set of UV coordinates.
 		 *
 		 * @type {Float32Array}
-		 * @default null
 		 */
 
 		this.uvs = null;
@@ -60,7 +56,6 @@ export class Isosurface {
 		 * A set of material indices.
 		 *
 		 * @type {Uint8Array}
-		 * @default null
 		 */
 
 		this.materials = null;

@@ -6,7 +6,6 @@ import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const p = new Vector3();
@@ -53,7 +52,6 @@ export class QEFSolver {
 		 *
 		 * @type {QEFData}
 		 * @private
-		 * @default null
 		 */
 
 		this.data = null;

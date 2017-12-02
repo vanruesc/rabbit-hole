@@ -32,7 +32,6 @@ export class SignedDistanceFunction {
 		 * The type of this SDF.
 		 *
 		 * @type {SDFType}
-		 * @default null
 		 */
 
 		this.type = type;
@@ -41,7 +40,6 @@ export class SignedDistanceFunction {
 		 * The operation type.
 		 *
 		 * @type {OperationType}
-		 * @default null
 		 */
 
 		this.operation = null;
@@ -51,7 +49,6 @@ export class SignedDistanceFunction {
 		 *
 		 * @type {Number}
 		 * @private
-		 * @default Material.SOLID
 		 */
 
 		this.material = Math.min(255, Math.max(Material.SOLID, Math.trunc(material)));
@@ -72,7 +69,6 @@ export class SignedDistanceFunction {
 		 *
 		 * @type {Box3}
 		 * @private
-		 * @default null
 		 */
 
 		this.bbox = null;

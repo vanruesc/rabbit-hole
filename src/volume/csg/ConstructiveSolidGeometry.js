@@ -23,7 +23,6 @@ let cellSize = 0;
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const cellPosition = new Vector3();

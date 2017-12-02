@@ -5,7 +5,6 @@ import { Vector2 } from "math-ds";
  *
  * @type {Vector2}
  * @private
- * @final
  */
 
 const coefficients = new Vector2();

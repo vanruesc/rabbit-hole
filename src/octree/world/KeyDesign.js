@@ -7,7 +7,6 @@ import { KeyIterator } from "./KeyIterator.js";
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const DWORD_BITS = 32;
@@ -17,7 +16,6 @@ const DWORD_BITS = 32;
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const RANGE_DWORD = Math.pow(2, DWORD_BITS);
@@ -27,7 +25,6 @@ const RANGE_DWORD = Math.pow(2, DWORD_BITS);
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const BITS = 53;
@@ -40,7 +37,6 @@ const BITS = 53;
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const HI_BITS = 21;
@@ -53,7 +49,6 @@ const HI_BITS = 21;
  *
  * @type {Number}
  * @private
- * @final
  */
 
 const LO_BITS = 32;
@@ -352,7 +347,6 @@ export class KeyDesign {
 	 * For more information see: http://2ality.com/2012/04/number-encoding.html
 	 *
 	 * @type {Number}
-	 * @final
 	 */
 
 	static get BITS() {
@@ -368,7 +362,6 @@ export class KeyDesign {
 	 * All 53-bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
-	 * @final
 	 */
 
 	static get HI_BITS() {
@@ -384,7 +377,6 @@ export class KeyDesign {
 	 * All 53-bit keys must be split into a high and a low part for processing.
 	 *
 	 * @type {Number}
-	 * @final
 	 */
 
 	static get LO_BITS() {

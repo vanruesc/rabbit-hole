@@ -9,7 +9,6 @@ import { WorldOctant } from "./WorldOctant.js";
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const p = new Vector3();
@@ -19,7 +18,6 @@ const p = new Vector3();
  *
  * @type {Vector3}
  * @private
- * @final
  */
 
 const v = new Vector3();
@@ -29,7 +27,6 @@ const v = new Vector3();
  *
  * @type {Box3}
  * @private
- * @final
  */
 
 const b0 = new Box3();
@@ -39,7 +36,6 @@ const b0 = new Box3();
  *
  * @type {Box3}
  * @private
- * @final
  */
 
 const b1 = new Box3();
@@ -49,7 +45,6 @@ const b1 = new Box3();
  *
  * @type {Box3}
  * @private
- * @final
  */
 
 const b2 = new Box3();
@@ -60,7 +55,6 @@ const b2 = new Box3();
  *
  * @type {Box3[]}
  * @private
- * @final
  */
 
 const ranges = [];

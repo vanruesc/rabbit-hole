@@ -18,7 +18,6 @@ export class SDFLoader extends EventTarget {
 		 *
 		 * @type {Number}
 		 * @private
-		 * @default 0
 		 */
 
 		this.items = 0;
@@ -28,7 +27,6 @@ export class SDFLoader extends EventTarget {
 		 *
 		 * @type {Array}
 		 * @private
-		 * @default null
 		 */
 
 		this.descriptions = null;
