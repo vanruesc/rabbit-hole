@@ -10,7 +10,7 @@ import { Schur } from "./Schur.js";
  * @final
  */
 
-const PSEUDOINVERSE_THRESHOLD = 1e-6;
+const PSEUDOINVERSE_THRESHOLD = 1e-1;
 
 /**
  * The number of SVD sweeps.
