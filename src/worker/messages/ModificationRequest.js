@@ -34,7 +34,7 @@ export class ModificationRequest extends DataMessage {
 		this.cellSize = 0;
 
 		/**
-		 * The world positions of the volume data cells.
+		 * The world positions of the volume data cell.
 		 *
 		 * Together with the world size, this base position describes the region of
 		 * the volume data cell in world space.
