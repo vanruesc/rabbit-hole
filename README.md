@@ -4,11 +4,12 @@
 [![NPM version](https://badge.fury.io/js/rabbit-hole.svg)](http://badge.fury.io/js/rabbit-hole)
 [![Dependencies](https://david-dm.org/vanruesc/rabbit-hole.svg?branch=master)](https://david-dm.org/vanruesc/rabbit-hole)
 
-A volumetric terrain engine for three.js. This engine has been created in the context of a Master's degree project at
+A volumetric terrain engine for WebGL. This engine has been created in the context of a Master's degree project at
 the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) in cooperation with the
 [Norwegian University of Technology and Science](https://www.ntnu.no).
 
 *[Extensive Demo](https://vanruesc.github.io/rabbit-hole/public/demo) &there4;
+[Performance](https://vanruesc.github.io/rabbit-hole/public/performance) &there4;
 [Volume Editor](https://vanruesc.github.io/rabbit-hole/public/editor) &there4;
 [API Reference](https://vanruesc.github.io/rabbit-hole/public/docs) &there4;
 [Master's Thesis](https://vanruesc.github.io/rabbit-hole/public/volumetric-terrain-rendering-with-webgl.pdf)*
