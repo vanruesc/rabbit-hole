@@ -3,18 +3,17 @@ import { SignedDistanceFunction } from "./SignedDistanceFunction.js";
 import { SDFType } from "./SDFType.js";
 
 /**
- * Reads the image data of the given texture.
+ * Reads the image data of the given image.
  *
  * @private
- * @param {Texture} texture - The texture.
+ * @param {Image} image - The image.
  * @return {ImageData} The image data.
  */
 
-function readImageData(texture) {
+function readImageData(image) {
 
 	const canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
 	const context = canvas.getContext("2d");
-	const image = texture.image;
 
 	context.drawImage(image, 0, 0);
 
@@ -35,8 +34,10 @@ export class Heightfield extends SignedDistanceFunction {
 	 *
 	 * @param {Object} parameters - The parameters.
 	 * @param {Array} parameters.min - The min position [x, y, z].
-	 * @param {Array} parameters.dimensions - The dimensions [x, y, z].
-	 * @param {Uint8ClampedArray} parameters.data - The heightmap data.
+	 * @param {Array} parameters.size - The size of the heightmap [x, y, z]. Y defines the maximum height.
+	 * @param {Array} parameters.scale - The scale [x, y, z].
+	 * @param {Uint8ClampedArray} [parameters.data] - The heightmap image data. Can be null.
+	 * @param {Image} [parameters.image] - The heightmap image. Can be null.
 	 * @param {Number} [material] - A material index.
 	 */
 
@@ -54,13 +55,32 @@ export class Heightfield extends SignedDistanceFunction {
 		this.min = new Vector3(...parameters.min);
 
 		/**
-		 * The dimensions.
+		 * The size.
 		 *
 		 * @type {Vector3}
 		 * @private
 		 */
 
-		this.dimensions = new Vector3(...parameters.size);
+		this.size = new Vector3(...parameters.size);
+
+		/**
+		 * The scale.
+		 *
+		 * @type {Vector3}
+		 * @private
+		 */
+
+		this.scale = new Vector3(...parameters.scale);
+
+		/**
+		 * The absolute dimensions.
+		 *
+		 * @type {Vector3}
+		 * @private
+		 */
+
+		this.dimensions = new Vector3();
+		this.dimensions.multiplyVectors(this.size, this.scale);
 
 		/**
 		 * The height data.
@@ -70,6 +90,62 @@ export class Heightfield extends SignedDistanceFunction {
 		 */
 
 		this.data = parameters.data;
+
+		/**
+		 * The heightmap.
+		 *
+		 * @type {Image}
+		 * @private
+		 */
+
+		this.heightmap = null;
+
+		if(parameters.image !== null) {
+
+			this.fromImage(parameters.image);
+
+		}
+
+	}
+
+	/**
+	 * Reads the image data of a given heightmap and converts it into a greyscale
+	 * data array.
+	 *
+	 * @param {Image} image - The heightmap image.
+	 * @return {Heightfield} This heightfield.
+	 */
+
+	fromImage(image) {
+
+		const imageData = (typeof document === "undefined") ? null : readImageData(image);
+
+		let result = null;
+		let data;
+
+		let i, j, l;
+
+		if(imageData !== null) {
+
+			data = imageData.data;
+
+			// Reduce image data to greyscale format.
+			result = new Uint8ClampedArray(data.length / 4);
+
+			for(i = 0, j = 0, l = data.length; i < l; ++i, j += 4) {
+
+				result[i] = data[j];
+
+			}
+
+			this.heightmap = image;
+			this.size.set(imageData.width, 1.0, imageData.height);
+			this.dimensions.multiplyVectors(this.size, this.scale);
+			this.data = result;
+
+		}
+
+		return this;
 
 	}
 
@@ -99,15 +175,12 @@ export class Heightfield extends SignedDistanceFunction {
 
 	sample(position) {
 
-		const min = this.min;
-		const dimensions = this.dimensions;
+		const scale = this.scale;
+		const x = position.x / scale.x;
+		const z = position.z / scale.z;
+		const h = (this.min.y + (this.data[z * this.size.x + x] / 255) * this.dimensions.y);
 
-		const x = Math.max(min.x, Math.min(min.x + dimensions.x, position.x - min.x));
-		const z = Math.max(min.z, Math.min(min.z + dimensions.z, position.z - min.z));
-
-		const y = position.y - min.y;
-
-		return y - (this.data[z * dimensions.x + x] / 255) * dimensions.y;
+		return position.y - h;
 
 	}
 
@@ -120,12 +193,15 @@ export class Heightfield extends SignedDistanceFunction {
 
 	serialize(deflate = false) {
 
-		const result = super.serialise();
+		const result = super.serialize();
 
 		result.parameters = {
 			min: this.min.toArray(),
-			dimensions: this.dimensions.toArray(),
-			data: this.data
+			scale: this.scale.toArray(),
+			size: this.size.toArray(),
+			data: deflate ? null : this.data,
+			dataUrl: (deflate && this.heightmap !== null) ? this.heightmap.toDataUrl() : null,
+			image: null
 		};
 
 		return result;
@@ -144,41 +220,6 @@ export class Heightfield extends SignedDistanceFunction {
 		transferList.push(this.data.buffer);
 
 		return transferList;
-
-	}
-
-	/**
-	 * Reads the image data of a given heightmap and returns a greyscale array.
-	 *
-	 * @pram {Texture} texture - A texture.
-	 * @return {Uint8ClampedArray} The greyscale image data or null if it couldn't be created.
-	 */
-
-	static readHeightData(texture) {
-
-		const imageData = (typeof document === "undefined") ? null : readImageData(texture);
-
-		let result = null;
-		let data;
-
-		let i, j, l;
-
-		if(imageData !== null) {
-
-			data = imageData.data;
-
-			// Reduce image data to greyscale format.
-			result = new Uint8ClampedArray(data.length / 4);
-
-			for(i = 0, j = 0, l = data.length; i < l; ++i, j += 4) {
-
-				result[i] = data[j];
-
-			}
-
-		}
-
-		return result;
 
 	}
 
