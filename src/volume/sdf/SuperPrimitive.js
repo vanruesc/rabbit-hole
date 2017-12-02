@@ -23,12 +23,12 @@ export class SuperPrimitive extends SignedDistanceFunction {
 	 * See {@link SuperPrimitivePreset} for a list of default configurations.
 	 *
 	 * @param {Object} parameters - The parameters.
-	 * @param {Array} parameters.s - The size and thickness [x, y, z, w].
+	 * @param {Array} parameters.s - The size and genus weight [x, y, z, w].
 	 * @param {Array} parameters.r - The corner radii [x, y, z].
+	 * @param {Array} [parameters.scale=1.0] - The scale.
 	 * @param {Array} [parameters.origin] - The origin [x, y, z].
 	 * @param {Number} [material] - A material index.
-	 * @example
-	 *  const cube = SuperPrimitive.create(SuperPrimitivePreset.CUBE);
+	 * @example const cube = SuperPrimitive.create(SuperPrimitivePreset.CUBE);
 	 */
 
 	constructor(parameters = {}, material) {
@@ -50,22 +50,49 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		}
 
 		/**
-		 * The size. The W-components affects the genus of the primitive.
+		 * The scale.
 		 *
-		 * @type {Vector3}
+		 * @type {Number}
 		 * @private
 		 */
 
-		this.s = new Vector4(...parameters.s);
+		this.scale = (parameters.scale !== undefined) ? parameters.scale : 1.0;
 
 		/**
-		 * The corner radii.
+		 * The base size. The W-component affects the genus of the primitive.
+		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+
+		this.s0 = new Vector4(...parameters.s);
+
+		/**
+		 * The base corner radii.
 		 *
 		 * @type {Vector3}
 		 * @private
 		 */
 
-		this.r = new Vector3(...parameters.r);
+		this.r0 = new Vector3(...parameters.r);
+
+		/**
+		 * The size, adjusted for further calculations.
+		 *
+		 * @type {Vector4}
+		 * @private
+		 */
+
+		this.s = this.s0.clone().multiplyScalar(this.scale);
+
+		/**
+		 * The corner radii, adjusted for further calculations.
+		 *
+		 * @type {Vector3}
+		 * @private
+		 */
+
+		this.r = this.r0.clone().multiplyScalar(this.scale);
 
 		/**
 		 * Precomputed corner rounding constants.
@@ -85,8 +112,59 @@ export class SuperPrimitive extends SignedDistanceFunction {
 
 		this.offset = 0;
 
-		// Perform constant calculations ahead of time.
+		// Calculate constants ahead of time.
 		this.precompute();
+
+	}
+
+	/**
+	 * Scales the volume.
+	 *
+	 * @param {Number} s - The scale.
+	 */
+
+	setScale(s) {
+
+		this.scale = s;
+		this.s.copy(this.s0).multiplyScalar(s);
+		this.r.copy(this.r0).multiplyScalar(s);
+		this.computeBoundingBox();
+		this.precompute();
+
+	}
+
+	/**
+	 * Sets the genus factor.
+	 *
+	 * @param {Number} w - The genus factor.
+	 */
+
+	setGenus(w) {
+
+		this.s0.w = w;
+		this.s.copy(this.s0).multiplyScalar(this.scale);
+		this.r.copy(this.r0).multiplyScalar(this.scale);
+		this.precompute();
+
+	}
+
+	/**
+	 * Calculates the bounding box of this density field.
+	 *
+	 * @return {Box3} The bounding box.
+	 * @todo This works, but isn't very accurate. Needs further investigation.
+	 */
+
+	computeBoundingBox() {
+
+		const s = this.scale * 2.0;
+		const o = this.origin;
+
+		this.bbox = new Box3();
+		this.bbox.min.set(o.x - s, o.y - s, o.z - s);
+		this.bbox.max.set(o.x + s, o.y + s, o.z + s);
+
+		return this.bbox;
 
 	}
 
@@ -102,6 +180,8 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		const r = this.r;
 		const ba = this.ba;
 
+		let divisor;
+
 		s.x -= r.x;
 		s.y -= r.x;
 
@@ -113,24 +193,18 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		this.offset = -2.0 * s.z;
 
 		ba.set(r.z, this.offset);
-		ba.divideScalar(ba.dot(ba));
+		divisor = ba.dot(ba);
 
-	}
+		if(divisor === 0.0) {
 
-	/**
-	 * Calculates the bounding box of this density field.
-	 *
-	 * @return {Box3} The bounding box.
-	 */
+			// Y must not be 0 to prevent bad values for Z = 0 in the last term (*).
+			ba.set(0.0, -1.0);
 
-	computeBoundingBox() {
+		} else {
 
-		this.bbox = new Box3();
+			ba.divideScalar(divisor);
 
-		this.bbox.min.subVectors(this.origin, this.s);
-		this.bbox.max.addVectors(this.origin, this.s);
-
-		return this.bbox;
+		}
 
 	}
 
@@ -148,33 +222,38 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		const r = this.r;
 		const ba = this.ba;
 
-		const dx = Math.abs(position.x - o.x) - s.x;
-		const dy = Math.abs(position.y - o.y) - s.y;
-		const dz = Math.abs(position.z - o.z) - s.z;
+		const px = position.x - o.x;
+		const py = position.y - o.y;
+		const pz = position.z - o.z;
+
+		const dx = Math.abs(px) - s.x;
+		const dy = Math.abs(py) - s.y;
+		const dz = Math.abs(pz) - s.z;
 
 		const mx0 = Math.max(dx, 0.0);
 		const my0 = Math.max(dy, 0.0);
 		const l0 = Math.sqrt(mx0 * mx0 + my0 * my0);
 
-		const p = position.z - s.z;
-		const q = Math.abs(Math.min(0.0, Math.max(dx, dy)) + l0 - r.x) - s.w;
+		const p = pz - s.z;
+		const q = Math.abs(l0 + Math.min(0.0, Math.max(dx, dy)) - r.x) - s.w;
 
 		const c = Math.min(Math.max(q * ba.x + p * ba.y, 0.0), 1.0);
 		const diagX = q - r.z * c;
 		const diagY = p - this.offset * c;
 
 		const hx0 = Math.max(q - r.z, 0.0);
-		const hy0 = position.z + s.z;
+		const hy0 = pz + s.z;
 		const hx1 = Math.max(q, 0.0);
 		// hy1 = p;
 
 		const diagSq = diagX * diagX + diagY * diagY;
 		const h0Sq = hx0 * hx0 + hy0 * hy0;
 		const h1Sq = hx1 * hx1 + p * p;
-		const paBa = p * ba.x + q * -ba.y;
+		const paBa = q * -ba.y + p * ba.x;
 
 		const l1 = Math.sqrt(Math.min(diagSq, Math.min(h0Sq, h1Sq)));
 
+		// (*) paBa must not be 0: if dz is also 0, the result will be wrong.
 		return l1 * Math.sign(Math.max(paBa, dz)) - r.y;
 
 	}
@@ -188,12 +267,13 @@ export class SuperPrimitive extends SignedDistanceFunction {
 
 	serialize(deflate = false) {
 
-		const result = super.serialise();
+		const result = super.serialize();
 
 		result.parameters = {
 			origin: this.origin.toArray(),
-			s: this.s.toArray(),
-			r: this.r.toArray()
+			scale: this.scale,
+			s: this.s0.toArray(),
+			r: this.r0.toArray()
 		};
 
 		return result;
@@ -232,56 +312,48 @@ const superPrimitivePresets = [
 	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([0.0, 0.0, 0.0])
-
 	],
 
 	// Cylinder.
 	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([1.0, 0.0, 0.0])
-
 	],
 
 	// Cone.
 	[
 		new Float32Array([0.0, 0.0, 1.0, 1.0]),
 		new Float32Array([0.0, 0.0, 1.0])
-
 	],
 
 	// Pill.
 	[
 		new Float32Array([1.0, 1.0, 2.0, 1.0]),
 		new Float32Array([1.0, 1.0, 0.0])
-
 	],
 
 	// Sphere.
 	[
 		new Float32Array([1.0, 1.0, 1.0, 1.0]),
 		new Float32Array([1.0, 1.0, 0.0])
-
 	],
 
 	// Pellet.
 	[
 		new Float32Array([1.0, 1.0, 0.25, 1.0]),
 		new Float32Array([1.0, 0.25, 0.0])
-
 	],
 
 	// Torus.
 	[
 		new Float32Array([1.0, 1.0, 0.25, 0.25]),
 		new Float32Array([1.0, 0.25, 0.0])
-
 	],
 
 	// Pipe.
 	[
 		new Float32Array([1.0, 1.0, 1.0, 0.25]),
 		new Float32Array([1.0, 0.1, 0.0])
-
 	],
 
 	// Corridor.
