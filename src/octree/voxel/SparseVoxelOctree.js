@@ -205,9 +205,9 @@ export class SparseVoxelOctree extends Octree {
 		const intersection = new Vector3();
 
 		const edgeIterators = [
-			edgeData.edgesX(this.min, this.size),
-			edgeData.edgesY(this.min, this.size),
-			edgeData.edgesZ(this.min, this.size)
+			edgeData.edgesX(this.min, this.root.size),
+			edgeData.edgesY(this.min, this.root.size),
+			edgeData.edgesZ(this.min, this.root.size)
 		];
 
 		const sequences = [
