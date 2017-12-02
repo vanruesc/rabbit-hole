@@ -53,23 +53,6 @@ export class HermiteData {
 	constructor(initialise = true) {
 
 		/**
-		 * The level of detail.
-		 *
-		 * @type {Number}
-		 */
-
-		this.lod = -1;
-
-		/**
-		 * Indicates whether this data is currently gone.
-		 *
-		 * @type {Boolean}
-		 * @default false
-		 */
-
-		this.neutered = false;
-
-		/**
 		 * Describes how many material indices are currently solid:
 		 *
 		 * - The chunk lies outside the volume if there are no solid grid points.
@@ -139,6 +122,18 @@ export class HermiteData {
 	get compressed() {
 
 		return (this.runLengths !== null);
+
+	}
+
+	/**
+	 * Indicates whether this data is currently gone.
+	 *
+	 * @type {Boolean}
+	 */
+
+	get neutered() {
+
+		return (!this.empty && this.materialIndices === null);
 
 	}
 
