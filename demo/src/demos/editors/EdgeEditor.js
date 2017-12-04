@@ -148,19 +148,19 @@ export class EdgeEditor extends EventTarget {
 		this.planeMaterials = [
 
 			new MeshBasicMaterial({
-				color: 0xffff00,
-				side: DoubleSide,
-				depthWrite: false,
-				transparent: true,
-				opacity: 0.1
-			}),
-
-			new MeshBasicMaterial({
-				color: 0xff6600,
+				color: 0xaa2200,
 				side: DoubleSide,
 				depthWrite: false,
 				transparent: true,
 				opacity: 0.2
+			}),
+
+			new MeshBasicMaterial({
+				color: 0xffff00,
+				side: DoubleSide,
+				depthWrite: false,
+				transparent: true,
+				opacity: 0.4
 			})
 
 		];

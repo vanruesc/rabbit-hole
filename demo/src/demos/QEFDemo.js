@@ -132,7 +132,8 @@ export class QEFDemo extends Demo {
 		const controls = new OrbitControls(camera, renderer.domElement);
 		controls.enablePan = false;
 		controls.maxDistance = 40;
-
+		controls.zoomSpeed = 0.6;
+		controls.rotateSpeed = 0.6;
 		this.controls = controls;
 
 		// Camera.
