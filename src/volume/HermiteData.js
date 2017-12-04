@@ -146,8 +146,6 @@ export class HermiteData {
 
 	set(data) {
 
-		this.lod = data.lod;
-		this.neutered = data.neutered;
 		this.materials = data.materials;
 		this.materialIndices = data.materialIndices;
 		this.runLengths = data.runLengths;
@@ -165,8 +163,6 @@ export class HermiteData {
 
 	clear() {
 
-		this.lod = -1;
-		this.neutered = false;
 		this.materials = 0;
 		this.materialIndices = null;
 		this.runLengths = null;
@@ -278,10 +274,7 @@ export class HermiteData {
 
 	serialize(deflate = false) {
 
-		this.neutered = true;
-
 		return {
-			lod: this.lod,
 			materials: this.materials,
 			materialIndices: this.materialIndices,
 			runLengths: this.runLengths,
@@ -303,9 +296,7 @@ export class HermiteData {
 
 		if(object !== null) {
 
-			this.lod = object.lod;
 			this.materials = object.materials;
-
 			this.materialIndices = object.materialIndices;
 			this.runLengths = object.runLengths;
 
@@ -325,8 +316,6 @@ export class HermiteData {
 				this.edgeData = null;
 
 			}
-
-			this.neutered = false;
 
 		} else {
 

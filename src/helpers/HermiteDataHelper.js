@@ -4,7 +4,6 @@ import {
 	Group,
 	LineBasicMaterial,
 	LineSegments,
-	Object3D,
 	Points,
 	PointsMaterial,
 	Vector3,
@@ -18,19 +17,19 @@ import { Material } from "../volume/Material.js";
  * A chunk helper.
  */
 
-export class HermiteDataHelper extends Object3D {
+export class HermiteDataHelper extends Group {
 
 	/**
 	 * Constructs a new chunk helper.
 	 *
-	 * @param {Vector3} [cellPosition=null] - The position of the volume data cell.
-	 * @param {Number} [cellSize=1] - The size of the volume data cell.
-	 * @param {HermiteData} [data=null] - The volume data.
-	 * @param {Boolean} [useMaterialIndices] - Whether points should be created for solid material indices.
-	 * @param {Boolean} [useEdgeData] - Whether edges with intersection points and normals should be created.
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @param {HermiteData} data - The volume data.
+	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
+	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
 	 */
 
-	constructor(cellPosition, cellSize, data = null, useMaterialIndices, useEdgeData) {
+	constructor(cellPosition, cellSize, data, useMaterialIndices = false, useEdgeData = true) {
 
 		super();
 
@@ -101,7 +100,7 @@ export class HermiteDataHelper extends Object3D {
 	/**
 	 * The grid points.
 	 *
-	 * @type {Object3D}
+	 * @type {Group}
 	 */
 
 	get gridPoints() {
@@ -113,7 +112,7 @@ export class HermiteDataHelper extends Object3D {
 	/**
 	 * The edges.
 	 *
-	 * @type {Object3D}
+	 * @type {Group}
 	 */
 
 	get edges() {
@@ -125,7 +124,7 @@ export class HermiteDataHelper extends Object3D {
 	/**
 	 * The normals.
 	 *
-	 * @type {Object3D}
+	 * @type {Group}
 	 */
 
 	get normals() {
