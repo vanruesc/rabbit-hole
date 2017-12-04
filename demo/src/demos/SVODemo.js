@@ -1,9 +1,12 @@
 import {
-	BoxBufferGeometry,
+	AmbientLight,
+	DirectionalLight,
+	Box3,
+	Box3Helper,
 	BufferAttribute,
 	BufferGeometry,
 	Mesh,
-	MeshBasicMaterial,
+	MeshStandardMaterial,
 	OrbitControls,
 	Vector3
 } from "three";
@@ -14,6 +17,7 @@ import {
 	ConstructiveSolidGeometry,
 	DualContouring,
 	HermiteData,
+	HermiteDataHelper,
 	OperationType,
 	SparseVoxelOctree,
 	SuperPrimitive,
@@ -46,7 +50,7 @@ export class SVODemo extends Demo {
 		 * @private
 		 */
 
-		this.cellSize = 0;
+		this.cellSize = 1;
 
 		/**
 		 * The data cell position.
@@ -55,7 +59,8 @@ export class SVODemo extends Demo {
 		 * @private
 		 */
 
-		this.cellPosition = null;
+		this.cellPosition = new Vector3();
+		this.cellPosition.subScalar(this.cellSize / 2);
 
 		/**
 		 * The current Super Primitive preset.
@@ -64,7 +69,7 @@ export class SVODemo extends Demo {
 		 * @private
 		 */
 
-		this.superPrimitivePreset = null;
+		this.superPrimitivePreset = SuperPrimitivePreset.TORUS;
 
 		/**
 		 * A set of Hermite data.
@@ -82,7 +87,16 @@ export class SVODemo extends Demo {
 		 * @private
 		 */
 
-		this.octreeHelper = null;
+		this.octreeHelper = new OctreeHelper();
+
+		/**
+		 * A Hermite data helper.
+		 *
+		 * @type {HermiteDataHelper}
+		 * @private
+		 */
+
+		this.hermiteDataHelper = new HermiteDataHelper();
 
 		/**
 		 * A generated mesh.
@@ -124,7 +138,7 @@ export class SVODemo extends Demo {
 				for(j = 0, jl = children.length; j < jl; ++j) {
 
 					child = children[j];
-					child.material.color.setHex(0x000000);
+					child.material.color.setHex(0x303030);
 
 				}
 
@@ -185,7 +199,7 @@ export class SVODemo extends Demo {
 			geometry.setIndex(new BufferAttribute(isosurface.indices, 1));
 			geometry.addAttribute("position", new BufferAttribute(isosurface.positions, 3));
 			geometry.addAttribute("normal", new BufferAttribute(isosurface.normals, 3));
-			mesh = new Mesh(geometry, new MeshBasicMaterial({ color: 0xff0000, wireframe: true }));
+			mesh = new Mesh(geometry, new MeshStandardMaterial({ color: 0xff0000 }));
 
 			this.mesh = mesh;
 			this.scene.add(mesh);
@@ -213,9 +227,9 @@ export class SVODemo extends Demo {
 		// Controls.
 
 		const controls = new OrbitControls(camera, renderer.domElement);
-		controls.enablePan = false;
 		controls.maxDistance = 20;
-
+		controls.zoomSpeed = 0.6;
+		controls.rotateSpeed = 0.6;
 		this.controls = controls;
 
 		// Camera.
@@ -225,42 +239,42 @@ export class SVODemo extends Demo {
 		camera.position.set(0, 0, 2);
 		camera.lookAt(controls.target);
 
+		// Lights.
+
+		const ambientLight = new AmbientLight(0x404040);
+		const directionalLight = new DirectionalLight(0xffbbaa);
+
+		directionalLight.position.set(-1, 1, 1);
+		directionalLight.target.position.copy(scene.position);
+
+		scene.add(directionalLight);
+		scene.add(ambientLight);
+
 		// Hermite Data, SDF and CSG.
 
 		HermiteData.resolution = 64;
 		VoxelCell.errorThreshold = 1.0;
-
-		const cellSize = 1;
-		const halfSize = cellSize / 2;
-		const cellPosition = new Vector3(-halfSize, -halfSize, -halfSize);
-
-		this.cellPosition = cellPosition;
-		this.cellSize = cellSize;
-		this.superPrimitivePreset = SuperPrimitivePreset.TORUS;
-
 		this.createHermiteData();
 
 		// Octree Helper.
 
-		const octreeHelper = new OctreeHelper();
+		scene.add(this.octreeHelper);
 
-		this.octreeHelper = octreeHelper;
-		scene.add(octreeHelper);
+		// Hermite Data Helper.
+
+		scene.add(this.hermiteDataHelper);
 
 		// Sparse Voxel Octree.
 
 		this.createSVO();
 
-		// Highlight the data cell.
-		scene.add(new Mesh(
-			new BoxBufferGeometry(cellSize, cellSize, cellSize),
-			new MeshBasicMaterial({
-				color: 0xcccccc,
-				depthWrite: false,
-				transparent: true,
-				opacity: 0.35
-			})
-		));
+		// Visualise the data cell.
+
+		const box = new Box3();
+		const halfSize = this.cellSize / 2;
+		box.min.set(-halfSize, -halfSize, -halfSize);
+		box.max.set(halfSize, halfSize, halfSize);
+		scene.add(new Box3Helper(box, 0x303030));
 
 	}
 
@@ -285,15 +299,24 @@ export class SVODemo extends Demo {
 	configure(gui) {
 
 		const octreeHelper = this.octreeHelper;
+		const hermiteDataHelper = this.hermiteDataHelper;
 		const presets = Object.keys(SuperPrimitivePreset);
 
 		const params = {
 			"SDF preset": presets[this.superPrimitivePreset],
 			"level mask": octreeHelper.children.length - 1,
+			"show Hermite data": () => {
+
+				hermiteDataHelper.set(this.cellPosition, this.cellSize, this.hermiteData).update();
+				hermiteDataHelper.visible = true;
+				octreeHelper.visible = false;
+
+			},
 			"contour": () => {
 
 				this.contour();
-				this.octreeHelper.visible = false;
+				octreeHelper.visible = false;
+				hermiteDataHelper.visible = false;
 
 			}
 		};
@@ -310,8 +333,9 @@ export class SVODemo extends Demo {
 
 			}
 
-			this.octreeHelper.visible = true;
-			params["level mask"] = this.octreeHelper.children.length - 1;
+			hermiteDataHelper.dispose();
+			octreeHelper.visible = true;
+			params["level mask"] = octreeHelper.children.length - 1;
 
 		});
 
@@ -330,6 +354,7 @@ export class SVODemo extends Demo {
 
 		folder.open();
 
+		gui.add(params, "show Hermite data");
 		gui.add(params, "contour");
 
 	}
