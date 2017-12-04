@@ -20,7 +20,7 @@ const qefSolver = new QEFSolver();
  * @private
  */
 
-const BIAS = 1e-6;
+const BIAS = 1e-1;
 
 /**
  * An error threshold for QEF-based voxel clustering.
