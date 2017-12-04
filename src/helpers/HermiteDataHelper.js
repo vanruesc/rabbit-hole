@@ -134,6 +134,25 @@ export class HermiteDataHelper extends Group {
 	}
 
 	/**
+	 * Sets the cell position, size and data.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @param {HermiteData} data - The volume data.
+	 * @return {HermiteDataHelper} This helper.
+	 */
+
+	set(cellPosition, cellSize, data) {
+
+		this.cellPosition = cellPosition;
+		this.cellSize = cellSize;
+		this.data = data;
+
+		return this;
+
+	}
+
+	/**
 	 * Creates the helper geometry.
 	 *
 	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
