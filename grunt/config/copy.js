@@ -1,5 +1,27 @@
 module.exports = {
 
+	assets: {
+		files: [{
+			expand: true,
+			cwd: "demo/assets",
+			src: "**",
+			dest: "public/demo",
+			filter: "isFile"
+		}, {
+			expand: true,
+			cwd: "editor/assets",
+			src: "**",
+			dest: "public/editor",
+			filter: "isFile"
+		}, {
+			expand: true,
+			cwd: "performance/assets",
+			src: "**",
+			dest: "public/performance",
+			filter: "isFile"
+		}]
+	},
+
 	backup: {
 		expand: true,
 		cwd: "src",
