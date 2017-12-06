@@ -38,10 +38,6 @@ export {
 } from "./loaders";
 
 export {
-	MeshTriplanarPhysicalMaterial
-} from "./materials";
-
-export {
 	Givens,
 	QEFSolver,
 	QEFData,
