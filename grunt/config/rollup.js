@@ -29,24 +29,38 @@ module.exports = function(grunt) {
 			options: {
 				format: "iife"
 			},
-			src: "src/worker/worker.js",
-			dest: "src/worker/worker.tmp"
+			files: [
+				{ src: "src/worker/worker.js", dest: "src/worker/worker.tmp" },
+				{ src: "performance/src/worker.js", dest: "performance/src/worker.tmp" }
+			]
 		},
 
 		lib: {
 			options: {
-				globals: {
-					"three": "THREE"
-				},
-				external: [
-					"three"
-				],
 				format: "umd",
 				moduleName: "<%= package.name.replace(/-/g, \"\").toUpperCase() %>",
 				banner: "<%= banner %>"
 			},
 			src: "<%= package.module %>",
 			dest: "build/<%= package.name %>.js"
+		},
+
+		demo: {
+			options: {
+				globals: {
+					"dat.gui": "dat",
+					"stats.js": "Stats",
+					"three": "THREE"
+				},
+				external: [
+					"dat.gui",
+					"stats.js",
+					"three"
+				],
+				format: "iife"
+			},
+			src: "demo/src/index.js",
+			dest: "public/demo/index.js"
 		},
 
 		editor: {
@@ -67,22 +81,12 @@ module.exports = function(grunt) {
 			dest: "public/editor/index.js"
 		},
 
-		demo: {
+		performance: {
 			options: {
-				globals: {
-					"dat.gui": "dat",
-					"stats.js": "Stats",
-					"three": "THREE"
-				},
-				external: [
-					"dat.gui",
-					"stats.js",
-					"three"
-				],
 				format: "iife"
 			},
-			src: "demo/src/index.js",
-			dest: "public/demo/index.js"
+			src: "performance/src/index.js",
+			dest: "public/performance/index.js"
 		}
 
 	};

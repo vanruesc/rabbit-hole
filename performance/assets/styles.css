@@ -1,0 +1,104 @@
+html {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background-color: rgb(23, 23, 23);
+	color: rgb(175, 170, 160);
+	font-family: sans-serif;
+	font-weight: 100;
+	font-size: 100%;
+	line-height: 150%;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+a {
+	color: grey;
+	font-size: 80%;
+	transition: color 0.2s;
+}
+
+a:hover,
+a:active,
+.active {
+	color: white;
+}
+
+h1, h2, h3 {
+	color: rgb(195, 180, 170);
+	font-size: 160%;
+	font-weight: normal;
+	padding: 0;
+	margin: 20px 0 10px 0px;
+}
+
+h2 {
+	color: rgb(175, 160, 150);
+	font-size: 140%;
+}
+
+h3 {
+	color: rgb(175, 160, 150);
+	font-size: 110%;
+	font-style: italic;
+}
+
+ul {
+	padding-top: 0;
+}
+
+ul li {
+	color: rgb(255, 100, 80);
+}
+
+#mask {
+	bottom: 0;
+	cursor: wait;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+#main {
+	padding: 20px 40px;
+}
+
+#aside {
+	padding: 20px 40px;
+}
+
+.result {
+	padding-bottom: 10px;
+}
+
+.status {
+	background-color: rgb(20, 90, 20);
+	border: 1px solid rgb(95, 155, 70);
+	color: rgb(195, 255, 170);
+	padding: 4px 6px;
+}
+
+.report {
+	background-color: rgb(30, 30, 30);
+	border: 1px solid rgb(95, 80, 70);
+	border-left: none;
+	color: rgb(220, 220, 220);
+	font-size: 100%;
+	padding: 4px 6px;
+	text-decoration: none;
+}
+
+.hidden {
+	display: none;
+}

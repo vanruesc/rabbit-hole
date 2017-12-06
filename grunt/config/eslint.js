@@ -9,12 +9,16 @@ module.exports = {
 		"src/**/*.js"
 	],
 
+	demo: [
+		"demo/src/**/*.js"
+	],
+
 	editor: [
 		"editor/src/**/*.js"
 	],
 
-	demo: [
-		"demo/src/**/*.js"
+	performance: [
+		"performance/src/**/*.js"
 	],
 
 	test: [

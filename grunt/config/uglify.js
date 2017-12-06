@@ -1,32 +1,41 @@
 module.exports = {
 
 	worker: {
-		files: [{
-			expand: true,
-			src: ["src/worker/worker.tmp"],
-			dest: ""
-		}]
+		files: [
+			{ expand: true, src: "src/worker/worker.tmp", dest: "" },
+			{ expand: true, src: "performance/src/worker.tmp", dest: "" }
+		]
 	},
 
 	lib: {
 		options: {
 			banner: "<%= banner %>"
 		},
-		files: {
-			"build/<%= package.name %>.min.js": ["build/<%= package.name %>.js"]
-		}
-	},
-
-	editor: {
-		files: {
-			"public/editor/index.min.js": ["public/editor/index.js"]
-		}
+		files: [{
+			src: "build/<%= package.name %>.js",
+			dest: "build/<%= package.name %>.min.js"
+		}]
 	},
 
 	demo: {
-		files: {
-			"public/demo/index.min.js": ["public/demo/index.js"]
-		}
+		files: [{
+			src: "public/demo/index.js",
+			dest: "public/demo/index.min.js"
+		}]
+	},
+
+	editor: {
+		files: [{
+			src: "public/editor/index.js",
+			dest: "public/editor/index.min.js"
+		}]
+	},
+
+	performance: {
+		files: [{
+			src: "public/performance/index.js",
+			dest: "public/performance/index.min.js"
+		}]
 	}
 
 };
