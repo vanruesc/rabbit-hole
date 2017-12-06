@@ -25,10 +25,6 @@ export {
 } from "./events";
 
 export {
-	HermiteDataHelper
-} from "./helpers";
-
-export {
 	DualContouring,
 	Isosurface
 } from "./isosurface";
