@@ -11,13 +11,13 @@ import {
 	Vector3
 } from "three";
 
+import HermiteDataHelper from "hermite-data-helper";
 import OctreeHelper from "octree-helper";
 
 import {
 	ConstructiveSolidGeometry,
 	DualContouring,
 	HermiteData,
-	HermiteDataHelper,
 	OperationType,
 	SparseVoxelOctree,
 	SuperPrimitive,

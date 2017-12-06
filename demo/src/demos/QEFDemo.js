@@ -7,11 +7,8 @@ import {
 	Vector3
 } from "three";
 
-import {
-	HermiteData,
-	HermiteDataHelper,
-	QEFSolver
-} from "../../../src";
+import HermiteDataHelper from "hermite-data-helper";
+import { HermiteData, QEFSolver } from "../../../src";
 
 import { HermiteDataEditor } from "./editors/HermiteDataEditor.js";
 import { Demo } from "./Demo.js";
