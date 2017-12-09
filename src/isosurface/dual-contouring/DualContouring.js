@@ -348,16 +348,16 @@ export class DualContouring {
 	/**
 	 * Contours the given volume data.
 	 *
-	 * @param {SparseVoxelOctree} octree - A voxel octree.
+	 * @param {SparseVoxelOctree} svo - A voxel octree.
 	 * @return {Isosurface} The generated isosurface or null if no data was generated.
 	 */
 
-	static run(octree) {
+	static run(svo) {
 
 		const indexBuffer = [];
 
 		// Each voxel contains one vertex.
-		const vertexCount = octree.voxelCount;
+		const vertexCount = svo.voxelCount;
 
 		let result = null;
 		let positions = null;
@@ -368,7 +368,7 @@ export class DualContouring {
 		if(vertexCount > MAX_VERTEX_COUNT) {
 
 			console.warn(
-				"Could not create geometry for cell at position", octree.min,
+				"Could not create geometry for cell at position", svo.min,
 				"(vertex count of", vertexCount, "exceeds limit of ", MAX_VERTEX_COUNT, ")"
 			);
 
@@ -379,8 +379,8 @@ export class DualContouring {
 			uvs = new Float32Array(vertexCount * 2);
 			materials = new Uint8Array(vertexCount);
 
-			generateVertexIndices(octree.root, positions, normals, 0);
-			contourCellProc(octree.root, indexBuffer);
+			generateVertexIndices(svo.root, positions, normals, 0);
+			contourCellProc(svo.root, indexBuffer);
 
 			result = new Isosurface(
 				new Uint16Array(indexBuffer),
