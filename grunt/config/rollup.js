@@ -10,20 +10,14 @@ module.exports = function(grunt) {
 			plugins() {
 
 				return [
-					resolve({
-						jsnext: true
-					}),
+					resolve(),
 					string({
 						include: [
-							"**/*.frag",
-							"**/*.vert",
 							"**/*.tmp"
 						]
 					})
-				].concat(!grunt.option("production") ? [] :
-					[babel({
-						exclude: "node_modules/**"
-					})]
+				].concat(
+					grunt.option("production") ? [babel()] : []
 				);
 
 			}
