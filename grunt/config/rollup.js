@@ -20,7 +20,11 @@ module.exports = function(grunt) {
 							"**/*.tmp"
 						]
 					})
-				].concat(grunt.option("production") ? [babel()] : []);
+				].concat(!grunt.option("production") ? [] :
+					[babel({
+						exclude: "node_modules/**"
+					})]
+				);
 
 			}
 		},
