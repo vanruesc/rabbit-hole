@@ -61,8 +61,6 @@ export class CompressionTest extends Test {
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		HermiteData.resolution = 64;
-
 		this.data = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
 
 		return this;
@@ -93,7 +91,7 @@ export class CompressionTest extends Test {
 
 	run() {
 
-		const c = 1000;
+		const c = 500;
 
 		const report = new Report("Compression Report");
 		const targetContainer = this.targetContainer;
@@ -129,8 +127,6 @@ export class CompressionTest extends Test {
 			edgeData.indices[1].length +
 			edgeData.indices[2].length
 		);
-
-		report.addLine("Data Grid Resolution: " + n + "\n");
 
 		report.addLine("Material Statistics");
 		report.addLine("Total Materials: " + maxMaterials + " (" + materials + " solid)");

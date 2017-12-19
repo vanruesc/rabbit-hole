@@ -1,6 +1,5 @@
 import {
 	ConstructiveSolidGeometry,
-	HermiteData,
 	OperationType,
 	SparseVoxelOctree,
 	SuperPrimitive,
@@ -8,6 +7,7 @@ import {
 	VoxelCell
 } from "../../../src";
 
+import { Vector3 } from "math-ds";
 import { Report } from "../Report.js";
 import { Test } from "./Test.js";
 
@@ -46,11 +46,11 @@ export class SVOTest extends Test {
 		/**
 		 * A cell position.
 		 *
-		 * @type {Number[]}
+		 * @type {Vector3}
 		 * @private
 		 */
 
-		this.cellPosition = [-0.5, -0.5, -0.5];
+		this.cellPosition = new Vector3(-0.5, -0.5, -0.5);
 
 	}
 
@@ -68,10 +68,9 @@ export class SVOTest extends Test {
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		HermiteData.resolution = 64;
 		VoxelCell.errorThreshold = 1.0;
 
-		this.data = ConstructiveSolidGeometry.run(this.cellPosition, this.cellSize, null, sdf.setOperationType(OperationType.UNION));
+		this.data = ConstructiveSolidGeometry.run(this.cellPosition.toArray(), this.cellSize, null, sdf.setOperationType(OperationType.UNION));
 
 		return this;
 
@@ -100,7 +99,7 @@ export class SVOTest extends Test {
 
 	run() {
 
-		const c = 200;
+		const c = 500;
 
 		const report = new Report("SVO Report");
 		const cellPosition = this.cellPosition;

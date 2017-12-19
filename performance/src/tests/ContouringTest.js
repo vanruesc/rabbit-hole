@@ -1,7 +1,6 @@
 import {
 	ConstructiveSolidGeometry,
 	DualContouring,
-	HermiteData,
 	OperationType,
 	SparseVoxelOctree,
 	SuperPrimitive,
@@ -9,6 +8,7 @@ import {
 	VoxelCell
 } from "../../../src";
 
+import { Vector3 } from "math-ds";
 import { Report } from "../Report.js";
 import { Test } from "./Test.js";
 
@@ -47,17 +47,16 @@ export class ContouringTest extends Test {
 	initialise() {
 
 		const cellSize = 1;
-		const cellPosition = [-0.5, -0.5, -0.5];
+		const cellPosition = new Vector3(-0.5, -0.5, -0.5);
 		const scale = (cellSize / 2) - 0.075;
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		HermiteData.resolution = 64;
 		VoxelCell.errorThreshold = 1.0;
 
 		this.svo = new SparseVoxelOctree(
-			ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION)),
+			ConstructiveSolidGeometry.run(cellPosition.toArray(), cellSize, null, sdf.setOperationType(OperationType.UNION)),
 			cellPosition, cellSize
 		);
 
@@ -106,7 +105,7 @@ export class ContouringTest extends Test {
 
 		}
 
-		report.addLine("Generated vertices: " + isosurface.positions.length);
+		report.addLine("Generated vertices: " + (isosurface.positions.length / 3));
 		report.addLine("Generated triangle indices: " + isosurface.indices.length);
 
 		console.log("Extracted isosurface", isosurface);

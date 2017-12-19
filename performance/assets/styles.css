@@ -55,7 +55,23 @@ ul li {
 	color: rgb(255, 100, 80);
 }
 
+fieldset {
+	border: 1px solid rgb(100, 100, 100);
+	color: rgb(170, 150, 150);
+}
+
+legend {
+	font-size: 125%;
+}
+
+select {
+	background: rgb(23, 23, 23);
+	border: 1px solid rgb(100, 100, 100);
+	color: rgb(160, 160, 130);
+}
+
 #mask {
+	background-color: rgba(0, 0, 0, 0.1);
 	bottom: 0;
 	cursor: wait;
 	left: 0;

@@ -61,8 +61,6 @@ export class DecompressionTest extends Test {
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		HermiteData.resolution = 64;
-
 		this.data = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
 		this.data.compress();
 
@@ -94,7 +92,7 @@ export class DecompressionTest extends Test {
 
 	run() {
 
-		const c = 1000;
+		const c = 500;
 
 		const report = new Report("Decompression Report");
 		const targetContainer = this.targetContainer;

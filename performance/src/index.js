@@ -1,3 +1,4 @@
+import { Action } from "./Action.js";
 import workerCode from "./worker.tmp";
 
 /**
@@ -34,6 +35,22 @@ const tests = [
 ];
 
 /**
+ * Configures the worker.
+ *
+ * @private
+ * @param {Event} event - An event.
+ */
+
+function configure(event) {
+
+	worker.postMessage({
+		action: Action.CONFIGURE,
+		resolution: Number.parseInt(event.target.value)
+	});
+
+}
+
+/**
  * Runs the specified test.
  *
  * @private
@@ -49,7 +66,10 @@ function runTest(event) {
 	document.getElementById("aside").appendChild(h3);
 	document.getElementById("mask").removeAttribute("class");
 
-	worker.postMessage(id);
+	worker.postMessage({
+		action: Action.TEST,
+		id: id
+	});
 
 }
 
@@ -148,20 +168,18 @@ function handleEvent(event) {
 
 window.addEventListener("load", function main(event) {
 
-	const id = window.location.hash.slice(1);
 	window.removeEventListener("load", main);
+	document.getElementById("resolution").addEventListener("change", configure);
 
 	// Initialise the worker thread.
 	worker = new Worker(workerURL);
 	worker.addEventListener("message", handleEvent);
 	worker.addEventListener("error", handleEvent);
+	worker.postMessage({
+		action: Action.CONFIGURE,
+		resolution: 64
+	});
 
 	showAvailableTests();
-
-	if(tests.indexOf(id) !== -1) {
-
-		runTest(id);
-
-	}
 
 });

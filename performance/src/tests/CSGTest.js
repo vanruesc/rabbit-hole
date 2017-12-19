@@ -1,6 +1,5 @@
 import {
 	ConstructiveSolidGeometry,
-	HermiteData,
 	OperationType,
 	SuperPrimitive,
 	SuperPrimitivePreset
@@ -78,8 +77,6 @@ export class CSGTest extends Test {
 		sdf1.origin.set(0, 0, 0);
 		sdf0.setScale(scale);
 		sdf1.setScale(scale);
-
-		HermiteData.resolution = 64;
 
 		this.data = ConstructiveSolidGeometry.run(this.cellPosition, this.cellSize, null, sdf0);
 		this.sdf = sdf1;
