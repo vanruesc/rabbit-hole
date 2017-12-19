@@ -1,17 +1,18 @@
 import {
 	BoxBufferGeometry,
+	FogExp2,
 	Mesh,
 	MeshBasicMaterial,
 	OrbitControls,
+	PerspectiveCamera,
 	SphereBufferGeometry,
 	Vector3
 } from "three";
 
 import HermiteDataHelper from "hermite-data-helper";
-import { HermiteData, QEFSolver } from "../../../src";
-
+import { Demo } from "three-demo";
+import { HermiteData, Material, QEFSolver } from "../../../src";
 import { HermiteDataEditor } from "./editors/HermiteDataEditor.js";
-import { Demo } from "./Demo.js";
 
 /**
  * A QEF demo setup.
@@ -23,13 +24,11 @@ export class QEFDemo extends Demo {
 
 	/**
 	 * Constructs a new QEF demo.
-	 *
-	 * @param {WebGLRenderer} renderer - A renderer.
 	 */
 
-	constructor(renderer) {
+	constructor() {
 
-		super(renderer);
+		super("qef");
 
 		/**
 		 * A set of Hermite data.
@@ -112,17 +111,18 @@ export class QEFDemo extends Demo {
 	 * Creates the scene.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const scene = this.scene;
-		const camera = this.camera;
-		const renderer = this.renderer;
+		const composer = this.composer;
+		const renderer = composer.renderer;
 
-		// Scene and Renderer.
+		// Camera.
 
-		scene.fog.color.setHex(0xf4f4f4);
-		scene.fog.density = 0.025;
-		renderer.setClearColor(scene.fog.color);
+		const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 50);
+		camera.position.set(-2, 1, 2);
+		camera.lookAt(scene.position);
+		this.camera = camera;
 
 		// Controls.
 
@@ -133,16 +133,15 @@ export class QEFDemo extends Demo {
 		controls.rotateSpeed = 0.6;
 		this.controls = controls;
 
-		// Camera.
+		// Fog.
 
-		camera.near = 0.01;
-		camera.far = 50;
-		camera.position.set(-2, 1, 2);
-		camera.lookAt(controls.target);
+		scene.fog = new FogExp2(0xf4f4f4, 0.025);
+		renderer.setClearColor(scene.fog.color);
 
 		// Hermite Data preparation.
 
 		HermiteData.resolution = 1;
+		HermiteDataHelper.air = Material.AIR;
 
 		const cellSize = 1;
 		const cellPosition = new Vector3(-0.5, -0.5, -0.5);
@@ -227,43 +226,43 @@ export class QEFDemo extends Demo {
 
 		switch(event.type) {
 
-			case "update":
-				this.hermiteDataHelper.update(true, false);
-				this.solveQEF(event.qefData);
+			case "update": {
+
+				try {
+
+					this.hermiteDataHelper.update(true, false);
+					this.solveQEF(event.qefData);
+
+				} catch(e) {
+
+					// Data is just empty right now. Ignore.
+
+				}
+
 				break;
+
+			}
 
 		}
 
 	}
 
 	/**
-	 * Renders this demo.
-	 *
-	 * @param {Number} delta - The time since the last frame in seconds.
-	 */
-
-	render(delta) {
-
-		this.renderer.render(this.scene, this.camera);
-
-	}
-
-	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {
+	registerOptions(menu) {
 
-		const folder = gui.addFolder("Result");
+		const folder = menu.addFolder("Result");
 		folder.add(this.result, "x").listen();
 		folder.add(this.result, "y").listen();
 		folder.add(this.result, "z").listen();
 		folder.add(this, "error").listen();
 		folder.open();
 
-		this.hermiteDataEditor.configure(gui);
+		this.hermiteDataEditor.registerOptions(menu);
 
 	}
 

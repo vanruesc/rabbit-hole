@@ -5,27 +5,29 @@ import {
 	Box3Helper,
 	BufferAttribute,
 	BufferGeometry,
+	FogExp2,
 	Mesh,
 	MeshStandardMaterial,
 	OrbitControls,
+	PerspectiveCamera,
 	Vector3
 } from "three";
 
 import HermiteDataHelper from "hermite-data-helper";
 import OctreeHelper from "octree-helper";
+import { Demo } from "three-demo";
 
 import {
 	ConstructiveSolidGeometry,
 	DualContouring,
 	HermiteData,
+	Material,
 	OperationType,
 	SparseVoxelOctree,
 	SuperPrimitive,
 	SuperPrimitivePreset,
 	VoxelCell
 } from "../../../src";
-
-import { Demo } from "./Demo.js";
 
 /**
  * An SVO demo setup.
@@ -35,13 +37,11 @@ export class SVODemo extends Demo {
 
 	/**
 	 * Constructs a new SVO demo.
-	 *
-	 * @param {WebGLRenderer} renderer - A renderer.
 	 */
 
-	constructor(renderer) {
+	constructor() {
 
-		super(renderer);
+		super("svo");
 
 		/**
 		 * The data cell size.
@@ -212,17 +212,18 @@ export class SVODemo extends Demo {
 	 * Creates the scene.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const scene = this.scene;
-		const camera = this.camera;
-		const renderer = this.renderer;
+		const composer = this.composer;
+		const renderer = composer.renderer;
 
-		// Scene and Renderer.
+		// Camera.
 
-		scene.fog.color.setHex(0xf4f4f4);
-		scene.fog.density = 0.075;
-		renderer.setClearColor(scene.fog.color);
+		const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 25);
+		camera.position.set(0, 0, 2);
+		camera.lookAt(scene.position);
+		this.camera = camera;
 
 		// Controls.
 
@@ -232,12 +233,10 @@ export class SVODemo extends Demo {
 		controls.rotateSpeed = 0.6;
 		this.controls = controls;
 
-		// Camera.
+		// Fog.
 
-		camera.near = 0.01;
-		camera.far = 25;
-		camera.position.set(0, 0, 2);
-		camera.lookAt(controls.target);
+		scene.fog = new FogExp2(0xf4f4f4, 0.075);
+		renderer.setClearColor(scene.fog.color);
 
 		// Lights.
 
@@ -253,6 +252,7 @@ export class SVODemo extends Demo {
 		// Hermite Data, SDF and CSG.
 
 		HermiteData.resolution = 64;
+		HermiteDataHelper.air = Material.AIR;
 		VoxelCell.errorThreshold = 1.0;
 		this.createHermiteData();
 
@@ -279,24 +279,12 @@ export class SVODemo extends Demo {
 	}
 
 	/**
-	 * Renders this demo.
-	 *
-	 * @param {Number} delta - The time since the last frame in seconds.
-	 */
-
-	render(delta) {
-
-		this.renderer.render(this.scene, this.camera);
-
-	}
-
-	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {
+	registerOptions(menu) {
 
 		const octreeHelper = this.octreeHelper;
 		const hermiteDataHelper = this.hermiteDataHelper;
@@ -307,9 +295,20 @@ export class SVODemo extends Demo {
 			"level mask": octreeHelper.children.length - 1,
 			"show Hermite data": () => {
 
-				hermiteDataHelper.set(this.cellPosition, this.cellSize, this.hermiteData).update();
-				hermiteDataHelper.visible = true;
-				octreeHelper.visible = false;
+				hermiteDataHelper.set(this.cellPosition, this.cellSize, this.hermiteData);
+
+				try {
+
+					hermiteDataHelper.update();
+
+					hermiteDataHelper.visible = true;
+					octreeHelper.visible = false;
+
+				} catch(e) {
+
+					console.error(e);
+
+				}
 
 			},
 			"contour": () => {
@@ -321,7 +320,7 @@ export class SVODemo extends Demo {
 			}
 		};
 
-		gui.add(params, "SDF preset", presets).onChange(() => {
+		menu.add(params, "SDF preset", presets).onChange(() => {
 
 			this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
 			this.createHermiteData();
@@ -339,7 +338,7 @@ export class SVODemo extends Demo {
 
 		});
 
-		const folder = gui.addFolder("Octree Helper");
+		const folder = menu.addFolder("Octree Helper");
 		folder.add(params, "level mask").min(0).max(octreeHelper.children.length).step(1).onChange(() => {
 
 			let i, l;
@@ -354,8 +353,8 @@ export class SVODemo extends Demo {
 
 		folder.open();
 
-		gui.add(params, "show Hermite data");
-		gui.add(params, "contour");
+		menu.add(params, "show Hermite data");
+		menu.add(params, "contour");
 
 	}
 

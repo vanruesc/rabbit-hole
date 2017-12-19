@@ -314,16 +314,16 @@ export class HermiteDataEditor extends EventTarget {
 	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {
+	registerOptions(menu) {
 
 		const params = {
 			"edit mode": 0
 		};
 
-		gui.add(params, "edit mode", { materials: 0, edges: 1 }).onChange(() => {
+		menu.add(params, "edit mode", { materials: 0, edges: 1 }).onChange(() => {
 
 			const editGridPoints = (Number.parseInt(params["edit mode"]) === 0);
 
@@ -332,7 +332,7 @@ export class HermiteDataEditor extends EventTarget {
 
 		});
 
-		this.edgeEditor.configure(gui);
+		this.edgeEditor.registerOptions(menu);
 
 	}
 

@@ -328,9 +328,9 @@ export class GridPointEditor extends EventTarget {
 	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {}
+	registerOptions(menu) {}
 
 }

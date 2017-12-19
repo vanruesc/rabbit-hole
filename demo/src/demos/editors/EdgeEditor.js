@@ -569,21 +569,20 @@ export class EdgeEditor extends EventTarget {
 	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {
+	registerOptions(menu) {
 
-		const editor = this;
 		const planes = this.planes;
 
 		const params = {
 			"show planes": false
 		};
 
-		gui.add(params, "show planes").onChange(function() {
+		menu.add(params, "show planes").onChange(() => {
 
-			const activePlane = editor.activePlane;
+			const activePlane = this.activePlane;
 
 			planes.traverse(function(child) {
 
@@ -597,23 +596,23 @@ export class EdgeEditor extends EventTarget {
 
 		});
 
-		let folder = gui.addFolder("Edge Adjustment");
+		let folder = menu.addFolder("Edge Adjustment");
 
-		folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(function() {
+		folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(() => {
 
-			editor.updateEdgeData();
-
-		});
-
-		folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() {
-
-			editor.updateEdgeData();
+			this.updateEdgeData();
 
 		});
 
-		folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function() {
+		folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(() => {
 
-			editor.updateEdgeData();
+			this.updateEdgeData();
+
+		});
+
+		folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(() => {
+
+			this.updateEdgeData();
 
 		});
 
