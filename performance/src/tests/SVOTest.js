@@ -61,7 +61,7 @@ export class SVOTest extends Test {
 	 * @return {SVOTest} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const scale = (this.cellSize / 2) - 0.075;
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);

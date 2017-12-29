@@ -43,7 +43,7 @@ self.addEventListener("message", function onMessage(event) {
 			break;
 
 		case Action.TEST:
-			test = tests.get(request.id).initialise();
+			test = tests.get(request.id).initialize();
 			report = test.run();
 			test.clear();
 			postMessage({

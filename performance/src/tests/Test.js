@@ -29,9 +29,9 @@ export class Test {
 	 * @return {Test} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
-		throw new Error("Test#initialise method not implemented!");
+		throw new Error("Test#initialize method not implemented!");
 
 	}
 

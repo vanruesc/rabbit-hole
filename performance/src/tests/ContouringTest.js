@@ -44,7 +44,7 @@ export class ContouringTest extends Test {
 	 * @return {ContouringTest} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const cellSize = 1;
 		const cellPosition = new Vector3(-0.5, -0.5, -0.5);

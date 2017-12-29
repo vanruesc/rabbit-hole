@@ -67,7 +67,7 @@ export class CSGTest extends Test {
 	 * @return {CSGTest} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const scale = (this.cellSize / 2) - 0.075;
 		const sdf0 = SuperPrimitive.create(SuperPrimitivePreset.PELLET).setOperationType(OperationType.UNION);

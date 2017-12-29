@@ -50,7 +50,7 @@ export class DecompressionTest extends Test {
 	 * @return {DecompressionTest} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const cellSize = 1;
 		const halfSize = cellSize / 2;

@@ -50,7 +50,7 @@ export class CompressionTest extends Test {
 	 * @return {CompressionTest} This test.
 	 */
 
-	initialise() {
+	initialize() {
 
 		const cellSize = 1;
 		const halfSize = cellSize / 2;
