@@ -2,6 +2,9 @@
 
 const HermiteData = require("../../build/rabbit-hole").HermiteData;
 
+// Set the global resolution.
+HermiteData.resolution = 1;
+
 module.exports = {
 
 	"Hermite Data": {

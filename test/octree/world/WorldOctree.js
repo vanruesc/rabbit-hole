@@ -86,7 +86,7 @@ module.exports = {
 			const world = new WorldOctree(20, 3);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 10, 10);
+			sphere.origin.set(10, 20, 10);
 
 			const keyCoordinates = world.calculateKeyCoordinates(new Vector3(10, 20, 10), 1);
 
@@ -111,7 +111,7 @@ module.exports = {
 			const world = new WorldOctree(20, 2);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 10, 10);
+			sphere.origin.set(0, 0, 0);
 
 			const raycaster = new Raycaster();
 			const intersects = [];
@@ -121,7 +121,7 @@ module.exports = {
 			raycaster.ray.origin.set(1, 1, 1);
 			raycaster.ray.direction.set(1, 1, 1).normalize();
 
-			world.raycast(raycaster, intersects);
+			world.raycast(raycaster.ray, intersects);
 
 			test.equal(world.lodZero.size, 8, "should have eight octants in LOD zero");
 			test.equal(intersects.length, 1);
