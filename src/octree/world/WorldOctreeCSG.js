@@ -323,7 +323,7 @@ export class WorldOctreeCSG {
 
 		let lod, octant;
 
-		for(lod = world.getDepth(); lod > 0; --lod) {
+		for(lod = world.getDepth(); lod >= 0; --lod) {
 
 			for(octant of world.getGrid(lod).values()) {
 
