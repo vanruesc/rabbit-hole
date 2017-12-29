@@ -8,11 +8,11 @@ import {
 	FogExp2,
 	Mesh,
 	MeshStandardMaterial,
-	OrbitControls,
 	PerspectiveCamera,
 	Vector3
 } from "three";
 
+import { DeltaControls } from "delta-controls";
 import HermiteDataHelper from "hermite-data-helper";
 import OctreeHelper from "octree-helper";
 import { Demo } from "three-demo";
@@ -222,15 +222,15 @@ export class SVODemo extends Demo {
 
 		const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 25);
 		camera.position.set(0, 0, 2);
-		camera.lookAt(scene.position);
 		this.camera = camera;
 
 		// Controls.
 
-		const controls = new OrbitControls(camera, renderer.domElement);
-		controls.maxDistance = 20;
-		controls.zoomSpeed = 0.6;
-		controls.rotateSpeed = 0.6;
+		const controls = new DeltaControls(camera.position, camera.quaternion, renderer.domElement);
+		controls.settings.pointer.lock = false;
+		controls.settings.sensitivity.zoom = 0.1;
+		controls.settings.zoom.maxDistance = 20;
+		controls.lookAt(scene.position);
 		this.controls = controls;
 
 		// Fog.
@@ -275,6 +275,18 @@ export class SVODemo extends Demo {
 		box.min.set(-halfSize, -halfSize, -halfSize);
 		box.max.set(halfSize, halfSize, halfSize);
 		scene.add(new Box3Helper(box, 0x303030));
+
+	}
+
+	/**
+	 * Updates this demo.
+	 *
+	 * @param {Number} delta - The time since the last frame in seconds.
+	 */
+
+	update(delta) {
+
+		this.controls.update(delta);
 
 	}
 
