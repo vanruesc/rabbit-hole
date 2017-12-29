@@ -19,7 +19,6 @@ export class ModificationResponse extends DataMessage {
 		 * A serialised SDF.
 		 *
 		 * @type {Object}
-		 * @default null
 		 */
 
 		this.sdf = null;

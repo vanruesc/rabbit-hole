@@ -20,7 +20,6 @@ export class ConfigurationMessage extends Message {
 		 * The global grid resolution of the Hermite data chunks.
 		 *
 		 * @type {Number}
-		 * @default HermiteData.resolution
 		 */
 
 		this.resolution = HermiteData.resolution;
@@ -29,7 +28,6 @@ export class ConfigurationMessage extends Message {
 		 * An error threshold for QEF-based mesh simplification.
 		 *
 		 * @type {Number}
-		 * @default 1e-2
 		 */
 
 		this.errorThreshold = 1e-2;

@@ -19,7 +19,6 @@ export class ModificationRequest extends DataMessage {
 		 * A serialised SDF.
 		 *
 		 * @type {Object}
-		 * @default null
 		 */
 
 		this.sdf = null;
@@ -28,7 +27,6 @@ export class ModificationRequest extends DataMessage {
 		 * The world size of the volume data cell.
 		 *
 		 * @type {Number}
-		 * @default 0
 		 */
 
 		this.cellSize = 0;
@@ -40,7 +38,6 @@ export class ModificationRequest extends DataMessage {
 		 * the volume data cell in world space.
 		 *
 		 * @type {Number[]}
-		 * @default null
 		 */
 
 		this.cellPosition = null;

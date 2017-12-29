@@ -37,7 +37,6 @@ export class ThreadPool extends EventTarget {
 		 * The maximum number of active worker threads.
 		 *
 		 * @type {Number}
-		 * @default navigator.hardwareConcurrency
 		 */
 
 		this.maxWorkers = Math.min(navigator.hardwareConcurrency, Math.max(maxWorkers, 1));

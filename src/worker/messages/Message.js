@@ -24,7 +24,6 @@ export class Message {
 		 * reliable identifier.
 		 *
 		 * @type {Action}
-		 * @default null
 		 */
 
 		this.action = action;
@@ -35,7 +34,6 @@ export class Message {
 		 * If this is not null, something went wrong.
 		 *
 		 * @type {ErrorEvent}
-		 * @default null
 		 */
 
 		this.error = null;

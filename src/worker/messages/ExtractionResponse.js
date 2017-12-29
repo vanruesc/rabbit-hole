@@ -19,7 +19,6 @@ export class ExtractionResponse extends DataMessage {
 		 * A serialised isosurface.
 		 *
 		 * @type {Object}
-		 * @default null
 		 */
 
 		this.isosurface = null;

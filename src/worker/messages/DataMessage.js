@@ -20,7 +20,6 @@ export class DataMessage extends Message {
 		 * A serialised data container.
 		 *
 		 * @type {Object}
-		 * @default null
 		 */
 
 		this.data = null;

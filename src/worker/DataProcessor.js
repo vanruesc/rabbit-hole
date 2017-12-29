@@ -29,7 +29,6 @@ export class DataProcessor {
 		 *
 		 * @type {HermiteData}
 		 * @protected
-		 * @default null
 		 */
 
 		this.data = null;
@@ -39,7 +38,6 @@ export class DataProcessor {
 		 *
 		 * @type {DataMessage}
 		 * @protected
-		 * @default null
 		 */
 
 		this.response = null;
