@@ -1,321 +1,363 @@
 {
-  "type": "Program",
-  "body": [
-    {
-      "type": "ExportNamedDeclaration",
-      "declaration": {
-        "type": "VariableDeclaration",
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "id": {
-              "type": "Identifier",
-              "name": "OperationType",
-              "range": [
-                388,
-                401
-              ],
-              "loc": {
-                "start": {
-                  "line": 11,
-                  "column": 13
-                },
-                "end": {
-                  "line": 11,
-                  "column": 26
-                }
-              }
-            },
-            "init": {
-              "type": "ObjectExpression",
-              "properties": [
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "UNION",
-                    "range": [
-                      410,
-                      415
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 6
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "csg.union",
-                    "raw": "\"csg.union\"",
-                    "range": [
-                      417,
-                      428
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 13,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 13,
-                        "column": 19
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    410,
-                    428
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 13,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 13,
-                      "column": 19
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "DIFFERENCE",
-                    "range": [
-                      432,
-                      442
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 14,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 11
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "csg.difference",
-                    "raw": "\"csg.difference\"",
-                    "range": [
-                      444,
-                      460
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 14,
-                        "column": 13
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 29
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    432,
-                    460
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 14,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 14,
-                      "column": 29
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "INTERSECTION",
-                    "range": [
-                      464,
-                      476
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 13
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "csg.intersection",
-                    "raw": "\"csg.intersection\"",
-                    "range": [
-                      478,
-                      496
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 15
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 33
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    464,
-                    496
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 15,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 15,
-                      "column": 33
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "DENSITY_FUNCTION",
-                    "range": [
-                      500,
-                      516
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 16,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 16,
-                        "column": 17
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "csg.densityfunction",
-                    "raw": "\"csg.densityfunction\"",
-                    "range": [
-                      518,
-                      539
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 16,
-                        "column": 19
-                      },
-                      "end": {
-                        "line": 16,
-                        "column": 40
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    500,
-                    539
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 16,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 16,
-                      "column": 40
-                    }
-                  }
-                }
-              ],
-              "range": [
-                404,
-                544
-              ],
-              "loc": {
-                "start": {
-                  "line": 11,
-                  "column": 29
-                },
-                "end": {
-                  "line": 18,
-                  "column": 1
-                }
-              }
-            },
-            "range": [
-              388,
-              544
-            ],
-            "loc": {
-              "start": {
-                "line": 11,
-                "column": 13
-              },
-              "end": {
-                "line": 18,
-                "column": 1
-              }
-            }
-          }
-        ],
-        "kind": "const",
-        "range": [
-          382,
-          545
-        ],
+  "type": "File",
+  "start": 0,
+  "end": 547,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 19,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 547,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 19,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExportNamedDeclaration",
+        "start": 375,
+        "end": 545,
         "loc": {
           "start": {
             "line": 11,
-            "column": 7
+            "column": 0
           },
           "end": {
             "line": 18,
             "column": 2
           }
         },
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "VariableDeclaration",
+          "start": 382,
+          "end": 545,
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 7
+            },
+            "end": {
+              "line": 18,
+              "column": 2
+            }
+          },
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "start": 388,
+              "end": 544,
+              "loc": {
+                "start": {
+                  "line": 11,
+                  "column": 13
+                },
+                "end": {
+                  "line": 18,
+                  "column": 1
+                }
+              },
+              "id": {
+                "type": "Identifier",
+                "start": 388,
+                "end": 401,
+                "loc": {
+                  "start": {
+                    "line": 11,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 26
+                  },
+                  "identifierName": "OperationType"
+                },
+                "name": "OperationType",
+                "leadingComments": null
+              },
+              "init": {
+                "type": "ObjectExpression",
+                "start": 404,
+                "end": 544,
+                "loc": {
+                  "start": {
+                    "line": 11,
+                    "column": 29
+                  },
+                  "end": {
+                    "line": 18,
+                    "column": 1
+                  }
+                },
+                "properties": [
+                  {
+                    "type": "ObjectProperty",
+                    "start": 410,
+                    "end": 428,
+                    "loc": {
+                      "start": {
+                        "line": 13,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 19
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 410,
+                      "end": 415,
+                      "loc": {
+                        "start": {
+                          "line": 13,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 6
+                        },
+                        "identifierName": "UNION"
+                      },
+                      "name": "UNION"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 417,
+                      "end": 428,
+                      "loc": {
+                        "start": {
+                          "line": 13,
+                          "column": 8
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 19
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "csg.union",
+                        "raw": "\"csg.union\""
+                      },
+                      "value": "csg.union"
+                    }
+                  },
+                  {
+                    "type": "ObjectProperty",
+                    "start": 432,
+                    "end": 460,
+                    "loc": {
+                      "start": {
+                        "line": 14,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 29
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 432,
+                      "end": 442,
+                      "loc": {
+                        "start": {
+                          "line": 14,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 14,
+                          "column": 11
+                        },
+                        "identifierName": "DIFFERENCE"
+                      },
+                      "name": "DIFFERENCE"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 444,
+                      "end": 460,
+                      "loc": {
+                        "start": {
+                          "line": 14,
+                          "column": 13
+                        },
+                        "end": {
+                          "line": 14,
+                          "column": 29
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "csg.difference",
+                        "raw": "\"csg.difference\""
+                      },
+                      "value": "csg.difference"
+                    }
+                  },
+                  {
+                    "type": "ObjectProperty",
+                    "start": 464,
+                    "end": 496,
+                    "loc": {
+                      "start": {
+                        "line": 15,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 15,
+                        "column": 33
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 464,
+                      "end": 476,
+                      "loc": {
+                        "start": {
+                          "line": 15,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 15,
+                          "column": 13
+                        },
+                        "identifierName": "INTERSECTION"
+                      },
+                      "name": "INTERSECTION"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 478,
+                      "end": 496,
+                      "loc": {
+                        "start": {
+                          "line": 15,
+                          "column": 15
+                        },
+                        "end": {
+                          "line": 15,
+                          "column": 33
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "csg.intersection",
+                        "raw": "\"csg.intersection\""
+                      },
+                      "value": "csg.intersection"
+                    }
+                  },
+                  {
+                    "type": "ObjectProperty",
+                    "start": 500,
+                    "end": 539,
+                    "loc": {
+                      "start": {
+                        "line": 16,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 16,
+                        "column": 40
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 500,
+                      "end": 516,
+                      "loc": {
+                        "start": {
+                          "line": 16,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 17
+                        },
+                        "identifierName": "DENSITY_FUNCTION"
+                      },
+                      "name": "DENSITY_FUNCTION"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 518,
+                      "end": 539,
+                      "loc": {
+                        "start": {
+                          "line": 16,
+                          "column": 19
+                        },
+                        "end": {
+                          "line": 16,
+                          "column": 40
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "csg.densityfunction",
+                        "raw": "\"csg.densityfunction\""
+                      },
+                      "value": "csg.densityfunction"
+                    }
+                  }
+                ]
+              },
+              "leadingComments": null
+            }
+          ],
+          "kind": "const",
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\r\n * An enumeration of CSG operation types.\r\n *\r\n * @type {Object}\r\n * @property {String} UNION - Indicates a union of volume data.\r\n * @property {String} DIFFERENCE - Indicates a subtraction of volume data.\r\n * @property {String} INTERSECTION - Indicates an intersection of volume data.\r\n * @property {String} DENSITY_FUNCTION - Indicates volume data generation.\r\n ",
+              "start": 0,
+              "end": 371,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 0
+                },
+                "end": {
+                  "line": 9,
+                  "column": 3
+                }
+              }
+            }
+          ],
+          "trailingComments": []
+        },
         "leadingComments": [
           {
-            "type": "Block",
+            "type": "CommentBlock",
             "value": "*\r\n * An enumeration of CSG operation types.\r\n *\r\n * @type {Object}\r\n * @property {String} UNION - Indicates a union of volume data.\r\n * @property {String} DIFFERENCE - Indicates a subtraction of volume data.\r\n * @property {String} INTERSECTION - Indicates an intersection of volume data.\r\n * @property {String} DENSITY_FUNCTION - Indicates volume data generation.\r\n ",
-            "range": [
-              0,
-              371
-            ],
+            "start": 0,
+            "end": 371,
             "loc": {
               "start": {
                 "line": 1,
@@ -327,70 +369,17 @@
               }
             }
           }
-        ],
-        "trailingComments": []
-      },
-      "specifiers": [],
-      "source": null,
-      "range": [
-        375,
-        545
-      ],
-      "loc": {
-        "start": {
-          "line": 11,
-          "column": 0
-        },
-        "end": {
-          "line": 18,
-          "column": 2
-        }
-      },
-      "leadingComments": [
-        {
-          "type": "Block",
-          "value": "*\r\n * An enumeration of CSG operation types.\r\n *\r\n * @type {Object}\r\n * @property {String} UNION - Indicates a union of volume data.\r\n * @property {String} DIFFERENCE - Indicates a subtraction of volume data.\r\n * @property {String} INTERSECTION - Indicates an intersection of volume data.\r\n * @property {String} DENSITY_FUNCTION - Indicates volume data generation.\r\n ",
-          "range": [
-            0,
-            371
-          ],
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 9,
-              "column": 3
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "sourceType": "module",
-  "range": [
-    375,
-    545
-  ],
-  "loc": {
-    "start": {
-      "line": 11,
-      "column": 0
-    },
-    "end": {
-      "line": 18,
-      "column": 2
-    }
+        ]
+      }
+    ],
+    "directives": []
   },
   "comments": [
     {
-      "type": "Block",
+      "type": "CommentBlock",
       "value": "*\r\n * An enumeration of CSG operation types.\r\n *\r\n * @type {Object}\r\n * @property {String} UNION - Indicates a union of volume data.\r\n * @property {String} DIFFERENCE - Indicates a subtraction of volume data.\r\n * @property {String} INTERSECTION - Indicates an intersection of volume data.\r\n * @property {String} DENSITY_FUNCTION - Indicates volume data generation.\r\n ",
-      "range": [
-        0,
-        371
-      ],
+      "start": 0,
+      "end": 371,
       "loc": {
         "start": {
           "line": 1,
@@ -399,6 +388,629 @@
         "end": {
           "line": 9,
           "column": 3
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": "CommentBlock",
+      "value": "*\r\n * An enumeration of CSG operation types.\r\n *\r\n * @type {Object}\r\n * @property {String} UNION - Indicates a union of volume data.\r\n * @property {String} DIFFERENCE - Indicates a subtraction of volume data.\r\n * @property {String} INTERSECTION - Indicates an intersection of volume data.\r\n * @property {String} DENSITY_FUNCTION - Indicates volume data generation.\r\n ",
+      "start": 0,
+      "end": 371,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 375,
+      "end": 381,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 0
+        },
+        "end": {
+          "line": 11,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 382,
+      "end": 387,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 7
+        },
+        "end": {
+          "line": 11,
+          "column": 12
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "OperationType",
+      "start": 388,
+      "end": 401,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 13
+        },
+        "end": {
+          "line": 11,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 402,
+      "end": 403,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 27
+        },
+        "end": {
+          "line": 11,
+          "column": 28
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 404,
+      "end": 405,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 29
+        },
+        "end": {
+          "line": 11,
+          "column": 30
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "UNION",
+      "start": 410,
+      "end": 415,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 1
+        },
+        "end": {
+          "line": 13,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 415,
+      "end": 416,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 6
+        },
+        "end": {
+          "line": 13,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "csg.union",
+      "start": 417,
+      "end": 428,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 8
+        },
+        "end": {
+          "line": 13,
+          "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 428,
+      "end": 429,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 19
+        },
+        "end": {
+          "line": 13,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "DIFFERENCE",
+      "start": 432,
+      "end": 442,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 1
+        },
+        "end": {
+          "line": 14,
+          "column": 11
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 442,
+      "end": 443,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 11
+        },
+        "end": {
+          "line": 14,
+          "column": 12
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "csg.difference",
+      "start": 444,
+      "end": 460,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 13
+        },
+        "end": {
+          "line": 14,
+          "column": 29
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 460,
+      "end": 461,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 29
+        },
+        "end": {
+          "line": 14,
+          "column": 30
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "INTERSECTION",
+      "start": 464,
+      "end": 476,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 1
+        },
+        "end": {
+          "line": 15,
+          "column": 13
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 476,
+      "end": 477,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 13
+        },
+        "end": {
+          "line": 15,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "csg.intersection",
+      "start": 478,
+      "end": 496,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 15
+        },
+        "end": {
+          "line": 15,
+          "column": 33
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 496,
+      "end": 497,
+      "loc": {
+        "start": {
+          "line": 15,
+          "column": 33
+        },
+        "end": {
+          "line": 15,
+          "column": 34
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "DENSITY_FUNCTION",
+      "start": 500,
+      "end": 516,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 1
+        },
+        "end": {
+          "line": 16,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 516,
+      "end": 517,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 17
+        },
+        "end": {
+          "line": 16,
+          "column": 18
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "csg.densityfunction",
+      "start": 518,
+      "end": 539,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 19
+        },
+        "end": {
+          "line": 16,
+          "column": 40
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 543,
+      "end": 544,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 0
+        },
+        "end": {
+          "line": 18,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 544,
+      "end": 545,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 1
+        },
+        "end": {
+          "line": 18,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 547,
+      "end": 547,
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 19,
+          "column": 0
         }
       }
     }

@@ -6,33 +6,27 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "rabbit-hole/src/volume/sdf/box.js~box",
-    "class/src/volume/sdf/Box.js~Box.html",
-    "<span>Box</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/Box.js</span>",
+    "rabbit-hole/src/utils/binaryutils.js~binaryutils",
+    "class/src/utils/BinaryUtils.js~BinaryUtils.html",
+    "<span>BinaryUtils</span> <span class=\"search-result-import-path\">rabbit-hole/src/utils/BinaryUtils.js</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cell_proc_edge_mask",
-    "variable/index.html#static-variable-CELL_PROC_EDGE_MASK",
-    "<span>CELL_PROC_EDGE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
-  ],
-  [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cell_proc_face_mask",
-    "variable/index.html#static-variable-CELL_PROC_FACE_MASK",
-    "<span>CELL_PROC_FACE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
-  ],
-  [
-    "rabbit-hole/src/volume/octree/chunk.js~chunk",
-    "class/src/volume/octree/Chunk.js~Chunk.html",
-    "<span>Chunk</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/octree/Chunk.js</span>",
+    "rabbit-hole/src/clipmap/clipmap.js~clipmap",
+    "class/src/clipmap/Clipmap.js~Clipmap.html",
+    "<span>Clipmap</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Clipmap.js</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/helpers/chunkhelper.js~chunkhelper",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html",
-    "<span>ChunkHelper</span> <span class=\"search-result-import-path\">rabbit-hole/src/helpers/ChunkHelper.js</span>",
+    "rabbit-hole/src/events/clipmapevent.js~clipmapevent",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html",
+    "<span>ClipmapEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/ClipmapEvent.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/worker/messages/configurationmessage.js~configurationmessage",
+    "class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html",
+    "<span>ConfigurationMessage</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ConfigurationMessage.js</span>",
     "class"
   ],
   [
@@ -42,9 +36,27 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "rabbit-hole/src/worker/messages/datamessage.js~datamessage",
+    "class/src/worker/messages/DataMessage.js~DataMessage.html",
+    "<span>DataMessage</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/DataMessage.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/worker/dataprocessor.js~dataprocessor",
+    "class/src/worker/DataProcessor.js~DataProcessor.html",
+    "<span>DataProcessor</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/DataProcessor.js</span>",
+    "class"
+  ],
+  [
     "rabbit-hole/src/volume/csg/densityfunction.js~densityfunction",
     "class/src/volume/csg/DensityFunction.js~DensityFunction.html",
     "<span>DensityFunction</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/DensityFunction.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/core/deserializable.js~deserializable",
+    "class/src/core/Deserializable.js~Deserializable.html",
+    "<span>Deserializable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Deserializable.js</span>",
     "class"
   ],
   [
@@ -54,22 +66,16 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "rabbit-hole/src/core/disposable.js~disposable",
+    "class/src/core/Disposable.js~Disposable.html",
+    "<span>Disposable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Disposable.js</span>",
+    "class"
+  ],
+  [
     "rabbit-hole/src/isosurface/dual-contouring/dualcontouring.js~dualcontouring",
     "class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html",
     "<span>DualContouring</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/DualContouring.js</span>",
     "class"
-  ],
-  [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edge_mask",
-    "variable/index.html#static-variable-EDGE_MASK",
-    "<span>EDGE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
-  ],
-  [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edge_proc_edge_mask",
-    "variable/index.html#static-variable-EDGE_PROC_EDGE_MASK",
-    "<span>EDGE_PROC_EDGE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
   ],
   [
     "rabbit-hole/src/volume/edge.js~edge",
@@ -84,22 +90,28 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~face_map",
-    "variable/index.html#static-variable-FACE_MAP",
-    "<span>FACE_MAP</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
+    "rabbit-hole/src/volume/edgeiterator.js~edgeiterator",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html",
+    "<span>EdgeIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/EdgeIterator.js</span>",
+    "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~face_proc_edge_mask",
-    "variable/index.html#static-variable-FACE_PROC_EDGE_MASK",
-    "<span>FACE_PROC_EDGE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
+    "rabbit-hole/src/worker/messages/extractionrequest.js~extractionrequest",
+    "class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html",
+    "<span>ExtractionRequest</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ExtractionRequest.js</span>",
+    "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~face_proc_face_mask",
-    "variable/index.html#static-variable-FACE_PROC_FACE_MASK",
-    "<span>FACE_PROC_FACE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
+    "rabbit-hole/src/worker/messages/extractionresponse.js~extractionresponse",
+    "class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html",
+    "<span>ExtractionResponse</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ExtractionResponse.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/volume/sdf/fractalnoise.js~fractalnoise",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html",
+    "<span>FractalNoise</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/FractalNoise.js</span>",
+    "class"
   ],
   [
     "rabbit-hole/src/math/givens.js~givens",
@@ -120,9 +132,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/core/history.js~history",
-    "class/src/core/History.js~History.html",
-    "<span>History</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/History.js</span>",
+    "rabbit-hole/src/octree/world/intermediateworldoctant.js~intermediateworldoctant",
+    "class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html",
+    "<span>IntermediateWorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/IntermediateWorldOctant.js</span>",
     "class"
   ],
   [
@@ -132,15 +144,45 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "rabbit-hole/src/isosurface/isosurface.js~isosurface",
+    "class/src/isosurface/Isosurface.js~Isosurface.html",
+    "<span>Isosurface</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/Isosurface.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/keydesign.js~keydesign",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html",
+    "<span>KeyDesign</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/KeyDesign.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/keyiterator.js~keyiterator",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html",
+    "<span>KeyIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/KeyIterator.js</span>",
+    "class"
+  ],
+  [
     "rabbit-hole/src/volume/material.js~material",
     "variable/index.html#static-variable-Material",
     "<span>Material</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/Material.js</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html",
-    "<span>MeshTriplanarPhysicalMaterial</span> <span class=\"search-result-import-path\">rabbit-hole/src/materials/MeshTriplanarPhysicalMaterial.js</span>",
+    "rabbit-hole/src/worker/messages/message.js~message",
+    "class/src/worker/messages/Message.js~Message.html",
+    "<span>Message</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/Message.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/worker/messages/modificationrequest.js~modificationrequest",
+    "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html",
+    "<span>ModificationRequest</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ModificationRequest.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/worker/messages/modificationresponse.js~modificationresponse",
+    "class/src/worker/messages/ModificationResponse.js~ModificationResponse.html",
+    "<span>ModificationResponse</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ModificationResponse.js</span>",
     "class"
   ],
   [
@@ -154,24 +196,6 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-OperationType",
     "<span>OperationType</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/OperationType.js</span>",
     "variable"
-  ],
-  [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~proc_edge_mask",
-    "variable/index.html#static-variable-PROC_EDGE_MASK",
-    "<span>PROC_EDGE_MASK</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
-    "variable"
-  ],
-  [
-    "rabbit-hole/src/volume/sdf/plane.js~plane",
-    "class/src/volume/sdf/Plane.js~Plane.html",
-    "<span>Plane</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/Plane.js</span>",
-    "class"
-  ],
-  [
-    "rabbit-hole/src/core/priorityqueue.js~priorityqueue",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html",
-    "<span>PriorityQueue</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/PriorityQueue.js</span>",
-    "class"
   ],
   [
     "rabbit-hole/src/math/qefdata.js~qefdata",
@@ -192,9 +216,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/core/runlengthencoder.js~runlengthencoder",
-    "class/src/core/RunLengthEncoder.js~RunLengthEncoder.html",
-    "<span>RunLengthEncoder</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/RunLengthEncoder.js</span>",
+    "rabbit-hole/src/compression/runlengthencoding.js~runlengthencoding",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html",
+    "<span>RunLengthEncoding</span> <span class=\"search-result-import-path\">rabbit-hole/src/compression/RunLengthEncoding.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/loaders/sdfloader.js~sdfloader",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html",
+    "<span>SDFLoader</span> <span class=\"search-result-import-path\">rabbit-hole/src/loaders/SDFLoader.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/events/sdfloaderevent.js~sdfloaderevent",
+    "class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html",
+    "<span>SDFLoaderEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/SDFLoaderEvent.js</span>",
     "class"
   ],
   [
@@ -210,15 +246,21 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "rabbit-hole/src/core/scheduler.js~scheduler",
-    "class/src/core/Scheduler.js~Scheduler.html",
-    "<span>Scheduler</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Scheduler.js</span>",
+    "rabbit-hole/src/clipmap/scene.js~scene",
+    "class/src/clipmap/Scene.js~Scene.html",
+    "<span>Scene</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Scene.js</span>",
     "class"
   ],
   [
     "rabbit-hole/src/math/schur.js~schur",
     "class/src/math/Schur.js~Schur.html",
     "<span>Schur</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/Schur.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/core/serializable.js~serializable",
+    "class/src/core/Serializable.js~Serializable.html",
+    "<span>Serializable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Serializable.js</span>",
     "class"
   ],
   [
@@ -234,10 +276,22 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/sphere.js~sphere",
-    "class/src/volume/sdf/Sphere.js~Sphere.html",
-    "<span>Sphere</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/Sphere.js</span>",
+    "rabbit-hole/src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html",
+    "<span>SparseVoxelOctree</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/voxel/SparseVoxelOctree.js</span>",
     "class"
+  ],
+  [
+    "rabbit-hole/src/volume/sdf/superprimitive.js~superprimitive",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html",
+    "<span>SuperPrimitive</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SuperPrimitive.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/volume/sdf/superprimitive.js~superprimitivepreset",
+    "variable/index.html#static-variable-SuperPrimitivePreset",
+    "<span>SuperPrimitivePreset</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SuperPrimitive.js</span>",
+    "variable"
   ],
   [
     "rabbit-hole/src/worker/surfaceextractor.js~surfaceextractor",
@@ -246,9 +300,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/core/task.js~task",
-    "class/src/core/Task.js~Task.html",
-    "<span>Task</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Task.js</span>",
+    "rabbit-hole/src/clipmap/task.js~task",
+    "class/src/clipmap/Task.js~Task.html",
+    "<span>Task</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Task.js</span>",
     "class"
   ],
   [
@@ -270,21 +324,15 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/torus.js~torus",
-    "class/src/volume/sdf/Torus.js~Torus.html",
-    "<span>Torus</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/Torus.js</span>",
+    "rabbit-hole/src/core/transferablecontainer.js~transferablecontainer",
+    "class/src/core/TransferableContainer.js~TransferableContainer.html",
+    "<span>TransferableContainer</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/TransferableContainer.js</span>",
     "class"
   ],
   [
     "rabbit-hole/src/volume/csg/union.js~union",
     "class/src/volume/csg/Union.js~Union.html",
     "<span>Union</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/Union.js</span>",
-    "class"
-  ],
-  [
-    "rabbit-hole/src/volume/octree/volume.js~volume",
-    "class/src/volume/octree/Volume.js~Volume.html",
-    "<span>Volume</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/octree/Volume.js</span>",
     "class"
   ],
   [
@@ -300,15 +348,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/volume/octree/voxelblock.js~voxelblock",
-    "class/src/volume/octree/VoxelBlock.js~VoxelBlock.html",
-    "<span>VoxelBlock</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/octree/VoxelBlock.js</span>",
-    "class"
-  ],
-  [
-    "rabbit-hole/src/volume/octree/voxelcell.js~voxelcell",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html",
-    "<span>VoxelCell</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/octree/VoxelCell.js</span>",
+    "rabbit-hole/src/octree/voxel/voxelcell.js~voxelcell",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html",
+    "<span>VoxelCell</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/voxel/VoxelCell.js</span>",
     "class"
   ],
   [
@@ -318,10 +360,82 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/worker/workertask.js~workertask",
-    "class/src/worker/WorkerTask.js~WorkerTask.html",
-    "<span>WorkerTask</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/WorkerTask.js</span>",
+    "rabbit-hole/src/octree/world/worldoctant.js~worldoctant",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html",
+    "<span>WorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctant.js</span>",
     "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctantid.js~worldoctantid",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html",
+    "<span>WorldOctantId</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantId.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctantiterator.js~worldoctantiterator",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html",
+    "<span>WorldOctantIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantIterator.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctantwrapper.js~worldoctantwrapper",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html",
+    "<span>WorldOctantWrapper</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantWrapper.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctree.js~worldoctree",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html",
+    "<span>WorldOctree</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctree.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctreecsg.js~worldoctreecsg",
+    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html",
+    "<span>WorldOctreeCSG</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctreeCSG.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/octree/world/worldoctreeraycaster.js~worldoctreeraycaster",
+    "class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html",
+    "<span>WorldOctreeRaycaster</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctreeRaycaster.js</span>",
+    "class"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cellprocedgemask",
+    "variable/index.html#static-variable-cellProcEdgeMask",
+    "<span>cellProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cellprocfacemask",
+    "variable/index.html#static-variable-cellProcFaceMask",
+    "<span>cellProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edgemask",
+    "variable/index.html#static-variable-edgeMask",
+    "<span>edgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edgeprocedgemask",
+    "variable/index.html#static-variable-edgeProcEdgeMask",
+    "<span>edgeProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/clipmap/clipmap-events.js~error",
+    "variable/index.html#static-variable-error",
+    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/clipmap-events.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/core/terrain-events.js~error",
+    "variable/index.html#static-variable-error",
+    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "variable"
   ],
   [
     "rabbit-hole/src/core/terrain-events.js~extractionend",
@@ -333,6 +447,36 @@ window.esdocSearchIndex = [
     "rabbit-hole/src/core/terrain-events.js~extractionstart",
     "variable/index.html#static-variable-extractionstart",
     "<span>extractionstart</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~facemap",
+    "variable/index.html#static-variable-faceMap",
+    "<span>faceMap</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~faceprocedgemask",
+    "variable/index.html#static-variable-faceProcEdgeMask",
+    "<span>faceProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~faceprocfacemask",
+    "variable/index.html#static-variable-faceProcFaceMask",
+    "<span>faceProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/core/terrain-events.js~load",
+    "variable/index.html#static-variable-load",
+    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/loaders/sdf-loader-events.js~load",
+    "variable/index.html#static-variable-load",
+    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole/src/loaders/sdf-loader-events.js</span>",
     "variable"
   ],
   [
@@ -354,430 +498,520 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "rabbit-hole/src/isosurface/dual-contouring/tables.js~procedgemask",
+    "variable/index.html#static-variable-procEdgeMask",
+    "<span>procEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "variable"
+  ],
+  [
+    "rabbit-hole/src/clipmap/clipmap-events.js~update",
+    "variable/index.html#static-variable-update",
+    "<span>update</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/clipmap-events.js</span>",
+    "variable"
+  ],
+  [
+    "src/.external-ecmascript.js~array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "src/.external-ecmascript.js~Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~arraybuffer",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "src/.external-ecmascript.js~arraybuffer",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "src/.external-ecmascript.js~ArrayBuffer",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~boolean",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "src/.external-ecmascript.js~boolean",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "src/.external-ecmascript.js~Boolean",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~dataview",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "src/.external-ecmascript.js~dataview",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "src/.external-ecmascript.js~DataView",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~date",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "src/.external-ecmascript.js~date",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "src/.external-ecmascript.js~Date",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~error",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "src/.external-ecmascript.js~error",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "src/.external-ecmascript.js~Error",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~evalerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "src/.external-ecmascript.js~evalerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "src/.external-ecmascript.js~EvalError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~float32array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "src/.external-ecmascript.js~float32array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "src/.external-ecmascript.js~Float32Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~float64array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "src/.external-ecmascript.js~float64array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "src/.external-ecmascript.js~Float64Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~function",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "src/.external-ecmascript.js~function",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "src/.external-ecmascript.js~Function",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~generator",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "src/.external-ecmascript.js~generator",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "src/.external-ecmascript.js~Generator",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~generatorfunction",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "src/.external-ecmascript.js~generatorfunction",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "src/.external-ecmascript.js~GeneratorFunction",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~infinity",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "src/.external-ecmascript.js~infinity",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "src/.external-ecmascript.js~Infinity",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~int16array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "src/.external-ecmascript.js~int16array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "src/.external-ecmascript.js~Int16Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~int32array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "src/.external-ecmascript.js~int32array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "src/.external-ecmascript.js~Int32Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~int8array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "src/.external-ecmascript.js~int8array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "src/.external-ecmascript.js~Int8Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~internalerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "src/.external-ecmascript.js~internalerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "src/.external-ecmascript.js~InternalError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~json",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "src/.external-ecmascript.js~json",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "src/.external-ecmascript.js~JSON",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~map",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "src/.external-ecmascript.js~map",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "src/.external-ecmascript.js~Map",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~nan",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "src/.external-ecmascript.js~nan",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "src/.external-ecmascript.js~NaN",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~number",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "src/.external-ecmascript.js~number",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "src/.external-ecmascript.js~Number",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~object",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "src/.external-ecmascript.js~object",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "src/.external-ecmascript.js~Object",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~promise",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "src/.external-ecmascript.js~promise",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "src/.external-ecmascript.js~Promise",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~proxy",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "src/.external-ecmascript.js~proxy",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "src/.external-ecmascript.js~Proxy",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~rangeerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "src/.external-ecmascript.js~rangeerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "src/.external-ecmascript.js~RangeError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~referenceerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "src/.external-ecmascript.js~referenceerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "src/.external-ecmascript.js~ReferenceError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~reflect",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "src/.external-ecmascript.js~reflect",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "src/.external-ecmascript.js~Reflect",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~regexp",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "src/.external-ecmascript.js~regexp",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "src/.external-ecmascript.js~RegExp",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~set",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "src/.external-ecmascript.js~set",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "src/.external-ecmascript.js~Set",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~string",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~String",
+    "src/.external-ecmascript.js~string",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "src/.external-ecmascript.js~String",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~symbol",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "src/.external-ecmascript.js~symbol",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "src/.external-ecmascript.js~Symbol",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~syntaxerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "src/.external-ecmascript.js~syntaxerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "src/.external-ecmascript.js~SyntaxError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~typeerror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "src/.external-ecmascript.js~typeerror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "src/.external-ecmascript.js~TypeError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~urierror",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "src/.external-ecmascript.js~urierror",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "src/.external-ecmascript.js~URIError",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~uint16array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "src/.external-ecmascript.js~uint16array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "src/.external-ecmascript.js~Uint16Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~uint32array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "src/.external-ecmascript.js~uint32array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "src/.external-ecmascript.js~Uint32Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~uint8array",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "src/.external-ecmascript.js~uint8array",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "src/.external-ecmascript.js~Uint8Array",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~uint8clampedarray",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "src/.external-ecmascript.js~uint8clampedarray",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "src/.external-ecmascript.js~Uint8ClampedArray",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~weakmap",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "src/.external-ecmascript.js~weakmap",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "src/.external-ecmascript.js~WeakMap",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~weakset",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "src/.external-ecmascript.js~weakset",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "src/.external-ecmascript.js~WeakSet",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~boolean",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "src/.external-ecmascript.js~boolean",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "src/.external-ecmascript.js~boolean",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~function",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~function",
+    "src/.external-ecmascript.js~function",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "src/.external-ecmascript.js~function",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~null",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~null",
+    "src/.external-ecmascript.js~null",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "src/.external-ecmascript.js~null",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~number",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~number",
+    "src/.external-ecmascript.js~number",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "src/.external-ecmascript.js~number",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~object",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~object",
+    "src/.external-ecmascript.js~object",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "src/.external-ecmascript.js~object",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~string",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~string",
+    "src/.external-ecmascript.js~string",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "src/.external-ecmascript.js~string",
     "external"
   ],
   [
-    "builtinexternal/ecmascriptexternal.js~undefined",
-    "external/index.html",
-    "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "src/.external-ecmascript.js~undefined",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "src/.external-ecmascript.js~undefined",
     "external"
   ],
   [
-    "builtinexternal/webapiexternal.js~audiocontext",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~AudioContext",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~canvasrenderingcontext2d",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~documentfragment",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~element",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~Element",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~event",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~Event",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~node",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~Node",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~nodelist",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~NodeList",
-    "external"
-  ],
-  [
-    "builtinexternal/webapiexternal.js~xmlhttprequest",
-    "external/index.html",
-    "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
-    "external"
-  ],
-  [
-    "src/core/history.js",
-    "file/src/core/History.js.html",
-    "src/core/History.js",
+    "src/clipmap/clipmap.js",
+    "file/src/clipmap/Clipmap.js.html",
+    "src/clipmap/Clipmap.js",
     "file"
   ],
   [
-    "src/core/history.js~history#clear",
-    "class/src/core/History.js~History.html#instance-method-clear",
-    "src/core/History.js~History#clear",
+    "src/clipmap/clipmap.js~clipmap#clear",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-method-clear",
+    "src/clipmap/Clipmap.js~Clipmap#clear",
     "method"
   ],
   [
-    "src/core/history.js~history#combine",
-    "class/src/core/History.js~History.html#instance-method-combine",
-    "src/core/History.js~History#combine",
+    "src/clipmap/clipmap.js~clipmap#constructor",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-constructor-constructor",
+    "src/clipmap/Clipmap.js~Clipmap#constructor",
     "method"
   ],
   [
-    "src/core/history.js~history#constructor",
-    "class/src/core/History.js~History.html#instance-constructor-constructor",
-    "src/core/History.js~History#constructor",
+    "src/clipmap/clipmap.js~clipmap#currentscene",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-currentScene",
+    "src/clipmap/Clipmap.js~Clipmap#currentScene",
+    "member"
+  ],
+  [
+    "src/clipmap/clipmap.js~clipmap#nextscene",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-nextScene",
+    "src/clipmap/Clipmap.js~Clipmap#nextScene",
+    "member"
+  ],
+  [
+    "src/clipmap/clipmap.js~clipmap#position",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-position",
+    "src/clipmap/Clipmap.js~Clipmap#position",
+    "member"
+  ],
+  [
+    "src/clipmap/clipmap.js~clipmap#previousscene",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-previousScene",
+    "src/clipmap/Clipmap.js~Clipmap#previousScene",
+    "member"
+  ],
+  [
+    "src/clipmap/clipmap.js~clipmap#process",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-method-process",
+    "src/clipmap/Clipmap.js~Clipmap#process",
     "method"
   ],
   [
-    "src/core/history.js~history#pop",
-    "class/src/core/History.js~History.html#instance-method-pop",
-    "src/core/History.js~History#pop",
+    "src/clipmap/clipmap.js~clipmap#update",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-method-update",
+    "src/clipmap/Clipmap.js~Clipmap#update",
     "method"
   ],
   [
-    "src/core/history.js~history#push",
-    "class/src/core/History.js~History.html#instance-method-push",
-    "src/core/History.js~History#push",
-    "method"
+    "src/clipmap/clipmap.js~clipmap#world",
+    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-world",
+    "src/clipmap/Clipmap.js~Clipmap#world",
+    "member"
   ],
   [
-    "src/core/priorityqueue.js",
-    "file/src/core/PriorityQueue.js.html",
-    "src/core/PriorityQueue.js",
+    "src/clipmap/scene.js",
+    "file/src/clipmap/Scene.js.html",
+    "src/clipmap/Scene.js",
     "file"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#add",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-method-add",
-    "src/core/PriorityQueue.js~PriorityQueue#add",
+    "src/clipmap/scene.js~scene#clone",
+    "class/src/clipmap/Scene.js~Scene.html#instance-method-clone",
+    "src/clipmap/Scene.js~Scene#clone",
     "method"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#clear",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-method-clear",
-    "src/core/PriorityQueue.js~PriorityQueue#clear",
+    "src/clipmap/scene.js~scene#constructor",
+    "class/src/clipmap/Scene.js~Scene.html#instance-constructor-constructor",
+    "src/clipmap/Scene.js~Scene#constructor",
     "method"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#constructor",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-constructor-constructor",
-    "src/core/PriorityQueue.js~PriorityQueue#constructor",
-    "method"
-  ],
-  [
-    "src/core/priorityqueue.js~priorityqueue#head",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-member-head",
-    "src/core/PriorityQueue.js~PriorityQueue#head",
+    "src/clipmap/scene.js~scene#levels",
+    "class/src/clipmap/Scene.js~Scene.html#instance-get-levels",
+    "src/clipmap/Scene.js~Scene#levels",
     "member"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#peek",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-method-peek",
-    "src/core/PriorityQueue.js~PriorityQueue#peek",
+    "src/clipmap/task.js",
+    "file/src/clipmap/Task.js.html",
+    "src/clipmap/Task.js",
+    "file"
+  ],
+  [
+    "src/clipmap/task.js~task#constructor",
+    "class/src/clipmap/Task.js~Task.html#instance-constructor-constructor",
+    "src/clipmap/Task.js~Task#constructor",
     "method"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#poll",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-method-poll",
-    "src/core/PriorityQueue.js~PriorityQueue#poll",
+    "src/clipmap/task.js~task#createrequest",
+    "class/src/clipmap/Task.js~Task.html#instance-method-createRequest",
+    "src/clipmap/Task.js~Task#createRequest",
     "method"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#remove",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-method-remove",
-    "src/core/PriorityQueue.js~PriorityQueue#remove",
+    "src/clipmap/task.js~task#createtransferlist",
+    "class/src/clipmap/Task.js~Task.html#instance-method-createTransferList",
+    "src/clipmap/Task.js~Task#createTransferList",
     "method"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#size",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-member-size",
-    "src/core/PriorityQueue.js~PriorityQueue#size",
+    "src/clipmap/task.js~task#octant",
+    "class/src/clipmap/Task.js~Task.html#instance-member-octant",
+    "src/clipmap/Task.js~Task#octant",
     "member"
   ],
   [
-    "src/core/priorityqueue.js~priorityqueue#tiers",
-    "class/src/core/PriorityQueue.js~PriorityQueue.html#instance-get-tiers",
-    "src/core/PriorityQueue.js~PriorityQueue#tiers",
+    "src/clipmap/task.js~task#octantid",
+    "class/src/clipmap/Task.js~Task.html#instance-member-octantId",
+    "src/clipmap/Task.js~Task#octantId",
     "member"
+  ],
+  [
+    "src/clipmap/task.js~task#reclaimdata",
+    "class/src/clipmap/Task.js~Task.html#instance-method-reclaimData",
+    "src/clipmap/Task.js~Task#reclaimData",
+    "method"
+  ],
+  [
+    "src/clipmap/task.js~task#request",
+    "class/src/clipmap/Task.js~Task.html#instance-member-request",
+    "src/clipmap/Task.js~Task#request",
+    "member"
+  ],
+  [
+    "src/clipmap/task.js~task#secondaryoctantids",
+    "class/src/clipmap/Task.js~Task.html#instance-member-secondaryOctantIds",
+    "src/clipmap/Task.js~Task#secondaryOctantIds",
+    "member"
+  ],
+  [
+    "src/clipmap/task.js~task#secondaryoctants",
+    "class/src/clipmap/Task.js~Task.html#instance-member-secondaryOctants",
+    "src/clipmap/Task.js~Task#secondaryOctants",
+    "member"
+  ],
+  [
+    "src/clipmap/clipmap-events.js",
+    "file/src/clipmap/clipmap-events.js.html",
+    "src/clipmap/clipmap-events.js",
+    "file"
+  ],
+  [
+    "src/clipmap/index.js",
+    "file/src/clipmap/index.js.html",
+    "src/clipmap/index.js",
+    "file"
+  ],
+  [
+    "src/compression/runlengthencoding.js",
+    "file/src/compression/RunLengthEncoding.js.html",
+    "src/compression/RunLengthEncoding.js",
+    "file"
+  ],
+  [
+    "src/compression/runlengthencoding.js~runlengthencoding#constructor",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-constructor-constructor",
+    "src/compression/RunLengthEncoding.js~RunLengthEncoding#constructor",
+    "method"
+  ],
+  [
+    "src/compression/runlengthencoding.js~runlengthencoding#data",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-data",
+    "src/compression/RunLengthEncoding.js~RunLengthEncoding#data",
+    "member"
+  ],
+  [
+    "src/compression/runlengthencoding.js~runlengthencoding#runlengths",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-runLengths",
+    "src/compression/RunLengthEncoding.js~RunLengthEncoding#runLengths",
+    "member"
+  ],
+  [
+    "src/compression/runlengthencoding.js~runlengthencoding.decode",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#static-method-decode",
+    "src/compression/RunLengthEncoding.js~RunLengthEncoding.decode",
+    "method"
+  ],
+  [
+    "src/compression/runlengthencoding.js~runlengthencoding.encode",
+    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#static-method-encode",
+    "src/compression/RunLengthEncoding.js~RunLengthEncoding.encode",
+    "method"
+  ],
+  [
+    "src/compression/index.js",
+    "file/src/compression/index.js.html",
+    "src/compression/index.js",
+    "file"
+  ],
+  [
+    "src/core/deserializable.js",
+    "file/src/core/Deserializable.js.html",
+    "src/core/Deserializable.js",
+    "file"
+  ],
+  [
+    "src/core/deserializable.js~deserializable#deserialize",
+    "class/src/core/Deserializable.js~Deserializable.html#instance-method-deserialize",
+    "src/core/Deserializable.js~Deserializable#deserialize",
+    "method"
+  ],
+  [
+    "src/core/disposable.js",
+    "file/src/core/Disposable.js.html",
+    "src/core/Disposable.js",
+    "file"
+  ],
+  [
+    "src/core/disposable.js~disposable#dispose",
+    "class/src/core/Disposable.js~Disposable.html#instance-method-dispose",
+    "src/core/Disposable.js~Disposable#dispose",
+    "method"
   ],
   [
     "src/core/queue.js",
@@ -804,6 +1038,24 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/core/queue.js~queue#elements",
+    "class/src/core/Queue.js~Queue.html#instance-member-elements",
+    "src/core/Queue.js~Queue#elements",
+    "member"
+  ],
+  [
+    "src/core/queue.js~queue#empty",
+    "class/src/core/Queue.js~Queue.html#instance-get-empty",
+    "src/core/Queue.js~Queue#empty",
+    "member"
+  ],
+  [
+    "src/core/queue.js~queue#head",
+    "class/src/core/Queue.js~Queue.html#instance-member-head",
+    "src/core/Queue.js~Queue#head",
+    "member"
+  ],
+  [
     "src/core/queue.js~queue#peek",
     "class/src/core/Queue.js~Queue.html#instance-method-peek",
     "src/core/Queue.js~Queue#peek",
@@ -816,112 +1068,22 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/core/queue.js~queue#remove",
-    "class/src/core/Queue.js~Queue.html#instance-method-remove",
-    "src/core/Queue.js~Queue#remove",
-    "method"
-  ],
-  [
     "src/core/queue.js~queue#size",
-    "class/src/core/Queue.js~Queue.html#instance-member-size",
+    "class/src/core/Queue.js~Queue.html#instance-get-size",
     "src/core/Queue.js~Queue#size",
     "member"
   ],
   [
-    "src/core/runlengthencoder.js",
-    "file/src/core/RunLengthEncoder.js.html",
-    "src/core/RunLengthEncoder.js",
+    "src/core/serializable.js",
+    "file/src/core/Serializable.js.html",
+    "src/core/Serializable.js",
     "file"
   ],
   [
-    "src/core/runlengthencoder.js~runlengthencoder.decode",
-    "class/src/core/RunLengthEncoder.js~RunLengthEncoder.html#static-method-decode",
-    "src/core/RunLengthEncoder.js~RunLengthEncoder.decode",
+    "src/core/serializable.js~serializable#serialize",
+    "class/src/core/Serializable.js~Serializable.html#instance-method-serialize",
+    "src/core/Serializable.js~Serializable#serialize",
     "method"
-  ],
-  [
-    "src/core/runlengthencoder.js~runlengthencoder.encode",
-    "class/src/core/RunLengthEncoder.js~RunLengthEncoder.html#static-method-encode",
-    "src/core/RunLengthEncoder.js~RunLengthEncoder.encode",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js",
-    "file/src/core/Scheduler.js.html",
-    "src/core/Scheduler.js",
-    "file"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#cancel",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-cancel",
-    "src/core/Scheduler.js~Scheduler#cancel",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#clear",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-clear",
-    "src/core/Scheduler.js~Scheduler#clear",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#constructor",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-constructor-constructor",
-    "src/core/Scheduler.js~Scheduler#constructor",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#gettask",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-getTask",
-    "src/core/Scheduler.js~Scheduler#getTask",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#hastask",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-hasTask",
-    "src/core/Scheduler.js~Scheduler#hasTask",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#maxpriority",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-member-maxPriority",
-    "src/core/Scheduler.js~Scheduler#maxPriority",
-    "member"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#poll",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-poll",
-    "src/core/Scheduler.js~Scheduler#poll",
-    "method"
-  ],
-  [
-    "src/core/scheduler.js~scheduler#schedule",
-    "class/src/core/Scheduler.js~Scheduler.html#instance-method-schedule",
-    "src/core/Scheduler.js~Scheduler#schedule",
-    "method"
-  ],
-  [
-    "src/core/task.js",
-    "file/src/core/Task.js.html",
-    "src/core/Task.js",
-    "file"
-  ],
-  [
-    "src/core/task.js~task#constructor",
-    "class/src/core/Task.js~Task.html#instance-constructor-constructor",
-    "src/core/Task.js~Task#constructor",
-    "method"
-  ],
-  [
-    "src/core/task.js~task#index",
-    "class/src/core/Task.js~Task.html#instance-member-index",
-    "src/core/Task.js~Task#index",
-    "member"
-  ],
-  [
-    "src/core/task.js~task#priority",
-    "class/src/core/Task.js~Task.html#instance-member-priority",
-    "src/core/Task.js~Task#priority",
-    "member"
   ],
   [
     "src/core/terrain.js",
@@ -930,10 +1092,22 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/core/terrain.js~terrain#applycsg",
+    "class/src/core/Terrain.js~Terrain.html#instance-method-applyCSG",
+    "src/core/Terrain.js~Terrain#applyCSG",
+    "method"
+  ],
+  [
     "src/core/terrain.js~terrain#clear",
     "class/src/core/Terrain.js~Terrain.html#instance-method-clear",
     "src/core/Terrain.js~Terrain#clear",
     "method"
+  ],
+  [
+    "src/core/terrain.js~terrain#clipmap",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-clipmap",
+    "src/core/Terrain.js~Terrain#clipmap",
+    "member"
   ],
   [
     "src/core/terrain.js~terrain#constructor",
@@ -945,6 +1119,18 @@ window.esdocSearchIndex = [
     "src/core/terrain.js~terrain#dispose",
     "class/src/core/Terrain.js~Terrain.html#instance-method-dispose",
     "src/core/Terrain.js~Terrain#dispose",
+    "method"
+  ],
+  [
+    "src/core/terrain.js~terrain#dtsq",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-dtSq",
+    "src/core/Terrain.js~Terrain#dtSq",
+    "member"
+  ],
+  [
+    "src/core/terrain.js~terrain#handleevent",
+    "class/src/core/Terrain.js~Terrain.html#instance-method-handleEvent",
+    "src/core/Terrain.js~Terrain#handleEvent",
     "method"
   ],
   [
@@ -966,12 +1152,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/core/terrain.js~terrain#material",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-material",
-    "src/core/Terrain.js~Terrain#material",
-    "member"
-  ],
-  [
     "src/core/terrain.js~terrain#object",
     "class/src/core/Terrain.js~Terrain.html#instance-member-object",
     "src/core/Terrain.js~Terrain#object",
@@ -984,16 +1164,40 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/core/terrain.js~terrain#revive",
+    "class/src/core/Terrain.js~Terrain.html#instance-method-revive",
+    "src/core/Terrain.js~Terrain#revive",
+    "method"
+  ],
+  [
     "src/core/terrain.js~terrain#save",
     "class/src/core/Terrain.js~Terrain.html#instance-method-save",
     "src/core/Terrain.js~Terrain#save",
     "method"
   ],
   [
+    "src/core/terrain.js~terrain#sdfloader",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-sdfLoader",
+    "src/core/Terrain.js~Terrain#sdfLoader",
+    "member"
+  ],
+  [
     "src/core/terrain.js~terrain#subtract",
     "class/src/core/Terrain.js~Terrain.html#instance-method-subtract",
     "src/core/Terrain.js~Terrain#subtract",
     "method"
+  ],
+  [
+    "src/core/terrain.js~terrain#tasks",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-tasks",
+    "src/core/Terrain.js~Terrain#tasks",
+    "member"
+  ],
+  [
+    "src/core/terrain.js~terrain#threadpool",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-threadPool",
+    "src/core/Terrain.js~Terrain#threadPool",
+    "member"
   ],
   [
     "src/core/terrain.js~terrain#union",
@@ -1008,10 +1212,22 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/core/terrain.js~terrain#volume",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-volume",
-    "src/core/Terrain.js~Terrain#volume",
+    "src/core/terrain.js~terrain#world",
+    "class/src/core/Terrain.js~Terrain.html#instance-member-world",
+    "src/core/Terrain.js~Terrain#world",
     "member"
+  ],
+  [
+    "src/core/transferablecontainer.js",
+    "file/src/core/TransferableContainer.js.html",
+    "src/core/TransferableContainer.js",
+    "file"
+  ],
+  [
+    "src/core/transferablecontainer.js~transferablecontainer#createtransferlist",
+    "class/src/core/TransferableContainer.js~TransferableContainer.html#instance-method-createTransferList",
+    "src/core/TransferableContainer.js~TransferableContainer#createTransferList",
+    "method"
   ],
   [
     "src/core/index.js",
@@ -1026,22 +1242,88 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/events/clipmapevent.js",
+    "file/src/events/ClipmapEvent.js.html",
+    "src/events/ClipmapEvent.js",
+    "file"
+  ],
+  [
+    "src/events/clipmapevent.js~clipmapevent#constructor",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html#instance-constructor-constructor",
+    "src/events/ClipmapEvent.js~ClipmapEvent#constructor",
+    "method"
+  ],
+  [
+    "src/events/clipmapevent.js~clipmapevent#entered",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html#instance-member-entered",
+    "src/events/ClipmapEvent.js~ClipmapEvent#entered",
+    "member"
+  ],
+  [
+    "src/events/clipmapevent.js~clipmapevent#error",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html#instance-member-error",
+    "src/events/ClipmapEvent.js~ClipmapEvent#error",
+    "member"
+  ],
+  [
+    "src/events/clipmapevent.js~clipmapevent#left",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html#instance-member-left",
+    "src/events/ClipmapEvent.js~ClipmapEvent#left",
+    "member"
+  ],
+  [
+    "src/events/clipmapevent.js~clipmapevent#lod",
+    "class/src/events/ClipmapEvent.js~ClipmapEvent.html#instance-member-lod",
+    "src/events/ClipmapEvent.js~ClipmapEvent#lod",
+    "member"
+  ],
+  [
+    "src/events/sdfloaderevent.js",
+    "file/src/events/SDFLoaderEvent.js.html",
+    "src/events/SDFLoaderEvent.js",
+    "file"
+  ],
+  [
+    "src/events/sdfloaderevent.js~sdfloaderevent#constructor",
+    "class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html#instance-constructor-constructor",
+    "src/events/SDFLoaderEvent.js~SDFLoaderEvent#constructor",
+    "method"
+  ],
+  [
+    "src/events/sdfloaderevent.js~sdfloaderevent#descriptions",
+    "class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html#instance-member-descriptions",
+    "src/events/SDFLoaderEvent.js~SDFLoaderEvent#descriptions",
+    "member"
+  ],
+  [
     "src/events/terrainevent.js",
     "file/src/events/TerrainEvent.js.html",
     "src/events/TerrainEvent.js",
     "file"
   ],
   [
-    "src/events/terrainevent.js~terrainevent#chunk",
-    "class/src/events/TerrainEvent.js~TerrainEvent.html#instance-member-chunk",
-    "src/events/TerrainEvent.js~TerrainEvent#chunk",
-    "member"
-  ],
-  [
     "src/events/terrainevent.js~terrainevent#constructor",
     "class/src/events/TerrainEvent.js~TerrainEvent.html#instance-constructor-constructor",
     "src/events/TerrainEvent.js~TerrainEvent#constructor",
     "method"
+  ],
+  [
+    "src/events/terrainevent.js~terrainevent#error",
+    "class/src/events/TerrainEvent.js~TerrainEvent.html#instance-member-error",
+    "src/events/TerrainEvent.js~TerrainEvent#error",
+    "member"
+  ],
+  [
+    "src/events/terrainevent.js~terrainevent#octant",
+    "class/src/events/TerrainEvent.js~TerrainEvent.html#instance-member-octant",
+    "src/events/TerrainEvent.js~TerrainEvent#octant",
+    "member"
+  ],
+  [
+    "src/events/terrainevent.js~terrainevent#octantid",
+    "class/src/events/TerrainEvent.js~TerrainEvent.html#instance-member-octantId",
+    "src/events/TerrainEvent.js~TerrainEvent#octantId",
+    "member"
   ],
   [
     "src/events/workerevent.js",
@@ -1056,9 +1338,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/events/workerevent.js~workerevent#data",
-    "class/src/events/WorkerEvent.js~WorkerEvent.html#instance-member-data",
-    "src/events/WorkerEvent.js~WorkerEvent#data",
+    "src/events/workerevent.js~workerevent#response",
+    "class/src/events/WorkerEvent.js~WorkerEvent.html#instance-member-response",
+    "src/events/WorkerEvent.js~WorkerEvent#response",
     "member"
   ],
   [
@@ -1074,70 +1356,70 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/helpers/chunkhelper.js",
-    "file/src/helpers/ChunkHelper.js.html",
-    "src/helpers/ChunkHelper.js",
-    "file"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#chunk",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-member-chunk",
-    "src/helpers/ChunkHelper.js~ChunkHelper#chunk",
-    "member"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#constructor",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-constructor-constructor",
-    "src/helpers/ChunkHelper.js~ChunkHelper#constructor",
-    "method"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#dispose",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-method-dispose",
-    "src/helpers/ChunkHelper.js~ChunkHelper#dispose",
-    "method"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#edges",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-get-edges",
-    "src/helpers/ChunkHelper.js~ChunkHelper#edges",
-    "member"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#gridpoints",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-get-gridPoints",
-    "src/helpers/ChunkHelper.js~ChunkHelper#gridPoints",
-    "member"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#name",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-member-name",
-    "src/helpers/ChunkHelper.js~ChunkHelper#name",
-    "member"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#normals",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-get-normals",
-    "src/helpers/ChunkHelper.js~ChunkHelper#normals",
-    "member"
-  ],
-  [
-    "src/helpers/chunkhelper.js~chunkhelper#update",
-    "class/src/helpers/ChunkHelper.js~ChunkHelper.html#instance-method-update",
-    "src/helpers/ChunkHelper.js~ChunkHelper#update",
-    "method"
-  ],
-  [
-    "src/helpers/index.js",
-    "file/src/helpers/index.js.html",
-    "src/helpers/index.js",
-    "file"
-  ],
-  [
     "src/index.js",
     "file/src/index.js.html",
     "src/index.js",
     "file"
+  ],
+  [
+    "src/isosurface/isosurface.js",
+    "file/src/isosurface/Isosurface.js.html",
+    "src/isosurface/Isosurface.js",
+    "file"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#constructor",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-constructor-constructor",
+    "src/isosurface/Isosurface.js~Isosurface#constructor",
+    "method"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#createtransferlist",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-method-createTransferList",
+    "src/isosurface/Isosurface.js~Isosurface#createTransferList",
+    "method"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#deserialize",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-method-deserialize",
+    "src/isosurface/Isosurface.js~Isosurface#deserialize",
+    "method"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#indices",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-member-indices",
+    "src/isosurface/Isosurface.js~Isosurface#indices",
+    "member"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#materials",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-member-materials",
+    "src/isosurface/Isosurface.js~Isosurface#materials",
+    "member"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#normals",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-member-normals",
+    "src/isosurface/Isosurface.js~Isosurface#normals",
+    "member"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#positions",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-member-positions",
+    "src/isosurface/Isosurface.js~Isosurface#positions",
+    "member"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#serialize",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-method-serialize",
+    "src/isosurface/Isosurface.js~Isosurface#serialize",
+    "method"
+  ],
+  [
+    "src/isosurface/isosurface.js~isosurface#uvs",
+    "class/src/isosurface/Isosurface.js~Isosurface.html#instance-member-uvs",
+    "src/isosurface/Isosurface.js~Isosurface#uvs",
+    "member"
   ],
   [
     "src/isosurface/dual-contouring/dualcontouring.js",
@@ -1164,51 +1446,81 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js",
-    "file/src/materials/MeshTriplanarPhysicalMaterial.js.html",
-    "src/materials/MeshTriplanarPhysicalMaterial.js",
+    "src/loaders/sdfloader.js",
+    "file/src/loaders/SDFLoader.js.html",
+    "src/loaders/SDFLoader.js",
     "file"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial#constructor",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html#instance-constructor-constructor",
-    "src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial#constructor",
+    "src/loaders/sdfloader.js~sdfloader#clear",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-clear",
+    "src/loaders/SDFLoader.js~SDFLoader#clear",
     "method"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial#envmap",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html#instance-member-envMap",
-    "src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial#envMap",
+    "src/loaders/sdfloader.js~sdfloader#constructor",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-constructor-constructor",
+    "src/loaders/SDFLoader.js~SDFLoader#constructor",
+    "method"
+  ],
+  [
+    "src/loaders/sdfloader.js~sdfloader#descriptions",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-descriptions",
+    "src/loaders/SDFLoader.js~SDFLoader#descriptions",
     "member"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial#needsupdate",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html#instance-member-needsUpdate",
-    "src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial#needsUpdate",
+    "src/loaders/sdfloader.js~sdfloader#handleevent",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-handleEvent",
+    "src/loaders/SDFLoader.js~SDFLoader#handleEvent",
+    "method"
+  ],
+  [
+    "src/loaders/sdfloader.js~sdfloader#imagemap",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-imageMap",
+    "src/loaders/SDFLoader.js~SDFLoader#imageMap",
     "member"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial#setmaps",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html#instance-method-setMaps",
-    "src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial#setMaps",
+    "src/loaders/sdfloader.js~sdfloader#inflate",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-inflate",
+    "src/loaders/SDFLoader.js~SDFLoader#inflate",
     "method"
   ],
   [
-    "src/materials/meshtriplanarphysicalmaterial.js~meshtriplanarphysicalmaterial#setnormalmaps",
-    "class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html#instance-method-setNormalMaps",
-    "src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial#setNormalMaps",
+    "src/loaders/sdfloader.js~sdfloader#items",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-items",
+    "src/loaders/SDFLoader.js~SDFLoader#items",
+    "member"
+  ],
+  [
+    "src/loaders/sdfloader.js~sdfloader#load",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-load",
+    "src/loaders/SDFLoader.js~SDFLoader#load",
     "method"
   ],
   [
-    "src/materials/index.js",
-    "file/src/materials/index.js.html",
-    "src/materials/index.js",
+    "src/loaders/sdfloader.js~sdfloader#loadimage",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-loadImage",
+    "src/loaders/SDFLoader.js~SDFLoader#loadImage",
+    "method"
+  ],
+  [
+    "src/loaders/sdfloader.js~sdfloader#progress",
+    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-progress",
+    "src/loaders/SDFLoader.js~SDFLoader#progress",
+    "method"
+  ],
+  [
+    "src/loaders/index.js",
+    "file/src/loaders/index.js.html",
+    "src/loaders/index.js",
     "file"
   ],
   [
-    "src/materials/triplanar-physical-chunks.js",
-    "file/src/materials/triplanar-physical-chunks.js.html",
-    "src/materials/triplanar-physical-chunks.js",
+    "src/loaders/sdf-loader-events.js",
+    "file/src/loaders/sdf-loader-events.js.html",
+    "src/loaders/sdf-loader-events.js",
     "file"
   ],
   [
@@ -1218,21 +1530,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/math/givens.js~givens.rot01post",
-    "class/src/math/Givens.js~Givens.html#static-method-rot01Post",
-    "src/math/Givens.js~Givens.rot01Post",
-    "method"
-  ],
-  [
-    "src/math/givens.js~givens.rot02post",
-    "class/src/math/Givens.js~Givens.html#static-method-rot02Post",
-    "src/math/Givens.js~Givens.rot02Post",
-    "method"
-  ],
-  [
-    "src/math/givens.js~givens.rot12post",
-    "class/src/math/Givens.js~Givens.html#static-method-rot12Post",
-    "src/math/Givens.js~Givens.rot12Post",
+    "src/math/givens.js~givens.calculatecoefficients",
+    "class/src/math/Givens.js~Givens.html#static-method-calculateCoefficients",
+    "src/math/Givens.js~Givens.calculateCoefficients",
     "method"
   ],
   [
@@ -1254,9 +1554,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/math/qefdata.js~qefdata#btb",
-    "class/src/math/QEFData.js~QEFData.html#instance-member-btb",
-    "src/math/QEFData.js~QEFData#btb",
+    "src/math/qefdata.js~qefdata#ata",
+    "class/src/math/QEFData.js~QEFData.html#instance-member-ata",
+    "src/math/QEFData.js~QEFData#ata",
+    "member"
+  ],
+  [
+    "src/math/qefdata.js~qefdata#atb",
+    "class/src/math/QEFData.js~QEFData.html#instance-member-atb",
+    "src/math/QEFData.js~QEFData#atb",
     "member"
   ],
   [
@@ -1284,9 +1590,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/math/qefdata.js~qefdata#masspointdimension",
-    "class/src/math/QEFData.js~QEFData.html#instance-member-massPointDimension",
-    "src/math/QEFData.js~QEFData#massPointDimension",
+    "src/math/qefdata.js~qefdata#masspointsum",
+    "class/src/math/QEFData.js~QEFData.html#instance-member-massPointSum",
+    "src/math/QEFData.js~QEFData#massPointSum",
     "member"
   ],
   [
@@ -1308,22 +1614,28 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/math/qefsolver.js~qefsolver#clear",
-    "class/src/math/QEFSolver.js~QEFSolver.html#instance-method-clear",
-    "src/math/QEFSolver.js~QEFSolver#clear",
-    "method"
+    "src/math/qefsolver.js~qefsolver#ata",
+    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-ata",
+    "src/math/QEFSolver.js~QEFSolver#ata",
+    "member"
   ],
   [
-    "src/math/qefsolver.js~qefsolver#computeerror",
-    "class/src/math/QEFSolver.js~QEFSolver.html#instance-method-computeError",
-    "src/math/QEFSolver.js~QEFSolver#computeError",
-    "method"
+    "src/math/qefsolver.js~qefsolver#atb",
+    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-atb",
+    "src/math/QEFSolver.js~QEFSolver#atb",
+    "member"
   ],
   [
     "src/math/qefsolver.js~qefsolver#constructor",
     "class/src/math/QEFSolver.js~QEFSolver.html#instance-constructor-constructor",
     "src/math/QEFSolver.js~QEFSolver#constructor",
     "method"
+  ],
+  [
+    "src/math/qefsolver.js~qefsolver#data",
+    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-data",
+    "src/math/QEFSolver.js~QEFSolver#data",
+    "member"
   ],
   [
     "src/math/qefsolver.js~qefsolver#hassolution",
@@ -1356,21 +1668,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/math/schur.js~schur.rot01",
-    "class/src/math/Schur.js~Schur.html#static-method-rot01",
-    "src/math/Schur.js~Schur.rot01",
+    "src/math/schur.js~schur.rotateqxy",
+    "class/src/math/Schur.js~Schur.html#static-method-rotateQXY",
+    "src/math/Schur.js~Schur.rotateQXY",
     "method"
   ],
   [
-    "src/math/schur.js~schur.rot02",
-    "class/src/math/Schur.js~Schur.html#static-method-rot02",
-    "src/math/Schur.js~Schur.rot02",
-    "method"
-  ],
-  [
-    "src/math/schur.js~schur.rot12",
-    "class/src/math/Schur.js~Schur.html#static-method-rot12",
-    "src/math/Schur.js~Schur.rot12",
+    "src/math/schur.js~schur.rotatexy",
+    "class/src/math/Schur.js~Schur.html#static-method-rotateXY",
+    "src/math/Schur.js~Schur.rotateXY",
     "method"
   ],
   [
@@ -1380,21 +1686,747 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/math/singularvaluedecomposition.js~singularvaluedecomposition.calculateerror",
-    "class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html#static-method-calculateError",
-    "src/math/SingularValueDecomposition.js~SingularValueDecomposition.calculateError",
-    "method"
-  ],
-  [
-    "src/math/singularvaluedecomposition.js~singularvaluedecomposition.solvesymmetric",
-    "class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html#static-method-solveSymmetric",
-    "src/math/SingularValueDecomposition.js~SingularValueDecomposition.solveSymmetric",
+    "src/math/singularvaluedecomposition.js~singularvaluedecomposition.solve",
+    "class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html#static-method-solve",
+    "src/math/SingularValueDecomposition.js~SingularValueDecomposition.solve",
     "method"
   ],
   [
     "src/math/index.js",
     "file/src/math/index.js.html",
     "src/math/index.js",
+    "file"
+  ],
+  [
+    "src/octree/index.js",
+    "file/src/octree/index.js.html",
+    "src/octree/index.js",
+    "file"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js",
+    "file/src/octree/voxel/SparseVoxelOctree.js.html",
+    "src/octree/voxel/SparseVoxelOctree.js",
+    "file"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#construct",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-method-construct",
+    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#construct",
+    "method"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#constructor",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-constructor-constructor",
+    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#constructor",
+    "method"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#root",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-member-root",
+    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#root",
+    "member"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#simplify",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-method-simplify",
+    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#simplify",
+    "method"
+  ],
+  [
+    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#voxelcount",
+    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-member-voxelCount",
+    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#voxelCount",
+    "member"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js",
+    "file/src/octree/voxel/VoxelCell.js.html",
+    "src/octree/voxel/VoxelCell.js",
+    "file"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell#children",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#instance-member-children",
+    "src/octree/voxel/VoxelCell.js~VoxelCell#children",
+    "member"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell#collapse",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#instance-method-collapse",
+    "src/octree/voxel/VoxelCell.js~VoxelCell#collapse",
+    "method"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell#constructor",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#instance-constructor-constructor",
+    "src/octree/voxel/VoxelCell.js~VoxelCell#constructor",
+    "method"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell#contains",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#instance-method-contains",
+    "src/octree/voxel/VoxelCell.js~VoxelCell#contains",
+    "method"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell#voxel",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#instance-member-voxel",
+    "src/octree/voxel/VoxelCell.js~VoxelCell#voxel",
+    "member"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-get-errorThreshold",
+    "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
+    "member"
+  ],
+  [
+    "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-set-errorThreshold",
+    "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
+    "member"
+  ],
+  [
+    "src/octree/voxel/index.js",
+    "file/src/octree/voxel/index.js.html",
+    "src/octree/voxel/index.js",
+    "file"
+  ],
+  [
+    "src/octree/world/intermediateworldoctant.js",
+    "file/src/octree/world/IntermediateWorldOctant.js.html",
+    "src/octree/world/IntermediateWorldOctant.js",
+    "file"
+  ],
+  [
+    "src/octree/world/intermediateworldoctant.js~intermediateworldoctant#children",
+    "class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html#instance-member-children",
+    "src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant#children",
+    "member"
+  ],
+  [
+    "src/octree/world/intermediateworldoctant.js~intermediateworldoctant#constructor",
+    "class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html#instance-constructor-constructor",
+    "src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js",
+    "file/src/octree/world/KeyDesign.js.html",
+    "src/octree/world/KeyDesign.js",
+    "file"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#constructor",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-constructor-constructor",
+    "src/octree/world/KeyDesign.js~KeyDesign#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#halfrange",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-halfRange",
+    "src/octree/world/KeyDesign.js~KeyDesign#halfRange",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#keyrange",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-keyRange",
+    "src/octree/world/KeyDesign.js~KeyDesign#keyRange",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#maskx",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskX",
+    "src/octree/world/KeyDesign.js~KeyDesign#maskX",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#masky",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskY",
+    "src/octree/world/KeyDesign.js~KeyDesign#maskY",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#maskz",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskZ",
+    "src/octree/world/KeyDesign.js~KeyDesign#maskZ",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#packkey",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-packKey",
+    "src/octree/world/KeyDesign.js~KeyDesign#packKey",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#rangex",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-rangeX",
+    "src/octree/world/KeyDesign.js~KeyDesign#rangeX",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#rangexy",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-rangeXY",
+    "src/octree/world/KeyDesign.js~KeyDesign#rangeXY",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#rangey",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-rangeY",
+    "src/octree/world/KeyDesign.js~KeyDesign#rangeY",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#rangez",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-rangeZ",
+    "src/octree/world/KeyDesign.js~KeyDesign#rangeZ",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#set",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-set",
+    "src/octree/world/KeyDesign.js~KeyDesign#set",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#tostring",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-toString",
+    "src/octree/world/KeyDesign.js~KeyDesign#toString",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#unpackkey",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-unpackKey",
+    "src/octree/world/KeyDesign.js~KeyDesign#unpackKey",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#updatebitmasks",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-updateBitMasks",
+    "src/octree/world/KeyDesign.js~KeyDesign#updateBitMasks",
+    "method"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#x",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-x",
+    "src/octree/world/KeyDesign.js~KeyDesign#x",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#y",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-y",
+    "src/octree/world/KeyDesign.js~KeyDesign#y",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign#z",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-z",
+    "src/octree/world/KeyDesign.js~KeyDesign#z",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign.bits",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#static-get-BITS",
+    "src/octree/world/KeyDesign.js~KeyDesign.BITS",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign.hi_bits",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#static-get-HI_BITS",
+    "src/octree/world/KeyDesign.js~KeyDesign.HI_BITS",
+    "member"
+  ],
+  [
+    "src/octree/world/keydesign.js~keydesign.lo_bits",
+    "class/src/octree/world/KeyDesign.js~KeyDesign.html#static-get-LO_BITS",
+    "src/octree/world/KeyDesign.js~KeyDesign.LO_BITS",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js",
+    "file/src/octree/world/KeyIterator.js.html",
+    "src/octree/world/KeyIterator.js",
+    "file"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#[symbol.iterator]",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-[Symbol.iterator]",
+    "src/octree/world/KeyIterator.js~KeyIterator#[Symbol.iterator]",
+    "method"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#constructor",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-constructor-constructor",
+    "src/octree/world/KeyIterator.js~KeyIterator#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#key",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-key",
+    "src/octree/world/KeyIterator.js~KeyIterator#key",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#keybase",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-keyBase",
+    "src/octree/world/KeyIterator.js~KeyIterator#keyBase",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#keydesign",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-keyDesign",
+    "src/octree/world/KeyIterator.js~KeyIterator#keyDesign",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#limit",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-limit",
+    "src/octree/world/KeyIterator.js~KeyIterator#limit",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#max",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-max",
+    "src/octree/world/KeyIterator.js~KeyIterator#max",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#min",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-min",
+    "src/octree/world/KeyIterator.js~KeyIterator#min",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#next",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-next",
+    "src/octree/world/KeyIterator.js~KeyIterator#next",
+    "method"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#reset",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-reset",
+    "src/octree/world/KeyIterator.js~KeyIterator#reset",
+    "method"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#result",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-result",
+    "src/octree/world/KeyIterator.js~KeyIterator#result",
+    "member"
+  ],
+  [
+    "src/octree/world/keyiterator.js~keyiterator#return",
+    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-return",
+    "src/octree/world/KeyIterator.js~KeyIterator#return",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctant.js",
+    "file/src/octree/world/WorldOctant.js.html",
+    "src/octree/world/WorldOctant.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctant.js~worldoctant#constructor",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-constructor-constructor",
+    "src/octree/world/WorldOctant.js~WorldOctant#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctant.js~worldoctant#csg",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-member-csg",
+    "src/octree/world/WorldOctant.js~WorldOctant#csg",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctant.js~worldoctant#data",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-member-data",
+    "src/octree/world/WorldOctant.js~WorldOctant#data",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctant.js~worldoctant#mesh",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-member-mesh",
+    "src/octree/world/WorldOctant.js~WorldOctant#mesh",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantid.js",
+    "file/src/octree/world/WorldOctantId.js.html",
+    "src/octree/world/WorldOctantId.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctantid.js~worldoctantid#constructor",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-constructor-constructor",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantid.js~worldoctantid#key",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-member-key",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#key",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantid.js~worldoctantid#lod",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-member-lod",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#lod",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js",
+    "file/src/octree/world/WorldOctantIterator.js.html",
+    "src/octree/world/WorldOctantIterator.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#[symbol.iterator]",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-[Symbol.iterator]",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#[Symbol.iterator]",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#cellsize",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-cellSize",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#cellSize",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#constructor",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-constructor-constructor",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#iterator",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-iterator",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#iterator",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#lod",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-lod",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#lod",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#next",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-next",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#next",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#octantwrapper",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-octantWrapper",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#octantWrapper",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#reset",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-reset",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#reset",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#result",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-result",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#result",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#return",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-return",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#return",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantiterator.js~worldoctantiterator#world",
+    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-world",
+    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#world",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js",
+    "file/src/octree/world/WorldOctantWrapper.js.html",
+    "src/octree/world/WorldOctantWrapper.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#constructor",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-constructor-constructor",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#containspoint",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-containsPoint",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#containsPoint",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#getcenter",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-getCenter",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#getCenter",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#getdimensions",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-getDimensions",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#getDimensions",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#max",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-member-max",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#max",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#min",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-member-min",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#min",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#octant",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-member-octant",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#octant",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js",
+    "file/src/octree/world/WorldOctree.js.html",
+    "src/octree/world/WorldOctree.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#applycsg",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-applyCSG",
+    "src/octree/world/WorldOctree.js~WorldOctree#applyCSG",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#bounds",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-bounds",
+    "src/octree/world/WorldOctree.js~WorldOctree#bounds",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#calculatekeycoordinates",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-calculateKeyCoordinates",
+    "src/octree/world/WorldOctree.js~WorldOctree#calculateKeyCoordinates",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#cellsize",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-cellSize",
+    "src/octree/world/WorldOctree.js~WorldOctree#cellSize",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#clear",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-clear",
+    "src/octree/world/WorldOctree.js~WorldOctree#clear",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#constructor",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-constructor-constructor",
+    "src/octree/world/WorldOctree.js~WorldOctree#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#containspoint",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-containsPoint",
+    "src/octree/world/WorldOctree.js~WorldOctree#containsPoint",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#findoctantsbylevel",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-findOctantsByLevel",
+    "src/octree/world/WorldOctree.js~WorldOctree#findOctantsByLevel",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getcellsize",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getCellSize",
+    "src/octree/world/WorldOctree.js~WorldOctree#getCellSize",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getcenter",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getCenter",
+    "src/octree/world/WorldOctree.js~WorldOctree#getCenter",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getdepth",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getDepth",
+    "src/octree/world/WorldOctree.js~WorldOctree#getDepth",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getdimensions",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getDimensions",
+    "src/octree/world/WorldOctree.js~WorldOctree#getDimensions",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getgrid",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getGrid",
+    "src/octree/world/WorldOctree.js~WorldOctree#getGrid",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getkeydesign",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getKeyDesign",
+    "src/octree/world/WorldOctree.js~WorldOctree#getKeyDesign",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#getoctantbypoint",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-getOctantByPoint",
+    "src/octree/world/WorldOctree.js~WorldOctree#getOctantByPoint",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#grids",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-grids",
+    "src/octree/world/WorldOctree.js~WorldOctree#grids",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#keydesign",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-keyDesign",
+    "src/octree/world/WorldOctree.js~WorldOctree#keyDesign",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#levels",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-get-levels",
+    "src/octree/world/WorldOctree.js~WorldOctree#levels",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#lodzero",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-get-lodZero",
+    "src/octree/world/WorldOctree.js~WorldOctree#lodZero",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#max",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-get-max",
+    "src/octree/world/WorldOctree.js~WorldOctree#max",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#min",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-get-min",
+    "src/octree/world/WorldOctree.js~WorldOctree#min",
+    "member"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#octants",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-octants",
+    "src/octree/world/WorldOctree.js~WorldOctree#octants",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#raycast",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-raycast",
+    "src/octree/world/WorldOctree.js~WorldOctree#raycast",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#removeoctant",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-removeOctant",
+    "src/octree/world/WorldOctree.js~WorldOctree#removeOctant",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree#setcenter",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-setCenter",
+    "src/octree/world/WorldOctree.js~WorldOctree#setCenter",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctree.js~worldoctree.calculateoffsetindex",
+    "class/src/octree/world/WorldOctree.js~WorldOctree.html#static-method-calculateOffsetIndex",
+    "src/octree/world/WorldOctree.js~WorldOctree.calculateOffsetIndex",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctreecsg.js",
+    "file/src/octree/world/WorldOctreeCSG.js.html",
+    "src/octree/world/WorldOctreeCSG.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applycsg",
+    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyCSG",
+    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyCSG",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applydifference",
+    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyDifference",
+    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyDifference",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applyintersection",
+    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyIntersection",
+    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyIntersection",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applyunion",
+    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyUnion",
+    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyUnion",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctreeraycaster.js",
+    "file/src/octree/world/WorldOctreeRaycaster.js.html",
+    "src/octree/world/WorldOctreeRaycaster.js",
+    "file"
+  ],
+  [
+    "src/octree/world/worldoctreeraycaster.js~worldoctreeraycaster.intersectworldoctree",
+    "class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html#static-method-intersectWorldOctree",
+    "src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.intersectWorldOctree",
+    "method"
+  ],
+  [
+    "src/octree/world/index.js",
+    "file/src/octree/world/index.js.html",
+    "src/octree/world/index.js",
+    "file"
+  ],
+  [
+    "src/utils/binaryutils.js",
+    "file/src/utils/BinaryUtils.js.html",
+    "src/utils/BinaryUtils.js",
+    "file"
+  ],
+  [
+    "src/utils/binaryutils.js~binaryutils.createbinarystring",
+    "class/src/utils/BinaryUtils.js~BinaryUtils.html#static-method-createBinaryString",
+    "src/utils/BinaryUtils.js~BinaryUtils.createBinaryString",
+    "method"
+  ],
+  [
+    "src/utils/binaryutils.js~binaryutils.parsebin",
+    "class/src/utils/BinaryUtils.js~BinaryUtils.html#static-method-parseBin",
+    "src/utils/BinaryUtils.js~BinaryUtils.parseBin",
+    "method"
+  ],
+  [
+    "src/utils/index.js",
+    "file/src/utils/index.js.html",
+    "src/utils/index.js",
     "file"
   ],
   [
@@ -1440,6 +2472,18 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/edge.js~edge#coordinates",
+    "class/src/volume/Edge.js~Edge.html#instance-member-coordinates",
+    "src/volume/Edge.js~Edge#coordinates",
+    "member"
+  ],
+  [
+    "src/volume/edge.js~edge#index",
+    "class/src/volume/Edge.js~Edge.html#instance-member-index",
+    "src/volume/Edge.js~Edge#index",
+    "member"
+  ],
+  [
     "src/volume/edge.js~edge#n",
     "class/src/volume/Edge.js~Edge.html#instance-member-n",
     "src/volume/Edge.js~Edge#n",
@@ -1470,15 +2514,39 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/edgedata.js~edgedata#deserialise",
-    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-deserialise",
-    "src/volume/EdgeData.js~EdgeData#deserialise",
+    "src/volume/edgedata.js~edgedata#deserialize",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-deserialize",
+    "src/volume/EdgeData.js~EdgeData#deserialize",
     "method"
   ],
   [
     "src/volume/edgedata.js~edgedata#edges",
-    "class/src/volume/EdgeData.js~EdgeData.html#instance-member-edges",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-edges",
     "src/volume/EdgeData.js~EdgeData#edges",
+    "method"
+  ],
+  [
+    "src/volume/edgedata.js~edgedata#edgesx",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-edgesX",
+    "src/volume/EdgeData.js~EdgeData#edgesX",
+    "method"
+  ],
+  [
+    "src/volume/edgedata.js~edgedata#edgesy",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-edgesY",
+    "src/volume/EdgeData.js~EdgeData#edgesY",
+    "method"
+  ],
+  [
+    "src/volume/edgedata.js~edgedata#edgesz",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-edgesZ",
+    "src/volume/EdgeData.js~EdgeData#edgesZ",
+    "method"
+  ],
+  [
+    "src/volume/edgedata.js~edgedata#indices",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-member-indices",
+    "src/volume/EdgeData.js~EdgeData#indices",
     "member"
   ],
   [
@@ -1488,9 +2556,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/volume/edgedata.js~edgedata#serialise",
-    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-serialise",
-    "src/volume/EdgeData.js~EdgeData#serialise",
+    "src/volume/edgedata.js~edgedata#serialize",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-method-serialize",
+    "src/volume/EdgeData.js~EdgeData#serialize",
     "method"
   ],
   [
@@ -1506,16 +2574,154 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/edgeiterator.js",
+    "file/src/volume/EdgeIterator.js.html",
+    "src/volume/EdgeIterator.js",
+    "file"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#[symbol.iterator]",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-[Symbol.iterator]",
+    "src/volume/EdgeIterator.js~EdgeIterator#[Symbol.iterator]",
+    "method"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#axes",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-axes",
+    "src/volume/EdgeIterator.js~EdgeIterator#axes",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#c",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-c",
+    "src/volume/EdgeIterator.js~EdgeIterator#c",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#cellposition",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-cellPosition",
+    "src/volume/EdgeIterator.js~EdgeIterator#cellPosition",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#cellsize",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-cellSize",
+    "src/volume/EdgeIterator.js~EdgeIterator#cellSize",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#constructor",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-constructor-constructor",
+    "src/volume/EdgeIterator.js~EdgeIterator#constructor",
+    "method"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#d",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-d",
+    "src/volume/EdgeIterator.js~EdgeIterator#d",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#edgedata",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-edgeData",
+    "src/volume/EdgeIterator.js~EdgeIterator#edgeData",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#i",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-i",
+    "src/volume/EdgeIterator.js~EdgeIterator#i",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#indices",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-indices",
+    "src/volume/EdgeIterator.js~EdgeIterator#indices",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#initialc",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-initialC",
+    "src/volume/EdgeIterator.js~EdgeIterator#initialC",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#initiald",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-initialD",
+    "src/volume/EdgeIterator.js~EdgeIterator#initialD",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#l",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-l",
+    "src/volume/EdgeIterator.js~EdgeIterator#l",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#lengths",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-lengths",
+    "src/volume/EdgeIterator.js~EdgeIterator#lengths",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#next",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-next",
+    "src/volume/EdgeIterator.js~EdgeIterator#next",
+    "method"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#normals",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-normals",
+    "src/volume/EdgeIterator.js~EdgeIterator#normals",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#reset",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-reset",
+    "src/volume/EdgeIterator.js~EdgeIterator#reset",
+    "method"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#result",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-result",
+    "src/volume/EdgeIterator.js~EdgeIterator#result",
+    "member"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#return",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-return",
+    "src/volume/EdgeIterator.js~EdgeIterator#return",
+    "method"
+  ],
+  [
+    "src/volume/edgeiterator.js~edgeiterator#zerocrossings",
+    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-zeroCrossings",
+    "src/volume/EdgeIterator.js~EdgeIterator#zeroCrossings",
+    "member"
+  ],
+  [
     "src/volume/hermitedata.js",
     "file/src/volume/HermiteData.js.html",
     "src/volume/HermiteData.js",
     "file"
   ],
   [
+    "src/volume/hermitedata.js~hermitedata#clear",
+    "class/src/volume/HermiteData.js~HermiteData.html#instance-method-clear",
+    "src/volume/HermiteData.js~HermiteData#clear",
+    "method"
+  ],
+  [
     "src/volume/hermitedata.js~hermitedata#compress",
     "class/src/volume/HermiteData.js~HermiteData.html#instance-method-compress",
     "src/volume/HermiteData.js~HermiteData#compress",
     "method"
+  ],
+  [
+    "src/volume/hermitedata.js~hermitedata#compressed",
+    "class/src/volume/HermiteData.js~HermiteData.html#instance-get-compressed",
+    "src/volume/HermiteData.js~HermiteData#compressed",
+    "member"
   ],
   [
     "src/volume/hermitedata.js~hermitedata#constructor",
@@ -1536,9 +2742,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/hermitedata.js~hermitedata#deserialise",
-    "class/src/volume/HermiteData.js~HermiteData.html#instance-method-deserialise",
-    "src/volume/HermiteData.js~HermiteData#deserialise",
+    "src/volume/hermitedata.js~hermitedata#deserialize",
+    "class/src/volume/HermiteData.js~HermiteData.html#instance-method-deserialize",
+    "src/volume/HermiteData.js~HermiteData#deserialize",
     "method"
   ],
   [
@@ -1560,12 +2766,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/volume/hermitedata.js~hermitedata#lod",
-    "class/src/volume/HermiteData.js~HermiteData.html#instance-member-lod",
-    "src/volume/HermiteData.js~HermiteData#lod",
-    "member"
-  ],
-  [
     "src/volume/hermitedata.js~hermitedata#materialindices",
     "class/src/volume/HermiteData.js~HermiteData.html#instance-member-materialIndices",
     "src/volume/HermiteData.js~HermiteData#materialIndices",
@@ -1579,7 +2779,7 @@ window.esdocSearchIndex = [
   ],
   [
     "src/volume/hermitedata.js~hermitedata#neutered",
-    "class/src/volume/HermiteData.js~HermiteData.html#instance-member-neutered",
+    "class/src/volume/HermiteData.js~HermiteData.html#instance-get-neutered",
     "src/volume/HermiteData.js~HermiteData#neutered",
     "member"
   ],
@@ -1590,9 +2790,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/volume/hermitedata.js~hermitedata#serialise",
-    "class/src/volume/HermiteData.js~HermiteData.html#instance-method-serialise",
-    "src/volume/HermiteData.js~HermiteData#serialise",
+    "src/volume/hermitedata.js~hermitedata#serialize",
+    "class/src/volume/HermiteData.js~HermiteData.html#instance-method-serialize",
+    "src/volume/HermiteData.js~HermiteData#serialize",
     "method"
   ],
   [
@@ -1609,13 +2809,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/volume/hermitedata.js~hermitedata.resolution",
-    "class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution",
     "src/volume/HermiteData.js~HermiteData.resolution",
     "member"
   ],
   [
     "src/volume/hermitedata.js~hermitedata.resolution",
-    "class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution",
     "src/volume/HermiteData.js~HermiteData.resolution",
     "member"
   ],
@@ -1722,6 +2922,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/csg/densityfunction.js~densityfunction#sdf",
+    "class/src/volume/csg/DensityFunction.js~DensityFunction.html#instance-member-sdf",
+    "src/volume/csg/DensityFunction.js~DensityFunction#sdf",
+    "member"
+  ],
+  [
     "src/volume/csg/difference.js",
     "file/src/volume/csg/Difference.js.html",
     "src/volume/csg/Difference.js",
@@ -1776,9 +2982,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/volume/csg/operation.js~operation#bbox",
+    "class/src/volume/csg/Operation.js~Operation.html#instance-member-bbox",
+    "src/volume/csg/Operation.js~Operation#bbox",
+    "member"
+  ],
+  [
     "src/volume/csg/operation.js~operation#boundingbox",
     "class/src/volume/csg/Operation.js~Operation.html#instance-get-boundingBox",
     "src/volume/csg/Operation.js~Operation#boundingBox",
+    "member"
+  ],
+  [
+    "src/volume/csg/operation.js~operation#children",
+    "class/src/volume/csg/Operation.js~Operation.html#instance-member-children",
+    "src/volume/csg/Operation.js~Operation#children",
     "member"
   ],
   [
@@ -1842,237 +3060,51 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/octree/chunk.js",
-    "file/src/volume/octree/Chunk.js.html",
-    "src/volume/octree/Chunk.js",
+    "src/volume/sdf/fractalnoise.js",
+    "file/src/volume/sdf/FractalNoise.js.html",
+    "src/volume/sdf/FractalNoise.js",
     "file"
   ],
   [
-    "src/volume/octree/chunk.js~chunk#constructor",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-constructor-constructor",
-    "src/volume/octree/Chunk.js~Chunk#constructor",
-    "method"
-  ],
-  [
-    "src/volume/octree/chunk.js~chunk#createtransferlist",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-method-createTransferList",
-    "src/volume/octree/Chunk.js~Chunk#createTransferList",
-    "method"
-  ],
-  [
-    "src/volume/octree/chunk.js~chunk#csg",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-member-csg",
-    "src/volume/octree/Chunk.js~Chunk#csg",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#bbox",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-member-bbox",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#bbox",
     "member"
   ],
   [
-    "src/volume/octree/chunk.js~chunk#data",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-member-data",
-    "src/volume/octree/Chunk.js~Chunk#data",
-    "member"
-  ],
-  [
-    "src/volume/octree/chunk.js~chunk#deserialise",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-method-deserialise",
-    "src/volume/octree/Chunk.js~Chunk#deserialise",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#computeboundingbox",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-method-computeBoundingBox",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#computeBoundingBox",
     "method"
   ],
   [
-    "src/volume/octree/chunk.js~chunk#resolution",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-get-resolution",
-    "src/volume/octree/Chunk.js~Chunk#resolution",
-    "member"
-  ],
-  [
-    "src/volume/octree/chunk.js~chunk#resolution",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-set-resolution",
-    "src/volume/octree/Chunk.js~Chunk#resolution",
-    "member"
-  ],
-  [
-    "src/volume/octree/chunk.js~chunk#serialise",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-method-serialise",
-    "src/volume/octree/Chunk.js~Chunk#serialise",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#constructor",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-constructor-constructor",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#constructor",
     "method"
   ],
   [
-    "src/volume/octree/chunk.js~chunk#size",
-    "class/src/volume/octree/Chunk.js~Chunk.html#instance-member-size",
-    "src/volume/octree/Chunk.js~Chunk#size",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#max",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-member-max",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#max",
     "member"
   ],
   [
-    "src/volume/octree/volume.js",
-    "file/src/volume/octree/Volume.js.html",
-    "src/volume/octree/Volume.js",
-    "file"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#constructor",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-constructor-constructor",
-    "src/volume/octree/Volume.js~Volume#constructor",
-    "method"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#edit",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-method-edit",
-    "src/volume/octree/Volume.js~Volume#edit",
-    "method"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#load",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-method-load",
-    "src/volume/octree/Volume.js~Volume#load",
-    "method"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#prune",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-method-prune",
-    "src/volume/octree/Volume.js~Volume#prune",
-    "method"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#resolution",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-get-resolution",
-    "src/volume/octree/Volume.js~Volume#resolution",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#min",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-member-min",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#min",
     "member"
   ],
   [
-    "src/volume/octree/volume.js~volume#root",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-member-root",
-    "src/volume/octree/Volume.js~Volume#root",
-    "member"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#size",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-set-size",
-    "src/volume/octree/Volume.js~Volume#size",
-    "member"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#size",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-get-size",
-    "src/volume/octree/Volume.js~Volume#size",
-    "member"
-  ],
-  [
-    "src/volume/octree/volume.js~volume#tojson",
-    "class/src/volume/octree/Volume.js~Volume.html#instance-method-toJSON",
-    "src/volume/octree/Volume.js~Volume#toJSON",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#sample",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-method-sample",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#sample",
     "method"
   ],
   [
-    "src/volume/octree/voxelblock.js",
-    "file/src/volume/octree/VoxelBlock.js.html",
-    "src/volume/octree/VoxelBlock.js",
-    "file"
-  ],
-  [
-    "src/volume/octree/voxelblock.js~voxelblock#constructor",
-    "class/src/volume/octree/VoxelBlock.js~VoxelBlock.html#instance-constructor-constructor",
-    "src/volume/octree/VoxelBlock.js~VoxelBlock#constructor",
-    "method"
-  ],
-  [
-    "src/volume/octree/voxelblock.js~voxelblock#root",
-    "class/src/volume/octree/VoxelBlock.js~VoxelBlock.html#instance-member-root",
-    "src/volume/octree/VoxelBlock.js~VoxelBlock#root",
-    "member"
-  ],
-  [
-    "src/volume/octree/voxelblock.js~voxelblock#voxelcount",
-    "class/src/volume/octree/VoxelBlock.js~VoxelBlock.html#instance-member-voxelCount",
-    "src/volume/octree/VoxelBlock.js~VoxelBlock#voxelCount",
-    "member"
-  ],
-  [
-    "src/volume/octree/voxelcell.js",
-    "file/src/volume/octree/VoxelCell.js.html",
-    "src/volume/octree/VoxelCell.js",
-    "file"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#children",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-member-children",
-    "src/volume/octree/VoxelCell.js~VoxelCell#children",
-    "member"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#collapse",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-method-collapse",
-    "src/volume/octree/VoxelCell.js~VoxelCell#collapse",
-    "method"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#constructor",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-constructor-constructor",
-    "src/volume/octree/VoxelCell.js~VoxelCell#constructor",
-    "method"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#contains",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-method-contains",
-    "src/volume/octree/VoxelCell.js~VoxelCell#contains",
-    "method"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#lod",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-get-lod",
-    "src/volume/octree/VoxelCell.js~VoxelCell#lod",
-    "member"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#lod",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-set-lod",
-    "src/volume/octree/VoxelCell.js~VoxelCell#lod",
-    "member"
-  ],
-  [
-    "src/volume/octree/voxelcell.js~voxelcell#voxel",
-    "class/src/volume/octree/VoxelCell.js~VoxelCell.html#instance-member-voxel",
-    "src/volume/octree/VoxelCell.js~VoxelCell#voxel",
-    "member"
-  ],
-  [
-    "src/volume/octree/index.js",
-    "file/src/volume/octree/index.js.html",
-    "src/volume/octree/index.js",
-    "file"
-  ],
-  [
-    "src/volume/sdf/box.js",
-    "file/src/volume/sdf/Box.js.html",
-    "src/volume/sdf/Box.js",
-    "file"
-  ],
-  [
-    "src/volume/sdf/box.js~box#bbox",
-    "class/src/volume/sdf/Box.js~Box.html#instance-member-bbox",
-    "src/volume/sdf/Box.js~Box#bbox",
-    "member"
-  ],
-  [
-    "src/volume/sdf/box.js~box#computeboundingbox",
-    "class/src/volume/sdf/Box.js~Box.html#instance-method-computeBoundingBox",
-    "src/volume/sdf/Box.js~Box#computeBoundingBox",
-    "method"
-  ],
-  [
-    "src/volume/sdf/box.js~box#constructor",
-    "class/src/volume/sdf/Box.js~Box.html#instance-constructor-constructor",
-    "src/volume/sdf/Box.js~Box#constructor",
-    "method"
-  ],
-  [
-    "src/volume/sdf/box.js~box#sample",
-    "class/src/volume/sdf/Box.js~Box.html#instance-method-sample",
-    "src/volume/sdf/Box.js~Box#sample",
-    "method"
-  ],
-  [
-    "src/volume/sdf/box.js~box#serialise",
-    "class/src/volume/sdf/Box.js~Box.html#instance-method-serialise",
-    "src/volume/sdf/Box.js~Box#serialise",
+    "src/volume/sdf/fractalnoise.js~fractalnoise#serialize",
+    "class/src/volume/sdf/FractalNoise.js~FractalNoise.html#instance-method-serialize",
+    "src/volume/sdf/FractalNoise.js~FractalNoise#serialize",
     "method"
   ],
   [
@@ -2100,52 +3132,64 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/sdf/heightfield.js~heightfield#createtransferlist",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-createTransferList",
+    "src/volume/sdf/Heightfield.js~Heightfield#createTransferList",
+    "method"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#data",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-data",
+    "src/volume/sdf/Heightfield.js~Heightfield#data",
+    "member"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#dimensions",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-dimensions",
+    "src/volume/sdf/Heightfield.js~Heightfield#dimensions",
+    "member"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#fromimage",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-fromImage",
+    "src/volume/sdf/Heightfield.js~Heightfield#fromImage",
+    "method"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#heightmap",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-heightmap",
+    "src/volume/sdf/Heightfield.js~Heightfield#heightmap",
+    "member"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#min",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-min",
+    "src/volume/sdf/Heightfield.js~Heightfield#min",
+    "member"
+  ],
+  [
     "src/volume/sdf/heightfield.js~heightfield#sample",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-sample",
     "src/volume/sdf/Heightfield.js~Heightfield#sample",
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#serialise",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-serialise",
-    "src/volume/sdf/Heightfield.js~Heightfield#serialise",
-    "method"
-  ],
-  [
-    "src/volume/sdf/plane.js",
-    "file/src/volume/sdf/Plane.js.html",
-    "src/volume/sdf/Plane.js",
-    "file"
-  ],
-  [
-    "src/volume/sdf/plane.js~plane#bbox",
-    "class/src/volume/sdf/Plane.js~Plane.html#instance-member-bbox",
-    "src/volume/sdf/Plane.js~Plane#bbox",
+    "src/volume/sdf/heightfield.js~heightfield#scale",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-scale",
+    "src/volume/sdf/Heightfield.js~Heightfield#scale",
     "member"
   ],
   [
-    "src/volume/sdf/plane.js~plane#computeboundingbox",
-    "class/src/volume/sdf/Plane.js~Plane.html#instance-method-computeBoundingBox",
-    "src/volume/sdf/Plane.js~Plane#computeBoundingBox",
+    "src/volume/sdf/heightfield.js~heightfield#serialize",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-serialize",
+    "src/volume/sdf/Heightfield.js~Heightfield#serialize",
     "method"
   ],
   [
-    "src/volume/sdf/plane.js~plane#constructor",
-    "class/src/volume/sdf/Plane.js~Plane.html#instance-constructor-constructor",
-    "src/volume/sdf/Plane.js~Plane#constructor",
-    "method"
-  ],
-  [
-    "src/volume/sdf/plane.js~plane#sample",
-    "class/src/volume/sdf/Plane.js~Plane.html#instance-method-sample",
-    "src/volume/sdf/Plane.js~Plane#sample",
-    "method"
-  ],
-  [
-    "src/volume/sdf/plane.js~plane#serialise",
-    "class/src/volume/sdf/Plane.js~Plane.html#instance-method-serialise",
-    "src/volume/sdf/Plane.js~Plane#serialise",
-    "method"
+    "src/volume/sdf/heightfield.js~heightfield#size",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-size",
+    "src/volume/sdf/Heightfield.js~Heightfield#size",
+    "member"
   ],
   [
     "src/volume/sdf/sdfreviver.js",
@@ -2154,9 +3198,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/sdf/sdfreviver.js~sdfreviver.revivesdf",
-    "class/src/volume/sdf/SDFReviver.js~SDFReviver.html#static-method-reviveSDF",
-    "src/volume/sdf/SDFReviver.js~SDFReviver.reviveSDF",
+    "src/volume/sdf/sdfreviver.js~sdfreviver#revive",
+    "class/src/volume/sdf/SDFReviver.js~SDFReviver.html#instance-method-revive",
+    "src/volume/sdf/SDFReviver.js~SDFReviver#revive",
     "method"
   ],
   [
@@ -2172,9 +3216,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#bbox",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-bbox",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#bbox",
+    "member"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#boundingbox",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-get-boundingBox",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#boundingBox",
+    "member"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#children",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-children",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#children",
     "member"
   ],
   [
@@ -2196,10 +3252,22 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#createtransferlist",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-createTransferList",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#createTransferList",
+    "method"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#intersect",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-intersect",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#intersect",
     "method"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#material",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-material",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#material",
+    "member"
   ],
   [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#operation",
@@ -2214,9 +3282,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#serialise",
-    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-serialise",
-    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#serialise",
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#serialize",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-serialize",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#serialize",
+    "method"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#setoperationtype",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-setOperationType",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#setOperationType",
     "method"
   ],
   [
@@ -2232,6 +3306,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#tojson",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-toJSON",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#toJSON",
+    "method"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#type",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-type",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#type",
@@ -2244,75 +3324,111 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/sphere.js",
-    "file/src/volume/sdf/Sphere.js.html",
-    "src/volume/sdf/Sphere.js",
+    "src/volume/sdf/superprimitive.js",
+    "file/src/volume/sdf/SuperPrimitive.js.html",
+    "src/volume/sdf/SuperPrimitive.js",
     "file"
   ],
   [
-    "src/volume/sdf/sphere.js~sphere#bbox",
-    "class/src/volume/sdf/Sphere.js~Sphere.html#instance-member-bbox",
-    "src/volume/sdf/Sphere.js~Sphere#bbox",
+    "src/volume/sdf/superprimitive.js~superprimitive#ba",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-ba",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#ba",
     "member"
   ],
   [
-    "src/volume/sdf/sphere.js~sphere#computeboundingbox",
-    "class/src/volume/sdf/Sphere.js~Sphere.html#instance-method-computeBoundingBox",
-    "src/volume/sdf/Sphere.js~Sphere#computeBoundingBox",
-    "method"
-  ],
-  [
-    "src/volume/sdf/sphere.js~sphere#constructor",
-    "class/src/volume/sdf/Sphere.js~Sphere.html#instance-constructor-constructor",
-    "src/volume/sdf/Sphere.js~Sphere#constructor",
-    "method"
-  ],
-  [
-    "src/volume/sdf/sphere.js~sphere#sample",
-    "class/src/volume/sdf/Sphere.js~Sphere.html#instance-method-sample",
-    "src/volume/sdf/Sphere.js~Sphere#sample",
-    "method"
-  ],
-  [
-    "src/volume/sdf/sphere.js~sphere#serialise",
-    "class/src/volume/sdf/Sphere.js~Sphere.html#instance-method-serialise",
-    "src/volume/sdf/Sphere.js~Sphere#serialise",
-    "method"
-  ],
-  [
-    "src/volume/sdf/torus.js",
-    "file/src/volume/sdf/Torus.js.html",
-    "src/volume/sdf/Torus.js",
-    "file"
-  ],
-  [
-    "src/volume/sdf/torus.js~torus#bbox",
-    "class/src/volume/sdf/Torus.js~Torus.html#instance-member-bbox",
-    "src/volume/sdf/Torus.js~Torus#bbox",
+    "src/volume/sdf/superprimitive.js~superprimitive#bbox",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-bbox",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#bbox",
     "member"
   ],
   [
-    "src/volume/sdf/torus.js~torus#computeboundingbox",
-    "class/src/volume/sdf/Torus.js~Torus.html#instance-method-computeBoundingBox",
-    "src/volume/sdf/Torus.js~Torus#computeBoundingBox",
+    "src/volume/sdf/superprimitive.js~superprimitive#computeboundingbox",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-computeBoundingBox",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#computeBoundingBox",
     "method"
   ],
   [
-    "src/volume/sdf/torus.js~torus#constructor",
-    "class/src/volume/sdf/Torus.js~Torus.html#instance-constructor-constructor",
-    "src/volume/sdf/Torus.js~Torus#constructor",
+    "src/volume/sdf/superprimitive.js~superprimitive#constructor",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-constructor-constructor",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#constructor",
     "method"
   ],
   [
-    "src/volume/sdf/torus.js~torus#sample",
-    "class/src/volume/sdf/Torus.js~Torus.html#instance-method-sample",
-    "src/volume/sdf/Torus.js~Torus#sample",
+    "src/volume/sdf/superprimitive.js~superprimitive#offset",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-offset",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#offset",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#origin",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-origin",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#origin",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#precompute",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-precompute",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#precompute",
     "method"
   ],
   [
-    "src/volume/sdf/torus.js~torus#serialise",
-    "class/src/volume/sdf/Torus.js~Torus.html#instance-method-serialise",
-    "src/volume/sdf/Torus.js~Torus#serialise",
+    "src/volume/sdf/superprimitive.js~superprimitive#r",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-r",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#r",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#r0",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-r0",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#r0",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#s",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-s",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#s",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#s0",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-s0",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#s0",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#sample",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-sample",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#sample",
+    "method"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#scale",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-scale",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#scale",
+    "member"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#serialize",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-serialize",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#serialize",
+    "method"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#setgenus",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setGenus",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setGenus",
+    "method"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive#setscale",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setScale",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setScale",
+    "method"
+  ],
+  [
+    "src/volume/sdf/superprimitive.js~superprimitive.create",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#static-method-create",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive.create",
     "method"
   ],
   [
@@ -2328,16 +3444,58 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/worker/dataprocessor.js",
+    "file/src/worker/DataProcessor.js.html",
+    "src/worker/DataProcessor.js",
+    "file"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#constructor",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-constructor-constructor",
+    "src/worker/DataProcessor.js~DataProcessor#constructor",
+    "method"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#createtransferlist",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-method-createTransferList",
+    "src/worker/DataProcessor.js~DataProcessor#createTransferList",
+    "method"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#data",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-member-data",
+    "src/worker/DataProcessor.js~DataProcessor#data",
+    "member"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#getdata",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-method-getData",
+    "src/worker/DataProcessor.js~DataProcessor#getData",
+    "method"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#process",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-method-process",
+    "src/worker/DataProcessor.js~DataProcessor#process",
+    "method"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#respond",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-method-respond",
+    "src/worker/DataProcessor.js~DataProcessor#respond",
+    "method"
+  ],
+  [
+    "src/worker/dataprocessor.js~dataprocessor#response",
+    "class/src/worker/DataProcessor.js~DataProcessor.html#instance-member-response",
+    "src/worker/DataProcessor.js~DataProcessor#response",
+    "member"
+  ],
+  [
     "src/worker/surfaceextractor.js",
     "file/src/worker/SurfaceExtractor.js.html",
     "src/worker/SurfaceExtractor.js",
     "file"
-  ],
-  [
-    "src/worker/surfaceextractor.js~surfaceextractor#chunk",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-chunk",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#chunk",
-    "member"
   ],
   [
     "src/worker/surfaceextractor.js~surfaceextractor#constructor",
@@ -2346,21 +3504,39 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/worker/surfaceextractor.js~surfaceextractor#extract",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-method-extract",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#extract",
+    "src/worker/surfaceextractor.js~surfaceextractor#createtransferlist",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-method-createTransferList",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#createTransferList",
     "method"
   ],
   [
-    "src/worker/surfaceextractor.js~surfaceextractor#message",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-message",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#message",
+    "src/worker/surfaceextractor.js~surfaceextractor#decompressiontarget",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-decompressionTarget",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#decompressionTarget",
     "member"
   ],
   [
-    "src/worker/surfaceextractor.js~surfaceextractor#transferlist",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-transferList",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#transferList",
+    "src/worker/surfaceextractor.js~surfaceextractor#isosurface",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-isosurface",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#isosurface",
+    "member"
+  ],
+  [
+    "src/worker/surfaceextractor.js~surfaceextractor#process",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-method-process",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#process",
+    "method"
+  ],
+  [
+    "src/worker/surfaceextractor.js~surfaceextractor#respond",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-method-respond",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#respond",
+    "method"
+  ],
+  [
+    "src/worker/surfaceextractor.js~surfaceextractor#response",
+    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-response",
+    "src/worker/SurfaceExtractor.js~SurfaceExtractor#response",
     "member"
   ],
   [
@@ -2368,6 +3544,12 @@ window.esdocSearchIndex = [
     "file/src/worker/ThreadPool.js.html",
     "src/worker/ThreadPool.js",
     "file"
+  ],
+  [
+    "src/worker/threadpool.js~threadpool#busyworkers",
+    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-busyWorkers",
+    "src/worker/ThreadPool.js~ThreadPool#busyWorkers",
+    "member"
   ],
   [
     "src/worker/threadpool.js~threadpool#clear",
@@ -2382,9 +3564,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/worker/threadpool.js~threadpool#configurationmessage",
+    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-configurationMessage",
+    "src/worker/ThreadPool.js~ThreadPool#configurationMessage",
+    "member"
+  ],
+  [
     "src/worker/threadpool.js~threadpool#constructor",
     "class/src/worker/ThreadPool.js~ThreadPool.html#instance-constructor-constructor",
     "src/worker/ThreadPool.js~ThreadPool#constructor",
+    "method"
+  ],
+  [
+    "src/worker/threadpool.js~threadpool#createworker",
+    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-method-createWorker",
+    "src/worker/ThreadPool.js~ThreadPool#createWorker",
     "method"
   ],
   [
@@ -2412,16 +3606,22 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/worker/threadpool.js~threadpool#workerurl",
+    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-workerURL",
+    "src/worker/ThreadPool.js~ThreadPool#workerURL",
+    "member"
+  ],
+  [
+    "src/worker/threadpool.js~threadpool#workers",
+    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-workers",
+    "src/worker/ThreadPool.js~ThreadPool#workers",
+    "member"
+  ],
+  [
     "src/worker/volumemodifier.js",
     "file/src/worker/VolumeModifier.js.html",
     "src/worker/VolumeModifier.js",
     "file"
-  ],
-  [
-    "src/worker/volumemodifier.js~volumemodifier#chunk",
-    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-chunk",
-    "src/worker/VolumeModifier.js~VolumeModifier#chunk",
-    "member"
   ],
   [
     "src/worker/volumemodifier.js~volumemodifier#constructor",
@@ -2430,51 +3630,189 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/worker/volumemodifier.js~volumemodifier#message",
-    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-message",
-    "src/worker/VolumeModifier.js~VolumeModifier#message",
-    "member"
-  ],
-  [
-    "src/worker/volumemodifier.js~volumemodifier#modify",
-    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-method-modify",
-    "src/worker/VolumeModifier.js~VolumeModifier#modify",
+    "src/worker/volumemodifier.js~volumemodifier#createtransferlist",
+    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-method-createTransferList",
+    "src/worker/VolumeModifier.js~VolumeModifier#createTransferList",
     "method"
   ],
   [
-    "src/worker/volumemodifier.js~volumemodifier#transferlist",
-    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-transferList",
-    "src/worker/VolumeModifier.js~VolumeModifier#transferList",
-    "member"
-  ],
-  [
-    "src/worker/workertask.js",
-    "file/src/worker/WorkerTask.js.html",
-    "src/worker/WorkerTask.js",
-    "file"
-  ],
-  [
-    "src/worker/workertask.js~workertask#action",
-    "class/src/worker/WorkerTask.js~WorkerTask.html#instance-member-action",
-    "src/worker/WorkerTask.js~WorkerTask#action",
-    "member"
-  ],
-  [
-    "src/worker/workertask.js~workertask#chunk",
-    "class/src/worker/WorkerTask.js~WorkerTask.html#instance-member-chunk",
-    "src/worker/WorkerTask.js~WorkerTask#chunk",
-    "member"
-  ],
-  [
-    "src/worker/workertask.js~workertask#constructor",
-    "class/src/worker/WorkerTask.js~WorkerTask.html#instance-constructor-constructor",
-    "src/worker/WorkerTask.js~WorkerTask#constructor",
+    "src/worker/volumemodifier.js~volumemodifier#process",
+    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-method-process",
+    "src/worker/VolumeModifier.js~VolumeModifier#process",
     "method"
+  ],
+  [
+    "src/worker/volumemodifier.js~volumemodifier#respond",
+    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-method-respond",
+    "src/worker/VolumeModifier.js~VolumeModifier#respond",
+    "method"
+  ],
+  [
+    "src/worker/volumemodifier.js~volumemodifier#response",
+    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-response",
+    "src/worker/VolumeModifier.js~VolumeModifier#response",
+    "member"
+  ],
+  [
+    "src/worker/volumemodifier.js~volumemodifier#sdf",
+    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-sdf",
+    "src/worker/VolumeModifier.js~VolumeModifier#sdf",
+    "member"
   ],
   [
     "src/worker/index.js",
     "file/src/worker/index.js.html",
     "src/worker/index.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/configurationmessage.js",
+    "file/src/worker/messages/ConfigurationMessage.js.html",
+    "src/worker/messages/ConfigurationMessage.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/configurationmessage.js~configurationmessage#constructor",
+    "class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html#instance-constructor-constructor",
+    "src/worker/messages/ConfigurationMessage.js~ConfigurationMessage#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/configurationmessage.js~configurationmessage#errorthreshold",
+    "class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html#instance-member-errorThreshold",
+    "src/worker/messages/ConfigurationMessage.js~ConfigurationMessage#errorThreshold",
+    "member"
+  ],
+  [
+    "src/worker/messages/configurationmessage.js~configurationmessage#resolution",
+    "class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html#instance-member-resolution",
+    "src/worker/messages/ConfigurationMessage.js~ConfigurationMessage#resolution",
+    "member"
+  ],
+  [
+    "src/worker/messages/datamessage.js",
+    "file/src/worker/messages/DataMessage.js.html",
+    "src/worker/messages/DataMessage.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/datamessage.js~datamessage#constructor",
+    "class/src/worker/messages/DataMessage.js~DataMessage.html#instance-constructor-constructor",
+    "src/worker/messages/DataMessage.js~DataMessage#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/datamessage.js~datamessage#data",
+    "class/src/worker/messages/DataMessage.js~DataMessage.html#instance-member-data",
+    "src/worker/messages/DataMessage.js~DataMessage#data",
+    "member"
+  ],
+  [
+    "src/worker/messages/extractionrequest.js",
+    "file/src/worker/messages/ExtractionRequest.js.html",
+    "src/worker/messages/ExtractionRequest.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/extractionrequest.js~extractionrequest#constructor",
+    "class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html#instance-constructor-constructor",
+    "src/worker/messages/ExtractionRequest.js~ExtractionRequest#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/extractionresponse.js",
+    "file/src/worker/messages/ExtractionResponse.js.html",
+    "src/worker/messages/ExtractionResponse.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/extractionresponse.js~extractionresponse#constructor",
+    "class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html#instance-constructor-constructor",
+    "src/worker/messages/ExtractionResponse.js~ExtractionResponse#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/extractionresponse.js~extractionresponse#isosurface",
+    "class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html#instance-member-isosurface",
+    "src/worker/messages/ExtractionResponse.js~ExtractionResponse#isosurface",
+    "member"
+  ],
+  [
+    "src/worker/messages/message.js",
+    "file/src/worker/messages/Message.js.html",
+    "src/worker/messages/Message.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/message.js~message#action",
+    "class/src/worker/messages/Message.js~Message.html#instance-member-action",
+    "src/worker/messages/Message.js~Message#action",
+    "member"
+  ],
+  [
+    "src/worker/messages/message.js~message#constructor",
+    "class/src/worker/messages/Message.js~Message.html#instance-constructor-constructor",
+    "src/worker/messages/Message.js~Message#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/message.js~message#error",
+    "class/src/worker/messages/Message.js~Message.html#instance-member-error",
+    "src/worker/messages/Message.js~Message#error",
+    "member"
+  ],
+  [
+    "src/worker/messages/modificationrequest.js",
+    "file/src/worker/messages/ModificationRequest.js.html",
+    "src/worker/messages/ModificationRequest.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/modificationrequest.js~modificationrequest#cellposition",
+    "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html#instance-member-cellPosition",
+    "src/worker/messages/ModificationRequest.js~ModificationRequest#cellPosition",
+    "member"
+  ],
+  [
+    "src/worker/messages/modificationrequest.js~modificationrequest#cellsize",
+    "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html#instance-member-cellSize",
+    "src/worker/messages/ModificationRequest.js~ModificationRequest#cellSize",
+    "member"
+  ],
+  [
+    "src/worker/messages/modificationrequest.js~modificationrequest#constructor",
+    "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html#instance-constructor-constructor",
+    "src/worker/messages/ModificationRequest.js~ModificationRequest#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/modificationrequest.js~modificationrequest#sdf",
+    "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html#instance-member-sdf",
+    "src/worker/messages/ModificationRequest.js~ModificationRequest#sdf",
+    "member"
+  ],
+  [
+    "src/worker/messages/modificationresponse.js",
+    "file/src/worker/messages/ModificationResponse.js.html",
+    "src/worker/messages/ModificationResponse.js",
+    "file"
+  ],
+  [
+    "src/worker/messages/modificationresponse.js~modificationresponse#constructor",
+    "class/src/worker/messages/ModificationResponse.js~ModificationResponse.html#instance-constructor-constructor",
+    "src/worker/messages/ModificationResponse.js~ModificationResponse#constructor",
+    "method"
+  ],
+  [
+    "src/worker/messages/modificationresponse.js~modificationresponse#sdf",
+    "class/src/worker/messages/ModificationResponse.js~ModificationResponse.html#instance-member-sdf",
+    "src/worker/messages/ModificationResponse.js~ModificationResponse#sdf",
+    "member"
+  ],
+  [
+    "src/worker/messages/index.js",
+    "file/src/worker/messages/index.js.html",
+    "src/worker/messages/index.js",
     "file"
   ],
   [

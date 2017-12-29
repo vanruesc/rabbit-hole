@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/octree/world/KeyDesign.js | rabbit-hole</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A volumetric terrain engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="rabbit-hole"><meta property="twitter:description" content="A volumetric terrain engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/vanruesc/rabbit-hole.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#clipmap">clipmap</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Clipmap.js~Clipmap.html">Clipmap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Disposable.js~Disposable.html">Disposable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Serializable.js~Serializable.html">Serializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/TransferableContainer.js~TransferableContainer.html">TransferableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#events">events</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/ClipmapEvent.js~ClipmapEvent.html">ClipmapEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html">SDFLoaderEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/TerrainEvent.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/WorkerEvent.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface">isosurface</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/Isosurface.js~Isosurface.html">Isosurface</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface-dual-contouring">isosurface/dual-contouring</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcEdgeMask">cellProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcFaceMask">cellProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeMask">edgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeProcEdgeMask">edgeProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceMap">faceMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcEdgeMask">faceProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcFaceMask">faceProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-procEdgeMask">procEdgeMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#loaders">loaders</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/loaders/SDFLoader.js~SDFLoader.html">SDFLoader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#math">math</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFData.js~QEFData.html">QEFData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFSolver.js~QEFSolver.html">QEFSolver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Schur.js~Schur.html">Schur</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-voxel">octree/voxel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html">SparseVoxelOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/VoxelCell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-world">octree/world</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html">IntermediateWorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html">KeyDesign</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyIterator.js~KeyIterator.html">KeyIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctant.js~WorldOctant.html">WorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantId.js~WorldOctantId.html">WorldOctantId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html">WorldOctantIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html">WorldOctantWrapper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctree.js~WorldOctree.html">WorldOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html">WorldOctreeCSG</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html">WorldOctreeRaycaster</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BinaryUtils.js~BinaryUtils.html">BinaryUtils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume">volume</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeIterator.js~EdgeIterator.html">EdgeIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Voxel.js~Voxel.html">Voxel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-csg">volume/csg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/DensityFunction.js~DensityFunction.html">DensityFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Difference.js~Difference.html">Difference</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Intersection.js~Intersection.html">Intersection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html">Operation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Union.js~Union.html">Union</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-sdf">volume/sdf</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/FractalNoise.js~FractalNoise.html">FractalNoise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SDFReviver.js~SDFReviver.html">SDFReviver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html">SuperPrimitive</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SuperPrimitivePreset">SuperPrimitivePreset</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker">worker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/DataProcessor.js~DataProcessor.html">DataProcessor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/ThreadPool.js~ThreadPool.html">ThreadPool</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/VolumeModifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker-messages">worker/messages</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html">ConfigurationMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/DataMessage.js~DataMessage.html">DataMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html">ExtractionRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html">ExtractionResponse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/Message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationRequest.js~ModificationRequest.html">ModificationRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationResponse.js~ModificationResponse.html">ModificationResponse</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/octree/world/KeyDesign.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Vector3 } from &quot;math-ds&quot;;
+import { BinaryUtils } from &quot;../../utils/BinaryUtils.js&quot;;
+import { KeyIterator } from &quot;./KeyIterator.js&quot;;
+
+/**
+ * The amount of bits of a DWord.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const DWORD_BITS = 32;
+
+/**
+ * The amount of different values that can be represented with a DWord.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const RANGE_DWORD = Math.pow(2, DWORD_BITS);
+
+/**
+ * The total amount of available bits for safe integers.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const BITS = 53;
+
+/**
+ * The amount of available high bits.
+ *
+ * In JavaScript, bit operations can only be applied to DWords (32-bit).
+ * All 53-bit keys must be split into a high and a low part for processing.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const HI_BITS = 21;
+
+/**
+ * The amount of available low bits.
+ *
+ * In JavaScript, bit operations can only be applied to DWords (32-bit).
+ * All 53-bit keys must be split into a high and a low part for processing.
+ *
+ * @type {Number}
+ * @private
+ */
+
+const LO_BITS = 32;
+
+/**
+ * A design for octant keys.
+ *
+ * 3D coordinates are packed into a single integer to obtain a unique key. This
+ * class describes the bit allotment for each coordinate and provides methods
+ * for key packing and unpacking.
+ *
+ * See {@link KeyDesign.BITS} for the total amount of available bits.
+ */
+
+export class KeyDesign {
+
+	/**
+	 * Constructs a new key design.
+	 *
+	 * @param {Number} [x=Math.round(BITS * 0.4)] - The amount of bits used for the X-coordinate.
+	 * @param {Number} [y=Math.round(BITS * 0.2)] - The amount of bits used for the Y-coordinate.
+	 * @param {Number} [z=x] - The amount of bits used for the Z-coordinate.
+	 */
+
+	constructor(x = Math.round(BITS * 0.4), y = Math.round(BITS * 0.2), z = x) {
+
+		/**
+		 * The amount of bits reserved for the X-coordinate.
+		 *
+		 * @type {Number}
+		 */
+
+		this.x = 0;
+
+		/**
+		 * The amount of bits reserved for the Y-coordinate.
+		 *
+		 * @type {Number}
+		 */
+
+		this.y = 0;
+
+		/**
+		 * The amount of bits reserved for the Z-coordinate.
+		 *
+		 * @type {Number}
+		 */
+
+		this.z = 0;
+
+		/**
+		 * The amount of distinct integers that can be represented with X bits.
+		 *
+		 * @type {Number}
+		 */
+
+		this.rangeX = 0;
+
+		/**
+		 * The amount of distinct integers that can be represented with Y bits.
+		 *
+		 * @type {Number}
+		 */
+
+		this.rangeY = 0;
+
+		/**
+		 * The amount of distinct integers that can be represented with Z bits.
+		 *
+		 * @type {Number}
+		 */
+
+		this.rangeZ = 0;
+
+		/**
+		 * The amount of distinct integers that can be represented with X + Y bits.
+		 *
+		 * @type {Number}
+		 */
+
+		this.rangeXY = 0;
+
+		/**
+		 * The key range divided by two.
+		 *
+		 * @type {Vector3}
+		 */
+
+		this.halfRange = null;
+
+		/**
+		 * A bit mask for the X-coordinate. The first item holds the low bits while
+		 * the second item holds the high bits.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.maskX = [0, 0];
+
+		/**
+		 * A bit mask for the Y-coordinate. The first item holds the low bits while
+		 * the second item holds the high bits.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.maskY = [0, 0];
+
+		/**
+		 * A bit mask for the Z-coordinate. The first item holds the low bits while
+		 * the second item holds the high bits.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.maskZ = [0, 0];
+
+		this.set(x, y, z);
+
+	}
+
+	/**
+	 * Sets the bit distribution.
+	 *
+	 * Make sure to clear your octree after changing the key design!
+	 *
+	 * @param {Number} [x] - The amount of bits used for the X-coordinate.
+	 * @param {Number} [y] - The amount of bits used for the Y-coordinate.
+	 * @param {Number} [z] - The amount of bits used for the Z-coordinate.
+	 */
+
+	set(x, y, z) {
+
+		// Bit operations currently only work on DWords.
+		if(x + y + z &gt; BITS || x &gt; DWORD_BITS || y &gt; DWORD_BITS || z &gt; DWORD_BITS) {
+
+			console.warn(&quot;Invalid bit allotment&quot;);
+
+			x = Math.round(BITS * 0.4);
+			y = Math.round(BITS * 0.2);
+			z = x;
+
+		}
+
+		this.x = x;
+		this.y = y;
+		this.z = z;
+
+		this.rangeX = Math.pow(2, x);
+		this.rangeY = Math.pow(2, y);
+		this.rangeZ = Math.pow(2, z);
+
+		this.rangeXY = Math.pow(2, x + y);
+
+		this.halfRange = new Vector3(
+			this.rangeX / 2,
+			this.rangeY / 2,
+			this.rangeZ / 2
+		);
+
+		this.updateBitMasks();
+
+	}
+
+	/**
+	 * Creates bit masks for the extraction of coordinates from keys.
+	 *
+	 * @private
+	 */
+
+	updateBitMasks() {
+
+		const xBits = this.x;
+		const yBits = this.y;
+		const zBits = this.z;
+
+		const maskX = this.maskX;
+		const maskY = this.maskY;
+		const maskZ = this.maskZ;
+
+		const hiShiftX = DWORD_BITS - Math.max(0, xBits - LO_BITS);
+		const hiShiftY = DWORD_BITS - Math.max(0, yBits + xBits - LO_BITS);
+		const hiShiftZ = DWORD_BITS - Math.max(0, zBits + yBits + xBits - LO_BITS);
+
+		maskX[1] = (hiShiftX &lt; DWORD_BITS) ? ~0 &gt;&gt;&gt; hiShiftX : 0;
+		maskX[0] = ~0 &gt;&gt;&gt; Math.max(0, LO_BITS - xBits);
+
+		maskY[1] = (((hiShiftY &lt; DWORD_BITS) ? ~0 &gt;&gt;&gt; hiShiftY : 0) &amp; ~maskX[1]) &gt;&gt;&gt; 0;
+		maskY[0] = ((~0 &gt;&gt;&gt; Math.max(0, LO_BITS - (xBits + yBits))) &amp; ~maskX[0]) &gt;&gt;&gt; 0;
+
+		maskZ[1] = (((hiShiftZ &lt; DWORD_BITS) ? ~0 &gt;&gt;&gt; hiShiftZ : 0) &amp; ~maskY[1] &amp; ~maskX[1]) &gt;&gt;&gt; 0;
+		maskZ[0] = ((~0 &gt;&gt;&gt; Math.max(0, LO_BITS - (xBits + yBits + zBits))) &amp; ~maskY[0] &amp; ~maskX[0]) &gt;&gt;&gt; 0;
+
+	}
+
+	/**
+	 * Extracts the 3D coordinates from a given key.
+	 *
+	 * @param {Number} key - The key.
+	 * @param {Vector3} [target] - A target for the extracted coordinates. If none is provided, a new vector will be created.
+	 * @return {Vector3} The extracted coordinates.
+	 */
+
+	unpackKey(key, target = new Vector3()) {
+
+		const maskX = this.maskX;
+		const maskY = this.maskY;
+		const maskZ = this.maskZ;
+
+		// Split the QWord key in a high and a low DWord.
+		const hi = Math.trunc(key / RANGE_DWORD);
+		const lo = key % RANGE_DWORD;
+
+		return target.set(
+
+			((hi &amp; maskX[1]) * RANGE_DWORD) + ((lo &amp; maskX[0]) &gt;&gt;&gt; 0),
+			(((hi &amp; maskY[1]) * RANGE_DWORD) + ((lo &amp; maskY[0]) &gt;&gt;&gt; 0)) / this.rangeX,
+			(((hi &amp; maskZ[1]) * RANGE_DWORD) + ((lo &amp; maskZ[0]) &gt;&gt;&gt; 0)) / this.rangeXY
+
+		);
+
+	}
+
+	/**
+	 * Packs a 3D position into a unique key.
+	 *
+	 * @param {Vector3} position - A position.
+	 * @return {Number} The octant key.
+	 */
+
+	packKey(position) {
+
+		return position.z * this.rangeXY + position.y * this.rangeX + position.x;
+
+	}
+
+	/**
+	 * Returns a new key range iterator.
+	 *
+	 * The key iterator will return all keys in the specified coordinate range,
+	 * including those at min and max.
+	 *
+	 * @param {Vector3} min - The lower key index bounds (zero-based unsigned integer coordinates).
+	 * @param {Vector3} max - The upper key index bounds (zero-based unsigned integer coordinates).
+	 * @return {KeyIterator} An iterator.
+	 */
+
+	keyRange(min, max) {
+
+		return new KeyIterator(this, min, max);
+
+	}
+
+	/**
+	 * Converts the information of this key design into a string.
+	 *
+	 * @return {String} The key design as a string.
+	 */
+
+	toString() {
+
+		const maskX = this.maskX;
+		const maskY = this.maskY;
+		const maskZ = this.maskZ;
+
+		return (
+
+			&quot;Key Design\n\n&quot; +
+
+			&quot;X-Bits: &quot; + this.x + &quot;\n&quot; +
+			&quot;Y-Bits: &quot; + this.y + &quot;\n&quot; +
+			&quot;Z-Bits: &quot; + this.z + &quot;\n\n&quot; +
+
+			BinaryUtils.createBinaryString(maskX[1], DWORD_BITS) + &quot; &quot; + maskX[1] + &quot; (HI-Mask X)\n&quot; +
+			BinaryUtils.createBinaryString(maskX[0], DWORD_BITS) + &quot; &quot; + maskX[0] + &quot; (LO-Mask X)\n\n&quot; +
+
+			BinaryUtils.createBinaryString(maskY[1], DWORD_BITS) + &quot; &quot; + maskY[1] + &quot; (HI-Mask Y)\n&quot; +
+			BinaryUtils.createBinaryString(maskY[0], DWORD_BITS) + &quot; &quot; + maskY[0] + &quot; (LO-Mask Y)\n\n&quot; +
+
+			BinaryUtils.createBinaryString(maskZ[1], DWORD_BITS) + &quot; &quot; + maskZ[1] + &quot; (HI-Mask Z)\n&quot; +
+			BinaryUtils.createBinaryString(maskZ[0], DWORD_BITS) + &quot; &quot; + maskZ[0] + &quot; (LO-Mask Z)\n&quot;
+
+		);
+
+	}
+
+	/**
+	 * The total amount of available bits for safe integers.
+	 *
+	 * JavaScript uses IEEE 754 binary64 Doubles for Numbers and, as a result,
+	 * only supports 53-bit integers as of ES2015.
+	 *
+	 * For more information see: http://2ality.com/2012/04/number-encoding.html
+	 *
+	 * @type {Number}
+	 */
+
+	static get BITS() {
+
+		return BITS;
+
+	}
+
+	/**
+	 * The amount of available bits in the high DWord.
+	 *
+	 * In JavaScript, bit operations can only be applied to DWords (32-bit).
+	 * All 53-bit keys must be split into a high and a low part for processing.
+	 *
+	 * @type {Number}
+	 */
+
+	static get HI_BITS() {
+
+		return HI_BITS;
+
+	}
+
+	/**
+	 * The amount of available bits in the low DWord.
+	 *
+	 * In JavaScript, bit operations can only be applied to DWords (32-bit).
+	 * All 53-bit keys must be split into a high and a low part for processing.
+	 *
+	 * @type {Number}
+	 */
+
+	static get LO_BITS() {
+
+		return LO_BITS;
+
+	}
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

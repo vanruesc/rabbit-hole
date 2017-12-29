@@ -1,462 +1,856 @@
 {
-  "type": "Program",
-  "body": [
-    {
-      "type": "ExportNamedDeclaration",
-      "declaration": {
-        "type": "VariableDeclaration",
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "id": {
-              "type": "Identifier",
-              "name": "SDFType",
-              "range": [
-                351,
-                358
-              ],
-              "loc": {
-                "start": {
-                  "line": 12,
-                  "column": 13
-                },
-                "end": {
-                  "line": 12,
-                  "column": 20
-                }
-              }
-            },
-            "init": {
-              "type": "ObjectExpression",
-              "properties": [
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "SPHERE",
-                    "range": [
-                      367,
-                      373
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 14,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 7
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "sdf.sphere",
-                    "raw": "\"sdf.sphere\"",
-                    "range": [
-                      375,
-                      387
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 14,
-                        "column": 9
-                      },
-                      "end": {
-                        "line": 14,
-                        "column": 21
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    367,
-                    387
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 14,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 14,
-                      "column": 21
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "BOX",
-                    "range": [
-                      391,
-                      394
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 4
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "sdf.box",
-                    "raw": "\"sdf.box\"",
-                    "range": [
-                      396,
-                      405
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 15,
-                        "column": 6
-                      },
-                      "end": {
-                        "line": 15,
-                        "column": 15
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    391,
-                    405
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 15,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 15,
-                      "column": 15
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "TORUS",
-                    "range": [
-                      409,
-                      414
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 16,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 16,
-                        "column": 6
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "sdf.torus",
-                    "raw": "\"sdf.torus\"",
-                    "range": [
-                      416,
-                      427
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 16,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 16,
-                        "column": 19
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    409,
-                    427
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 16,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 16,
-                      "column": 19
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "PLANE",
-                    "range": [
-                      431,
-                      436
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 6
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "sdf.plane",
-                    "raw": "\"sdf.plane\"",
-                    "range": [
-                      438,
-                      449
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 17,
-                        "column": 8
-                      },
-                      "end": {
-                        "line": 17,
-                        "column": 19
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    431,
-                    449
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 17,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 17,
-                      "column": 19
-                    }
-                  }
-                },
-                {
-                  "type": "Property",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "HEIGHTFIELD",
-                    "range": [
-                      453,
-                      464
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 18,
-                        "column": 1
-                      },
-                      "end": {
-                        "line": 18,
-                        "column": 12
-                      }
-                    }
-                  },
-                  "value": {
-                    "type": "Literal",
-                    "value": "sdf.heightfield",
-                    "raw": "\"sdf.heightfield\"",
-                    "range": [
-                      466,
-                      483
-                    ],
-                    "loc": {
-                      "start": {
-                        "line": 18,
-                        "column": 14
-                      },
-                      "end": {
-                        "line": 18,
-                        "column": 31
-                      }
-                    }
-                  },
-                  "kind": "init",
-                  "method": false,
-                  "shorthand": false,
-                  "computed": false,
-                  "range": [
-                    453,
-                    483
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 18,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 18,
-                      "column": 31
-                    }
-                  }
-                }
-              ],
-              "range": [
-                361,
-                488
-              ],
-              "loc": {
-                "start": {
-                  "line": 12,
-                  "column": 23
-                },
-                "end": {
-                  "line": 20,
-                  "column": 1
-                }
-              }
-            },
-            "range": [
-              351,
-              488
-            ],
-            "loc": {
-              "start": {
-                "line": 12,
-                "column": 13
-              },
-              "end": {
-                "line": 20,
-                "column": 1
-              }
-            }
-          }
-        ],
-        "kind": "const",
-        "range": [
-          345,
-          489
-        ],
+  "type": "File",
+  "start": 0,
+  "end": 417,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 17,
+      "column": 0
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 417,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 17,
+        "column": 0
+      }
+    },
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ExportNamedDeclaration",
+        "start": 272,
+        "end": 415,
         "loc": {
           "start": {
-            "line": 12,
-            "column": 7
+            "line": 10,
+            "column": 0
           },
           "end": {
-            "line": 20,
+            "line": 16,
             "column": 2
           }
         },
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "VariableDeclaration",
+          "start": 279,
+          "end": 415,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 16,
+              "column": 2
+            }
+          },
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "start": 285,
+              "end": 414,
+              "loc": {
+                "start": {
+                  "line": 10,
+                  "column": 13
+                },
+                "end": {
+                  "line": 16,
+                  "column": 1
+                }
+              },
+              "id": {
+                "type": "Identifier",
+                "start": 285,
+                "end": 292,
+                "loc": {
+                  "start": {
+                    "line": 10,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 10,
+                    "column": 20
+                  },
+                  "identifierName": "SDFType"
+                },
+                "name": "SDFType",
+                "leadingComments": null
+              },
+              "init": {
+                "type": "ObjectExpression",
+                "start": 295,
+                "end": 414,
+                "loc": {
+                  "start": {
+                    "line": 10,
+                    "column": 23
+                  },
+                  "end": {
+                    "line": 16,
+                    "column": 1
+                  }
+                },
+                "properties": [
+                  {
+                    "type": "ObjectProperty",
+                    "start": 301,
+                    "end": 331,
+                    "loc": {
+                      "start": {
+                        "line": 12,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 12,
+                        "column": 31
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 301,
+                      "end": 312,
+                      "loc": {
+                        "start": {
+                          "line": 12,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 12,
+                          "column": 12
+                        },
+                        "identifierName": "HEIGHTFIELD"
+                      },
+                      "name": "HEIGHTFIELD"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 314,
+                      "end": 331,
+                      "loc": {
+                        "start": {
+                          "line": 12,
+                          "column": 14
+                        },
+                        "end": {
+                          "line": 12,
+                          "column": 31
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "sdf.heightfield",
+                        "raw": "\"sdf.heightfield\""
+                      },
+                      "value": "sdf.heightfield"
+                    }
+                  },
+                  {
+                    "type": "ObjectProperty",
+                    "start": 335,
+                    "end": 368,
+                    "loc": {
+                      "start": {
+                        "line": 13,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 13,
+                        "column": 34
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 335,
+                      "end": 348,
+                      "loc": {
+                        "start": {
+                          "line": 13,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 14
+                        },
+                        "identifierName": "FRACTAL_NOISE"
+                      },
+                      "name": "FRACTAL_NOISE"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 350,
+                      "end": 368,
+                      "loc": {
+                        "start": {
+                          "line": 13,
+                          "column": 16
+                        },
+                        "end": {
+                          "line": 13,
+                          "column": 34
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "sdf.fractalnoise",
+                        "raw": "\"sdf.fractalnoise\""
+                      },
+                      "value": "sdf.fractalnoise"
+                    }
+                  },
+                  {
+                    "type": "ObjectProperty",
+                    "start": 372,
+                    "end": 409,
+                    "loc": {
+                      "start": {
+                        "line": 14,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 14,
+                        "column": 38
+                      }
+                    },
+                    "method": false,
+                    "shorthand": false,
+                    "computed": false,
+                    "key": {
+                      "type": "Identifier",
+                      "start": 372,
+                      "end": 387,
+                      "loc": {
+                        "start": {
+                          "line": 14,
+                          "column": 1
+                        },
+                        "end": {
+                          "line": 14,
+                          "column": 16
+                        },
+                        "identifierName": "SUPER_PRIMITIVE"
+                      },
+                      "name": "SUPER_PRIMITIVE"
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "start": 389,
+                      "end": 409,
+                      "loc": {
+                        "start": {
+                          "line": 14,
+                          "column": 18
+                        },
+                        "end": {
+                          "line": 14,
+                          "column": 38
+                        }
+                      },
+                      "extra": {
+                        "rawValue": "sdf.superprimitive",
+                        "raw": "\"sdf.superprimitive\""
+                      },
+                      "value": "sdf.superprimitive"
+                    }
+                  }
+                ]
+              },
+              "leadingComments": null
+            }
+          ],
+          "kind": "const",
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n * @property {String} FRACTAL_NOISE - A fractal noise description.\r\n * @property {String} SUPER_PRIMITIVE - A super primitive description.\r\n ",
+              "start": 0,
+              "end": 268,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 0
+                },
+                "end": {
+                  "line": 8,
+                  "column": 3
+                }
+              }
+            }
+          ],
+          "trailingComments": []
+        },
         "leadingComments": [
           {
-            "type": "Block",
-            "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} SPHERE - A sphere description.\r\n * @property {String} BOX - A box description.\r\n * @property {String} TORUS - A torus description.\r\n * @property {String} PLANE - A plane description.\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n ",
-            "range": [
-              0,
-              334
-            ],
+            "type": "CommentBlock",
+            "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n * @property {String} FRACTAL_NOISE - A fractal noise description.\r\n * @property {String} SUPER_PRIMITIVE - A super primitive description.\r\n ",
+            "start": 0,
+            "end": 268,
             "loc": {
               "start": {
                 "line": 1,
                 "column": 0
               },
               "end": {
-                "line": 10,
+                "line": 8,
                 "column": 3
               }
             }
           }
-        ],
-        "trailingComments": []
-      },
-      "specifiers": [],
-      "source": null,
-      "range": [
-        338,
-        489
-      ],
-      "loc": {
-        "start": {
-          "line": 12,
-          "column": 0
-        },
-        "end": {
-          "line": 20,
-          "column": 2
-        }
-      },
-      "leadingComments": [
-        {
-          "type": "Block",
-          "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} SPHERE - A sphere description.\r\n * @property {String} BOX - A box description.\r\n * @property {String} TORUS - A torus description.\r\n * @property {String} PLANE - A plane description.\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n ",
-          "range": [
-            0,
-            334
-          ],
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 10,
-              "column": 3
-            }
-          }
-        }
-      ]
-    }
-  ],
-  "sourceType": "module",
-  "range": [
-    338,
-    489
-  ],
-  "loc": {
-    "start": {
-      "line": 12,
-      "column": 0
-    },
-    "end": {
-      "line": 20,
-      "column": 2
-    }
+        ]
+      }
+    ],
+    "directives": []
   },
   "comments": [
     {
-      "type": "Block",
-      "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} SPHERE - A sphere description.\r\n * @property {String} BOX - A box description.\r\n * @property {String} TORUS - A torus description.\r\n * @property {String} PLANE - A plane description.\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n ",
-      "range": [
-        0,
-        334
-      ],
+      "type": "CommentBlock",
+      "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n * @property {String} FRACTAL_NOISE - A fractal noise description.\r\n * @property {String} SUPER_PRIMITIVE - A super primitive description.\r\n ",
+      "start": 0,
+      "end": 268,
       "loc": {
         "start": {
           "line": 1,
           "column": 0
         },
         "end": {
-          "line": 10,
+          "line": 8,
           "column": 3
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": "CommentBlock",
+      "value": "*\r\n * An enumeration of SDF types.\r\n *\r\n * @type {Object}\r\n * @property {String} HEIGHTFIELD - A heightfield description.\r\n * @property {String} FRACTAL_NOISE - A fractal noise description.\r\n * @property {String} SUPER_PRIMITIVE - A super primitive description.\r\n ",
+      "start": 0,
+      "end": 268,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 272,
+      "end": 278,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 279,
+      "end": 284,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 7
+        },
+        "end": {
+          "line": 10,
+          "column": 12
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "SDFType",
+      "start": 285,
+      "end": 292,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 13
+        },
+        "end": {
+          "line": 10,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 293,
+      "end": 294,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 21
+        },
+        "end": {
+          "line": 10,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 295,
+      "end": 296,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 23
+        },
+        "end": {
+          "line": 10,
+          "column": 24
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "HEIGHTFIELD",
+      "start": 301,
+      "end": 312,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 1
+        },
+        "end": {
+          "line": 12,
+          "column": 12
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 312,
+      "end": 313,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 12
+        },
+        "end": {
+          "line": 12,
+          "column": 13
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "sdf.heightfield",
+      "start": 314,
+      "end": 331,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 14
+        },
+        "end": {
+          "line": 12,
+          "column": 31
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 331,
+      "end": 332,
+      "loc": {
+        "start": {
+          "line": 12,
+          "column": 31
+        },
+        "end": {
+          "line": 12,
+          "column": 32
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "FRACTAL_NOISE",
+      "start": 335,
+      "end": 348,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 1
+        },
+        "end": {
+          "line": 13,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 348,
+      "end": 349,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 14
+        },
+        "end": {
+          "line": 13,
+          "column": 15
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "sdf.fractalnoise",
+      "start": 350,
+      "end": 368,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 16
+        },
+        "end": {
+          "line": 13,
+          "column": 34
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 368,
+      "end": 369,
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 34
+        },
+        "end": {
+          "line": 13,
+          "column": 35
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "SUPER_PRIMITIVE",
+      "start": 372,
+      "end": 387,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 1
+        },
+        "end": {
+          "line": 14,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 387,
+      "end": 388,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 16
+        },
+        "end": {
+          "line": 14,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "sdf.superprimitive",
+      "start": 389,
+      "end": 409,
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 18
+        },
+        "end": {
+          "line": 14,
+          "column": 38
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 413,
+      "end": 414,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 414,
+      "end": 415,
+      "loc": {
+        "start": {
+          "line": 16,
+          "column": 1
+        },
+        "end": {
+          "line": 16,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 417,
+      "end": 417,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 0
+        },
+        "end": {
+          "line": 17,
+          "column": 0
         }
       }
     }

@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">HermiteData | API Document</title>
+  <title data-ice="title">HermiteData | rabbit-hole</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
-  
-  
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="A volumetric terrain engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="rabbit-hole"><meta property="twitter:description" content="A volumetric terrain engine."></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -19,7 +17,6 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/vanruesc/rabbit-hole.git" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -27,82 +24,108 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-</header>
+<a style="position:relative; top:3px;" href="https://github.com/vanruesc/rabbit-hole.git"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/History.js~History.html">History</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/PriorityQueue.js~PriorityQueue.html">PriorityQueue</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/RunLengthEncoder.js~RunLengthEncoder.html">RunLengthEncoder</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Scheduler.js~Scheduler.html">Scheduler</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Task.js~Task.html">Task</a></span></span></li>
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#clipmap">clipmap</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Clipmap.js~Clipmap.html">Clipmap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Disposable.js~Disposable.html">Disposable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Serializable.js~Serializable.html">Serializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/TransferableContainer.js~TransferableContainer.html">TransferableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">events</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/TerrainEvent.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#events">events</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/ClipmapEvent.js~ClipmapEvent.html">ClipmapEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html">SDFLoaderEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/TerrainEvent.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/WorkerEvent.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">helpers</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/helpers/ChunkHelper.js~ChunkHelper.html">ChunkHelper</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">isosurface/dual-contouring</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html">DualContouring</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_EDGE_MASK">CELL_PROC_EDGE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CELL_PROC_FACE_MASK">CELL_PROC_FACE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_MASK">EDGE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDGE_PROC_EDGE_MASK">EDGE_PROC_EDGE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_MAP">FACE_MAP</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_EDGE_MASK">FACE_PROC_EDGE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FACE_PROC_FACE_MASK">FACE_PROC_FACE_MASK</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PROC_EDGE_MASK">PROC_EDGE_MASK</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">materials</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/materials/MeshTriplanarPhysicalMaterial.js~MeshTriplanarPhysicalMaterial.html">MeshTriplanarPhysicalMaterial</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface">isosurface</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/Isosurface.js~Isosurface.html">Isosurface</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface-dual-contouring">isosurface/dual-contouring</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcEdgeMask">cellProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcFaceMask">cellProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeMask">edgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeProcEdgeMask">edgeProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceMap">faceMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcEdgeMask">faceProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcFaceMask">faceProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-procEdgeMask">procEdgeMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#loaders">loaders</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/loaders/SDFLoader.js~SDFLoader.html">SDFLoader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#math">math</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Givens.js~Givens.html">Givens</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFData.js~QEFData.html">QEFData</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFSolver.js~QEFSolver.html">QEFSolver</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Schur.js~Schur.html">Schur</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-voxel">octree/voxel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html">SparseVoxelOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/VoxelCell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-world">octree/world</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html">IntermediateWorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html">KeyDesign</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyIterator.js~KeyIterator.html">KeyIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctant.js~WorldOctant.html">WorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantId.js~WorldOctantId.html">WorldOctantId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html">WorldOctantIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html">WorldOctantWrapper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctree.js~WorldOctree.html">WorldOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html">WorldOctreeCSG</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html">WorldOctreeRaycaster</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BinaryUtils.js~BinaryUtils.html">BinaryUtils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume">volume</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Edge.js~Edge.html">Edge</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeIterator.js~EdgeIterator.html">EdgeIterator</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Voxel.js~Voxel.html">Voxel</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/csg</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-csg">volume/csg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/DensityFunction.js~DensityFunction.html">DensityFunction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Difference.js~Difference.html">Difference</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Intersection.js~Intersection.html">Intersection</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html">Operation</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Union.js~Union.html">Union</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/octree</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/Chunk.js~Chunk.html">Chunk</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/Volume.js~Volume.html">Volume</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/VoxelBlock.js~VoxelBlock.html">VoxelBlock</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/octree/VoxelCell.js~VoxelCell.html">VoxelCell</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">volume/sdf</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Box.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-sdf">volume/sdf</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/FractalNoise.js~FractalNoise.html">FractalNoise</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Plane.js~Plane.html">Plane</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SDFReviver.js~SDFReviver.html">SDFReviver</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Sphere.js~Sphere.html">Sphere</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Torus.js~Torus.html">Torus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html">SuperPrimitive</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">worker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SuperPrimitivePreset">SuperPrimitivePreset</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker">worker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/DataProcessor.js~DataProcessor.html">DataProcessor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/ThreadPool.js~ThreadPool.html">ThreadPool</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/VolumeModifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/WorkerTask.js~WorkerTask.html">WorkerTask</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker-messages">worker/messages</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html">ConfigurationMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/DataMessage.js~DataMessage.html">DataMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html">ExtractionRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html">ExtractionResponse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/Message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationRequest.js~ModificationRequest.html">ModificationRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationResponse.js~ModificationResponse.html">ModificationResponse</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {HermiteData} from &apos;<span><a href="file/src/volume/HermiteData.js.html#lineNumber29">rabbit-hole/src/volume/HermiteData.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {HermiteData} from &apos;<span><a href="file/src/volume/HermiteData.js.html#lineNumber45">rabbit-hole/src/volume/HermiteData.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/volume/HermiteData.js.html#lineNumber29">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/volume/HermiteData.js.html#lineNumber45">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -115,7 +138,7 @@
   
   
   
-  
+  <div class="flat-list" data-ice="implements"><h4>Implements:</h4><ul><li><span><a href="class/src/core/Serializable.js~Serializable.html">Serializable</a></span></li>, <li><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></li>, <li><span><a href="class/src/core/TransferableContainer.js~TransferableContainer.html">TransferableContainer</a></span></li></ul></div>
   
   
   
@@ -124,6 +147,7 @@
   
   <div class="description" data-ice="description"><p>Hermite data.</p>
 </div>
+  
 
   
 
@@ -149,7 +173,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution">resolution</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution">resolution</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
@@ -175,13 +202,16 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution">resolution</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution">resolution</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>This value can only be set once.</p>
+        <div data-ice="description"><p>Warning: this value should only be set once.</p>
 </div>
       </div>
     </td>
@@ -209,13 +239,16 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(initialise: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(initialise: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Constructs a new set of hermite data.</p>
+        <div data-ice="description"><p>Constructs a new set of Hermite data.</p>
 </div>
       </div>
     </td>
@@ -235,6 +268,35 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
+      <span class="kind" data-ice="kind">get</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-compressed">compressed</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Indicates whether this data is currently compressed.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
       
       
       <span class="override" data-ice="override"></span>
@@ -242,7 +304,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-edgeData">edgeData</a></span></span><span data-ice="signature">: <span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-edgeData">edgeData</a></span></span><span class="code" data-ice="signature">: <span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span>
         </p>
       </div>
       <div>
@@ -268,7 +333,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-empty">empty</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-empty">empty</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -294,7 +362,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-full">full</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-full">full</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -320,33 +391,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-lod">lod</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The current level of detail.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-materialIndices">materialIndices</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-materialIndices">materialIndices</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a></span></span>
         </p>
       </div>
       <div>
@@ -372,7 +420,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-materials">materials</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-materials">materials</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
@@ -391,14 +442,17 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
-      
+      <span class="kind" data-ice="kind">get</span>
       
       <span class="override" data-ice="override"></span>
     </td>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-neutered">neutered</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-get-neutered">neutered</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -424,7 +478,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-runLengths">runLengths</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">Uint32Array</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-member-runLengths">runLengths</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">Uint32Array</a></span></span>
         </p>
       </div>
       <div>
@@ -457,7 +514,39 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-compress">compress</a></span></span><span data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-clear">clear</a></span></span><span class="code" data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Removes all data.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-compress">compress</a></span></span><span class="code" data-ice="signature">(target: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
         </p>
       </div>
       <div>
@@ -483,7 +572,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-createTransferList">createTransferList</a></span></span><span data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-createTransferList">createTransferList</a></span></span><span class="code" data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><span>Transferable</span><span>[]</span></span></span>
         </p>
       </div>
       <div>
@@ -509,7 +601,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-decompress">decompress</a></span></span><span data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-decompress">decompress</a></span></span><span class="code" data-ice="signature">(target: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
         </p>
       </div>
       <div>
@@ -535,7 +630,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-deserialise">deserialise</a></span></span><span data-ice="signature">(object: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-deserialize">deserialize</a></span></span><span class="code" data-ice="signature">(object: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span>
         </p>
       </div>
       <div>
@@ -561,7 +659,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-serialise">serialise</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-serialize">serialize</a></span></span><span class="code" data-ice="signature">(deflate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
@@ -587,7 +688,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-set">set</a></span></span><span data-ice="signature">(data: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-set">set</a></span></span><span class="code" data-ice="signature">(data: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
         </p>
       </div>
       <div>
@@ -613,7 +717,10 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-setMaterialIndex">setMaterialIndex</a></span></span><span data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html#instance-method-setMaterialIndex">setMaterialIndex</a></span></span><span class="code" data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
         </p>
       </div>
       <div>
@@ -643,11 +750,12 @@
     <span class="kind" data-ice="kind">get</span>
     
     
-    <span data-ice="name">resolution</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+    
+    <span class="code" data-ice="name">resolution</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber296">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber371">source</a></span></span>
     </span>
   </h3>
 
@@ -655,12 +763,17 @@
   
   
   <div data-ice="description"><p>The material grid resolution.</p>
+<p>The effective resolution of a chunk of Hermite data is the distance between
+two adjacent grid points with respect to the size of the containing world
+octant.</p>
 </div>
 
   
 
   <div data-ice="properties">
 </div>
+
+  
 
   
 
@@ -684,24 +797,28 @@
     <span class="kind" data-ice="kind">set</span>
     
     
-    <span data-ice="name">resolution</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+    
+    <span class="code" data-ice="name">resolution</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber304">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber385">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>This value can only be set once.</p>
+  <div data-ice="description"><p>Warning: this value should only be set once.</p>
+<p>The upper limit is 256.</p>
 </div>
 
   
 
   <div data-ice="properties">
 </div>
+
+  
 
   
 
@@ -729,18 +846,19 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(initialise: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
+    
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(initialise: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber53">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Constructs a new set of hermite data.</p>
+  <div data-ice="description"><p>Constructs a new set of Hermite data.</p>
 </div>
 
   
@@ -754,8 +872,8 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">initialise</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">initialise</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: true</li></ul></td>
       <td data-ice="description"><p>Whether the data should be initialised immediately.</p>
@@ -779,11 +897,57 @@
   
 
   
+
+  
   
 </div>
 </div>
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-get-compressed">
+    <span class="access" data-ice="access">public</span>
+    
+    <span class="kind" data-ice="kind">get</span>
+    
+    
+    
+    <span class="code" data-ice="name">compressed</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber122">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Indicates whether this data is currently compressed.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-edgeData">
     <span class="access" data-ice="access">public</span>
@@ -791,11 +955,12 @@
     
     
     
-    <span data-ice="name">edgeData</span><span data-ice="signature">: <span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span>
+    
+    <span class="code" data-ice="name">edgeData</span><span class="code" data-ice="signature">: <span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber93">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber88">source</a></span></span>
     </span>
   </h3>
 
@@ -823,6 +988,8 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -832,11 +999,12 @@
     <span class="kind" data-ice="kind">get</span>
     
     
-    <span data-ice="name">empty</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    
+    <span class="code" data-ice="name">empty</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber103">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber98">source</a></span></span>
     </span>
   </h3>
 
@@ -864,6 +1032,8 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -873,11 +1043,12 @@
     <span class="kind" data-ice="kind">get</span>
     
     
-    <span data-ice="name">full</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    
+    <span class="code" data-ice="name">full</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
@@ -905,45 +1076,6 @@
   
 
   
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-lod">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">lod</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber46">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>The current level of detail.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
   
@@ -955,11 +1087,12 @@
     
     
     
-    <span data-ice="name">materialIndices</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a></span></span>
+    
+    <span class="code" data-ice="name">materialIndices</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array">Uint8Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber75">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
@@ -987,6 +1120,8 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -996,11 +1131,12 @@
     
     
     
-    <span data-ice="name">materials</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+    
+    <span class="code" data-ice="name">materials</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber67">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
@@ -1032,20 +1168,23 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-neutered">
+  <h3 data-ice="anchor" id="instance-get-neutered">
     <span class="access" data-ice="access">public</span>
     
+    <span class="kind" data-ice="kind">get</span>
     
     
     
-    <span data-ice="name">neutered</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="code" data-ice="name">neutered</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber55">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber134">source</a></span></span>
     </span>
   </h3>
 
@@ -1073,6 +1212,8 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -1082,11 +1223,12 @@
     
     
     
-    <span data-ice="name">runLengths</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">Uint32Array</a></span></span>
+    
+    <span class="code" data-ice="name">runLengths</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array">Uint32Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber84">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber80">source</a></span></span>
     </span>
   </h3>
 
@@ -1114,11 +1256,70 @@
   
 
   
+
+  
   
 </div>
 </div>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-clear">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">clear</span><span class="code" data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber164">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Removes all data.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>This data.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-compress">
     <span class="access" data-ice="access">public</span>
@@ -1126,11 +1327,12 @@
     
     
     
-    <span data-ice="name">compress</span><span data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+    
+    <span class="code" data-ice="name">compress</span><span class="code" data-ice="signature">(target: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber167">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber210">source</a></span></span>
     </span>
   </h3>
 
@@ -1142,21 +1344,43 @@
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">target</td>
+      <td data-ice="type" class="code"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: this</li></ul></td>
+      <td data-ice="description"><p>A target data set. The compressed data will be assigned to this set.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>This data.</p>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The target data set.</p>
 </td>
-      </tr>
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -1178,11 +1402,12 @@
     
     
     
-    <span data-ice="name">createTransferList</span><span data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+    
+    <span class="code" data-ice="name">createTransferList</span><span class="code" data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><span>Transferable</span><span>[]</span></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber225">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber337">source</a></span></span>
     </span>
   </h3>
 
@@ -1203,10 +1428,10 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">transferList</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">transferList</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li></ul></td>
-      <td data-ice="description"><p>An existing list to be filled with transferable items.</p>
+      <td data-ice="description"><p>An optional target list. The transferable items will be added to this list.</p>
 </td>
     </tr>
 </tbody>
@@ -1217,15 +1442,19 @@
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>A transfer list.</p>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><span>Transferable</span><span>[]</span></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The transfer list.</p>
 </td>
-      </tr>
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -1247,11 +1476,12 @@
     
     
     
-    <span data-ice="name">decompress</span><span data-ice="signature">(): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+    
+    <span class="code" data-ice="name">decompress</span><span class="code" data-ice="signature">(target: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber202">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber254">source</a></span></span>
     </span>
   </h3>
 
@@ -1263,17 +1493,37 @@
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">target</td>
+      <td data-ice="type" class="code"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: this</li></ul></td>
+      <td data-ice="description"><p>A target data set. If none is provided, the compressed data will be replaced with the decompressed data.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>This data.</p>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The target data set.</p>
 </td>
-      </tr>
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
@@ -1290,20 +1540,23 @@
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-deserialise">
+  <h3 data-ice="anchor" id="instance-method-deserialize">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">deserialise</span><span data-ice="signature">(object: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    
+    <span class="code" data-ice="name">deserialize</span><span class="code" data-ice="signature">(object: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber262">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber293">source</a></span></span>
     </span>
   </h3>
 
@@ -1324,16 +1577,31 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">object</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">object</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Serialised hermite data.</p>
+      <td data-ice="description"><p>Serialised Hermite data. Can be null.</p>
 </td>
     </tr>
 </tbody>
   </table>
 </div>
 </div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>This object or null if the given serialised data was null.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 
@@ -1351,17 +1619,18 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-serialise">
+  <h3 data-ice="anchor" id="instance-method-serialize">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">serialise</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    
+    <span class="code" data-ice="name">serialize</span><span class="code" data-ice="signature">(deflate: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber242">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber275">source</a></span></span>
     </span>
   </h3>
 
@@ -1373,21 +1642,43 @@
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">deflate</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>Whether the data should be compressed if possible.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>The serialised version of the data.</p>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The serialised data.</p>
 </td>
-      </tr>
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -1409,11 +1700,12 @@
     
     
     
-    <span data-ice="name">set</span><span data-ice="signature">(data: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
+    
+    <span class="code" data-ice="name">set</span><span class="code" data-ice="signature">(data: <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span>): <span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber120">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber147">source</a></span></span>
     </span>
   </h3>
 
@@ -1434,8 +1726,8 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">data</td>
-      <td data-ice="type"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">data</td>
+      <td data-ice="type" class="code"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The data to adopt.</p>
 </td>
@@ -1448,15 +1740,19 @@
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>This data.</p>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>This data.</p>
 </td>
-      </tr>
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -1478,11 +1774,12 @@
     
     
     
-    <span data-ice="name">setMaterialIndex</span><span data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
+    
+    <span class="code" data-ice="name">setMaterialIndex</span><span class="code" data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber140">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/HermiteData.js.html#lineNumber182">source</a></span></span>
     </span>
   </h3>
 
@@ -1503,15 +1800,15 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">index</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">index</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The index of the material index that should be updated.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">value</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
+      <td data-ice="name" class="code" data-depth="0">value</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>The new material index.</p>
 </td>
@@ -1534,13 +1831,15 @@
   
 
   
+
+  
   
 </div>
 </div>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
