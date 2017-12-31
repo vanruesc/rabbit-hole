@@ -228,7 +228,8 @@ export class SVODemo extends Demo {
 
 		const controls = new DeltaControls(camera.position, camera.quaternion, renderer.domElement);
 		controls.settings.pointer.lock = false;
-		controls.settings.sensitivity.zoom = 0.1;
+		controls.settings.sensitivity.rotation = 0.0025;
+		controls.settings.sensitivity.zoom = 0.01;
 		controls.settings.zoom.maxDistance = 20;
 		controls.lookAt(scene.position);
 		this.controls = controls;
