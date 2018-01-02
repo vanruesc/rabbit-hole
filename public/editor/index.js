@@ -1,14 +1,24 @@
-/**
- * rabbit-hole v0.0.0 build Jan 02 2018
- * https://github.com/vanruesc/rabbit-hole
- * Copyright 2018 Raoul van Rüschen, Zlib
- */
+(function (three,dat,Stats) {
+  'use strict';
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.RABBITHOLE = {})));
-}(this, (function (exports) { 'use strict';
+  dat = dat && dat.hasOwnProperty('default') ? dat['default'] : dat;
+  Stats = Stats && Stats.hasOwnProperty('default') ? Stats['default'] : Stats;
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
+
+
+
+
+
+
+
+
+
 
   var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -147,269 +157,437 @@
     }
   };
 
-  var Serializable = function () {
-  	function Serializable() {
-  		classCallCheck(this, Serializable);
+  var Feature = function () {
+  	function Feature() {
+  		var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  		classCallCheck(this, Feature);
+
+
+  		this.name = name;
+
+  		this.root = (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" && self.self === self ? self : (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" && global.global === global ? global : this;
+
+  		this.supported = false;
   	}
 
-  	createClass(Serializable, [{
-  		key: "serialize",
-  		value: function serialize() {
-  			throw new Error("Serializable#serialise method not implemented!");
+  	createClass(Feature, [{
+  		key: "toString",
+  		value: function toString() {
+
+  			return this.name;
   		}
   	}]);
-  	return Serializable;
+  	return Feature;
   }();
 
-  var Deserializable = function () {
-  	function Deserializable() {
-  		classCallCheck(this, Deserializable);
+  var FeatureId = {
+
+    CANVAS: "feature.canvas",
+    FILE: "feature.file",
+    TYPED_ARRAY: "feature.typed-array",
+    WEBGL: "feature.webgl",
+    WORKER: "feature.worker"
+
+  };
+
+  var CanvasFeature = function (_Feature) {
+  	inherits(CanvasFeature, _Feature);
+
+  	function CanvasFeature() {
+  		classCallCheck(this, CanvasFeature);
+
+  		var _this = possibleConstructorReturn(this, (CanvasFeature.__proto__ || Object.getPrototypeOf(CanvasFeature)).call(this, "Canvas"));
+
+  		_this.supported = _this.root.CanvasRenderingContext2D !== undefined;
+
+  		return _this;
   	}
 
-  	createClass(Deserializable, [{
-  		key: "deserialize",
-  		value: function deserialize(object) {
+  	return CanvasFeature;
+  }(Feature);
 
-  			throw new Error("Deserializable#deserialise method not implemented!");
-  		}
-  	}]);
-  	return Deserializable;
-  }();
+  var FileFeature = function (_Feature) {
+  	inherits(FileFeature, _Feature);
 
-  var Disposable = function () {
-  	function Disposable() {
-  		classCallCheck(this, Disposable);
+  	function FileFeature() {
+  		classCallCheck(this, FileFeature);
+
+  		var _this = possibleConstructorReturn(this, (FileFeature.__proto__ || Object.getPrototypeOf(FileFeature)).call(this, "File"));
+
+  		_this.supported = _this.root.File !== undefined && _this.root.FileReader !== undefined && _this.root.FileList !== undefined && _this.root.Blob !== undefined;
+
+  		return _this;
   	}
 
-  	createClass(Disposable, [{
-  		key: "dispose",
-  		value: function dispose() {
+  	return FileFeature;
+  }(Feature);
 
-  			throw new Error("Disposable#dispose method not implemented!");
-  		}
-  	}]);
-  	return Disposable;
-  }();
+  var TypedArrayFeature = function (_Feature) {
+  	inherits(TypedArrayFeature, _Feature);
 
-  var TransferableContainer = function () {
-  	function TransferableContainer() {
-  		classCallCheck(this, TransferableContainer);
+  	function TypedArrayFeature() {
+  		classCallCheck(this, TypedArrayFeature);
+
+  		var _this = possibleConstructorReturn(this, (TypedArrayFeature.__proto__ || Object.getPrototypeOf(TypedArrayFeature)).call(this, "Typed Array"));
+
+  		_this.supported = _this.root.ArrayBuffer !== undefined;
+
+  		return _this;
   	}
 
-  	createClass(TransferableContainer, [{
-  		key: "createTransferList",
-  		value: function createTransferList() {
-  			throw new Error("TransferableContainer#createTransferList method not implemented!");
+  	return TypedArrayFeature;
+  }(Feature);
+
+  var WebGLFeature = function (_Feature) {
+  		inherits(WebGLFeature, _Feature);
+
+  		function WebGLFeature() {
+  				classCallCheck(this, WebGLFeature);
+
+  				var _this = possibleConstructorReturn(this, (WebGLFeature.__proto__ || Object.getPrototypeOf(WebGLFeature)).call(this, "WebGL"));
+
+  				_this.supported = function (root) {
+
+  						var supported = root.WebGLRenderingContext !== undefined;
+  						var canvas = void 0,
+  						    context = void 0;
+
+  						if (supported) {
+
+  								canvas = document.createElement("canvas");
+  								context = canvas.getContext("webgl");
+
+  								if (context === null) {
+
+  										if (canvas.getContext("experimental-webgl") === null) {
+
+  												supported = false;
+  										}
+  								}
+  						}
+
+  						return supported;
+  				}(_this.root);
+
+  				return _this;
   		}
-  	}]);
-  	return TransferableContainer;
-  }();
 
-  var Queue = function () {
-  	function Queue() {
-  		classCallCheck(this, Queue);
+  		return WebGLFeature;
+  }(Feature);
 
+  var WorkerFeature = function (_Feature) {
+  	inherits(WorkerFeature, _Feature);
 
-  		this.elements = [];
+  	function WorkerFeature() {
+  		classCallCheck(this, WorkerFeature);
 
-  		this.head = 0;
+  		var _this = possibleConstructorReturn(this, (WorkerFeature.__proto__ || Object.getPrototypeOf(WorkerFeature)).call(this, "Web Worker"));
+
+  		_this.supported = _this.root.Worker !== undefined;
+
+  		return _this;
   	}
 
-  	createClass(Queue, [{
-  		key: "add",
-  		value: function add(element) {
+  	return WorkerFeature;
+  }(Feature);
 
-  			this.elements.push(element);
-  		}
-  	}, {
-  		key: "peek",
-  		value: function peek() {
+  var Detector = function () {
+  	function Detector() {
+  		classCallCheck(this, Detector);
 
-  			return this.elements.length > 0 ? this.elements[this.head] : undefined;
-  		}
-  	}, {
-  		key: "poll",
-  		value: function poll() {
 
-  			var elements = this.elements;
-  			var length = elements.length;
+  		this.features = new Map();
 
-  			var element = void 0;
+  		this.features.set(FeatureId.CANVAS, new CanvasFeature());
+  		this.features.set(FeatureId.FILE, new FileFeature());
+  		this.features.set(FeatureId.TYPED_ARRAY, new TypedArrayFeature());
+  		this.features.set(FeatureId.WEBGL, new WebGLFeature());
+  		this.features.set(FeatureId.WORKER, new WorkerFeature());
+  	}
 
-  			if (length > 0) {
+  	createClass(Detector, [{
+  		key: "getFeatures",
+  		value: function getFeatures(missing, featureIds) {
 
-  				element = elements[this.head++];
+  			var features = [];
 
-  				if (this.head * 2 >= length) {
+  			var featureId = void 0,
+  			    feature = void 0;
 
-  					this.elements = elements.slice(this.head);
-  					this.head = 0;
+  			if (featureIds.length > 0) {
+  				var _iteratorNormalCompletion = true;
+  				var _didIteratorError = false;
+  				var _iteratorError = undefined;
+
+  				try {
+
+  					for (var _iterator = featureIds[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+  						featureId = _step.value;
+
+
+  						feature = this.features.get(featureId);
+
+  						if (feature !== undefined && feature.supported === !missing) {
+
+  							features.push(feature);
+  						}
+  					}
+  				} catch (err) {
+  					_didIteratorError = true;
+  					_iteratorError = err;
+  				} finally {
+  					try {
+  						if (!_iteratorNormalCompletion && _iterator.return) {
+  							_iterator.return();
+  						}
+  					} finally {
+  						if (_didIteratorError) {
+  							throw _iteratorError;
+  						}
+  					}
+  				}
+  			} else {
+  				var _iteratorNormalCompletion2 = true;
+  				var _didIteratorError2 = false;
+  				var _iteratorError2 = undefined;
+
+  				try {
+
+  					for (var _iterator2 = this.features.values()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+  						feature = _step2.value;
+
+
+  						if (feature.supported === !missing) {
+
+  							features.push(feature);
+  						}
+  					}
+  				} catch (err) {
+  					_didIteratorError2 = true;
+  					_iteratorError2 = err;
+  				} finally {
+  					try {
+  						if (!_iteratorNormalCompletion2 && _iterator2.return) {
+  							_iterator2.return();
+  						}
+  					} finally {
+  						if (_didIteratorError2) {
+  							throw _iteratorError2;
+  						}
+  					}
   				}
   			}
 
-  			return element;
+  			return features.length > 0 ? features : null;
   		}
   	}, {
-  		key: "clear",
-  		value: function clear() {
+  		key: "getMissingFeatures",
+  		value: function getMissingFeatures() {
+  			for (var _len = arguments.length, featureIds = Array(_len), _key = 0; _key < _len; _key++) {
+  				featureIds[_key] = arguments[_key];
+  			}
 
-  			this.elements = [];
-  			this.head = 0;
+  			return this.getFeatures(true, featureIds);
   		}
   	}, {
-  		key: "size",
-  		get: function get$$1() {
+  		key: "getSupportedFeatures",
+  		value: function getSupportedFeatures() {
+  			for (var _len2 = arguments.length, featureIds = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+  				featureIds[_key2] = arguments[_key2];
+  			}
 
-  			return this.elements.length - this.head;
+  			return this.getFeatures(false, featureIds);
   		}
   	}, {
-  		key: "empty",
-  		get: function get$$1() {
+  		key: "get",
+  		value: function get$$1(featureId) {
 
-  			return this.elements.length === 0;
+  			return this.features.get(featureId);
+  		}
+  	}, {
+  		key: "set",
+  		value: function set$$1(featureId, feature) {
+
+  			return this.features.set(featureId, feature);
+  		}
+  	}, {
+  		key: "getMessage",
+  		value: function getMessage(feature) {
+
+  			return "The " + feature + " feature is " + (feature.supported ? "supported" : "missing") + " in the current environment.";
   		}
   	}]);
-  	return Queue;
+  	return Detector;
   }();
 
-  var Event = function Event(type) {
-  		classCallCheck(this, Event);
+  var OctreeHelper = function (_Group) {
+  		inherits(OctreeHelper, _Group);
 
+  		function OctreeHelper() {
+  				var octree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  				classCallCheck(this, OctreeHelper);
 
-  		this.type = type;
+  				var _this = possibleConstructorReturn(this, (OctreeHelper.__proto__ || Object.getPrototypeOf(OctreeHelper)).call(this));
 
-  		this.target = null;
-  };
+  				_this.name = "OctreeHelper";
 
-  var EventTarget = function () {
-  		function EventTarget() {
-  				classCallCheck(this, EventTarget);
+  				_this.octree = octree;
 
+  				_this.update();
 
-  				this.listenerFunctions = new Map();
-
-  				this.listenerObjects = new Map();
+  				return _this;
   		}
 
-  		createClass(EventTarget, [{
-  				key: "addEventListener",
-  				value: function addEventListener(type, listener) {
+  		createClass(OctreeHelper, [{
+  				key: "createLineSegments",
+  				value: function createLineSegments(octants, octantCount) {
 
-  						var m = typeof listener === "function" ? this.listenerFunctions : this.listenerObjects;
+  						var maxOctants = Math.pow(2, 16) / 8 - 1;
+  						var group = new three.Group();
 
-  						if (m.has(type)) {
+  						var material = new three.LineBasicMaterial({
+  								color: 0xffffff * Math.random()
+  						});
 
-  								m.get(type).add(listener);
-  						} else {
+  						var result = void 0;
+  						var vertexCount = void 0;
+  						var length = void 0;
 
-  								m.set(type, new Set([listener]));
+  						var indices = void 0,
+  						    positions = void 0;
+  						var octant = void 0,
+  						    min = void 0,
+  						    max = void 0;
+  						var geometry = void 0;
+
+  						var i = void 0,
+  						    j = void 0,
+  						    c = void 0,
+  						    d = void 0,
+  						    n = void 0;
+  						var corner = void 0,
+  						    edge = void 0;
+
+  						for (i = 0, length = 0, n = Math.ceil(octantCount / maxOctants); n > 0; --n) {
+
+  								length += octantCount < maxOctants ? octantCount : maxOctants;
+  								octantCount -= maxOctants;
+
+  								vertexCount = length * 8;
+  								indices = new Uint16Array(vertexCount * 3);
+  								positions = new Float32Array(vertexCount * 3);
+
+  								for (c = 0, d = 0, result = octants.next(); !result.done && i < length;) {
+
+  										octant = result.value;
+  										min = octant.min;
+  										max = octant.max;
+
+  										for (j = 0; j < 12; ++j) {
+
+  												edge = edges[j];
+
+  												indices[d++] = c + edge[0];
+  												indices[d++] = c + edge[1];
+  										}
+
+  										for (j = 0; j < 8; ++j, ++c) {
+
+  												corner = corners[j];
+
+  												positions[c * 3] = corner[0] === 0 ? min.x : max.x;
+  												positions[c * 3 + 1] = corner[1] === 0 ? min.y : max.y;
+  												positions[c * 3 + 2] = corner[2] === 0 ? min.z : max.z;
+  										}
+
+  										if (++i < length) {
+
+  												result = octants.next();
+  										}
+  								}
+
+  								geometry = new three.BufferGeometry();
+  								geometry.setIndex(new three.BufferAttribute(indices, 1));
+  								geometry.addAttribute("position", new three.BufferAttribute(positions, 3));
+
+  								group.add(new three.LineSegments(geometry, material));
+  						}
+
+  						this.add(group);
+  				}
+  		}, {
+  				key: "update",
+  				value: function update() {
+
+  						var depth = this.octree !== null ? this.octree.getDepth() : -1;
+
+  						var level = 0;
+  						var result = void 0;
+
+  						this.dispose();
+
+  						while (level <= depth) {
+
+  								result = this.octree.findOctantsByLevel(level);
+
+  								this.createLineSegments(result[Symbol.iterator](), typeof result.size === "number" ? result.size : result.length);
+
+  								++level;
   						}
   				}
   		}, {
-  				key: "removeEventListener",
-  				value: function removeEventListener(type, listener) {
+  				key: "dispose",
+  				value: function dispose() {
 
-  						var m = typeof listener === "function" ? this.listenerFunctions : this.listenerObjects;
+  						var groups = this.children;
 
-  						var listeners = void 0;
+  						var group = void 0,
+  						    children = void 0;
+  						var i = void 0,
+  						    j = void 0,
+  						    il = void 0,
+  						    jl = void 0;
 
-  						if (m.has(type)) {
+  						for (i = 0, il = groups.length; i < il; ++i) {
 
-  								listeners = m.get(type);
-  								listeners.delete(listener);
+  								group = groups[i];
+  								children = group.children;
 
-  								if (listeners.size === 0) {
+  								for (j = 0, jl = children.length; j < jl; ++j) {
 
-  										m.delete(type);
+  										children[j].geometry.dispose();
+  										children[j].material.dispose();
   								}
-  						}
-  				}
-  		}, {
-  				key: "dispatchEvent",
-  				value: function dispatchEvent(event) {
-  						var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
 
+  								while (children.length > 0) {
 
-  						var listenerFunctions = target.listenerFunctions;
-  						var listenerObjects = target.listenerObjects;
-
-  						var listeners = void 0;
-  						var listener = void 0;
-
-  						event.target = target;
-
-  						if (listenerFunctions.has(event.type)) {
-
-  								listeners = listenerFunctions.get(event.type);
-
-  								var _iteratorNormalCompletion = true;
-  								var _didIteratorError = false;
-  								var _iteratorError = undefined;
-
-  								try {
-  										for (var _iterator = listeners[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-  												listener = _step.value;
-
-
-  												listener.call(target, event);
-  										}
-  								} catch (err) {
-  										_didIteratorError = true;
-  										_iteratorError = err;
-  								} finally {
-  										try {
-  												if (!_iteratorNormalCompletion && _iterator.return) {
-  														_iterator.return();
-  												}
-  										} finally {
-  												if (_didIteratorError) {
-  														throw _iteratorError;
-  												}
-  										}
+  										group.remove(children[0]);
   								}
   						}
 
-  						if (listenerObjects.has(event.type)) {
+  						while (groups.length > 0) {
 
-  								listeners = listenerObjects.get(event.type);
-
-  								var _iteratorNormalCompletion2 = true;
-  								var _didIteratorError2 = false;
-  								var _iteratorError2 = undefined;
-
-  								try {
-  										for (var _iterator2 = listeners[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-  												listener = _step2.value;
-
-
-  												listener.handleEvent(event);
-  										}
-  								} catch (err) {
-  										_didIteratorError2 = true;
-  										_iteratorError2 = err;
-  								} finally {
-  										try {
-  												if (!_iteratorNormalCompletion2 && _iterator2.return) {
-  														_iterator2.return();
-  												}
-  										} finally {
-  												if (_didIteratorError2) {
-  														throw _iteratorError2;
-  												}
-  										}
-  								}
+  								this.remove(groups[0]);
   						}
   				}
   		}]);
-  		return EventTarget;
-  }();
+  		return OctreeHelper;
+  }(three.Group);
 
-  var OperationType = {
+  var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
-    UNION: "csg.union",
-    DIFFERENCE: "csg.difference",
-    INTERSECTION: "csg.intersection",
-    DENSITY_FUNCTION: "csg.densityfunction"
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+
+  var Action = {
+
+    MOVE_FORWARD: 0,
+    MOVE_LEFT: 1,
+    MOVE_BACKWARD: 2,
+    MOVE_RIGHT: 3,
+    MOVE_DOWN: 4,
+    MOVE_UP: 5,
+    ZOOM_OUT: 6,
+    ZOOM_IN: 7
 
   };
 
@@ -1335,11 +1513,11 @@
   	return Sphere;
   }();
 
-  var Vector2 = function () {
-  	function Vector2() {
+  var Vector2$1 = function () {
+  	function Vector2$$1() {
   		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  		classCallCheck(this, Vector2);
+  		classCallCheck(this, Vector2$$1);
 
 
   		this.x = x;
@@ -1347,7 +1525,7 @@
   		this.y = y;
   	}
 
-  	createClass(Vector2, [{
+  	createClass(Vector2$$1, [{
   		key: "set",
   		value: function set$$1(x, y) {
 
@@ -1696,15 +1874,15 @@
   			return this.y = value;
   		}
   	}]);
-  	return Vector2;
+  	return Vector2$$1;
   }();
 
-  var v = new Vector2();
+  var v = new Vector2$1();
 
   var Box2 = function () {
   	function Box2() {
-  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2(Infinity, Infinity);
-  		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector2(-Infinity, -Infinity);
+  		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2$1(Infinity, Infinity);
+  		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector2$1(-Infinity, -Infinity);
   		classCallCheck(this, Box2);
 
 
@@ -1755,7 +1933,7 @@
   	}, {
   		key: "getCenter",
   		value: function getCenter() {
-  			var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2();
+  			var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2$1();
 
 
   			return !this.isEmpty() ? target.addVectors(this.min, this.max).multiplyScalar(0.5) : target.set(0, 0);
@@ -1763,7 +1941,7 @@
   	}, {
   		key: "getSize",
   		value: function getSize() {
-  			var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2();
+  			var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2$1();
 
 
   			return !this.isEmpty() ? target.subVectors(this.max, this.min) : target.set(0, 0);
@@ -1838,7 +2016,7 @@
   	}, {
   		key: "clampPoint",
   		value: function clampPoint(point) {
-  			var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector2();
+  			var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector2$1();
 
 
   			return target.copy(point).clamp(this.min, this.max);
@@ -5437,6 +5615,1481 @@
   	return Vector4;
   }();
 
+  var PointerButton = {
+
+    MAIN: 0,
+    AUXILIARY: 1,
+    SECONDARY: 2
+
+  };
+
+  var x = new Vector3(1, 0, 0);
+
+  var y = new Vector3(0, 1, 0);
+
+  var z = new Vector3(0, 0, 1);
+
+  var TWO_PI = Math.PI * 2;
+
+  var v$4 = new Vector3();
+
+  var m$1 = new Matrix4();
+
+  var RotationManager = function () {
+  		function RotationManager(position, quaternion, target, settings) {
+  				classCallCheck(this, RotationManager);
+
+
+  				this.position = position;
+
+  				this.quaternion = quaternion;
+
+  				this.target = target;
+
+  				this.settings = settings;
+
+  				this.up = new Vector3();
+  				this.up.copy(y);
+
+  				this.spherical = new Spherical();
+
+  				this.pivotOffset = new Vector3();
+  		}
+
+  		createClass(RotationManager, [{
+  				key: "updateQuaternion",
+  				value: function updateQuaternion() {
+
+  						if (this.settings.general.orbit) {
+
+  								m$1.lookAt(v$4.subVectors(this.position, this.target), this.pivotOffset, this.up);
+  						} else {
+
+  								m$1.lookAt(v$4.set(0, 0, 0), this.target.setFromSpherical(this.spherical), this.up);
+  						}
+
+  						this.quaternion.setFromRotationMatrix(m$1);
+
+  						return this;
+  				}
+  		}, {
+  				key: "adjustSpherical",
+  				value: function adjustSpherical(theta, phi) {
+
+  						var settings = this.settings;
+  						var orbit = settings.general.orbit;
+  						var rotation = settings.rotation;
+  						var s = this.spherical;
+
+  						s.theta = !rotation.invertX ? s.theta - theta : s.theta + theta;
+  						s.phi = (orbit || rotation.invertY) && !(orbit && rotation.invertY) ? s.phi - phi : s.phi + phi;
+
+  						s.theta = Math.min(Math.max(s.theta, rotation.minTheta), rotation.maxTheta);
+  						s.phi = Math.min(Math.max(s.phi, rotation.minPhi), rotation.maxPhi);
+  						s.theta %= TWO_PI;
+  						s.makeSafe();
+
+  						if (orbit) {
+  								this.position.setFromSpherical(s).add(this.target);
+  						}
+
+  						return this;
+  				}
+  		}, {
+  				key: "zoom",
+  				value: function zoom(sign) {
+
+  						var settings = this.settings;
+  						var general = settings.general;
+  						var sensitivity = settings.sensitivity;
+  						var zoom = settings.zoom;
+  						var s = this.spherical;
+
+  						var amount = void 0,
+  						    min = void 0,
+  						    max = void 0;
+
+  						if (general.orbit && zoom.enabled) {
+
+  								amount = sign * zoom.step * sensitivity.zoom;
+
+  								if (zoom.invert) {
+
+  										amount = -amount;
+  								}
+
+  								min = Math.max(zoom.minDistance, 1e-6);
+  								max = Math.min(zoom.maxDistance, Infinity);
+
+  								s.radius = Math.min(Math.max(s.radius + amount, min), max);
+  								this.position.setFromSpherical(s).add(this.target);
+  						}
+
+  						return this;
+  				}
+  		}, {
+  				key: "update",
+  				value: function update(delta) {}
+  		}, {
+  				key: "lookAt",
+  				value: function lookAt(point) {
+
+  						var spherical = this.spherical;
+  						var position = this.position;
+  						var target = this.target;
+
+  						target.copy(point);
+
+  						if (this.settings.general.orbit) {
+
+  								v$4.subVectors(position, target);
+  						} else {
+
+  								v$4.subVectors(target, position).normalize();
+  						}
+
+  						spherical.setFromVector3(v$4);
+  						spherical.radius = Math.max(spherical.radius, 1e-6);
+  						this.updateQuaternion();
+
+  						return this;
+  				}
+  		}, {
+  				key: "getViewDirection",
+  				value: function getViewDirection() {
+  						var view = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
+
+
+  						view.setFromSpherical(this.spherical).normalize();
+
+  						if (this.settings.general.orbit) {
+
+  								view.negate();
+  						}
+
+  						return view;
+  				}
+  		}]);
+  		return RotationManager;
+  }();
+
+  var MovementState = function () {
+  		function MovementState() {
+  				classCallCheck(this, MovementState);
+
+
+  				this.left = false;
+
+  				this.right = false;
+
+  				this.forward = false;
+
+  				this.backward = false;
+
+  				this.up = false;
+
+  				this.down = false;
+  		}
+
+  		createClass(MovementState, [{
+  				key: "reset",
+  				value: function reset() {
+
+  						this.left = false;
+  						this.right = false;
+  						this.forward = false;
+  						this.backward = false;
+  						this.up = false;
+  						this.down = false;
+
+  						return this;
+  				}
+  		}]);
+  		return MovementState;
+  }();
+
+  var v$5 = new Vector3();
+
+  var TranslationManager = function () {
+  		function TranslationManager(position, quaternion, target, settings) {
+  				classCallCheck(this, TranslationManager);
+
+
+  				this.position = position;
+
+  				this.quaternion = quaternion;
+
+  				this.target = target;
+
+  				this.settings = settings;
+
+  				this.movementState = new MovementState();
+  		}
+
+  		createClass(TranslationManager, [{
+  				key: "translateOnAxis",
+  				value: function translateOnAxis(axis, distance) {
+
+  						v$5.copy(axis).applyQuaternion(this.quaternion).multiplyScalar(distance);
+
+  						this.position.add(v$5);
+
+  						if (this.settings.general.orbit) {
+
+  								this.target.add(v$5);
+  						}
+  				}
+  		}, {
+  				key: "translate",
+  				value: function translate(delta) {
+
+  						var sensitivity = this.settings.sensitivity;
+  						var state = this.movementState;
+
+  						var step = delta * sensitivity.translation;
+
+  						if (state.backward) {
+
+  								this.translateOnAxis(z, step);
+  						} else if (state.forward) {
+
+  								this.translateOnAxis(z, -step);
+  						}
+
+  						if (state.right) {
+
+  								this.translateOnAxis(x, step);
+  						} else if (state.left) {
+
+  								this.translateOnAxis(x, -step);
+  						}
+
+  						if (state.up) {
+
+  								this.translateOnAxis(y, step);
+  						} else if (state.down) {
+
+  								this.translateOnAxis(y, -step);
+  						}
+  				}
+  		}, {
+  				key: "update",
+  				value: function update(delta) {
+
+  						if (this.settings.translation.enabled) {
+
+  								this.translate(delta);
+  						}
+  				}
+  		}, {
+  				key: "moveTo",
+  				value: function moveTo(position) {
+
+  						if (this.settings.general.orbit) {
+
+  								this.target.copy(position);
+  						} else {
+
+  								this.position.copy(position);
+  						}
+
+  						return this;
+  				}
+  		}]);
+  		return TranslationManager;
+  }();
+
+  var KeyCodeHandler = {
+    get: function get(target, name) {
+
+      return name in target ? target[name] : name.length === 1 ? name.toUpperCase().charCodeAt(0) : undefined;
+    }
+  };
+
+  var KeyCode = new Proxy({
+
+    BACKSPACE: 8,
+    TAB: 9,
+    ENTER: 13,
+
+    SHIFT: 16,
+    CTRL: 17,
+    ALT: 18,
+
+    PAUSE: 19,
+    CAPS_LOCK: 20,
+    ESCAPE: 27,
+
+    SPACE: 32,
+    PAGE_UP: 33,
+    PAGE_DOWN: 34,
+    END: 35,
+    HOME: 36,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+
+    INSERT: 45,
+    DELETE: 46,
+
+    META_LEFT: 91,
+    META_RIGHT: 92,
+    SELECT: 93,
+
+    NUMPAD_0: 96,
+    NUMPAD_1: 97,
+    NUMPAD_2: 98,
+    NUMPAD_3: 99,
+    NUMPAD_4: 100,
+    NUMPAD_5: 101,
+    NUMPAD_6: 102,
+    NUMPAD_7: 103,
+    NUMPAD_8: 104,
+    NUMPAD_9: 105,
+    MULTIPLY: 106,
+    ADD: 107,
+    SUBTRACT: 109,
+    DECIMAL_POINT: 110,
+    DIVIDE: 111,
+
+    F1: 112,
+    F2: 113,
+    F3: 114,
+    F4: 115,
+    F5: 116,
+    F6: 117,
+    F7: 118,
+    F8: 119,
+    F9: 120,
+    F10: 121,
+    F11: 122,
+    F12: 123,
+
+    NUM_LOCK: 144,
+    SCROLL_LOCK: 145,
+
+    SEMICOLON: 186,
+    EQUAL_SIGN: 187,
+    COMMA: 188,
+    DASH: 189,
+    PERIOD: 190,
+    FORWARD_SLASH: 191,
+    GRAVE_ACCENT: 192,
+
+    OPEN_BRACKET: 219,
+    BACK_SLASH: 220,
+    CLOSE_BRACKET: 221,
+    SINGLE_QUOTE: 222
+
+  }, KeyCodeHandler);
+
+  var GeneralSettings = function () {
+  	function GeneralSettings() {
+  		classCallCheck(this, GeneralSettings);
+
+
+  		this.orbit = true;
+  	}
+
+  	createClass(GeneralSettings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.orbit = settings.orbit;
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return GeneralSettings;
+  }();
+
+  var KeyBindings = function () {
+  	function KeyBindings() {
+  		classCallCheck(this, KeyBindings);
+
+
+  		this.defaultActions = new Map();
+
+  		this.actions = new Map();
+  	}
+
+  	createClass(KeyBindings, [{
+  		key: "reset",
+  		value: function reset() {
+
+  			this.actions = new Map(this.defaultActions);
+
+  			return this;
+  		}
+  	}, {
+  		key: "setDefault",
+  		value: function setDefault(actions) {
+
+  			this.defaultActions = actions;
+
+  			return this.reset();
+  		}
+  	}, {
+  		key: "copy",
+  		value: function copy(keyBindings) {
+
+  			this.defaultActions = new Map(keyBindings.defaultActions);
+  			this.actions = new Map(keyBindings.actions);
+
+  			return this;
+  		}
+  	}, {
+  		key: "clearDefault",
+  		value: function clearDefault() {
+
+  			this.defaultActions.clear();
+
+  			return this;
+  		}
+  	}, {
+  		key: "clear",
+  		value: function clear() {
+
+  			this.actions.clear();
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}, {
+  		key: "has",
+  		value: function has(keyCode) {
+
+  			return this.actions.has(keyCode);
+  		}
+  	}, {
+  		key: "get",
+  		value: function get$$1(keyCode) {
+
+  			return this.actions.get(keyCode);
+  		}
+  	}, {
+  		key: "set",
+  		value: function set$$1(keyCode, action) {
+
+  			this.actions.set(keyCode, action);
+
+  			return this;
+  		}
+  	}, {
+  		key: "delete",
+  		value: function _delete(keyCode) {
+
+  			return this.actions.delete(keyCode);
+  		}
+  	}, {
+  		key: "toJSON",
+  		value: function toJSON() {
+
+  			return {
+  				defaultActions: [].concat(toConsumableArray(this.defaultActions)),
+  				actions: [].concat(toConsumableArray(this.actions))
+  			};
+  		}
+  	}]);
+  	return KeyBindings;
+  }();
+
+  var PointerSettings = function () {
+  	function PointerSettings() {
+  		classCallCheck(this, PointerSettings);
+
+
+  		this.hold = false;
+
+  		this.lock = true;
+  	}
+
+  	createClass(PointerSettings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.hold = settings.hold;
+  			this.lock = settings.lock;
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return PointerSettings;
+  }();
+
+  var RotationSettings = function () {
+  		function RotationSettings() {
+  				classCallCheck(this, RotationSettings);
+
+
+  				this.minTheta = -Infinity;
+
+  				this.maxTheta = Infinity;
+
+  				this.minPhi = 0.0;
+
+  				this.maxPhi = Math.PI;
+
+  				this.invertX = false;
+
+  				this.invertY = false;
+  		}
+
+  		createClass(RotationSettings, [{
+  				key: "copy",
+  				value: function copy(settings) {
+
+  						this.minTheta = settings.minTheta !== null ? settings.minTheta : -Infinity;
+  						this.maxTheta = settings.maxTheta !== null ? settings.maxTheta : Infinity;
+
+  						this.minPhi = settings.minPhi;
+  						this.maxPhi = settings.maxPhi;
+
+  						this.invertX = settings.invertX;
+  						this.invertY = settings.invertY;
+
+  						return this;
+  				}
+  		}, {
+  				key: "clone",
+  				value: function clone() {
+
+  						return new this.constructor().copy(this);
+  				}
+  		}]);
+  		return RotationSettings;
+  }();
+
+  var SensitivitySettings = function () {
+  	function SensitivitySettings() {
+  		classCallCheck(this, SensitivitySettings);
+
+
+  		this.rotation = 0.0025;
+
+  		this.translation = 1.0;
+
+  		this.zoom = 0.01;
+  	}
+
+  	createClass(SensitivitySettings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.rotation = settings.rotation;
+  			this.translation = settings.translation;
+  			this.zoom = settings.zoom;
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return SensitivitySettings;
+  }();
+
+  var TranslationSettings = function () {
+  	function TranslationSettings() {
+  		classCallCheck(this, TranslationSettings);
+
+
+  		this.enabled = true;
+  	}
+
+  	createClass(TranslationSettings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.enabled = settings.enabled;
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return TranslationSettings;
+  }();
+
+  var ZoomSettings = function () {
+  		function ZoomSettings() {
+  				classCallCheck(this, ZoomSettings);
+
+
+  				this.enabled = true;
+
+  				this.invert = false;
+
+  				this.minDistance = 1e-6;
+
+  				this.maxDistance = Infinity;
+
+  				this.step = 10.0;
+  		}
+
+  		createClass(ZoomSettings, [{
+  				key: "copy",
+  				value: function copy(settings) {
+
+  						this.enabled = settings.enabled;
+  						this.invert = settings.invert;
+  						this.minDistance = settings.minDistance;
+  						this.maxDistance = settings.maxDistance;
+  						this.step = settings.step;
+
+  						return this;
+  				}
+  		}, {
+  				key: "clone",
+  				value: function clone() {
+
+  						return new this.constructor().copy(this);
+  				}
+  		}]);
+  		return ZoomSettings;
+  }();
+
+  var Settings = function () {
+  		function Settings() {
+  				classCallCheck(this, Settings);
+
+
+  				this.general = new GeneralSettings();
+
+  				this.keyBindings = new KeyBindings();
+  				this.keyBindings.setDefault(new Map([[KeyCode.W, Action.MOVE_FORWARD], [KeyCode.UP, Action.MOVE_FORWARD], [KeyCode.A, Action.MOVE_LEFT], [KeyCode.LEFT, Action.MOVE_LEFT], [KeyCode.S, Action.MOVE_BACKWARD], [KeyCode.DOWN, Action.MOVE_BACKWARD], [KeyCode.D, Action.MOVE_RIGHT], [KeyCode.RIGHT, Action.MOVE_RIGHT], [KeyCode.X, Action.MOVE_DOWN], [KeyCode.SPACE, Action.MOVE_UP], [KeyCode.PAGE_DOWN, Action.ZOOM_OUT], [KeyCode.PAGE_UP, Action.ZOOM_IN]]));
+
+  				this.pointer = new PointerSettings();
+
+  				this.rotation = new RotationSettings();
+
+  				this.sensitivity = new SensitivitySettings();
+
+  				this.translation = new TranslationSettings();
+
+  				this.zoom = new ZoomSettings();
+  		}
+
+  		createClass(Settings, [{
+  				key: "copy",
+  				value: function copy(settings) {
+
+  						this.general.copy(settings.general);
+  						this.keyBindings.copy(settings.keyBindings);
+  						this.pointer.copy(settings.pointer);
+  						this.rotation.copy(settings.rotation);
+  						this.sensitivity.copy(settings.sensitivity);
+  						this.translation.copy(settings.translation);
+  						this.zoom.copy(settings.zoom);
+
+  						return this;
+  				}
+  		}, {
+  				key: "clone",
+  				value: function clone() {
+
+  						return new this.constructor().copy(this);
+  				}
+  		}, {
+  				key: "toDataURL",
+  				value: function toDataURL() {
+
+  						return URL.createObjectURL(new Blob([JSON.stringify(this)], { type: "text/json" }));
+  				}
+  		}]);
+  		return Settings;
+  }();
+
+  var Strategy = function () {
+  	function Strategy() {
+  		classCallCheck(this, Strategy);
+  	}
+
+  	createClass(Strategy, [{
+  		key: "execute",
+  		value: function execute(flag) {
+
+  			throw new Error("Strategy#execute method not implemented!");
+  		}
+  	}]);
+  	return Strategy;
+  }();
+
+  var MovementStrategy = function (_Strategy) {
+  	inherits(MovementStrategy, _Strategy);
+
+  	function MovementStrategy(movementState, direction) {
+  		classCallCheck(this, MovementStrategy);
+
+  		var _this = possibleConstructorReturn(this, (MovementStrategy.__proto__ || Object.getPrototypeOf(MovementStrategy)).call(this));
+
+  		_this.movementState = movementState;
+
+  		_this.direction = direction;
+
+  		return _this;
+  	}
+
+  	createClass(MovementStrategy, [{
+  		key: "execute",
+  		value: function execute(flag) {
+
+  			var state = this.movementState;
+
+  			switch (this.direction) {
+
+  				case Direction.FORWARD:
+  					state.forward = flag;
+  					break;
+
+  				case Direction.LEFT:
+  					state.left = flag;
+  					break;
+
+  				case Direction.BACKWARD:
+  					state.backward = flag;
+  					break;
+
+  				case Direction.RIGHT:
+  					state.right = flag;
+  					break;
+
+  				case Direction.DOWN:
+  					state.down = flag;
+  					break;
+
+  				case Direction.UP:
+  					state.up = flag;
+  					break;
+
+  			}
+  		}
+  	}]);
+  	return MovementStrategy;
+  }(Strategy);
+
+
+  var Direction = {
+
+  	FORWARD: 0,
+  	LEFT: 1,
+  	BACKWARD: 2,
+  	RIGHT: 3,
+  	DOWN: 4,
+  	UP: 5
+
+  };
+
+  var ZoomStrategy = function (_Strategy) {
+  		inherits(ZoomStrategy, _Strategy);
+
+  		function ZoomStrategy(rotationManager, zoomIn) {
+  				classCallCheck(this, ZoomStrategy);
+
+  				var _this = possibleConstructorReturn(this, (ZoomStrategy.__proto__ || Object.getPrototypeOf(ZoomStrategy)).call(this));
+
+  				_this.rotationManager = rotationManager;
+
+  				_this.zoomIn = zoomIn;
+
+  				return _this;
+  		}
+
+  		createClass(ZoomStrategy, [{
+  				key: "execute",
+  				value: function execute(flag) {
+  						if (flag) {
+
+  								this.rotationManager.zoom(this.zoomIn ? -1 : 1);
+  						}
+  				}
+  		}]);
+  		return ZoomStrategy;
+  }(Strategy);
+
+  var DeltaControls = function () {
+  		function DeltaControls(position, quaternion) {
+  				var dom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : document.body;
+  				classCallCheck(this, DeltaControls);
+
+
+  				this.dom = dom;
+
+  				this.position = position;
+
+  				this.quaternion = quaternion;
+
+  				this.target = new Vector3();
+
+  				this.settings = new Settings();
+
+  				this.rotationManager = new RotationManager(position, quaternion, this.target, this.settings);
+
+  				this.lookAt(this.target);
+
+  				this.translationManager = new TranslationManager(position, quaternion, this.target, this.settings);
+
+  				this.strategies = function (rotationManager, translationManager) {
+
+  						var state = translationManager.movementState;
+
+  						return new Map([[Action.MOVE_FORWARD, new MovementStrategy(state, Direction.FORWARD)], [Action.MOVE_LEFT, new MovementStrategy(state, Direction.LEFT)], [Action.MOVE_BACKWARD, new MovementStrategy(state, Direction.BACKWARD)], [Action.MOVE_RIGHT, new MovementStrategy(state, Direction.RIGHT)], [Action.MOVE_DOWN, new MovementStrategy(state, Direction.DOWN)], [Action.MOVE_UP, new MovementStrategy(state, Direction.UP)], [Action.ZOOM_OUT, new ZoomStrategy(rotationManager, false)], [Action.ZOOM_IN, new ZoomStrategy(rotationManager, true)]]);
+  				}(this.rotationManager, this.translationManager);
+
+  				this.lastScreenPosition = new Vector2$1();
+
+  				this.dragging = false;
+
+  				this.enabled = false;
+
+  				if (dom !== null) {
+
+  						this.setEnabled();
+  				}
+  		}
+
+  		createClass(DeltaControls, [{
+  				key: "handlePointerMoveEvent",
+  				value: function handlePointerMoveEvent(event) {
+
+  						var settings = this.settings;
+  						var pointer = settings.pointer;
+  						var sensitivity = settings.sensitivity;
+  						var rotationManager = this.rotationManager;
+  						var lastScreenPosition = this.lastScreenPosition;
+
+  						var movementX = void 0,
+  						    movementY = void 0;
+
+  						if (document.pointerLockElement === this.dom) {
+
+  								if (!pointer.hold || this.dragging) {
+
+  										rotationManager.adjustSpherical(event.movementX * sensitivity.rotation, event.movementY * sensitivity.rotation).updateQuaternion();
+  								}
+  						} else {
+  								movementX = event.screenX - lastScreenPosition.x;
+  								movementY = event.screenY - lastScreenPosition.y;
+
+  								lastScreenPosition.set(event.screenX, event.screenY);
+
+  								rotationManager.adjustSpherical(movementX * sensitivity.rotation, movementY * sensitivity.rotation).updateQuaternion();
+  						}
+  				}
+  		}, {
+  				key: "handleTouchMoveEvent",
+  				value: function handleTouchMoveEvent(event) {
+
+  						var sensitivity = this.settings.sensitivity;
+  						var rotationManager = this.rotationManager;
+  						var lastScreenPosition = this.lastScreenPosition;
+  						var touch = event.touches[0];
+
+  						var movementX = touch.screenX - lastScreenPosition.x;
+  						var movementY = touch.screenY - lastScreenPosition.y;
+
+  						lastScreenPosition.set(touch.screenX, touch.screenY);
+
+  						event.preventDefault();
+
+  						rotationManager.adjustSpherical(movementX * sensitivity.rotation, movementY * sensitivity.rotation).updateQuaternion();
+  				}
+  		}, {
+  				key: "handleMainPointerButton",
+  				value: function handleMainPointerButton(event, pressed) {
+
+  						this.dragging = pressed;
+
+  						if (this.settings.pointer.lock) {
+
+  								this.setPointerLocked();
+  						} else {
+
+  								if (pressed) {
+
+  										this.lastScreenPosition.set(event.screenX, event.screenY);
+  										this.dom.addEventListener("mousemove", this);
+  								} else {
+
+  										this.dom.removeEventListener("mousemove", this);
+  								}
+  						}
+  				}
+  		}, {
+  				key: "handleAuxiliaryPointerButton",
+  				value: function handleAuxiliaryPointerButton(event, pressed) {}
+  		}, {
+  				key: "handleSecondaryPointerButton",
+  				value: function handleSecondaryPointerButton(event, pressed) {}
+  		}, {
+  				key: "handlePointerButtonEvent",
+  				value: function handlePointerButtonEvent(event, pressed) {
+
+  						event.preventDefault();
+
+  						switch (event.button) {
+
+  								case PointerButton.MAIN:
+  										this.handleMainPointerButton(event, pressed);
+  										break;
+
+  								case PointerButton.AUXILIARY:
+  										this.handleAuxiliaryPointerButton(event, pressed);
+  										break;
+
+  								case PointerButton.SECONDARY:
+  										this.handleSecondaryPointerButton(event, pressed);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handleTouchEvent",
+  				value: function handleTouchEvent(event, start) {
+
+  						var touch = event.touches[0];
+
+  						event.preventDefault();
+
+  						if (start) {
+
+  								this.lastScreenPosition.set(touch.screenX, touch.screenY);
+  								this.dom.addEventListener("touchmove", this);
+  						} else {
+
+  								this.dom.removeEventListener("touchmove", this);
+  						}
+  				}
+  		}, {
+  				key: "handleKeyboardEvent",
+  				value: function handleKeyboardEvent(event, pressed) {
+
+  						var keyBindings = this.settings.keyBindings;
+
+  						if (keyBindings.has(event.keyCode)) {
+
+  								event.preventDefault();
+
+  								this.strategies.get(keyBindings.get(event.keyCode)).execute(pressed);
+  						}
+  				}
+  		}, {
+  				key: "handleWheelEvent",
+  				value: function handleWheelEvent(event) {
+
+  						this.rotationManager.zoom(Math.sign(event.deltaY));
+  				}
+  		}, {
+  				key: "handlePointerLockEvent",
+  				value: function handlePointerLockEvent() {
+
+  						if (document.pointerLockElement === this.dom) {
+
+  								this.dom.addEventListener("mousemove", this);
+  						} else {
+
+  								this.dom.removeEventListener("mousemove", this);
+  						}
+  				}
+  		}, {
+  				key: "handleEvent",
+  				value: function handleEvent(event) {
+
+  						switch (event.type) {
+
+  								case "mousemove":
+  										this.handlePointerMoveEvent(event);
+  										break;
+
+  								case "touchmove":
+  										this.handleTouchMoveEvent(event);
+  										break;
+
+  								case "mousedown":
+  										this.handlePointerButtonEvent(event, true);
+  										break;
+
+  								case "mouseup":
+  										this.handlePointerButtonEvent(event, false);
+  										break;
+
+  								case "touchstart":
+  										this.handleTouchEvent(event, true);
+  										break;
+
+  								case "touchend":
+  										this.handleTouchEvent(event, false);
+  										break;
+
+  								case "keydown":
+  										this.handleKeyboardEvent(event, true);
+  										break;
+
+  								case "keyup":
+  										this.handleKeyboardEvent(event, false);
+  										break;
+
+  								case "wheel":
+  										this.handleWheelEvent(event);
+  										break;
+
+  								case "pointerlockchange":
+  										this.handlePointerLockEvent();
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "update",
+  				value: function update(delta) {
+
+  						this.rotationManager.update(delta);
+  						this.translationManager.update(delta);
+  				}
+  		}, {
+  				key: "moveTo",
+  				value: function moveTo(position) {
+
+  						this.rotationManager.moveTo(position);
+
+  						return this;
+  				}
+  		}, {
+  				key: "lookAt",
+  				value: function lookAt(point) {
+
+  						this.rotationManager.lookAt(point);
+
+  						return this;
+  				}
+  		}, {
+  				key: "getViewDirection",
+  				value: function getViewDirection() {
+  						var view = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
+
+
+  						return this.rotationManager.getViewDirection(view);
+  				}
+  		}, {
+  				key: "getTarget",
+  				value: function getTarget() {
+  						var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
+
+
+  						target.copy(this.target);
+
+  						if (!this.settings.general.orbit) {
+  								target.add(this.position);
+  						}
+
+  						return target;
+  				}
+  		}, {
+  				key: "setTarget",
+  				value: function setTarget(target) {
+
+  						this.target = target;
+  						this.rotationManager.target = target;
+  						this.translationManager.target = target;
+
+  						return this.lookAt(this.target);
+  				}
+  		}, {
+  				key: "setPosition",
+  				value: function setPosition(position) {
+
+  						this.position = position;
+  						this.rotationManager.position = position;
+  						this.translationManager.position = position;
+
+  						return this.lookAt(this.target);
+  				}
+  		}, {
+  				key: "setQuaternion",
+  				value: function setQuaternion(quaternion) {
+
+  						this.quaternion = quaternion;
+  						this.rotationManager.quaternion = quaternion;
+  						this.translationManager.quaternion = quaternion;
+
+  						return this.lookAt(this.target);
+  				}
+  		}, {
+  				key: "setOrbit",
+  				value: function setOrbit(orbit) {
+
+  						var general = this.settings.general;
+
+  						if (general.orbit !== orbit) {
+
+  								this.getTarget(this.target);
+  								general.orbit = orbit;
+  								this.lookAt(this.target);
+  						}
+
+  						return this;
+  				}
+  		}, {
+  				key: "setPointerLocked",
+  				value: function setPointerLocked() {
+  						var locked = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+
+  						if (locked) {
+
+  								if (document.pointerLockElement !== this.dom && this.dom.requestPointerLock !== undefined) {
+
+  										this.dom.requestPointerLock();
+  								}
+  						} else if (document.exitPointerLock !== undefined) {
+
+  								document.exitPointerLock();
+  						}
+  				}
+  		}, {
+  				key: "setEnabled",
+  				value: function setEnabled() {
+  						var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+
+  						var dom = this.dom;
+
+  						this.translationManager.movementState.reset();
+
+  						if (enabled && !this.enabled) {
+
+  								document.addEventListener("pointerlockchange", this);
+  								document.body.addEventListener("keyup", this);
+  								document.body.addEventListener("keydown", this);
+  								dom.addEventListener("mousedown", this);
+  								dom.addEventListener("mouseup", this);
+  								dom.addEventListener("touchstart", this);
+  								dom.addEventListener("touchend", this);
+  								dom.addEventListener("wheel", this);
+  						} else if (!enabled && this.enabled) {
+
+  								document.removeEventListener("pointerlockchange", this);
+  								document.body.removeEventListener("keyup", this);
+  								document.body.removeEventListener("keydown", this);
+  								dom.removeEventListener("mousedown", this);
+  								dom.removeEventListener("mouseup", this);
+  								dom.removeEventListener("touchstart", this);
+  								dom.removeEventListener("touchend", this);
+  								dom.removeEventListener("wheel", this);
+  								dom.removeEventListener("mousemove", this);
+  								dom.removeEventListener("touchmove", this);
+  						}
+
+  						this.setPointerLocked(false);
+  						this.enabled = enabled;
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+
+  						this.setEnabled(false);
+  				}
+  		}, {
+  				key: "pivotOffset",
+  				get: function get$$1() {
+
+  						return this.rotationManager.pivotOffset;
+  				}
+  		}]);
+  		return DeltaControls;
+  }();
+
+  var Serializable = function () {
+  	function Serializable() {
+  		classCallCheck(this, Serializable);
+  	}
+
+  	createClass(Serializable, [{
+  		key: "serialize",
+  		value: function serialize() {
+  			throw new Error("Serializable#serialise method not implemented!");
+  		}
+  	}]);
+  	return Serializable;
+  }();
+
+  var Deserializable = function () {
+  	function Deserializable() {
+  		classCallCheck(this, Deserializable);
+  	}
+
+  	createClass(Deserializable, [{
+  		key: "deserialize",
+  		value: function deserialize(object) {
+
+  			throw new Error("Deserializable#deserialise method not implemented!");
+  		}
+  	}]);
+  	return Deserializable;
+  }();
+
+  var Disposable = function () {
+  	function Disposable() {
+  		classCallCheck(this, Disposable);
+  	}
+
+  	createClass(Disposable, [{
+  		key: "dispose",
+  		value: function dispose() {
+
+  			throw new Error("Disposable#dispose method not implemented!");
+  		}
+  	}]);
+  	return Disposable;
+  }();
+
+  var TransferableContainer = function () {
+  	function TransferableContainer() {
+  		classCallCheck(this, TransferableContainer);
+  	}
+
+  	createClass(TransferableContainer, [{
+  		key: "createTransferList",
+  		value: function createTransferList() {
+  			throw new Error("TransferableContainer#createTransferList method not implemented!");
+  		}
+  	}]);
+  	return TransferableContainer;
+  }();
+
+  var Queue = function () {
+  	function Queue() {
+  		classCallCheck(this, Queue);
+
+
+  		this.elements = [];
+
+  		this.head = 0;
+  	}
+
+  	createClass(Queue, [{
+  		key: "add",
+  		value: function add(element) {
+
+  			this.elements.push(element);
+  		}
+  	}, {
+  		key: "peek",
+  		value: function peek() {
+
+  			return this.elements.length > 0 ? this.elements[this.head] : undefined;
+  		}
+  	}, {
+  		key: "poll",
+  		value: function poll() {
+
+  			var elements = this.elements;
+  			var length = elements.length;
+
+  			var element = void 0;
+
+  			if (length > 0) {
+
+  				element = elements[this.head++];
+
+  				if (this.head * 2 >= length) {
+
+  					this.elements = elements.slice(this.head);
+  					this.head = 0;
+  				}
+  			}
+
+  			return element;
+  		}
+  	}, {
+  		key: "clear",
+  		value: function clear() {
+
+  			this.elements = [];
+  			this.head = 0;
+  		}
+  	}, {
+  		key: "size",
+  		get: function get$$1() {
+
+  			return this.elements.length - this.head;
+  		}
+  	}, {
+  		key: "empty",
+  		get: function get$$1() {
+
+  			return this.elements.length === 0;
+  		}
+  	}]);
+  	return Queue;
+  }();
+
+  var Event = function Event(type) {
+  		classCallCheck(this, Event);
+
+
+  		this.type = type;
+
+  		this.target = null;
+  };
+
+  var EventTarget = function () {
+  		function EventTarget() {
+  				classCallCheck(this, EventTarget);
+
+
+  				this.listenerFunctions = new Map();
+
+  				this.listenerObjects = new Map();
+  		}
+
+  		createClass(EventTarget, [{
+  				key: "addEventListener",
+  				value: function addEventListener(type, listener) {
+
+  						var m = typeof listener === "function" ? this.listenerFunctions : this.listenerObjects;
+
+  						if (m.has(type)) {
+
+  								m.get(type).add(listener);
+  						} else {
+
+  								m.set(type, new Set([listener]));
+  						}
+  				}
+  		}, {
+  				key: "removeEventListener",
+  				value: function removeEventListener(type, listener) {
+
+  						var m = typeof listener === "function" ? this.listenerFunctions : this.listenerObjects;
+
+  						var listeners = void 0;
+
+  						if (m.has(type)) {
+
+  								listeners = m.get(type);
+  								listeners.delete(listener);
+
+  								if (listeners.size === 0) {
+
+  										m.delete(type);
+  								}
+  						}
+  				}
+  		}, {
+  				key: "dispatchEvent",
+  				value: function dispatchEvent(event) {
+  						var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+
+  						var listenerFunctions = target.listenerFunctions;
+  						var listenerObjects = target.listenerObjects;
+
+  						var listeners = void 0;
+  						var listener = void 0;
+
+  						event.target = target;
+
+  						if (listenerFunctions.has(event.type)) {
+
+  								listeners = listenerFunctions.get(event.type);
+
+  								var _iteratorNormalCompletion = true;
+  								var _didIteratorError = false;
+  								var _iteratorError = undefined;
+
+  								try {
+  										for (var _iterator = listeners[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+  												listener = _step.value;
+
+
+  												listener.call(target, event);
+  										}
+  								} catch (err) {
+  										_didIteratorError = true;
+  										_iteratorError = err;
+  								} finally {
+  										try {
+  												if (!_iteratorNormalCompletion && _iterator.return) {
+  														_iterator.return();
+  												}
+  										} finally {
+  												if (_didIteratorError) {
+  														throw _iteratorError;
+  												}
+  										}
+  								}
+  						}
+
+  						if (listenerObjects.has(event.type)) {
+
+  								listeners = listenerObjects.get(event.type);
+
+  								var _iteratorNormalCompletion2 = true;
+  								var _didIteratorError2 = false;
+  								var _iteratorError2 = undefined;
+
+  								try {
+  										for (var _iterator2 = listeners[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+  												listener = _step2.value;
+
+
+  												listener.handleEvent(event);
+  										}
+  								} catch (err) {
+  										_didIteratorError2 = true;
+  										_iteratorError2 = err;
+  								} finally {
+  										try {
+  												if (!_iteratorNormalCompletion2 && _iterator2.return) {
+  														_iterator2.return();
+  												}
+  										} finally {
+  												if (_didIteratorError2) {
+  														throw _iteratorError2;
+  												}
+  										}
+  								}
+  						}
+  				}
+  		}]);
+  		return EventTarget;
+  }();
+
+  var OperationType = {
+
+    UNION: "csg.union",
+    DIFFERENCE: "csg.difference",
+    INTERSECTION: "csg.intersection",
+    DENSITY_FUNCTION: "csg.densityfunction"
+
+  };
+
   var Material = {
 
     AIR: 0,
@@ -6009,7 +7662,7 @@
 
   				_this.r = _this.r0.clone().multiplyScalar(_this.scale);
 
-  				_this.ba = new Vector2();
+  				_this.ba = new Vector2$1();
 
   				_this.offset = 0;
 
@@ -6536,7 +8189,7 @@
 
   var pattern = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
-  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+  var edges$1 = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
   var c$1 = new Vector3();
 
@@ -6728,7 +8381,7 @@
   		return OctantIterator;
   }();
 
-  var v$4 = [new Vector3(), new Vector3(), new Vector3()];
+  var v$6 = [new Vector3(), new Vector3(), new Vector3()];
 
   var b$5 = new Box3();
 
@@ -6873,8 +8526,8 @@
   			var min = b$5.min.set(0, 0, 0);
   			var max = b$5.max.subVectors(octree.max, octree.min);
 
-  			var dimensions = octree.getDimensions(v$4[0]);
-  			var halfDimensions = v$4[1].copy(dimensions).multiplyScalar(0.5);
+  			var dimensions = octree.getDimensions(v$6[0]);
+  			var halfDimensions = v$6[1].copy(dimensions).multiplyScalar(0.5);
 
   			var origin = r.origin.copy(raycaster.ray.origin);
   			var direction = r.direction.copy(raycaster.ray.direction);
@@ -6889,7 +8542,7 @@
   			    tz0 = void 0,
   			    tz1 = void 0;
 
-  			origin.sub(octree.getCenter(v$4[2])).add(halfDimensions);
+  			origin.sub(octree.getCenter(v$6[2])).add(halfDimensions);
 
   			flags = 0;
 
@@ -7703,7 +9356,7 @@
 
   var u = new Vector3();
 
-  var v$5 = new Vector3();
+  var v$7 = new Vector3();
 
   var OctreeUtils = function () {
   	function OctreeUtils() {
@@ -7716,7 +9369,7 @@
 
   			var min = octant.min;
   			var mid = octant.getCenter(u);
-  			var halfDimensions = octant.getDimensions(v$5).multiplyScalar(0.5);
+  			var halfDimensions = octant.getDimensions(v$7).multiplyScalar(0.5);
 
   			var children = octant.children;
   			var l = octants.length;
@@ -7759,7 +9412,7 @@
 
   var p$1 = new Vector3();
 
-  var v$6 = new Vector3();
+  var v$8 = new Vector3();
 
   var Edge = function () {
   		function Edge() {
@@ -7803,14 +9456,14 @@
 
   								c = (a + b) / 2;
 
-  								p$1.addVectors(this.a, v$6.copy(ab).multiplyScalar(c));
+  								p$1.addVectors(this.a, v$8.copy(ab).multiplyScalar(c));
   								densityC = sdf.sample(p$1);
 
   								if (Math.abs(densityC) <= ISOVALUE_BIAS || (b - a) / 2 <= INTERVAL_THRESHOLD) {
   										break;
   								} else {
 
-  										p$1.addVectors(this.a, v$6.copy(ab).multiplyScalar(a));
+  										p$1.addVectors(this.a, v$8.copy(ab).multiplyScalar(a));
   										densityA = sdf.sample(p$1);
 
   										if (Math.sign(densityC) === Math.sign(densityA)) {
@@ -7842,9 +9495,9 @@
   						var position = this.computeZeroCrossingPosition(ab);
   						var E = 1e-3;
 
-  						var dx = sdf.sample(p$1.addVectors(position, v$6.set(E, 0, 0))) - sdf.sample(p$1.subVectors(position, v$6.set(E, 0, 0)));
-  						var dy = sdf.sample(p$1.addVectors(position, v$6.set(0, E, 0))) - sdf.sample(p$1.subVectors(position, v$6.set(0, E, 0)));
-  						var dz = sdf.sample(p$1.addVectors(position, v$6.set(0, 0, E))) - sdf.sample(p$1.subVectors(position, v$6.set(0, 0, E)));
+  						var dx = sdf.sample(p$1.addVectors(position, v$8.set(E, 0, 0))) - sdf.sample(p$1.subVectors(position, v$8.set(E, 0, 0)));
+  						var dy = sdf.sample(p$1.addVectors(position, v$8.set(0, E, 0))) - sdf.sample(p$1.subVectors(position, v$8.set(0, E, 0)));
+  						var dz = sdf.sample(p$1.addVectors(position, v$8.set(0, 0, E))) - sdf.sample(p$1.subVectors(position, v$8.set(0, 0, E)));
 
   						this.n.set(dx, dy, dz).normalize();
   				}
@@ -8773,7 +10426,7 @@
 
   var p$2 = new Vector3();
 
-  var v$8 = new Vector3();
+  var v$10 = new Vector3();
 
   var b0 = new Box3();
 
@@ -8868,14 +10521,14 @@
   							octant.csg.add(sdf);
   							grid.set(key, octant);
 
-  							keyDesign.unpackKey(key, v$8);
-  							v$8.x <<= 1;v$8.y <<= 1;v$8.z <<= 1;
+  							keyDesign.unpackKey(key, v$10);
+  							v$10.x <<= 1;v$10.y <<= 1;v$10.z <<= 1;
 
   							for (i = 0; i < 8; ++i) {
 
   								offset = pattern[i];
 
-  								p$2.set(v$8.x + offset[0], v$8.y + offset[1], v$8.z + offset[2]);
+  								p$2.set(v$10.x + offset[0], v$10.y + offset[1], v$10.z + offset[2]);
 
   								if (range.containsPoint(p$2)) {
   									octant.children |= 1 << i;
@@ -8976,9 +10629,9 @@
 
   					if (grid.has(key)) {
 
-  						keyDesign.unpackKey(key, v$8);
+  						keyDesign.unpackKey(key, v$10);
 
-  						_applyDifference(world, sdf, grid.get(key), v$8.x, v$8.y, v$8.z, lod);
+  						_applyDifference(world, sdf, grid.get(key), v$10.x, v$10.y, v$10.z, lod);
   					}
   				}
   			} catch (err) {
@@ -9064,7 +10717,7 @@
   	return WorldOctreeCSG;
   }();
 
-  var v$9 = new Vector3();
+  var v$11 = new Vector3();
 
   var l = new Line3();
 
@@ -9184,8 +10837,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, tym, tzm);
@@ -9198,8 +10851,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, tym, tz1);
@@ -9212,8 +10865,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, ty1, tzm);
@@ -9226,8 +10879,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, ty1, tz1);
@@ -9240,8 +10893,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, tym, tzm);
@@ -9254,8 +10907,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, tym, tz1);
@@ -9268,8 +10921,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, ty1, tzm);
@@ -9282,8 +10935,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$9)), v$9.x, v$9.y, v$9.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
+  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
   							}
 
   							currentOctant = 8;
@@ -9316,7 +10969,7 @@
   	    tz0 = void 0,
   	    tz1 = void 0;
 
-  	origin.sub(subtree.getCenter(v$9)).add(halfDimensions);
+  	origin.sub(subtree.getCenter(v$11)).add(halfDimensions);
 
   	flags$1 = 0;
 
@@ -9401,7 +11054,7 @@
 
   			if (a !== null) {
   				t = cellSize << 1;
-  				b = r$1.at(t, v$9);
+  				b = r$1.at(t, v$11);
 
   				world.calculateKeyCoordinates(a, lod, keyCoordinates0);
   				world.calculateKeyCoordinates(b, lod, keyCoordinates1);
@@ -9465,7 +11118,7 @@
   	return WorldOctreeRaycaster;
   }();
 
-  var v$7 = new Vector3();
+  var v$9 = new Vector3();
 
   function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
 
@@ -9491,14 +11144,14 @@
 
   				offset = pattern[i];
 
-  				v$7.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  				v$9.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 
-  				key = keyDesign.packKey(v$7);
+  				key = keyDesign.packKey(v$9);
 
   				child = grid.get(key);
   				grid.delete(key);
 
-  				removeChildren(world, child, v$7.x, v$7.y, v$7.z, lod);
+  				removeChildren(world, child, v$9.x, v$9.y, v$9.z, lod);
   			}
   		}
 
@@ -9518,16 +11171,16 @@
 
   		i = WorldOctree.calculateOffsetIndex(keyX, keyY, keyZ);
 
-  		v$7.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
+  		v$9.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
 
-  		key = world.getKeyDesign().packKey(v$7);
+  		key = world.getKeyDesign().packKey(v$9);
   		parent = grid.get(key);
 
   		parent.children &= ~(1 << i);
 
   		if (parent.children === 0) {
   			grid.delete(key);
-  			prune(world, v$7.x, v$7.y, v$7.z, lod);
+  			prune(world, v$9.x, v$9.y, v$9.z, lod);
   		}
   	}
   }
@@ -9636,9 +11289,9 @@
 
   			var cellSize = this.cellSize << lod;
 
-  			v$7.subVectors(position, this.min);
+  			v$9.subVectors(position, this.min);
 
-  			target.set(Math.trunc(v$7.x / cellSize), Math.trunc(v$7.y / cellSize), Math.trunc(v$7.z / cellSize));
+  			target.set(Math.trunc(v$9.x / cellSize), Math.trunc(v$9.y / cellSize), Math.trunc(v$9.z / cellSize));
 
   			return target;
   		}
@@ -9657,8 +11310,8 @@
 
   				if (this.containsPoint(point)) {
 
-  					this.calculateKeyCoordinates(point, lod, v$7);
-  					result = grid.get(keyDesign.packKey(v$7));
+  					this.calculateKeyCoordinates(point, lod, v$9);
+  					result = grid.get(keyDesign.packKey(v$9));
   				} else {
 
   					console.error("Position out of range", point);
@@ -9686,8 +11339,8 @@
   			if (grid !== undefined) {
 
   				if (grid.has(key)) {
-  					keyDesign.unpackKey(key, v$7);
-  					keyX = v$7.x;keyY = v$7.y;keyZ = v$7.z;
+  					keyDesign.unpackKey(key, v$9);
+  					keyX = v$9.x;keyY = v$9.y;keyZ = v$9.z;
 
   					removeChildren(this, grid.get(key), keyX, keyY, keyZ, lod);
 
@@ -9762,12 +11415,12 @@
   	return WorldOctree;
   }();
 
-  var Scene = function () {
-  	function Scene(levels) {
-  		classCallCheck(this, Scene);
+  var Scene$1 = function () {
+  	function Scene$$1(levels) {
+  		classCallCheck(this, Scene$$1);
   	}
 
-  	createClass(Scene, [{
+  	createClass(Scene$$1, [{
   		key: "clone",
   		value: function clone() {
 
@@ -9780,7 +11433,7 @@
   			return this.something.length;
   		}
   	}]);
-  	return Scene;
+  	return Scene$$1;
   }();
 
   var ClipmapEvent = function (_Event) {
@@ -9813,7 +11466,7 @@
 
   var f = new Frustum();
 
-  var m$1 = new Matrix4();
+  var m$2 = new Matrix4();
 
   var Clipmap = function (_EventTarget) {
   	inherits(Clipmap, _EventTarget);
@@ -9827,7 +11480,7 @@
 
   		_this.position = new Vector3(Infinity, Infinity, Infinity);
 
-  		_this.currentScene = new Scene(_this.world.levels);
+  		_this.currentScene = new Scene$1(_this.world.levels);
 
   		_this.previousScene = _this.currentScene.clone();
 
@@ -9844,7 +11497,7 @@
 
   			viewPosition.copy(camera.position);
 
-  			f.setFromMatrix(m$1.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
+  			f.setFromMatrix(m$2.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
   		}
   	}, {
   		key: "process",
@@ -9861,7 +11514,7 @@
   	return Clipmap;
   }(EventTarget);
 
-  var Action = {
+  var Action$1 = {
 
     EXTRACT: "worker.extract",
     MODIFY: "worker.modify",
@@ -9902,7 +11555,7 @@
 
   	function ExtractionRequest() {
   		classCallCheck(this, ExtractionRequest);
-  		return possibleConstructorReturn(this, (ExtractionRequest.__proto__ || Object.getPrototypeOf(ExtractionRequest)).call(this, Action.EXTRACT));
+  		return possibleConstructorReturn(this, (ExtractionRequest.__proto__ || Object.getPrototypeOf(ExtractionRequest)).call(this, Action$1.EXTRACT));
   	}
 
   	return ExtractionRequest;
@@ -9914,7 +11567,7 @@
   		function ModificationRequest() {
   				classCallCheck(this, ModificationRequest);
 
-  				var _this = possibleConstructorReturn(this, (ModificationRequest.__proto__ || Object.getPrototypeOf(ModificationRequest)).call(this, Action.MODIFY));
+  				var _this = possibleConstructorReturn(this, (ModificationRequest.__proto__ || Object.getPrototypeOf(ModificationRequest)).call(this, Action$1.MODIFY));
 
   				_this.sdf = null;
 
@@ -9934,7 +11587,7 @@
   		function ConfigurationMessage() {
   				classCallCheck(this, ConfigurationMessage);
 
-  				var _this = possibleConstructorReturn(this, (ConfigurationMessage.__proto__ || Object.getPrototypeOf(ConfigurationMessage)).call(this, Action.CONFIGURE));
+  				var _this = possibleConstructorReturn(this, (ConfigurationMessage.__proto__ || Object.getPrototypeOf(ConfigurationMessage)).call(this, Action$1.CONFIGURE));
 
   				_this.resolution = HermiteData.resolution;
 
@@ -9952,7 +11605,7 @@
   	function ExtractionResponse() {
   		classCallCheck(this, ExtractionResponse);
 
-  		var _this = possibleConstructorReturn(this, (ExtractionResponse.__proto__ || Object.getPrototypeOf(ExtractionResponse)).call(this, Action.EXTRACT));
+  		var _this = possibleConstructorReturn(this, (ExtractionResponse.__proto__ || Object.getPrototypeOf(ExtractionResponse)).call(this, Action$1.EXTRACT));
 
   		_this.isosurface = null;
 
@@ -9968,7 +11621,7 @@
   	function ModificationResponse() {
   		classCallCheck(this, ModificationResponse);
 
-  		var _this = possibleConstructorReturn(this, (ModificationResponse.__proto__ || Object.getPrototypeOf(ModificationResponse)).call(this, Action.MODIFY));
+  		var _this = possibleConstructorReturn(this, (ModificationResponse.__proto__ || Object.getPrototypeOf(ModificationResponse)).call(this, Action$1.MODIFY));
 
   		_this.sdf = null;
 
@@ -10066,7 +11719,7 @@
   								worker$$1.terminate();
   						} else {
 
-  								worker$$1.postMessage(new Message(Action.CLOSE));
+  								worker$$1.postMessage(new Message(Action$1.CLOSE));
   						}
 
   						worker$$1.removeEventListener("message", this);
@@ -10419,8 +12072,8 @@
   		octant = octants[i];
   		edge = procEdgeMask[dir][i];
 
-  		c1 = edges[edge][0];
-  		c2 = edges[edge][1];
+  		c1 = edges$1[edge][0];
+  		c2 = edges$1[edge][1];
 
   		m1 = octant.voxel.materials >> c1 & 1;
   		m2 = octant.voxel.materials >> c2 & 1;
@@ -10678,7 +12331,7 @@
   	return DualContouring;
   }();
 
-  var coefficients = new Vector2();
+  var coefficients = new Vector2$1();
 
   var Givens = function () {
   	function Givens() {
@@ -10756,9 +12409,9 @@
 
   var sm = new SymmetricMatrix3();
 
-  var m$2 = new Matrix3();
+  var m$3 = new Matrix3();
 
-  var a$3 = new Vector2();
+  var a$3 = new Vector2$1();
 
   var b$9 = new Vector3();
 
@@ -10904,8 +12557,8 @@
   		key: "solve",
   		value: function solve(ata, atb, x) {
 
-  			var sigma = solveSymmetric(sm.copy(ata), m$2.identity());
-  			var invV = pseudoInverse(m$2, sigma);
+  			var sigma = solveSymmetric(sm.copy(ata), m$3.identity());
+  			var invV = pseudoInverse(m$3, sigma);
 
   			x.copy(atb).applyMatrix3(invV);
   		}
@@ -11272,8 +12925,8 @@
 
   		for (edgeCount = 0, i = 0; i < 12; ++i) {
 
-  				c1 = edges[i][0];
-  				c2 = edges[i][1];
+  				c1 = edges$1[i][0];
+  				c2 = edges$1[i][1];
 
   				m1 = materials >> c1 & 1;
   				m2 = materials >> c2 & 1;
@@ -11425,15 +13078,6 @@
   		}]);
   		return SparseVoxelOctree;
   }(Octree);
-
-  var WorldOctantId = function WorldOctantId() {
-  		classCallCheck(this, WorldOctantId);
-
-
-  		this.key = -1;
-
-  		this.lod = -1;
-  };
 
   var cellSize = 0;
 
@@ -12116,69 +13760,515 @@
   		return VolumeModifier;
   }(DataProcessor);
 
-  exports.Deserializable = Deserializable;
-  exports.Disposable = Disposable;
-  exports.Queue = Queue;
-  exports.Serializable = Serializable;
-  exports.Terrain = Terrain;
-  exports.TransferableContainer = TransferableContainer;
-  exports.Clipmap = Clipmap;
-  exports.Scene = Scene;
-  exports.RunLengthEncoding = RunLengthEncoding;
-  exports.SDFLoaderEvent = SDFLoaderEvent;
-  exports.TerrainEvent = TerrainEvent;
-  exports.WorkerEvent = WorkerEvent;
-  exports.DualContouring = DualContouring;
-  exports.Isosurface = Isosurface;
-  exports.SDFLoader = SDFLoader;
-  exports.Givens = Givens;
-  exports.QEFSolver = QEFSolver;
-  exports.QEFData = QEFData;
-  exports.Schur = Schur;
-  exports.SingularValueDecomposition = SingularValueDecomposition;
-  exports.IntermediateWorldOctant = IntermediateWorldOctant;
-  exports.KeyDesign = KeyDesign;
-  exports.KeyIterator = KeyIterator;
-  exports.SparseVoxelOctree = SparseVoxelOctree;
-  exports.VoxelCell = VoxelCell;
-  exports.WorldOctant = WorldOctant;
-  exports.WorldOctantId = WorldOctantId;
-  exports.WorldOctantIterator = WorldOctantIterator;
-  exports.WorldOctantWrapper = WorldOctantWrapper;
-  exports.WorldOctree = WorldOctree;
-  exports.WorldOctreeCSG = WorldOctreeCSG;
-  exports.WorldOctreeRaycaster = WorldOctreeRaycaster;
-  exports.BinaryUtils = BinaryUtils;
-  exports.Edge = Edge;
-  exports.EdgeData = EdgeData;
-  exports.EdgeIterator = EdgeIterator;
-  exports.HermiteData = HermiteData;
-  exports.Material = Material;
-  exports.Voxel = Voxel;
-  exports.ConstructiveSolidGeometry = ConstructiveSolidGeometry;
-  exports.Difference = Difference;
-  exports.Intersection = Intersection;
-  exports.OperationType = OperationType;
-  exports.Union = Union;
-  exports.FractalNoise = FractalNoise;
-  exports.Heightfield = Heightfield;
-  exports.SDFType = SDFType;
-  exports.SignedDistanceFunction = SignedDistanceFunction;
-  exports.SuperPrimitive = SuperPrimitive;
-  exports.SuperPrimitivePreset = SuperPrimitivePreset;
-  exports.Action = Action;
-  exports.DataProcessor = DataProcessor;
-  exports.SurfaceExtractor = SurfaceExtractor;
-  exports.ThreadPool = ThreadPool;
-  exports.VolumeModifier = VolumeModifier;
-  exports.ConfigurationMessage = ConfigurationMessage;
-  exports.DataMessage = DataMessage;
-  exports.Message = Message;
-  exports.ExtractionRequest = ExtractionRequest;
-  exports.ExtractionResponse = ExtractionResponse;
-  exports.ModificationRequest = ModificationRequest;
-  exports.ModificationResponse = ModificationResponse;
+  var Action$2 = {
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+    NONE: 0
 
-})));
+  };
+
+  var CursorSettings = function () {
+  	function CursorSettings() {
+  		classCallCheck(this, CursorSettings);
+
+
+  		this.preset = SuperPrimitivePreset.SPHERE;
+
+  		this.distance = 10.0;
+
+  		this.size = 1.0;
+  	}
+
+  	createClass(CursorSettings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.orbit = settings.orbit;
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}]);
+  	return CursorSettings;
+  }();
+
+  var Settings$1 = function () {
+  	function Settings() {
+  		classCallCheck(this, Settings);
+
+
+  		this.cursor = new CursorSettings();
+
+  		this.keyBindings = new KeyBindings();
+  		this.keyBindings.setDefault(new Map([[KeyCode.A, Action$2.NONE]]));
+  	}
+
+  	createClass(Settings, [{
+  		key: "copy",
+  		value: function copy(settings) {
+
+  			this.cursor.copy(settings.cursor);
+  			this.keyBindings.copy(settings.keyBindings);
+
+  			return this;
+  		}
+  	}, {
+  		key: "clone",
+  		value: function clone() {
+
+  			return new this.constructor().copy(this);
+  		}
+  	}, {
+  		key: "toDataURL",
+  		value: function toDataURL() {
+
+  			return URL.createObjectURL(new Blob([JSON.stringify(this)], { type: "text/json" }));
+  		}
+  	}]);
+  	return Settings;
+  }();
+
+  var screenCoordinates = new three.Vector2();
+
+  var Editor = function () {
+  		function Editor(viewport, aside, assets) {
+  				classCallCheck(this, Editor);
+
+
+  				this.clock = new three.Clock();
+
+  				this.renderer = function () {
+
+  						var renderer = new three.WebGLRenderer({
+  								logarithmicDepthBuffer: true,
+  								antialias: true
+  						});
+
+  						renderer.setClearColor(0xf4f4f4);
+  						renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+  						renderer.setPixelRatio(window.devicePixelRatio);
+
+  						return renderer;
+  				}();
+
+  				viewport.appendChild(this.renderer.domElement);
+
+  				this.scene = new three.Scene();
+  				this.scene.fog = new three.FogExp2(this.renderer.getClearColor(), 0.0025);
+
+  				(function (scene) {
+
+  						var hemisphereLight = new three.HemisphereLight(0x3284ff, 0xffc87f, 0.6);
+  						var directionalLight = new three.DirectionalLight(0xfff4e5);
+
+  						hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
+  						directionalLight.position.set(1.75, 1.75, -1).multiplyScalar(50);
+
+  						scene.add(directionalLight);
+  						scene.add(hemisphereLight);
+
+  						scene.add(new three.GridHelper(16, 64));
+  				})(this.scene);
+
+  				this.camera = new three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
+  				this.camera.position.set(4, 1, 4);
+
+  				this.controls = new DeltaControls(this.camera.position, this.camera.quaternion, this.renderer.domElement);
+
+  				this.controls.lookAt(this.scene.position);
+  				this.controls.setOrbit(false);
+
+  				this.terrain = new Terrain({
+  						resolution: 32,
+  						cellSize: 20,
+  						levels: 16
+  				});
+
+  				this.terrain.load(assets.get("terrain"));
+
+  				this.menu = new dat.GUI({ autoPlace: false });
+
+  				aside.appendChild(this.menu.domElement);
+
+  				this.statistics = new Stats();
+  				this.statistics.dom.id = "statistics";
+
+  				aside.appendChild(this.statistics.domElement);
+
+  				this.raycaster = new three.Raycaster();
+
+  				this.settings = new Settings$1();
+
+  				this.cursor = new three.Mesh(new three.SphereBufferGeometry(1, 16, 16), new three.MeshBasicMaterial({
+  						transparent: true,
+  						opacity: 0.35,
+  						color: 0x0096ff,
+  						fog: false
+  				}));
+
+  				this.cursor.scale.multiplyScalar(this.settings.cursor.size);
+  				this.scene.add(this.cursor);
+
+  				this.octreeHelper = new OctreeHelper();
+  				this.octreeHelper.visible = false;
+  				this.scene.add(this.octreeHelper);
+  		}
+
+  		createClass(Editor, [{
+  				key: "raycast",
+  				value: function raycast(event) {
+
+  						var raycaster = this.raycaster;
+  						screenCoordinates.x = event.clientX / window.innerWidth * 2 - 1;
+  						screenCoordinates.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  						raycaster.setFromCamera(screenCoordinates, this.camera);
+
+  						var octants = this.terrain.raycast(raycaster.ray);
+  						var intersects = [];
+  						var octant = void 0;
+  						var i = void 0,
+  						    l = void 0;
+
+  						for (i = 0, l = octants.length; i < l; ++i) {
+
+  								octant = octants[i];
+
+  								if (octant.mesh !== null) {
+
+  										intersects = intersects.concat(raycaster.intersectObject(octant.mesh));
+
+  										if (intersects.length > 0) {
+
+  												break;
+  										}
+  								}
+  						}
+
+  						if (intersects.length > 0) {
+
+  								this.cursor.position.copy(intersects[0].point);
+  						} else {
+
+  								this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(this.settings.cursor.distance + this.cursor.scale.x).add(raycaster.ray.origin);
+  						}
+  				}
+  		}, {
+  				key: "handleMainPointerButton",
+  				value: function handleMainPointerButton(event, pressed) {
+
+  						var sdf = SuperPrimitive.create(this.superPrimitivePreset);
+  						sdf.origin.copy(this.cursor.position);
+  						sdf.setScale(this.settings.cursor.size);
+
+  						if (pressed) {
+
+  								this.terrain.union(sdf);
+  						}
+  				}
+  		}, {
+  				key: "handleAuxiliaryPointerButton",
+  				value: function handleAuxiliaryPointerButton(event, pressed) {}
+  		}, {
+  				key: "handleSecondaryPointerButton",
+  				value: function handleSecondaryPointerButton(event, pressed) {
+
+  						var sdf = SuperPrimitive.create(this.superPrimitivePreset);
+  						sdf.origin.copy(this.cursor.position);
+  						sdf.setScale(this.settings.cursor.size);
+
+  						if (pressed) {
+
+  								this.terrain.subtract(sdf);
+  						}
+  				}
+  		}, {
+  				key: "handlePointerEvent",
+  				value: function handlePointerEvent(event, pressed) {
+
+  						event.preventDefault();
+
+  						switch (event.button) {
+
+  								case PointerButton.MAIN:
+  										this.handleMainPointerButton(event, pressed);
+  										break;
+
+  								case PointerButton.AUXILIARY:
+  										this.handleAuxiliaryPointerButton(event, pressed);
+  										break;
+
+  								case PointerButton.SECONDARY:
+  										this.handleSecondaryPointerButton(event, pressed);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "handleKeyboardEvent",
+  				value: function handleKeyboardEvent(event, pressed) {
+
+  						var keyBindings = this.settings.keyBindings;
+
+  						if (keyBindings.has(event.keyCode)) {
+
+  								event.preventDefault();
+
+  								this.strategies.get(keyBindings.get(event.keyCode)).execute(pressed);
+  						}
+  				}
+  		}, {
+  				key: "handleEvent",
+  				value: function handleEvent(event) {
+
+  						switch (event.type) {
+
+  								case "mousemove":
+  										this.raycast(event);
+  										break;
+
+  								case "mousedown":
+  										this.handlePointerEvent(event, true);
+  										break;
+
+  								case "mouseup":
+  										this.handlePointerEvent(event, false);
+  										break;
+
+  								case "contextmenu":
+  										event.preventDefault();
+  										break;
+
+  								case "keydown":
+  										this.handleKeyboardEvent(event, true);
+  										break;
+
+  								case "keyup":
+  										this.handleKeyboardEvent(event, false);
+  										break;
+
+  						}
+  				}
+  		}, {
+  				key: "render",
+  				value: function render() {
+
+  						this.stats.begin();
+
+  						this.controls.update(this.clock.getDelta());
+  						this.terrain.update(this.camera.position);
+  						this.renderer.render(this.scene, this.camera);
+
+  						this.stats.end();
+  				}
+  		}, {
+  				key: "setEnabled",
+  				value: function setEnabled(enabled) {
+
+  						var dom = this.renderer.domElement;
+
+  						if (enabled) {
+
+  								this.cursor.position.copy(this.camera.position);
+  								this.cursor.visible = true;
+
+  								document.body.addEventListener("keyup", this);
+  								document.body.addEventListener("keydown", this);
+  								dom.addEventListener("contextmenu", this);
+  								dom.addEventListener("mousemove", this);
+  								dom.addEventListener("mousedown", this);
+  								dom.addEventListener("mouseup", this);
+  						} else {
+
+  								this.cursor.visible = false;
+
+  								document.body.removeEventListener("keyup", this);
+  								document.body.removeEventListener("keydown", this);
+  								dom.removeEventListener("contextmenu", this);
+  								dom.removeEventListener("mousemove", this);
+  								dom.removeEventListener("mousedown", this);
+  								dom.removeEventListener("mouseup", this);
+  						}
+  				}
+  		}, {
+  				key: "dispose",
+  				value: function dispose() {
+
+  						this.setEnabled(false);
+  				}
+  		}, {
+  				key: "save",
+  				value: function save() {
+
+  						var dataURL = this.terrain.save();
+  						var a = document.createElement("a");
+  						a.href = dataURL;
+  						a.download = "terrain.json";
+  						a.click();
+  						URL.revokeObjectURL(dataURL);
+  				}
+  		}, {
+  				key: "registerOptions",
+  				value: function registerOptions(menu) {
+  						var _this = this;
+
+  						var folder = menu.addFolder("Editor");
+
+  						var params = {
+  								"show world octree": this.octreeHelper.visible
+  						};
+
+  						folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(function () {
+
+  								_this.cursor.scale.set(_this.cursorSize, _this.cursorSize, _this.cursorSize);
+  						});
+
+  						folder.add(params, "octree").onChange(function () {
+
+  								_this.octreeHelper.update();
+  								_this.octreeHelper.visible = params.octree;
+  						});
+
+  						folder.add(this, "save");
+  						folder.open();
+  				}
+  		}]);
+  		return Editor;
+  }();
+
+  var editor = void 0;
+
+  function loadAssets(callback) {
+
+  	var assets = new Map();
+
+  	var loadingManager = new three.LoadingManager();
+  	var fileLoader = new three.FileLoader(loadingManager);
+  	var textureLoader = new three.TextureLoader(loadingManager);
+
+  	return new Promise(function (resolve, reject) {
+
+  		loadingManager.onError = reject;
+  		loadingManager.onProgress = function (item, loaded, total) {
+
+  			if (loaded === total) {
+
+  				resolve(assets);
+  			}
+  		};
+
+  		fileLoader.load("terrain/sphere.json", function (text) {
+
+  			assets.set("terrain", text);
+  		});
+
+  		textureLoader.load("textures/diffuse/05.jpg", function (texture) {
+
+  			texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  			assets.set("diffuseXZ", texture);
+  		});
+
+  		textureLoader.load("textures/diffuse/03.jpg", function (texture) {
+
+  			texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  			assets.set("diffuseY", texture);
+  		});
+
+  		textureLoader.load("textures/normal/05.png", function (texture) {
+
+  			texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  			assets.set("normalmapXZ", texture);
+  		});
+
+  		textureLoader.load("textures/normal/03.png", function (texture) {
+
+  			texture.wrapS = texture.wrapT = three.RepeatWrapping;
+  			assets.set("normalmapY", texture);
+  		});
+  	});
+  }
+
+  function createErrorMessage(missingFeatures) {
+
+  	var message = document.createElement("p");
+  	var missingFeatureList = document.createElement("ul");
+
+  	var feature = void 0;
+  	var i = void 0,
+  	    l = void 0;
+
+  	for (i = 0, l = missingFeatures.length; i < l; ++i) {
+
+  		feature = document.createElement("li");
+  		feature.appendChild(document.createTextNode(missingFeatures[i]));
+  		missingFeatureList.appendChild(feature);
+  	}
+
+  	message.appendChild(document.createTextNode("The following features are missing:"));
+  	message.appendChild(missingFeatureList);
+
+  	return message;
+  }
+
+  function render(now) {
+
+  	requestAnimationFrame(render);
+  	editor.render(now);
+  }
+
+  window.addEventListener("load", function main(event) {
+
+  	this.removeEventListener("load", main);
+
+  	var viewport = document.getElementById("viewport");
+  	var aside = document.getElementById("aside");
+
+  	var detector = new Detector();
+  	var missingFeatures = detector.getMissingFeatures(FeatureId.CANVAS, FeatureId.WEBGL, FeatureId.WORKER, FeatureId.FILE);
+
+  	if (missingFeatures === null) {
+
+  		loadAssets().then(function (assets) {
+
+  			viewport.removeChild(viewport.children[0]);
+  			aside.style.visibility = "visible";
+  			editor = new Editor(viewport, aside, assets);
+
+  			render();
+  		}).catch(function (e) {
+  			return console.log(e);
+  		});
+  	} else {
+
+  		viewport.removeChild(viewport.children[0]);
+  		viewport.appendChild(createErrorMessage(missingFeatures));
+  	}
+  });
+
+  window.addEventListener("resize", function () {
+
+  	var timeoutId = 0;
+
+  	function handleResize(event) {
+
+  		var width = event.target.innerWidth;
+  		var height = event.target.innerHeight;
+
+  		editor.setSize(width, height);
+
+  		timeoutId = 0;
+  	}
+
+  	return function onResize(event) {
+
+  		if (timeoutId === 0) {
+
+  			timeoutId = setTimeout(handleResize, 66, event);
+  		}
+  	};
+  }());
+
+}(THREE,dat,Stats));
