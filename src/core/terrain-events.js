@@ -43,3 +43,25 @@ export const extractionstart = new TerrainEvent("extractionstart");
  */
 
 export const extractionend = new TerrainEvent("extractionend");
+
+/**
+ * Signals the end of a volume data loading process.
+ *
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("load", myListener);
+ */
+
+export const load = new TerrainEvent("load");
+
+/**
+ * Signals the occurrence of an unexpected error.
+ *
+ * This event is dispatched by {@link Terrain}.
+ *
+ * @type {TerrainEvent}
+ * @example terrain.addEventListener("error", myListener);
+ */
+
+export const error = new TerrainEvent("error");
