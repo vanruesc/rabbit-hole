@@ -325,17 +325,17 @@ export class Terrain extends EventTarget {
 	/**
 	 * Updates the terrain geometry.
 	 *
-	 * This method should be called every time the camera has moved.
+	 * This method should be called every time the position has changed.
 	 *
-	 * @param {PerspectiveCamera} camera - A camera.
+	 * @param {Vector3} position - A position.
 	 */
 
-	update(camera) {
+	update(position) {
 
-		// Check if the camera position has changed enough.
-		if(this.clipmap.position.distanceToSquared(camera.position) &gt;= this.dtSq) {
+		// Check if the position has changed enough.
+		if(this.clipmap.position.distanceToSquared(position) &gt;= this.dtSq) {
 
-			this.clipmap.update(camera);
+			this.clipmap.update(position);
 
 		}
 

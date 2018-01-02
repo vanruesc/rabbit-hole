@@ -752,7 +752,7 @@ with the generated data.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html#instance-method-update">update</a></span></span><span class="code" data-ice="signature">(camera: <span>PerspectiveCamera</span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html#instance-method-update">update</a></span></span><span class="code" data-ice="signature">(position: <span>Vector3</span>)</span>
         </p>
       </div>
       <div>
@@ -1877,7 +1877,7 @@ with the generated data.</p>
     
     
     
-    <span class="code" data-ice="name">update</span><span class="code" data-ice="signature">(camera: <span>PerspectiveCamera</span>)</span>
+    <span class="code" data-ice="name">update</span><span class="code" data-ice="signature">(position: <span>Vector3</span>)</span>
     <span class="right-info">
       
       
@@ -1889,7 +1889,7 @@ with the generated data.</p>
   
   
   <div data-ice="description"><p>Updates the terrain geometry.</p>
-<p>This method should be called every time the camera has moved.</p>
+<p>This method should be called every time the position has changed.</p>
 </div>
 
   
@@ -1903,10 +1903,10 @@ with the generated data.</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">camera</td>
-      <td data-ice="type" class="code"><span>PerspectiveCamera</span></td>
+      <td data-ice="name" class="code" data-depth="0">position</td>
+      <td data-ice="type" class="code"><span>Vector3</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>A camera.</p>
+      <td data-ice="description"><p>A position.</p>
 </td>
     </tr>
 </tbody>
