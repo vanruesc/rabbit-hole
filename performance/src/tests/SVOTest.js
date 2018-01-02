@@ -99,7 +99,7 @@ export class SVOTest extends Test {
 
 	run() {
 
-		const c = 500;
+		const c = 200;
 
 		const report = new Report("SVO Report");
 		const cellPosition = this.cellPosition;

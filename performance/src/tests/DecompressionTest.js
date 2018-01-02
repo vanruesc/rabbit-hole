@@ -92,7 +92,7 @@ export class DecompressionTest extends Test {
 
 	run() {
 
-		const c = 500;
+		const c = 200;
 
 		const report = new Report("Decompression Report");
 		const targetContainer = this.targetContainer;

@@ -91,7 +91,7 @@ export class CompressionTest extends Test {
 
 	run() {
 
-		const c = 500;
+		const c = 200;
 
 		const report = new Report("Compression Report");
 		const targetContainer = this.targetContainer;

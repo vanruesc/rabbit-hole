@@ -109,7 +109,7 @@ export class CSGTest extends Test {
 
 	run() {
 
-		const c = 500;
+		const c = 200;
 
 		const report = new Report("CSG Report");
 		const cellPosition = this.cellPosition;
