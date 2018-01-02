@@ -62,7 +62,7 @@ function runTest(event) {
 	const id = event.target.id;
 	const h3 = document.createElement("h3");
 
-	h3.appendChild(document.createTextNode("Running " + id + "\u2026"));
+	h3.appendChild(document.createTextNode("Running " + id + " Test\u2026"));
 	document.getElementById("aside").appendChild(h3);
 	document.getElementById("mask").removeAttribute("class");
 
