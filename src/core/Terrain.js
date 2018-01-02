@@ -1,38 +1,23 @@
-import { Box3, BufferAttribute, BufferGeometry, Frustum, Mesh, Matrix4, Object3D } from "three";
 import { EventTarget } from "synthetic-event";
-import { MeshTriplanarPhysicalMaterial } from "../materials";
-import { Volume } from "../volume/octree/Volume.js";
 import { OperationType } from "../volume/csg/OperationType.js";
 import { SDFReviver } from "../volume/sdf/SDFReviver.js";
+import { SDFLoader } from "../loaders/SDFLoader.js";
+import { HermiteData } from "../volume/HermiteData.js";
+import { WorldOctree } from "../octree/world/WorldOctree.js";
+import { Clipmap } from "../clipmap/Clipmap.js";
 import { Action } from "../worker/Action.js";
+import { ExtractionRequest } from "../worker/messages/ExtractionRequest.js";
+import { ModificationRequest } from "../worker/messages/ModificationRequest.js";
+// import { Task } from "./Task.js";
 import { ThreadPool } from "../worker/ThreadPool.js";
-import { WorkerTask } from "../worker/WorkerTask.js";
-import { History } from "./History.js";
-import { Scheduler } from "./Scheduler.js";
-import { Queue } from "./Queue.js";
 import * as events from "./terrain-events.js";
-
-/**
- * A 3D box.
- *
- * @type {Box3}
- * @private
- */
-
-const box3 = new Box3();
-
-/**
- * A 4x4 matrix.
- *
- * @type {Matrix4}
- * @private
- */
-
-const matrix4 = new Matrix4();
 
 /**
  * The terrain system.
  *
+ * Manages volume modifications and mesh generation.
+ *
+ * @implements {Disposable}
  * @implements {EventListener}
  */
 
@@ -42,345 +27,139 @@ export class Terrain extends EventTarget {
 	 * Constructs a new terrain.
 	 *
 	 * @param {Object} [options] - The options.
-	 * @param {Number} [options.chunkSize=32] - The world size of a volume chunk. Will be rounded up to the next power of two.
-	 * @param {Number} [options.resolution=32] - The resolution of a volume chunk. Will be rounded up to the next power of two.
-	 * @param {Number} [options.workers] - Limits the amount of active workers. The default limit is the amount of logical processors which is also the maximum.
-	 * @param {Number} [options.levels] - The amount of detail levels. The default number of levels is derived from the resolution.
-	 * @param {Number} [options.iterations] - Limits the amount of volume chunks that are being processed during each update.
+	 * @param {Number} [options.workers=navigator.hardwareConcurrency] - Limits the amount of active workers. Cannot exceed the amount of logical processors.
+	 * @param {Number} [options.resolution=32] - The resolution of the volume data. Will be rounded up to the next power of two.
+	 * @param {Number} [options.cellSize=20] - The size of the smallest octants in LOD zero.
+	 * @param {Number} [options.levels=16] - The amount of detail levels.
+	 * @param {KeyDesign} [options.keyDesign] - The bit allotments for the octant coordinates.
 	 */
 
 	constructor(options = {}) {
 
 		super();
 
+		HermiteData.resolution = (options.resolution !== undefined) ? options.resolution : 32;
+
 		/**
-		 * The terrain object. Add this to your scene.
+		 * The terrain mesh. Add this object to your scene.
 		 *
-		 * @type {Object3D}
+		 * @type {Group}
 		 */
 
-		this.object = new Object3D();
-		this.object.name = "Terrain";
+		this.object = null;
 
 		/**
-		 * The volume of this terrain.
+		 * The world octree.
 		 *
-		 * @type {Volume}
+		 * @type {WorldOctree}
 		 */
 
-		this.volume = new Volume(options.chunkSize, options.resolution);
+		this.world = new WorldOctree(options.cellSize, options.levels, options.keyDesign);
 
 		/**
-		 * A volume chunk iterator.
+		 * A clipmap.
 		 *
-		 * @type {Iterator}
-		 * @private
+		 * @type {Clipmap}
 		 */
 
-		this.iterator = this.volume.leaves(new Frustum());
+		this.clipmap = new Clipmap(this.world);
+		this.clipmap.addEventListener("shellupdate", this);
 
 		/**
-		 * The number of detail levels.
-		 *
-		 * Terrain chunks that are further away from the camera will be rendered
-		 * with less vertices.
-		 *
-		 * @type {Number}
-		 * @private
-		 * @default log2(resolution)
-		 */
-
-		this.levels = (options.levels !== undefined) ? Math.max(1, options.levels) : Math.log2(this.volume.resolution);
-
-		/**
-		 * The maximum amount of chunk iterations per update.
-		 *
-		 * Volume chunks that lie in the field of view will be processed over the
-		 * course of several update calls.
-		 *
-		 * @type {Number}
-		 * @private
-		 * @default 1000
-		 */
-
-		this.iterations = (options.iterations !== undefined) ? Math.max(1, options.iterations) : 1000;
-
-		/**
-		 * A thread pool.
+		 * A thread pool. Each worker from this pool is capable of performing
+		 * isosurface extractions as well as CSG operations on discrete volume data.
 		 *
 		 * @type {ThreadPool}
-		 * @private
 		 */
 
 		this.threadPool = new ThreadPool(options.workers);
 		this.threadPool.addEventListener("message", this);
 
 		/**
-		 * Manages pending tasks.
+		 * Keeps track of tasks that are currently being processed by a worker.
 		 *
-		 * @type {Scheduler}
+		 * Note: The amount of tracked tasks cannot exceed the amount of workers.
+		 *
+		 * @type {WeakMap}
 		 * @private
 		 */
 
-		this.scheduler = new Scheduler(this.levels + 1);
+		this.tasks = new WeakMap();
+
+		/**
+		 * An SDF loader.
+		 *
+		 * @type {SDFLoader}
+		 * @private
+		 */
+
+		this.sdfLoader = new SDFLoader();
+		this.sdfLoader.addEventListener("load", this);
 
 		/**
 		 * A chronological sequence of CSG operations that have been executed during
 		 * this session.
 		 *
-		 * @type {History}
-		 */
-
-		this.history = new History();
-
-		/**
-		 * Keeps track of chunks that are currently being used by a worker. The
-		 * amount of neutered chunks cannot exceed the amount of worker threads.
-		 *
-		 * @type {WeakSet}
+		 * @type {SignedDistanceFunction[]}
 		 * @private
 		 */
 
-		this.neutered = new WeakSet();
+		this.history = [];
 
 		/**
-		 * Keeps track of associations between workers and chunks.
+		 * A squared distance threshold.
 		 *
-		 * @type {WeakMap}
+		 * If the squared distance from the current view position to a given new
+		 * position is greater than this threshold, the clipmap will be updated.
+		 *
+		 * @type {Number}
 		 * @private
 		 */
 
-		this.chunks = new WeakMap();
-
-		/**
-		 * Keeps track of associations between chunks and meshes.
-		 *
-		 * @type {WeakMap}
-		 * @private
-		 */
-
-		this.meshes = new WeakMap();
-
-		/**
-		 * The terrain material.
-		 *
-		 * @type {MeshTriplanarPhysicalMaterial}
-		 */
-
-		this.material = new MeshTriplanarPhysicalMaterial();
+		this.dtSq = this.world.getCellSize();
 
 	}
 
 	/**
-	 * Lifts the connection of a given chunk to its mesh and removes the geometry.
+	 * Handles events.
 	 *
-	 * @private
-	 * @param {Chunk} chunk - A volume chunk.
-	 */
-
-	unlinkMesh(chunk) {
-
-		let mesh;
-
-		if(this.meshes.has(chunk)) {
-
-			mesh = this.meshes.get(chunk);
-			mesh.geometry.dispose();
-
-			this.meshes.delete(chunk);
-			this.object.remove(mesh);
-
-		}
-
-	}
-
-	/**
-	 * Handles worker events.
-	 *
-	 * @param {WorkerEvent} event - A worker message event.
+	 * @param {Event} event - An event.
 	 */
 
 	handleEvent(event) {
 
-		const worker = event.worker;
-		const data = event.data;
+		switch(event.type) {
 
-		// Find the chunk that has been processed by this worker.
-		const chunk = this.chunks.get(worker);
+			case "shellupdate":
+				break;
 
-		this.neutered.delete(chunk);
-		this.chunks.delete(worker);
+			case "message":
+				break;
 
-		// Reclaim ownership of the chunk data.
-		chunk.deserialise(data.chunk);
-
-		if(chunk.data === null && chunk.csg === null) {
-
-			// The chunk has become empty. Remove it.
-			this.scheduler.cancel(chunk);
-			this.volume.prune(chunk);
-			this.unlinkMesh(chunk);
-
-		} else if(chunk.csg !== null) {
-
-			// Drain the CSG queue as fast as possible.
-			this.scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, this.scheduler.maxPriority));
-
-		}
-
-		if(data.action !== Action.CLOSE) {
-
-			if(data.action === Action.EXTRACT) {
-
-				event = events.extractionend;
-
-				this.consolidate(chunk, data);
-
-			} else {
-
-				event = events.modificationend;
-
-			}
-
-			event.chunk = chunk;
-
-			this.dispatchEvent(event);
-
-		} else {
-
-			console.error(data.error);
-
-		}
-
-		// Kick off a pending task.
-		this.runNextTask();
-
-	}
-
-	/**
-	 * Updates geometry chunks with extracted data.
-	 *
-	 * @private
-	 * @param {Chunk} chunk - The associated volume chunk.
-	 * @param {Object} data - An object containing the extracted geometry data.
-	 */
-
-	consolidate(chunk, data) {
-
-		const positions = data.positions;
-		const normals = data.normals;
-		const indices = data.indices;
-
-		let geometry, mesh;
-
-		// Only create a new mesh if the worker generated data.
-		if(positions !== null && normals !== null && indices !== null) {
-
-			this.unlinkMesh(chunk);
-
-			geometry = new BufferGeometry();
-			geometry.setIndex(new BufferAttribute(indices, 1));
-			geometry.addAttribute("position", new BufferAttribute(positions, 3));
-			geometry.addAttribute("normal", new BufferAttribute(normals, 3));
-			geometry.computeBoundingSphere();
-
-			mesh = new Mesh(geometry, this.material);
-
-			this.meshes.set(chunk, mesh);
-			this.object.add(mesh);
+			case "load":
+				this.revive(event.descriptions);
+				this.dispatchEvent(events.load);
+				break;
 
 		}
 
 	}
 
 	/**
-	 * Runs a pending task if a worker is available.
+	 * Executes the given SDF.
 	 *
-	 * @private
-	 */
-
-	runNextTask() {
-
-		let task, worker, chunk, event;
-
-		if(this.scheduler.peek() !== null) {
-
-			worker = this.threadPool.getWorker();
-
-			if(worker !== null) {
-
-				task = this.scheduler.poll();
-				chunk = task.chunk;
-
-				if(task.action === Action.MODIFY) {
-
-					event = events.modificationstart;
-
-					worker.postMessage({
-
-						action: task.action,
-						chunk: chunk.serialise(),
-						sdf: chunk.csg.poll().serialise()
-
-					}, chunk.createTransferList());
-
-					if(chunk.csg.size === 0) {
-
-						chunk.csg = null;
-
-					}
-
-				} else {
-
-					event = events.extractionstart;
-
-					worker.postMessage({
-
-						action: task.action,
-						chunk: chunk.serialise()
-
-					}, chunk.createTransferList());
-
-				}
-
-				event.chunk = chunk;
-
-				this.neutered.add(chunk);
-				this.chunks.set(worker, chunk);
-				this.dispatchEvent(event);
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * Edits the terrain volume data.
+	 * SDFs without a valid CSG operation type will be ignored.
+	 * See {@link OperationType} for a list of available CSG operation types.
 	 *
-	 * @private
+	 * Instead of using this method directly, it's recommended to use the
+	 * convenience methods {@link union}, {@link subtract} and {@link intersect}.
+	 *
 	 * @param {SignedDistanceFunction} sdf - An SDF.
 	 */
 
-	edit(sdf) {
+	applyCSG(sdf) {
 
-		const chunks = this.volume.edit(sdf);
-
-		let chunk;
-
-		for(chunk of chunks) {
-
-			if(chunk.csg === null) {
-
-				chunk.csg = new Queue();
-
-			}
-
-			chunk.csg.add(sdf);
-
-		}
-
-		this.iterator.reset();
+		this.world.applyCSG(sdf);
 		this.history.push(sdf);
 
 	}
@@ -393,9 +172,7 @@ export class Terrain extends EventTarget {
 
 	union(sdf) {
 
-		sdf.operation = OperationType.UNION;
-
-		this.edit(sdf);
+		this.applyCSG(sdf.setOperationType(OperationType.UNION));
 
 	}
 
@@ -407,9 +184,7 @@ export class Terrain extends EventTarget {
 
 	subtract(sdf) {
 
-		sdf.operation = OperationType.DIFFERENCE;
-
-		this.edit(sdf);
+		this.applyCSG(sdf.setOperationType(OperationType.DIFFERENCE));
 
 	}
 
@@ -422,232 +197,119 @@ export class Terrain extends EventTarget {
 
 	intersect(sdf) {
 
-		sdf.operation = OperationType.INTERSECTION;
-
-		this.edit(sdf);
+		this.applyCSG(sdf.setOperationType(OperationType.INTERSECTION));
 
 	}
 
 	/**
-	 * Updates the terrain geometry. This method should be called each frame.
+	 * Updates the terrain geometry.
 	 *
-	 * @param {PerspectiveCamera} camera - A camera.
+	 * This method should be called every time the position has changed.
+	 *
+	 * @param {Vector3} position - A position.
 	 */
 
-	update(camera) {
+	update(position) {
 
-		const iterator = this.iterator;
-		const scheduler = this.scheduler;
-		const maxPriority = scheduler.maxPriority;
-		const levels = this.levels;
-		const maxLevel = levels - 1;
+		// Check if the position has changed enough.
+		if(this.clipmap.position.distanceToSquared(position) >= this.dtSq) {
 
-		let i = this.iterations;
-
-		let chunk, data, csg, task;
-		let distance, lod;
-		let result;
-
-		iterator.region.setFromMatrix(
-			matrix4.multiplyMatrices(
-				camera.projectionMatrix,
-				camera.matrixWorldInverse
-			)
-		);
-
-		result = iterator.next();
-
-		while(!result.done) {
-
-			chunk = result.value;
-			data = chunk.data;
-			csg = chunk.csg;
-
-			if(!this.neutered.has(chunk)) {
-
-				task = scheduler.getTask(chunk);
-
-				if(task === undefined || task.priority < maxPriority) {
-
-					// Modifications take precedence.
-					if(csg !== null) {
-
-						scheduler.schedule(chunk, new WorkerTask(Action.MODIFY, chunk, maxPriority));
-
-						this.runNextTask();
-
-					} else if(data !== null) {
-
-						distance = box3.copy(chunk).distanceToPoint(camera.position);
-						lod = Math.min(maxLevel, Math.trunc(distance / camera.far * levels));
-
-						if(data.lod !== lod) {
-
-							data.lod = lod;
-
-							scheduler.schedule(chunk, new WorkerTask(Action.EXTRACT, chunk, maxLevel - data.lod));
-
-							this.runNextTask();
-
-						}
-
-					}
-
-				}
-
-			}
-
-			if(--i > 0) {
-
-				result = iterator.next();
-
-			} else {
-
-				break;
-
-			}
-
-		}
-
-		if(result.done) {
-
-			this.iterator.reset();
+			this.clipmap.update(position);
 
 		}
 
 	}
 
 	/**
-	 * Finds the terrain chunks that intersect with the given ray and raycasts the
-	 * associated meshes.
+	 * Finds the world cells that intersect with the given ray.
 	 *
-	 * Intersections are sorted by distance, closest first.
-	 *
-	 * @param {Raycaster} raycaster - A raycaster.
-	 * @return {Array} A list of terrain intersections.
+	 * @param {Ray} ray - A ray.
+	 * @return {WorldOctant[]} A list of intersecting world octants. Sorted by distance, closest first.
 	 */
 
-	raycast(raycaster) {
+	raycast(ray) {
 
-		const meshes = this.meshes;
-		const chunks = [];
-
-		let intersects = [];
-		let chunk;
-
-		let i, l;
-
-		this.volume.raycast(raycaster, chunks);
-
-		for(i = 0, l = chunks.length; i < l; ++i) {
-
-			chunk = chunks[i];
-
-			if(meshes.has(chunk)) {
-
-				intersects = intersects.concat(
-					raycaster.intersectObject(meshes.get(chunk))
-				);
-
-			}
-
-		}
-
-		return intersects;
+		return this.world.raycast(ray);
 
 	}
 
 	/**
-	 * Removes all child meshes.
-	 *
-	 * @private
-	 */
-
-	clearMeshes() {
-
-		const object = this.object;
-
-		let child;
-
-		while(object.children.length > 0) {
-
-			child = object.children[0];
-			child.geometry.dispose();
-			child.material.dispose();
-			object.remove(child);
-
-		}
-
-		this.meshes = new WeakMap();
-
-	}
-
-	/**
-	 * Resets this terrain by removing data and closing active worker threads.
+	 * Resets this terrain by removing all data and closing active worker threads.
 	 */
 
 	clear() {
 
-		this.clearMeshes();
-
-		this.volume = new Volume(this.volume.chunkSize, this.volume.resolution);
-		this.iterator = this.volume.leaves(new Frustum());
-
-		this.neutered = new WeakSet();
-		this.chunks = new WeakMap();
-
+		this.world.clear();
+		this.clipmap.clear();
 		this.threadPool.clear();
-		this.scheduler.clear();
-		this.history.clear();
+		this.sdfLoader.clear();
+
+		this.tasks = new WeakMap();
+		this.history = [];
 
 	}
 
 	/**
-	 * Destroys this terrain and frees internal resources.
+	 * Frees internal resources.
+	 *
+	 * By calling this method the terrain system will become unoperative.
 	 */
 
 	dispose() {
 
-		this.clearMeshes();
 		this.threadPool.dispose();
+
+	}
+
+	/**
+	 * Revives the given serialised SDFs and applies them to the current volume.
+	 *
+	 * @private
+	 * @param {Array} descriptions - A list of serialised SDFs.
+	 */
+
+	revive(descriptions) {
+
+		let i, l;
+
+		for(i = 0, l = descriptions.length; i < l; ++i) {
+
+			this.applyCSG(SDFReviver.revive(descriptions[i]));
+
+		}
 
 	}
 
 	/**
 	 * Saves a description of the current volume data.
 	 *
-	 * @return {String} A URL to the exported save data, or null if there is no data.
+	 * @return {DOMString} A URL to the exported save data, or null if there is no data.
 	 */
 
 	save() {
 
-		const sdf = this.history.combine();
+		return (this.history.length === 0) ? null : URL.createObjectURL(
 
-		return (sdf === null) ? null : URL.createObjectURL(
-
-			new Blob([JSON.stringify(sdf.serialise())], {
-				type: "text/json"
-			})
+			new Blob([JSON.stringify(this.history)], { type: "text/json" })
 
 		);
 
 	}
 
 	/**
-	 * Loads a volume.
+	 * Loads a volume data description.
 	 *
-	 * @param {String} data - The volume description to load.
+	 * A load event will be dispatched when the loading process has finished.
+	 *
+	 * @param {String} data - A stringified list of SDF descriptions.
 	 */
 
 	load(data) {
 
-		this.clear();
+		const descriptions = JSON.parse(data);
 
-		this.edit(
-			SDFReviver.reviveSDF(
-				JSON.parse(data)
-			)
-		);
+		this.clear();
+		this.sdfLoader.load(descriptions);
 
 	}
 
