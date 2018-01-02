@@ -1,26 +1,38 @@
 import {
+	Clock,
+	DirectionalLight,
+	FogExp2,
+	GridHelper,
+	HemisphereLight,
+	PerspectiveCamera,
 	Mesh,
 	MeshBasicMaterial,
 	Raycaster,
+	Scene,
 	SphereBufferGeometry,
-	Vector2
+	Vector2,
+	WebGLRenderer
 } from "three";
 
+import dat from "dat.gui";
+import Stats from "stats.js";
 import OctreeHelper from "octree-helper";
-import { ChunkHelper, Sphere } from "../../src";
-import { Button } from "./controls/Button.js";
+
+import { DeltaControls, PointerButton } from "delta-controls";
+import { SuperPrimitive, Terrain } from "../../src";
+import { Settings } from "./settings/Settings.js";
 
 /**
- * A mouse position.
+ * Screen coordinates.
  *
  * @type {Vector2}
  * @private
  */
 
-const mouse = new Vector2();
+const screenCoordinates = new Vector2();
 
 /**
- * A volume editor.
+ * A terrain editor.
  *
  * @implements {EventListener}
  */
@@ -28,23 +40,71 @@ const mouse = new Vector2();
 export class Editor {
 
 	/**
-	 * Constructs a new volume editor.
+	 * Constructs a new editor.
 	 *
-	 * @param {Terrain} terrain - A terrain instance.
-	 * @param {Camera} camera - A camera.
-	 * @param {Element} [dom=document.body] - A dom element.
+	 * @param {HTMLElement} viewport - The primary DOM container.
+	 * @param {HTMLElement} aside - A secondary DOM container.
+	 * @param {Map} assets - Preloaded assets.
 	 */
 
-	constructor(terrain, camera, dom = document.body) {
+	constructor(viewport, aside, assets) {
 
 		/**
-		 * A terrain.
+		 * A clock.
 		 *
-		 * @type {Terrain}
+		 * @type {Clock}
 		 * @private
 		 */
 
-		this.terrain = terrain;
+		this.clock = new Clock();
+
+		/**
+		 * A renderer.
+		 *
+		 * @type {WebGLRenderer}
+		 */
+
+		this.renderer = (() => {
+
+			const renderer = new WebGLRenderer({
+				logarithmicDepthBuffer: true,
+				antialias: true
+			});
+
+			renderer.setClearColor(0xf4f4f4);
+			renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+			renderer.setPixelRatio(window.devicePixelRatio);
+
+			return renderer;
+
+		})();
+
+		viewport.appendChild(this.renderer.domElement);
+
+		/**
+		 * A scene.
+		 *
+		 * @type {Scene}
+		 * @private
+		 */
+
+		this.scene = new Scene();
+		this.scene.fog = new FogExp2(this.renderer.getClearColor(), 0.0025);
+
+		((scene) => {
+
+			const hemisphereLight = new HemisphereLight(0x3284ff, 0xffc87f, 0.6);
+			const directionalLight = new DirectionalLight(0xfff4e5);
+
+			hemisphereLight.position.set(0, 1, 0).multiplyScalar(50);
+			directionalLight.position.set(1.75, 1.75, -1).multiplyScalar(50);
+
+			scene.add(directionalLight);
+			scene.add(hemisphereLight);
+
+			scene.add(new GridHelper(16, 64));
+
+		})(this.scene);
 
 		/**
 		 * A camera.
@@ -53,16 +113,62 @@ export class Editor {
 		 * @private
 		 */
 
-		this.camera = camera;
+		this.camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 2000);
+		this.camera.position.set(4, 1, 4);
 
 		/**
-		 * A dom element.
+		 * Movement controls.
 		 *
-		 * @type {Element}
+		 * @type {DeltaControls}
 		 * @private
 		 */
 
-		this.dom = dom;
+		this.controls = new DeltaControls(
+			this.camera.position,
+			this.camera.quaternion,
+			this.renderer.domElement
+		);
+
+		this.controls.lookAt(this.scene.position);
+		this.controls.setOrbit(false);
+
+		/**
+		 * A terrain.
+		 *
+		 * @type {Terrain}
+		 * @private
+		 */
+
+		this.terrain = new Terrain({
+			resolution: 32,
+			cellSize: 20,
+			levels: 16
+		});
+
+		this.terrain.load(assets.get("terrain"));
+
+		/**
+		 * A side menu.
+		 *
+		 * @type {GUI}
+		 * @private
+		 */
+
+		this.menu = new dat.GUI({ autoPlace: false });
+
+		aside.appendChild(this.menu.domElement);
+
+		/**
+		 * Performance statistics.
+		 *
+		 * @type {Stats}
+		 * @private
+		 */
+
+		this.statistics = new Stats();
+		this.statistics.dom.id = "statistics";
+
+		aside.appendChild(this.statistics.domElement);
 
 		/**
 		 * A raycaster.
@@ -74,66 +180,201 @@ export class Editor {
 		this.raycaster = new Raycaster();
 
 		/**
-		 * The cursor size.
+		 * The current settings.
 		 *
-		 * @type {Number}
-		 * @private
+		 * @type {Settings}
 		 */
 
-		this.cursorSize = 1;
-
-		/**
-		 * The cursor distance.
-		 *
-		 * @type {Number}
-		 * @private
-		 */
-
-		this.cursorDistance = 10;
+		this.settings = new Settings();
 
 		/**
 		 * The cursor.
 		 *
 		 * @type {Mesh}
+		 * @private
 		 */
 
 		this.cursor = new Mesh(
-			new SphereBufferGeometry(this.cursorSize, 16, 16),
+			new SphereBufferGeometry(1, 16, 16),
 			new MeshBasicMaterial({
 				transparent: true,
-				opacity: 0.5,
+				opacity: 0.35,
 				color: 0x0096ff,
 				fog: false
 			})
 		);
 
+		this.cursor.scale.multiplyScalar(this.settings.cursor.size);
+		this.scene.add(this.cursor);
+
 		/**
 		 * An octree helper.
 		 *
 		 * @type {OctreeHelper}
+		 * @private
 		 */
 
-		this.octreeHelper = new OctreeHelper(this.terrain.volume);
+		this.octreeHelper = new OctreeHelper();
 		this.octreeHelper.visible = false;
+		this.scene.add(this.octreeHelper);
 
-		/**
-		 * An chunk helper.
-		 *
-		 * @type {ChunkHelper}
-		 */
+	}
 
-		this.chunkHelper = new ChunkHelper();
-		this.chunkHelper.visible = false;
+	/**
+	 * Raycasts the terrain.
+	 *
+	 * @param {MouseEvent} event - A pointer event.
+	 */
 
-		/**
-		 * A search time.
-		 *
-		 * @type {String}
-		 */
+	raycast(event) {
 
-		this.searchTime = "";
+		const raycaster = this.raycaster;
+		screenCoordinates.x = (event.clientX / window.innerWidth) * 2 - 1;
+		screenCoordinates.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		raycaster.setFromCamera(screenCoordinates, this.camera);
 
-		this.setEnabled(true);
+		const octants = this.terrain.raycast(raycaster.ray);
+		let intersects = [];
+		let octant;
+		let i, l;
+
+		for(i = 0, l = octants.length; i < l; ++i) {
+
+			octant = octants[i];
+
+			if(octant.mesh !== null) {
+
+				intersects = intersects.concat(raycaster.intersectObject(octant.mesh));
+
+				if(intersects.length > 0) {
+
+					break;
+
+				}
+
+			}
+
+		}
+
+		if(intersects.length > 0) {
+
+			this.cursor.position.copy(intersects[0].point);
+
+		} else {
+
+			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(
+				this.settings.cursor.distance + this.cursor.scale.x
+			).add(raycaster.ray.origin);
+
+		}
+
+	}
+
+	/**
+	 * Handles main pointer button events.
+	 *
+	 * @private
+	 * @param {MouseEvent} event - A pointer event.
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
+
+	handleMainPointerButton(event, pressed) {
+
+		const sdf = SuperPrimitive.create(this.superPrimitivePreset);
+		sdf.origin.copy(this.cursor.position);
+		sdf.setScale(this.settings.cursor.size);
+
+		if(pressed) {
+
+			this.terrain.union(sdf);
+
+		}
+
+	}
+
+	/**
+	 * Handles auxiliary pointer button events.
+	 *
+	 * @private
+	 * @param {MouseEvent} event - A pointer event.
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
+
+	handleAuxiliaryPointerButton(event, pressed) {
+
+	}
+
+	/**
+	 * Handles secondary pointer button events.
+	 *
+	 * @private
+	 * @param {MouseEvent} event - A pointer event.
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
+
+	handleSecondaryPointerButton(event, pressed) {
+
+		const sdf = SuperPrimitive.create(this.superPrimitivePreset);
+		sdf.origin.copy(this.cursor.position);
+		sdf.setScale(this.settings.cursor.size);
+
+		if(pressed) {
+
+			this.terrain.subtract(sdf);
+
+		}
+
+	}
+
+	/**
+	 * Handles pointer button events.
+	 *
+	 * @private
+	 * @param {MouseEvent} event - A mouse event.
+	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
+	 */
+
+	handlePointerEvent(event, pressed) {
+
+		event.preventDefault();
+
+		switch(event.button) {
+
+			case PointerButton.MAIN:
+				this.handleMainPointerButton(event, pressed);
+				break;
+
+			case PointerButton.AUXILIARY:
+				this.handleAuxiliaryPointerButton(event, pressed);
+				break;
+
+			case PointerButton.SECONDARY:
+				this.handleSecondaryPointerButton(event, pressed);
+				break;
+
+		}
+
+	}
+
+	/**
+	 * Handles keyboard events.
+	 *
+	 * @private
+	 * @param {KeyboardEvent} event - A keyboard event.
+	 * @param {Boolean} pressed - Whether the key has been pressed down.
+	 */
+
+	handleKeyboardEvent(event, pressed) {
+
+		const keyBindings = this.settings.keyBindings;
+
+		if(keyBindings.has(event.keyCode)) {
+
+			event.preventDefault();
+
+			this.strategies.get(keyBindings.get(event.keyCode)).execute(pressed);
+
+		}
 
 	}
 
@@ -163,147 +404,13 @@ export class Editor {
 				event.preventDefault();
 				break;
 
-			case "modificationend":
-				this.handleModification(event);
+			case "keydown":
+				this.handleKeyboardEvent(event, true);
 				break;
 
-		}
-
-	}
-
-	/**
-	 * Handles pointer button events.
-	 *
-	 * @private
-	 * @param {MouseEvent} event - A mouse event.
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
-	 */
-
-	handlePointerEvent(event, pressed) {
-
-		event.preventDefault();
-
-		switch(event.button) {
-
-			case Button.MAIN:
-				this.handleMain(pressed);
+			case "keyup":
+				this.handleKeyboardEvent(event, false);
 				break;
-
-			case Button.AUXILIARY:
-				this.handleAuxiliary(pressed);
-				break;
-
-			case Button.SECONDARY:
-				this.handleSecondary(pressed);
-				break;
-
-		}
-
-	}
-
-	/**
-	 * Handles main pointer button events.
-	 *
-	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
-	 */
-
-	handleMain(pressed) {
-
-		if(pressed) {
-
-			this.terrain.union(new Sphere({
-				origin: this.cursor.position.toArray(),
-				radius: this.cursorSize
-			}));
-
-		}
-
-	}
-
-	/**
-	 * Handles auxiliary pointer button events.
-	 *
-	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
-	 */
-
-	handleAuxiliary(pressed) {
-
-	}
-
-	/**
-	 * Handles secondary pointer button events.
-	 *
-	 * @private
-	 * @param {Boolean} pressed - Whether the mouse button has been pressed down.
-	 */
-
-	handleSecondary(pressed) {
-
-		if(pressed) {
-
-			this.terrain.subtract(new Sphere({
-				origin: this.cursor.position.toArray(),
-				radius: this.cursorSize
-			}));
-
-		}
-
-	}
-
-	/**
-	 * Handles terrain modifications.
-	 *
-	 * @private
-	 * @param {TerrainEvent} event - A terrain modification event.
-	 */
-
-	handleModification(event) {
-
-		if(this.chunkHelper.visible) {
-
-			this.chunkHelper.chunk = event.chunk;
-			this.chunkHelper.update(false, true);
-
-		}
-
-		if(this.octreeHelper.visible) {
-
-			this.octreeHelper.update();
-
-		}
-
-	}
-
-	/**
-	 * Raycasts the terrain.
-	 *
-	 * @param {MouseEvent} event - A mouse event.
-	 */
-
-	raycast(event) {
-
-		const raycaster = this.raycaster;
-		const t0 = performance.now();
-
-		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-		raycaster.setFromCamera(mouse, this.camera);
-		const intersects = this.terrain.raycast(raycaster);
-
-		this.searchTime = (performance.now() - t0).toFixed(2) + " ms";
-
-		if(intersects.length > 0) {
-
-			this.cursor.position.copy(intersects[0].point);
-
-		} else {
-
-			this.cursor.position.copy(raycaster.ray.direction).multiplyScalar(
-				this.cursorDistance + this.cursor.scale.x
-			).add(raycaster.ray.origin);
 
 		}
 
@@ -315,17 +422,35 @@ export class Editor {
 	 * @param {Boolean} enabled - Whether this editor should be enabled or disabled.
 	 */
 
+	render() {
+
+		this.stats.begin();
+
+		this.controls.update(this.clock.getDelta());
+		this.terrain.update(this.camera.position);
+		this.renderer.render(this.scene, this.camera);
+
+		this.stats.end();
+
+	}
+
+	/**
+	 * Enables or disables edit mode.
+	 *
+	 * @param {Boolean} enabled - Whether edit mode should be enabled or disabled.
+	 */
+
 	setEnabled(enabled) {
 
-		const terrain = this.terrain;
-		const dom = this.dom;
+		const dom = this.renderer.domElement;
 
 		if(enabled) {
 
 			this.cursor.position.copy(this.camera.position);
 			this.cursor.visible = true;
 
-			terrain.addEventListener("modificationend", this);
+			document.body.addEventListener("keyup", this);
+			document.body.addEventListener("keydown", this);
 			dom.addEventListener("contextmenu", this);
 			dom.addEventListener("mousemove", this);
 			dom.addEventListener("mousedown", this);
@@ -335,7 +460,8 @@ export class Editor {
 
 			this.cursor.visible = false;
 
-			terrain.removeEventListener("modificationend", this);
+			document.body.removeEventListener("keyup", this);
+			document.body.removeEventListener("keydown", this);
 			dom.removeEventListener("contextmenu", this);
 			dom.removeEventListener("mousemove", this);
 			dom.removeEventListener("mousedown", this);
@@ -356,137 +482,37 @@ export class Editor {
 	}
 
 	/**
-	 * Saves memory usage information about the current volume data.
-	 */
-
-	logMemory() {
-
-		const a = document.createElement("a");
-
-		const n = this.terrain.volume.resolution;
-		const m = Math.pow((n + 1), 3);
-		const c = 3 * Math.pow((n + 1), 2) * n;
-
-		let materialReport = "";
-		let edgeReport = "";
-
-		let maxMaterials = 0;
-		let maxEdges = 0;
-
-		let chunkCount = 0;
-
-		let materialCount = 0;
-		let runLengthCount = 0;
-		let edgeCount = 0;
-
-		let chunk, data, edgeData, edges;
-		let i = 0;
-
-		for(chunk of this.terrain.volume) {
-
-			data = chunk.data;
-
-			if(data !== null) {
-
-				edgeData = data.edgeData;
-
-				edges = (
-					edgeData.edges[0].length +
-					edgeData.edges[1].length +
-					edgeData.edges[2].length
-				);
-
-				materialReport += i + ", " + (data.materials + data.runLengths.length * 4) + "\n";
-				edgeReport += i + ", " + edges + "\n";
-
-				materialCount += data.materials;
-				runLengthCount += data.runLengths.length;
-				edgeCount += edges;
-
-				++chunkCount;
-				++i;
-
-			}
-
-		}
-
-		maxMaterials = chunkCount * m;
-		maxEdges = chunkCount * c;
-
-		let report = "Volume Chunks: " + chunkCount + "\n\n";
-
-		report += "Total Materials: " + materialCount + " (" + maxMaterials + " max)\n";
-		report += "Total Run-Lengths: " + runLengthCount + "\n";
-		report += "Compression Ratio: " + (maxMaterials / (materialCount + runLengthCount * 4)).toFixed(2) + "\n";
-		report += "Space Savings: " + ((1 - (materialCount + runLengthCount * 4) / maxMaterials) * 100).toFixed(2) + "%\n";
-		report += "Estimated Memory Usage: " + ((materialCount * 8 + runLengthCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
-
-		report += "\n";
-
-		report += "Total Edges: " + edgeCount + " (" + maxEdges + " max)\n";
-		report += "Compression Ratio: " + (maxEdges / edgeCount).toFixed(2) + "\n";
-		report += "Space Savings: " + ((1 - edgeCount / maxEdges) * 100).toFixed(2) + "%\n";
-		report += "Estimated Memory Usage: " + ((edgeCount * 32 + edgeCount * 32 + 3 * edgeCount * 32) / 8 / 1024 / 1024).toFixed(2) + " MB\n";
-
-		report += "\n";
-
-		report += "Material Counts\n\n";
-		report += materialReport;
-
-		report += "\n";
-
-		report += "Edge Counts\n\n";
-		report += edgeReport + "\n";
-
-		a.href = URL.createObjectURL(new Blob([report], {
-			type: "text/plain"
-		}));
-
-		a.download = "memory.txt";
-		a.click();
-
-	}
-
-	/**
-	 * Saves a snapshot of the current terrain data.
+	 * Saves the CSG operation history of the current terrain.
 	 */
 
 	save() {
 
+		const dataURL = this.terrain.save();
 		const a = document.createElement("a");
-		a.href = this.terrain.save();
+		a.href = dataURL;
 		a.download = "terrain.json";
 		a.click();
+		URL.revokeObjectURL(dataURL);
 
 	}
 
 	/**
 	 * Registers configuration options.
 	 *
-	 * @param {GUI} gui - A GUI.
+	 * @param {GUI} menu - A menu.
 	 */
 
-	configure(gui) {
+	registerOptions(menu) {
 
-		const folder = gui.addFolder("Editor");
+		const folder = menu.addFolder("Editor");
 
 		const params = {
-			hermiteData: this.chunkHelper.visible,
-			octree: this.octreeHelper.visible
+			"show world octree": this.octreeHelper.visible
 		};
-
-		folder.add(this, "searchTime").listen();
 
 		folder.add(this, "cursorSize").min(1).max(10).step(0.01).onChange(() => {
 
 			this.cursor.scale.set(this.cursorSize, this.cursorSize, this.cursorSize);
-
-		});
-
-		folder.add(params, "hermiteData").onChange(() => {
-
-			this.chunkHelper.dispose();
-			this.chunkHelper.visible = params.hermiteData;
 
 		});
 
@@ -497,7 +523,6 @@ export class Editor {
 
 		});
 
-		folder.add(this, "logMemory");
 		folder.add(this, "save");
 		folder.open();
 

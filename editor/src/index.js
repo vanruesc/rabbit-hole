@@ -6,13 +6,22 @@ import {
 } from "three";
 
 import { Detector, FeatureId } from "feature-detector";
-import { App } from "./App.js";
+import { Editor } from "./Editor.js";
+
+/**
+ * An editor.
+ *
+ * @type {Editor}
+ * @private
+ */
+
+let editor;
 
 /**
  * Loads assets.
  *
  * @private
- * @param {Function} callback - A function to call on completion. Assets will be provided as a parameter.
+ * @return {Promise} A promise that will be fulfilled as soon as all assets have been loaded.
  */
 
 function loadAssets(callback) {
@@ -23,47 +32,52 @@ function loadAssets(callback) {
 	const fileLoader = new FileLoader(loadingManager);
 	const textureLoader = new TextureLoader(loadingManager);
 
-	loadingManager.onProgress = function onProgress(item, loaded, total) {
+	return new Promise((resolve, reject) => {
 
-		if(loaded === total) {
+		loadingManager.onError = reject;
+		loadingManager.onProgress = (item, loaded, total) => {
 
-			callback(assets);
+			if(loaded === total) {
 
-		}
+				resolve(assets);
 
-	};
+			}
 
-	fileLoader.load("terrain/sphere.json", function(text) {
+		};
 
-		assets.set("terrain", text);
+		fileLoader.load("terrain/sphere.json", (text) => {
 
-	});
+			assets.set("terrain", text);
 
-	textureLoader.load("textures/diffuse/05.jpg", function(texture) {
+		});
 
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("diffuseXZ", texture);
+		textureLoader.load("textures/diffuse/05.jpg", (texture) => {
 
-	});
+			texture.wrapS = texture.wrapT = RepeatWrapping;
+			assets.set("diffuseXZ", texture);
 
-	textureLoader.load("textures/diffuse/03.jpg", function(texture) {
+		});
 
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("diffuseY", texture);
+		textureLoader.load("textures/diffuse/03.jpg", (texture) => {
 
-	});
+			texture.wrapS = texture.wrapT = RepeatWrapping;
+			assets.set("diffuseY", texture);
 
-	textureLoader.load("textures/normal/05.png", function(texture) {
+		});
 
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("normalmapXZ", texture);
+		textureLoader.load("textures/normal/05.png", (texture) => {
 
-	});
+			texture.wrapS = texture.wrapT = RepeatWrapping;
+			assets.set("normalmapXZ", texture);
 
-	textureLoader.load("textures/normal/03.png", function(texture) {
+		});
 
-		texture.wrapS = texture.wrapT = RepeatWrapping;
-		assets.set("normalmapY", texture);
+		textureLoader.load("textures/normal/03.png", (texture) => {
+
+			texture.wrapS = texture.wrapT = RepeatWrapping;
+			assets.set("normalmapY", texture);
+
+		});
 
 	});
 
@@ -101,7 +115,21 @@ function createErrorMessage(missingFeatures) {
 }
 
 /**
- * Starts the volume editor.
+ * The main render loop.
+ *
+ * @private
+ * @param {DOMHighResTimeStamp} now - The current time.
+ */
+
+function render(now) {
+
+	requestAnimationFrame(render);
+	editor.render(now);
+
+}
+
+/**
+ * Starts the program.
  *
  * @private
  * @param {Event} event - An event.
@@ -109,7 +137,7 @@ function createErrorMessage(missingFeatures) {
 
 window.addEventListener("load", function main(event) {
 
-	window.removeEventListener("load", main);
+	this.removeEventListener("load", main);
 
 	const viewport = document.getElementById("viewport");
 	const aside = document.getElementById("aside");
@@ -124,13 +152,15 @@ window.addEventListener("load", function main(event) {
 
 	if(missingFeatures === null) {
 
-		loadAssets(function(assets) {
+		loadAssets().then((assets) => {
 
 			viewport.removeChild(viewport.children[0]);
 			aside.style.visibility = "visible";
-			App.initialise(viewport, aside, assets);
+			editor = new Editor(viewport, aside, assets);
 
-		});
+			render();
+
+		}).catch((e) => console.log(e));
 
 	} else {
 
@@ -140,3 +170,37 @@ window.addEventListener("load", function main(event) {
 	}
 
 });
+
+/**
+ * Handles browser resizing.
+ *
+ * @private
+ * @param {Event} event - An event.
+ */
+
+window.addEventListener("resize", (function() {
+
+	let timeoutId = 0;
+
+	function handleResize(event) {
+
+		const width = event.target.innerWidth;
+		const height = event.target.innerHeight;
+
+		editor.setSize(width, height);
+
+		timeoutId = 0;
+
+	}
+
+	return function onResize(event) {
+
+		if(timeoutId === 0) {
+
+			timeoutId = setTimeout(handleResize, 66, event);
+
+		}
+
+	};
+
+}()));
