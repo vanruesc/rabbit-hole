@@ -8,7 +8,6 @@ export {
 	Deserializable,
 	Disposable,
 	Queue,
-	Task,
 	Serializable,
 	Terrain,
 	TransferableContainer

@@ -10,5 +10,4 @@ export { Disposable } from "./Disposable.js";
 export { TransferableContainer } from "./TransferableContainer.js";
 
 export { Queue } from "./Queue.js";
-export { Task } from "./Task.js";
 export { Terrain } from "./Terrain.js";
