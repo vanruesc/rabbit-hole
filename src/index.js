@@ -14,6 +14,11 @@ export {
 } from "./core";
 
 export {
+	Clipmap,
+	Scene
+} from "./clipmap";
+
+export {
 	RunLengthEncoding
 } from "./compression";
 
