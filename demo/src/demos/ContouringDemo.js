@@ -5,10 +5,12 @@ import {
 	Box3Helper,
 	BufferAttribute,
 	BufferGeometry,
+	CubeTextureLoader,
 	FogExp2,
 	Mesh,
-	MeshStandardMaterial,
+	MeshPhysicalMaterial,
 	PerspectiveCamera,
+	TextureLoader,
 	Vector3
 } from "three";
 
@@ -20,9 +22,11 @@ import { Demo } from "three-demo";
 import {
 	ConstructiveSolidGeometry,
 	DualContouring,
+	Heightfield,
 	HermiteData,
 	Material,
 	OperationType,
+	SDFType,
 	SparseVoxelOctree,
 	SuperPrimitive,
 	SuperPrimitivePreset,
@@ -63,6 +67,15 @@ export class ContouringDemo extends Demo {
 		this.cellPosition.subScalar(this.cellSize / 2);
 
 		/**
+		 * Determines which SDF type to use for the generation of Hermite data.
+		 *
+		 * @type {SDFType}
+		 * @private
+		 */
+
+		this.sdfType = SDFType.SUPER_PRIMITIVE;
+
+		/**
 		 * The current Super Primitive preset.
 		 *
 		 * @type {SuperPrimitivePreset}
@@ -70,6 +83,17 @@ export class ContouringDemo extends Demo {
 		 */
 
 		this.superPrimitivePreset = SuperPrimitivePreset.TORUS;
+
+		/**
+		 * A heightfield.
+		 *
+		 * @type {Heightfield}
+		 * @private
+		 */
+
+		this.heightfield = new Heightfield({
+			min: this.cellPosition.toArray()
+		});
 
 		/**
 		 * A set of Hermite data.
@@ -101,11 +125,11 @@ export class ContouringDemo extends Demo {
 		/**
 		 * A material.
 		 *
-		 * @type {MeshStandardMaterial}
+		 * @type {MeshPhysicalMaterial}
 		 * @private
 		 */
 
-		this.material = new MeshStandardMaterial({ color: 0xff0000 });
+		this.material = new MeshPhysicalMaterial({ color: 0x009188 });
 
 		/**
 		 * A generated mesh.
@@ -136,22 +160,21 @@ export class ContouringDemo extends Demo {
 
 			const groups = octreeHelper.children;
 
-			let group, children, child;
+			let group, children, child, color;
 			let i, j, il, jl;
 
 			for(i = 0, il = groups.length; i < il; ++i) {
 
 				group = groups[i];
 				children = group.children;
+				color = (i + 1 < il) ? 0x303030 : 0xbb3030;
 
 				for(j = 0, jl = children.length; j < jl; ++j) {
 
 					child = children[j];
-					child.material.color.setHex(0x303030);
+					child.material.color.setHex(color);
 
 				}
-
-				group.visible = (i + 1 === il);
 
 			}
 
@@ -173,9 +196,21 @@ export class ContouringDemo extends Demo {
 		const cellSize = this.cellSize;
 		const scale = (cellSize / 2) - ((preset === SuperPrimitivePreset.PILL) ? 0.275 : 0.075);
 
-		const sdf = SuperPrimitive.create(preset);
-		sdf.origin.set(0, 0, 0);
-		sdf.setScale(scale);
+		let sdf;
+
+		switch(this.sdfType) {
+
+			case SDFType.SUPER_PRIMITIVE:
+				sdf = SuperPrimitive.create(preset);
+				sdf.origin.set(0, 0, 0);
+				sdf.setScale(scale);
+				break;
+
+			case SDFType.HEIGHTFIELD:
+				sdf = this.heightfield;
+				break;
+
+		}
 
 		this.hermiteData = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
 
@@ -218,12 +253,71 @@ export class ContouringDemo extends Demo {
 	}
 
 	/**
+	 * Loads scene assets.
+	 *
+	 * @return {Promise} A promise that will be fulfilled as soon as all assets have been loaded.
+	 */
+
+	load() {
+
+		const assets = this.assets;
+		const loadingManager = this.loadingManager;
+		const cubeTextureLoader = new CubeTextureLoader(loadingManager);
+		const textureLoader = new TextureLoader(loadingManager);
+
+		const path = "textures/skies/interstellar/";
+		const format = ".jpg";
+		const urls = [
+			path + "px" + format, path + "nx" + format,
+			path + "py" + format, path + "ny" + format,
+			path + "pz" + format, path + "nz" + format
+		];
+
+		return new Promise((resolve, reject) => {
+
+			if(assets.size === 0) {
+
+				loadingManager.onError = reject;
+				loadingManager.onProgress = (item, loaded, total) => {
+
+					if(loaded === total) {
+
+						resolve();
+
+					}
+
+				};
+
+				cubeTextureLoader.load(urls, (textureCube) => {
+
+					assets.set("sky", textureCube);
+
+				});
+
+				textureLoader.load("textures/height/02.png", (texture) => {
+
+					assets.set("heightmap", texture);
+
+				});
+
+			} else {
+
+				resolve();
+
+			}
+
+		});
+
+	}
+
+	/**
 	 * Creates the scene.
 	 */
 
 	initialize() {
 
 		const scene = this.scene;
+		const assets = this.assets;
 		const composer = this.composer;
 		const renderer = composer.renderer;
 
@@ -248,16 +342,25 @@ export class ContouringDemo extends Demo {
 		scene.fog = new FogExp2(0xf4f4f4, 0.075);
 		renderer.setClearColor(scene.fog.color);
 
+		// Sky.
+
+		scene.background = assets.get("sky");
+		this.material.envMap = assets.get("sky");
+
 		// Lights.
 
 		const ambientLight = new AmbientLight(0x404040);
 		const directionalLight = new DirectionalLight(0xffbbaa);
 
-		directionalLight.position.set(-1, 1, 1);
+		directionalLight.position.set(-0.5, 1.5, 1);
 		directionalLight.target.position.copy(scene.position);
 
 		scene.add(directionalLight);
 		scene.add(ambientLight);
+
+		// Load the heightfield.
+
+		this.heightfield.fromImage(assets.get("heightmap").image);
 
 		// Hermite Data, SDF and CSG.
 
@@ -308,14 +411,25 @@ export class ContouringDemo extends Demo {
 
 	registerOptions(menu) {
 
+		const renderer = this.composer.renderer;
 		const octreeHelper = this.octreeHelper;
 		const hermiteDataHelper = this.hermiteDataHelper;
 		const presets = Object.keys(SuperPrimitivePreset);
 
 		const params = {
+
 			"SDF preset": presets[this.superPrimitivePreset],
-			"level mask": octreeHelper.children.length - 1,
-			"rebuild SVO": () => {
+			"color": this.material.color.getHex(),
+			"level mask": octreeHelper.children.length,
+
+			"use heightfield": () => {
+
+				this.sdfType = SDFType.HEIGHTFIELD;
+				params["show SVO"]();
+
+			},
+
+			"show SVO": () => {
 
 				this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
 				this.createHermiteData();
@@ -329,9 +443,10 @@ export class ContouringDemo extends Demo {
 
 				hermiteDataHelper.dispose();
 				octreeHelper.visible = true;
-				params["level mask"] = octreeHelper.children.length - 1;
+				params["level mask"] = octreeHelper.children.length;
 
 			},
+
 			"show Hermite data": () => {
 
 				hermiteDataHelper.set(this.cellPosition, this.cellSize, this.hermiteData);
@@ -350,18 +465,28 @@ export class ContouringDemo extends Demo {
 				}
 
 			},
+
 			"contour": () => {
 
+				this.createSVO();
 				this.contour();
 				octreeHelper.visible = false;
 				hermiteDataHelper.visible = false;
 
 			}
+
 		};
 
-		menu.add(params, "SDF preset", presets).onChange(params["rebuild SVO"]);
+		menu.add(params, "SDF preset", presets).onChange(() => {
 
-		const folder = menu.addFolder("Octree Helper");
+			this.sdfType = SDFType.SUPER_PRIMITIVE;
+			params["show SVO"]();
+
+		});
+
+		menu.add(params, "use heightfield");
+
+		let folder = menu.addFolder("Octree Helper");
 		folder.add(params, "level mask").min(0).max(1 + Math.log2(HermiteData.resolution)).step(1).onChange(() => {
 
 			let i, l;
@@ -373,14 +498,31 @@ export class ContouringDemo extends Demo {
 			}
 
 		}).listen();
-
 		folder.open();
 
+		folder = menu.addFolder("Material");
+		folder.add(this.material, "metalness").min(0.0).max(1.0).step(0.0001);
+		folder.add(this.material, "roughness").min(0.0).max(1.0).step(0.0001);
+		folder.add(this.material, "clearCoat").min(0.0).max(1.0).step(0.0001);
+		folder.add(this.material, "clearCoatRoughness").min(0.0).max(1.0).step(0.0001);
+		folder.add(this.material, "refractionRatio").min(0.0).max(1.0).step(0.0001);
+		folder.add(this.material, "reflectivity").min(0.0).max(1.0).step(0.0001);
+		folder.addColor(params, "color").onChange(() => this.material.color.setHex(params.color));
+		folder.add(this.material, "wireframe");
+		folder.add(this.material, "flatShading").onChange(() => {
+
+			this.material.needsUpdate = true;
+
+		});
+
 		menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.1).step(0.001);
-		menu.add(params, "rebuild SVO");
+		menu.add(params, "show SVO");
 		menu.add(params, "show Hermite data");
 		menu.add(params, "contour");
-		menu.add(this.material, "wireframe");
+
+		folder = menu.addFolder("Render Info");
+		folder.add(renderer.info.render, "vertices").listen();
+		folder.add(renderer.info.render, "faces").listen();
 
 	}
 
