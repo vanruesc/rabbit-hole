@@ -33,11 +33,11 @@ export class Heightfield extends SignedDistanceFunction {
 	 * Constructs a new heightfield SDF.
 	 *
 	 * @param {Object} parameters - The parameters.
-	 * @param {Array} parameters.min - The min position [x, y, z].
-	 * @param {Array} parameters.size - The size of the heightmap [x, y, z]. Y defines the maximum height.
-	 * @param {Array} parameters.scale - The scale [x, y, z].
+	 * @param {Array} [parameters.min] - The min position [x, y, z].
+	 * @param {Array} [parameters.size] - The size of the heightmap [x, y, z]. Y defines the maximum height.
+	 * @param {Array} [parameters.scale] - The scale [x, y, z].
 	 * @param {Uint8ClampedArray} [parameters.data] - The heightmap image data. Can be null.
-	 * @param {Image} [parameters.image] - The heightmap image. Can be null.
+	 * @param {Image} [parameters.image] - The heightmap image.
 	 * @param {Number} [material] - A material index.
 	 */
 
@@ -52,7 +52,13 @@ export class Heightfield extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.min = new Vector3(...parameters.min);
+		this.min = new Vector3(0, 0, 0);
+
+		if(parameters.min !== undefined) {
+
+			this.min.fromArray(parameters.min);
+
+		}
 
 		/**
 		 * The size.
@@ -61,7 +67,13 @@ export class Heightfield extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.size = new Vector3(...parameters.size);
+		this.size = new Vector3(1, 1, 1);
+
+		if(parameters.size !== undefined) {
+
+			this.size.fromArray(parameters.size);
+
+		}
 
 		/**
 		 * The scale.
@@ -70,7 +82,13 @@ export class Heightfield extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.scale = new Vector3(...parameters.scale);
+		this.scale = new Vector3(1, 1, 1);
+
+		if(parameters.scale !== undefined) {
+
+			this.scale.fromArray(parameters.scale);
+
+		}
 
 		/**
 		 * The absolute dimensions.
@@ -100,7 +118,7 @@ export class Heightfield extends SignedDistanceFunction {
 
 		this.heightmap = null;
 
-		if(parameters.image !== null) {
+		if(parameters.image !== undefined) {
 
 			this.fromImage(parameters.image);
 
