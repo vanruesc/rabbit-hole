@@ -33,7 +33,7 @@ module.exports = {
 			const solution = new Vector3();
 			const error = qefSolver.setData(qefData).solve(solution);
 
-			test.equal(error.toFixed(4), "0.3333", "incorrect error");
+			test.equal(error.toFixed(2), "0.00", "incorrect error");
 			test.ok(solution.equals(expected), "least squares result mismatch");
 			test.done();
 
