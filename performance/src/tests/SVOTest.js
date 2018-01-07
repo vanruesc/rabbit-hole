@@ -68,7 +68,7 @@ export class SVOTest extends Test {
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		VoxelCell.errorThreshold = 1.0;
+		VoxelCell.errorThreshold = 1e-2;
 
 		this.data = ConstructiveSolidGeometry.run(this.cellPosition.toArray(), this.cellSize, null, sdf.setOperationType(OperationType.UNION));
 

@@ -134,7 +134,7 @@ export class QEFSolver {
 			atb.sub(p);
 
 			SingularValueDecomposition.solve(ata, atb, x);
-			error = calculateError(ata, data.atb, x);
+			error = calculateError(ata, atb, x);
 			x.add(massPoint);
 
 			this.hasSolution = true;

@@ -53,7 +53,7 @@ export class ContouringTest extends Test {
 		sdf.origin.set(0, 0, 0);
 		sdf.setScale(scale);
 
-		VoxelCell.errorThreshold = 1.0;
+		VoxelCell.errorThreshold = 1e-2;
 
 		this.svo = new SparseVoxelOctree(
 			ConstructiveSolidGeometry.run(cellPosition.toArray(), cellSize, null, sdf.setOperationType(OperationType.UNION)),
