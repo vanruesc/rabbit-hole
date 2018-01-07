@@ -15,20 +15,20 @@ import { HermiteData, Material, QEFSolver } from "../../../src";
 import { HermiteDataEditor } from "./editors/HermiteDataEditor.js";
 
 /**
- * A QEF demo setup.
+ * A voxel demo setup that showcases the QEF calculation.
  *
  * @implements {EventListener}
  */
 
-export class QEFDemo extends Demo {
+export class VoxelDemo extends Demo {
 
 	/**
-	 * Constructs a new QEF demo.
+	 * Constructs a new voxel demo.
 	 */
 
 	constructor() {
 
-		super("qef");
+		super("voxel");
 
 		/**
 		 * A set of Hermite data.
@@ -268,7 +268,7 @@ export class QEFDemo extends Demo {
 
 	registerOptions(menu) {
 
-		const folder = menu.addFolder("Result");
+		const folder = menu.addFolder("Vertex Position");
 		folder.add(this.result, "x").listen();
 		folder.add(this.result, "y").listen();
 		folder.add(this.result, "z").listen();
