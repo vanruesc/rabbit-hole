@@ -30,18 +30,18 @@ import {
 } from "../../../src";
 
 /**
- * An SVO demo setup.
+ * A contouring demo setup.
  */
 
-export class SVODemo extends Demo {
+export class ContouringDemo extends Demo {
 
 	/**
-	 * Constructs a new SVO demo.
+	 * Constructs a new contouring demo.
 	 */
 
 	constructor() {
 
-		super("svo");
+		super("contouring");
 
 		/**
 		 * The data cell size.
@@ -97,6 +97,15 @@ export class SVODemo extends Demo {
 		 */
 
 		this.hermiteDataHelper = new HermiteDataHelper();
+
+		/**
+		 * A material.
+		 *
+		 * @type {MeshStandardMaterial}
+		 * @private
+		 */
+
+		this.material = new MeshStandardMaterial({ color: 0xff0000 });
 
 		/**
 		 * A generated mesh.
@@ -199,7 +208,7 @@ export class SVODemo extends Demo {
 			geometry.setIndex(new BufferAttribute(isosurface.indices, 1));
 			geometry.addAttribute("position", new BufferAttribute(isosurface.positions, 3));
 			geometry.addAttribute("normal", new BufferAttribute(isosurface.normals, 3));
-			mesh = new Mesh(geometry, new MeshStandardMaterial({ color: 0xff0000 }));
+			mesh = new Mesh(geometry, this.material);
 
 			this.mesh = mesh;
 			this.scene.add(mesh);
@@ -254,7 +263,7 @@ export class SVODemo extends Demo {
 
 		HermiteData.resolution = 64;
 		HermiteDataHelper.air = Material.AIR;
-		VoxelCell.errorThreshold = 1.0;
+		VoxelCell.errorThreshold = 0.005;
 		this.createHermiteData();
 
 		// Octree Helper.
@@ -306,6 +315,23 @@ export class SVODemo extends Demo {
 		const params = {
 			"SDF preset": presets[this.superPrimitivePreset],
 			"level mask": octreeHelper.children.length - 1,
+			"rebuild SVO": () => {
+
+				this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
+				this.createHermiteData();
+				this.createSVO();
+
+				if(this.mesh !== null) {
+
+					this.scene.remove(this.mesh);
+
+				}
+
+				hermiteDataHelper.dispose();
+				octreeHelper.visible = true;
+				params["level mask"] = octreeHelper.children.length - 1;
+
+			},
 			"show Hermite data": () => {
 
 				hermiteDataHelper.set(this.cellPosition, this.cellSize, this.hermiteData);
@@ -333,32 +359,16 @@ export class SVODemo extends Demo {
 			}
 		};
 
-		menu.add(params, "SDF preset", presets).onChange(() => {
-
-			this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
-			this.createHermiteData();
-			this.createSVO();
-
-			if(this.mesh !== null) {
-
-				this.scene.remove(this.mesh);
-
-			}
-
-			hermiteDataHelper.dispose();
-			octreeHelper.visible = true;
-			params["level mask"] = octreeHelper.children.length - 1;
-
-		});
+		menu.add(params, "SDF preset", presets).onChange(params["rebuild SVO"]);
 
 		const folder = menu.addFolder("Octree Helper");
-		folder.add(params, "level mask").min(0).max(octreeHelper.children.length).step(1).onChange(() => {
+		folder.add(params, "level mask").min(0).max(1 + Math.log2(HermiteData.resolution)).step(1).onChange(() => {
 
 			let i, l;
 
 			for(i = 0, l = octreeHelper.children.length; i < l; ++i) {
 
-				octreeHelper.children[i].visible = (params["level mask"] === octreeHelper.children.length || i === params["level mask"]);
+				octreeHelper.children[i].visible = (params["level mask"] >= octreeHelper.children.length || i === params["level mask"]);
 
 			}
 
@@ -366,8 +376,11 @@ export class SVODemo extends Demo {
 
 		folder.open();
 
+		menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.1).step(0.001);
+		menu.add(params, "rebuild SVO");
 		menu.add(params, "show Hermite data");
 		menu.add(params, "contour");
+		menu.add(this.material, "wireframe");
 
 	}
 

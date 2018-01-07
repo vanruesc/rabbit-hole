@@ -2,8 +2,8 @@ import { DemoManager } from "three-demo";
 import { WebGLRenderer } from "three";
 import { EffectComposer } from "postprocessing";
 
-import { SVODemo } from "./demos/SVODemo.js";
 import { VoxelDemo } from "./demos/VoxelDemo.js";
+import { ContouringDemo } from "./demos/ContouringDemo.js";
 
 /**
  * A demo manager.
@@ -92,8 +92,8 @@ window.addEventListener("load", function main(event) {
 	manager.addEventListener("load", onLoad);
 
 	// Register demos.
-	manager.addDemo(new SVODemo());
 	manager.addDemo(new VoxelDemo());
+	manager.addDemo(new ContouringDemo());
 
 	// Start rendering.
 	render();
