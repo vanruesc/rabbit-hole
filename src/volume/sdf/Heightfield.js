@@ -33,9 +33,7 @@ export class Heightfield extends SignedDistanceFunction {
 	 * Constructs a new heightfield SDF.
 	 *
 	 * @param {Object} parameters - The parameters.
-	 * @param {Array} [parameters.min] - The min position [x, y, z].
 	 * @param {Array} [parameters.size] - The size of the heightmap [x, y, z]. Y defines the maximum height.
-	 * @param {Array} [parameters.scale] - The scale [x, y, z].
 	 * @param {Uint8ClampedArray} [parameters.data] - The heightmap image data. Can be null.
 	 * @param {Image} [parameters.image] - The heightmap image.
 	 * @param {Number} [material] - A material index.
@@ -44,21 +42,6 @@ export class Heightfield extends SignedDistanceFunction {
 	constructor(parameters = {}, material) {
 
 		super(SDFType.HEIGHTFIELD, material);
-
-		/**
-		 * The position.
-		 *
-		 * @type {Vector3}
-		 * @private
-		 */
-
-		this.min = new Vector3(0, 0, 0);
-
-		if(parameters.min !== undefined) {
-
-			this.min.fromArray(parameters.min);
-
-		}
 
 		/**
 		 * The size.
@@ -74,31 +57,6 @@ export class Heightfield extends SignedDistanceFunction {
 			this.size.fromArray(parameters.size);
 
 		}
-
-		/**
-		 * The scale.
-		 *
-		 * @type {Vector3}
-		 * @private
-		 */
-
-		this.scale = new Vector3(1, 1, 1);
-
-		if(parameters.scale !== undefined) {
-
-			this.scale.fromArray(parameters.scale);
-
-		}
-
-		/**
-		 * The absolute dimensions.
-		 *
-		 * @type {Vector3}
-		 * @private
-		 */
-
-		this.dimensions = new Vector3();
-		this.dimensions.multiplyVectors(this.size, this.scale);
 
 		/**
 		 * The height data.
@@ -158,7 +116,6 @@ export class Heightfield extends SignedDistanceFunction {
 
 			this.heightmap = image;
 			this.size.set(imageData.width, 1.0, imageData.height);
-			this.dimensions.multiplyVectors(this.size, this.scale);
 			this.data = result;
 
 		}
@@ -168,19 +125,20 @@ export class Heightfield extends SignedDistanceFunction {
 	}
 
 	/**
-	 * Calculates the bounding box of this density field.
+	 * Calculates the bounding box of this SDF.
 	 *
 	 * @return {Box3} The bounding box.
 	 */
 
 	computeBoundingBox() {
 
-		this.bbox = new Box3();
+		const boundingBox = new Box3();
 
-		this.bbox.min.copy(this.min);
-		this.bbox.max.addVectors(this.min, this.dimensions);
+		boundingBox.min.set(-1, -1, -1);
+		boundingBox.max.set(1, 1, 1);
+		boundingBox.applyMatrix4(this.getTransformation());
 
-		return this.bbox;
+		return boundingBox;
 
 	}
 
@@ -193,10 +151,11 @@ export class Heightfield extends SignedDistanceFunction {
 
 	sample(position) {
 
-		const scale = this.scale;
-		const x = position.x / scale.x;
-		const z = position.z / scale.z;
-		const h = (this.min.y + (this.data[z * this.size.x + x] / 255) * this.dimensions.y);
+		position.applyMatrix4(this.inverseTransformation);
+
+		const x = position.x;
+		const z = position.z;
+		const h = this.data[z * this.size.x + x] / 255;
 
 		return position.y - h;
 
@@ -214,8 +173,6 @@ export class Heightfield extends SignedDistanceFunction {
 		const result = super.serialize();
 
 		result.parameters = {
-			min: this.min.toArray(),
-			scale: this.scale.toArray(),
 			size: this.size.toArray(),
 			data: deflate ? null : this.data,
 			dataUrl: (deflate && this.heightmap !== null) ? this.heightmap.toDataUrl() : null,

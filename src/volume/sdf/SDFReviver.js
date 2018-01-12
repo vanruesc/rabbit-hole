@@ -37,6 +37,10 @@ export class SDFReviver {
 		}
 
 		sdf.operation = description.operation;
+		sdf.position.fromArray(description.position);
+		sdf.quaternion.fromArray(description.quaternion);
+		sdf.scale.fromArray(description.scale);
+		sdf.updateInverseTransformation();
 
 		for(i = 0, l = description.children.length; i < l; ++i) {
 

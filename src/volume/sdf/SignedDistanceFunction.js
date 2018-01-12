@@ -1,9 +1,19 @@
+import { Matrix4, Quaternion, Vector3 } from "math-ds";
 import { OperationType } from "../csg/OperationType.js";
 import { Union } from "../csg/Union.js";
 import { Difference } from "../csg/Difference.js";
 import { Intersection } from "../csg/Intersection.js";
 import { DensityFunction } from "../csg/DensityFunction.js";
 import { Material } from "../Material.js";
+
+/**
+ * A matrix.
+ *
+ * @type {Matrix4}
+ * @private
+ */
+
+const m = new Matrix4();
 
 /**
  * An abstract Signed Distance Function.
@@ -48,10 +58,59 @@ export class SignedDistanceFunction {
 		 * A material index.
 		 *
 		 * @type {Number}
-		 * @private
+		 * @protected
 		 */
 
 		this.material = Math.min(255, Math.max(Material.SOLID, Math.trunc(material)));
+
+		/**
+		 * The axis-aligned bounding box of this SDF.
+		 *
+		 * @type {Box3}
+		 * @protected
+		 */
+
+		this.boundingBox = null;
+
+		/**
+		 * The positional translation.
+		 *
+		 * Call {@link updateInverseTransformation} after changing this field.
+		 *
+		 * @type {Vector3}
+		 */
+
+		this.position = new Vector3();
+
+		/**
+		 * The rotation.
+		 *
+		 * Call {@link updateInverseTransformation} after changing this field.
+		 *
+		 * @type {Quaternion}
+		 */
+
+		this.quaternion = new Quaternion();
+
+		/**
+		 * The scale.
+		 *
+		 * Call {@link updateInverseTransformation} after changing this field.
+		 *
+		 * @type {Vector3}
+		 */
+
+		this.scale = new Vector3(1, 1, 1);
+
+		/**
+		 * The inverted transformation matrix.
+		 *
+		 * @type {Matrix4}
+		 */
+
+		this.inverseTransformation = new Matrix4();
+
+		this.updateInverseTransformation();
 
 		/**
 		 * A list of SDFs.
@@ -64,49 +123,59 @@ export class SignedDistanceFunction {
 
 		this.children = [];
 
-		/**
-		 * The bounding box of this SDF.
-		 *
-		 * @type {Box3}
-		 * @private
-		 */
+	}
 
-		this.bbox = null;
+	/**
+	 * Composes a transformation matrix using the translation, rotation and scale
+	 * of this SDF.
+	 *
+	 * The transformation matrix is not needed for most SDF calculations and is
+	 * therefore not stored explicitly to save space.
+	 *
+	 * @param {Matrix4} [target] - A target matrix. If none is provided, a new one will be created.
+	 * @return {Matrix4} The transformation matrix.
+	 */
+
+	getTransformation(target = new Matrix4()) {
+
+		return target.compose(this.position, this.quaternion, this.scale);
 
 	}
 
 	/**
-	 * The bounding box of this SDF.
+	 * Calculates the AABB of this SDF if it doesn't exist yet and returns it.
 	 *
-	 * @type {Box3}
+	 * @param {Boolean} [recursive=false] - Whether the child SDFs should be taken into account.
+	 * @return {Box3} The bounding box.
 	 */
 
-	get boundingBox() {
-
-		return (this.bbox !== null) ? this.bbox : this.computeBoundingBox();
-
-	}
-
-	/**
-	 * The complete bounding box of this SDF.
-	 *
-	 * @type {Box3}
-	 */
-
-	get completeBoundingBox() {
+	getBoundingBox(recursive = false) {
 
 		const children = this.children;
-		const bbox = this.boundingBox.clone();
 
+		let boundingBox = this.boundingBox;
 		let i, l;
 
-		for(i = 0, l = children.length; i < l; ++i) {
+		if(boundingBox === null) {
 
-			bbox.union(children[i].completeBoundingBox);
+			boundingBox = this.computeBoundingBox();
+			this.boundingBox = boundingBox;
 
 		}
 
-		return bbox;
+		if(recursive) {
+
+			boundingBox = boundingBox.clone();
+
+			for(i = 0, l = children.length; i < l; ++i) {
+
+				boundingBox.union(children[i].getBoundingBox(recursive));
+
+			}
+
+		}
+
+		return boundingBox;
 
 	}
 
@@ -120,6 +189,24 @@ export class SignedDistanceFunction {
 	setOperationType(operation) {
 
 		this.operation = operation;
+
+		return this;
+
+	}
+
+	/**
+	 * Updates the inverse transformation matrix.
+	 *
+	 * This method should be called after either the position, quaternion or scale
+	 * has changed. The bounding box will be updated automatically.
+	 *
+	 * @return {SignedDistanceFunction} This SDF.
+	 */
+
+	updateInverseTransformation() {
+
+		this.inverseTransformation.getInverse(this.getTransformation(m));
+		this.boundingBox = null;
 
 		return this;
 
@@ -236,6 +323,9 @@ export class SignedDistanceFunction {
 			type: this.type,
 			operation: this.operation,
 			material: this.material,
+			position: this.position.toArray(),
+			quaternion: this.quaternion.toArray(),
+			scale: this.scale.toArray(),
 			parameters: null,
 			children: []
 		};
@@ -280,6 +370,7 @@ export class SignedDistanceFunction {
 	/**
 	 * Calculates the bounding box of this SDF.
 	 *
+	 * @protected
 	 * @throws {Error} An error is thrown if the method is not overridden.
 	 * @return {Box3} The bounding box.
 	 */
