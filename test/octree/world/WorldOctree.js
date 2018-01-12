@@ -39,7 +39,8 @@ module.exports = {
 			const world = new WorldOctree(20, 3);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 10, 10);
+			sphere.position.set(10, 10, 10);
+			sphere.updateInverseTransformation();
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 
@@ -56,7 +57,8 @@ module.exports = {
 			const world = new WorldOctree(20, 1);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 10, 10);
+			sphere.position.set(10, 10, 10);
+			sphere.updateInverseTransformation();
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 			world.applyCSG(sphere.setOperationType(OperationType.DIFFERENCE));
@@ -71,7 +73,8 @@ module.exports = {
 			const world = new WorldOctree(20, 1);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 10, 10);
+			sphere.position.set(10, 10, 10);
+			sphere.updateInverseTransformation();
 
 			world.applyCSG(sphere.setOperationType(OperationType.UNION));
 			world.applyCSG(sphere.setOperationType(OperationType.INTERSECTION));
@@ -86,7 +89,8 @@ module.exports = {
 			const world = new WorldOctree(20, 3);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(10, 20, 10);
+			sphere.position.set(10, 20, 10);
+			sphere.updateInverseTransformation();
 
 			const keyCoordinates = world.calculateKeyCoordinates(new Vector3(10, 20, 10), 1);
 
@@ -111,7 +115,6 @@ module.exports = {
 			const world = new WorldOctree(20, 2);
 
 			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.origin.set(0, 0, 0);
 
 			const raycaster = new Raycaster();
 			const intersects = [];
