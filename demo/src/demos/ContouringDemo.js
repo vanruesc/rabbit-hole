@@ -15,6 +15,7 @@ import {
 } from "three";
 
 import { DeltaControls } from "delta-controls";
+import { Euler } from "math-ds";
 import HermiteDataHelper from "hermite-data-helper";
 import OctreeHelper from "octree-helper";
 import { Demo } from "three-demo";
@@ -76,6 +77,24 @@ export class ContouringDemo extends Demo {
 		this.sdfType = SDFType.SUPER_PRIMITIVE;
 
 		/**
+		 * Euler angles.
+		 *
+		 * @type {Euler}
+		 * @private
+		 */
+
+		this.euler = new Euler(4.11, 3.56, 4.74);
+
+		/**
+		 * The SDF scale.
+		 *
+		 * @type {Vector3}
+		 * @private
+		 */
+
+		this.scale = new Vector3(0.34, 0.47, 0.25);
+
+		/**
 		 * The current Super Primitive preset.
 		 *
 		 * @type {SuperPrimitivePreset}
@@ -123,13 +142,29 @@ export class ContouringDemo extends Demo {
 		this.hermiteDataHelper = new HermiteDataHelper();
 
 		/**
+		 * An AABB helper.
+		 *
+		 * @type {Box3Helper}
+		 * @private
+		 */
+
+		this.box3Helper = new Box3Helper();
+
+		/**
 		 * A material.
 		 *
 		 * @type {MeshPhysicalMaterial}
 		 * @private
 		 */
 
-		this.material = new MeshPhysicalMaterial({ color: 0x009188 });
+		this.material = new MeshPhysicalMaterial({
+			color: 0x009188,
+			metalness: 0.23,
+			roughness: 0.31,
+			clearCoat: 0.94,
+			clearCoatRoughness: 0.15,
+			dithering: true
+		});
 
 		/**
 		 * A generated mesh.
@@ -191,19 +226,12 @@ export class ContouringDemo extends Demo {
 
 	createHermiteData() {
 
-		const preset = this.superPrimitivePreset;
-		const cellPosition = this.cellPosition.toArray();
-		const cellSize = this.cellSize;
-		const scale = (cellSize / 2) - ((preset === SuperPrimitivePreset.PILL) ? 0.275 : 0.075);
-
 		let sdf;
 
 		switch(this.sdfType) {
 
 			case SDFType.SUPER_PRIMITIVE:
-				sdf = SuperPrimitive.create(preset);
-				sdf.origin.set(0, 0, 0);
-				sdf.setScale(scale);
+				sdf = SuperPrimitive.create(this.superPrimitivePreset);
 				break;
 
 			case SDFType.HEIGHTFIELD:
@@ -212,7 +240,17 @@ export class ContouringDemo extends Demo {
 
 		}
 
-		this.hermiteData = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
+		sdf.quaternion.setFromEuler(this.euler);
+		sdf.scale.copy(this.scale);
+		sdf.updateInverseTransformation();
+
+		this.box3Helper.box = sdf.getBoundingBox();
+		this.hermiteData = ConstructiveSolidGeometry.run(
+			this.cellPosition.toArray(),
+			this.cellSize,
+			null,
+			sdf.setOperationType(OperationType.UNION)
+		);
 
 		return this.hermiteData;
 
@@ -324,7 +362,7 @@ export class ContouringDemo extends Demo {
 		// Camera.
 
 		const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 25);
-		camera.position.set(0, 0, 2);
+		camera.position.set(0, 0, -2);
 		this.camera = camera;
 
 		// Controls.
@@ -361,6 +399,7 @@ export class ContouringDemo extends Demo {
 		// Load the heightfield.
 
 		this.heightfield.fromImage(assets.get("heightmap").image);
+		this.heightfield.size.y = 50.0;
 
 		// Hermite Data, SDF and CSG.
 
@@ -371,11 +410,16 @@ export class ContouringDemo extends Demo {
 
 		// Octree Helper.
 
+		this.octreeHelper.visible = true;
 		scene.add(this.octreeHelper);
 
 		// Hermite Data Helper.
 
 		scene.add(this.hermiteDataHelper);
+
+		// SDF AABB Helper.
+
+		scene.add(this.box3Helper);
 
 		// Sparse Voxel Octree.
 
@@ -387,7 +431,11 @@ export class ContouringDemo extends Demo {
 		const halfSize = this.cellSize / 2;
 		box.min.set(-halfSize, -halfSize, -halfSize);
 		box.max.set(halfSize, halfSize, halfSize);
-		scene.add(new Box3Helper(box, 0x303030));
+
+		const boxHelper = new Box3Helper(box, 0x303030);
+		boxHelper.material.transparent = true;
+		boxHelper.material.opacity = 0.25;
+		scene.add(boxHelper);
 
 	}
 
@@ -414,6 +462,7 @@ export class ContouringDemo extends Demo {
 		const renderer = this.composer.renderer;
 		const octreeHelper = this.octreeHelper;
 		const hermiteDataHelper = this.hermiteDataHelper;
+		const box3Helper = this.box3Helper;
 		const presets = Object.keys(SuperPrimitivePreset);
 
 		const params = {
@@ -443,6 +492,7 @@ export class ContouringDemo extends Demo {
 
 				hermiteDataHelper.dispose();
 				octreeHelper.visible = true;
+				box3Helper.visible = true;
 				params["level mask"] = octreeHelper.children.length;
 
 			},
@@ -457,6 +507,7 @@ export class ContouringDemo extends Demo {
 
 					hermiteDataHelper.visible = true;
 					octreeHelper.visible = false;
+					box3Helper.visible = false;
 
 				} catch(e) {
 
@@ -468,10 +519,13 @@ export class ContouringDemo extends Demo {
 
 			"contour": () => {
 
+				this.createHermiteData();
 				this.createSVO();
 				this.contour();
+
 				octreeHelper.visible = false;
 				hermiteDataHelper.visible = false;
+				box3Helper.visible = false;
 
 			}
 
@@ -498,7 +552,16 @@ export class ContouringDemo extends Demo {
 			}
 
 		}).listen();
-		folder.open();
+
+		folder = menu.addFolder("Rotation");
+		folder.add(this.euler, "x").min(0.0).max(Math.PI * 2).step(0.0001);
+		folder.add(this.euler, "y").min(0.0).max(Math.PI * 2).step(0.0001);
+		folder.add(this.euler, "z").min(0.0).max(Math.PI * 2).step(0.0001);
+
+		folder = menu.addFolder("Scale");
+		folder.add(this.scale, "x").min(0.0).max(0.5).step(0.0001);
+		folder.add(this.scale, "y").min(0.0).max(0.5).step(0.0001);
+		folder.add(this.scale, "z").min(0.0).max(0.5).step(0.0001);
 
 		folder = menu.addFolder("Material");
 		folder.add(this.material, "metalness").min(0.0).max(1.0).step(0.0001);
