@@ -43,19 +43,20 @@ function computeIndexBounds(operation) {
 	const min = new Vector3(0, 0, 0);
 	const max = new Vector3(n, n, n);
 
-	const region = new Box3(cellPosition, cellPosition.clone().addScalar(cellSize));
+	const cellBounds = new Box3(cellPosition, cellPosition.clone().addScalar(cellSize));
+	const operationBounds = operation.getBoundingBox();
 
 	if(operation.type !== OperationType.INTERSECTION) {
 
-		if(operation.boundingBox.intersectsBox(region)) {
+		if(operationBounds.intersectsBox(cellBounds)) {
 
-			min.copy(operation.boundingBox.min).max(region.min).sub(region.min);
+			min.copy(operationBounds.min).max(cellBounds.min).sub(cellBounds.min);
 
 			min.x = Math.ceil(min.x * n / s);
 			min.y = Math.ceil(min.y * n / s);
 			min.z = Math.ceil(min.z * n / s);
 
-			max.copy(operation.boundingBox.max).min(region.max).sub(region.min);
+			max.copy(operationBounds.max).min(cellBounds.max).sub(cellBounds.min);
 
 			max.x = Math.floor(max.x * n / s);
 			max.y = Math.floor(max.y * n / s);

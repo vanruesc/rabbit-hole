@@ -39,16 +39,14 @@ export class DensityFunction extends Operation {
 	}
 
 	/**
-	 * Calculates a bounding box for this operation.
+	 * Calculates the bounding box of this density function.
 	 *
 	 * @return {Box3} The bounding box.
 	 */
 
 	computeBoundingBox() {
 
-		this.bbox = this.sdf.computeBoundingBox();
-
-		return this.bbox;
+		return this.sdf.getBoundingBox(true);
 
 	}
 
