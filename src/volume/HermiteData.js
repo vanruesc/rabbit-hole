@@ -47,10 +47,10 @@ export class HermiteData {
 	/**
 	 * Constructs a new set of Hermite data.
 	 *
-	 * @param {Boolean} [initialise=true] - Whether the data should be initialised immediately.
+	 * @param {Boolean} [initialize=true] - Whether the data should be initialised immediately.
 	 */
 
-	constructor(initialise = true) {
+	constructor(initialize = true) {
 
 		/**
 		 * Describes how many material indices are currently solid:
@@ -69,7 +69,7 @@ export class HermiteData {
 		 * @type {Uint8Array}
 		 */
 
-		this.materialIndices = initialise ? new Uint8Array(indexCount) : null;
+		this.materialIndices = initialize ? new Uint8Array(indexCount) : null;
 
 		/**
 		 * Run-length compression data.
