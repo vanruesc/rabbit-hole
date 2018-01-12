@@ -15,7 +15,7 @@ import {
 } from "three";
 
 import { DeltaControls } from "delta-controls";
-import { Euler } from "math-ds";
+import { Euler, RotationOrder } from "math-ds";
 import HermiteDataHelper from "hermite-data-helper";
 import OctreeHelper from "octree-helper";
 import { Demo } from "three-demo";
@@ -83,7 +83,7 @@ export class ContouringDemo extends Demo {
 		 * @private
 		 */
 
-		this.euler = new Euler(4.11, 3.56, 4.74);
+		this.euler = new Euler();
 
 		/**
 		 * The SDF scale.
@@ -92,7 +92,7 @@ export class ContouringDemo extends Demo {
 		 * @private
 		 */
 
-		this.scale = new Vector3(0.34, 0.47, 0.25);
+		this.scale = new Vector3();
 
 		/**
 		 * The current Super Primitive preset.
@@ -358,6 +358,13 @@ export class ContouringDemo extends Demo {
 		const assets = this.assets;
 		const composer = this.composer;
 		const renderer = composer.renderer;
+
+		// Default settings.
+
+		this.sdfType = SDFType.SUPER_PRIMITIVE;
+		this.euler.set(4.11, 3.56, 4.74, RotationOrder.XYZ);
+		this.scale.set(0.34, 0.47, 0.25);
+		this.superPrimitivePreset = SuperPrimitivePreset.TORUS;
 
 		// Camera.
 
