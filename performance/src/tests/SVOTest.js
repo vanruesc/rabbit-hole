@@ -55,7 +55,7 @@ export class SVOTest extends Test {
 	}
 
 	/**
-	 * Initialises test.
+	 * Initialises this test.
 	 *
 	 * @return {String} A result message.
 	 * @return {SVOTest} This test.
@@ -63,10 +63,9 @@ export class SVOTest extends Test {
 
 	initialize() {
 
-		const scale = (this.cellSize / 2) - 0.075;
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);
-		sdf.origin.set(0, 0, 0);
-		sdf.setScale(scale);
+		sdf.scale.set(0.475, 0.475, 0.475);
+		sdf.updateInverseTransformation();
 
 		VoxelCell.errorThreshold = 1e-2;
 

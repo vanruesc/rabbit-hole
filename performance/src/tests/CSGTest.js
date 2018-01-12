@@ -61,7 +61,7 @@ export class CSGTest extends Test {
 	}
 
 	/**
-	 * Initialises test.
+	 * Initialises this test.
 	 *
 	 * @return {String} A result message.
 	 * @return {CSGTest} This test.
@@ -70,16 +70,16 @@ export class CSGTest extends Test {
 	initialize() {
 
 		const scale = (this.cellSize / 2) - 0.075;
-		const sdf0 = SuperPrimitive.create(SuperPrimitivePreset.PELLET).setOperationType(OperationType.UNION);
-		const sdf1 = SuperPrimitive.create(SuperPrimitivePreset.PIPE).setOperationType(OperationType.UNION);
+		const pellet = SuperPrimitive.create(SuperPrimitivePreset.PELLET).setOperationType(OperationType.UNION);
+		const pipe = SuperPrimitive.create(SuperPrimitivePreset.PIPE).setOperationType(OperationType.UNION);
 
-		sdf0.origin.set(0, 0, 0);
-		sdf1.origin.set(0, 0, 0);
-		sdf0.setScale(scale);
-		sdf1.setScale(scale);
+		pellet.scale.set(0.475, 0.475, 0.475);
+		pellet.updateInverseTransformation();
+		pipe.scale.set(0.475, 0.475, 0.475);
+		pipe.updateInverseTransformation();
 
-		this.data = ConstructiveSolidGeometry.run(this.cellPosition, this.cellSize, null, sdf0);
-		this.sdf = sdf1;
+		this.data = ConstructiveSolidGeometry.run(this.cellPosition, this.cellSize, null, pellet);
+		this.sdf = pipe;
 
 		return this;
 

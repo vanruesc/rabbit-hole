@@ -38,7 +38,7 @@ export class ContouringTest extends Test {
 	}
 
 	/**
-	 * Initialises test.
+	 * Initialises this test.
 	 *
 	 * @return {String} A result message.
 	 * @return {ContouringTest} This test.
@@ -47,11 +47,12 @@ export class ContouringTest extends Test {
 	initialize() {
 
 		const cellSize = 1;
-		const cellPosition = new Vector3(-0.5, -0.5, -0.5);
-		const scale = (cellSize / 2) - 0.075;
+		const halfSize = cellSize / 2;
+		const cellPosition = new Vector3(-halfSize, -halfSize, -halfSize);
+
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);
-		sdf.origin.set(0, 0, 0);
-		sdf.setScale(scale);
+		sdf.scale.set(0.475, 0.475, 0.475);
+		sdf.updateInverseTransformation();
 
 		VoxelCell.errorThreshold = 1e-2;
 

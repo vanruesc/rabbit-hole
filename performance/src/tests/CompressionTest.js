@@ -44,7 +44,7 @@ export class CompressionTest extends Test {
 	}
 
 	/**
-	 * Initialises test.
+	 * Initialises this test.
 	 *
 	 * @return {String} A result message.
 	 * @return {CompressionTest} This test.
@@ -54,12 +54,11 @@ export class CompressionTest extends Test {
 
 		const cellSize = 1;
 		const halfSize = cellSize / 2;
-		const scale = halfSize - 0.075;
 		const cellPosition = [-halfSize, -halfSize, -halfSize];
 
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);
-		sdf.origin.set(0, 0, 0);
-		sdf.setScale(scale);
+		sdf.scale.set(0.475, 0.475, 0.475);
+		sdf.updateInverseTransformation();
 
 		this.data = ConstructiveSolidGeometry.run(cellPosition, cellSize, null, sdf.setOperationType(OperationType.UNION));
 
