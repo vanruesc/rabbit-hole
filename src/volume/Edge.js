@@ -54,8 +54,8 @@ export class Edge {
 	/**
 	 * Constructs a new edge.
 	 *
-	 * @param {Vector3} [a] - A starting point. If none is provided, a new vector will be cretaed.
-	 * @param {Vector3} [b] - An ending point. If none is provided, a new vector will be cretaed.
+	 * @param {Vector3} [a] - A starting point. If none is provided, a new vector will be created.
+	 * @param {Vector3} [b] - An ending point. If none is provided, a new vector will be created.
 	 */
 
 	constructor(a = new Vector3(), b = new Vector3()) {
