@@ -69,4 +69,4 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Contributing
 
-Please refer to the [contribution guidelines](https://github.com/vanruesc/rabbit-hole/blob/master/CONTRIBUTING.md).
+Please refer to the [contribution guidelines](https://github.com/vanruesc/rabbit-hole/blob/master/CONTRIBUTING.md) for details.
