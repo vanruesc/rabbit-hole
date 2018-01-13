@@ -575,7 +575,6 @@ export class ContouringDemo extends Demo {
 		folder.add(this.material, "roughness").min(0.0).max(1.0).step(0.0001);
 		folder.add(this.material, "clearCoat").min(0.0).max(1.0).step(0.0001);
 		folder.add(this.material, "clearCoatRoughness").min(0.0).max(1.0).step(0.0001);
-		folder.add(this.material, "refractionRatio").min(0.0).max(1.0).step(0.0001);
 		folder.add(this.material, "reflectivity").min(0.0).max(1.0).step(0.0001);
 		folder.addColor(params, "color").onChange(() => this.material.color.setHex(params.color));
 		folder.add(this.material, "wireframe");
