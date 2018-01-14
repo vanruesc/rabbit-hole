@@ -11,8 +11,6 @@ import { SDFType } from "./SDFType.js";
  *
  * Reference:
  *  https://www.shadertoy.com/view/MsVGWG
- *
- * @implements {Serializable}
  */
 
 export class SuperPrimitive extends SignedDistanceFunction {

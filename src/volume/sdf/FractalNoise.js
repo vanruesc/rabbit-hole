@@ -57,8 +57,6 @@ function noise(p) {
  *
  * Reference:
  *  https://gpfault.net/posts/perlin-noise.txt.html
- *
- * @implements {Serializable}
  */
 
 export class FractalNoise extends SignedDistanceFunction {

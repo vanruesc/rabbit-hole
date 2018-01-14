@@ -23,8 +23,6 @@ function readImageData(image) {
 
 /**
  * A Signed Distance Function that describes a heightfield.
- *
- * @implements {Serializable}
  */
 
 export class Heightfield extends SignedDistanceFunction {
