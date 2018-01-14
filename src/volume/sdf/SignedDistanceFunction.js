@@ -58,7 +58,6 @@ export class SignedDistanceFunction {
 		 * A material index.
 		 *
 		 * @type {Number}
-		 * @protected
 		 */
 
 		this.material = Math.min(255, Math.max(Material.SOLID, Math.trunc(material)));
@@ -176,6 +175,21 @@ export class SignedDistanceFunction {
 		}
 
 		return boundingBox;
+
+	}
+
+	/**
+	 * Sets the material.
+	 *
+	 * @param {Material} material - The material. Must be an integer in the range of 1 to 255.
+	 * @return {SignedDistanceFunction} This SDF.
+	 */
+
+	setMaterial(material) {
+
+		this.material = Math.min(255, Math.max(Material.SOLID, Math.trunc(material)));
+
+		return this;
 
 	}
 
