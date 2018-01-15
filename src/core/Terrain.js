@@ -28,17 +28,17 @@ export class Terrain extends EventTarget {
 	 *
 	 * @param {Object} [options] - The options.
 	 * @param {Number} [options.workers=navigator.hardwareConcurrency] - Limits the amount of active workers. Cannot exceed the amount of logical processors.
-	 * @param {Number} [options.resolution=32] - The resolution of the volume data. Will be rounded up to the next power of two.
-	 * @param {Number} [options.cellSize=20] - The size of the smallest octants in LOD zero.
-	 * @param {Number} [options.levels=16] - The amount of detail levels.
-	 * @param {KeyDesign} [options.keyDesign] - The bit allotments for the octant coordinates.
+	 * @param {Number} [options.resolution=32] - The resolution of the volume data.
+	 * @param {Number} [options.world] - Additional world octree settings. See {@link WorldOctree} for details.
 	 */
 
 	constructor(options = {}) {
 
-		super();
+		const worldSettings = (options.world !== undefined) ? options.world : {};
 
 		HermiteData.resolution = (options.resolution !== undefined) ? options.resolution : 32;
+
+		super();
 
 		/**
 		 * The terrain mesh. Add this object to your scene.
@@ -54,7 +54,7 @@ export class Terrain extends EventTarget {
 		 * @type {WorldOctree}
 		 */
 
-		this.world = new WorldOctree(options.cellSize, options.levels, options.keyDesign);
+		this.world = new WorldOctree(worldSettings.cellSize, worldSettings.levels, worldSettings.keyDesign);
 
 		/**
 		 * A clipmap.
