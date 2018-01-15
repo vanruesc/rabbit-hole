@@ -235,8 +235,7 @@ export class SignedDistanceFunction {
 
 	union(sdf) {
 
-		sdf.operation = OperationType.UNION;
-		this.children.push(sdf);
+		this.children.push(sdf.setOperationType(OperationType.UNION));
 
 		return this;
 
@@ -251,8 +250,7 @@ export class SignedDistanceFunction {
 
 	subtract(sdf) {
 
-		sdf.operation = OperationType.DIFFERENCE;
-		this.children.push(sdf);
+		this.children.push(sdf.setOperationType(OperationType.DIFFERENCE));
 
 		return this;
 
@@ -267,8 +265,7 @@ export class SignedDistanceFunction {
 
 	intersect(sdf) {
 
-		sdf.operation = OperationType.INTERSECTION;
-		this.children.push(sdf);
+		this.children.push(sdf.setOperationType(OperationType.INTERSECTION));
 
 		return this;
 
