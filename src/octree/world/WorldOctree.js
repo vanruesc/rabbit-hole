@@ -138,14 +138,14 @@ export class WorldOctree {
 	 * Each octant can be uniquely identified by a 3D coordinate and a LOD value.
 	 * The individual values for X, Y and Z are combined into a 53-bit key.
 	 *
-	 * @param {Number} [cellSize=20] - The size of the smallest octants in LOD zero. Must be an integer i such that 0 < i < 2 ** (32 - levels).
-	 * @param {Number} [levels=16] - The amount of detail levels. Must be an integer i such that 0 < i < 32.
+	 * @param {Number} [cellSize=20] - The size of the smallest octants in LOD zero. Must be an integer i such that 0 < i < 2 ** (33 - levels).
+	 * @param {Number} [levels=8] - The amount of detail levels. Must be an integer i such that 0 < i < 33.
 	 * @param {KeyDesign} [keyDesign] - The bit allotments for the octant coordinates.
 	 */
 
-	constructor(cellSize = 20, levels = 16, keyDesign = new KeyDesign()) {
+	constructor(cellSize = 20, levels = 8, keyDesign = new KeyDesign()) {
 
-		levels = Math.max(Math.min(Math.trunc(levels), 31), 1);
+		levels = Math.max(Math.min(Math.trunc(levels), 32), 1);
 
 		/**
 		 * The LOD zero cell size.
@@ -154,7 +154,7 @@ export class WorldOctree {
 		 * @private
 		 */
 
-		this.cellSize = Math.max(Math.min(Math.trunc(cellSize), Math.pow(2, 32 - levels) - 1), 1);
+		this.cellSize = Math.max(Math.min(Math.trunc(cellSize), Math.pow(2, 33 - levels) - 1), 1);
 
 		/**
 		 * The octant key design.
@@ -263,7 +263,7 @@ export class WorldOctree {
 
 	getCellSize(lod = 0) {
 
-		return this.cellSize << Math.min(lod, this.levels);
+		return (this.cellSize << lod) >>> 0;
 
 	}
 
