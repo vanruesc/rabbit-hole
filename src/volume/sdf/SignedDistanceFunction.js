@@ -211,8 +211,8 @@ export class SignedDistanceFunction {
 	/**
 	 * Updates the inverse transformation matrix.
 	 *
-	 * This method should be called after either the position, quaternion or scale
-	 * has changed. The bounding box will be updated automatically.
+	 * This method should be called after the position, quaternion or scale has
+	 * changed. The bounding box will be updated automatically.
 	 *
 	 * @return {SignedDistanceFunction} This SDF.
 	 */
