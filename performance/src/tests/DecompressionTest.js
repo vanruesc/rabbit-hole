@@ -54,7 +54,6 @@ export class DecompressionTest extends Test {
 
 		const cellSize = 1;
 		const halfSize = cellSize / 2;
-		const scale = halfSize - 0.075;
 		const cellPosition = [-halfSize, -halfSize, -halfSize];
 
 		const sdf = SuperPrimitive.create(SuperPrimitivePreset.PIPE);

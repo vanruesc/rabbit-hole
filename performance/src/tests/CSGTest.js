@@ -69,7 +69,6 @@ export class CSGTest extends Test {
 
 	initialize() {
 
-		const scale = (this.cellSize / 2) - 0.075;
 		const pellet = SuperPrimitive.create(SuperPrimitivePreset.PELLET).setOperationType(OperationType.UNION);
 		const pipe = SuperPrimitive.create(SuperPrimitivePreset.PIPE).setOperationType(OperationType.UNION);
 
