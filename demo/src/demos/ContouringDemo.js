@@ -110,9 +110,7 @@ export class ContouringDemo extends Demo {
 		 * @private
 		 */
 
-		this.heightfield = new Heightfield({
-			min: this.cellPosition.toArray()
-		});
+		this.heightfield = new Heightfield();
 
 		/**
 		 * A set of Hermite data.
@@ -232,16 +230,19 @@ export class ContouringDemo extends Demo {
 
 			case SDFType.SUPER_PRIMITIVE:
 				sdf = SuperPrimitive.create(this.superPrimitivePreset);
+				sdf.quaternion.setFromEuler(this.euler);
+				sdf.scale.copy(this.scale);
 				break;
 
 			case SDFType.HEIGHTFIELD:
 				sdf = this.heightfield;
+				sdf.position.set(-0.4999, -0.25, -0.4999);
+				sdf.quaternion.set(0, 0, 0, 1);
+				sdf.scale.set(0.9999, 0.5, 0.9999);
 				break;
 
 		}
 
-		sdf.quaternion.setFromEuler(this.euler);
-		sdf.scale.copy(this.scale);
 		sdf.updateInverseTransformation();
 
 		this.box3Helper.box = sdf.getBoundingBox();
@@ -377,7 +378,7 @@ export class ContouringDemo extends Demo {
 		const controls = new DeltaControls(camera.position, camera.quaternion, renderer.domElement);
 		controls.settings.pointer.lock = false;
 		controls.settings.sensitivity.rotation = 0.0025;
-		controls.settings.sensitivity.zoom = 0.01;
+		controls.settings.sensitivity.zoom = 0.25;
 		controls.settings.zoom.maxDistance = 20;
 		controls.lookAt(scene.position);
 		this.controls = controls;
@@ -406,7 +407,6 @@ export class ContouringDemo extends Demo {
 		// Load the heightfield.
 
 		this.heightfield.fromImage(assets.get("heightmap").image);
-		this.heightfield.size.y = 50.0;
 
 		// Hermite Data, SDF and CSG.
 
@@ -470,24 +470,27 @@ export class ContouringDemo extends Demo {
 		const octreeHelper = this.octreeHelper;
 		const hermiteDataHelper = this.hermiteDataHelper;
 		const box3Helper = this.box3Helper;
-		const presets = Object.keys(SuperPrimitivePreset);
+		const presets = Object.keys(SuperPrimitivePreset).concat(["HEIGHTFIELD"]);
 
 		const params = {
 
-			"SDF preset": presets[this.superPrimitivePreset],
+			"SDF": presets[this.superPrimitivePreset],
 			"color": this.material.color.getHex(),
 			"level mask": octreeHelper.children.length,
 
-			"use heightfield": () => {
-
-				this.sdfType = SDFType.HEIGHTFIELD;
-				params["show SVO"]();
-
-			},
-
 			"show SVO": () => {
 
-				this.superPrimitivePreset = SuperPrimitivePreset[params["SDF preset"]];
+				if(params.SDF !== "HEIGHTFIELD") {
+
+					this.superPrimitivePreset = SuperPrimitivePreset[params.SDF];
+					this.sdfType = SDFType.SUPER_PRIMITIVE;
+
+				} else {
+
+					this.sdfType = SDFType.HEIGHTFIELD;
+
+				}
+
 				this.createHermiteData();
 				this.createSVO();
 
@@ -538,14 +541,7 @@ export class ContouringDemo extends Demo {
 
 		};
 
-		menu.add(params, "SDF preset", presets).onChange(() => {
-
-			this.sdfType = SDFType.SUPER_PRIMITIVE;
-			params["show SVO"]();
-
-		});
-
-		menu.add(params, "use heightfield");
+		menu.add(params, "SDF", presets).onChange(params["show SVO"]);
 
 		let folder = menu.addFolder("Octree Helper");
 		folder.add(params, "level mask").min(0).max(1 + Math.log2(HermiteData.resolution)).step(1).onChange(() => {
@@ -560,15 +556,17 @@ export class ContouringDemo extends Demo {
 
 		}).listen();
 
-		folder = menu.addFolder("Rotation");
-		folder.add(this.euler, "x").min(0.0).max(Math.PI * 2).step(0.0001);
-		folder.add(this.euler, "y").min(0.0).max(Math.PI * 2).step(0.0001);
-		folder.add(this.euler, "z").min(0.0).max(Math.PI * 2).step(0.0001);
+		folder = menu.addFolder("Transformation");
 
-		folder = menu.addFolder("Scale");
-		folder.add(this.scale, "x").min(0.0).max(0.5).step(0.0001);
-		folder.add(this.scale, "y").min(0.0).max(0.5).step(0.0001);
-		folder.add(this.scale, "z").min(0.0).max(0.5).step(0.0001);
+		let subFolder = folder.addFolder("Rotation");
+		subFolder.add(this.euler, "x").min(0.0).max(Math.PI * 2).step(0.0001);
+		subFolder.add(this.euler, "y").min(0.0).max(Math.PI * 2).step(0.0001);
+		subFolder.add(this.euler, "z").min(0.0).max(Math.PI * 2).step(0.0001);
+
+		subFolder = folder.addFolder("Scale");
+		subFolder.add(this.scale, "x").min(0.0).max(0.5).step(0.0001);
+		subFolder.add(this.scale, "y").min(0.0).max(0.5).step(0.0001);
+		subFolder.add(this.scale, "z").min(0.0).max(0.5).step(0.0001);
 
 		folder = menu.addFolder("Material");
 		folder.add(this.material, "metalness").min(0.0).max(1.0).step(0.0001);
