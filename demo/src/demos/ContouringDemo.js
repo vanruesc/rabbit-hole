@@ -173,6 +173,24 @@ export class ContouringDemo extends Demo {
 
 		this.mesh = null;
 
+		/**
+		 * The current amount of generated vertices.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.vertices = 0;
+
+		/**
+		 * The current amount of generated faces.
+		 *
+		 * @type {Number}
+		 * @private
+		 */
+
+		this.faces = 0;
+
 	}
 
 	/**
@@ -283,6 +301,10 @@ export class ContouringDemo extends Demo {
 			geometry.addAttribute("position", new BufferAttribute(isosurface.positions, 3));
 			geometry.addAttribute("normal", new BufferAttribute(isosurface.normals, 3));
 			mesh = new Mesh(geometry, this.material);
+
+			// Statistics.
+			this.vertices = isosurface.positions.length / 3;
+			this.faces = isosurface.indices.length / 3;
 
 			this.mesh = mesh;
 			this.scene.add(mesh);
@@ -467,7 +489,6 @@ export class ContouringDemo extends Demo {
 
 	registerOptions(menu) {
 
-		const renderer = this.composer.renderer;
 		const octreeHelper = this.octreeHelper;
 		const hermiteDataHelper = this.hermiteDataHelper;
 		const box3Helper = this.box3Helper;
@@ -584,14 +605,14 @@ export class ContouringDemo extends Demo {
 		});
 
 		menu.add(HermiteData, "resolution", [32, 64, 128]);
-		menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.1).step(0.001);
+		menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.01).step(0.0001);
 		menu.add(params, "show SVO");
 		menu.add(params, "show Hermite data");
 		menu.add(params, "contour");
 
 		folder = menu.addFolder("Render Info");
-		folder.add(renderer.info.render, "vertices").listen();
-		folder.add(renderer.info.render, "faces").listen();
+		folder.add(this, "vertices").listen();
+		folder.add(this, "faces").listen();
 
 	}
 
