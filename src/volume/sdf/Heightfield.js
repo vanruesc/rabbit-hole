@@ -168,19 +168,23 @@ export class Heightfield extends SignedDistanceFunction {
 
 			position.applyMatrix4(this.inverseTransformation);
 
-			const w = this.width;
-			const h = this.height;
+			const w = this.width, h = this.height;
 			const x = Math.max(Math.min(Math.round(position.x * w), w - 1), 1);
 			const z = Math.max(Math.min(Math.round(position.z * h), h - 1), 1);
 
-			const h1 = data[z * w + (x + 1)];
-			const h2 = data[z * w + (x - 1)];
-			const h3 = data[(z + 1) * w + x];
-			const h4 = data[(z - 1) * w + x];
+			const p = x + 1, q = x - 1;
+			const a = z * w, b = a + w, c = a - w;
 
-			const height = ((h1 + h2 + h3 + h4) / 4) / 255;
+			// Smooth sampling using Box Blur.
+			const height = (
 
-			d = position.y - height;
+				data[c + q] + data[c + x] + data[c + p] +
+				data[a + q] + data[a + x] + data[a + p] +
+				data[b + q] + data[b + x] + data[b + p]
+
+			) / 9;
+
+			d = position.y - (height / 255);
 
 		} else {
 
