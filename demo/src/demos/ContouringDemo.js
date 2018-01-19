@@ -236,9 +236,9 @@ export class ContouringDemo extends Demo {
 
 			case SDFType.HEIGHTFIELD:
 				sdf = this.heightfield;
-				sdf.position.set(-0.4999, -0.25, -0.4999);
+				sdf.position.set(-1, -0.25, -1);
 				sdf.quaternion.set(0, 0, 0, 1);
-				sdf.scale.set(0.9999, 0.5, 0.9999);
+				sdf.scale.set(2, 0.5, 2);
 				break;
 
 		}
@@ -333,7 +333,7 @@ export class ContouringDemo extends Demo {
 
 				});
 
-				textureLoader.load("textures/height/02.png", (texture) => {
+				textureLoader.load("textures/height/03.png", (texture) => {
 
 					assets.set("heightmap", texture);
 
@@ -377,8 +377,9 @@ export class ContouringDemo extends Demo {
 
 		const controls = new DeltaControls(camera.position, camera.quaternion, renderer.domElement);
 		controls.settings.pointer.lock = false;
-		controls.settings.sensitivity.rotation = 0.0025;
-		controls.settings.sensitivity.zoom = 0.25;
+		controls.settings.sensitivity.rotation = 0.00175;
+		controls.settings.sensitivity.translation = 0.425;
+		controls.settings.sensitivity.zoom = 0.2;
 		controls.settings.zoom.maxDistance = 20;
 		controls.lookAt(scene.position);
 		this.controls = controls;
@@ -544,7 +545,7 @@ export class ContouringDemo extends Demo {
 		menu.add(params, "SDF", presets).onChange(params["show SVO"]);
 
 		let folder = menu.addFolder("Octree Helper");
-		folder.add(params, "level mask").min(0).max(1 + Math.log2(HermiteData.resolution)).step(1).onChange(() => {
+		folder.add(params, "level mask").min(0).max(1 + Math.log2(128)).step(1).onChange(() => {
 
 			let i, l;
 
@@ -582,6 +583,7 @@ export class ContouringDemo extends Demo {
 
 		});
 
+		menu.add(HermiteData, "resolution", [32, 64, 128]);
 		menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.1).step(0.001);
 		menu.add(params, "show SVO");
 		menu.add(params, "show Hermite data");
