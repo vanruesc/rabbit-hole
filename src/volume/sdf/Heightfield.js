@@ -160,6 +160,7 @@ export class Heightfield extends SignedDistanceFunction {
 	sample(position) {
 
 		const boundingBox = this.boundingBox;
+		const data = this.data;
 
 		let d;
 
@@ -169,10 +170,15 @@ export class Heightfield extends SignedDistanceFunction {
 
 			const w = this.width;
 			const h = this.height;
-			const x = Math.max(Math.min(Math.trunc(position.x * w), w), 0);
-			const z = Math.max(Math.min(Math.trunc(position.z * h), h), 0);
+			const x = Math.max(Math.min(Math.round(position.x * w), w - 1), 1);
+			const z = Math.max(Math.min(Math.round(position.z * h), h - 1), 1);
 
-			const height = this.data[z * w + x] / 255;
+			const h1 = data[z * w + (x + 1)];
+			const h2 = data[z * w + (x - 1)];
+			const h3 = data[(z + 1) * w + x];
+			const h4 = data[(z - 1) * w + x];
+
+			const height = ((h1 + h2 + h3 + h4) / 4) / 255;
 
 			d = position.y - height;
 
