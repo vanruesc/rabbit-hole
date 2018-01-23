@@ -14,6 +14,7 @@ export {
 	KeyDesign,
 	KeyIterator,
 	WorldOctant,
+	WorldOctantId,
 	WorldOctantIterator,
 	WorldOctantWrapper,
 	WorldOctree,

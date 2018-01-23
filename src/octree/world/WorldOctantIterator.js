@@ -29,15 +29,6 @@ export class WorldOctantIterator {
 		this.world = world;
 
 		/**
-		 * The LOD index.
-		 *
-		 * @type {Number}
-		 * @private
-		 */
-
-		this.lod = lod;
-
-		/**
 		 * The size of the cells in the specified LOD grid.
 		 *
 		 * @type {Number}
@@ -63,6 +54,7 @@ export class WorldOctantIterator {
 		 */
 
 		this.octantWrapper = new WorldOctantWrapper();
+		this.octantWrapper.id.lod = lod;
 
 		/**
 		 * An iterator result.
@@ -85,7 +77,7 @@ export class WorldOctantIterator {
 
 	reset() {
 
-		const lod = this.lod;
+		const lod = this.octantWrapper.id.lod;
 		const world = this.world;
 		const grid = world.getGrid(lod);
 
@@ -121,9 +113,9 @@ export class WorldOctantIterator {
 		if(!internalResult.done) {
 
 			this.keyDesign.unpackKey(value[0], octantWrapper.min);
-			octantWrapper.min.multiplyScalar(this.cellSize);
-			octantWrapper.min.add(this.world.min);
+			octantWrapper.min.multiplyScalar(this.cellSize).add(this.world.min);
 			octantWrapper.max.copy(octantWrapper.min).addScalar(this.cellSize);
+			octantWrapper.id.key = value[0];
 			octantWrapper.octant = value[1];
 
 			result.value = octantWrapper;

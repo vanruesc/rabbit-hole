@@ -1,4 +1,5 @@
 import { Vector3 } from "math-ds";
+import { WorldOctantId } from "./WorldOctantId.js";
 
 /**
  * A world octant wrapper that stores positional information.
@@ -10,9 +11,10 @@ export class WorldOctantWrapper {
 	 * Constructs a new octant wrapper.
 	 *
 	 * @param {WorldOctant} [octant=null] - An octant.
+	 * @param {WorldOctantId} [id] - The identifier of the octant.
 	 */
 
-	constructor(octant = null) {
+	constructor(octant = null, id = new WorldOctantId()) {
 
 		/**
 		 * A world octant.
@@ -21,6 +23,14 @@ export class WorldOctantWrapper {
 		 */
 
 		this.octant = octant;
+
+		/**
+		 * A world octant identifier.
+		 *
+		 * @type {WorldOctantId}
+		 */
+
+		this.id = id;
 
 		/**
 		 * The lower bounds.
@@ -37,6 +47,36 @@ export class WorldOctantWrapper {
 		 */
 
 		this.max = new Vector3();
+
+	}
+
+	/**
+	 * Copies the given octant wrapper.
+	 *
+	 * @param {WorldOctantWrapper} octantWrapper - An octant wrapper.
+	 * @return {WorldOctantWrapper} This octant wrapper.
+	 */
+
+	copy(octantWrapper) {
+
+		this.octant = octantWrapper.octant;
+		this.id.copy(octantWrapper.id);
+		this.min.copy(octantWrapper.min);
+		this.max.copy(octantWrapper.max);
+
+		return this;
+
+	}
+
+	/**
+	 * Clones this octant wrapper.
+	 *
+	 * @return {WorldOctantWrapper} The cloned octant wrapper.
+	 */
+
+	clone() {
+
+		return new this.constructor().copy(this);
 
 	}
 

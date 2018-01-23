@@ -52,6 +52,7 @@ export {
 	SparseVoxelOctree,
 	VoxelCell,
 	WorldOctant,
+	WorldOctantId,
 	WorldOctantIterator,
 	WorldOctantWrapper,
 	WorldOctree,
