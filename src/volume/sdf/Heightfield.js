@@ -249,7 +249,7 @@ export class Heightfield extends SignedDistanceFunction {
 			height: this.height,
 			smooth: this.smooth,
 			data: deflate ? null : this.data,
-			dataUrl: (deflate && this.heightmap !== null) ? this.heightmap.toDataUrl() : null,
+			dataURL: (deflate && this.heightmap !== null) ? this.heightmap.toDataURL() : null,
 			image: null
 		};
 

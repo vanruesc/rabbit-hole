@@ -120,7 +120,7 @@ export class SDFLoader extends EventTarget {
 		++this.items;
 
 		image.addEventListener("load", this);
-		image.src = description.dataUrl;
+		image.src = description.dataURL;
 
 	}
 
@@ -135,7 +135,7 @@ export class SDFLoader extends EventTarget {
 
 		let child;
 
-		if(description.dataUrl !== null) {
+		if(description.dataURL !== null) {
 
 			// The description contains compressed image data.
 			this.loadImage(description);
