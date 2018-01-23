@@ -33,9 +33,10 @@ export class Heightfield extends SignedDistanceFunction {
 	 * Constructs a new heightfield SDF.
 	 *
 	 * @param {Object} parameters - The parameters.
-	 * @param {Array} [parameters.width] - The width of the heightfield.
-	 * @param {Array} [parameters.height] - The height of the heightfield.
-	 * @param {Uint8ClampedArray} [parameters.data] - The heightmap image data. Can be null.
+	 * @param {Array} [parameters.width=1] - The width of the heightfield.
+	 * @param {Array} [parameters.height=1] - The height of the heightfield.
+	 * @param {Boolean} [parameters.smooth=true] - Whether the height data should be smoothed.
+	 * @param {Uint8ClampedArray} [parameters.data=null] - The heightmap image data.
 	 * @param {Image} [parameters.image] - The heightmap image.
 	 * @param {Number} [material] - A material index.
 	 */
@@ -61,6 +62,15 @@ export class Heightfield extends SignedDistanceFunction {
 		 */
 
 		this.height = (parameters.height !== undefined) ? parameters.height : 1;
+
+		/**
+		 * Indicates whether the height data should be smoothed.
+		 *
+		 * @type {Boolean}
+		 * @private
+		 */
+
+		this.smooth = (parameters.smooth !== undefined) ? parameters.smooth : true;
 
 		/**
 		 * The height data.
@@ -130,6 +140,50 @@ export class Heightfield extends SignedDistanceFunction {
 	}
 
 	/**
+	 * Retrives the height value for the given coordinates.
+	 *
+	 * @param {Number} x - The x coordinate.
+	 * @param {Number} z - The z coordinate.
+	 * @return {Number} The height.
+	 */
+
+	getHeight(x, z) {
+
+		const w = this.width, h = this.height;
+		const data = this.data;
+
+		let height;
+
+		x = Math.round(x * w);
+		z = Math.round(z * h);
+
+		if(this.smooth) {
+
+			x = Math.max(Math.min(x, w - 1), 1);
+			z = Math.max(Math.min(z, h - 1), 1);
+
+			const p = x + 1, q = x - 1;
+			const a = z * w, b = a + w, c = a - w;
+
+			height = (
+
+				data[c + q] + data[c + x] + data[c + p] +
+				data[a + q] + data[a + x] + data[a + p] +
+				data[b + q] + data[b + x] + data[b + p]
+
+			) / 9;
+
+		} else {
+
+			height = data[z * w + x];
+
+		}
+
+		return height;
+
+	}
+
+	/**
 	 * Calculates the bounding box of this SDF.
 	 *
 	 * @return {Box3} The bounding box.
@@ -160,7 +214,6 @@ export class Heightfield extends SignedDistanceFunction {
 	sample(position) {
 
 		const boundingBox = this.boundingBox;
-		const data = this.data;
 
 		let d;
 
@@ -168,23 +221,7 @@ export class Heightfield extends SignedDistanceFunction {
 
 			position.applyMatrix4(this.inverseTransformation);
 
-			const w = this.width, h = this.height;
-			const x = Math.max(Math.min(Math.round(position.x * w), w - 1), 1);
-			const z = Math.max(Math.min(Math.round(position.z * h), h - 1), 1);
-
-			const p = x + 1, q = x - 1;
-			const a = z * w, b = a + w, c = a - w;
-
-			// Smooth sampling using Box Blur.
-			const height = (
-
-				data[c + q] + data[c + x] + data[c + p] +
-				data[a + q] + data[a + x] + data[a + p] +
-				data[b + q] + data[b + x] + data[b + p]
-
-			) / 9;
-
-			d = position.y - (height / 255);
+			d = position.y - this.getHeight(position.x, position.z) / 255;
 
 		} else {
 
@@ -210,6 +247,7 @@ export class Heightfield extends SignedDistanceFunction {
 		result.parameters = {
 			width: this.width,
 			height: this.height,
+			smooth: this.smooth,
 			data: deflate ? null : this.data,
 			dataUrl: (deflate && this.heightmap !== null) ? this.heightmap.toDataUrl() : null,
 			image: null
