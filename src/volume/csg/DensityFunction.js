@@ -1,15 +1,7 @@
+import { HermiteData } from "../HermiteData.js";
 import { Material } from "../Material.js";
 import { Operation } from "./Operation.js";
 import { OperationType } from "./OperationType.js";
-
-/**
- * The isovalue.
- *
- * @type {Number}
- * @private
- */
-
-const ISOVALUE = 0.0;
 
 /**
  * An operation that describes a density field.
@@ -59,7 +51,7 @@ export class DensityFunction extends Operation {
 
 	generateMaterialIndex(position) {
 
-		return (this.sdf.sample(position) <= ISOVALUE) ? this.sdf.material : Material.AIR;
+		return (this.sdf.sample(position) <= HermiteData.isovalue) ? this.sdf.material : Material.AIR;
 
 	}
 

@@ -3,6 +3,15 @@ import { EdgeData } from "./EdgeData.js";
 import { Material } from "./Material.js";
 
 /**
+ * The isovalue.
+ *
+ * @type {Number}
+ * @private
+ */
+
+let isovalue = 0.0;
+
+/**
  * The material grid resolution.
  *
  * @type {Number}
@@ -355,6 +364,32 @@ export class HermiteData {
 		}
 
 		return transferList;
+
+	}
+
+	/**
+	 * The global isovalue.
+	 *
+	 * A constant distance value that denotes the boundaries of SDFs.
+	 *
+	 * @type {Number}
+	 */
+
+	static get isovalue() {
+
+		return isovalue;
+
+	}
+
+	/**
+	 * Warning: changing the isovalue is not recommended.
+	 *
+	 * @type {Number}
+	 */
+
+	static set isovalue(value) {
+
+		isovalue = value;
 
 	}
 
