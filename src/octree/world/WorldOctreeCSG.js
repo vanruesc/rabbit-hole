@@ -29,6 +29,15 @@ const v = new Vector3();
  * @private
  */
 
+const b0 = new Box3();
+
+/**
+ * A box.
+ *
+ * @type {Box3}
+ * @private
+ */
+
 const b1 = new Box3();
 
 /**
@@ -336,7 +345,7 @@ export class WorldOctreeCSG {
 	static applyCSG(world, sdf) {
 
 		// Calculate the area of effect.
-		const region = sdf.getBoundingBox(true);
+		const region = b0.copy(sdf.getBoundingBox(true));
 
 		// Limit the affected region to the world boundaries.
 		region.min.max(world.min);
