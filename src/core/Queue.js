@@ -18,8 +18,7 @@ export class Queue {
 		/**
 		 * A list of elements.
 		 *
-		 * @type {Object[]}
-		 * @private
+		 * @type {Array}
 		 */
 
 		this.elements = [];
@@ -28,7 +27,6 @@ export class Queue {
 		 * The head of the queue.
 		 *
 		 * @type {Number}
-		 * @private
 		 */
 
 		this.head = 0;
@@ -56,6 +54,34 @@ export class Queue {
 	get empty() {
 
 		return (this.elements.length === 0);
+
+	}
+
+	/**
+	 * Copies the given queue.
+	 *
+	 * @param {Queue} queue - A queue.
+	 * @return {Queue} This queue.
+	 */
+
+	copy(queue) {
+
+		this.elements = Array.from(queue.elements);
+		this.head = queue.head;
+
+		return this;
+
+	}
+
+	/**
+	 * Clones this queue.
+	 *
+	 * @return {Queue} Th cloned queue.
+	 */
+
+	clone() {
+
+		return new this.constructor().copy(this);
 
 	}
 

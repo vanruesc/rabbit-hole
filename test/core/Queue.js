@@ -15,6 +15,15 @@ module.exports = {
 
 		},
 
+		"can be cloned": function(test) {
+
+			const q = new Queue();
+
+			test.ok(q.clone());
+			test.done();
+
+		},
+
 		"can enqueue an item": function(test) {
 
 			const q = new Queue();
