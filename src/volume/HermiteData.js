@@ -1,4 +1,4 @@
-import { RunLengthEncoding } from "../compression/RunLengthEncoding.js";
+import { RunLengthEncoding } from "../codecs/RunLengthEncoding.js";
 import { EdgeData } from "./EdgeData.js";
 import { Material } from "./Material.js";
 

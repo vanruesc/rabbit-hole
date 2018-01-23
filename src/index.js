@@ -20,7 +20,7 @@ export {
 
 export {
 	RunLengthEncoding
-} from "./compression";
+} from "./codecs";
 
 export {
 	SDFLoaderEvent,
