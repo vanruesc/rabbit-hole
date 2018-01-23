@@ -222,9 +222,9 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 	if(tx1 >= 0.0 && ty1 >= 0.0 && tz1 >= 0.0) {
 
-		if(lod === 0 || octant.mesh !== null) {
 
 			intersects.push(octant);
+		if(lod === 0 || octant.isosurface !== null) {
 
 		} else if(octant.children > 0) {
 
@@ -550,7 +550,6 @@ export class WorldOctreeRaycaster {
 
 					octant = grid.get(key);
 
-					if(octant.mesh === null) {
 
 						// Setup a pseudo octree.
 						octantWrapper.octant = octant;
@@ -558,6 +557,7 @@ export class WorldOctreeRaycaster {
 						octantWrapper.min.multiplyScalar(cellSize);
 						octantWrapper.min.add(world.min);
 						octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
+					if(octant.isosurface === null) {
 
 						// Raycast the subtree and collect intersecting children.
 						intersectSubtree(world, octantWrapper, keyCoordinates0, ray, intersects);

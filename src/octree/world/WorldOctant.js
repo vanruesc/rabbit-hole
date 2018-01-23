@@ -38,10 +38,10 @@ export class WorldOctant {
 		/**
 		 * A generated isosurface mesh.
 		 *
-		 * @type {Mesh}
+		 * @type {Isosurface}
 		 */
 
-		this.mesh = null;
+		this.isosurface = null;
 
 	}
 
