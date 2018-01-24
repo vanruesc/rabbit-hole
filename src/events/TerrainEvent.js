@@ -17,19 +17,25 @@ export class TerrainEvent extends Event {
 		super(type);
 
 		/**
-		 * A volume chunk.
+		 * A world octant.
 		 *
-		 * @type {Chunk}
-		 * @default null
+		 * @type {WorldOctant}
 		 */
 
-		this.chunk = null;
+		this.octant = null;
+
+		/**
+		 * The Identifier of the world octant.
+		 *
+		 * @type {WorldOctantId}
+		 */
+
+		this.octantId = null;
 
 		/**
 		 * An error event.
 		 *
 		 * @type {ErrorEvent}
-		 * @default null
 		 */
 
 		this.error = null;
