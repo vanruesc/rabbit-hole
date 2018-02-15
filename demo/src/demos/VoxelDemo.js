@@ -249,14 +249,16 @@ export class VoxelDemo extends Demo {
 	}
 
 	/**
-	 * Updates this demo.
+	 * Renders this demo.
 	 *
 	 * @param {Number} delta - The time since the last frame in seconds.
 	 */
 
-	update(delta) {
+	render(delta) {
 
 		this.controls.update(delta);
+
+		super.render(delta);
 
 	}
 

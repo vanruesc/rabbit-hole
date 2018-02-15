@@ -1,6 +1,5 @@
 import { DemoManager } from "three-demo";
 import { WebGLRenderer } from "three";
-import { EffectComposer } from "postprocessing";
 
 import { ContouringDemo } from "./demos/ContouringDemo.js";
 import { VoxelDemo } from "./demos/VoxelDemo.js";
@@ -81,10 +80,7 @@ window.addEventListener("load", function main(event) {
 	// Initialise the demo manager.
 	manager = new DemoManager(viewport, {
 		aside: document.getElementById("aside"),
-		composer: new EffectComposer(renderer, {
-			stencilBuffer: true,
-			depthTexture: true
-		})
+		renderer: renderer
 	});
 
 	// Setup demo switch and load event handlers.
