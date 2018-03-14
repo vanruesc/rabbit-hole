@@ -216,9 +216,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "rabbit-hole/src/compression/runlengthencoding.js~runlengthencoding",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html",
-    "<span>RunLengthEncoding</span> <span class=\"search-result-import-path\">rabbit-hole/src/compression/RunLengthEncoding.js</span>",
+    "rabbit-hole/src/codecs/runlengthencoding.js~runlengthencoding",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html",
+    "<span>RunLengthEncoding</span> <span class=\"search-result-import-path\">rabbit-hole/src/codecs/RunLengthEncoding.js</span>",
     "class"
   ],
   [
@@ -948,45 +948,45 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/compression/runlengthencoding.js",
-    "file/src/compression/RunLengthEncoding.js.html",
-    "src/compression/RunLengthEncoding.js",
+    "src/codecs/runlengthencoding.js",
+    "file/src/codecs/RunLengthEncoding.js.html",
+    "src/codecs/RunLengthEncoding.js",
     "file"
   ],
   [
-    "src/compression/runlengthencoding.js~runlengthencoding#constructor",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-constructor-constructor",
-    "src/compression/RunLengthEncoding.js~RunLengthEncoding#constructor",
+    "src/codecs/runlengthencoding.js~runlengthencoding#constructor",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html#instance-constructor-constructor",
+    "src/codecs/RunLengthEncoding.js~RunLengthEncoding#constructor",
     "method"
   ],
   [
-    "src/compression/runlengthencoding.js~runlengthencoding#data",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-data",
-    "src/compression/RunLengthEncoding.js~RunLengthEncoding#data",
+    "src/codecs/runlengthencoding.js~runlengthencoding#data",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-data",
+    "src/codecs/RunLengthEncoding.js~RunLengthEncoding#data",
     "member"
   ],
   [
-    "src/compression/runlengthencoding.js~runlengthencoding#runlengths",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-runLengths",
-    "src/compression/RunLengthEncoding.js~RunLengthEncoding#runLengths",
+    "src/codecs/runlengthencoding.js~runlengthencoding#runlengths",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html#instance-member-runLengths",
+    "src/codecs/RunLengthEncoding.js~RunLengthEncoding#runLengths",
     "member"
   ],
   [
-    "src/compression/runlengthencoding.js~runlengthencoding.decode",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#static-method-decode",
-    "src/compression/RunLengthEncoding.js~RunLengthEncoding.decode",
+    "src/codecs/runlengthencoding.js~runlengthencoding.decode",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html#static-method-decode",
+    "src/codecs/RunLengthEncoding.js~RunLengthEncoding.decode",
     "method"
   ],
   [
-    "src/compression/runlengthencoding.js~runlengthencoding.encode",
-    "class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html#static-method-encode",
-    "src/compression/RunLengthEncoding.js~RunLengthEncoding.encode",
+    "src/codecs/runlengthencoding.js~runlengthencoding.encode",
+    "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html#static-method-encode",
+    "src/codecs/RunLengthEncoding.js~RunLengthEncoding.encode",
     "method"
   ],
   [
-    "src/compression/index.js",
-    "file/src/compression/index.js.html",
-    "src/compression/index.js",
+    "src/codecs/index.js",
+    "file/src/codecs/index.js.html",
+    "src/codecs/index.js",
     "file"
   ],
   [
@@ -1032,9 +1032,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/core/queue.js~queue#clone",
+    "class/src/core/Queue.js~Queue.html#instance-method-clone",
+    "src/core/Queue.js~Queue#clone",
+    "method"
+  ],
+  [
     "src/core/queue.js~queue#constructor",
     "class/src/core/Queue.js~Queue.html#instance-constructor-constructor",
     "src/core/Queue.js~Queue#constructor",
+    "method"
+  ],
+  [
+    "src/core/queue.js~queue#copy",
+    "class/src/core/Queue.js~Queue.html#instance-method-copy",
+    "src/core/Queue.js~Queue#copy",
     "method"
   ],
   [
@@ -1777,13 +1789,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
-    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-get-errorThreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-set-errorThreshold",
     "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
     "member"
   ],
   [
     "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
-    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-set-errorThreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-get-errorThreshold",
     "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
     "member"
   ],
@@ -2046,9 +2058,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/octree/world/worldoctant.js~worldoctant#mesh",
-    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-member-mesh",
-    "src/octree/world/WorldOctant.js~WorldOctant#mesh",
+    "src/octree/world/worldoctant.js~worldoctant#isosurface",
+    "class/src/octree/world/WorldOctant.js~WorldOctant.html#instance-member-isosurface",
+    "src/octree/world/WorldOctant.js~WorldOctant#isosurface",
     "member"
   ],
   [
@@ -2058,9 +2070,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/octree/world/worldoctantid.js~worldoctantid#clone",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-method-clone",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#clone",
+    "method"
+  ],
+  [
     "src/octree/world/worldoctantid.js~worldoctantid#constructor",
     "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-constructor-constructor",
     "src/octree/world/WorldOctantId.js~WorldOctantId#constructor",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantid.js~worldoctantid#copy",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-method-copy",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#copy",
     "method"
   ],
   [
@@ -2074,6 +2098,12 @@ window.esdocSearchIndex = [
     "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-member-lod",
     "src/octree/world/WorldOctantId.js~WorldOctantId#lod",
     "member"
+  ],
+  [
+    "src/octree/world/worldoctantid.js~worldoctantid#set",
+    "class/src/octree/world/WorldOctantId.js~WorldOctantId.html#instance-method-set",
+    "src/octree/world/WorldOctantId.js~WorldOctantId#set",
+    "method"
   ],
   [
     "src/octree/world/worldoctantiterator.js",
@@ -2103,12 +2133,6 @@ window.esdocSearchIndex = [
     "src/octree/world/worldoctantiterator.js~worldoctantiterator#iterator",
     "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-iterator",
     "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#iterator",
-    "member"
-  ],
-  [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#lod",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-lod",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#lod",
     "member"
   ],
   [
@@ -2154,6 +2178,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#clone",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-clone",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#clone",
+    "method"
+  ],
+  [
     "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#constructor",
     "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-constructor-constructor",
     "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#constructor",
@@ -2163,6 +2193,12 @@ window.esdocSearchIndex = [
     "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#containspoint",
     "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-containsPoint",
     "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#containsPoint",
+    "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#copy",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-copy",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#copy",
     "method"
   ],
   [
@@ -2176,6 +2212,12 @@ window.esdocSearchIndex = [
     "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-method-getDimensions",
     "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#getDimensions",
     "method"
+  ],
+  [
+    "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#id",
+    "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html#instance-member-id",
+    "src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper#id",
+    "member"
   ],
   [
     "src/octree/world/worldoctantwrapper.js~worldoctantwrapper#max",
@@ -2808,6 +2850,18 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/hermitedata.js~hermitedata.isovalue",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-get-isovalue",
+    "src/volume/HermiteData.js~HermiteData.isovalue",
+    "member"
+  ],
+  [
+    "src/volume/hermitedata.js~hermitedata.isovalue",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-set-isovalue",
+    "src/volume/HermiteData.js~HermiteData.isovalue",
+    "member"
+  ],
+  [
     "src/volume/hermitedata.js~hermitedata.resolution",
     "class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution",
     "src/volume/HermiteData.js~HermiteData.resolution",
@@ -2890,12 +2944,6 @@ window.esdocSearchIndex = [
     "file/src/volume/csg/DensityFunction.js.html",
     "src/volume/csg/DensityFunction.js",
     "file"
-  ],
-  [
-    "src/volume/csg/densityfunction.js~densityfunction#bbox",
-    "class/src/volume/csg/DensityFunction.js~DensityFunction.html#instance-member-bbox",
-    "src/volume/csg/DensityFunction.js~DensityFunction#bbox",
-    "member"
   ],
   [
     "src/volume/csg/densityfunction.js~densityfunction#computeboundingbox",
@@ -2982,14 +3030,8 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/csg/operation.js~operation#bbox",
-    "class/src/volume/csg/Operation.js~Operation.html#instance-member-bbox",
-    "src/volume/csg/Operation.js~Operation#bbox",
-    "member"
-  ],
-  [
     "src/volume/csg/operation.js~operation#boundingbox",
-    "class/src/volume/csg/Operation.js~Operation.html#instance-get-boundingBox",
+    "class/src/volume/csg/Operation.js~Operation.html#instance-member-boundingBox",
     "src/volume/csg/Operation.js~Operation#boundingBox",
     "member"
   ],
@@ -3009,6 +3051,12 @@ window.esdocSearchIndex = [
     "src/volume/csg/operation.js~operation#constructor",
     "class/src/volume/csg/Operation.js~Operation.html#instance-constructor-constructor",
     "src/volume/csg/Operation.js~Operation#constructor",
+    "method"
+  ],
+  [
+    "src/volume/csg/operation.js~operation#getboundingbox",
+    "class/src/volume/csg/Operation.js~Operation.html#instance-method-getBoundingBox",
+    "src/volume/csg/Operation.js~Operation#getBoundingBox",
     "method"
   ],
   [
@@ -3114,12 +3162,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#bbox",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-bbox",
-    "src/volume/sdf/Heightfield.js~Heightfield#bbox",
-    "member"
-  ],
-  [
     "src/volume/sdf/heightfield.js~heightfield#computeboundingbox",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-computeBoundingBox",
     "src/volume/sdf/Heightfield.js~Heightfield#computeBoundingBox",
@@ -3144,27 +3186,27 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#dimensions",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-dimensions",
-    "src/volume/sdf/Heightfield.js~Heightfield#dimensions",
-    "member"
-  ],
-  [
     "src/volume/sdf/heightfield.js~heightfield#fromimage",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-fromImage",
     "src/volume/sdf/Heightfield.js~Heightfield#fromImage",
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#heightmap",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-heightmap",
-    "src/volume/sdf/Heightfield.js~Heightfield#heightmap",
+    "src/volume/sdf/heightfield.js~heightfield#getheight",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-getHeight",
+    "src/volume/sdf/Heightfield.js~Heightfield#getHeight",
+    "method"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#height",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-height",
+    "src/volume/sdf/Heightfield.js~Heightfield#height",
     "member"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#min",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-min",
-    "src/volume/sdf/Heightfield.js~Heightfield#min",
+    "src/volume/sdf/heightfield.js~heightfield#heightmap",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-heightmap",
+    "src/volume/sdf/Heightfield.js~Heightfield#heightmap",
     "member"
   ],
   [
@@ -3174,21 +3216,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#scale",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-scale",
-    "src/volume/sdf/Heightfield.js~Heightfield#scale",
-    "member"
-  ],
-  [
     "src/volume/sdf/heightfield.js~heightfield#serialize",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-serialize",
     "src/volume/sdf/Heightfield.js~Heightfield#serialize",
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#size",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-size",
-    "src/volume/sdf/Heightfield.js~Heightfield#size",
+    "src/volume/sdf/heightfield.js~heightfield#smooth",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-smooth",
+    "src/volume/sdf/Heightfield.js~Heightfield#smooth",
+    "member"
+  ],
+  [
+    "src/volume/sdf/heightfield.js~heightfield#width",
+    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-width",
+    "src/volume/sdf/Heightfield.js~Heightfield#width",
     "member"
   ],
   [
@@ -3216,14 +3258,8 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#bbox",
-    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-bbox",
-    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#bbox",
-    "member"
-  ],
-  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#boundingbox",
-    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-get-boundingBox",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-boundingBox",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#boundingBox",
     "member"
   ],
@@ -3231,12 +3267,6 @@ window.esdocSearchIndex = [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#children",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-children",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#children",
-    "member"
-  ],
-  [
-    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#completeboundingbox",
-    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-get-completeBoundingBox",
-    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#completeBoundingBox",
     "member"
   ],
   [
@@ -3258,10 +3288,28 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#getboundingbox",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-getBoundingBox",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#getBoundingBox",
+    "method"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#gettransformation",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-getTransformation",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#getTransformation",
+    "method"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#intersect",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-intersect",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#intersect",
     "method"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#inversetransformation",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-inverseTransformation",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#inverseTransformation",
+    "member"
   ],
   [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#material",
@@ -3276,15 +3324,39 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#position",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-position",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#position",
+    "member"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#quaternion",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-quaternion",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#quaternion",
+    "member"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#sample",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-sample",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#sample",
     "method"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#scale",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-scale",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#scale",
+    "member"
+  ],
+  [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#serialize",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-serialize",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#serialize",
+    "method"
+  ],
+  [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#setmaterial",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-setMaterial",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#setMaterial",
     "method"
   ],
   [
@@ -3324,6 +3396,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#updateinversetransformation",
+    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-updateInverseTransformation",
+    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#updateInverseTransformation",
+    "method"
+  ],
+  [
     "src/volume/sdf/superprimitive.js",
     "file/src/volume/sdf/SuperPrimitive.js.html",
     "src/volume/sdf/SuperPrimitive.js",
@@ -3333,12 +3411,6 @@ window.esdocSearchIndex = [
     "src/volume/sdf/superprimitive.js~superprimitive#ba",
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-ba",
     "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#ba",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#bbox",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-bbox",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#bbox",
     "member"
   ],
   [
@@ -3357,12 +3429,6 @@ window.esdocSearchIndex = [
     "src/volume/sdf/superprimitive.js~superprimitive#offset",
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-offset",
     "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#offset",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#origin",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-origin",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#origin",
     "member"
   ],
   [
@@ -3402,27 +3468,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/superprimitive.js~superprimitive#scale",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-scale",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#scale",
-    "member"
-  ],
-  [
     "src/volume/sdf/superprimitive.js~superprimitive#serialize",
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-serialize",
     "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#serialize",
     "method"
   ],
   [
-    "src/volume/sdf/superprimitive.js~superprimitive#setgenus",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setGenus",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setGenus",
+    "src/volume/sdf/superprimitive.js~superprimitive#setradii",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setRadii",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setRadii",
     "method"
   ],
   [
-    "src/volume/sdf/superprimitive.js~superprimitive#setscale",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setScale",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setScale",
+    "src/volume/sdf/superprimitive.js~superprimitive#setsize",
+    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-setSize",
+    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#setSize",
     "method"
   ],
   [

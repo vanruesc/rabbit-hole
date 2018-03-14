@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -119,13 +119,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SignedDistanceFunction} from &apos;<span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber20">rabbit-hole/src/volume/sdf/SignedDistanceFunction.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SignedDistanceFunction} from &apos;<span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber30">rabbit-hole/src/volume/sdf/SignedDistanceFunction.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber20">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber30">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -208,7 +208,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <td>
       <span class="access" data-ice="access">public</span>
       
-      <span class="kind" data-ice="kind">get</span>
+      
       
       <span class="override" data-ice="override"></span>
     </td>
@@ -218,13 +218,13 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-get-boundingBox">boundingBox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-inverseTransformation">inverseTransformation</a></span></span><span class="code" data-ice="signature">: <span>Matrix4</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The bounding box of this SDF.</p>
+        <div data-ice="description"><p>The inverted transformation matrix.</p>
 </div>
       </div>
     </td>
@@ -237,7 +237,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <td>
       <span class="access" data-ice="access">public</span>
       
-      <span class="kind" data-ice="kind">get</span>
+      
       
       <span class="override" data-ice="override"></span>
     </td>
@@ -247,13 +247,13 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-get-completeBoundingBox">completeBoundingBox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-material">material</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The complete bounding box of this SDF.</p>
+        <div data-ice="description"><p>A material index.</p>
 </div>
       </div>
     </td>
@@ -305,6 +305,93 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-position">position</a></span></span><span class="code" data-ice="signature">: <span>Vector3</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The positional translation.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-quaternion">quaternion</a></span></span><span class="code" data-ice="signature">: <span>Quaternion</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The rotation.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-scale">scale</a></span></span><span class="code" data-ice="signature">: <span>Vector3</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The scale.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-type">type</a></span></span><span class="code" data-ice="signature">: <span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span>
         </p>
       </div>
@@ -312,6 +399,41 @@ for points outside. The value is zero at the exact boundary of the object.</p>
         
         
         <div data-ice="description"><p>The type of this SDF.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+<table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Protected Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">protected</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-boundingBox">boundingBox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The axis-aligned bounding box of this SDF.</p>
 </div>
       </div>
     </td>
@@ -340,35 +462,6 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-bbox">bbox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The bounding box of this SDF.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-children">children</a></span></span><span class="code" data-ice="signature">: <span><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span><span>[]</span></span></span>
         </p>
       </div>
@@ -376,35 +469,6 @@ for points outside. The value is zero at the exact boundary of the object.</p>
         
         
         <div data-ice="description"><p>A list of SDFs.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-material">material</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A material index.</p>
 </div>
       </div>
     </td>
@@ -434,13 +498,13 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-computeBoundingBox">computeBoundingBox</a></span></span><span class="code" data-ice="signature">(): <span>Box3</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-createTransferList">createTransferList</a></span></span><span class="code" data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><span>Transferable</span><span>[]</span></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Calculates the bounding box of this SDF.</p>
+        <div data-ice="description"><p>Creates a list of transferable items.</p>
 </div>
       </div>
     </td>
@@ -463,13 +527,43 @@ for points outside. The value is zero at the exact boundary of the object.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-createTransferList">createTransferList</a></span></span><span class="code" data-ice="signature">(transferList: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>): <span><span>Transferable</span><span>[]</span></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-getBoundingBox">getBoundingBox</a></span></span><span class="code" data-ice="signature">(recursive: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span>Box3</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates a list of transferable items.</p>
+        <div data-ice="description"><p>Calculates the AABB of this SDF if it doesn&apos;t exist yet and returns it.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-getTransformation">getTransformation</a></span></span><span class="code" data-ice="signature">(target: <span>Matrix4</span>): <span>Matrix4</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Composes a transformation matrix using the translation, rotation and scale
+of this SDF.</p>
 </div>
       </div>
     </td>
@@ -557,6 +651,35 @@ for points outside. The value is zero at the exact boundary of the object.</p>
         
         
         <div data-ice="description"><p>Serialises this SDF.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-setMaterial">setMaterial</a></span></span><span class="code" data-ice="signature">(material: <span><a href="variable/index.html#static-variable-Material">Material</a></span>): <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Sets the material.</p>
 </div>
       </div>
     </td>
@@ -710,6 +833,70 @@ for points outside. The value is zero at the exact boundary of the object.</p>
       
     </td>
   </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-updateInverseTransformation">updateInverseTransformation</a></span></span><span class="code" data-ice="signature">(): <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Updates the inverse transformation matrix.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+<table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Protected Methods</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">protected</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-computeBoundingBox">computeBoundingBox</a></span></span><span class="code" data-ice="signature">(): <span>Box3</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Calculates the bounding box of this SDF.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
 </tbody>
 </table>
 </div>
@@ -732,7 +919,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
@@ -793,25 +980,25 @@ for points outside. The value is zero at the exact boundary of the object.</p>
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-get-boundingBox">
+  <h3 data-ice="anchor" id="instance-member-inverseTransformation">
     <span class="access" data-ice="access">public</span>
     
-    <span class="kind" data-ice="kind">get</span>
     
     
     
-    <span class="code" data-ice="name">boundingBox</span><span class="code" data-ice="signature">: <span>Box3</span></span>
+    
+    <span class="code" data-ice="name">inverseTransformation</span><span class="code" data-ice="signature">: <span>Matrix4</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber84">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The bounding box of this SDF.</p>
+  <div data-ice="description"><p>The inverted transformation matrix.</p>
 </div>
 
   
@@ -837,25 +1024,25 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-get-completeBoundingBox">
+  <h3 data-ice="anchor" id="instance-member-material">
     <span class="access" data-ice="access">public</span>
     
-    <span class="kind" data-ice="kind">get</span>
     
     
     
-    <span class="code" data-ice="name">completeBoundingBox</span><span class="code" data-ice="signature">: <span>Box3</span></span>
+    
+    <span class="code" data-ice="name">material</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber96">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber63">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The complete bounding box of this SDF.</p>
+  <div data-ice="description"><p>A material index.</p>
 </div>
 
   
@@ -892,7 +1079,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber45">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber55">source</a></span></span>
     </span>
   </h3>
 
@@ -900,6 +1087,141 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
   
   <div data-ice="description"><p>The operation type.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-position">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">position</span><span class="code" data-ice="signature">: <span>Vector3</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber82">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The positional translation.</p>
+<p>Call <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-updateInverseTransformation">updateInverseTransformation</a></span> after changing this field.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-quaternion">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">quaternion</span><span class="code" data-ice="signature">: <span>Quaternion</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber92">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The rotation.</p>
+<p>Call <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-updateInverseTransformation">updateInverseTransformation</a></span> after changing this field.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-scale">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">scale</span><span class="code" data-ice="signature">: <span>Vector3</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber102">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The scale.</p>
+<p>Call <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-method-updateInverseTransformation">updateInverseTransformation</a></span> after changing this field.</p>
 </div>
 
   
@@ -936,7 +1258,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber47">source</a></span></span>
     </span>
   </h3>
 
@@ -968,28 +1290,28 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
   
 </div>
-<h2 data-ice="title">Private Members</h2>
+<h2 data-ice="title">Protected Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-bbox">
-    <span class="access" data-ice="access">private</span>
+  <h3 data-ice="anchor" id="instance-member-boundingBox">
+    <span class="access" data-ice="access">protected</span>
     
     
     
     
     
-    <span class="code" data-ice="name">bbox</span><span class="code" data-ice="signature">: <span>Box3</span></span>
+    <span class="code" data-ice="name">boundingBox</span><span class="code" data-ice="signature">: <span>Box3</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber74">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The bounding box of this SDF.</p>
+  <div data-ice="description"><p>The axis-aligned bounding box of this SDF.</p>
 </div>
 
   
@@ -1014,6 +1336,8 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
   
 </div>
+<h2 data-ice="title">Private Members</h2>
+
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-children">
     <span class="access" data-ice="access">private</span>
@@ -1026,7 +1350,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber65">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber123">source</a></span></span>
     </span>
   </h3>
 
@@ -1059,122 +1383,9 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
   
 </div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-material">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">material</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber54">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>A material index.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
 </div>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-computeBoundingBox">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">computeBoundingBox</span><span class="code" data-ice="signature">(): <span>Box3</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber287">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Calculates the bounding box of this SDF.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span>Box3</span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>The bounding box.</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  <div data-ice="throwWrap">
-    <h4>Throw:</h4>
-    <table>
-      <tbody>
-      
-      <tr class="throw" data-ice="throw">
-        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
-        <td data-ice="throwDesc"><p>An error is thrown if the method is not overridden.</p>
-</td>
-      </tr>
-</tbody>
-    </table>
-  </div>
-
-  
-
-  
-
-  
-
-  
-  
-</div>
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-createTransferList">
     <span class="access" data-ice="access">public</span>
@@ -1187,7 +1398,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber262">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber363">source</a></span></span>
     </span>
   </h3>
 
@@ -1250,6 +1461,158 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getBoundingBox">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">getBoundingBox</span><span class="code" data-ice="signature">(recursive: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span>Box3</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber151">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Calculates the AABB of this SDF if it doesn&apos;t exist yet and returns it.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">recursive</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>Whether the child SDFs should be taken into account.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>Box3</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The bounding box.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getTransformation">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">getTransformation</span><span class="code" data-ice="signature">(target: <span>Matrix4</span>): <span>Matrix4</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber138">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Composes a transformation matrix using the translation, rotation and scale
+of this SDF.</p>
+<p>The transformation matrix is not needed for most SDF calculations and is
+therefore not stored explicitly to save space.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">target</td>
+      <td data-ice="type" class="code"><span>Matrix4</span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>A target matrix. If none is provided, a new one will be created.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>Matrix4</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The transformation matrix.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-intersect">
     <span class="access" data-ice="access">public</span>
     
@@ -1261,7 +1624,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber167">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber266">source</a></span></span>
     </span>
   </h3>
 
@@ -1335,7 +1698,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber301">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber403">source</a></span></span>
     </span>
   </h3>
 
@@ -1421,7 +1784,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber233">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber331">source</a></span></span>
     </span>
   </h3>
 
@@ -1485,6 +1848,80 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-setMaterial">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">setMaterial</span><span class="code" data-ice="signature">(material: <span><a href="variable/index.html#static-variable-Material">Material</a></span>): <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber188">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Sets the material.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">material</td>
+      <td data-ice="type" class="code"><span><a href="variable/index.html#static-variable-Material">Material</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The material. Must be an integer in the range of 1 to 255.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>This SDF.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-setOperationType">
     <span class="access" data-ice="access">public</span>
     
@@ -1496,7 +1933,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber120">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber203">source</a></span></span>
     </span>
   </h3>
 
@@ -1570,7 +2007,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber151">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber251">source</a></span></span>
     </span>
   </h3>
 
@@ -1644,7 +2081,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber183">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber281">source</a></span></span>
     </span>
   </h3>
 
@@ -1708,7 +2145,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber274">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber375">source</a></span></span>
     </span>
   </h3>
 
@@ -1765,7 +2202,7 @@ for points outside. The value is zero at the exact boundary of the object.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber135">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber236">source</a></span></span>
     </span>
   </h3>
 
@@ -1817,6 +2254,136 @@ for points outside. The value is zero at the exact boundary of the object.</p>
   
 
   
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-updateInverseTransformation">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">updateInverseTransformation</span><span class="code" data-ice="signature">(): <span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber220">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Updates the inverse transformation matrix.</p>
+<p>This method should be called after the position, quaternion or scale has
+changed. The bounding box will be updated automatically.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>This SDF.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<h2 data-ice="title">Protected Methods</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-computeBoundingBox">
+    <span class="access" data-ice="access">protected</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">computeBoundingBox</span><span class="code" data-ice="signature">(): <span>Box3</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/sdf/SignedDistanceFunction.js.html#lineNumber389">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Calculates the bounding box of this SDF.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>Box3</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The bounding box.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  <div data-ice="throwWrap">
+    <h4>Throw:</h4>
+    <table>
+      <tbody>
+      
+      <tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a></span></p></td>
+        <td data-ice="throwDesc"><p>An error is thrown if the method is not overridden.</p>
+</td>
+      </tr>
+</tbody>
+    </table>
+  </div>
 
   
 

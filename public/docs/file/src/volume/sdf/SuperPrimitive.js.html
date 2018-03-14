@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -132,8 +132,6 @@ import { SDFType } from &quot;./SDFType.js&quot;;
  *
  * Reference:
  *  https://www.shadertoy.com/view/MsVGWG
- *
- * @implements {Serializable}
  */
 
 export class SuperPrimitive extends SignedDistanceFunction {
@@ -146,8 +144,6 @@ export class SuperPrimitive extends SignedDistanceFunction {
 	 * @param {Object} parameters - The parameters.
 	 * @param {Array} parameters.s - The size and genus weight [x, y, z, w].
 	 * @param {Array} parameters.r - The corner radii [x, y, z].
-	 * @param {Array} [parameters.scale=1.0] - The scale.
-	 * @param {Array} [parameters.origin] - The origin [x, y, z].
 	 * @param {Number} [material] - A material index.
 	 * @example const cube = SuperPrimitive.create(SuperPrimitivePreset.CUBE);
 	 */
@@ -155,29 +151,6 @@ export class SuperPrimitive extends SignedDistanceFunction {
 	constructor(parameters = {}, material) {
 
 		super(SDFType.SUPER_PRIMITIVE, material);
-
-		/**
-		 * The origin.
-		 *
-		 * @type {Vector3}
-		 */
-
-		this.origin = new Vector3();
-
-		if(parameters.origin !== undefined) {
-
-			this.origin.fromArray(parameters.origin);
-
-		}
-
-		/**
-		 * The scale.
-		 *
-		 * @type {Number}
-		 * @private
-		 */
-
-		this.scale = (parameters.scale !== undefined) ? parameters.scale : 1.0;
 
 		/**
 		 * The base size. The W-component affects the genus of the primitive.
@@ -204,7 +177,7 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.s = this.s0.clone().multiplyScalar(this.scale);
+		this.s = new Vector4();
 
 		/**
 		 * The corner radii, adjusted for further calculations.
@@ -213,7 +186,7 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.r = this.r0.clone().multiplyScalar(this.scale);
+		this.r = new Vector3();
 
 		/**
 		 * Precomputed corner rounding constants.
@@ -239,53 +212,37 @@ export class SuperPrimitive extends SignedDistanceFunction {
 	}
 
 	/**
-	 * Scales the volume.
+	 * Sets the size and genus weight.
 	 *
-	 * @param {Number} s - The scale.
+	 * @param {Number} x - X.
+	 * @param {Number} y - Y.
+	 * @param {Number} z - Z.
+	 * @param {Number} w - W.
+	 * @return {SuperPrimitive} This instance.
 	 */
 
-	setScale(s) {
+	setSize(x, y, z, w) {
 
-		this.scale = s;
-		this.s.copy(this.s0).multiplyScalar(s);
-		this.r.copy(this.r0).multiplyScalar(s);
-		this.computeBoundingBox();
-		this.precompute();
+		this.s0.set(x, y, z, w);
+
+		return this.precompute();
 
 	}
 
 	/**
-	 * Sets the genus factor.
+	 * Sets the corner radii.
 	 *
-	 * @param {Number} w - The genus factor.
+	 * @param {Number} x - X.
+	 * @param {Number} y - Y.
+	 * @param {Number} z - Z.
+	 * @return {SuperPrimitive} This instance.
 	 */
 
-	setGenus(w) {
+	setRadii(x, y, z) {
 
-		this.s0.w = w;
-		this.s.copy(this.s0).multiplyScalar(this.scale);
-		this.r.copy(this.r0).multiplyScalar(this.scale);
-		this.precompute();
+		this.r0.set(x, y, z);
 
-	}
-
-	/**
-	 * Calculates the bounding box of this density field.
-	 *
-	 * @return {Box3} The bounding box.
-	 * @todo This works, but isn&apos;t very accurate. Needs further investigation.
-	 */
-
-	computeBoundingBox() {
-
-		const s = this.scale * 2.0;
-		const o = this.origin;
-
-		this.bbox = new Box3();
-		this.bbox.min.set(o.x - s, o.y - s, o.z - s);
-		this.bbox.max.set(o.x + s, o.y + s, o.z + s);
-
-		return this.bbox;
+		return this.precompute();
 
 	}
 
@@ -293,15 +250,14 @@ export class SuperPrimitive extends SignedDistanceFunction {
 	 * Precomputes corner rounding factors.
 	 *
 	 * @private
+	 * @return {SuperPrimitive} This instance.
 	 */
 
 	precompute() {
 
-		const s = this.s;
-		const r = this.r;
+		const s = this.s.copy(this.s0);
+		const r = this.r.copy(this.r0);
 		const ba = this.ba;
-
-		let divisor;
 
 		s.x -= r.x;
 		s.y -= r.x;
@@ -314,7 +270,7 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		this.offset = -2.0 * s.z;
 
 		ba.set(r.z, this.offset);
-		divisor = ba.dot(ba);
+		const divisor = ba.dot(ba);
 
 		if(divisor === 0.0) {
 
@@ -327,6 +283,33 @@ export class SuperPrimitive extends SignedDistanceFunction {
 
 		}
 
+		return this;
+
+	}
+
+	/**
+	 * Calculates the bounding box of this SDF.
+	 *
+	 * @return {Box3} The bounding box.
+	 */
+
+	computeBoundingBox() {
+
+		const s = this.s0;
+		const boundingBox = new Box3();
+
+		boundingBox.min.x = Math.min(-s.x, -1.0);
+		boundingBox.min.y = Math.min(-s.y, -1.0);
+		boundingBox.min.z = Math.min(-s.z, -1.0);
+
+		boundingBox.max.x = Math.max(s.x, 1.0);
+		boundingBox.max.y = Math.max(s.y, 1.0);
+		boundingBox.max.z = Math.max(s.z, 1.0);
+
+		boundingBox.applyMatrix4(this.getTransformation());
+
+		return boundingBox;
+
 	}
 
 	/**
@@ -338,24 +321,21 @@ export class SuperPrimitive extends SignedDistanceFunction {
 
 	sample(position) {
 
-		const o = this.origin;
+		position.applyMatrix4(this.inverseTransformation);
+
 		const s = this.s;
 		const r = this.r;
 		const ba = this.ba;
 
-		const px = position.x - o.x;
-		const py = position.y - o.y;
-		const pz = position.z - o.z;
-
-		const dx = Math.abs(px) - s.x;
-		const dy = Math.abs(py) - s.y;
-		const dz = Math.abs(pz) - s.z;
+		const dx = Math.abs(position.x) - s.x;
+		const dy = Math.abs(position.y) - s.y;
+		const dz = Math.abs(position.z) - s.z;
 
 		const mx0 = Math.max(dx, 0.0);
 		const my0 = Math.max(dy, 0.0);
 		const l0 = Math.sqrt(mx0 * mx0 + my0 * my0);
 
-		const p = pz - s.z;
+		const p = position.z - s.z;
 		const q = Math.abs(l0 + Math.min(0.0, Math.max(dx, dy)) - r.x) - s.w;
 
 		const c = Math.min(Math.max(q * ba.x + p * ba.y, 0.0), 1.0);
@@ -363,7 +343,7 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		const diagY = p - this.offset * c;
 
 		const hx0 = Math.max(q - r.z, 0.0);
-		const hy0 = pz + s.z;
+		const hy0 = position.z + s.z;
 		const hx1 = Math.max(q, 0.0);
 		// hy1 = p;
 
@@ -391,8 +371,6 @@ export class SuperPrimitive extends SignedDistanceFunction {
 		const result = super.serialize();
 
 		result.parameters = {
-			origin: this.origin.toArray(),
-			scale: this.scale,
 			s: this.s0.toArray(),
 			r: this.r0.toArray()
 		};
@@ -421,9 +399,9 @@ export class SuperPrimitive extends SignedDistanceFunction {
 }
 
 /**
- * A collection of parameter presets.
+ * A list of parameter presets.
  *
- * @type {Array&lt;Float32Array[]}
+ * @type {Array&lt;Float32Array[]&gt;}
  * @private
  */
 

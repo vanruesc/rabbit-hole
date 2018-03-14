@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -119,13 +119,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {DensityFunction} from &apos;<span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber18">rabbit-hole/src/volume/csg/DensityFunction.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {DensityFunction} from &apos;<span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber10">rabbit-hole/src/volume/csg/DensityFunction.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber18">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber10">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -197,40 +197,6 @@
 </table>
 </div>
 <div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/volume/csg/DensityFunction.js~DensityFunction.html#instance-member-bbox">bbox</a></span></span><span class="code" data-ice="signature">: <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-<table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Private Members</td></tr></thead>
   <tbody>
   
@@ -290,7 +256,7 @@
       <div>
         
         
-        <div data-ice="description"><p>Calculates a bounding box for this operation.</p>
+        <div data-ice="description"><p>Calculates the bounding box of this density function.</p>
 </div>
       </div>
     </td>
@@ -369,35 +335,6 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
-      <span class="kind" data-ice="kind">get</span>
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-get-boundingBox">boundingBox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The bounding box of this operation.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
       
       
       <span class="override" data-ice="override"></span>
@@ -437,7 +374,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-member-bbox">bbox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-member-boundingBox">boundingBox</a></span></span><span class="code" data-ice="signature">: <span>Box3</span></span>
         </p>
       </div>
       <div>
@@ -501,7 +438,38 @@
       <div>
         
         
-        <div data-ice="description"><p>Calculates the bounding box of this operation.</p>
+        <div data-ice="description"><p>Calculates the bounding box of this CSG operation while taking all child
+operations into account.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-method-getBoundingBox">getBoundingBox</a></span></span><span class="code" data-ice="signature">(): <span>Box3</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Calculates the complete bounding box of this CSG operation if it doesn&apos;t
+exist yet and returns it.</p>
 </div>
       </div>
     </td>
@@ -530,7 +498,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber18">source</a></span></span>
     </span>
   </h3>
 
@@ -580,53 +548,7 @@
   
 </div>
 </div>
-<div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-bbox">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">bbox</span><span class="code" data-ice="signature">: <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber49">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>The bounding box of this operation.</p>
-</div>
-
-  <div data-ice="override"><h4>Override:</h4><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-member-bbox">Operation#bbox</a></span></div>
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<h2 data-ice="title">Private Members</h2>
+<div data-ice="memberDetails"><h2 data-ice="title">Private Members</h2>
 
 <div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-sdf">
@@ -640,7 +562,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
@@ -687,14 +609,14 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Calculates a bounding box for this operation.</p>
+  <div data-ice="description"><p>Calculates the bounding box of this density function.</p>
 </div>
 
   <div data-ice="override"><h4>Override:</h4><span><a href="class/src/volume/csg/Operation.js~Operation.html#instance-method-computeBoundingBox">Operation#computeBoundingBox</a></span></div>
@@ -744,7 +666,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber74">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
@@ -805,7 +727,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber62">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/csg/DensityFunction.js.html#lineNumber52">source</a></span></span>
     </span>
   </h3>
 

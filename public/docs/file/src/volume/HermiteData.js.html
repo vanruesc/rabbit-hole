@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -119,9 +119,18 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/volume/HermiteData.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { RunLengthEncoding } from &quot;../compression/RunLengthEncoding.js&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { RunLengthEncoding } from &quot;../codecs/RunLengthEncoding.js&quot;;
 import { EdgeData } from &quot;./EdgeData.js&quot;;
 import { Material } from &quot;./Material.js&quot;;
+
+/**
+ * The isovalue.
+ *
+ * @type {Number}
+ * @private
+ */
+
+let isovalue = 0.0;
 
 /**
  * The material grid resolution.
@@ -168,10 +177,10 @@ export class HermiteData {
 	/**
 	 * Constructs a new set of Hermite data.
 	 *
-	 * @param {Boolean} [initialise=true] - Whether the data should be initialised immediately.
+	 * @param {Boolean} [initialize=true] - Whether the data should be initialised immediately.
 	 */
 
-	constructor(initialise = true) {
+	constructor(initialize = true) {
 
 		/**
 		 * Describes how many material indices are currently solid:
@@ -190,7 +199,7 @@ export class HermiteData {
 		 * @type {Uint8Array}
 		 */
 
-		this.materialIndices = initialise ? new Uint8Array(indexCount) : null;
+		this.materialIndices = initialize ? new Uint8Array(indexCount) : null;
 
 		/**
 		 * Run-length compression data.
@@ -476,6 +485,32 @@ export class HermiteData {
 		}
 
 		return transferList;
+
+	}
+
+	/**
+	 * The global isovalue.
+	 *
+	 * A constant distance value that denotes the boundaries of SDFs.
+	 *
+	 * @type {Number}
+	 */
+
+	static get isovalue() {
+
+		return isovalue;
+
+	}
+
+	/**
+	 * Warning: changing the isovalue is not recommended.
+	 *
+	 * @type {Number}
+	 */
+
+	static set isovalue(value) {
+
+		isovalue = value;
 
 	}
 

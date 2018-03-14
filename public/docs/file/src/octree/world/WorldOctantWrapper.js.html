@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -120,6 +120,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/octree/world/WorldOctantWrapper.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Vector3 } from &quot;math-ds&quot;;
+import { WorldOctantId } from &quot;./WorldOctantId.js&quot;;
 
 /**
  * A world octant wrapper that stores positional information.
@@ -131,9 +132,10 @@ export class WorldOctantWrapper {
 	 * Constructs a new octant wrapper.
 	 *
 	 * @param {WorldOctant} [octant=null] - An octant.
+	 * @param {WorldOctantId} [id] - The identifier of the octant.
 	 */
 
-	constructor(octant = null) {
+	constructor(octant = null, id = new WorldOctantId()) {
 
 		/**
 		 * A world octant.
@@ -142,6 +144,14 @@ export class WorldOctantWrapper {
 		 */
 
 		this.octant = octant;
+
+		/**
+		 * A world octant identifier.
+		 *
+		 * @type {WorldOctantId}
+		 */
+
+		this.id = id;
 
 		/**
 		 * The lower bounds.
@@ -158,6 +168,36 @@ export class WorldOctantWrapper {
 		 */
 
 		this.max = new Vector3();
+
+	}
+
+	/**
+	 * Copies the given octant wrapper.
+	 *
+	 * @param {WorldOctantWrapper} octantWrapper - An octant wrapper.
+	 * @return {WorldOctantWrapper} This octant wrapper.
+	 */
+
+	copy(octantWrapper) {
+
+		this.octant = octantWrapper.octant;
+		this.id.copy(octantWrapper.id);
+		this.min.copy(octantWrapper.min);
+		this.max.copy(octantWrapper.max);
+
+		return this;
+
+	}
+
+	/**
+	 * Clones this octant wrapper.
+	 *
+	 * @return {WorldOctantWrapper} The cloned octant wrapper.
+	 */
+
+	clone() {
+
+		return new this.constructor().copy(this);
 
 	}
 

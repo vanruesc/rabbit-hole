@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -333,7 +333,8 @@ function findNextOctant(currentOctant, tx1, ty1, tz1) {
 
 function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1, ty1, tz1, intersects) {
 
-	let grid, keyDesign;
+	let keyDesign, cellSize;
+	let octantWrapper, grid;
 	let children, offset;
 
 	let currentOctant;
@@ -343,15 +344,22 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 	if(tx1 &gt;= 0.0 &amp;&amp; ty1 &gt;= 0.0 &amp;&amp; tz1 &gt;= 0.0) {
 
-		if(lod === 0 || octant.mesh !== null) {
+		keyDesign = world.getKeyDesign();
 
-			intersects.push(octant);
+		if(lod === 0 || octant.isosurface !== null) {
+
+			cellSize = world.getCellSize(lod);
+			octantWrapper = new WorldOctantWrapper(octant);
+			octantWrapper.id.set(lod, keyDesign.packKey(v.set(keyX, keyY, keyZ)));
+			octantWrapper.min.copy(v).multiplyScalar(cellSize).add(world.min);
+			octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
+
+			intersects.push(octantWrapper);
 
 		} else if(octant.children &gt; 0) {
 
 			// Look at the next lower LOD.
 			grid = world.getGrid(--lod);
-			keyDesign = world.getKeyDesign();
 			children = octant.children;
 
 			// Translate the key coordinates to the next lower LOD.
@@ -637,6 +645,8 @@ export class WorldOctreeRaycaster {
 		let ax, ay, az, bx, by, bz;
 		let sx, sy, sz, exy, exz, ezy;
 
+		octantWrapper.id.lod = lod;
+
 		// Check if the ray hits the world octree.
 		if(a !== null) {
 
@@ -671,14 +681,15 @@ export class WorldOctreeRaycaster {
 
 					octant = grid.get(key);
 
-					if(octant.mesh === null) {
+					// Setup a pseudo octree.
+					octantWrapper.id.key = key;
+					octantWrapper.octant = octant;
+					octantWrapper.min.copy(keyCoordinates0);
+					octantWrapper.min.multiplyScalar(cellSize);
+					octantWrapper.min.add(world.min);
+					octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
 
-						// Setup a pseudo octree.
-						octantWrapper.octant = octant;
-						octantWrapper.min.copy(keyCoordinates0);
-						octantWrapper.min.multiplyScalar(cellSize);
-						octantWrapper.min.add(world.min);
-						octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
+					if(octant.isosurface === null) {
 
 						// Raycast the subtree and collect intersecting children.
 						intersectSubtree(world, octantWrapper, keyCoordinates0, ray, intersects);
@@ -686,7 +697,7 @@ export class WorldOctreeRaycaster {
 					} else {
 
 						// The octant contains a mesh. No need to look deeper.
-						intersects.push(octant);
+						intersects.push(octantWrapper.clone());
 
 					}
 

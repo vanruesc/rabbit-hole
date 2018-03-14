@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -164,24 +164,32 @@ export class Operation {
 		 * @private
 		 */
 
-		this.bbox = null;
+		this.boundingBox = null;
 
 	}
 
 	/**
-	 * The bounding box of this operation.
+	 * Calculates the complete bounding box of this CSG operation if it doesn&apos;t
+	 * exist yet and returns it.
 	 *
-	 * @type {Box3}
+	 * @return {Box3} The bounding box.
 	 */
 
-	get boundingBox() {
+	getBoundingBox() {
 
-		return (this.bbox !== null) ? this.bbox : this.computeBoundingBox();
+		if(this.boundingBox === null) {
+
+			this.boundingBox = this.computeBoundingBox();
+
+		}
+
+		return this.boundingBox;
 
 	}
 
 	/**
-	 * Calculates the bounding box of this operation.
+	 * Calculates the bounding box of this CSG operation while taking all child
+	 * operations into account.
 	 *
 	 * @return {Box3} The bounding box.
 	 */
@@ -189,18 +197,17 @@ export class Operation {
 	computeBoundingBox() {
 
 		const children = this.children;
+		const boundingBox = new Box3();
 
 		let i, l;
 
-		this.bbox = new Box3();
-
 		for(i = 0, l = children.length; i &lt; l; ++i) {
 
-			this.bbox.union(children[i].boundingBox);
+			boundingBox.union(children[i].getBoundingBox());
 
 		}
 
-		return this.bbox;
+		return boundingBox;
 
 	}
 

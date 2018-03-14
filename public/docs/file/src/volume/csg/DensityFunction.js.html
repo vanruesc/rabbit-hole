@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -119,18 +119,10 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/volume/csg/DensityFunction.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Material } from &quot;../Material.js&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { HermiteData } from &quot;../HermiteData.js&quot;;
+import { Material } from &quot;../Material.js&quot;;
 import { Operation } from &quot;./Operation.js&quot;;
 import { OperationType } from &quot;./OperationType.js&quot;;
-
-/**
- * The isovalue.
- *
- * @type {Number}
- * @private
- */
-
-const ISOVALUE = 0.0;
 
 /**
  * An operation that describes a density field.
@@ -160,16 +152,14 @@ export class DensityFunction extends Operation {
 	}
 
 	/**
-	 * Calculates a bounding box for this operation.
+	 * Calculates the bounding box of this density function.
 	 *
 	 * @return {Box3} The bounding box.
 	 */
 
 	computeBoundingBox() {
 
-		this.bbox = this.sdf.computeBoundingBox();
-
-		return this.bbox;
+		return this.sdf.getBoundingBox(true);
 
 	}
 
@@ -182,7 +172,7 @@ export class DensityFunction extends Operation {
 
 	generateMaterialIndex(position) {
 
-		return (this.sdf.sample(position) &lt;= ISOVALUE) ? this.sdf.material : Material.AIR;
+		return (this.sdf.sample(position) &lt;= HermiteData.isovalue) ? this.sdf.material : Material.AIR;
 
 	}
 

@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -120,26 +120,21 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/octree/world/WorldOctantId.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * A world octant ID.
+ * A world octant identifier.
  *
- * Each octant can be identified with a unique positional key and a LOD value.
+ * Each octant can be identified by a LOD index and a positional key.
  */
 
 export class WorldOctantId {
 
 	/**
-	 * Constructs a new world octant ID.
+	 * Constructs a new world octant identifier.
+	 *
+	 * @param {Number} [lod=0] - The LOD index.
+	 * @param {Number} [key=0] - The key.
 	 */
 
-	constructor() {
-
-		/**
-		 * The unique key of the world octant.
-		 *
-		 * @type {Number}
-		 */
-
-		this.key = -1;
+	constructor(lod = 0, key = 0) {
 
 		/**
 		 * The LOD grid in which the world octant resides.
@@ -147,7 +142,58 @@ export class WorldOctantId {
 		 * @type {Number}
 		 */
 
-		this.lod = -1;
+		this.lod = lod;
+
+		/**
+		 * The unique key of the world octant.
+		 *
+		 * @type {Number}
+		 */
+
+		this.key = key;
+
+	}
+
+	/**
+	 * Sets the LOD index and key.
+	 *
+	 * @param {Number} lod - The LOD index.
+	 * @param {Number} key - The key.
+	 * @return {WorldOctantId} This octant identifier.
+	 */
+
+	set(lod, key) {
+
+		this.lod = lod;
+		this.key = key;
+
+	}
+
+	/**
+	 * Copies the given octant identifier.
+	 *
+	 * @param {WorldOctantId} id - An octant identifier.
+	 * @return {WorldOctantId} This octant identifier.
+	 */
+
+	copy(id) {
+
+		this.lod = id.lod;
+		this.key = id.key;
+
+		return this;
+
+	}
+
+	/**
+	 * Clones this octant identifier.
+	 *
+	 * @return {WorldOctantId} The cloned octant identifier.
+	 */
+
+	clone() {
+
+		return new this.constructor().copy(this);
 
 	}
 

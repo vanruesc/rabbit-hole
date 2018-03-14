@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -139,8 +139,7 @@ export class Queue {
 		/**
 		 * A list of elements.
 		 *
-		 * @type {Object[]}
-		 * @private
+		 * @type {Array}
 		 */
 
 		this.elements = [];
@@ -149,7 +148,6 @@ export class Queue {
 		 * The head of the queue.
 		 *
 		 * @type {Number}
-		 * @private
 		 */
 
 		this.head = 0;
@@ -177,6 +175,34 @@ export class Queue {
 	get empty() {
 
 		return (this.elements.length === 0);
+
+	}
+
+	/**
+	 * Copies the given queue.
+	 *
+	 * @param {Queue} queue - A queue.
+	 * @return {Queue} This queue.
+	 */
+
+	copy(queue) {
+
+		this.elements = Array.from(queue.elements);
+		this.head = queue.head;
+
+		return this;
+
+	}
+
+	/**
+	 * Clones this queue.
+	 *
+	 * @return {Queue} Th cloned queue.
+	 */
+
+	clone() {
+
+		return new this.constructor().copy(this);
 
 	}
 

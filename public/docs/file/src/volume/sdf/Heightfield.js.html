@@ -34,7 +34,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#compression">compression</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/compression/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
@@ -119,7 +119,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/volume/sdf/Heightfield.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Box3, Vector3 } from &quot;math-ds&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Box3 } from &quot;math-ds&quot;;
 import { SignedDistanceFunction } from &quot;./SignedDistanceFunction.js&quot;;
 import { SDFType } from &quot;./SDFType.js&quot;;
 
@@ -136,6 +136,8 @@ function readImageData(image) {
 	const canvas = document.createElementNS(&quot;http://www.w3.org/1999/xhtml&quot;, &quot;canvas&quot;);
 	const context = canvas.getContext(&quot;2d&quot;);
 
+	canvas.width = image.width;
+	canvas.height = image.height;
 	context.drawImage(image, 0, 0);
 
 	return context.getImageData(0, 0, image.width, image.height);
@@ -144,8 +146,6 @@ function readImageData(image) {
 
 /**
  * A Signed Distance Function that describes a heightfield.
- *
- * @implements {Serializable}
  */
 
 export class Heightfield extends SignedDistanceFunction {
@@ -154,11 +154,11 @@ export class Heightfield extends SignedDistanceFunction {
 	 * Constructs a new heightfield SDF.
 	 *
 	 * @param {Object} parameters - The parameters.
-	 * @param {Array} parameters.min - The min position [x, y, z].
-	 * @param {Array} parameters.size - The size of the heightmap [x, y, z]. Y defines the maximum height.
-	 * @param {Array} parameters.scale - The scale [x, y, z].
-	 * @param {Uint8ClampedArray} [parameters.data] - The heightmap image data. Can be null.
-	 * @param {Image} [parameters.image] - The heightmap image. Can be null.
+	 * @param {Array} [parameters.width=1] - The width of the heightfield.
+	 * @param {Array} [parameters.height=1] - The height of the heightfield.
+	 * @param {Boolean} [parameters.smooth=true] - Whether the height data should be smoothed.
+	 * @param {Uint8ClampedArray} [parameters.data=null] - The heightmap image data.
+	 * @param {Image} [parameters.image] - The heightmap image.
 	 * @param {Number} [material] - A material index.
 	 */
 
@@ -167,41 +167,31 @@ export class Heightfield extends SignedDistanceFunction {
 		super(SDFType.HEIGHTFIELD, material);
 
 		/**
-		 * The position.
+		 * The width.
 		 *
-		 * @type {Vector3}
+		 * @type {Number}
 		 * @private
 		 */
 
-		this.min = new Vector3(...parameters.min);
+		this.width = (parameters.width !== undefined) ? parameters.width : 1;
 
 		/**
-		 * The size.
+		 * The height.
 		 *
-		 * @type {Vector3}
+		 * @type {Number}
 		 * @private
 		 */
 
-		this.size = new Vector3(...parameters.size);
+		this.height = (parameters.height !== undefined) ? parameters.height : 1;
 
 		/**
-		 * The scale.
+		 * Indicates whether the height data should be smoothed.
 		 *
-		 * @type {Vector3}
+		 * @type {Boolean}
 		 * @private
 		 */
 
-		this.scale = new Vector3(...parameters.scale);
-
-		/**
-		 * The absolute dimensions.
-		 *
-		 * @type {Vector3}
-		 * @private
-		 */
-
-		this.dimensions = new Vector3();
-		this.dimensions.multiplyVectors(this.size, this.scale);
+		this.smooth = (parameters.smooth !== undefined) ? parameters.smooth : true;
 
 		/**
 		 * The height data.
@@ -210,7 +200,7 @@ export class Heightfield extends SignedDistanceFunction {
 		 * @private
 		 */
 
-		this.data = parameters.data;
+		this.data = (parameters.data !== undefined) ? parameters.data : null;
 
 		/**
 		 * The heightmap.
@@ -221,7 +211,7 @@ export class Heightfield extends SignedDistanceFunction {
 
 		this.heightmap = null;
 
-		if(parameters.image !== null) {
+		if(parameters.image !== undefined) {
 
 			this.fromImage(parameters.image);
 
@@ -253,15 +243,15 @@ export class Heightfield extends SignedDistanceFunction {
 			// Reduce image data to greyscale format.
 			result = new Uint8ClampedArray(data.length / 4);
 
-			for(i = 0, j = 0, l = data.length; i &lt; l; ++i, j += 4) {
+			for(i = 0, j = 0, l = result.length; i &lt; l; ++i, j += 4) {
 
 				result[i] = data[j];
 
 			}
 
 			this.heightmap = image;
-			this.size.set(imageData.width, 1.0, imageData.height);
-			this.dimensions.multiplyVectors(this.size, this.scale);
+			this.width = imageData.width;
+			this.height = imageData.height;
 			this.data = result;
 
 		}
@@ -271,19 +261,67 @@ export class Heightfield extends SignedDistanceFunction {
 	}
 
 	/**
-	 * Calculates the bounding box of this density field.
+	 * Retrives the height value for the given coordinates.
+	 *
+	 * @param {Number} x - The x coordinate.
+	 * @param {Number} z - The z coordinate.
+	 * @return {Number} The height.
+	 */
+
+	getHeight(x, z) {
+
+		const w = this.width, h = this.height;
+		const data = this.data;
+
+		let height;
+
+		x = Math.round(x * w);
+		z = Math.round(z * h);
+
+		if(this.smooth) {
+
+			x = Math.max(Math.min(x, w - 1), 1);
+			z = Math.max(Math.min(z, h - 1), 1);
+
+			const p = x + 1, q = x - 1;
+			const a = z * w, b = a + w, c = a - w;
+
+			height = (
+
+				data[c + q] + data[c + x] + data[c + p] +
+				data[a + q] + data[a + x] + data[a + p] +
+				data[b + q] + data[b + x] + data[b + p]
+
+			) / 9;
+
+		} else {
+
+			height = data[z * w + x];
+
+		}
+
+		return height;
+
+	}
+
+	/**
+	 * Calculates the bounding box of this SDF.
 	 *
 	 * @return {Box3} The bounding box.
 	 */
 
 	computeBoundingBox() {
 
-		this.bbox = new Box3();
+		const boundingBox = new Box3();
 
-		this.bbox.min.copy(this.min);
-		this.bbox.max.addVectors(this.min, this.dimensions);
+		const w = Math.min(this.width / this.height, 1.0);
+		const h = Math.min(this.height / this.width, 1.0);
 
-		return this.bbox;
+		boundingBox.min.set(0, 0, 0);
+		boundingBox.max.set(w, 1, h);
+		boundingBox.applyMatrix4(this.getTransformation());
+
+		return boundingBox;
 
 	}
 
@@ -296,12 +334,23 @@ export class Heightfield extends SignedDistanceFunction {
 
 	sample(position) {
 
-		const scale = this.scale;
-		const x = position.x / scale.x;
-		const z = position.z / scale.z;
-		const h = (this.min.y + (this.data[z * this.size.x + x] / 255) * this.dimensions.y);
+		const boundingBox = this.boundingBox;
 
-		return position.y - h;
+		let d;
+
+		if(boundingBox.containsPoint(position)) {
+
+			position.applyMatrix4(this.inverseTransformation);
+
+			d = position.y - this.getHeight(position.x, position.z) / 255;
+
+		} else {
+
+			d = boundingBox.distanceToPoint(position);
+
+		}
+
+		return d;
 
 	}
 
@@ -317,11 +366,11 @@ export class Heightfield extends SignedDistanceFunction {
 		const result = super.serialize();
 
 		result.parameters = {
-			min: this.min.toArray(),
-			scale: this.scale.toArray(),
-			size: this.size.toArray(),
+			width: this.width,
+			height: this.height,
+			smooth: this.smooth,
 			data: deflate ? null : this.data,
-			dataUrl: (deflate &amp;&amp; this.heightmap !== null) ? this.heightmap.toDataUrl() : null,
+			dataURL: (deflate &amp;&amp; this.heightmap !== null) ? this.heightmap.toDataURL() : null,
 			image: null
 		};
 
