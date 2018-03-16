@@ -141,4000 +141,77 @@
     }
   };
 
-  var fragment = "uniform sampler2D tPreviousLum;\r\nuniform sampler2D tCurrentLum;\r\nuniform float minLuminance;\r\nuniform float delta;\r\nuniform float tau;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tfloat previousLum = texture2D(tPreviousLum, vUv, MIP_LEVEL_1X1).r;\r\n\tfloat currentLum = texture2D(tCurrentLum, vUv, MIP_LEVEL_1X1).r;\r\n\r\n\tpreviousLum = max(minLuminance, previousLum);\r\n\tcurrentLum = max(minLuminance, currentLum);\r\n\r\n\t// Adapt the luminance using Pattanaik's technique.\r\n\tfloat adaptedLum = previousLum + (currentLum - previousLum) * (1.0 - exp(-delta * tau));\r\n\r\n\tgl_FragColor.r = adaptedLum;\r\n\r\n}\r\n";
-  var vertex = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
+  var Demo = function () {
+  		function Demo() {
+  				var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "demo";
+  				classCallCheck(this, Demo);
 
-  var AdaptiveLuminosityMaterial = function (_ShaderMaterial) {
-  			inherits(AdaptiveLuminosityMaterial, _ShaderMaterial);
 
-  			function AdaptiveLuminosityMaterial() {
-  						classCallCheck(this, AdaptiveLuminosityMaterial);
-  						return possibleConstructorReturn(this, (AdaptiveLuminosityMaterial.__proto__ || Object.getPrototypeOf(AdaptiveLuminosityMaterial)).call(this, {
+  				this.id = id;
 
-  									type: "AdaptiveLuminosityMaterial",
+  				this.renderer = null;
 
-  									defines: {
+  				this.loadingManager = new three.LoadingManager();
 
-  												MIP_LEVEL_1X1: "0.0"
+  				this.assets = new Map();
 
-  									},
+  				this.scene = new three.Scene();
 
-  									uniforms: {
+  				this.camera = null;
 
-  												tPreviousLum: new three.Uniform(null),
-  												tCurrentLum: new three.Uniform(null),
-  												minLuminance: new three.Uniform(0.01),
-  												delta: new three.Uniform(0.0),
-  												tau: new three.Uniform(1.0)
+  				this.controls = null;
 
-  									},
-
-  									fragmentShader: fragment,
-  									vertexShader: vertex,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return AdaptiveLuminosityMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$1 = "uniform sampler2D tDiffuse;\r\nuniform sampler2D tDepth;\r\n\r\nuniform float focus;\r\nuniform float dof;\r\nuniform float aspect;\r\nuniform float aperture;\r\nuniform float maxBlur;\r\n\r\nvarying vec2 vUv;\r\n\r\n#ifndef USE_LOGDEPTHBUF\r\n\r\n\t#include <packing>\r\n\r\n\tuniform float cameraNear;\r\n\tuniform float cameraFar;\r\n\r\n\tfloat readDepth(sampler2D depthSampler, vec2 coord) {\r\n\r\n\t\tfloat fragCoordZ = texture2D(depthSampler, coord).x;\r\n\t\tfloat viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar);\r\n\r\n\t\treturn viewZToOrthographicDepth(viewZ, cameraNear, cameraFar);\r\n\r\n\t}\r\n\r\n#endif\r\n\r\nvoid main() {\r\n\r\n\tvec2 aspectCorrection = vec2(1.0, aspect);\r\n\r\n\t#ifdef USE_LOGDEPTHBUF\r\n\r\n\t\tfloat depth = texture2D(tDepth, vUv).x;\r\n\r\n\t#else\r\n\r\n\t\tfloat depth = readDepth(tDepth, vUv);\r\n\r\n\t#endif\r\n\r\n\tfloat focusNear = clamp(focus - dof, 0.0, 1.0);\r\n\tfloat focusFar = clamp(focus + dof, 0.0, 1.0);\r\n\r\n\t// Calculate a DoF mask.\r\n\tfloat low = step(depth, focusNear);\r\n\tfloat high = step(focusFar, depth);\r\n\r\n\tfloat factor = (depth - focusNear) * low + (depth - focusFar) * high;\r\n\r\n\tvec2 dofBlur = vec2(clamp(factor * aperture, -maxBlur, maxBlur));\r\n\r\n\tvec2 dofblur9 = dofBlur * 0.9;\r\n\tvec2 dofblur7 = dofBlur * 0.7;\r\n\tvec2 dofblur4 = dofBlur * 0.4;\r\n\r\n\tvec4 color = vec4(0.0);\r\n\r\n\tcolor += texture2D(tDiffuse, vUv);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,   0.4 ) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.15,  0.37) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29,  0.29) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.37,  0.15) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.40,  0.0 ) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.37, -0.15) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29, -0.29) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.15, -0.37) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,  -0.4 ) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.15,  0.37) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29,  0.29) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.37,  0.15) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.4,   0.0 ) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.37, -0.15) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29, -0.29) * aspectCorrection) * dofBlur);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.15, -0.37) * aspectCorrection) * dofBlur);\r\n\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.15,  0.37) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.37,  0.15) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.37, -0.15) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.15, -0.37) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.15,  0.37) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.37,  0.15) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.37, -0.15) * aspectCorrection) * dofblur9);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.15, -0.37) * aspectCorrection) * dofblur9);\r\n\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29,  0.29) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.40,  0.0 ) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29, -0.29) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,  -0.4 ) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29,  0.29) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.4,   0.0 ) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29, -0.29) * aspectCorrection) * dofblur7);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,   0.4 ) * aspectCorrection) * dofblur7);\r\n\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29,  0.29) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.4,   0.0 ) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.29, -0.29) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,  -0.4 ) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29,  0.29) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.4,   0.0 ) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2(-0.29, -0.29) * aspectCorrection) * dofblur4);\r\n\tcolor += texture2D(tDiffuse, vUv + (vec2( 0.0,   0.4 ) * aspectCorrection) * dofblur4);\r\n\r\n\tgl_FragColor = color / 41.0;\r\n\r\n}\r\n";
-  var vertex$1 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var BokehMaterial = function (_ShaderMaterial) {
-  	inherits(BokehMaterial, _ShaderMaterial);
-
-  	function BokehMaterial() {
-  		var camera = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  		var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  		classCallCheck(this, BokehMaterial);
-
-
-  		var settings = Object.assign({
-  			focus: 1.0,
-  			dof: 0.02,
-  			aperture: 0.025,
-  			maxBlur: 1.0
-  		}, options);
-
-  		var _this = possibleConstructorReturn(this, (BokehMaterial.__proto__ || Object.getPrototypeOf(BokehMaterial)).call(this, {
-
-  			type: "BokehMaterial",
-
-  			uniforms: {
-
-  				cameraNear: new three.Uniform(0.1),
-  				cameraFar: new three.Uniform(2000),
-  				aspect: new three.Uniform(1.0),
-
-  				tDiffuse: new three.Uniform(null),
-  				tDepth: new three.Uniform(null),
-
-  				focus: new three.Uniform(settings.focus),
-  				dof: new three.Uniform(settings.dof),
-  				aperture: new three.Uniform(settings.aperture),
-  				maxBlur: new three.Uniform(settings.maxBlur)
-
-  			},
-
-  			fragmentShader: fragment$1,
-  			vertexShader: vertex$1,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-
-  		_this.adoptCameraSettings(camera);
-
-  		return _this;
-  	}
-
-  	createClass(BokehMaterial, [{
-  		key: "adoptCameraSettings",
-  		value: function adoptCameraSettings(camera) {
-
-  			if (camera !== null) {
-
-  				this.uniforms.cameraNear.value = camera.near;
-  				this.uniforms.cameraFar.value = camera.far;
-  				this.uniforms.aspect.value = camera.aspect;
-  			}
-  		}
-  	}]);
-  	return BokehMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$2 = "uniform sampler2D tDiffuse;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset[3];\r\n\r\nvoid main() {\r\n\r\n\tconst vec2 threshold = vec2(EDGE_THRESHOLD);\r\n\r\n\t// Calculate color deltas.\r\n\tvec4 delta;\r\n\tvec3 c = texture2D(tDiffuse, vUv).rgb;\r\n\r\n\tvec3 cLeft = texture2D(tDiffuse, vOffset[0].xy).rgb;\r\n\tvec3 t = abs(c - cLeft);\r\n\tdelta.x = max(max(t.r, t.g), t.b);\r\n\r\n\tvec3 cTop = texture2D(tDiffuse, vOffset[0].zw).rgb;\r\n\tt = abs(c - cTop);\r\n\tdelta.y = max(max(t.r, t.g), t.b);\r\n\r\n\t// We do the usual threshold.\r\n\tvec2 edges = step(threshold, delta.xy);\r\n\r\n\t// Then discard if there is no edge.\r\n\tif(dot(edges, vec2(1.0)) == 0.0) {\r\n\r\n\t\tdiscard;\r\n\r\n\t}\r\n\r\n\t// Calculate right and bottom deltas.\r\n\tvec3 cRight = texture2D(tDiffuse, vOffset[1].xy).rgb;\r\n\tt = abs(c - cRight);\r\n\tdelta.z = max(max(t.r, t.g), t.b);\r\n\r\n\tvec3 cBottom = texture2D(tDiffuse, vOffset[1].zw).rgb;\r\n\tt = abs(c - cBottom);\r\n\tdelta.w = max(max(t.r, t.g), t.b);\r\n\r\n\t// Calculate the maximum delta in the direct neighborhood.\r\n\tfloat maxDelta = max(max(max(delta.x, delta.y), delta.z), delta.w);\r\n\r\n\t// Calculate left-left and top-top deltas.\r\n\tvec3 cLeftLeft = texture2D(tDiffuse, vOffset[2].xy).rgb;\r\n\tt = abs(c - cLeftLeft);\r\n\tdelta.z = max(max(t.r, t.g), t.b);\r\n\r\n\tvec3 cTopTop = texture2D(tDiffuse, vOffset[2].zw).rgb;\r\n\tt = abs(c - cTopTop);\r\n\tdelta.w = max(max(t.r, t.g), t.b);\r\n\r\n\t// Calculate the final maximum delta.\r\n\tmaxDelta = max(max(maxDelta, delta.z), delta.w);\r\n\r\n\t// Local contrast adaptation in action.\r\n\tedges.xy *= step(0.5 * maxDelta, delta.xy);\r\n\r\n\tgl_FragColor = vec4(edges, 0.0, 0.0);\r\n\r\n}\r\n";
-  var vertex$2 = "uniform vec2 texelSize;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset[3];\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\r\n\tvOffset[0] = uv.xyxy + texelSize.xyxy * vec4(-1.0, 0.0, 0.0, 1.0); // Changed sign in W component.\r\n\tvOffset[1] = uv.xyxy + texelSize.xyxy * vec4(1.0, 0.0, 0.0, -1.0); // Changed sign in W component.\r\n\tvOffset[2] = uv.xyxy + texelSize.xyxy * vec4(-2.0, 0.0, 0.0, 2.0); // Changed sign in W component.\r\n\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var ColorEdgesMaterial = function (_ShaderMaterial) {
-  	inherits(ColorEdgesMaterial, _ShaderMaterial);
-
-  	function ColorEdgesMaterial() {
-  		var texelSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new three.Vector2();
-  		classCallCheck(this, ColorEdgesMaterial);
-  		return possibleConstructorReturn(this, (ColorEdgesMaterial.__proto__ || Object.getPrototypeOf(ColorEdgesMaterial)).call(this, {
-
-  			type: "ColorEdgesMaterial",
-
-  			defines: {
-
-  				EDGE_THRESHOLD: "0.1"
-
-  			},
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-  				texelSize: new three.Uniform(texelSize)
-
-  			},
-
-  			fragmentShader: fragment$2,
-  			vertexShader: vertex$2,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-  	}
-
-  	createClass(ColorEdgesMaterial, [{
-  		key: "setEdgeDetectionThreshold",
-  		value: function setEdgeDetectionThreshold(threshold) {
-
-  			this.defines.EDGE_THRESHOLD = threshold.toFixed("2");
-
-  			this.needsUpdate = true;
-  		}
-  	}]);
-  	return ColorEdgesMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$3 = "uniform sampler2D texture1;\r\nuniform sampler2D texture2;\r\n\r\nuniform float opacity1;\r\nuniform float opacity2;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel1 = opacity1 * texture2D(texture1, vUv);\r\n\tvec4 texel2 = opacity2 * texture2D(texture2, vUv);\r\n\r\n\t#ifdef SCREEN_MODE\r\n\r\n\t\tvec3 invTexel1 = vec3(1.0) - texel1.rgb;\r\n\t\tvec3 invTexel2 = vec3(1.0) - texel2.rgb;\r\n\r\n\t\tvec4 color = vec4(\r\n\t\t\tvec3(1.0) - invTexel1 * invTexel2,\r\n\t\t\ttexel1.a + texel2.a\r\n\t\t);\r\n\r\n\t#else\r\n\r\n\t\tvec4 color = texel1 + texel2;\r\n\r\n\t#endif\r\n\r\n\tgl_FragColor = color;\r\n\r\n}\r\n";
-  var vertex$3 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var CombineMaterial = function (_ShaderMaterial) {
-  	inherits(CombineMaterial, _ShaderMaterial);
-
-  	function CombineMaterial() {
-  		var screenMode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  		classCallCheck(this, CombineMaterial);
-
-  		var _this = possibleConstructorReturn(this, (CombineMaterial.__proto__ || Object.getPrototypeOf(CombineMaterial)).call(this, {
-
-  			type: "CombineMaterial",
-
-  			uniforms: {
-
-  				texture1: new three.Uniform(null),
-  				texture2: new three.Uniform(null),
-
-  				opacity1: new three.Uniform(1.0),
-  				opacity2: new three.Uniform(1.0)
-
-  			},
-
-  			fragmentShader: fragment$3,
-  			vertexShader: vertex$3,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-
-  		_this.setScreenModeEnabled(screenMode);
-
-  		return _this;
-  	}
-
-  	createClass(CombineMaterial, [{
-  		key: "setScreenModeEnabled",
-  		value: function setScreenModeEnabled(enabled) {
-
-  			if (enabled) {
-
-  				this.defines.SCREEN_MODE = "1";
-  			} else {
-
-  				delete this.defines.SCREEN_MODE;
-  			}
-
-  			this.needsUpdate = true;
-  		}
-  	}]);
-  	return CombineMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$4 = "#include <common>\r\n#include <dithering_pars_fragment>\r\n\r\nuniform sampler2D tDiffuse;\r\n\r\nvarying vec2 vUv0;\r\nvarying vec2 vUv1;\r\nvarying vec2 vUv2;\r\nvarying vec2 vUv3;\r\n\r\nvoid main() {\r\n\r\n\t// Sample top left texel.\r\n\tvec4 sum = texture2D(tDiffuse, vUv0);\r\n\r\n\t// Sample top right texel.\r\n\tsum += texture2D(tDiffuse, vUv1);\r\n\r\n\t// Sample bottom right texel.\r\n\tsum += texture2D(tDiffuse, vUv2);\r\n\r\n\t// Sample bottom left texel.\r\n\tsum += texture2D(tDiffuse, vUv3);\r\n\r\n\t// Compute the average.\r\n\tgl_FragColor = sum * 0.25;\r\n\r\n\t#include <dithering_fragment>\r\n\r\n}\r\n";
-  var vertex$4 = "uniform vec2 texelSize;\r\nuniform vec2 halfTexelSize;\r\nuniform float kernel;\r\n\r\nvarying vec2 vUv0;\r\nvarying vec2 vUv1;\r\nvarying vec2 vUv2;\r\nvarying vec2 vUv3;\r\n\r\nvoid main() {\r\n\r\n\tvec2 dUv = (texelSize * vec2(kernel)) + halfTexelSize;\r\n\r\n\tvUv0 = vec2(uv.x - dUv.x, uv.y + dUv.y);\r\n\tvUv1 = vec2(uv.x + dUv.x, uv.y + dUv.y);\r\n\tvUv2 = vec2(uv.x + dUv.x, uv.y - dUv.y);\r\n\tvUv3 = vec2(uv.x - dUv.x, uv.y - dUv.y);\r\n\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var ConvolutionMaterial = function (_ShaderMaterial) {
-  	inherits(ConvolutionMaterial, _ShaderMaterial);
-
-  	function ConvolutionMaterial() {
-  		var texelSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new three.Vector2();
-  		classCallCheck(this, ConvolutionMaterial);
-
-  		var _this = possibleConstructorReturn(this, (ConvolutionMaterial.__proto__ || Object.getPrototypeOf(ConvolutionMaterial)).call(this, {
-
-  			type: "ConvolutionMaterial",
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-  				texelSize: new three.Uniform(new three.Vector2()),
-  				halfTexelSize: new three.Uniform(new three.Vector2()),
-  				kernel: new three.Uniform(0.0)
-
-  			},
-
-  			fragmentShader: fragment$4,
-  			vertexShader: vertex$4,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-
-  		_this.setTexelSize(texelSize.x, texelSize.y);
-
-  		_this.kernelSize = KernelSize.LARGE;
-
-  		return _this;
-  	}
-
-  	createClass(ConvolutionMaterial, [{
-  		key: "getKernel",
-  		value: function getKernel() {
-
-  			return kernelPresets[this.kernelSize];
-  		}
-  	}, {
-  		key: "setTexelSize",
-  		value: function setTexelSize(x, y) {
-
-  			this.uniforms.texelSize.value.set(x, y);
-  			this.uniforms.halfTexelSize.value.set(x, y).multiplyScalar(0.5);
-  		}
-  	}]);
-  	return ConvolutionMaterial;
-  }(three.ShaderMaterial);
-
-  var kernelPresets = [new Float32Array([0.0, 0.0]), new Float32Array([0.0, 1.0, 1.0]), new Float32Array([0.0, 1.0, 1.0, 2.0]), new Float32Array([0.0, 1.0, 2.0, 2.0, 3.0]), new Float32Array([0.0, 1.0, 2.0, 3.0, 4.0, 4.0, 5.0]), new Float32Array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0, 8.0, 9.0, 10.0])];
-
-  var KernelSize = {
-
-  	VERY_SMALL: 0,
-  	SMALL: 1,
-  	MEDIUM: 2,
-  	LARGE: 3,
-  	VERY_LARGE: 4,
-  	HUGE: 5
-
-  };
-
-  var fragment$5 = "uniform sampler2D tDiffuse;\r\nuniform float opacity;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel = texture2D(tDiffuse, vUv);\r\n\tgl_FragColor = opacity * texel;\r\n\r\n}\r\n";
-  var vertex$5 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var CopyMaterial = function (_ShaderMaterial) {
-  			inherits(CopyMaterial, _ShaderMaterial);
-
-  			function CopyMaterial() {
-  						classCallCheck(this, CopyMaterial);
-  						return possibleConstructorReturn(this, (CopyMaterial.__proto__ || Object.getPrototypeOf(CopyMaterial)).call(this, {
-
-  									type: "CopyMaterial",
-
-  									uniforms: {
-
-  												tDiffuse: new three.Uniform(null),
-  												opacity: new three.Uniform(1.0)
-
-  									},
-
-  									fragmentShader: fragment$5,
-  									vertexShader: vertex$5,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return CopyMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$6 = "uniform sampler2D tDiffuse;\r\n\r\nuniform float angle;\r\nuniform float scale;\r\nuniform float intensity;\r\n\r\nvarying vec2 vUv;\r\nvarying vec2 vUvPattern;\r\n\r\nfloat pattern() {\r\n\r\n\tfloat s = sin(angle);\r\n\tfloat c = cos(angle);\r\n\r\n\tvec2 point = vec2(c * vUvPattern.x - s * vUvPattern.y, s * vUvPattern.x + c * vUvPattern.y) * scale;\r\n\r\n\treturn (sin(point.x) * sin(point.y)) * 4.0;\r\n\r\n}\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel = texture2D(tDiffuse, vUv);\r\n\tvec3 color = texel.rgb;\r\n\r\n\t#ifdef AVERAGE\r\n\r\n\t\tcolor = vec3((color.r + color.g + color.b) / 3.0);\r\n\r\n\t#endif\r\n\r\n\tcolor = vec3(color * 10.0 - 5.0 + pattern());\r\n\tcolor = texel.rgb + (color - texel.rgb) * intensity;\r\n\r\n\tgl_FragColor = vec4(color, texel.a);\r\n\r\n}\r\n";
-  var vertex$6 = "uniform vec4 offsetRepeat;\r\n\r\nvarying vec2 vUv;\r\nvarying vec2 vUvPattern;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tvUvPattern = uv * offsetRepeat.zw + offsetRepeat.xy;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var DotScreenMaterial = function (_ShaderMaterial) {
-  	inherits(DotScreenMaterial, _ShaderMaterial);
-
-  	function DotScreenMaterial() {
-  		var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  		classCallCheck(this, DotScreenMaterial);
-
-
-  		var settings = Object.assign({
-  			average: false,
-  			angle: 1.57,
-  			scale: 1.0,
-  			intensity: 1.0
-  		}, options);
-
-  		var _this = possibleConstructorReturn(this, (DotScreenMaterial.__proto__ || Object.getPrototypeOf(DotScreenMaterial)).call(this, {
-
-  			type: "DotScreenMaterial",
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-
-  				angle: new three.Uniform(settings.angle),
-  				scale: new three.Uniform(settings.scale),
-  				intensity: new three.Uniform(settings.intensity),
-
-  				offsetRepeat: new three.Uniform(new three.Vector4(0.5, 0.5, 1.0, 1.0))
-
-  			},
-
-  			fragmentShader: fragment$6,
-  			vertexShader: vertex$6,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-
-  		_this.setAverageEnabled(settings.average);
-
-  		return _this;
-  	}
-
-  	createClass(DotScreenMaterial, [{
-  		key: "setAverageEnabled",
-  		value: function setAverageEnabled(enabled) {
-
-  			if (enabled) {
-
-  				this.defines.AVERAGE = "1";
-  			} else {
-
-  				delete this.defines.AVERAGE;
-  			}
-
-  			this.needsUpdate = true;
-  		}
-  	}]);
-  	return DotScreenMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$7 = "uniform sampler2D tDiffuse;\r\nuniform float time;\r\n\r\nvarying vec2 vUv;\r\n\r\n#ifdef NOISE\r\n\r\n\tuniform float noiseIntensity;\r\n\r\n#endif\r\n\r\n#ifdef SCANLINES\r\n\r\n\tuniform float scanlineIntensity;\r\n\tuniform float scanlineCount;\r\n\r\n#endif\r\n\r\n#ifdef GREYSCALE\r\n\r\n\t#include <common>\r\n\r\n\tuniform float greyscaleIntensity;\r\n\r\n#elif defined(SEPIA)\r\n\r\n\tuniform float sepiaIntensity;\r\n\r\n#endif\r\n\r\n#ifdef VIGNETTE\r\n\r\n\tuniform float vignetteOffset;\r\n\tuniform float vignetteDarkness;\r\n\r\n#endif\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel = texture2D(tDiffuse, vUv);\r\n\tvec3 color = texel.rgb;\r\n\r\n\t#ifdef SCREEN_MODE\r\n\r\n\t\tvec3 invColor;\r\n\r\n\t#endif\r\n\r\n\t#ifdef NOISE\r\n\r\n\t\tfloat x = vUv.x * vUv.y * time * 1000.0;\r\n\t\tx = mod(x, 13.0) * mod(x, 123.0);\r\n\t\tx = mod(x, 0.01);\r\n\r\n\t\tvec3 noise = texel.rgb * clamp(0.1 + x * 100.0, 0.0, 1.0) * noiseIntensity;\r\n\r\n\t\t#ifdef SCREEN_MODE\r\n\r\n\t\t\tinvColor = vec3(1.0) - color;\r\n\t\t\tvec3 invNoise = vec3(1.0) - noise;\r\n\r\n\t\t\tcolor = vec3(1.0) - invColor * invNoise;\r\n\r\n\t\t#else\r\n\r\n\t\t\tcolor += noise;\r\n\r\n\t\t#endif\r\n\r\n\t#endif\r\n\r\n\t#ifdef SCANLINES\r\n\r\n\t\tvec2 sl = vec2(sin(vUv.y * scanlineCount), cos(vUv.y * scanlineCount));\r\n\t\tvec3 scanlines = texel.rgb * vec3(sl.x, sl.y, sl.x) * scanlineIntensity;\r\n\r\n\t\t#ifdef SCREEN_MODE\r\n\r\n\t\t\tinvColor = vec3(1.0) - color;\r\n\t\t\tvec3 invScanlines = vec3(1.0) - scanlines;\r\n\r\n\t\t\tcolor = vec3(1.0) - invColor * invScanlines;\r\n\r\n\t\t#else\r\n\r\n\t\t\tcolor += scanlines;\r\n\r\n\t\t#endif\r\n\r\n\t#endif\r\n\r\n\t#ifdef GREYSCALE\r\n\r\n\t\tcolor = mix(color, vec3(linearToRelativeLuminance(color)), greyscaleIntensity);\r\n\r\n\t#elif defined(SEPIA)\r\n\r\n\t\tvec3 c = color.rgb;\r\n\r\n\t\tcolor.r = dot(c, vec3(1.0 - 0.607 * sepiaIntensity, 0.769 * sepiaIntensity, 0.189 * sepiaIntensity));\r\n\t\tcolor.g = dot(c, vec3(0.349 * sepiaIntensity, 1.0 - 0.314 * sepiaIntensity, 0.168 * sepiaIntensity));\r\n\t\tcolor.b = dot(c, vec3(0.272 * sepiaIntensity, 0.534 * sepiaIntensity, 1.0 - 0.869 * sepiaIntensity));\r\n\r\n\t#endif\r\n\r\n\t#ifdef VIGNETTE\r\n\r\n\t\tconst vec2 center = vec2(0.5);\r\n\r\n\t\t#ifdef ESKIL\r\n\r\n\t\t\tvec2 uv = (vUv - center) * vec2(vignetteOffset);\r\n\t\t\tcolor = mix(color.rgb, vec3(1.0 - vignetteDarkness), dot(uv, uv));\r\n\r\n\t\t#else\r\n\r\n\t\t\tfloat dist = distance(vUv, center);\r\n\t\t\tcolor *= smoothstep(0.8, vignetteOffset * 0.799, dist * (vignetteDarkness + vignetteOffset));\r\n\r\n\t\t#endif\t\t\r\n\r\n\t#endif\r\n\r\n\tgl_FragColor = vec4(clamp(color, 0.0, 1.0), texel.a);\r\n\r\n}\r\n";
-  var vertex$7 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var FilmMaterial = function (_ShaderMaterial) {
-  		inherits(FilmMaterial, _ShaderMaterial);
-
-  		function FilmMaterial() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, FilmMaterial);
-
-
-  				var settings = Object.assign({
-
-  						screenMode: true,
-  						noise: true,
-  						scanlines: true,
-
-  						greyscale: false,
-  						sepia: false,
-  						vignette: false,
-  						eskil: false,
-
-  						noiseIntensity: 0.5,
-  						scanlineIntensity: 0.05,
-  						greyscaleIntensity: 1.0,
-  						sepiaIntensity: 1.0,
-
-  						vignetteOffset: 1.0,
-  						vignetteDarkness: 1.0
-
-  				}, options);
-
-  				var _this = possibleConstructorReturn(this, (FilmMaterial.__proto__ || Object.getPrototypeOf(FilmMaterial)).call(this, {
-
-  						type: "FilmMaterial",
-
-  						uniforms: {
-
-  								tDiffuse: new three.Uniform(null),
-  								time: new three.Uniform(0.0),
-
-  								noiseIntensity: new three.Uniform(settings.noiseIntensity),
-  								scanlineIntensity: new three.Uniform(settings.scanlineIntensity),
-  								scanlineCount: new three.Uniform(0.0),
-
-  								greyscaleIntensity: new three.Uniform(settings.greyscaleIntensity),
-  								sepiaIntensity: new three.Uniform(settings.sepiaIntensity),
-
-  								vignetteOffset: new three.Uniform(settings.vignetteOffset),
-  								vignetteDarkness: new three.Uniform(settings.vignetteDarkness)
-
-  						},
-
-  						fragmentShader: fragment$7,
-  						vertexShader: vertex$7,
-
-  						depthWrite: false,
-  						depthTest: false
-
-  				}));
-
-  				_this.setScreenModeEnabled(settings.screenMode);
-  				_this.setNoiseEnabled(settings.noise);
-  				_this.setScanlinesEnabled(settings.scanlines);
-  				_this.setGreyscaleEnabled(settings.greyscale);
-  				_this.setSepiaEnabled(settings.sepia);
-  				_this.setVignetteEnabled(settings.vignette);
-  				_this.setEskilEnabled(settings.eskil);
-
-  				return _this;
+  				this.ready = false;
   		}
 
-  		createClass(FilmMaterial, [{
-  				key: "setScreenModeEnabled",
-  				value: function setScreenModeEnabled(enabled) {
+  		createClass(Demo, [{
+  				key: "setRenderer",
+  				value: function setRenderer(renderer) {
 
-  						if (enabled) {
+  						this.renderer = renderer;
 
-  								this.defines.SCREEN_MODE = "1";
-  						} else {
-
-  								delete this.defines.SCREEN_MODE;
-  						}
-
-  						this.needsUpdate = true;
+  						return this;
   				}
   		}, {
-  				key: "setNoiseEnabled",
-  				value: function setNoiseEnabled(enabled) {
+  				key: "load",
+  				value: function load() {
 
-  						if (enabled) {
-
-  								this.defines.NOISE = "1";
-  						} else {
-
-  								delete this.defines.NOISE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setScanlinesEnabled",
-  				value: function setScanlinesEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.SCANLINES = "1";
-  						} else {
-
-  								delete this.defines.SCANLINES;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setGreyscaleEnabled",
-  				value: function setGreyscaleEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.GREYSCALE = "1";
-  						} else {
-
-  								delete this.defines.GREYSCALE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setSepiaEnabled",
-  				value: function setSepiaEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.SEPIA = "1";
-  						} else {
-
-  								delete this.defines.SEPIA;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setVignetteEnabled",
-  				value: function setVignetteEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.VIGNETTE = "1";
-  						} else {
-
-  								delete this.defines.VIGNETTE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setEskilEnabled",
-  				value: function setEskilEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.ESKIL = "1";
-  						} else {
-
-  								delete this.defines.ESKIL;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}]);
-  		return FilmMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$8 = "uniform sampler2D tDiffuse;\r\nuniform sampler2D tPerturb;\r\n\r\nuniform bool active;\r\n\r\nuniform float amount;\r\nuniform float angle;\r\nuniform float seed;\r\nuniform float seedX;\r\nuniform float seedY;\r\nuniform float distortionX;\r\nuniform float distortionY;\r\nuniform float colS;\r\n\r\nvarying vec2 vUv;\r\n\r\nfloat rand(vec2 tc) {\r\n\r\n\tconst float a = 12.9898;\r\n\tconst float b = 78.233;\r\n\tconst float c = 43758.5453;\r\n\r\n\tfloat dt = dot(tc, vec2(a, b));\r\n\tfloat sn = mod(dt, 3.14);\r\n\r\n\treturn fract(sin(sn) * c);\r\n\r\n}\r\n\r\nvoid main() {\r\n\r\n\tvec2 coord = vUv;\r\n\r\n\tfloat xs, ys;\r\n\tvec4 normal;\r\n\r\n\tvec2 offset;\r\n\tvec4 cr, cga, cb;\r\n\tvec4 snow, color;\r\n\r\n\tfloat sx, sy;\r\n\r\n\tif(active) {\r\n\r\n\t\txs = floor(gl_FragCoord.x / 0.5);\r\n\t\tys = floor(gl_FragCoord.y / 0.5);\r\n\r\n\t\tnormal = texture2D(tPerturb, coord * seed * seed);\r\n\r\n\t\tif(coord.y < distortionX + colS && coord.y > distortionX - colS * seed) {\r\n\r\n\t\t\tsx = clamp(ceil(seedX), 0.0, 1.0);\r\n\t\t\tcoord.y = sx * (1.0 - (coord.y + distortionY)) + (1.0 - sx) * distortionY;\r\n\r\n\t\t}\r\n\r\n\t\tif(coord.x < distortionY + colS && coord.x > distortionY - colS * seed) {\r\n\r\n\t\t\tsy = clamp(ceil(seedY), 0.0, 1.0);\r\n\t\t\tcoord.x = sy * distortionX + (1.0 - sy) * (1.0 - (coord.x + distortionX));\r\n\r\n\t\t}\r\n\r\n\t\tcoord.x += normal.x * seedX * (seed / 5.0);\r\n\t\tcoord.y += normal.y * seedY * (seed / 5.0);\r\n\r\n\t\toffset = amount * vec2(cos(angle), sin(angle));\r\n\r\n\t\tcr = texture2D(tDiffuse, coord + offset);\r\n\t\tcga = texture2D(tDiffuse, coord);\r\n\t\tcb = texture2D(tDiffuse, coord - offset);\r\n\r\n\t\tcolor = vec4(cr.r, cga.g, cb.b, cga.a);\r\n\t\tsnow = 200.0 * amount * vec4(rand(vec2(xs * seed, ys * seed * 50.0)) * 0.2);\r\n\t\tcolor += snow;\r\n\r\n\t} else {\r\n\r\n\t\tcolor = texture2D(tDiffuse, vUv);\r\n\r\n\t}\r\n\r\n\tgl_FragColor = color;\r\n\r\n}\r\n";
-  var vertex$8 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var GlitchMaterial = function (_ShaderMaterial) {
-  			inherits(GlitchMaterial, _ShaderMaterial);
-
-  			function GlitchMaterial() {
-  						classCallCheck(this, GlitchMaterial);
-  						return possibleConstructorReturn(this, (GlitchMaterial.__proto__ || Object.getPrototypeOf(GlitchMaterial)).call(this, {
-
-  									type: "GlitchMaterial",
-
-  									uniforms: {
-
-  												tDiffuse: new three.Uniform(null),
-  												tPerturb: new three.Uniform(null),
-
-  												active: new three.Uniform(1),
-
-  												amount: new three.Uniform(0.8),
-  												angle: new three.Uniform(0.02),
-  												seed: new three.Uniform(0.02),
-  												seedX: new three.Uniform(0.02),
-  												seedY: new three.Uniform(0.02),
-  												distortionX: new three.Uniform(0.5),
-  												distortionY: new three.Uniform(0.6),
-  												colS: new three.Uniform(0.05)
-
-  									},
-
-  									fragmentShader: fragment$8,
-  									vertexShader: vertex$8,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return GlitchMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$9 = "#include <common>\r\n#include <dithering_pars_fragment>\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform vec3 lightPosition;\r\n\r\nuniform float exposure;\r\nuniform float decay;\r\nuniform float density;\r\nuniform float weight;\r\nuniform float clampMax;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvec2 texCoord = vUv;\r\n\r\n\t// Calculate vector from pixel to light source in screen space.\r\n\tvec2 deltaTexCoord = texCoord - lightPosition.st;\r\n\tdeltaTexCoord *= 1.0 / NUM_SAMPLES_FLOAT * density;\r\n\r\n\t// A decreasing illumination factor.\r\n\tfloat illuminationDecay = 1.0;\r\n\r\n\tvec4 sample;\r\n\tvec4 color = vec4(0.0);\r\n\r\n\t// Estimate the probability of occlusion at each pixel by summing samples along a ray to the light source.\r\n\tfor(int i = 0; i < NUM_SAMPLES_INT; ++i) {\r\n\r\n\t\ttexCoord -= deltaTexCoord;\r\n\t\tsample = texture2D(tDiffuse, texCoord);\r\n\r\n\t\t// Apply sample attenuation scale/decay factors.\r\n\t\tsample *= illuminationDecay * weight;\r\n\r\n\t\tcolor += sample;\r\n\r\n\t\t// Update exponential decay factor.\r\n\t\tilluminationDecay *= decay;\r\n\r\n\t}\r\n\r\n\tgl_FragColor = clamp(color * exposure, 0.0, clampMax);\r\n\r\n\t#include <dithering_fragment>\r\n\r\n}\r\n";
-  var vertex$9 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var GodRaysMaterial = function (_ShaderMaterial) {
-  			inherits(GodRaysMaterial, _ShaderMaterial);
-
-  			function GodRaysMaterial() {
-  						var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  						classCallCheck(this, GodRaysMaterial);
-
-
-  						var settings = Object.assign({
-  									exposure: 0.6,
-  									density: 0.93,
-  									decay: 0.96,
-  									weight: 0.4,
-  									clampMax: 1.0
-  						}, options);
-
-  						return possibleConstructorReturn(this, (GodRaysMaterial.__proto__ || Object.getPrototypeOf(GodRaysMaterial)).call(this, {
-
-  									type: "GodRaysMaterial",
-
-  									defines: {
-
-  												NUM_SAMPLES_FLOAT: "60.0",
-  												NUM_SAMPLES_INT: "60"
-
-  									},
-
-  									uniforms: {
-
-  												tDiffuse: new three.Uniform(null),
-  												lightPosition: new three.Uniform(null),
-
-  												exposure: new three.Uniform(settings.exposure),
-  												decay: new three.Uniform(settings.decay),
-  												density: new three.Uniform(settings.density),
-  												weight: new three.Uniform(settings.weight),
-  												clampMax: new three.Uniform(settings.clampMax)
-
-  									},
-
-  									fragmentShader: fragment$9,
-  									vertexShader: vertex$9,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return GodRaysMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$10 = "#include <common>\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform float distinction;\r\nuniform vec2 range;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel = texture2D(tDiffuse, vUv);\r\n\tfloat l = linearToRelativeLuminance(texel.rgb);\r\n\r\n\t#ifdef RANGE\r\n\r\n\t\tfloat low = step(range.x, l);\r\n\t\tfloat high = step(l, range.y);\r\n\r\n\t\t// Apply the mask.\r\n\t\tl *= low * high;\r\n\r\n\t#endif\r\n\r\n\tl = pow(abs(l), distinction);\r\n\r\n\t#ifdef COLOR\r\n\r\n\t\tgl_FragColor = vec4(texel.rgb * l, texel.a);\r\n\r\n\t#else\r\n\r\n\t\tgl_FragColor = vec4(l, l, l, texel.a);\r\n\r\n\t#endif\r\n\r\n}\r\n";
-  var vertex$10 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var LuminosityMaterial = function (_ShaderMaterial) {
-  		inherits(LuminosityMaterial, _ShaderMaterial);
-
-  		function LuminosityMaterial() {
-  				var colorOutput = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  				var luminanceRange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  				classCallCheck(this, LuminosityMaterial);
-
-
-  				var maskLuminance = luminanceRange !== null;
-
-  				var _this = possibleConstructorReturn(this, (LuminosityMaterial.__proto__ || Object.getPrototypeOf(LuminosityMaterial)).call(this, {
-
-  						type: "LuminosityMaterial",
-
-  						uniforms: {
-
-  								tDiffuse: new three.Uniform(null),
-  								distinction: new three.Uniform(1.0),
-  								range: new three.Uniform(maskLuminance ? luminanceRange : new three.Vector2())
-
-  						},
-
-  						fragmentShader: fragment$10,
-  						vertexShader: vertex$10
-
-  				}));
-
-  				_this.setColorOutputEnabled(colorOutput);
-  				_this.setLuminanceRangeEnabled(maskLuminance);
-
-  				return _this;
-  		}
-
-  		createClass(LuminosityMaterial, [{
-  				key: "setColorOutputEnabled",
-  				value: function setColorOutputEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.COLOR = "1";
-  						} else {
-
-  								delete this.defines.COLOR;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setLuminanceRangeEnabled",
-  				value: function setLuminanceRangeEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.RANGE = "1";
-  						} else {
-
-  								delete this.defines.RANGE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}]);
-  		return LuminosityMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$11 = "uniform sampler2D tDiffuse;\r\nuniform float granularity;\r\nuniform float dx;\r\nuniform float dy;\r\n\r\nvarying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel;\r\n\r\n\tif(granularity > 0.0) {\r\n\r\n\t\tvec2 coord = vec2(\r\n\t\t\tdx * (floor(vUv.x / dx) + 0.5),\r\n\t\t\tdy * (floor(vUv.y / dy) + 0.5)\r\n\t\t);\r\n\r\n\t\ttexel = texture2D(tDiffuse, coord);\r\n\r\n\t} else {\r\n\r\n\t\ttexel = texture2D(tDiffuse, vUv);\r\n\r\n\t}\r\n\r\n\tgl_FragColor = texel;\r\n\r\n}\r\n";
-  var vertex$11 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var PixelationMaterial = function (_ShaderMaterial) {
-  	inherits(PixelationMaterial, _ShaderMaterial);
-
-  	function PixelationMaterial() {
-  		classCallCheck(this, PixelationMaterial);
-  		return possibleConstructorReturn(this, (PixelationMaterial.__proto__ || Object.getPrototypeOf(PixelationMaterial)).call(this, {
-
-  			type: "PixelationMaterial",
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-  				granularity: new three.Uniform(1.0),
-  				resolution: new three.Uniform(new three.Vector2(1.0, 1.0)),
-  				dx: new three.Uniform(1.0),
-  				dy: new three.Uniform(1.0)
-
-  			},
-
-  			fragmentShader: fragment$11,
-  			vertexShader: vertex$11,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-  	}
-
-  	createClass(PixelationMaterial, [{
-  		key: "setResolution",
-  		value: function setResolution(width, height) {
-
-  			this.uniforms.resolution.value.set(width, height);
-  			this.granularity = this.granularity;
-  		}
-  	}, {
-  		key: "granularity",
-  		get: function get$$1() {
-
-  			return this.uniforms.granularity.value;
-  		},
-  		set: function set$$1(x) {
-
-  			var uniforms = this.uniforms;
-  			var resolution = uniforms.resolution.value;
-
-  			uniforms.granularity.value = x;
-  			uniforms.dx.value = x / resolution.x;
-  			uniforms.dy.value = x / resolution.y;
-  		}
-  	}]);
-  	return PixelationMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$12 = "#include <common>\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform sampler2D tDepth;\r\n\r\nuniform vec2 texelSize;\r\nuniform vec2 halfTexelSize;\r\n\r\nuniform float cameraNear;\r\nuniform float cameraFar;\r\n\r\nuniform float focalLength;\r\nuniform float focalStop;\r\n\r\nuniform float maxBlur;\r\nuniform float luminanceThreshold;\r\nuniform float luminanceGain;\r\nuniform float bias;\r\nuniform float fringe;\r\nuniform float ditherStrength;\r\n\r\n#ifdef SHADER_FOCUS\r\n\r\n\tuniform vec2 focusCoords;\r\n\r\n#else\r\n\r\n\tuniform float focalDepth;\r\n\r\n#endif\r\n\r\nvarying vec2 vUv;\r\n\r\n#ifndef USE_LOGDEPTHBUF\r\n\r\n\t#include <packing>\r\n\r\n\tfloat readDepth(sampler2D depthSampler, vec2 coord) {\r\n\r\n\t\tfloat fragCoordZ = texture2D(depthSampler, coord).x;\r\n\t\tfloat viewZ = perspectiveDepthToViewZ(fragCoordZ, cameraNear, cameraFar);\r\n\r\n\t\treturn viewZToOrthographicDepth(viewZ, cameraNear, cameraFar);\r\n\r\n\t}\r\n\r\n#endif\r\n\r\n#ifdef PENTAGON\r\n\r\n\tfloat penta(vec2 coords) {\r\n\r\n\t\tconst vec4 HS0 = vec4( 1.0,          0.0,         0.0, 1.0);\r\n\t\tconst vec4 HS1 = vec4( 0.309016994,  0.951056516, 0.0, 1.0);\r\n\t\tconst vec4 HS2 = vec4(-0.809016994,  0.587785252, 0.0, 1.0);\r\n\t\tconst vec4 HS3 = vec4(-0.809016994, -0.587785252, 0.0, 1.0);\r\n\t\tconst vec4 HS4 = vec4( 0.309016994, -0.951056516, 0.0, 1.0);\r\n\t\tconst vec4 HS5 = vec4( 0.0,          0.0,         1.0, 1.0);\r\n\r\n\t\tconst vec4 ONE = vec4(1.0);\r\n\r\n\t\tconst float P_FEATHER = 0.4;\r\n\t\tconst float N_FEATHER = -P_FEATHER;\r\n\r\n\t\tfloat inOrOut = -4.0;\r\n\r\n\t\tvec4 P = vec4(coords, vec2(RINGS_FLOAT - 1.3));\r\n\r\n\t\tvec4 dist = vec4(\r\n\t\t\tdot(P, HS0),\r\n\t\t\tdot(P, HS1),\r\n\t\t\tdot(P, HS2),\r\n\t\t\tdot(P, HS3)\r\n\t\t);\r\n\r\n\t\tdist = smoothstep(N_FEATHER, P_FEATHER, dist);\r\n\r\n\t\tinOrOut += dot(dist, ONE);\r\n\r\n\t\tdist.x = dot(P, HS4);\r\n\t\tdist.y = HS5.w - abs(P.z);\r\n\r\n\t\tdist = smoothstep(N_FEATHER, P_FEATHER, dist);\r\n\t\tinOrOut += dist.x;\r\n\r\n\t\treturn clamp(inOrOut, 0.0, 1.0);\r\n\r\n\t}\r\n\r\n#endif\r\n\r\n#ifdef SHOW_FOCUS\r\n\r\n\tvec3 debugFocus(vec3 c, float blur, float depth) {\r\n\r\n\t\tfloat edge = 0.002 * depth;\r\n\t\tfloat m = clamp(smoothstep(0.0, edge, blur), 0.0, 1.0);\r\n\t\tfloat e = clamp(smoothstep(1.0 - edge, 1.0, blur), 0.0, 1.0);\r\n\r\n\t\tc = mix(c, vec3(1.0, 0.5, 0.0), (1.0 - m) * 0.6);\r\n\t\tc = mix(c, vec3(0.0, 0.5, 1.0), ((1.0 - e) - (1.0 - m)) * 0.2);\r\n\r\n\t\treturn c;\r\n\r\n\t}\r\n\r\n#endif\r\n\r\n#ifdef VIGNETTE\r\n\r\n\tfloat vignette() {\r\n\r\n\t\tconst vec2 CENTER = vec2(0.5);\r\n\r\n\t\tconst float VIGNETTE_OUT = 1.3;\r\n\t\tconst float VIGNETTE_IN = 0.0;\r\n\t\tconst float VIGNETTE_FADE = 22.0; \r\n\r\n\t\tfloat d = distance(vUv, CENTER);\r\n\t\td = smoothstep(VIGNETTE_OUT + (focalStop / VIGNETTE_FADE), VIGNETTE_IN + (focalStop / VIGNETTE_FADE), d);\r\n\r\n\t\treturn clamp(d, 0.0, 1.0);\r\n\r\n\t}\r\n\r\n#endif\r\n\r\nvec2 rand2(vec2 coord) {\r\n\r\n\tvec2 noise;\r\n\r\n\t#ifdef NOISE\r\n\r\n\t\tconst float a = 12.9898;\r\n\t\tconst float b = 78.233;\r\n\t\tconst float c = 43758.5453;\r\n\r\n\t\tnoise.x = clamp(fract(sin(mod(dot(coord, vec2(a, b)), 3.14)) * c), 0.0, 1.0) * 2.0 - 1.0;\r\n\t\tnoise.y = clamp(fract(sin(mod(dot(coord, vec2(a, b) * 2.0), 3.14)) * c), 0.0, 1.0) * 2.0 - 1.0;\r\n\r\n\t#else\r\n\r\n\t\tnoise.x = ((fract(1.0 - coord.s * halfTexelSize.x) * 0.25) + (fract(coord.t * halfTexelSize.y) * 0.75)) * 2.0 - 1.0;\r\n\t\tnoise.y = ((fract(1.0 - coord.s * halfTexelSize.x) * 0.75) + (fract(coord.t * halfTexelSize.y) * 0.25)) * 2.0 - 1.0;\r\n\r\n\t#endif\r\n\r\n\treturn noise;\r\n\r\n}\r\n\r\nvec3 processTexel(vec2 coords, float blur) {\r\n\r\n\tvec3 c;\r\n\tc.r = texture2D(tDiffuse, coords + vec2(0.0, 1.0) * texelSize * fringe * blur).r;\r\n\tc.g = texture2D(tDiffuse, coords + vec2(-0.866, -0.5) * texelSize * fringe * blur).g;\r\n\tc.b = texture2D(tDiffuse, coords + vec2(0.866, -0.5) * texelSize * fringe * blur).b;\r\n\r\n\t// Calculate the luminance of the constructed colour.\r\n\tfloat luminance = linearToRelativeLuminance(c);\r\n\tfloat threshold = max((luminance - luminanceThreshold) * luminanceGain, 0.0);\r\n\r\n\treturn c + mix(vec3(0.0), c, threshold * blur);\r\n\r\n}\r\n\r\nfloat linearize(float depth) {\r\n\r\n\treturn -cameraFar * cameraNear / (depth * (cameraFar - cameraNear) - cameraFar);\r\n\r\n}\r\n\r\nfloat gather(float i, float j, float ringSamples, inout vec3 color, float w, float h, float blur) {\r\n\r\n\tconst float TWO_PI = 6.28318531;\r\n\r\n\tfloat step = TWO_PI / ringSamples;\r\n\tfloat pw = cos(j * step) * i;\r\n\tfloat ph = sin(j * step) * i;\r\n\r\n\t#ifdef PENTAGON\r\n\r\n\t\tfloat p = penta(vec2(pw, ph));\r\n\r\n\t#else\r\n\r\n\t\tfloat p = 1.0;\r\n\r\n\t#endif\r\n\r\n\tcolor += processTexel(vUv + vec2(pw * w, ph * h), blur) * mix(1.0, i / RINGS_FLOAT, bias) * p;\r\n\r\n\treturn mix(1.0, i / RINGS_FLOAT, bias) * p;\r\n\r\n}\r\n\r\nvoid main() {\r\n\r\n\t#ifdef USE_LOGDEPTHBUF\r\n\r\n\t\tfloat depth = linearize(texture2D(tDepth, vUv).x);\r\n\r\n\t#else\r\n\r\n\t\tfloat depth = linearize(readDepth(tDepth, vUv));\r\n\r\n\t#endif\r\n\r\n\t#ifdef SHADER_FOCUS\r\n\r\n\t\t#ifdef USE_LOGDEPTHBUF\r\n\r\n\t\t\tfloat fDepth = linearize(texture2D(tDepth, focusCoords).x);\r\n\r\n\t\t#else\r\n\r\n\t\t\tfloat fDepth = linearize(readDepth(tDepth, focusCoords));\r\n\r\n\t\t#endif\r\n\r\n\t#else\r\n\r\n\t\tfloat fDepth = focalDepth;\r\n\r\n\t#endif\r\n\r\n\t#ifdef MANUAL_DOF\r\n\r\n\t\tconst float nDoFStart = 1.0; \r\n\t\tconst float nDoFDist = 2.0;\r\n\t\tconst float fDoFStart = 1.0;\r\n\t\tconst float fDoFDist = 3.0;\r\n\r\n\t\tfloat focalPlane = depth - fDepth;\r\n\t\tfloat farDoF = (focalPlane - fDoFStart) / fDoFDist;\r\n\t\tfloat nearDoF = (-focalPlane - nDoFStart) / nDoFDist;\r\n\r\n\t\tfloat blur = (focalPlane > 0.0) ? farDoF : nearDoF;\r\n\r\n\t#else\r\n\r\n\t\tconst float CIRCLE_OF_CONFUSION = 0.03; // 35mm film = 0.03mm CoC.\r\n\r\n\t\tfloat focalPlaneMM = fDepth * 1000.0;\r\n\t\tfloat depthMM = depth * 1000.0;\r\n\r\n\t\tfloat focalPlane = (depthMM * focalLength) / (depthMM - focalLength);\r\n\t\tfloat farDoF = (focalPlaneMM * focalLength) / (focalPlaneMM - focalLength);\r\n\t\tfloat nearDoF = (focalPlaneMM - focalLength) / (focalPlaneMM * focalStop * CIRCLE_OF_CONFUSION);\r\n\r\n\t\tfloat blur = abs(focalPlane - farDoF) * nearDoF;\r\n\r\n\t#endif\r\n\r\n\tblur = clamp(blur, 0.0, 1.0);\r\n\r\n\t// Dithering.\r\n\tvec2 noise = rand2(vUv) * ditherStrength * blur;\r\n\r\n\tfloat blurFactorX = texelSize.x * blur * maxBlur + noise.x;\r\n\tfloat blurFactorY = texelSize.y * blur * maxBlur + noise.y;\r\n\r\n\tconst int MAX_RING_SAMPLES = RINGS_INT * SAMPLES_INT;\r\n\r\n\t// Calculation of final color.\r\n\tvec4 color;\r\n\r\n\tif(blur < 0.05) {\r\n\r\n\t\tcolor = texture2D(tDiffuse, vUv);\r\n\r\n\t} else {\r\n\r\n\t\tcolor = texture2D(tDiffuse, vUv);\r\n\r\n\t\tfloat s = 1.0;\r\n\t\tint ringSamples;\r\n\r\n\t\tfor(int i = 1; i <= RINGS_INT; ++i) {\r\n\r\n\t\t\tringSamples = i * SAMPLES_INT;\r\n\r\n\t\t\t// Constant loop.\r\n\t\t\tfor(int j = 0; j < MAX_RING_SAMPLES; ++j) {\r\n\r\n\t\t\t\t// Break earlier.\r\n\t\t\t\tif(j >= ringSamples) { break; }\r\n\r\n\t\t\t\ts += gather(float(i), float(j), float(ringSamples), color.rgb, blurFactorX, blurFactorY, blur);\r\n\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n\t\tcolor.rgb /= s; // Divide by sample count.\r\n\r\n\t}\r\n\r\n\t#ifdef SHOW_FOCUS\r\n\r\n\t\tcolor.rgb = debugFocus(color.rgb, blur, depth);\r\n\r\n\t#endif\r\n\r\n\t#ifdef VIGNETTE\r\n\r\n\t\tcolor.rgb *= vignette();\r\n\r\n\t#endif\r\n\r\n\tgl_FragColor = color;\r\n\r\n}\r\n";
-  var vertex$12 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var RealisticBokehMaterial = function (_ShaderMaterial) {
-  		inherits(RealisticBokehMaterial, _ShaderMaterial);
-
-  		function RealisticBokehMaterial() {
-  				var camera = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  				var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  				classCallCheck(this, RealisticBokehMaterial);
-
-
-  				var settings = Object.assign({
-  						texelSize: null,
-  						rings: 3,
-  						samples: 2,
-  						showFocus: false,
-  						manualDoF: false,
-  						vignette: false,
-  						pentagon: false,
-  						shaderFocus: true,
-  						noise: true,
-  						maxBlur: 1.0,
-  						luminanceThreshold: 0.5,
-  						luminanceGain: 2.0,
-  						bias: 0.5,
-  						fringe: 0.7,
-  						ditherStrength: 0.0001
-  				}, options);
-
-  				var _this = possibleConstructorReturn(this, (RealisticBokehMaterial.__proto__ || Object.getPrototypeOf(RealisticBokehMaterial)).call(this, {
-
-  						type: "RealisticBokehMaterial",
-
-  						defines: {
-
-  								RINGS_INT: settings.rings.toFixed(0),
-  								RINGS_FLOAT: settings.rings.toFixed(1),
-  								SAMPLES_INT: settings.samples.toFixed(0),
-  								SAMPLES_FLOAT: settings.samples.toFixed(1)
-
-  						},
-
-  						uniforms: {
-
-  								tDiffuse: new three.Uniform(null),
-  								tDepth: new three.Uniform(null),
-
-  								texelSize: new three.Uniform(new three.Vector2()),
-  								halfTexelSize: new three.Uniform(new three.Vector2()),
-
-  								cameraNear: new three.Uniform(0.1),
-  								cameraFar: new three.Uniform(2000),
-
-  								focalLength: new three.Uniform(24.0),
-  								focalStop: new three.Uniform(0.9),
-
-  								maxBlur: new three.Uniform(settings.maxBlur),
-  								luminanceThreshold: new three.Uniform(settings.luminanceThreshold),
-  								luminanceGain: new three.Uniform(settings.luminanceGain),
-  								bias: new three.Uniform(settings.bias),
-  								fringe: new three.Uniform(settings.fringe),
-  								ditherStrength: new three.Uniform(settings.ditherStrength),
-
-  								focusCoords: new three.Uniform(new three.Vector2(0.5, 0.5)),
-  								focalDepth: new three.Uniform(1.0)
-
-  						},
-
-  						fragmentShader: fragment$12,
-  						vertexShader: vertex$12,
-
-  						depthWrite: false,
-  						depthTest: false
-
-  				}));
-
-  				_this.setShowFocusEnabled(settings.showFocus);
-  				_this.setManualDepthOfFieldEnabled(settings.manualDoF);
-  				_this.setVignetteEnabled(settings.vignette);
-  				_this.setPentagonEnabled(settings.pentagon);
-  				_this.setShaderFocusEnabled(settings.shaderFocus);
-  				_this.setNoiseEnabled(settings.noise);
-
-  				if (settings.texelSize !== null) {
-
-  						_this.setTexelSize(settings.texelSize.x, settings.texelSize.y);
-  				}
-
-  				_this.adoptCameraSettings(camera);
-
-  				return _this;
-  		}
-
-  		createClass(RealisticBokehMaterial, [{
-  				key: "setShowFocusEnabled",
-  				value: function setShowFocusEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.SHOW_FOCUS = "1";
-  						} else {
-
-  								delete this.defines.SHOW_FOCUS;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setManualDepthOfFieldEnabled",
-  				value: function setManualDepthOfFieldEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.MANUAL_DOF = "1";
-  						} else {
-
-  								delete this.defines.MANUAL_DOF;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setVignetteEnabled",
-  				value: function setVignetteEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.VIGNETTE = "1";
-  						} else {
-
-  								delete this.defines.VIGNETTE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setPentagonEnabled",
-  				value: function setPentagonEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.PENTAGON = "1";
-  						} else {
-
-  								delete this.defines.PENTAGON;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setShaderFocusEnabled",
-  				value: function setShaderFocusEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.SHADER_FOCUS = "1";
-  						} else {
-
-  								delete this.defines.SHADER_FOCUS;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setNoiseEnabled",
-  				value: function setNoiseEnabled(enabled) {
-
-  						if (enabled) {
-
-  								this.defines.NOISE = "1";
-  						} else {
-
-  								delete this.defines.NOISE;
-  						}
-
-  						this.needsUpdate = true;
-  				}
-  		}, {
-  				key: "setTexelSize",
-  				value: function setTexelSize(x, y) {
-
-  						this.uniforms.texelSize.value.set(x, y);
-  						this.uniforms.halfTexelSize.value.set(x, y).multiplyScalar(0.5);
-  				}
-  		}, {
-  				key: "adoptCameraSettings",
-  				value: function adoptCameraSettings(camera) {
-
-  						if (camera !== null) {
-
-  								this.uniforms.cameraNear.value = camera.near;
-  								this.uniforms.cameraFar.value = camera.far;
-  								this.uniforms.focalLength.value = camera.getFocalLength();
-  						}
-  				}
-  		}]);
-  		return RealisticBokehMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$13 = "#include <common>\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform vec2 center;\r\nuniform float aspect;\r\nuniform float waveSize;\r\nuniform float radius;\r\nuniform float maxRadius;\r\nuniform float amplitude;\r\n\r\nvarying vec2 vUv;\r\nvarying float vSize;\r\n\r\nvoid main() {\r\n\r\n\tvec2 aspectCorrection = vec2(aspect, 1.0);\r\n\r\n\tvec2 difference = vUv * aspectCorrection - center * aspectCorrection;\r\n\tfloat distance = sqrt(dot(difference, difference)) * vSize;\r\n\r\n\tvec2 displacement = vec2(0.0);\r\n\r\n\tif(distance > radius) {\r\n\r\n\t\tif(distance < radius + waveSize) {\r\n\r\n\t\t\tfloat angle = (distance - radius) * PI2 / waveSize;\r\n\t\t\tfloat cosSin = (1.0 - cos(angle)) * 0.5;\r\n\r\n\t\t\tfloat extent = maxRadius + waveSize;\r\n\t\t\tfloat decay = max(extent - distance * distance, 0.0) / extent;\r\n\r\n\t\t\tdisplacement = ((cosSin * amplitude * difference) / distance) * decay;\r\n\r\n\t\t}\r\n\r\n\t}\r\n\r\n\tgl_FragColor = texture2D(tDiffuse, vUv - displacement);\r\n\r\n}\r\n";
-  var vertex$13 = "uniform float size;\r\nuniform float scale;\r\nuniform float cameraDistance;\r\n\r\nvarying vec2 vUv;\r\nvarying float vSize;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tvSize = (0.1 * cameraDistance) / size;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var ShockWaveMaterial = function (_ShaderMaterial) {
-  	inherits(ShockWaveMaterial, _ShaderMaterial);
-
-  	function ShockWaveMaterial() {
-  		var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  		classCallCheck(this, ShockWaveMaterial);
-
-
-  		var settings = Object.assign({
-  			maxRadius: 1.0,
-  			waveSize: 0.2,
-  			amplitude: 0.05
-  		}, options);
-
-  		return possibleConstructorReturn(this, (ShockWaveMaterial.__proto__ || Object.getPrototypeOf(ShockWaveMaterial)).call(this, {
-
-  			type: "ShockWaveMaterial",
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-
-  				center: new three.Uniform(new three.Vector2(0.5, 0.5)),
-  				aspect: new three.Uniform(1.0),
-  				cameraDistance: new three.Uniform(1.0),
-
-  				size: new three.Uniform(1.0),
-  				radius: new three.Uniform(-settings.waveSize),
-  				maxRadius: new three.Uniform(settings.maxRadius),
-  				waveSize: new three.Uniform(settings.waveSize),
-  				amplitude: new three.Uniform(settings.amplitude)
-
-  			},
-
-  			fragmentShader: fragment$13,
-  			vertexShader: vertex$13,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-  	}
-
-  	return ShockWaveMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$14 = "uniform sampler2D tDiffuse;\r\nuniform sampler2D tWeights;\r\n\r\nuniform vec2 texelSize;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset;\r\n\r\nvoid main() {\r\n\r\n\t// Fetch the blending weights for current pixel.\r\n\tvec4 a;\r\n\ta.xz = texture2D(tWeights, vUv).xz;\r\n\ta.y = texture2D(tWeights, vOffset.zw).g;\r\n\ta.w = texture2D(tWeights, vOffset.xy).a;\r\n\r\n\tvec4 color;\r\n\r\n\t// Check if there is any blending weight with a value greater than 0.0.\r\n\tif(dot(a, vec4(1.0)) < 1e-5) {\r\n\r\n\t\tcolor = texture2D(tDiffuse, vUv, 0.0);\r\n\r\n\t} else {\r\n\r\n\t\t/* Up to four lines can be crossing a pixel (one through each edge).\r\n\t\t * The line with the maximum weight for each direction is favoured.\r\n\t\t */\r\n\r\n\t\tvec2 offset;\r\n\t\toffset.x = a.a > a.b ? a.a : -a.b; // Left vs. right.\r\n\t\toffset.y = a.g > a.r ? -a.g : a.r; // Top vs. bottom (changed signs).\r\n\r\n\t\t// Go in the direction with the maximum weight (horizontal vs. vertical).\r\n\t\tif(abs(offset.x) > abs(offset.y)) {\r\n\r\n\t\t\toffset.y = 0.0;\r\n\r\n\t\t} else {\r\n\r\n\t\t\toffset.x = 0.0;\r\n\r\n\t\t}\r\n\r\n\t\t// Fetch the opposite color and lerp by hand.\r\n\t\tcolor = texture2D(tDiffuse, vUv, 0.0);\r\n\t\tvec2 coord = vUv + sign(offset) * texelSize;\r\n\t\tvec4 oppositeColor = texture2D(tDiffuse, coord, 0.0);\r\n\t\tfloat s = abs(offset.x) > abs(offset.y) ? abs(offset.x) : abs(offset.y);\r\n\r\n\t\t// Gamma correction.\r\n\t\tcolor.rgb = pow(abs(color.rgb), vec3(2.2));\r\n\t\toppositeColor.rgb = pow(abs(oppositeColor.rgb), vec3(2.2));\r\n\t\tcolor = mix(color, oppositeColor, s);\r\n\t\tcolor.rgb = pow(abs(color.rgb), vec3(1.0 / 2.2));\r\n\r\n\t}\r\n\r\n\tgl_FragColor = color;\r\n\r\n}\r\n";
-  var vertex$14 = "uniform vec2 texelSize;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\r\n\tvOffset = uv.xyxy + texelSize.xyxy * vec4(1.0, 0.0, 0.0, -1.0); // Changed sign in W component.\r\n\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var SMAABlendMaterial = function (_ShaderMaterial) {
-  			inherits(SMAABlendMaterial, _ShaderMaterial);
-
-  			function SMAABlendMaterial() {
-  						var texelSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new three.Vector2();
-  						classCallCheck(this, SMAABlendMaterial);
-  						return possibleConstructorReturn(this, (SMAABlendMaterial.__proto__ || Object.getPrototypeOf(SMAABlendMaterial)).call(this, {
-
-  									type: "SMAABlendMaterial",
-
-  									uniforms: {
-
-  												tDiffuse: new three.Uniform(null),
-  												tWeights: new three.Uniform(null),
-  												texelSize: new three.Uniform(texelSize)
-
-  									},
-
-  									fragmentShader: fragment$14,
-  									vertexShader: vertex$14,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return SMAABlendMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$15 = "#define sampleLevelZeroOffset(t, coord, offset) texture2D(t, coord + float(offset) * texelSize, 0.0)\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform sampler2D tArea;\r\nuniform sampler2D tSearch;\r\n\r\nuniform vec2 texelSize;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset[3];\r\nvarying vec2 vPixCoord;\r\n\r\nvec2 round(vec2 x) {\r\n\r\n\treturn sign(x) * floor(abs(x) + 0.5);\r\n\r\n}\r\n\r\nfloat searchLength(vec2 e, float bias, float scale) {\r\n\r\n\t// Not required if tSearch accesses are set to point.\r\n\t// const vec2 SEARCH_TEX_PIXEL_SIZE = 1.0 / vec2(66.0, 33.0);\r\n\t// e = vec2(bias, 0.0) + 0.5 * SEARCH_TEX_PIXEL_SIZE + e * vec2(scale, 1.0) * vec2(64.0, 32.0) * SEARCH_TEX_PIXEL_SIZE;\r\n\r\n\te.r = bias + e.r * scale;\r\n\r\n\treturn 255.0 * texture2D(tSearch, e, 0.0).r;\r\n\r\n}\r\n\r\nfloat searchXLeft(vec2 texCoord, float end) {\r\n\r\n\t/* @PSEUDO_GATHER4\r\n\t * This texCoord has been offset by (-0.25, -0.125) in the vertex shader to\r\n\t * sample between edge, thus fetching four edges in a row.\r\n\t * Sampling with different offsets in each direction allows to disambiguate\r\n\t * which edges are active from the four fetched ones.\r\n\t */\r\n\r\n\tvec2 e = vec2(0.0, 1.0);\r\n\r\n\tfor(int i = 0; i < MAX_SEARCH_STEPS_INT; ++i) {\r\n\r\n\t\te = texture2D(tDiffuse, texCoord, 0.0).rg;\r\n\t\ttexCoord -= vec2(2.0, 0.0) * texelSize;\r\n\r\n\t\tif(!(texCoord.x > end && e.g > 0.8281 && e.r == 0.0)) { break; }\r\n\r\n\t}\r\n\r\n\t// Correct the previously applied offset (-0.25, -0.125).\r\n\ttexCoord.x += 0.25 * texelSize.x;\r\n\r\n\t// The searches are biased by 1, so adjust the coords accordingly.\r\n\ttexCoord.x += texelSize.x;\r\n\r\n\t// Disambiguate the length added by the last step.\r\n\ttexCoord.x += 2.0 * texelSize.x; // Undo last step.\r\n\ttexCoord.x -= texelSize.x * searchLength(e, 0.0, 0.5);\r\n\r\n\treturn texCoord.x;\r\n\r\n}\r\n\r\nfloat searchXRight(vec2 texCoord, float end) {\r\n\r\n\tvec2 e = vec2(0.0, 1.0);\r\n\r\n\tfor(int i = 0; i < MAX_SEARCH_STEPS_INT; ++i) {\r\n\r\n\t\te = texture2D(tDiffuse, texCoord, 0.0).rg;\r\n\t\ttexCoord += vec2(2.0, 0.0) * texelSize;\r\n\r\n\t\tif(!(texCoord.x < end && e.g > 0.8281 && e.r == 0.0)) { break; }\r\n\r\n\t}\r\n\r\n\ttexCoord.x -= 0.25 * texelSize.x;\r\n\ttexCoord.x -= texelSize.x;\r\n\ttexCoord.x -= 2.0 * texelSize.x;\r\n\ttexCoord.x += texelSize.x * searchLength(e, 0.5, 0.5);\r\n\r\n\treturn texCoord.x;\r\n\r\n}\r\n\r\nfloat searchYUp(vec2 texCoord, float end) {\r\n\r\n\tvec2 e = vec2(1.0, 0.0);\r\n\r\n\tfor(int i = 0; i < MAX_SEARCH_STEPS_INT; ++i) {\r\n\r\n\t\te = texture2D(tDiffuse, texCoord, 0.0).rg;\r\n\t\ttexCoord += vec2(0.0, 2.0) * texelSize; // Changed sign.\r\n\r\n\t\tif(!(texCoord.y > end && e.r > 0.8281 && e.g == 0.0)) { break; }\r\n\r\n\t}\r\n\r\n\ttexCoord.y -= 0.25 * texelSize.y; // Changed sign.\r\n\ttexCoord.y -= texelSize.y; // Changed sign.\r\n\ttexCoord.y -= 2.0 * texelSize.y; // Changed sign.\r\n\ttexCoord.y += texelSize.y * searchLength(e.gr, 0.0, 0.5); // Changed sign.\r\n\r\n\treturn texCoord.y;\r\n\r\n}\r\n\r\nfloat searchYDown(vec2 texCoord, float end) {\r\n\r\n\tvec2 e = vec2(1.0, 0.0);\r\n\r\n\tfor(int i = 0; i < MAX_SEARCH_STEPS_INT; ++i ) {\r\n\r\n\t\te = texture2D(tDiffuse, texCoord, 0.0).rg;\r\n\t\ttexCoord -= vec2(0.0, 2.0) * texelSize; // Changed sign.\r\n\r\n\t\tif(!(texCoord.y < end && e.r > 0.8281 && e.g == 0.0)) { break; }\r\n\r\n\t}\r\n\r\n\ttexCoord.y += 0.25 * texelSize.y; // Changed sign.\r\n\ttexCoord.y += texelSize.y; // Changed sign.\r\n\ttexCoord.y += 2.0 * texelSize.y; // Changed sign.\r\n\ttexCoord.y -= texelSize.y * searchLength(e.gr, 0.5, 0.5); // Changed sign.\r\n\r\n\treturn texCoord.y;\r\n\r\n}\r\n\r\nvec2 area(vec2 dist, float e1, float e2, float offset) {\r\n\r\n\t// Rounding prevents precision errors of bilinear filtering.\r\n\tvec2 texCoord = AREATEX_MAX_DISTANCE * round(4.0 * vec2(e1, e2)) + dist;\r\n\r\n\t// Scale and bias for texel space translation.\r\n\ttexCoord = AREATEX_PIXEL_SIZE * texCoord + (0.5 * AREATEX_PIXEL_SIZE);\r\n\r\n\t// Move to proper place, according to the subpixel offset.\r\n\ttexCoord.y += AREATEX_SUBTEX_SIZE * offset;\r\n\r\n\treturn texture2D(tArea, texCoord, 0.0).rg;\r\n\r\n}\r\n\r\nvoid main() {\r\n\r\n\tvec4 weights = vec4(0.0);\r\n\tvec4 subsampleIndices = vec4(0.0);\r\n\tvec2 e = texture2D(tDiffuse, vUv).rg;\r\n\r\n\tif(e.g > 0.0) {\r\n\r\n\t\t// Edge at north.\r\n\t\tvec2 d;\r\n\r\n\t\t// Find the distance to the left.\r\n\t\tvec2 coords;\r\n\t\tcoords.x = searchXLeft(vOffset[0].xy, vOffset[2].x);\r\n\t\tcoords.y = vOffset[1].y; // vOffset[1].y = vUv.y - 0.25 * texelSize.y (@CROSSING_OFFSET)\r\n\t\td.x = coords.x;\r\n\r\n\t\t/* Now fetch the left crossing edges, two at a time using bilinear\r\n\t\tfiltering. Sampling at -0.25 (see @CROSSING_OFFSET) enables to discern what\r\n\t\tvalue each edge has. */\r\n\t\tfloat e1 = texture2D(tDiffuse, coords, 0.0).r;\r\n\r\n\t\t// Find the distance to the right.\r\n\t\tcoords.x = searchXRight(vOffset[0].zw, vOffset[2].y);\r\n\t\td.y = coords.x;\r\n\r\n\t\t/* Translate distances to pixel units for better interleave arithmetic and\r\n\t\tmemory accesses. */\r\n\t\td = d / texelSize.x - vPixCoord.x;\r\n\r\n\t\t// The area texture is compressed quadratically.\r\n\t\tvec2 sqrtD = sqrt(abs(d));\r\n\r\n\t\t// Fetch the right crossing edges.\r\n\t\tcoords.y -= texelSize.y; // WebGL port note: Added.\r\n\t\tfloat e2 = sampleLevelZeroOffset(tDiffuse, coords, ivec2(1, 0)).r;\r\n\r\n\t\t// Pattern recognised, now get the actual area.\r\n\t\tweights.rg = area(sqrtD, e1, e2, subsampleIndices.y);\r\n\r\n\t}\r\n\r\n\tif(e.r > 0.0) {\r\n\r\n\t\t// Edge at west.\r\n\t\tvec2 d;\r\n\r\n\t\t// Find the distance to the top.\r\n\t\tvec2 coords;\r\n\t\tcoords.y = searchYUp(vOffset[1].xy, vOffset[2].z);\r\n\t\tcoords.x = vOffset[0].x; // vOffset[1].x = vUv.x - 0.25 * texelSize.x;\r\n\t\td.x = coords.y;\r\n\r\n\t\t// Fetch the top crossing edges.\r\n\t\tfloat e1 = texture2D(tDiffuse, coords, 0.0).g;\r\n\r\n\t\t// Find the distance to the bottom.\r\n\t\tcoords.y = searchYDown(vOffset[1].zw, vOffset[2].w);\r\n\t\td.y = coords.y;\r\n\r\n\t\t// Distances in pixel units.\r\n\t\td = d / texelSize.y - vPixCoord.y;\r\n\r\n\t\t// The area texture is compressed quadratically.\r\n\t\tvec2 sqrtD = sqrt(abs(d));\r\n\r\n\t\t// Fetch the bottom crossing edges.\r\n\t\tcoords.y -= texelSize.y; // WebGL port note: Added.\r\n\t\tfloat e2 = sampleLevelZeroOffset(tDiffuse, coords, ivec2(0, 1)).g;\r\n\r\n\t\t// Get the area for this direction.\r\n\t\tweights.ba = area(sqrtD, e1, e2, subsampleIndices.x);\r\n\r\n\t}\r\n\r\n\tgl_FragColor = weights;\r\n\r\n}\r\n";
-  var vertex$15 = "uniform vec2 texelSize;\r\n\r\nvarying vec2 vUv;\r\nvarying vec4 vOffset[3];\r\nvarying vec2 vPixCoord;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\r\n\tvPixCoord = uv / texelSize;\r\n\r\n\t// Offsets for the searches (see @PSEUDO_GATHER4).\r\n\tvOffset[0] = uv.xyxy + texelSize.xyxy * vec4(-0.25, 0.125, 1.25, 0.125); // Changed sign in Y and W components.\r\n\tvOffset[1] = uv.xyxy + texelSize.xyxy * vec4(-0.125, 0.25, -0.125, -1.25); //Changed sign in Y and W components.\r\n\r\n\t// This indicates the ends of the loops.\r\n\tvOffset[2] = vec4(vOffset[0].xz, vOffset[1].yw) + vec4(-2.0, 2.0, -2.0, 2.0) * texelSize.xxyy * MAX_SEARCH_STEPS_FLOAT;\r\n\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var SMAAWeightsMaterial = function (_ShaderMaterial) {
-  	inherits(SMAAWeightsMaterial, _ShaderMaterial);
-
-  	function SMAAWeightsMaterial() {
-  		var texelSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new three.Vector2();
-  		classCallCheck(this, SMAAWeightsMaterial);
-  		return possibleConstructorReturn(this, (SMAAWeightsMaterial.__proto__ || Object.getPrototypeOf(SMAAWeightsMaterial)).call(this, {
-
-  			type: "SMAAWeightsMaterial",
-
-  			defines: {
-  				MAX_SEARCH_STEPS_INT: "8",
-  				MAX_SEARCH_STEPS_FLOAT: "8.0",
-
-  				AREATEX_MAX_DISTANCE: "16.0",
-  				AREATEX_PIXEL_SIZE: "(1.0 / vec2(160.0, 560.0))",
-  				AREATEX_SUBTEX_SIZE: "(1.0 / 7.0)",
-  				SEARCHTEX_SIZE: "vec2(66.0, 33.0)",
-  				SEARCHTEX_PACKED_SIZE: "vec2(64.0, 16.0)"
-
-  			},
-
-  			uniforms: {
-
-  				tDiffuse: new three.Uniform(null),
-  				tArea: new three.Uniform(null),
-  				tSearch: new three.Uniform(null),
-  				texelSize: new three.Uniform(texelSize)
-
-  			},
-
-  			fragmentShader: fragment$15,
-  			vertexShader: vertex$15,
-
-  			depthWrite: false,
-  			depthTest: false
-
-  		}));
-  	}
-
-  	createClass(SMAAWeightsMaterial, [{
-  		key: "setOrthogonalSearchSteps",
-  		value: function setOrthogonalSearchSteps(steps) {
-
-  			this.defines.MAX_SEARCH_STEPS_INT = steps.toFixed("0");
-  			this.defines.MAX_SEARCH_STEPS_FLOAT = steps.toFixed("1");
-
-  			this.needsUpdate = true;
-  		}
-  	}]);
-  	return SMAAWeightsMaterial;
-  }(three.ShaderMaterial);
-
-  var fragment$16 = "#include <common>\r\n#include <dithering_pars_fragment>\r\n\r\nuniform sampler2D tDiffuse;\r\nuniform float middleGrey;\r\nuniform float maxLuminance;\r\n\r\n#ifdef ADAPTED_LUMINANCE\r\n\r\n\tuniform sampler2D luminanceMap;\r\n\r\n#else\r\n\r\n\tuniform float averageLuminance;\r\n\r\n#endif\r\n\r\nvarying vec2 vUv;\r\n\r\nvec3 toneMap(vec3 c) {\r\n\r\n\t#ifdef ADAPTED_LUMINANCE\r\n\r\n\t\t// Get the calculated average luminance by sampling the center.\r\n\t\tfloat lumAvg = texture2D(luminanceMap, vec2(0.5)).r;\r\n\r\n\t#else\r\n\r\n\t\tfloat lumAvg = averageLuminance;\r\n\r\n\t#endif\r\n\r\n\t// Calculate the luminance of the current pixel.\r\n\tfloat lumPixel = linearToRelativeLuminance(c);\r\n\r\n\t// Apply the modified operator (Reinhard Eq. 4).\r\n\tfloat lumScaled = (lumPixel * middleGrey) / lumAvg;\r\n\r\n\tfloat lumCompressed = (lumScaled * (1.0 + (lumScaled / (maxLuminance * maxLuminance)))) / (1.0 + lumScaled);\r\n\r\n\treturn lumCompressed * c;\r\n\r\n}\r\n\r\nvoid main() {\r\n\r\n\tvec4 texel = texture2D(tDiffuse, vUv);\r\n\tgl_FragColor = vec4(toneMap(texel.rgb), texel.a);\r\n\r\n\t#include <dithering_fragment>\r\n\r\n}\r\n";
-  var vertex$16 = "varying vec2 vUv;\r\n\r\nvoid main() {\r\n\r\n\tvUv = uv;\r\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\r\n\r\n}\r\n";
-
-  var ToneMappingMaterial = function (_ShaderMaterial) {
-  			inherits(ToneMappingMaterial, _ShaderMaterial);
-
-  			function ToneMappingMaterial() {
-  						classCallCheck(this, ToneMappingMaterial);
-  						return possibleConstructorReturn(this, (ToneMappingMaterial.__proto__ || Object.getPrototypeOf(ToneMappingMaterial)).call(this, {
-
-  									type: "ToneMappingMaterial",
-
-  									uniforms: {
-
-  												tDiffuse: new three.Uniform(null),
-  												luminanceMap: new three.Uniform(null),
-  												averageLuminance: new three.Uniform(1.0),
-  												maxLuminance: new three.Uniform(16.0),
-  												middleGrey: new three.Uniform(0.6)
-
-  									},
-
-  									fragmentShader: fragment$16,
-  									vertexShader: vertex$16,
-
-  									depthWrite: false,
-  									depthTest: false
-
-  						}));
-  			}
-
-  			return ToneMappingMaterial;
-  }(three.ShaderMaterial);
-
-  var Pass = function () {
-  		function Pass() {
-  				var scene = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new three.Scene();
-  				var camera = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new three.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  				var quad = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new three.Mesh(new three.PlaneBufferGeometry(2, 2), null);
-  				classCallCheck(this, Pass);
-
-
-  				this.name = "Pass";
-
-  				this.scene = scene;
-
-  				this.camera = camera;
-
-  				this.quad = quad;
-
-  				if (this.quad !== null) {
-
-  						this.quad.frustumCulled = false;
-
-  						if (this.scene !== null) {
-
-  								this.scene.add(this.quad);
-  						}
-  				}
-
-  				this.needsSwap = false;
-
-  				this.enabled = true;
-
-  				this.renderToScreen = false;
-  		}
-
-  		createClass(Pass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer, delta, maskActive) {
-
-  						throw new Error("Render method not implemented!");
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {}
-  		}, {
-  				key: "initialize",
-  				value: function initialize(renderer, alpha) {}
-  		}, {
-  				key: "dispose",
-  				value: function dispose() {
-
-  						var key = void 0;
-
-  						var _iteratorNormalCompletion = true;
-  						var _didIteratorError = false;
-  						var _iteratorError = undefined;
-
-  						try {
-  								for (var _iterator = Object.keys(this)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-  										key = _step.value;
-
-
-  										if (this[key] !== null && typeof this[key].dispose === "function") {
-
-  												this[key].dispose();
-  												this[key] = null;
-  										}
-  								}
-  						} catch (err) {
-  								_didIteratorError = true;
-  								_iteratorError = err;
-  						} finally {
-  								try {
-  										if (!_iteratorNormalCompletion && _iterator.return) {
-  												_iterator.return();
-  										}
-  								} finally {
-  										if (_didIteratorError) {
-  												throw _iteratorError;
-  										}
-  								}
-  						}
-  				}
-  		}]);
-  		return Pass;
-  }();
-
-  var BlurPass = function (_Pass) {
-  		inherits(BlurPass, _Pass);
-
-  		function BlurPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, BlurPass);
-
-  				var _this = possibleConstructorReturn(this, (BlurPass.__proto__ || Object.getPrototypeOf(BlurPass)).call(this));
-
-  				_this.name = "BlurPass";
-
-  				_this.needsSwap = true;
-
-  				_this.renderTargetX = new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearFilter,
-  						magFilter: three.LinearFilter,
-  						stencilBuffer: false,
-  						depthBuffer: false
-  				});
-
-  				_this.renderTargetX.texture.name = "Blur.TargetX";
-  				_this.renderTargetX.texture.generateMipmaps = false;
-
-  				_this.renderTargetY = _this.renderTargetX.clone();
-
-  				_this.renderTargetY.texture.name = "Blur.TargetY";
-
-  				_this.resolutionScale = options.resolutionScale !== undefined ? options.resolutionScale : 0.5;
-
-  				_this.convolutionMaterial = new ConvolutionMaterial();
-
-  				_this.ditheredConvolutionMaterial = new ConvolutionMaterial();
-  				_this.ditheredConvolutionMaterial.dithering = true;
-
-  				_this.dithering = false;
-
-  				_this.kernelSize = options.kernelSize;
-
-  				return _this;
-  		}
-
-  		createClass(BlurPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						var scene = this.scene;
-  						var camera = this.camera;
-
-  						var renderTargetX = this.renderTargetX;
-  						var renderTargetY = this.renderTargetY;
-
-  						var material = this.convolutionMaterial;
-  						var uniforms = material.uniforms;
-  						var kernel = material.getKernel();
-
-  						var lastRT = readBuffer;
-  						var destRT = void 0;
-  						var i = void 0,
-  						    l = void 0;
-
-  						this.quad.material = material;
-
-  						for (i = 0, l = kernel.length - 1; i < l; ++i) {
-  								destRT = i % 2 === 0 ? renderTargetX : renderTargetY;
-
-  								uniforms.kernel.value = kernel[i];
-  								uniforms.tDiffuse.value = lastRT.texture;
-  								renderer.render(scene, camera, destRT);
-
-  								lastRT = destRT;
-  						}
-
-  						if (this.dithering) {
-
-  								material = this.ditheredConvolutionMaterial;
-  								uniforms = material.uniforms;
-  								this.quad.material = material;
-  						}
-
-  						uniforms.kernel.value = kernel[i];
-  						uniforms.tDiffuse.value = lastRT.texture;
-  						renderer.render(scene, camera, this.renderToScreen ? null : writeBuffer);
+  						return Promise.resolve();
   				}
   		}, {
   				key: "initialize",
-  				value: function initialize(renderer, alpha) {
-
-  						if (!alpha) {
-
-  								this.renderTargetX.texture.format = three.RGBFormat;
-  								this.renderTargetY.texture.format = three.RGBFormat;
-  						}
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						width = Math.max(1, Math.floor(width * this.resolutionScale));
-  						height = Math.max(1, Math.floor(height * this.resolutionScale));
-
-  						this.renderTargetX.setSize(width, height);
-  						this.renderTargetY.setSize(width, height);
-
-  						this.convolutionMaterial.setTexelSize(1.0 / width, 1.0 / height);
-  						this.ditheredConvolutionMaterial.setTexelSize(1.0 / width, 1.0 / height);
-  				}
-  		}, {
-  				key: "width",
-  				get: function get$$1() {
-
-  						return this.renderTargetX.width;
-  				}
-  		}, {
-  				key: "height",
-  				get: function get$$1() {
-
-  						return this.renderTargetX.height;
-  				}
-  		}, {
-  				key: "kernelSize",
-  				get: function get$$1() {
-
-  						return this.convolutionMaterial.kernelSize;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : KernelSize.LARGE;
-
-
-  						this.convolutionMaterial.kernelSize = value;
-  						this.ditheredConvolutionMaterial.kernelSize = value;
-  				}
-  		}]);
-  		return BlurPass;
-  }(Pass);
-
-  var BloomPass = function (_Pass) {
-  	inherits(BloomPass, _Pass);
-
-  	function BloomPass() {
-  		var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  		classCallCheck(this, BloomPass);
-
-  		var _this = possibleConstructorReturn(this, (BloomPass.__proto__ || Object.getPrototypeOf(BloomPass)).call(this));
-
-  		_this.name = "BloomPass";
-
-  		_this.needsSwap = true;
-
-  		_this.blurPass = new BlurPass(options);
-
-  		_this.renderTarget = new three.WebGLRenderTarget(1, 1, {
-  			minFilter: three.LinearFilter,
-  			magFilter: three.LinearFilter,
-  			stencilBuffer: false,
-  			depthBuffer: false
-  		});
-
-  		_this.renderTarget.texture.name = "Bloom.Target";
-  		_this.renderTarget.texture.generateMipmaps = false;
-
-  		_this.combineMaterial = new CombineMaterial(options.screenMode !== undefined ? options.screenMode : true);
-
-  		_this.intensity = options.intensity;
-
-  		_this.luminosityMaterial = new LuminosityMaterial(true);
-
-  		_this.distinction = options.distinction;
-
-  		return _this;
-  	}
-
-  	createClass(BloomPass, [{
-  		key: "render",
-  		value: function render(renderer, readBuffer, writeBuffer) {
-
-  			var quad = this.quad;
-  			var scene = this.scene;
-  			var camera = this.camera;
-  			var blurPass = this.blurPass;
-
-  			var luminosityMaterial = this.luminosityMaterial;
-  			var combineMaterial = this.combineMaterial;
-  			var renderTarget = this.renderTarget;
-
-  			quad.material = luminosityMaterial;
-  			luminosityMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  			renderer.render(scene, camera, renderTarget);
-
-  			blurPass.render(renderer, renderTarget, renderTarget);
-
-  			quad.material = combineMaterial;
-  			combineMaterial.uniforms.texture1.value = readBuffer.texture;
-  			combineMaterial.uniforms.texture2.value = renderTarget.texture;
-
-  			renderer.render(scene, camera, this.renderToScreen ? null : writeBuffer);
-  		}
-  	}, {
-  		key: "initialize",
-  		value: function initialize(renderer, alpha) {
-
-  			this.blurPass.initialize(renderer, alpha);
-
-  			if (!alpha) {
-
-  				this.renderTarget.texture.format = three.RGBFormat;
-  			}
-  		}
-  	}, {
-  		key: "setSize",
-  		value: function setSize(width, height) {
-
-  			this.blurPass.setSize(width, height);
-
-  			width = this.blurPass.width;
-  			height = this.blurPass.height;
-
-  			this.renderTarget.setSize(width, height);
-  		}
-  	}, {
-  		key: "resolutionScale",
-  		get: function get$$1() {
-
-  			return this.blurPass.resolutionScale;
-  		},
-  		set: function set$$1() {
-  			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.5;
-
-
-  			this.blurPass.resolutionScale = value;
-  		}
-  	}, {
-  		key: "kernelSize",
-  		get: function get$$1() {
-
-  			return this.blurPass.kernelSize;
-  		},
-  		set: function set$$1() {
-  			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : KernelSize.LARGE;
-
-
-  			this.blurPass.kernelSize = value;
-  		}
-  	}, {
-  		key: "intensity",
-  		get: function get$$1() {
-
-  			return this.combineMaterial.uniforms.opacity2.value;
-  		},
-  		set: function set$$1() {
-  			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
-
-
-  			this.combineMaterial.uniforms.opacity2.value = value;
-  		}
-  	}, {
-  		key: "distinction",
-  		get: function get$$1() {
-
-  			return this.luminosityMaterial.uniforms.distinction.value;
-  		},
-  		set: function set$$1() {
-  			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
-
-
-  			this.luminosityMaterial.uniforms.distinction.value = value;
-  		}
-  	}, {
-  		key: "dithering",
-  		get: function get$$1() {
-
-  			return this.blurPass.dithering;
-  		},
-  		set: function set$$1(value) {
-
-  			this.blurPass.dithering = value;
-  		}
-  	}]);
-  	return BloomPass;
-  }(Pass);
-
-  var BokehPass = function (_Pass) {
-  		inherits(BokehPass, _Pass);
-
-  		function BokehPass(camera) {
-  				var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  				classCallCheck(this, BokehPass);
-
-  				var _this = possibleConstructorReturn(this, (BokehPass.__proto__ || Object.getPrototypeOf(BokehPass)).call(this));
-
-  				_this.name = "BokehPass";
-
-  				_this.needsSwap = true;
-
-  				_this.bokehMaterial = new BokehMaterial(camera, options);
-
-  				_this.quad.material = _this.bokehMaterial;
-
-  				return _this;
-  		}
-
-  		createClass(BokehPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						this.bokehMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  						this.bokehMaterial.uniforms.tDepth.value = readBuffer.depthTexture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.bokehMaterial.uniforms.aspect.value = width / height;
-  				}
-  		}]);
-  		return BokehPass;
-  }(Pass);
-
-  var ClearMaskPass = function (_Pass) {
-  	inherits(ClearMaskPass, _Pass);
-
-  	function ClearMaskPass() {
-  		classCallCheck(this, ClearMaskPass);
-
-  		var _this = possibleConstructorReturn(this, (ClearMaskPass.__proto__ || Object.getPrototypeOf(ClearMaskPass)).call(this, null, null, null));
-
-  		_this.name = "ClearMaskPass";
-
-  		return _this;
-  	}
-
-  	createClass(ClearMaskPass, [{
-  		key: "render",
-  		value: function render(renderer) {
-
-  			renderer.state.buffers.stencil.setTest(false);
-  		}
-  	}]);
-  	return ClearMaskPass;
-  }(Pass);
-
-  var color = new three.Color();
-
-  var ClearPass = function (_Pass) {
-  		inherits(ClearPass, _Pass);
-
-  		function ClearPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, ClearPass);
-
-  				var _this = possibleConstructorReturn(this, (ClearPass.__proto__ || Object.getPrototypeOf(ClearPass)).call(this, null, null, null));
-
-  				_this.name = "ClearPass";
-
-  				_this.clearColor = options.clearColor !== undefined ? options.clearColor : null;
-
-  				_this.clearAlpha = options.clearAlpha !== undefined ? options.clearAlpha : 0.0;
-
-  				return _this;
-  		}
-
-  		createClass(ClearPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer) {
-
-  						var clearColor = this.clearColor;
-
-  						var clearAlpha = void 0;
-
-  						if (clearColor !== null) {
-
-  								color.copy(renderer.getClearColor());
-  								clearAlpha = renderer.getClearAlpha();
-  								renderer.setClearColor(clearColor, this.clearAlpha);
-  						}
-
-  						renderer.setRenderTarget(this.renderToScreen ? null : readBuffer);
-  						renderer.clear();
-
-  						if (clearColor !== null) {
-
-  								renderer.setClearColor(color, clearAlpha);
-  						}
-  				}
-  		}]);
-  		return ClearPass;
-  }(Pass);
-
-  var DotScreenPass = function (_Pass) {
-  		inherits(DotScreenPass, _Pass);
-
-  		function DotScreenPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, DotScreenPass);
-
-  				var _this = possibleConstructorReturn(this, (DotScreenPass.__proto__ || Object.getPrototypeOf(DotScreenPass)).call(this));
-
-  				_this.name = "DotScreenPass";
-
-  				_this.needsSwap = true;
-
-  				_this.material = new DotScreenMaterial(options);
-
-  				_this.quad.material = _this.material;
-
-  				return _this;
-  		}
-
-  		createClass(DotScreenPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						this.material.uniforms.tDiffuse.value = readBuffer.texture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						width = Math.max(1, width);
-  						height = Math.max(1, height);
-
-  						this.material.uniforms.offsetRepeat.value.z = width;
-  						this.material.uniforms.offsetRepeat.value.w = height;
-  				}
-  		}]);
-  		return DotScreenPass;
-  }(Pass);
-
-  var FilmPass = function (_Pass) {
-  		inherits(FilmPass, _Pass);
-
-  		function FilmPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, FilmPass);
-
-  				var _this = possibleConstructorReturn(this, (FilmPass.__proto__ || Object.getPrototypeOf(FilmPass)).call(this));
-
-  				_this.name = "FilmPass";
-
-  				_this.needsSwap = true;
-
-  				_this.material = new FilmMaterial(options);
-
-  				_this.quad.material = _this.material;
-
-  				_this.scanlineDensity = options.scanlineDensity === undefined ? 1.25 : options.scanlineDensity;
-
-  				return _this;
-  		}
-
-  		createClass(FilmPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer, delta) {
-
-  						this.material.uniforms.tDiffuse.value = readBuffer.texture;
-  						this.material.uniforms.time.value += delta;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.material.uniforms.scanlineCount.value = Math.round(height * this.scanlineDensity);
-  				}
-  		}]);
-  		return FilmPass;
-  }(Pass);
-
-  function randomInt(low, high) {
-
-  		return low + Math.floor(Math.random() * (high - low + 1));
-  }
-
-  function randomFloat(low, high) {
-
-  		return low + Math.random() * (high - low);
-  }
-
-  var GlitchPass = function (_Pass) {
-  		inherits(GlitchPass, _Pass);
-
-  		function GlitchPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, GlitchPass);
-
-  				var _this = possibleConstructorReturn(this, (GlitchPass.__proto__ || Object.getPrototypeOf(GlitchPass)).call(this));
-
-  				_this.name = "GlitchPass";
-
-  				_this.needsSwap = true;
-
-  				_this.material = new GlitchMaterial();
-
-  				_this.quad.material = _this.material;
-
-  				_this.texture = null;
-
-  				_this.perturbMap = options.perturbMap !== undefined ? options.perturbMap : _this.generatePerturbMap(options.dtSize);
-  				_this.perturbMap.name = "Glitch.Perturbation";
-  				_this.perturbMap.generateMipmaps = false;
-
-  				_this.mode = GlitchMode.SPORADIC;
-
-  				_this.counter = 0;
-
-  				_this.breakPoint = randomInt(120, 240);
-
-  				return _this;
-  		}
-
-  		createClass(GlitchPass, [{
-  				key: "generatePerturbMap",
-  				value: function generatePerturbMap() {
-  						var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 64;
-
-
-  						var pixels = size * size;
-  						var data = new Float32Array(pixels * 3);
-
-  						var dt = this.perturbMap;
-  						var i = void 0,
-  						    x = void 0;
-
-  						for (i = 0; i < pixels; ++i) {
-
-  								x = Math.random();
-
-  								data[i * 3] = x;
-  								data[i * 3 + 1] = x;
-  								data[i * 3 + 2] = x;
-  						}
-
-  						if (dt !== null) {
-
-  								dt.dispose();
-  						}
-
-  						dt = new three.DataTexture(data, size, size, three.RGBFormat, three.FloatType);
-  						dt.needsUpdate = true;
-
-  						this.perturbMap = dt;
-
-  						return dt;
-  				}
-  		}, {
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						var mode = this.mode;
-  						var counter = this.counter;
-  						var breakPoint = this.breakPoint;
-  						var uniforms = this.material.uniforms;
-
-  						uniforms.tDiffuse.value = readBuffer.texture;
-  						uniforms.seed.value = Math.random();
-  						uniforms.active.value = true;
-
-  						if (counter % breakPoint === 0 || mode === GlitchMode.CONSTANT_WILD) {
-
-  								uniforms.amount.value = Math.random() / 30.0;
-  								uniforms.angle.value = randomFloat(-Math.PI, Math.PI);
-  								uniforms.seedX.value = randomFloat(-1.0, 1.0);
-  								uniforms.seedY.value = randomFloat(-1.0, 1.0);
-  								uniforms.distortionX.value = randomFloat(0.0, 1.0);
-  								uniforms.distortionY.value = randomFloat(0.0, 1.0);
-
-  								this.breakPoint = randomInt(120, 240);
-  								this.counter = 0;
-  						} else {
-
-  								if (counter % breakPoint < breakPoint / 5 || mode === GlitchMode.CONSTANT_MILD) {
-
-  										uniforms.amount.value = Math.random() / 90.0;
-  										uniforms.angle.value = randomFloat(-Math.PI, Math.PI);
-  										uniforms.distortionX.value = randomFloat(0.0, 1.0);
-  										uniforms.distortionY.value = randomFloat(0.0, 1.0);
-  										uniforms.seedX.value = randomFloat(-0.3, 0.3);
-  										uniforms.seedY.value = randomFloat(-0.3, 0.3);
-  								} else {
-  										uniforms.active.value = false;
-  								}
-  						}
-
-  						++this.counter;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "perturbMap",
-  				get: function get$$1() {
-
-  						return this.texture;
-  				},
-  				set: function set$$1(value) {
-
-  						this.texture = value;
-  						this.material.uniforms.tPerturb.value = value;
-  				}
-  		}]);
-  		return GlitchPass;
-  }(Pass);
-
-  var GlitchMode = {
-
-  		SPORADIC: 0,
-  		CONSTANT_MILD: 1,
-  		CONSTANT_WILD: 2
-
-  };
-
-  var RenderPass = function (_Pass) {
-  		inherits(RenderPass, _Pass);
-
-  		function RenderPass(scene, camera) {
-  				var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  				classCallCheck(this, RenderPass);
-
-  				var _this = possibleConstructorReturn(this, (RenderPass.__proto__ || Object.getPrototypeOf(RenderPass)).call(this, scene, camera, null));
-
-  				_this.name = "RenderPass";
-
-  				_this.clearPass = new ClearPass(options);
-
-  				_this.overrideMaterial = options.overrideMaterial !== undefined ? options.overrideMaterial : null;
-
-  				_this.clearDepth = options.clearDepth !== undefined ? options.clearDepth : false;
-
-  				_this.clear = options.clear !== undefined ? options.clear : true;
-
-  				return _this;
-  		}
-
-  		createClass(RenderPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer) {
-
-  						var scene = this.scene;
-  						var target = this.renderToScreen ? null : readBuffer;
-
-  						if (this.clear) {
-
-  								this.clearPass.render(renderer, target);
-  						} else if (this.clearDepth) {
-
-  								renderer.setRenderTarget(target);
-  								renderer.clearDepth();
-  						}
-
-  						scene.overrideMaterial = this.overrideMaterial;
-  						renderer.render(scene, this.camera, target);
-  						scene.overrideMaterial = null;
-  				}
-  		}]);
-  		return RenderPass;
-  }(Pass);
-
-  function clamp(value, min, max) {
-
-  		return Math.max(min, Math.min(max, value));
-  }
-
-  var GodRaysPass = function (_Pass) {
-  		inherits(GodRaysPass, _Pass);
-
-  		function GodRaysPass(scene, camera, lightSource) {
-  				var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  				classCallCheck(this, GodRaysPass);
-
-  				var _this = possibleConstructorReturn(this, (GodRaysPass.__proto__ || Object.getPrototypeOf(GodRaysPass)).call(this));
-
-  				_this.name = "GodRaysPass";
-
-  				_this.needsSwap = true;
-
-  				_this.lightScene = new three.Scene();
-
-  				_this.mainScene = scene;
-
-  				_this.mainCamera = camera;
-
-  				_this.renderPassLight = new RenderPass(_this.lightScene, _this.mainCamera);
-
-  				_this.renderPassMask = new RenderPass(_this.mainScene, _this.mainCamera, {
-  						overrideMaterial: new three.MeshBasicMaterial({ color: 0x000000 }),
-  						clearColor: new three.Color(0x000000)
-  				});
-
-  				_this.renderPassMask.clear = false;
-
-  				_this.blurPass = new BlurPass(options);
-
-  				_this.renderTargetX = new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearFilter,
-  						magFilter: three.LinearFilter,
-  						stencilBuffer: false,
-  						depthBuffer: false
-  				});
-
-  				_this.renderTargetX.texture.name = "GodRays.TargetX";
-  				_this.renderTargetX.texture.generateMipmaps = false;
-
-  				_this.renderTargetY = _this.renderTargetX.clone();
-
-  				_this.renderTargetY.texture.name = "GodRays.TargetY";
-
-  				_this.renderTargetMask = new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearFilter,
-  						magFilter: three.LinearFilter
-  				});
-
-  				_this.renderTargetMask.texture.name = "GodRays.Mask";
-  				_this.renderTargetMask.texture.generateMipmaps = false;
-
-  				_this.lightSource = lightSource;
-
-  				_this.screenPosition = new three.Vector3();
-
-  				_this.godRaysMaterial = new GodRaysMaterial(options);
-  				_this.godRaysMaterial.uniforms.lightPosition.value = _this.screenPosition;
-
-  				_this.samples = options.samples;
-
-  				_this.combineMaterial = new CombineMaterial(options.screenMode !== undefined ? options.screenMode : true);
-
-  				_this.intensity = options.intensity;
-
-  				return _this;
-  		}
-
-  		createClass(GodRaysPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						var quad = this.quad;
-  						var scene = this.scene;
-  						var camera = this.camera;
-  						var mainScene = this.mainScene;
-
-  						var lightSource = this.lightSource;
-  						var screenPosition = this.screenPosition;
-
-  						var godRaysMaterial = this.godRaysMaterial;
-  						var combineMaterial = this.combineMaterial;
-
-  						var renderTargetMask = this.renderTargetMask;
-  						var renderTargetX = this.renderTargetX;
-  						var renderTargetY = this.renderTargetY;
-
-  						var background = void 0,
-  						    parent = void 0;
-
-  						screenPosition.copy(lightSource.position).project(this.mainCamera);
-  						screenPosition.x = clamp((screenPosition.x + 1.0) * 0.5, 0.0, 1.0);
-  						screenPosition.y = clamp((screenPosition.y + 1.0) * 0.5, 0.0, 1.0);
-
-  						parent = lightSource.parent;
-  						background = mainScene.background;
-  						mainScene.background = null;
-  						this.lightScene.add(lightSource);
-
-  						this.renderPassLight.render(renderer, renderTargetMask);
-  						this.renderPassMask.render(renderer, renderTargetMask);
-
-  						if (parent !== null) {
-
-  								parent.add(lightSource);
-  						}
-
-  						mainScene.background = background;
-
-  						this.blurPass.render(renderer, renderTargetMask, renderTargetX);
-
-  						quad.material = godRaysMaterial;
-  						godRaysMaterial.uniforms.tDiffuse.value = renderTargetX.texture;
-  						renderer.render(scene, camera, renderTargetY);
-
-  						quad.material = combineMaterial;
-  						combineMaterial.uniforms.texture1.value = readBuffer.texture;
-  						combineMaterial.uniforms.texture2.value = renderTargetY.texture;
-
-  						renderer.render(scene, camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "initialize",
-  				value: function initialize(renderer, alpha) {
-
-  						this.renderPassLight.initialize(renderer, alpha);
-  						this.renderPassMask.initialize(renderer, alpha);
-  						this.blurPass.initialize(renderer, alpha);
-
-  						if (!alpha) {
-
-  								this.renderTargetMask.texture.format = three.RGBFormat;
-  								this.renderTargetX.texture.format = three.RGBFormat;
-  								this.renderTargetY.texture.format = three.RGBFormat;
-  						}
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.renderPassLight.setSize(width, height);
-  						this.renderPassMask.setSize(width, height);
-  						this.blurPass.setSize(width, height);
-
-  						width = this.blurPass.width;
-  						height = this.blurPass.height;
-
-  						this.renderTargetMask.setSize(width, height);
-  						this.renderTargetX.setSize(width, height);
-  						this.renderTargetY.setSize(width, height);
-  				}
-  		}, {
-  				key: "resolutionScale",
-  				get: function get$$1() {
-
-  						return this.blurPass.resolutionScale;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.5;
-
-
-  						this.blurPass.resolutionScale = value;
-  				}
-  		}, {
-  				key: "kernelSize",
-  				get: function get$$1() {
-
-  						return this.blurPass.kernelSize;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : KernelSize.LARGE;
-
-
-  						this.blurPass.kernelSize = value;
-  				}
-  		}, {
-  				key: "intensity",
-  				get: function get$$1() {
-
-  						return this.combineMaterial.uniforms.opacity2.value;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
-
-
-  						this.combineMaterial.uniforms.opacity2.value = value;
-  				}
-  		}, {
-  				key: "samples",
-  				get: function get$$1() {
-
-  						return Number.parseInt(this.godRaysMaterial.defines.NUM_SAMPLES_INT);
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 60;
-
-
-  						value = Math.floor(value);
-
-  						this.godRaysMaterial.defines.NUM_SAMPLES_FLOAT = value.toFixed(1);
-  						this.godRaysMaterial.defines.NUM_SAMPLES_INT = value.toFixed(0);
-  						this.godRaysMaterial.needsUpdate = true;
-  				}
-  		}, {
-  				key: "dithering",
-  				get: function get$$1() {
-
-  						return this.godRaysMaterial.dithering;
-  				},
-  				set: function set$$1(value) {
-
-  						if (this.dithering !== value) {
-
-  								this.godRaysMaterial.dithering = value;
-  								this.godRaysMaterial.needsUpdate = true;
-  						}
-  				}
-  		}]);
-  		return GodRaysPass;
-  }(Pass);
-
-  var MaskPass = function (_Pass) {
-  		inherits(MaskPass, _Pass);
-
-  		function MaskPass(scene, camera) {
-  				classCallCheck(this, MaskPass);
-
-  				var _this = possibleConstructorReturn(this, (MaskPass.__proto__ || Object.getPrototypeOf(MaskPass)).call(this, scene, camera, null));
-
-  				_this.name = "MaskPass";
-
-  				_this.inverse = false;
-
-  				_this.clearStencil = true;
-
-  				return _this;
-  		}
-
-  		createClass(MaskPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						var context = renderer.context;
-  						var state = renderer.state;
-
-  						var scene = this.scene;
-  						var camera = this.camera;
-
-  						var writeValue = this.inverse ? 0 : 1;
-  						var clearValue = 1 - writeValue;
-
-  						state.buffers.color.setMask(false);
-  						state.buffers.depth.setMask(false);
-
-  						state.buffers.color.setLocked(true);
-  						state.buffers.depth.setLocked(true);
-
-  						state.buffers.stencil.setTest(true);
-  						state.buffers.stencil.setOp(context.REPLACE, context.REPLACE, context.REPLACE);
-  						state.buffers.stencil.setFunc(context.ALWAYS, writeValue, 0xffffffff);
-  						state.buffers.stencil.setClear(clearValue);
-
-  						if (this.clearStencil) {
-
-  								renderer.setRenderTarget(readBuffer);
-  								renderer.clearStencil();
-
-  								renderer.setRenderTarget(writeBuffer);
-  								renderer.clearStencil();
-  						}
-
-  						renderer.render(scene, camera, readBuffer);
-  						renderer.render(scene, camera, writeBuffer);
-
-  						state.buffers.color.setLocked(false);
-  						state.buffers.depth.setLocked(false);
-
-  						state.buffers.stencil.setFunc(context.EQUAL, 1, 0xffffffff);
-  						state.buffers.stencil.setOp(context.KEEP, context.KEEP, context.KEEP);
-  				}
-  		}]);
-  		return MaskPass;
-  }(Pass);
-
-  var PixelationPass = function (_Pass) {
-  		inherits(PixelationPass, _Pass);
-
-  		function PixelationPass() {
-  				var granularity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30.0;
-  				classCallCheck(this, PixelationPass);
-
-  				var _this = possibleConstructorReturn(this, (PixelationPass.__proto__ || Object.getPrototypeOf(PixelationPass)).call(this));
-
-  				_this.name = "PixelationPass";
-
-  				_this.needsSwap = true;
-
-  				_this.pixelationMaterial = new PixelationMaterial();
-
-  				_this.granularity = granularity;
-
-  				_this.quad.material = _this.pixelationMaterial;
-
-  				return _this;
-  		}
-
-  		createClass(PixelationPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						this.pixelationMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.pixelationMaterial.setResolution(width, height);
-  				}
-  		}, {
-  				key: "granularity",
-  				get: function get$$1() {
-
-  						return this.pixelationMaterial.granularity;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 30;
-
-
-  						value = Math.floor(value);
-
-  						if (value % 2 > 0) {
-
-  								value += 1;
-  						}
-
-  						this.pixelationMaterial.granularity = value;
-  				}
-  		}]);
-  		return PixelationPass;
-  }(Pass);
-
-  var RealisticBokehPass = function (_Pass) {
-  		inherits(RealisticBokehPass, _Pass);
-
-  		function RealisticBokehPass(camera) {
-  				var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  				classCallCheck(this, RealisticBokehPass);
-
-  				var _this = possibleConstructorReturn(this, (RealisticBokehPass.__proto__ || Object.getPrototypeOf(RealisticBokehPass)).call(this));
-
-  				_this.name = "RealisticBokehPass";
-
-  				_this.needsSwap = true;
-
-  				_this.bokehMaterial = new RealisticBokehMaterial(camera, options);
-
-  				_this.quad.material = _this.bokehMaterial;
-
-  				return _this;
-  		}
-
-  		createClass(RealisticBokehPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						this.bokehMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  						this.bokehMaterial.uniforms.tDepth.value = readBuffer.depthTexture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.bokehMaterial.setTexelSize(1.0 / width, 1.0 / height);
-  				}
-  		}]);
-  		return RealisticBokehPass;
-  }(Pass);
-
-  var SavePass = function (_Pass) {
-  		inherits(SavePass, _Pass);
-
-  		function SavePass(renderTarget) {
-  				var resize = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  				classCallCheck(this, SavePass);
-
-  				var _this = possibleConstructorReturn(this, (SavePass.__proto__ || Object.getPrototypeOf(SavePass)).call(this));
-
-  				_this.name = "SavePass";
-
-  				_this.material = new CopyMaterial();
-
-  				_this.quad.material = _this.material;
-
-  				_this.renderTarget = renderTarget !== undefined ? renderTarget : new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearFilter,
-  						magFilter: three.LinearFilter,
-  						stencilBuffer: false,
-  						depthBuffer: false
-  				});
-
-  				_this.renderTarget.texture.name = "Save.Target";
-  				_this.renderTarget.texture.generateMipmaps = false;
-
-  				_this.resize = resize;
-
-  				return _this;
-  		}
-
-  		createClass(SavePass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer) {
-
-  						this.material.uniforms.tDiffuse.value = readBuffer.texture;
-
-  						renderer.render(this.scene, this.camera, this.renderTarget);
-  				}
-  		}, {
-  				key: "initialize",
-  				value: function initialize(renderer, alpha) {
-
-  						if (!alpha) {
-
-  								this.renderTarget.texture.format = three.RGBFormat;
-  						}
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						if (this.resize) {
-
-  								width = Math.max(1, width);
-  								height = Math.max(1, height);
-
-  								this.renderTarget.setSize(width, height);
-  						}
-  				}
-  		}]);
-  		return SavePass;
-  }(Pass);
-
-  var ShaderPass = function (_Pass) {
-  		inherits(ShaderPass, _Pass);
-
-  		function ShaderPass(material) {
-  				var textureID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "tDiffuse";
-  				classCallCheck(this, ShaderPass);
-
-  				var _this = possibleConstructorReturn(this, (ShaderPass.__proto__ || Object.getPrototypeOf(ShaderPass)).call(this));
-
-  				_this.name = "ShaderPass";
-
-  				_this.needsSwap = true;
-
-  				_this.material = material;
-
-  				_this.quad.material = _this.material;
-
-  				_this.textureID = textureID;
-
-  				return _this;
-  		}
-
-  		createClass(ShaderPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-
-  						if (this.material.uniforms[this.textureID] !== undefined) {
-
-  								this.material.uniforms[this.textureID].value = readBuffer.texture;
-  						}
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}]);
-  		return ShaderPass;
-  }(Pass);
-
-  var HALF_PI = Math.PI * 0.5;
-
-  var v = new three.Vector3();
-
-  var ab = new three.Vector3();
-
-  var ShockWavePass = function (_Pass) {
-  		inherits(ShockWavePass, _Pass);
-
-  		function ShockWavePass(camera) {
-  				var epicenter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new three.Vector3();
-  				var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  				classCallCheck(this, ShockWavePass);
-
-  				var _this = possibleConstructorReturn(this, (ShockWavePass.__proto__ || Object.getPrototypeOf(ShockWavePass)).call(this));
-
-  				_this.name = "ShockWavePass";
-
-  				_this.needsSwap = true;
-
-  				_this.mainCamera = camera;
-
-  				_this.epicenter = epicenter;
-
-  				_this.screenPosition = new three.Vector3();
-
-  				_this.speed = options.speed !== undefined ? options.speed : 2.0;
-
-  				_this.time = 0.0;
-
-  				_this.active = false;
-
-  				_this.shockWaveMaterial = new ShockWaveMaterial(options);
-
-  				_this.shockWaveMaterial.uniforms.center.value = _this.screenPosition;
-
-  				_this.copyMaterial = new CopyMaterial();
-
-  				return _this;
-  		}
-
-  		createClass(ShockWavePass, [{
-  				key: "explode",
-  				value: function explode() {
-
-  						this.time = 0.0;
-  						this.active = true;
-  				}
-  		}, {
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer, delta) {
-
-  						var epicenter = this.epicenter;
-  						var mainCamera = this.mainCamera;
-  						var screenPosition = this.screenPosition;
-
-  						var shockWaveMaterial = this.shockWaveMaterial;
-  						var uniforms = shockWaveMaterial.uniforms;
-  						var center = uniforms.center;
-  						var radius = uniforms.radius;
-  						var maxRadius = uniforms.maxRadius;
-  						var waveSize = uniforms.waveSize;
-
-  						this.copyMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  						this.quad.material = this.copyMaterial;
-
-  						if (this.active) {
-  								mainCamera.getWorldDirection(v);
-  								ab.copy(mainCamera.position).sub(epicenter);
-
-  								if (v.angleTo(ab) > HALF_PI) {
-  										uniforms.cameraDistance.value = mainCamera.position.distanceTo(epicenter);
-
-  										screenPosition.copy(epicenter).project(mainCamera);
-  										center.value.x = (screenPosition.x + 1.0) * 0.5;
-  										center.value.y = (screenPosition.y + 1.0) * 0.5;
-
-  										uniforms.tDiffuse.value = readBuffer.texture;
-  										this.quad.material = shockWaveMaterial;
-  								}
-
-  								this.time += delta * this.speed;
-  								radius.value = this.time - waveSize.value;
-
-  								if (radius.value >= (maxRadius.value + waveSize.value) * 2) {
-
-  										this.active = false;
-  								}
-  						}
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.shockWaveMaterial.uniforms.aspect.value = width / height;
-  				}
-  		}]);
-  		return ShockWavePass;
-  }(Pass);
-
-  var searchImageDataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEIAAAAhCAAAAABIXyLAAAAAOElEQVRIx2NgGAWjYBSMglEwEICREYRgFBZBqDCSLA2MGPUIVQETE9iNUAqLR5gIeoQKRgwXjwAAGn4AtaFeYLEAAAAASUVORK5CYII";
-
-  var areaImageDataURL = "data:image/png;base64,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";
-
-  var SMAAPass = function (_Pass) {
-  		inherits(SMAAPass, _Pass);
-
-  		function SMAAPass(searchImage, areaImage) {
-  				classCallCheck(this, SMAAPass);
-
-  				var _this = possibleConstructorReturn(this, (SMAAPass.__proto__ || Object.getPrototypeOf(SMAAPass)).call(this));
-
-  				_this.name = "SMAAPass";
-
-  				_this.needsSwap = true;
-
-  				_this.renderTargetColorEdges = new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearFilter,
-  						format: three.RGBFormat,
-  						stencilBuffer: false,
-  						depthBuffer: false
-  				});
-
-  				_this.renderTargetColorEdges.texture.name = "SMAA.ColorEdges";
-  				_this.renderTargetColorEdges.texture.generateMipmaps = false;
-
-  				_this.renderTargetWeights = _this.renderTargetColorEdges.clone();
-
-  				_this.renderTargetWeights.texture.name = "SMAA.Weights";
-  				_this.renderTargetWeights.texture.format = three.RGBAFormat;
-
-  				_this.colorEdgesMaterial = new ColorEdgesMaterial();
-
-  				_this.weightsMaterial = new SMAAWeightsMaterial();
-
-  				_this.weightsMaterial.uniforms.tDiffuse.value = _this.renderTargetColorEdges.texture;
-
-  				_this.searchTexture = new three.Texture(searchImage);
-
-  				_this.searchTexture.name = "SMAA.Search";
-  				_this.searchTexture.magFilter = three.NearestFilter;
-  				_this.searchTexture.minFilter = three.NearestFilter;
-  				_this.searchTexture.format = three.RGBAFormat;
-  				_this.searchTexture.generateMipmaps = false;
-  				_this.searchTexture.needsUpdate = true;
-  				_this.searchTexture.flipY = false;
-
-  				_this.weightsMaterial.uniforms.tSearch.value = _this.searchTexture;
-
-  				_this.areaTexture = new three.Texture(areaImage);
-
-  				_this.areaTexture.name = "SMAA.Area";
-  				_this.areaTexture.minFilter = three.LinearFilter;
-  				_this.areaTexture.format = three.RGBAFormat;
-  				_this.areaTexture.generateMipmaps = false;
-  				_this.areaTexture.needsUpdate = true;
-  				_this.areaTexture.flipY = false;
-
-  				_this.weightsMaterial.uniforms.tArea.value = _this.areaTexture;
-
-  				_this.blendMaterial = new SMAABlendMaterial();
-
-  				_this.blendMaterial.uniforms.tWeights.value = _this.renderTargetWeights.texture;
-
-  				_this.quad.material = _this.blendMaterial;
-
-  				return _this;
-  		}
-
-  		createClass(SMAAPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer) {
-  						this.quad.material = this.colorEdgesMaterial;
-  						this.colorEdgesMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  						renderer.render(this.scene, this.camera, this.renderTargetColorEdges, true);
-
-  						this.quad.material = this.weightsMaterial;
-  						renderer.render(this.scene, this.camera, this.renderTargetWeights, false);
-
-  						this.quad.material = this.blendMaterial;
-  						this.blendMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						this.renderTargetColorEdges.setSize(width, height);
-  						this.renderTargetWeights.setSize(width, height);
-
-  						this.colorEdgesMaterial.uniforms.texelSize.value.copy(this.weightsMaterial.uniforms.texelSize.value.copy(this.blendMaterial.uniforms.texelSize.value.set(1.0 / width, 1.0 / height)));
-  				}
-  		}], [{
-  				key: "searchImageDataURL",
-  				get: function get$$1() {
-
-  						return searchImageDataURL;
-  				}
-  		}, {
-  				key: "areaImageDataURL",
-  				get: function get$$1() {
-
-  						return areaImageDataURL;
-  				}
-  		}]);
-  		return SMAAPass;
-  }(Pass);
-
-  var TexturePass = function (_Pass) {
-  	inherits(TexturePass, _Pass);
-
-  	function TexturePass(texture) {
-  		var opacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.0;
-  		classCallCheck(this, TexturePass);
-
-  		var _this = possibleConstructorReturn(this, (TexturePass.__proto__ || Object.getPrototypeOf(TexturePass)).call(this));
-
-  		_this.name = "TexturePass";
-
-  		_this.copyMaterial = new CopyMaterial();
-  		_this.copyMaterial.blending = three.AdditiveBlending;
-  		_this.copyMaterial.transparent = true;
-
-  		_this.texture = texture;
-  		_this.opacity = opacity;
-
-  		_this.quad.material = _this.copyMaterial;
-
-  		return _this;
-  	}
-
-  	createClass(TexturePass, [{
-  		key: "render",
-  		value: function render(renderer, readBuffer) {
-
-  			renderer.render(this.scene, this.camera, this.renderToScreen ? null : readBuffer);
-  		}
-  	}, {
-  		key: "texture",
-  		get: function get$$1() {
-
-  			return this.copyMaterial.uniforms.tDiffuse.value;
-  		},
-  		set: function set$$1(value) {
-
-  			this.copyMaterial.uniforms.tDiffuse.value = value;
-  		}
-  	}, {
-  		key: "opacity",
-  		get: function get$$1() {
-
-  			return this.copyMaterial.uniforms.opacity.value;
-  		},
-  		set: function set$$1() {
-  			var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
-
-
-  			this.copyMaterial.uniforms.opacity.value = value;
-  		}
-  	}]);
-  	return TexturePass;
-  }(Pass);
-
-  var ToneMappingPass = function (_Pass) {
-  		inherits(ToneMappingPass, _Pass);
-
-  		function ToneMappingPass() {
-  				var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  				classCallCheck(this, ToneMappingPass);
-
-  				var _this = possibleConstructorReturn(this, (ToneMappingPass.__proto__ || Object.getPrototypeOf(ToneMappingPass)).call(this));
-
-  				_this.name = "ToneMappingPass";
-
-  				_this.needsSwap = true;
-
-  				_this.renderTargetLuminosity = new three.WebGLRenderTarget(1, 1, {
-  						minFilter: three.LinearMipMapLinearFilter,
-  						magFilter: three.LinearFilter,
-  						format: three.RGBFormat,
-  						stencilBuffer: false,
-  						depthBuffer: false
-  				});
-
-  				_this.renderTargetLuminosity.texture.name = "ToneMapping.Luminosity";
-
-  				_this.renderTargetAdapted = _this.renderTargetLuminosity.clone();
-
-  				_this.renderTargetAdapted.texture.name = "ToneMapping.AdaptedLuminosity";
-  				_this.renderTargetAdapted.texture.generateMipmaps = false;
-  				_this.renderTargetAdapted.texture.minFilter = three.LinearFilter;
-
-  				_this.renderTargetPrevious = _this.renderTargetAdapted.clone();
-
-  				_this.renderTargetPrevious.texture.name = "ToneMapping.PreviousLuminosity";
-
-  				_this.copyMaterial = new CopyMaterial();
-
-  				_this.luminosityMaterial = new LuminosityMaterial();
-
-  				_this.luminosityMaterial.uniforms.distinction.value = options.distinction !== undefined ? options.distinction : 1.0;
-
-  				_this.adaptiveLuminosityMaterial = new AdaptiveLuminosityMaterial();
-
-  				_this.resolution = options.resolution;
-
-  				_this.toneMappingMaterial = new ToneMappingMaterial();
-
-  				_this.adaptive = options.adaptive;
-
-  				return _this;
-  		}
-
-  		createClass(ToneMappingPass, [{
-  				key: "render",
-  				value: function render(renderer, readBuffer, writeBuffer, delta) {
-
-  						var quad = this.quad;
-  						var scene = this.scene;
-  						var camera = this.camera;
-
-  						var adaptiveLuminosityMaterial = this.adaptiveLuminosityMaterial;
-  						var luminosityMaterial = this.luminosityMaterial;
-  						var toneMappingMaterial = this.toneMappingMaterial;
-  						var copyMaterial = this.copyMaterial;
-
-  						var renderTargetPrevious = this.renderTargetPrevious;
-  						var renderTargetLuminosity = this.renderTargetLuminosity;
-  						var renderTargetAdapted = this.renderTargetAdapted;
-
-  						if (this.adaptive) {
-  								quad.material = luminosityMaterial;
-  								luminosityMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-  								renderer.render(scene, camera, renderTargetLuminosity);
-
-  								quad.material = adaptiveLuminosityMaterial;
-  								adaptiveLuminosityMaterial.uniforms.delta.value = delta;
-  								adaptiveLuminosityMaterial.uniforms.tPreviousLum.value = renderTargetPrevious.texture;
-  								adaptiveLuminosityMaterial.uniforms.tCurrentLum.value = renderTargetLuminosity.texture;
-  								renderer.render(scene, camera, renderTargetAdapted);
-
-  								quad.material = copyMaterial;
-  								copyMaterial.uniforms.tDiffuse.value = renderTargetAdapted.texture;
-  								renderer.render(scene, camera, renderTargetPrevious);
-  						}
-
-  						quad.material = toneMappingMaterial;
-  						toneMappingMaterial.uniforms.tDiffuse.value = readBuffer.texture;
-
-  						renderer.render(this.scene, this.camera, this.renderToScreen ? null : writeBuffer);
-  				}
-  		}, {
-  				key: "initialize",
-  				value: function initialize(renderer) {
-
-  						this.quad.material = new three.MeshBasicMaterial({ color: 0x7fffff });
-  						renderer.render(this.scene, this.camera, this.renderTargetPrevious);
-  						this.quad.material.dispose();
-  				}
-  		}, {
-  				key: "resolution",
-  				get: function get$$1() {
-
-  						return this.renderTargetLuminosity.width;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 256;
-
-  						var exponent = Math.max(0, Math.ceil(Math.log2(value)));
-  						value = Math.pow(2, exponent);
-
-  						this.renderTargetLuminosity.setSize(value, value);
-  						this.renderTargetPrevious.setSize(value, value);
-  						this.renderTargetAdapted.setSize(value, value);
-
-  						this.adaptiveLuminosityMaterial.defines.MIP_LEVEL_1X1 = exponent.toFixed(1);
-  						this.adaptiveLuminosityMaterial.needsUpdate = true;
-  				}
-  		}, {
-  				key: "adaptive",
-  				get: function get$$1() {
-
-  						return this.toneMappingMaterial.defines.ADAPTED_LUMINANCE !== undefined;
-  				},
-  				set: function set$$1() {
-  						var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-
-  						if (value) {
-
-  								this.toneMappingMaterial.defines.ADAPTED_LUMINANCE = "1";
-  								this.toneMappingMaterial.uniforms.luminanceMap.value = this.renderTargetAdapted.texture;
-  						} else {
-
-  								delete this.toneMappingMaterial.defines.ADAPTED_LUMINANCE;
-  								this.toneMappingMaterial.uniforms.luminanceMap.value = null;
-  						}
-
-  						this.toneMappingMaterial.needsUpdate = true;
-  				}
-  		}, {
-  				key: "dithering",
-  				get: function get$$1() {
-
-  						return this.toneMappingMaterial.dithering;
-  				},
-  				set: function set$$1(value) {
-
-  						if (this.dithering !== value) {
-
-  								this.toneMappingMaterial.dithering = value;
-  								this.toneMappingMaterial.needsUpdate = true;
-  						}
-  				}
-  		}]);
-  		return ToneMappingPass;
-  }(Pass);
-
-  var EffectComposer = function () {
-  		function EffectComposer() {
-  				var renderer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  				var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  				classCallCheck(this, EffectComposer);
-
-
-  				this.renderer = renderer;
-
-  				this.readBuffer = null;
-
-  				this.writeBuffer = null;
-
-  				if (this.renderer !== null) {
-
-  						this.renderer.autoClear = false;
-
-  						this.readBuffer = this.createBuffer(options.depthBuffer !== undefined ? options.depthBuffer : true, options.stencilBuffer !== undefined ? options.stencilBuffer : false, options.depthTexture !== undefined ? options.depthTexture : false);
-
-  						this.writeBuffer = this.readBuffer.clone();
-  				}
-
-  				this.copyPass = new ShaderPass(new CopyMaterial());
-
-  				this.passes = [];
-  		}
-
-  		createClass(EffectComposer, [{
-  				key: "replaceRenderer",
-  				value: function replaceRenderer(renderer) {
-
-  						var oldRenderer = this.renderer;
-
-  						var parent = void 0,
-  						    oldSize = void 0,
-  						    newSize = void 0;
-
-  						if (oldRenderer !== null && oldRenderer !== renderer) {
-
-  								this.renderer = renderer;
-  								this.renderer.autoClear = false;
-
-  								parent = oldRenderer.domElement.parentNode;
-  								oldSize = oldRenderer.getSize();
-  								newSize = renderer.getSize();
-
-  								if (parent !== null) {
-
-  										parent.removeChild(oldRenderer.domElement);
-  										parent.appendChild(renderer.domElement);
-  								}
-
-  								if (oldSize.width !== newSize.width || oldSize.height !== newSize.height) {
-
-  										this.setSize();
-  								}
-  						}
-
-  						return oldRenderer;
-  				}
-  		}, {
-  				key: "createBuffer",
-  				value: function createBuffer(depthBuffer, stencilBuffer, depthTexture) {
-
-  						var drawingBufferSize = this.renderer.getDrawingBufferSize();
-  						var alpha = this.renderer.context.getContextAttributes().alpha;
-
-  						var renderTarget = new three.WebGLRenderTarget(drawingBufferSize.width, drawingBufferSize.height, {
-  								minFilter: three.LinearFilter,
-  								magFilter: three.LinearFilter,
-  								format: alpha ? three.RGBAFormat : three.RGBFormat,
-  								depthBuffer: depthBuffer,
-  								stencilBuffer: stencilBuffer,
-  								depthTexture: depthTexture ? new three.DepthTexture() : null
-  						});
-
-  						if (depthTexture && stencilBuffer) {
-
-  								renderTarget.depthTexture.format = three.DepthStencilFormat;
-  								renderTarget.depthTexture.type = three.UnsignedInt248Type;
-  						}
-
-  						renderTarget.texture.name = "EffectComposer.Buffer";
-  						renderTarget.texture.generateMipmaps = false;
-
-  						return renderTarget;
-  				}
-  		}, {
-  				key: "addPass",
-  				value: function addPass(pass, index) {
-
-  						var renderer = this.renderer;
-  						var drawingBufferSize = renderer.getDrawingBufferSize();
-
-  						pass.setSize(drawingBufferSize.width, drawingBufferSize.height);
-  						pass.initialize(renderer, renderer.context.getContextAttributes().alpha);
-
-  						if (index !== undefined) {
-
-  								this.passes.splice(index, 0, pass);
-  						} else {
-
-  								this.passes.push(pass);
-  						}
-  				}
-  		}, {
-  				key: "removePass",
-  				value: function removePass(pass) {
-
-  						this.passes.splice(this.passes.indexOf(pass), 1);
-  				}
+  				value: function initialize() {}
   		}, {
   				key: "render",
   				value: function render(delta) {
 
-  						var passes = this.passes;
-  						var renderer = this.renderer;
-  						var copyPass = this.copyPass;
-
-  						var readBuffer = this.readBuffer;
-  						var writeBuffer = this.writeBuffer;
-
-  						var maskActive = false;
-  						var pass = void 0,
-  						    context = void 0,
-  						    buffer = void 0;
-  						var i = void 0,
-  						    l = void 0;
-
-  						for (i = 0, l = passes.length; i < l; ++i) {
-
-  								pass = passes[i];
-
-  								if (pass.enabled) {
-
-  										pass.render(renderer, readBuffer, writeBuffer, delta, maskActive);
-
-  										if (pass.needsSwap) {
-
-  												if (maskActive) {
-
-  														context = renderer.context;
-  														context.stencilFunc(context.NOTEQUAL, 1, 0xffffffff);
-  														copyPass.render(renderer, readBuffer, writeBuffer);
-  														context.stencilFunc(context.EQUAL, 1, 0xffffffff);
-  												}
-
-  												buffer = readBuffer;
-  												readBuffer = writeBuffer;
-  												writeBuffer = buffer;
-  										}
-
-  										if (pass instanceof MaskPass) {
-
-  												maskActive = true;
-  										} else if (pass instanceof ClearMaskPass) {
-
-  												maskActive = false;
-  										}
-  								}
-  						}
+  						this.renderer.render(this.scene, this.camera);
   				}
   		}, {
-  				key: "setSize",
-  				value: function setSize(width, height) {
-
-  						var passes = this.passes;
-  						var renderer = this.renderer;
-
-  						var size = void 0,
-  						    drawingBufferSize = void 0;
-  						var i = void 0,
-  						    l = void 0;
-
-  						if (width === undefined || height === undefined) {
-
-  								size = renderer.getSize();
-  								width = size.width;
-  								height = size.height;
-  						}
-
-  						renderer.setSize(width, height);
-
-  						drawingBufferSize = renderer.getDrawingBufferSize();
-
-  						this.readBuffer.setSize(drawingBufferSize.width, drawingBufferSize.height);
-  						this.writeBuffer.setSize(drawingBufferSize.width, drawingBufferSize.height);
-
-  						for (i = 0, l = passes.length; i < l; ++i) {
-
-  								passes[i].setSize(drawingBufferSize.width, drawingBufferSize.height);
-  						}
-  				}
+  				key: "registerOptions",
+  				value: function registerOptions(menu) {}
   		}, {
   				key: "reset",
-  				value: function reset(renderTarget) {
+  				value: function reset() {
 
-  						var depthBuffer = this.readBuffer.depthBuffer;
-  						var stencilBuffer = this.readBuffer.stencilBuffer;
-  						var depthTexture = this.readBuffer.depthTexture !== null;
+  						var fog = this.scene.fog;
 
-  						this.dispose(renderTarget === undefined ? this.createBuffer(depthBuffer, stencilBuffer, depthTexture) : renderTarget);
-  				}
-  		}, {
-  				key: "dispose",
-  				value: function dispose(renderTarget) {
+  						this.scene = new three.Scene();
+  						this.scene.fog = fog;
+  						this.camera = null;
 
-  						var passes = this.passes;
+  						if (this.controls !== null) {
 
-  						if (this.readBuffer !== null && this.writeBuffer !== null) {
-
-  								this.readBuffer.dispose();
-  								this.writeBuffer.dispose();
-
-  								this.readBuffer = null;
-  								this.writeBuffer = null;
+  								this.controls.dispose();
+  								this.controls = null;
   						}
 
-  						while (passes.length > 0) {
+  						this.ready = false;
 
-  								passes.pop().dispose();
-  						}
-
-  						if (renderTarget !== undefined) {
-  								this.readBuffer = renderTarget;
-  								this.writeBuffer = this.readBuffer.clone();
-  						} else {
-
-  								this.copyPass.dispose();
-  						}
-  				}
-  		}, {
-  				key: "depthTexture",
-  				get: function get$$1() {
-
-  						return this.readBuffer.depthTexture;
-  				},
-  				set: function set$$1(x) {
-
-  						this.readBuffer.depthTexture = x;
-  						this.writeBuffer.depthTexture = x;
+  						return this;
   				}
   		}]);
-  		return EffectComposer;
-  }();
-
-  function createCanvas(width, height, data, channels) {
-
-  	var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
-  	var context = canvas.getContext("2d");
-
-  	var imageData = context.createImageData(width, height);
-  	var target = imageData.data;
-
-  	var x = void 0,
-  	    y = void 0;
-  	var i = void 0,
-  	    j = void 0;
-
-  	for (y = 0; y < height; ++y) {
-
-  		for (x = 0; x < width; ++x) {
-
-  			i = (y * width + x) * 4;
-  			j = (y * width + x) * channels;
-
-  			target[i] = channels > 0 ? data[j] : 0;
-  			target[i + 1] = channels > 1 ? data[j + 1] : 0;
-  			target[i + 2] = channels > 2 ? data[j + 2] : 0;
-  			target[i + 3] = channels > 3 ? data[j + 3] : 255;
-  		}
-  	}
-
-  	canvas.width = width;
-  	canvas.height = height;
-
-  	context.putImageData(imageData, 0, 0);
-
-  	return canvas;
-  }
-
-  var RawImageData = function () {
-  	function RawImageData() {
-  		var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  		var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  		var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  		var channels = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 4;
-  		classCallCheck(this, RawImageData);
-
-
-  		this.width = width;
-
-  		this.height = height;
-
-  		this.data = data;
-
-  		this.channels = channels;
-  	}
-
-  	createClass(RawImageData, [{
-  		key: "toCanvas",
-  		value: function toCanvas() {
-
-  			return typeof document === "undefined" ? null : createCanvas(this.width, this.height, this.data, this.channels);
-  		}
-  	}]);
-  	return RawImageData;
-  }();
-
-  var b0 = new three.Box2();
-
-  var b1 = new three.Box2();
-
-  var ORTHOGONAL_SIZE = 16;
-
-  var DIAGONAL_SIZE = 20;
-
-  var DIAGONAL_SAMPLES = 30;
-
-  var SMOOTH_MAX_DISTANCE = 32;
-
-  var orthogonalSubsamplingOffsets = new Float32Array([0.0, -0.25, 0.25, -0.125, 0.125, -0.375, 0.375]);
-
-  var diagonalSubsamplingOffsets = [new Float32Array([0.0, 0.0]), new Float32Array([0.25, -0.25]), new Float32Array([-0.25, 0.25]), new Float32Array([0.125, -0.125]), new Float32Array([-0.125, 0.125])];
-
-  var orthogonalEdges = [new Uint8Array([0, 0]), new Uint8Array([3, 0]), new Uint8Array([0, 3]), new Uint8Array([3, 3]), new Uint8Array([1, 0]), new Uint8Array([4, 0]), new Uint8Array([1, 3]), new Uint8Array([4, 3]), new Uint8Array([0, 1]), new Uint8Array([3, 1]), new Uint8Array([0, 4]), new Uint8Array([3, 4]), new Uint8Array([1, 1]), new Uint8Array([4, 1]), new Uint8Array([1, 4]), new Uint8Array([4, 4])];
-
-  var diagonalEdges = [new Uint8Array([0, 0]), new Uint8Array([1, 0]), new Uint8Array([0, 2]), new Uint8Array([1, 2]), new Uint8Array([2, 0]), new Uint8Array([3, 0]), new Uint8Array([2, 2]), new Uint8Array([3, 2]), new Uint8Array([0, 1]), new Uint8Array([1, 1]), new Uint8Array([0, 3]), new Uint8Array([1, 3]), new Uint8Array([2, 1]), new Uint8Array([3, 1]), new Uint8Array([2, 3]), new Uint8Array([3, 3])];
-
-  function lerp(a, b, p) {
-
-  			return a + (b - a) * p;
-  }
-
-  function saturate(a) {
-
-  			return Math.min(Math.max(a, 0.0), 1.0);
-  }
-
-  function smoothArea(d, b) {
-
-  			var a1 = b.min;
-  			var a2 = b.max;
-
-  			var b1X = Math.sqrt(a1.x * 2.0) * 0.5;
-  			var b1Y = Math.sqrt(a1.y * 2.0) * 0.5;
-  			var b2X = Math.sqrt(a2.x * 2.0) * 0.5;
-  			var b2Y = Math.sqrt(a2.y * 2.0) * 0.5;
-
-  			var p = saturate(d / SMOOTH_MAX_DISTANCE);
-
-  			a1.set(lerp(b1X, a1.x, p), lerp(b1Y, a1.y, p));
-  			a2.set(lerp(b2X, a2.x, p), lerp(b2Y, a2.y, p));
-
-  			return b;
-  }
-
-  function calculateOrthogonalArea(p1, p2, x, result) {
-
-  			var dX = p2.x - p1.x;
-  			var dY = p2.y - p1.y;
-
-  			var x1 = x;
-  			var x2 = x + 1.0;
-
-  			var y1 = p1.y + dY * (x1 - p1.x) / dX;
-  			var y2 = p1.y + dY * (x2 - p1.x) / dX;
-
-  			var a = void 0,
-  			    a1 = void 0,
-  			    a2 = void 0,
-  			    t = void 0;
-
-  			if (x1 >= p1.x && x1 < p2.x || x2 > p1.x && x2 <= p2.x) {
-  						if (Math.sign(y1) === Math.sign(y2) || Math.abs(y1) < 1e-4 || Math.abs(y2) < 1e-4) {
-
-  									a = (y1 + y2) / 2.0;
-
-  									if (a < 0.0) {
-
-  												result.set(Math.abs(a), 0.0);
-  									} else {
-
-  												result.set(0.0, Math.abs(a));
-  									}
-  						} else {
-  									t = -p1.y * dX / dY + p1.x;
-
-  									a1 = t > p1.x ? y1 * (t - Math.trunc(t)) / 2.0 : 0.0;
-  									a2 = t < p2.x ? y2 * (1.0 - (t - Math.trunc(t))) / 2.0 : 0.0;
-
-  									a = Math.abs(a1) > Math.abs(a2) ? a1 : -a2;
-
-  									if (a < 0.0) {
-
-  												result.set(Math.abs(a1), Math.abs(a2));
-  									} else {
-
-  												result.set(Math.abs(a2), Math.abs(a1));
-  									}
-  						}
-  			} else {
-
-  						result.set(0, 0);
-  			}
-
-  			return result;
-  }
-
-  function calculateOrthogonalAreaForPattern(pattern, left, right, offset, result) {
-
-  			var p1 = b0.min;
-  			var p2 = b0.max;
-  			var a1 = b1.min;
-  			var a2 = b1.max;
-  			var a = b1;
-
-  			var o1 = 0.5 + offset;
-  			var o2 = 0.5 + offset - 1.0;
-  			var d = left + right + 1;
-
-  			switch (pattern) {
-
-  						case 0:
-  									{
-
-  												result.set(0, 0);
-
-  												break;
-  									}
-
-  						case 1:
-  									{
-
-  												if (left <= right) {
-
-  															calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d / 2.0, 0.0), left, result);
-  												} else {
-
-  															result.set(0, 0);
-  												}
-
-  												break;
-  									}
-
-  						case 2:
-  									{
-
-  												if (left >= right) {
-
-  															calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o2), left, result);
-  												} else {
-
-  															result.set(0, 0);
-  												}
-
-  												break;
-  									}
-
-  						case 3:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d / 2.0, 0.0), left, a1);
-  												calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o2), left, a2);
-
-  												smoothArea(d, a);
-
-  												result.addVectors(a1, a2);
-
-  												break;
-  									}
-
-  						case 4:
-  									{
-
-  												if (left <= right) {
-
-  															calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d / 2.0, 0.0), left, result);
-  												} else {
-
-  															result.set(0, 0);
-  												}
-
-  												break;
-  									}
-
-  						case 5:
-  									{
-
-  												result.set(0, 0);
-
-  												break;
-  									}
-
-  						case 6:
-  									{
-
-  												if (Math.abs(offset) > 0.0) {
-
-  															calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d, o2), left, a1);
-  															calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d / 2.0, 0.0), left, a2);
-  															a2.add(calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o2), left, result));
-
-  															result.addVectors(a1, a2).divideScalar(2.0);
-  												} else {
-
-  															calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d, o2), left, result);
-  												}
-
-  												break;
-  									}
-
-  						case 7:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d, o2), left, result);
-
-  												break;
-  									}
-
-  						case 8:
-  									{
-
-  												if (left >= right) {
-
-  															calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o1), left, result);
-  												} else {
-
-  															result.set(0, 0);
-  												}
-
-  												break;
-  									}
-
-  						case 9:
-  									{
-
-  												if (Math.abs(offset) > 0.0) {
-
-  															calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d, o1), left, a1);
-  															calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d / 2.0, 0.0), left, a2);
-  															a2.add(calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o1), left, result));
-
-  															result.addVectors(a1, a2).divideScalar(2.0);
-  												} else {
-
-  															calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d, o1), left, result);
-  												}
-
-  												break;
-  									}
-
-  						case 10:
-  									{
-
-  												result.set(0, 0);
-
-  												break;
-  									}
-
-  						case 11:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d, o1), left, result);
-
-  												break;
-  									}
-
-  						case 12:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d / 2.0, 0.0), left, a1);
-  												calculateOrthogonalArea(p1.set(d / 2.0, 0.0), p2.set(d, o1), left, a2);
-
-  												smoothArea(d, a);
-
-  												result.addVectors(a1, a2);
-
-  												break;
-  									}
-
-  						case 13:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o2), p2.set(d, o1), left, result);
-
-  												break;
-  									}
-
-  						case 14:
-  									{
-
-  												calculateOrthogonalArea(p1.set(0.0, o1), p2.set(d, o2), left, result);
-
-  												break;
-  									}
-
-  						case 15:
-  									{
-
-  												result.set(0, 0);
-
-  												break;
-  									}
-
-  			}
-
-  			return result;
-  }
-
-  function isInsideArea(p1, p2, x, y) {
-
-  			var result = p1.equals(p2);
-
-  			var xm = void 0,
-  			    ym = void 0;
-  			var a = void 0,
-  			    b = void 0,
-  			    c = void 0;
-
-  			if (!result) {
-
-  						xm = (p1.x + p2.x) / 2.0;
-  						ym = (p1.y + p2.y) / 2.0;
-
-  						a = p2.y - p1.y;
-  						b = p1.x - p2.x;
-
-  						c = a * (x - xm) + b * (y - ym);
-
-  						result = c > 0.0;
-  			}
-
-  			return result;
-  }
-
-  function calculateDiagonalAreaForPixel(p1, p2, pX, pY) {
-
-  			var a = void 0;
-  			var x = void 0,
-  			    y = void 0;
-  			var offsetX = void 0,
-  			    offsetY = void 0;
-
-  			for (a = 0, y = 0; y < DIAGONAL_SAMPLES; ++y) {
-
-  						for (x = 0; x < DIAGONAL_SAMPLES; ++x) {
-
-  									offsetX = x / (DIAGONAL_SAMPLES - 1.0);
-  									offsetY = y / (DIAGONAL_SAMPLES - 1.0);
-
-  									if (isInsideArea(p1, p2, pX + offsetX, pY + offsetY)) {
-
-  												++a;
-  									}
-  						}
-  			}
-
-  			return a / (DIAGONAL_SAMPLES * DIAGONAL_SAMPLES);
-  }
-
-  function calculateDiagonalArea(pattern, p1, p2, left, offset, result) {
-
-  			var e = diagonalEdges[pattern];
-  			var e1 = e[0];
-  			var e2 = e[1];
-
-  			if (e1 > 0) {
-
-  						p1.x += offset[0];
-  						p1.y += offset[1];
-  			}
-
-  			if (e2 > 0) {
-
-  						p2.x += offset[0];
-  						p2.y += offset[1];
-  			}
-
-  			return result.set(1.0 - calculateDiagonalAreaForPixel(p1, p2, 1.0 + left, 0.0 + left), calculateDiagonalAreaForPixel(p1, p2, 1.0 + left, 1.0 + left));
-  }
-
-  function calculateDiagonalAreaForPattern(pattern, left, right, offset, result) {
-
-  			var p1 = b0.min;
-  			var p2 = b0.max;
-  			var a1 = b1.min;
-  			var a2 = b1.max;
-
-  			var d = left + right + 1;
-
-  			switch (pattern) {
-
-  						case 0:
-  									{
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 1:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(0.0 + d, 0.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 2:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(0.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 3:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, result);
-
-  												break;
-  									}
-
-  						case 4:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(0.0 + d, 0.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 5:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(0.0 + d, 0.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 6:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 0.0 + d), left, offset, result);
-
-  												break;
-  									}
-
-  						case 7:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 0.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 8:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(0.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 9:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, result);
-
-  												break;
-  									}
-
-  						case 10:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(0.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 11:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 12:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 1.0 + d), left, offset, result);
-
-  												break;
-  									}
-
-  						case 13:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 1.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 14:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  						case 15:
-  									{
-
-  												calculateDiagonalArea(pattern, p1.set(1.0, 1.0), p2.set(1.0 + d, 1.0 + d), left, offset, a1);
-  												calculateDiagonalArea(pattern, p1.set(1.0, 0.0), p2.set(1.0 + d, 0.0 + d), left, offset, a2);
-
-  												result.addVectors(a1, a2).divideScalar(2.0);
-
-  												break;
-  									}
-
-  			}
-
-  			return result;
-  }
-
-  function generatePatterns(patterns, offset, orthogonal) {
-
-  			var result = new three.Vector2();
-
-  			var i = void 0,
-  			    l = void 0;
-  			var x = void 0,
-  			    y = void 0;
-  			var c = void 0;
-
-  			var pattern = void 0;
-  			var data = void 0,
-  			    size = void 0;
-
-  			for (i = 0, l = patterns.length; i < l; ++i) {
-
-  						pattern = patterns[i];
-
-  						data = pattern.data;
-  						size = pattern.width;
-
-  						for (y = 0; y < size; ++y) {
-
-  									for (x = 0; x < size; ++x) {
-
-  												if (orthogonal) {
-
-  															calculateOrthogonalAreaForPattern(i, x, y, offset, result);
-  												} else {
-
-  															calculateDiagonalAreaForPattern(i, x, y, offset, result);
-  												}
-
-  												c = (y * size + x) * 2;
-
-  												data[c] = result.x * 255;
-  												data[c + 1] = result.y * 255;
-  									}
-  						}
-  			}
-  }
-
-  function assemble(base, patterns, edges, size, orthogonal, target) {
-
-  			var p = new three.Vector2();
-
-  			var dstData = target.data;
-  			var dstWidth = target.width;
-
-  			var i = void 0,
-  			    l = void 0;
-  			var x = void 0,
-  			    y = void 0;
-  			var c = void 0,
-  			    d = void 0;
-
-  			var edge = void 0;
-  			var pattern = void 0;
-  			var srcData = void 0,
-  			    srcWidth = void 0;
-
-  			for (i = 0, l = patterns.length; i < l; ++i) {
-
-  						edge = edges[i];
-  						pattern = patterns[i];
-
-  						srcData = pattern.data;
-  						srcWidth = pattern.width;
-
-  						for (y = 0; y < size; ++y) {
-
-  									for (x = 0; x < size; ++x) {
-
-  												p.fromArray(edge).multiplyScalar(size);
-  												p.add(base);
-  												p.x += x;
-  												p.y += y;
-
-  												c = (p.y * dstWidth + p.x) * 2;
-
-  												d = orthogonal ? (y * y * srcWidth + x * x) * 2 : (y * srcWidth + x) * 2;
-
-  												dstData[c] = srcData[d];
-  												dstData[c + 1] = srcData[d + 1];
-  									}
-  						}
-  			}
-  }
-
-  var SMAAAreaImageData = function () {
-  			function SMAAAreaImageData() {
-  						classCallCheck(this, SMAAAreaImageData);
-  			}
-
-  			createClass(SMAAAreaImageData, null, [{
-  						key: "generate",
-  						value: function generate() {
-
-  									var width = 2 * 5 * ORTHOGONAL_SIZE;
-  									var height = orthogonalSubsamplingOffsets.length * 5 * ORTHOGONAL_SIZE;
-
-  									var data = new Uint8ClampedArray(width * height * 2);
-  									var result = new RawImageData(width, height, data, 2);
-
-  									var orthogonalPatternSize = Math.pow(ORTHOGONAL_SIZE - 1, 2) + 1;
-  									var diagonalPatternSize = DIAGONAL_SIZE;
-
-  									var orthogonalPatterns = [];
-  									var diagonalPatterns = [];
-
-  									var base = new three.Vector2();
-
-  									var i = void 0,
-  									    l = void 0;
-
-  									for (i = 0; i < 16; ++i) {
-
-  												orthogonalPatterns.push(new RawImageData(orthogonalPatternSize, orthogonalPatternSize, new Uint8ClampedArray(orthogonalPatternSize * orthogonalPatternSize * 2), 2));
-
-  												diagonalPatterns.push(new RawImageData(diagonalPatternSize, diagonalPatternSize, new Uint8ClampedArray(diagonalPatternSize * diagonalPatternSize * 2), 2));
-  									}
-
-  									for (i = 0, l = orthogonalSubsamplingOffsets.length; i < l; ++i) {
-  												generatePatterns(orthogonalPatterns, orthogonalSubsamplingOffsets[i], true);
-
-  												base.set(0, 5 * ORTHOGONAL_SIZE * i);
-  												assemble(base, orthogonalPatterns, orthogonalEdges, ORTHOGONAL_SIZE, true, result);
-  									}
-
-  									for (i = 0, l = diagonalSubsamplingOffsets.length; i < l; ++i) {
-  												generatePatterns(diagonalPatterns, diagonalSubsamplingOffsets[i], false);
-
-  												base.set(5 * ORTHOGONAL_SIZE, 4 * DIAGONAL_SIZE * i);
-  												assemble(base, diagonalPatterns, diagonalEdges, DIAGONAL_SIZE, false, result);
-  									}
-
-  									return result;
-  						}
-  			}]);
-  			return SMAAAreaImageData;
-  }();
-
-  var edges = new Map([[bilinear([0, 0, 0, 0]), [0, 0, 0, 0]], [bilinear([0, 0, 0, 1]), [0, 0, 0, 1]], [bilinear([0, 0, 1, 0]), [0, 0, 1, 0]], [bilinear([0, 0, 1, 1]), [0, 0, 1, 1]], [bilinear([0, 1, 0, 0]), [0, 1, 0, 0]], [bilinear([0, 1, 0, 1]), [0, 1, 0, 1]], [bilinear([0, 1, 1, 0]), [0, 1, 1, 0]], [bilinear([0, 1, 1, 1]), [0, 1, 1, 1]], [bilinear([1, 0, 0, 0]), [1, 0, 0, 0]], [bilinear([1, 0, 0, 1]), [1, 0, 0, 1]], [bilinear([1, 0, 1, 0]), [1, 0, 1, 0]], [bilinear([1, 0, 1, 1]), [1, 0, 1, 1]], [bilinear([1, 1, 0, 0]), [1, 1, 0, 0]], [bilinear([1, 1, 0, 1]), [1, 1, 0, 1]], [bilinear([1, 1, 1, 0]), [1, 1, 1, 0]], [bilinear([1, 1, 1, 1]), [1, 1, 1, 1]]]);
-
-  function lerp$1(a, b, p) {
-
-  	return a + (b - a) * p;
-  }
-
-  function bilinear(e) {
-
-  	var a = lerp$1(e[0], e[1], 1.0 - 0.25);
-  	var b = lerp$1(e[2], e[3], 1.0 - 0.25);
-
-  	return lerp$1(a, b, 1.0 - 0.125);
-  }
-
-  function deltaLeft(left, top) {
-
-  	var d = 0;
-
-  	if (top[3] === 1) {
-
-  		d += 1;
-  	}
-
-  	if (d === 1 && top[2] === 1 && left[1] !== 1 && left[3] !== 1) {
-
-  		d += 1;
-  	}
-
-  	return d;
-  }
-
-  function deltaRight(left, top) {
-
-  	var d = 0;
-
-  	if (top[3] === 1 && left[1] !== 1 && left[3] !== 1) {
-
-  		d += 1;
-  	}
-
-  	if (d === 1 && top[2] === 1 && left[0] !== 1 && left[2] !== 1) {
-
-  		d += 1;
-  	}
-
-  	return d;
-  }
-
-  var SMAASearchImageData = function () {
-  	function SMAASearchImageData() {
-  		classCallCheck(this, SMAASearchImageData);
-  	}
-
-  	createClass(SMAASearchImageData, null, [{
-  		key: "generate",
-  		value: function generate() {
-
-  			var width = 66;
-  			var height = 33;
-
-  			var croppedWidth = 64;
-  			var croppedHeight = 16;
-
-  			var data = new Uint8ClampedArray(width * height);
-  			var croppedData = new Uint8ClampedArray(croppedWidth * croppedHeight);
-
-  			var x = void 0,
-  			    y = void 0;
-  			var s = void 0,
-  			    t = void 0,
-  			    i = void 0;
-  			var e1 = void 0,
-  			    e2 = void 0;
-
-  			for (y = 0; y < height; ++y) {
-
-  				for (x = 0; x < width; ++x) {
-
-  					s = 0.03125 * x;
-  					t = 0.03125 * y;
-
-  					if (edges.has(s) && edges.has(t)) {
-
-  						e1 = edges.get(s);
-  						e2 = edges.get(t);
-
-  						data[y * width + x] = 127 * deltaLeft(e1, e2);
-  						data[y * width + x + width / 2] = 127 * deltaRight(e1, e2);
-  					}
-  				}
-  			}
-
-  			for (i = 0, y = height - croppedHeight; y < height; ++y) {
-
-  				for (x = 0; x < croppedWidth; ++x, ++i) {
-
-  					croppedData[i] = data[y * width + x];
-  				}
-  			}
-
-  			return new RawImageData(croppedWidth, croppedHeight, croppedData, 1);
-  		}
-  	}]);
-  	return SMAASearchImageData;
-  }();
-
-  var Demo = function () {
-  	function Demo() {
-  		var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "demo";
-  		classCallCheck(this, Demo);
-
-
-  		this.id = id;
-
-  		this.composer = null;
-
-  		this.loadingManager = new three.LoadingManager();
-
-  		this.assets = new Map();
-
-  		this.renderPass = new RenderPass(new three.Scene(), null);
-  		this.renderPass.renderToScreen = true;
-
-  		this.controls = null;
-
-  		this.ready = false;
-  	}
-
-  	createClass(Demo, [{
-  		key: "setComposer",
-  		value: function setComposer(composer) {
-
-  			this.composer = composer;
-
-  			return this;
-  		}
-  	}, {
-  		key: "load",
-  		value: function load() {
-
-  			return Promise.resolve();
-  		}
-  	}, {
-  		key: "initialize",
-  		value: function initialize() {}
-  	}, {
-  		key: "update",
-  		value: function update(delta) {}
-  	}, {
-  		key: "registerOptions",
-  		value: function registerOptions(menu) {}
-  	}, {
-  		key: "reset",
-  		value: function reset() {
-
-  			var fog = this.scene.fog;
-  			var renderPass = new RenderPass(new three.Scene(), null);
-  			renderPass.enabled = this.renderPass.enabled;
-  			renderPass.renderToScreen = true;
-  			this.renderPass = renderPass;
-  			this.scene.fog = fog;
-
-  			if (this.controls !== null) {
-
-  				this.controls.dispose();
-  				this.controls = null;
-  			}
-
-  			this.ready = false;
-
-  			return this;
-  		}
-  	}, {
-  		key: "scene",
-  		get: function get$$1() {
-
-  			return this.renderPass.scene;
-  		},
-  		set: function set$$1(scene) {
-
-  			this.renderPass.scene = scene;
-  		}
-  	}, {
-  		key: "camera",
-  		get: function get$$1() {
-
-  			return this.renderPass.camera;
-  		},
-  		set: function set$$1(camera) {
-
-  			this.renderPass.camera = camera;
-  		}
-  	}]);
-  	return Demo;
+  		return Demo;
   }();
 
   var Event = function Event(type) {
@@ -4269,9 +346,27 @@
   		return EventTarget;
   }();
 
-  var change = new Event("change");
+  var DemoManagerEvent = function (_Event) {
+  		inherits(DemoManagerEvent, _Event);
 
-  var load = new Event("load");
+  		function DemoManagerEvent(type) {
+  				classCallCheck(this, DemoManagerEvent);
+
+  				var _this = possibleConstructorReturn(this, (DemoManagerEvent.__proto__ || Object.getPrototypeOf(DemoManagerEvent)).call(this, type));
+
+  				_this.previousDemo = null;
+
+  				_this.demo = null;
+
+  				return _this;
+  		}
+
+  		return DemoManagerEvent;
+  }(Event);
+
+  var change = new DemoManagerEvent("change");
+
+  var load = new DemoManagerEvent("load");
 
   var initialHash = window.location.hash.slice(1);
 
@@ -4287,16 +382,14 @@
 
   				var _this = possibleConstructorReturn(this, (DemoManager.__proto__ || Object.getPrototypeOf(DemoManager)).call(this));
 
-  				_this.composer = options.composer !== undefined ? options.composer : function () {
+  				_this.renderer = options.renderer !== undefined ? options.renderer : function () {
 
   						var renderer = new three.WebGLRenderer();
   						renderer.setSize(viewport.clientWidth, viewport.clientHeight);
   						renderer.setPixelRatio(window.devicePixelRatio);
 
-  						return new EffectComposer(renderer);
+  						return renderer;
   				}();
-
-  				_this.renderer = _this.composer.renderer;
 
   				viewport.appendChild(_this.renderer.domElement);
 
@@ -4354,6 +447,7 @@
   								demo.registerOptions(this.resetMenu());
   								demo.ready = true;
 
+  								load.demo = demo;
   								this.dispatchEvent(load);
   						}
   				}
@@ -4366,29 +460,21 @@
   						var demos = this.demos;
   						var demo = demos.get(id);
   						var previousDemo = this.currentDemo;
-
-  						var composer = this.composer;
   						var renderer = this.renderer;
-
-  						var size = void 0;
 
   						window.location.hash = id;
 
   						if (previousDemo !== null) {
 
   								previousDemo.reset();
-
-  								size = composer.renderer.getSize();
-  								renderer.setSize(size.width, size.height);
-  								composer.replaceRenderer(renderer);
   						}
 
   						this.menu.domElement.style.display = "none";
 
   						renderer.clear();
-  						composer.reset();
-  						composer.addPass(demo.renderPass);
 
+  						change.previousDemo = previousDemo;
+  						change.demo = demo;
   						this.currentDemo = demo;
   						this.dispatchEvent(change);
 
@@ -4404,7 +490,7 @@
 
   						var currentDemo = this.currentDemo;
 
-  						this.demos.set(demo.id, demo.setComposer(this.composer));
+  						this.demos.set(demo.id, demo.setRenderer(this.renderer));
 
   						if (this.demo === null || demo.id === initialHash) {
 
@@ -4442,7 +528,6 @@
   										this.demo = null;
   										this.currentDemo = null;
   										this.renderer.clear();
-  										this.composer.reset();
   								}
   						}
 
@@ -4454,7 +539,7 @@
 
   						var demo = this.currentDemo;
 
-  						this.composer.setSize(width, height);
+  						this.renderer.setSize(width, height);
 
   						if (demo !== null && demo.camera !== null) {
 
@@ -4472,10 +557,7 @@
   						if (demo !== null && demo.ready) {
 
   								this.statistics.begin();
-
-  								demo.update(delta);
-  								this.composer.render(delta);
-
+  								demo.render(delta);
   								this.statistics.end();
   						}
   				}
@@ -5005,7 +1087,7 @@
   	return Vector3$$1;
   }();
 
-  var v$1 = new Vector3$1();
+  var v = new Vector3$1();
 
   var points = [new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1()];
 
@@ -5084,7 +1166,7 @@
 
   			this.getCenter(target.center);
 
-  			target.radius = this.getSize(v$1).length() * 0.5;
+  			target.radius = this.getSize(v).length() * 0.5;
 
   			return target;
   		}
@@ -5136,7 +1218,7 @@
   		key: "setFromCenterAndSize",
   		value: function setFromCenterAndSize(center, size) {
 
-  			var halfSize = v$1.copy(size).multiplyScalar(0.5);
+  			var halfSize = v.copy(size).multiplyScalar(0.5);
 
   			this.min.copy(center).sub(halfSize);
   			this.max.copy(center).add(halfSize);
@@ -5155,7 +1237,7 @@
   		key: "distanceToPoint",
   		value: function distanceToPoint(p) {
 
-  			var clampedPoint = v$1.copy(p).clamp(this.min, this.max);
+  			var clampedPoint = v.copy(p).clamp(this.min, this.max);
 
   			return clampedPoint.sub(p).length();
   		}
@@ -5248,7 +1330,7 @@
   	}, {
   		key: "intersectsSphere",
   		value: function intersectsSphere(s) {
-  			var closestPoint = this.clampPoint(s.center, v$1);
+  			var closestPoint = this.clampPoint(s.center, v);
 
   			return closestPoint.distanceToSquared(s.center) <= s.radius * s.radius;
   		}
@@ -5807,13 +1889,13 @@
   	return Vector2$$1;
   }();
 
-  var v$2 = new Vector2$1();
+  var v$1 = new Vector2$1();
 
-  var Box2$1 = function () {
-  	function Box2$$1() {
+  var Box2 = function () {
+  	function Box2() {
   		var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2$1(Infinity, Infinity);
   		var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector2$1(-Infinity, -Infinity);
-  		classCallCheck(this, Box2$$1);
+  		classCallCheck(this, Box2);
 
 
   		this.min = min;
@@ -5821,7 +1903,7 @@
   		this.max = max;
   	}
 
-  	createClass(Box2$$1, [{
+  	createClass(Box2, [{
   		key: "set",
   		value: function set$$1(min, max) {
 
@@ -5884,7 +1966,7 @@
 
   			this.getCenter(target.center);
 
-  			target.radius = this.getSize(v$2).length() * 0.5;
+  			target.radius = this.getSize(v$1).length() * 0.5;
 
   			return target;
   		}
@@ -5936,7 +2018,7 @@
   		key: "setFromCenterAndSize",
   		value: function setFromCenterAndSize(center, size) {
 
-  			var halfSize = v$2.copy(size).multiplyScalar(0.5);
+  			var halfSize = v$1.copy(size).multiplyScalar(0.5);
 
   			this.min.copy(center).sub(halfSize);
   			this.max.copy(center).add(halfSize);
@@ -5955,7 +2037,7 @@
   		key: "distanceToPoint",
   		value: function distanceToPoint(p) {
 
-  			var clampedPoint = v$2.copy(p).clamp(this.min, this.max);
+  			var clampedPoint = v$1.copy(p).clamp(this.min, this.max);
 
   			return clampedPoint.sub(p).length();
   		}
@@ -6029,7 +2111,7 @@
   			return b.min.equals(this.min) && b.max.equals(this.max);
   		}
   	}]);
-  	return Box2$$1;
+  	return Box2;
   }();
 
   var Cylindrical = function () {
@@ -6390,16 +2472,16 @@
 
   var RotationOrder = {
 
-    XYZ: 0,
-    YZX: 1,
-    ZXY: 2,
-    XZY: 3,
-    YXZ: 4,
-    ZYX: 5
+    XYZ: "XYZ",
+    YZX: "YZX",
+    ZXY: "ZXY",
+    XZY: "XZY",
+    YXZ: "YXZ",
+    ZYX: "ZYX"
 
   };
 
-  var v$3 = new Vector3$1();
+  var v$2 = new Vector3$1();
 
   var Quaternion = function () {
   	function Quaternion() {
@@ -6623,19 +2705,19 @@
 
   				if (Math.abs(vFrom.x) > Math.abs(vFrom.z)) {
 
-  					v$3.set(-vFrom.y, vFrom.x, 0);
+  					v$2.set(-vFrom.y, vFrom.x, 0);
   				} else {
 
-  					v$3.set(0, -vFrom.z, vFrom.y);
+  					v$2.set(0, -vFrom.z, vFrom.y);
   				}
   			} else {
 
-  				v$3.crossVectors(vFrom, vTo);
+  				v$2.crossVectors(vFrom, vTo);
   			}
 
-  			this.x = v$3.x;
-  			this.y = v$3.y;
-  			this.z = v$3.z;
+  			this.x = v$2.x;
+  			this.y = v$2.y;
+  			this.z = v$2.z;
   			this.w = r;
 
   			return this.normalize();
@@ -6644,7 +2726,7 @@
   		key: "invert",
   		value: function invert() {
 
-  			return this.conjugate().normalize();
+  			return this.conjugate();
   		}
   	}, {
   		key: "conjugate",
@@ -6880,7 +2962,7 @@
   	return Quaternion;
   }();
 
-  function clamp$1(value, min, max) {
+  function clamp(value, min, max) {
 
   	return Math.max(Math.min(value, max), min);
   }
@@ -6993,7 +3075,7 @@
   				case RotationOrder.XYZ:
   					{
 
-  						this.y = Math.asin(clamp$1(m02, -1, 1));
+  						this.y = Math.asin(clamp(m02, -1, 1));
 
   						if (Math.abs(m02) < THRESHOLD) {
 
@@ -7011,7 +3093,7 @@
   				case RotationOrder.YXZ:
   					{
 
-  						this.x = Math.asin(-clamp$1(m12, -1, 1));
+  						this.x = Math.asin(-clamp(m12, -1, 1));
 
   						if (Math.abs(m12) < THRESHOLD) {
 
@@ -7029,7 +3111,7 @@
   				case RotationOrder.ZXY:
   					{
 
-  						this.x = Math.asin(clamp$1(m21, -1, 1));
+  						this.x = Math.asin(clamp(m21, -1, 1));
 
   						if (Math.abs(m21) < THRESHOLD) {
 
@@ -7047,7 +3129,7 @@
   				case RotationOrder.ZYX:
   					{
 
-  						this.y = Math.asin(-clamp$1(m20, -1, 1));
+  						this.y = Math.asin(-clamp(m20, -1, 1));
 
   						if (Math.abs(m20) < THRESHOLD) {
 
@@ -7065,7 +3147,7 @@
   				case RotationOrder.YZX:
   					{
 
-  						this.z = Math.asin(clamp$1(m10, -1, 1));
+  						this.z = Math.asin(clamp(m10, -1, 1));
 
   						if (Math.abs(m10) < THRESHOLD) {
 
@@ -7083,7 +3165,7 @@
   				case RotationOrder.XZY:
   					{
 
-  						this.z = Math.asin(-clamp$1(m01, -1, 1));
+  						this.z = Math.asin(-clamp(m01, -1, 1));
 
   						if (Math.abs(m01) < THRESHOLD) {
 
@@ -8441,7 +4523,7 @@
   		return Matrix4;
   }();
 
-  var v$4 = [new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1()];
+  var v$3 = [new Vector3$1(), new Vector3$1(), new Vector3$1(), new Vector3$1()];
 
   var Ray = function () {
   	function Ray() {
@@ -8499,7 +4581,7 @@
   		key: "recast",
   		value: function recast(t) {
 
-  			this.origin.copy(this.at(t, v$4[0]));
+  			this.origin.copy(this.at(t, v$3[0]));
 
   			return this;
   		}
@@ -8517,9 +4599,9 @@
   		key: "distanceSquaredToPoint",
   		value: function distanceSquaredToPoint(p) {
 
-  			var directionDistance = v$4[0].subVectors(p, this.origin).dot(this.direction);
+  			var directionDistance = v$3[0].subVectors(p, this.origin).dot(this.direction);
 
-  			return directionDistance < 0.0 ? this.origin.distanceToSquared(p) : v$4[0].copy(this.direction).multiplyScalar(directionDistance).add(this.origin).distanceToSquared(p);
+  			return directionDistance < 0.0 ? this.origin.distanceToSquared(p) : v$3[0].copy(this.direction).multiplyScalar(directionDistance).add(this.origin).distanceToSquared(p);
   		}
   	}, {
   		key: "distanceToPoint",
@@ -8541,9 +4623,9 @@
   		key: "distanceSquaredToSegment",
   		value: function distanceSquaredToSegment(v0, v1, pointOnRay, pointOnSegment) {
 
-  			var segCenter = v$4[0].copy(v0).add(v1).multiplyScalar(0.5);
-  			var segDir = v$4[1].copy(v1).sub(v0).normalize();
-  			var diff = v$4[2].copy(this.origin).sub(segCenter);
+  			var segCenter = v$3[0].copy(v0).add(v1).multiplyScalar(0.5);
+  			var segDir = v$3[1].copy(v1).sub(v0).normalize();
+  			var diff = v$3[2].copy(this.origin).sub(segCenter);
 
   			var segExtent = v0.distanceTo(v1) * 0.5;
   			var a01 = -this.direction.dot(segDir);
@@ -8622,7 +4704,7 @@
   			var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3$1();
 
 
-  			var ab = v$4[0].subVectors(s.center, this.origin);
+  			var ab = v$3[0].subVectors(s.center, this.origin);
   			var tca = ab.dot(this.direction);
   			var d2 = ab.dot(ab) - tca * tca;
   			var radius2 = s.radius * s.radius;
@@ -8760,7 +4842,7 @@
   		key: "intersectsBox",
   		value: function intersectsBox(b) {
 
-  			return this.intersectBox(b, v$4[0]) !== null;
+  			return this.intersectBox(b, v$3[0]) !== null;
   		}
   	}, {
   		key: "intersectTriangle",
@@ -8768,10 +4850,10 @@
 
   			var direction = this.direction;
 
-  			var diff = v$4[0];
-  			var edge1 = v$4[1];
-  			var edge2 = v$4[2];
-  			var normal = v$4[3];
+  			var diff = v$3[0];
+  			var edge1 = v$3[1];
+  			var edge2 = v$3[2];
+  			var normal = v$3[3];
 
   			var result = null;
   			var DdN = void 0,
@@ -9036,13 +5118,13 @@
   	return SymmetricMatrix3;
   }();
 
-  var Vector4$1 = function () {
-  	function Vector4$$1() {
+  var Vector4 = function () {
+  	function Vector4() {
   		var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   		var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   		var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
   		var w = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-  		classCallCheck(this, Vector4$$1);
+  		classCallCheck(this, Vector4);
 
 
   		this.x = x;
@@ -9054,7 +5136,7 @@
   		this.w = w;
   	}
 
-  	createClass(Vector4$$1, [{
+  	createClass(Vector4, [{
   		key: "set",
   		value: function set$$1(x, y, z, w) {
 
@@ -9539,7 +5621,7 @@
   			return v.x === this.x && v.y === this.y && v.z === this.z && v.w === this.w;
   		}
   	}]);
-  	return Vector4$$1;
+  	return Vector4;
   }();
 
   var PointerButton = {
@@ -9552,7 +5634,7 @@
 
   var TWO_PI = Math.PI * 2;
 
-  var v$5 = new Vector3$1();
+  var v$4 = new Vector3$1();
 
   var m$1 = new Matrix4();
 
@@ -9605,10 +5687,10 @@
 
   						if (settings.general.orbit) {
 
-  								m$1.lookAt(v$5.subVectors(this.position, this.target), rotation.pivotOffset, rotation.up);
+  								m$1.lookAt(v$4.subVectors(this.position, this.target), rotation.pivotOffset, rotation.up);
   						} else {
 
-  								m$1.lookAt(v$5.set(0, 0, 0), this.target.setFromSpherical(this.spherical), rotation.up);
+  								m$1.lookAt(v$4.set(0, 0, 0), this.target.setFromSpherical(this.spherical), rotation.up);
   						}
 
   						this.quaternion.setFromRotationMatrix(m$1);
@@ -9685,13 +5767,13 @@
 
   						if (this.settings.general.orbit) {
 
-  								v$5.subVectors(position, target);
+  								v$4.subVectors(position, target);
   						} else {
 
-  								v$5.subVectors(target, position).normalize();
+  								v$4.subVectors(target, position).normalize();
   						}
 
-  						spherical.setFromVector3(v$5);
+  						spherical.setFromVector3(v$4);
   						spherical.radius = Math.max(spherical.radius, 1e-6);
   						this.updateQuaternion();
 
@@ -9757,7 +5839,7 @@
 
   var z = new Vector3$1(0, 0, 1);
 
-  var v$6 = new Vector3$1();
+  var v$5 = new Vector3$1();
 
   var TranslationManager = function () {
   		function TranslationManager(position, quaternion, target, settings) {
@@ -9803,13 +5885,13 @@
   				key: "translateOnAxis",
   				value: function translateOnAxis(axis, distance) {
 
-  						v$6.copy(axis).applyQuaternion(this.quaternion).multiplyScalar(distance);
+  						v$5.copy(axis).applyQuaternion(this.quaternion).multiplyScalar(distance);
 
-  						this.position.add(v$6);
+  						this.position.add(v$5);
 
   						if (this.settings.general.orbit) {
 
-  								this.target.add(v$6);
+  								this.target.add(v$5);
   						}
   				}
   		}, {
@@ -11249,7 +7331,7 @@
 
   										for (j = 0; j < 12; ++j) {
 
-  												edge = edges$1[j];
+  												edge = edges[j];
 
   												indices[d++] = c + edge[0];
   												indices[d++] = c + edge[1];
@@ -11340,7 +7422,7 @@
 
   var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
-  var edges$1 = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+  var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
   var Serializable = function () {
   	function Serializable() {
@@ -11805,7 +7887,7 @@
 
   var pattern = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
 
-  var edges$2 = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
+  var edges$1 = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
   var c$2 = new Vector3$1();
 
@@ -11862,6 +7944,7 @@
   	}, {
   		key: "max",
   		get: function get$$1() {
+
   			return this.min.clone().addScalar(this.size);
   		}
   	}]);
@@ -11997,7 +8080,7 @@
   		return OctantIterator;
   }();
 
-  var v$7 = [new Vector3$1(), new Vector3$1(), new Vector3$1()];
+  var v$6 = [new Vector3$1(), new Vector3$1(), new Vector3$1()];
 
   var b$4 = new Box3$1();
 
@@ -12013,23 +8096,32 @@
 
   	if (tx0 > ty0 && tx0 > tz0) {
   		if (tym < tx0) {
+
   			entry |= 2;
   		}
+
   		if (tzm < tx0) {
+
   			entry |= 1;
   		}
   	} else if (ty0 > tz0) {
   		if (txm < ty0) {
+
   			entry |= 4;
   		}
+
   		if (tzm < ty0) {
+
   			entry |= 1;
   		}
   	} else {
   		if (txm < tz0) {
+
   			entry |= 4;
   		}
+
   		if (tym < tz0) {
+
   			entry |= 2;
   		}
   	}
@@ -12142,8 +8234,8 @@
   			var min = b$4.min.set(0, 0, 0);
   			var max = b$4.max.subVectors(octree.max, octree.min);
 
-  			var dimensions = octree.getDimensions(v$7[0]);
-  			var halfDimensions = v$7[1].copy(dimensions).multiplyScalar(0.5);
+  			var dimensions = octree.getDimensions(v$6[0]);
+  			var halfDimensions = v$6[1].copy(dimensions).multiplyScalar(0.5);
 
   			var origin = r.origin.copy(raycaster.ray.origin);
   			var direction = r.direction.copy(raycaster.ray.direction);
@@ -12158,7 +8250,7 @@
   			    tz0 = void 0,
   			    tz1 = void 0;
 
-  			origin.sub(octree.getCenter(v$7[2])).add(halfDimensions);
+  			origin.sub(octree.getCenter(v$6[2])).add(halfDimensions);
 
   			flags = 0;
 
@@ -12286,16 +8378,19 @@
   	createClass(Octree, [{
   		key: "getCenter",
   		value: function getCenter(target) {
+
   			return this.root.getCenter(target);
   		}
   	}, {
   		key: "getDimensions",
   		value: function getDimensions(target) {
+
   			return this.root.getDimensions(target);
   		}
   	}, {
   		key: "getDepth",
   		value: function getDepth() {
+
   			return _getDepth(this.root);
   		}
   	}, {
@@ -12343,16 +8438,19 @@
   	}, {
   		key: "min",
   		get: function get$$1() {
+
   			return this.root.min;
   		}
   	}, {
   		key: "max",
   		get: function get$$1() {
+
   			return this.root.max;
   		}
   	}, {
   		key: "children",
   		get: function get$$1() {
+
   			return this.root.children;
   		}
   	}]);
@@ -12421,7 +8519,7 @@
   			    point = void 0,
   			    entry = void 0;
 
-  			if (children !== null) {
+  			if (children !== null && points !== null) {
 
   				for (i = 0, il = points.length; i < il; ++i) {
 
@@ -12654,7 +8752,7 @@
 
   				result = _fetch(point, octree, children[i]);
   			}
-  		} else {
+  		} else if (octant.points !== null) {
 
   			points = octant.points;
 
@@ -12692,7 +8790,7 @@
 
   					result = _move(point, position, octree, children[i], octant, depth);
   				}
-  			} else {
+  			} else if (octant.points !== null) {
   				points = octant.points;
 
   				for (i = 0, l = points.length; i < l; ++i) {
@@ -12972,7 +9070,7 @@
 
   var u = new Vector3$1();
 
-  var v$8 = new Vector3$1();
+  var v$7 = new Vector3$1();
 
   var OctreeUtils = function () {
   	function OctreeUtils() {
@@ -12985,7 +9083,7 @@
 
   			var min = octant.min;
   			var mid = octant.getCenter(u);
-  			var halfDimensions = octant.getDimensions(v$8).multiplyScalar(0.5);
+  			var halfDimensions = octant.getDimensions(v$7).multiplyScalar(0.5);
 
   			var children = octant.children;
   			var l = octants.length;
@@ -13024,11 +9122,11 @@
 
   var INTERVAL_THRESHOLD = 1e-6;
 
-  var ab$1 = new Vector3$1();
+  var ab = new Vector3$1();
 
   var p$1 = new Vector3$1();
 
-  var v$9 = new Vector3$1();
+  var v$8 = new Vector3$1();
 
   var Edge = function () {
   		function Edge() {
@@ -13066,20 +9164,20 @@
   						var densityA = void 0,
   						    densityC = void 0;
 
-  						ab$1.subVectors(this.b, this.a);
+  						ab.subVectors(this.b, this.a);
 
   						while (i <= s) {
 
   								c = (a + b) / 2;
 
-  								p$1.addVectors(this.a, v$9.copy(ab$1).multiplyScalar(c));
+  								p$1.addVectors(this.a, v$8.copy(ab).multiplyScalar(c));
   								densityC = sdf.sample(p$1);
 
   								if (Math.abs(densityC) <= ISOVALUE_BIAS || (b - a) / 2 <= INTERVAL_THRESHOLD) {
   										break;
   								} else {
 
-  										p$1.addVectors(this.a, v$9.copy(ab$1).multiplyScalar(a));
+  										p$1.addVectors(this.a, v$8.copy(ab).multiplyScalar(a));
   										densityA = sdf.sample(p$1);
 
   										if (Math.sign(densityC) === Math.sign(densityA)) {
@@ -13108,12 +9206,12 @@
   				key: "computeSurfaceNormal",
   				value: function computeSurfaceNormal(sdf) {
 
-  						var position = this.computeZeroCrossingPosition(ab$1);
+  						var position = this.computeZeroCrossingPosition(ab);
   						var E = 1e-3;
 
-  						var dx = sdf.sample(p$1.addVectors(position, v$9.set(E, 0, 0))) - sdf.sample(p$1.subVectors(position, v$9.set(E, 0, 0)));
-  						var dy = sdf.sample(p$1.addVectors(position, v$9.set(0, E, 0))) - sdf.sample(p$1.subVectors(position, v$9.set(0, E, 0)));
-  						var dz = sdf.sample(p$1.addVectors(position, v$9.set(0, 0, E))) - sdf.sample(p$1.subVectors(position, v$9.set(0, 0, E)));
+  						var dx = sdf.sample(p$1.addVectors(position, v$8.set(E, 0, 0))) - sdf.sample(p$1.subVectors(position, v$8.set(E, 0, 0)));
+  						var dy = sdf.sample(p$1.addVectors(position, v$8.set(0, E, 0))) - sdf.sample(p$1.subVectors(position, v$8.set(0, E, 0)));
+  						var dz = sdf.sample(p$1.addVectors(position, v$8.set(0, 0, E))) - sdf.sample(p$1.subVectors(position, v$8.set(0, 0, E)));
 
   						this.n.set(dx, dy, dz).normalize();
   				}
@@ -14097,11 +10195,11 @@
 
   		var _this = possibleConstructorReturn(this, (SuperPrimitive.__proto__ || Object.getPrototypeOf(SuperPrimitive)).call(this, SDFType.SUPER_PRIMITIVE, material));
 
-  		_this.s0 = new (Function.prototype.bind.apply(Vector4$1, [null].concat(toConsumableArray(parameters.s))))();
+  		_this.s0 = new (Function.prototype.bind.apply(Vector4, [null].concat(toConsumableArray(parameters.s))))();
 
   		_this.r0 = new (Function.prototype.bind.apply(Vector3$1, [null].concat(toConsumableArray(parameters.r))))();
 
-  		_this.s = new Vector4$1();
+  		_this.s = new Vector4();
 
   		_this.r = new Vector3$1();
 
@@ -14977,11 +11075,11 @@
 
   var p$2 = new Vector3$1();
 
-  var v$10 = new Vector3$1();
+  var v$9 = new Vector3$1();
 
-  var b0$1 = new Box3$1();
+  var b0 = new Box3$1();
 
-  var b1$1 = new Box3$1();
+  var b1 = new Box3$1();
 
   var b2 = new Box3$1();
 
@@ -15035,8 +11133,8 @@
   			var keyDesign = world.getKeyDesign();
   			var lodZero = world.lodZero;
 
-  			var a = b1$1.min;
-  			var b = b1$1.max;
+  			var a = b1.min;
+  			var b = b1.max;
   			var c = b2.min;
   			var d = b2.max;
   			var range = b2;
@@ -15072,14 +11170,14 @@
   							octant.csg.add(sdf);
   							grid.set(key, octant);
 
-  							keyDesign.unpackKey(key, v$10);
-  							v$10.x <<= 1;v$10.y <<= 1;v$10.z <<= 1;
+  							keyDesign.unpackKey(key, v$9);
+  							v$9.x <<= 1;v$9.y <<= 1;v$9.z <<= 1;
 
   							for (i = 0; i < 8; ++i) {
 
   								offset = pattern[i];
 
-  								p$2.set(v$10.x + offset[0], v$10.y + offset[1], v$10.z + offset[2]);
+  								p$2.set(v$9.x + offset[0], v$9.y + offset[1], v$9.z + offset[2]);
 
   								if (range.containsPoint(p$2)) {
   									octant.children |= 1 << i;
@@ -15149,8 +11247,8 @@
   			var keyDesign = world.getKeyDesign();
   			var grid = world.getGrid(lod);
 
-  			var a = world.calculateKeyCoordinates(region.min, lod, b1$1.min);
-  			var b = world.calculateKeyCoordinates(region.max, lod, b1$1.max);
+  			var a = world.calculateKeyCoordinates(region.min, lod, b1.min);
+  			var b = world.calculateKeyCoordinates(region.max, lod, b1.max);
 
   			var i = void 0,
   			    l = void 0;
@@ -15180,9 +11278,9 @@
 
   					if (grid.has(key)) {
 
-  						keyDesign.unpackKey(key, v$10);
+  						keyDesign.unpackKey(key, v$9);
 
-  						_applyDifference(world, sdf, grid.get(key), v$10.x, v$10.y, v$10.z, lod);
+  						_applyDifference(world, sdf, grid.get(key), v$9.x, v$9.y, v$9.z, lod);
   					}
   				}
   			} catch (err) {
@@ -15239,7 +11337,7 @@
   	}, {
   		key: "applyCSG",
   		value: function applyCSG(world, sdf) {
-  			var region = b0$1.copy(sdf.getBoundingBox(true));
+  			var region = b0.copy(sdf.getBoundingBox(true));
 
   			region.min.max(world.min);
   			region.max.min(world.max);
@@ -15268,7 +11366,7 @@
   	return WorldOctreeCSG;
   }();
 
-  var v$11 = new Vector3$1();
+  var v$10 = new Vector3$1();
 
   var l = new Line3();
 
@@ -15368,8 +11466,8 @@
 
   			cellSize = world.getCellSize(lod);
   			octantWrapper = new WorldOctantWrapper(octant);
-  			octantWrapper.id.set(lod, keyDesign.packKey(v$11.set(keyX, keyY, keyZ)));
-  			octantWrapper.min.copy(v$11).multiplyScalar(cellSize).add(world.min);
+  			octantWrapper.id.set(lod, keyDesign.packKey(v$10.set(keyX, keyY, keyZ)));
+  			octantWrapper.min.copy(v$10).multiplyScalar(cellSize).add(world.min);
   			octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
 
   			intersects.push(octantWrapper);
@@ -15397,8 +11495,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, tym, tzm);
@@ -15411,8 +11509,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, tym, tz1);
@@ -15425,8 +11523,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, ty1, tzm);
@@ -15439,8 +11537,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, txm, ty1, tz1);
@@ -15453,8 +11551,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, tym, tzm);
@@ -15467,8 +11565,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, tym, tz1);
@@ -15481,8 +11579,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
   							}
 
   							currentOctant = findNextOctant$1(currentOctant, tx1, ty1, tzm);
@@ -15495,8 +11593,8 @@
   							if ((children & 1 << i) !== 0) {
 
   								offset = pattern[i];
-  								v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$11)), v$11.x, v$11.y, v$11.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
+  								v$10.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  								raycastOctant$1(world, grid.get(keyDesign.packKey(v$10)), v$10.x, v$10.y, v$10.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
   							}
 
   							currentOctant = 8;
@@ -15529,7 +11627,7 @@
   	    tz0 = void 0,
   	    tz1 = void 0;
 
-  	origin.sub(subtree.getCenter(v$11)).add(halfDimensions);
+  	origin.sub(subtree.getCenter(v$10)).add(halfDimensions);
 
   	flags$1 = 0;
 
@@ -15616,7 +11714,7 @@
 
   			if (a !== null) {
   				t = cellSize << 1;
-  				b = r$1.at(t, v$11);
+  				b = r$1.at(t, v$10);
 
   				world.calculateKeyCoordinates(a, lod, keyCoordinates0);
   				world.calculateKeyCoordinates(b, lod, keyCoordinates1);
@@ -15681,7 +11779,7 @@
   	return WorldOctreeRaycaster;
   }();
 
-  var v$12 = new Vector3$1();
+  var v$11 = new Vector3$1();
 
   function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
 
@@ -15707,14 +11805,14 @@
 
   				offset = pattern[i];
 
-  				v$12.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
+  				v$11.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 
-  				key = keyDesign.packKey(v$12);
+  				key = keyDesign.packKey(v$11);
 
   				child = grid.get(key);
   				grid.delete(key);
 
-  				removeChildren(world, child, v$12.x, v$12.y, v$12.z, lod);
+  				removeChildren(world, child, v$11.x, v$11.y, v$11.z, lod);
   			}
   		}
 
@@ -15734,16 +11832,16 @@
 
   		i = WorldOctree.calculateOffsetIndex(keyX, keyY, keyZ);
 
-  		v$12.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
+  		v$11.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
 
-  		key = world.getKeyDesign().packKey(v$12);
+  		key = world.getKeyDesign().packKey(v$11);
   		parent = grid.get(key);
 
   		parent.children &= ~(1 << i);
 
   		if (parent.children === 0) {
   			grid.delete(key);
-  			prune(world, v$12.x, v$12.y, v$12.z, lod);
+  			prune(world, v$11.x, v$11.y, v$11.z, lod);
   		}
   	}
   }
@@ -15852,9 +11950,9 @@
 
   			var cellSize = this.cellSize << lod;
 
-  			v$12.subVectors(position, this.min);
+  			v$11.subVectors(position, this.min);
 
-  			target.set(Math.trunc(v$12.x / cellSize), Math.trunc(v$12.y / cellSize), Math.trunc(v$12.z / cellSize));
+  			target.set(Math.trunc(v$11.x / cellSize), Math.trunc(v$11.y / cellSize), Math.trunc(v$11.z / cellSize));
 
   			return target;
   		}
@@ -15873,8 +11971,8 @@
 
   				if (this.containsPoint(point)) {
 
-  					this.calculateKeyCoordinates(point, lod, v$12);
-  					result = grid.get(keyDesign.packKey(v$12));
+  					this.calculateKeyCoordinates(point, lod, v$11);
+  					result = grid.get(keyDesign.packKey(v$11));
   				} else {
 
   					console.error("Position out of range", point);
@@ -15902,8 +12000,8 @@
   			if (grid !== undefined) {
 
   				if (grid.has(key)) {
-  					keyDesign.unpackKey(key, v$12);
-  					keyX = v$12.x;keyY = v$12.y;keyZ = v$12.z;
+  					keyDesign.unpackKey(key, v$11);
+  					keyX = v$11.x;keyY = v$11.y;keyZ = v$11.z;
 
   					removeChildren(this, grid.get(key), keyX, keyY, keyZ, lod);
 
@@ -16214,7 +12312,7 @@
 
   var message = new WorkerEvent("message");
 
-  var worker = "!function(){\"use strict\";var t=function(t,i){if(!(t instanceof i))throw new TypeError(\"Cannot call a class as a function\")},i=function(){function t(t,i){for(var e=0;e<i.length;e++){var n=i[e];n.enumerable=n.enumerable||!1,n.configurable=!0,\"value\"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(i,e,n){return e&&t(i.prototype,e),n&&t(i,n),i}}(),e=function t(i,e,n){null===i&&(i=Function.prototype);var s=Object.getOwnPropertyDescriptor(i,e);if(void 0===s){var r=Object.getPrototypeOf(i);return null===r?void 0:t(r,e,n)}if(\"value\"in s)return s.value;var a=s.get;if(void 0!==a)return a.call(n)},n=function(t,i){if(\"function\"!=typeof i&&null!==i)throw new TypeError(\"Super expression must either be null or a function, not \"+typeof i);t.prototype=Object.create(i&&i.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),i&&(Object.setPrototypeOf?Object.setPrototypeOf(t,i):t.__proto__=i)},s=function(t,i){if(!t)throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");return!i||\"object\"!=typeof i&&\"function\"!=typeof i?t:i},r=function(t){if(Array.isArray(t)){for(var i=0,e=Array(t.length);i<t.length;i++)e[i]=t[i];return e}return Array.from(t)},a=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;t(this,e),this.runLengths=i,this.data=n}return i(e,null,[{key:\"encode\",value:function(t){var i=[],n=[],s=t[0],r=1,a=void 0,o=void 0;for(a=1,o=t.length;a<o;++a)s!==t[a]?(i.push(r),n.push(s),s=t[a],r=1):++r;return i.push(r),n.push(s),new e(i,n)}},{key:\"decode\",value:function(t,i){var e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],n=void 0,s=void 0,r=void 0,a=void 0,o=void 0,h=0;for(s=0,a=i.length;s<a;++s)for(n=i[s],r=0,o=t[s];r<o;++r)e[h++]=n;return e}}]),e}(),o=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.x=i,this.y=n,this.z=s}return i(e,[{key:\"set\",value:function(t,i,e){return this.x=t,this.y=i,this.z=e,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t}},{key:\"setFromSpherical\",value:function(t){var i=Math.sin(t.phi)*t.radius;return this.x=i*Math.sin(t.theta),this.y=Math.cos(t.phi)*t.radius,this.z=i*Math.cos(t.theta),this}},{key:\"setFromCylindrical\",value:function(t){return this.x=t.radius*Math.sin(t.theta),this.y=t.y,this.z=t.radius*Math.cos(t.theta),this}},{key:\"setFromMatrixColumn\",value:function(t,i){return this.fromArray(t.elements,4*i)}},{key:\"setFromMatrixPosition\",value:function(t){var i=t.elements;return this.x=i[12],this.y=i[13],this.z=i[14],this}},{key:\"setFromMatrixScale\",value:function(t){var i=this.setFromMatrixColumn(t,0).length(),e=this.setFromMatrixColumn(t,1).length(),n=this.setFromMatrixColumn(t,2).length();return this.x=i,this.y=e,this.z=n,this}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this.z*=t,this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this.z/=t,this}},{key:\"crossVectors\",value:function(t,i){var e=t.x,n=t.y,s=t.z,r=i.x,a=i.y,o=i.z;return this.x=n*o-s*a,this.y=s*r-e*o,this.z=e*a-n*r,this}},{key:\"cross\",value:function(t){return this.crossVectors(this,t)}},{key:\"transformDirection\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[4]*e+s[8]*n,this.y=s[1]*i+s[5]*e+s[9]*n,this.z=s[2]*i+s[6]*e+s[10]*n,this.normalize()}},{key:\"applyMatrix3\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[3]*e+s[6]*n,this.y=s[1]*i+s[4]*e+s[7]*n,this.z=s[2]*i+s[5]*e+s[8]*n,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[4]*e+s[8]*n+s[12],this.y=s[1]*i+s[5]*e+s[9]*n+s[13],this.z=s[2]*i+s[6]*e+s[10]*n+s[14],this}},{key:\"applyQuaternion\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.x,r=t.y,a=t.z,o=t.w,h=o*i+r*n-a*e,u=o*e+a*i-s*n,l=o*n+s*e-r*i,c=-s*i-r*e-a*n;return this.x=h*o+c*-s+u*-a-l*-r,this.y=u*o+c*-r+l*-s-h*-a,this.z=l*o+c*-a+h*-r-u*-s,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z}},{key:\"reflect\",value:function(t){arguments.length>1&&void 0!==arguments[1]?arguments[1]:new e;var i=t.x,n=t.y,s=t.z;return this.sub(t.multiplyScalar(2*this.dot(t))),t.set(i,n,s),this}},{key:\"angleTo\",value:function(t){var i=this.dot(t)/Math.sqrt(this.lengthSquared()*t.lengthSquared());return Math.acos(Math.min(Math.max(i,-1),1))}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)+Math.abs(this.z)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)+Math.abs(this.z-t.z)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y,n=this.z-t.z;return i*i+e*e+n*n}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this.z=Math.floor(this.z),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this.z=Math.ceil(this.z),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this.z=Math.round(this.z),this}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this.z+=(t.z-this.z)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z}}]),e}(),h=new o,u=[new o,new o,new o,new o,new o,new o,new o,new o],l=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o(1/0,1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o(-1/0,-1/0,-1/0);t(this,e),this.min=i,this.max=n}return i(e,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=this.min.z=1/0,this.max.x=this.max.y=this.max.z=-1/0,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y||this.max.z<this.min.z}},{key:\"getCenter\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o;return this.isEmpty()?t.set(0,0,0):t.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o;return this.isEmpty()?t.set(0,0,0):t.subVectors(this.max,this.min)}},{key:\"getBoundingSphere\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new y;return this.getCenter(t.center),t.radius=.5*this.getSize(h).length(),t}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"expandByVector\",value:function(t){return this.min.sub(t),this.max.add(t),this}},{key:\"expandByScalar\",value:function(t){return this.min.addScalar(-t),this.max.addScalar(t),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,e=void 0;for(this.min.set(0,0,0),this.max.set(0,0,0),i=0,e=t.length;i<e;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var e=h.copy(i).multiplyScalar(.5);return this.min.copy(t).sub(e),this.max.copy(t).add(e),this}},{key:\"clampPoint\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o).copy(t).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(t){return h.copy(t).clamp(this.min,this.max).sub(t).length()}},{key:\"applyMatrix4\",value:function(t){var i=this.min,e=this.max;return this.isEmpty()||(u[0].set(i.x,i.y,i.z).applyMatrix4(t),u[1].set(i.x,i.y,e.z).applyMatrix4(t),u[2].set(i.x,e.y,i.z).applyMatrix4(t),u[3].set(i.x,e.y,e.z).applyMatrix4(t),u[4].set(e.x,i.y,i.z).applyMatrix4(t),u[5].set(e.x,i.y,e.z).applyMatrix4(t),u[6].set(e.x,e.y,i.z).applyMatrix4(t),u[7].set(e.x,e.y,e.z).applyMatrix4(t),this.setFromPoints(u)),this}},{key:\"translate\",value:function(t){return this.min.add(t),this.max.add(t),this}},{key:\"intersect\",value:function(t){return this.min.max(t.min),this.max.min(t.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"containsPoint\",value:function(t){var i=this.min,e=this.max;return t.x>=i.x&&t.y>=i.y&&t.z>=i.z&&t.x<=e.x&&t.y<=e.y&&t.z<=e.z}},{key:\"containsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return i.x<=n.x&&s.x<=e.x&&i.y<=n.y&&s.y<=e.y&&i.z<=n.z&&s.z<=e.z}},{key:\"intersectsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return s.x>=i.x&&s.y>=i.y&&s.z>=i.z&&n.x<=e.x&&n.y<=e.y&&n.z<=e.z}},{key:\"intersectsSphere\",value:function(t){return this.clampPoint(t.center,h).distanceToSquared(t.center)<=t.radius*t.radius}},{key:\"intersectsPlane\",value:function(t){var i=void 0,e=void 0;return t.normal.x>0?(i=t.normal.x*this.min.x,e=t.normal.x*this.max.x):(i=t.normal.x*this.max.x,e=t.normal.x*this.min.x),t.normal.y>0?(i+=t.normal.y*this.min.y,e+=t.normal.y*this.max.y):(i+=t.normal.y*this.max.y,e+=t.normal.y*this.min.y),t.normal.z>0?(i+=t.normal.z*this.min.z,e+=t.normal.z*this.max.z):(i+=t.normal.z*this.max.z,e+=t.normal.z*this.min.z),i<=t.constant&&e>=t.constant}},{key:\"equals\",value:function(t){return t.min.equals(this.min)&&t.max.equals(this.max)}}]),e}(),c=new l,y=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.center=i,this.radius=n}return i(e,[{key:\"set\",value:function(t,i){return this.center.copy(t),this.radius=i,this}},{key:\"copy\",value:function(t){return this.center.copy(t.center),this.radius=t.radius,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromPoints\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:c.setFromPoints(t).getCenter(this.center),e=0,n=void 0,s=void 0;for(n=0,s=t.length;n<s;++n)e=Math.max(e,i.distanceToSquared(t[n]));return this.radius=Math.sqrt(e),this}},{key:\"getBoundingBox\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new l;return t.set(this.center,this.center),t.expandByScalar(this.radius),t}},{key:\"isEmpty\",value:function(){return this.radius<=0}},{key:\"translate\",value:function(t){return this.center.add(t),this}},{key:\"clampPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.center.distanceToSquared(t);return i.copy(t),e>this.radius*this.radius&&(i.sub(this.center).normalize(),i.multiplyScalar(this.radius).add(this.center)),i}},{key:\"distanceToPoint\",value:function(t){return t.distanceTo(this.center)-this.radius}},{key:\"containsPoint\",value:function(t){return t.distanceToSquared(this.center)<=this.radius*this.radius}},{key:\"intersectsSphere\",value:function(t){var i=this.radius+t.radius;return t.center.distanceToSquared(this.center)<=i*i}},{key:\"intersectsBox\",value:function(t){return t.intersectsSphere(this)}},{key:\"intersectsPlane\",value:function(t){return Math.abs(t.distanceToPoint(this.center))<=this.radius}},{key:\"equals\",value:function(t){return t.center.equals(this.center)&&t.radius===this.radius}}]),e}(),v=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.x=i,this.y=n}return i(e,[{key:\"set\",value:function(t,i){return this.x=t,this.y=i,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this}},{key:\"applyMatrix3\",value:function(t){var i=this.x,e=this.y,n=t.elements;return this.x=n[0]*i+n[3]*e+n[6],this.y=n[1]*i+n[4]*e+n[7],this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y;return i*i+e*e}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this}},{key:\"angle\",value:function(){var t=Math.atan2(this.y,this.x);return t<0&&(t+=2*Math.PI),t}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"rotateAround\",value:function(t,i){var e=Math.cos(i),n=Math.sin(i),s=this.x-t.x,r=this.y-t.y;return this.x=s*e-r*n+t.x,this.y=s*n+r*e+t.y,this}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y}},{key:\"width\",get:function(){return this.x},set:function(t){return this.x=t}},{key:\"height\",get:function(){return this.y},set:function(t){return this.y=t}}]),e}(),d=new v,f=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v(1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new v(-1/0,-1/0);t(this,e),this.min=i,this.max=n}i(e,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=1/0,this.max.x=this.max.y=-1/0,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y}},{key:\"getCenter\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v;return this.isEmpty()?t.set(0,0):t.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v;return this.isEmpty()?t.set(0,0):t.subVectors(this.max,this.min)}},{key:\"getBoundingSphere\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new y;return this.getCenter(t.center),t.radius=.5*this.getSize(d).length(),t}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"expandByVector\",value:function(t){return this.min.sub(t),this.max.add(t),this}},{key:\"expandByScalar\",value:function(t){return this.min.addScalar(-t),this.max.addScalar(t),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,e=void 0;for(this.min.set(0,0),this.max.set(0,0),i=0,e=t.length;i<e;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var e=d.copy(i).multiplyScalar(.5);return this.min.copy(t).sub(e),this.max.copy(t).add(e),this}},{key:\"clampPoint\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new v).copy(t).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(t){return d.copy(t).clamp(this.min,this.max).sub(t).length()}},{key:\"translate\",value:function(t){return this.min.add(t),this.max.add(t),this}},{key:\"intersect\",value:function(t){return this.min.max(t.min),this.max.min(t.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"containsPoint\",value:function(t){var i=this.min,e=this.max;return t.x>=i.x&&t.y>=i.y&&t.x<=e.x&&t.y<=e.y}},{key:\"containsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return i.x<=n.x&&s.x<=e.x&&i.y<=n.y&&s.y<=e.y}},{key:\"intersectsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return s.x>=i.x&&s.y>=i.y&&n.x<=e.x&&n.y<=e.y}},{key:\"equals\",value:function(t){return t.min.equals(this.min)&&t.max.equals(this.max)}}])}(),function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.radius=i,this.theta=n,this.y=s}i(e,[{key:\"set\",value:function(t,i,e){return this.radius=t,this.theta=i,this.y=e,this}},{key:\"copy\",value:function(t){return this.radius=t.radius,this.theta=t.theta,this.y=t.y,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromVector3\",value:function(t){return this.radius=Math.sqrt(t.x*t.x+t.z*t.z),this.theta=Math.atan2(t.x,t.z),this.y=t.y,this}}])}(),function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,0,1,0,0,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r,a,o,h){var u=this.elements;return u[0]=t,u[3]=i,u[6]=e,u[1]=n,u[4]=s,u[7]=r,u[2]=a,u[5]=o,u[8]=h,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,1,0,0,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements,e=this.elements;return e[0]=i[0],e[1]=i[1],e[2]=i[2],e[3]=i[3],e[4]=i[4],e[5]=i[5],e[6]=i[6],e[7]=i[7],e[8]=i[8],this}},{key:\"clone\",value:function(){return(new this.constructor).fromArray(this.elements)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<9;++n)e[n]=t[n+i];return this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<9;++n)t[n+i]=e[n];return t}},{key:\"multiplyMatrices\",value:function(t,i){var e=t.elements,n=i.elements,s=this.elements,r=e[0],a=e[3],o=e[6],h=e[1],u=e[4],l=e[7],c=e[2],y=e[5],v=e[8],d=n[0],f=n[3],m=n[6],x=n[1],p=n[4],k=n[7],g=n[2],w=n[5],z=n[8];return s[0]=r*d+a*x+o*g,s[3]=r*f+a*p+o*w,s[6]=r*m+a*k+o*z,s[1]=h*d+u*x+l*g,s[4]=h*f+u*p+l*w,s[7]=h*m+u*k+l*z,s[2]=c*d+y*x+v*g,s[5]=c*f+y*p+v*w,s[8]=c*m+y*k+v*z,this}},{key:\"multiply\",value:function(t){return this.multiplyMatrices(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyMatrices(t,this)}},{key:\"multiplyScalar\",value:function(t){var i=this.elements;return i[0]*=t,i[3]*=t,i[6]*=t,i[1]*=t,i[4]*=t,i[7]*=t,i[2]*=t,i[5]*=t,i[8]*=t,this}},{key:\"determinant\",value:function(){var t=this.elements,i=t[0],e=t[1],n=t[2],s=t[3],r=t[4],a=t[5],o=t[6],h=t[7],u=t[8];return i*r*u-i*a*h-e*s*u+e*a*o+n*s*h-n*r*o}},{key:\"getInverse\",value:function(t){var i=t.elements,e=this.elements,n=i[0],s=i[1],r=i[2],a=i[3],o=i[4],h=i[5],u=i[6],l=i[7],c=i[8],y=c*o-h*l,v=h*u-c*a,d=l*a-o*u,f=n*y+s*v+r*d,m=void 0;return 0!==f?(m=1/f,e[0]=y*m,e[1]=(r*l-c*s)*m,e[2]=(h*s-r*o)*m,e[3]=v*m,e[4]=(c*n-r*u)*m,e[5]=(r*a-h*n)*m,e[6]=d*m,e[7]=(s*u-l*n)*m,e[8]=(o*n-s*a)*m):(console.error(\"Can't invert matrix, determinant is zero\",t),this.identity()),this}},{key:\"transpose\",value:function(){var t=this.elements,i=void 0;return i=t[1],t[1]=t[3],t[3]=i,i=t[2],t[2]=t[6],t[6]=i,i=t[5],t[5]=t[7],t[7]=i,this}},{key:\"scale\",value:function(t,i){var e=this.elements;return e[0]*=t,e[3]*=t,e[6]*=t,e[1]*=i,e[4]*=i,e[7]*=i,this}},{key:\"rotate\",value:function(t){var i=Math.cos(t),e=Math.sin(t),n=this.elements,s=n[0],r=n[3],a=n[6],o=n[1],h=n[4],u=n[7];return n[0]=i*s+e*o,n[3]=i*r+e*h,n[6]=i*a+e*u,n[1]=-e*s+i*o,n[4]=-e*r+i*h,n[7]=-e*a+i*u,this}},{key:\"translate\",value:function(t,i){var e=this.elements;return e[0]+=t*e[2],e[3]+=t*e[5],e[6]+=t*e[8],e[1]+=i*e[2],e[4]+=i*e[5],e[7]+=i*e[8],this}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<9;++s)i[s]!==e[s]&&(n=!1);return n}}]),e}()),m=0,x=1,p=2,k=3,g=4,w=5,z=new o,M=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.w=r}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.w=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.w=t.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.w=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.w,t}},{key:\"setFromEuler\",value:function(t){var i=t.x,e=t.y,n=t.z,s=Math.cos,r=Math.sin,a=s(i/2),o=s(e/2),h=s(n/2),u=r(i/2),l=r(e/2),c=r(n/2);switch(t.order){case m:this.x=u*o*h+a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h-u*l*c;break;case g:this.x=u*o*h+a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h+u*l*c;break;case p:this.x=u*o*h-a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h-u*l*c;break;case w:this.x=u*o*h-a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h+u*l*c;break;case x:this.x=u*o*h+a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h-u*l*c;break;case k:this.x=u*o*h-a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h+u*l*c}return this}},{key:\"setFromAxisAngle\",value:function(t,i){var e=i/2,n=Math.sin(e);return this.x=t.x*n,this.y=t.y*n,this.z=t.z*n,this.w=Math.cos(e),this}},{key:\"setFromRotationMatrix\",value:function(t){var i=t.elements,e=i[0],n=i[4],s=i[8],r=i[1],a=i[5],o=i[9],h=i[2],u=i[6],l=i[10],c=e+a+l,y=void 0;return c>0?(y=.5/Math.sqrt(c+1),this.w=.25/y,this.x=(u-o)*y,this.y=(s-h)*y,this.z=(r-n)*y):e>a&&e>l?(y=2*Math.sqrt(1+e-a-l),this.w=(u-o)/y,this.x=.25*y,this.y=(n+r)/y,this.z=(s+h)/y):a>l?(y=2*Math.sqrt(1+a-e-l),this.w=(s-h)/y,this.x=(n+r)/y,this.y=.25*y,this.z=(o+u)/y):(y=2*Math.sqrt(1+l-e-a),this.w=(r-n)/y,this.x=(s+h)/y,this.y=(o+u)/y,this.z=.25*y),this}},{key:\"setFromUnitVectors\",value:function(t,i){var e=t.dot(i)+1;return e<1e-6?(e=0,Math.abs(t.x)>Math.abs(t.z)?z.set(-t.y,t.x,0):z.set(0,-t.z,t.y)):z.crossVectors(t,i),this.x=z.x,this.y=z.y,this.z=z.z,this.w=e,this.normalize()}},{key:\"invert\",value:function(){return this.conjugate().normalize()}},{key:\"conjugate\",value:function(){return this.x*=-1,this.y*=-1,this.z*=-1,this}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"normalize\",value:function(){var t=this.length(),i=void 0;return 0===t?(this.x=0,this.y=0,this.z=0,this.w=1):(i=1/t,this.x=this.x*i,this.y=this.y*i,this.z=this.z*i,this.w=this.w*i),this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z+this.w*t.w}},{key:\"multiplyQuaternions\",value:function(t,i){var e=t.x,n=t.y,s=t.z,r=t.w,a=i.x,o=i.y,h=i.z,u=i.w;return this.x=e*u+r*a+n*h-s*o,this.y=n*u+r*o+s*a-e*h,this.z=s*u+r*h+e*o-n*a,this.w=r*u-e*a-n*o-s*h,this}},{key:\"multiply\",value:function(t){return this.multiplyQuaternions(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyQuaternions(t,this)}},{key:\"slerp\",value:function(t,i){var e=this.x,n=this.y,s=this.z,r=this.w,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(1===i)this.copy(t);else if(i>0){if((a=r*t.w+e*t.x+n*t.y+s*t.z)<0?(this.w=-t.w,this.x=-t.x,this.y=-t.y,this.z=-t.z,a=-a):this.copy(t),a>=1)return this.w=r,this.x=e,this.y=n,this.z=s,this;if(o=Math.sqrt(1-a*a),Math.abs(o)<.001)return this.w=.5*(r+this.w),this.x=.5*(e+this.x),this.y=.5*(n+this.y),this.z=.5*(s+this.z),this;h=Math.atan2(o,a),u=Math.sin((1-i)*h)/o,l=Math.sin(i*h)/o,this.w=r*u+this.w*l,this.x=e*u+this.x*l,this.y=n*u+this.y*l,this.z=s*u+this.z*l}return this}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.w===this.w}}],[{key:\"slerp\",value:function(t,i,e,n){return e.copy(t).slerp(i,n)}},{key:\"slerpFlat\",value:function(t,i,e,n,s,r,a){var o=s[r],h=s[r+1],u=s[r+2],l=s[r+3],c=e[n],y=e[n+1],v=e[n+2],d=e[n+3],f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0;d===l&&c===o&&y===h&&v===u||(f=1-a,g=(p=c*o+y*h+v*u+d*l)>=0?1:-1,(k=1-p*p)>Number.EPSILON&&(x=Math.sqrt(k),w=Math.atan2(x,p*g),f=Math.sin(f*w)/x,a=Math.sin(a*w)/x),c=c*f+o*(z=a*g),y=y*f+h*z,v=v*f+u*z,d=d*f+l*z,f===1-a&&(c*=m=1/Math.sqrt(c*c+y*y+v*v+d*d),y*=m,v*=m,d*=m)),t[i]=c,t[i+1]=y,t[i+2]=v,t[i+3]=d}}]),e}();function b(t,i,e){return Math.max(Math.min(t,e),i)}var A=new f,S=new M,P=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.order=e.defaultOrder}i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.order=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.order=t.order,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.order)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.order=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.order,t}},{key:\"toVector3\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).set(this.x,this.y,this.z)}},{key:\"setFromRotationMatrix\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.order,e=t.elements,n=e[0],s=e[4],r=e[8],a=e[1],o=e[5],h=e[9],u=e[2],l=e[6],c=e[10];switch(i){case m:this.y=Math.asin(b(r,-1,1)),Math.abs(r)<.99999?(this.x=Math.atan2(-h,c),this.z=Math.atan2(-s,n)):(this.x=Math.atan2(l,o),this.z=0);break;case g:this.x=Math.asin(-b(h,-1,1)),Math.abs(h)<.99999?(this.y=Math.atan2(r,c),this.z=Math.atan2(a,o)):(this.y=Math.atan2(-u,n),this.z=0);break;case p:this.x=Math.asin(b(l,-1,1)),Math.abs(l)<.99999?(this.y=Math.atan2(-u,c),this.z=Math.atan2(-s,o)):(this.y=0,this.z=Math.atan2(a,n));break;case w:this.y=Math.asin(-b(u,-1,1)),Math.abs(u)<.99999?(this.x=Math.atan2(l,c),this.z=Math.atan2(a,n)):(this.x=0,this.z=Math.atan2(-s,o));break;case x:this.z=Math.asin(b(a,-1,1)),Math.abs(a)<.99999?(this.x=Math.atan2(-h,o),this.y=Math.atan2(-u,n)):(this.x=0,this.y=Math.atan2(r,c));break;case k:this.z=Math.asin(-b(s,-1,1)),Math.abs(s)<.99999?(this.x=Math.atan2(l,o),this.y=Math.atan2(r,n)):(this.x=Math.atan2(-h,c),this.y=0)}return this.order=i,this}},{key:\"setFromQuaternion\",value:function(t,i){return A.makeRotationFromQuaternion(t),this.setFromRotationMatrix(A,i)}},{key:\"setFromVector3\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.order;return this.set(t.x,t.y,t.z,i)}},{key:\"reorder\",value:function(t){return S.setFromEuler(this),this.setFromQuaternion(S,t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.order===this.order}}],[{key:\"defaultOrder\",get:function(){return m}}])}(),new o),T=new o,I=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o(1,0,0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.normal=i,this.constant=n}return i(e,[{key:\"set\",value:function(t,i){return this.normal.copy(t),this.constant=i,this}},{key:\"setComponents\",value:function(t,i,e,n){return this.normal.set(t,i,e),this.constant=n,this}},{key:\"copy\",value:function(t){return this.normal.copy(t.normal),this.constant=t.constant,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromNormalAndCoplanarPoint\",value:function(t,i){return this.normal.copy(t),this.constant=-i.dot(this.normal),this}},{key:\"setFromCoplanarPoints\",value:function(t,i,e){var n=P.subVectors(e,i).cross(T.subVectors(t,i)).normalize();return this.setFromNormalAndCoplanarPoint(n,P),this}},{key:\"normalize\",value:function(){var t=1/this.normal.length();return this.normal.multiplyScalar(t),this.constant*=t,this}},{key:\"negate\",value:function(){return this.normal.negate(),this.constant=-this.constant,this}},{key:\"distanceToPoint\",value:function(t){return this.normal.dot(t)+this.constant}},{key:\"distanceToSphere\",value:function(t){return this.distanceToPoint(t.center)-t.radius}},{key:\"projectPoint\",value:function(t,i){return i.copy(this.normal).multiplyScalar(-this.distanceToPoint(t)).add(t)}},{key:\"coplanarPoint\",value:function(t){return t.copy(this.normal).multiplyScalar(-this.constant)}},{key:\"translate\",value:function(t){return this.constant-=t.dot(this.normal),this}},{key:\"intersectLine\",value:function(t,i){var e=t.delta(P),n=this.normal.dot(e);if(0===n)0===this.distanceToPoint(t.start)&&i.copy(t.start);else{var s=-(t.start.dot(this.normal)+this.constant)/n;s>=0&&s<=1&&i.copy(e).multiplyScalar(s).add(t.start)}return i}},{key:\"intersectsLine\",value:function(t){var i=this.distanceToPoint(t.start),e=this.distanceToPoint(t.end);return i<0&&e>0||e<0&&i>0}},{key:\"intersectsBox\",value:function(t){return t.intersectsPlane(this)}},{key:\"intersectsSphere\",value:function(t){return t.intersectsPlane(this)}},{key:\"equals\",value:function(t){return t.normal.equals(this.normal)&&t.constant===this.constant}}]),e}(),O=new o,_=new o,C=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new I,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new I,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:new I,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:new I,a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:new I,o=arguments.length>5&&void 0!==arguments[5]?arguments[5]:new I;t(this,e),this.planes=[i,n,s,r,a,o]}i(e,[{key:\"set\",value:function(t,i,e,n,s,r){var a=this.planes;return a[0].copy(t),a[1].copy(i),a[2].copy(e),a[3].copy(n),a[4].copy(s),a[5].copy(r),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"copy\",value:function(t){var i=this.planes,e=void 0;for(e=0;e<6;++e)i[e].copy(t.planes[e]);return this}},{key:\"setFromMatrix\",value:function(t){var i=this.planes,e=t.elements,n=e[0],s=e[1],r=e[2],a=e[3],o=e[4],h=e[5],u=e[6],l=e[7],c=e[8],y=e[9],v=e[10],d=e[11],f=e[12],m=e[13],x=e[14],p=e[15];return i[0].setComponents(a-n,l-o,d-c,p-f).normalize(),i[1].setComponents(a+n,l+o,d+c,p+f).normalize(),i[2].setComponents(a+s,l+h,d+y,p+m).normalize(),i[3].setComponents(a-s,l-h,d-y,p-m).normalize(),i[4].setComponents(a-r,l-u,d-v,p-x).normalize(),i[5].setComponents(a+r,l+u,d+v,p+x).normalize(),this}},{key:\"intersectsSphere\",value:function(t){var i=this.planes,e=t.center,n=-t.radius,s=!0,r=void 0;for(r=0;r<6;++r)if(i[r].distanceToPoint(e)<n){s=!1;break}return s}},{key:\"intersectsBox\",value:function(t){var i=this.planes,e=t.min,n=t.max,s=!0,r=void 0,a=void 0,o=void 0,h=void 0;for(r=0;r<6;++r)if(h=i[r],O.x=h.normal.x>0?e.x:n.x,_.x=h.normal.x>0?n.x:e.x,O.y=h.normal.y>0?e.y:n.y,_.y=h.normal.y>0?n.y:e.y,O.z=h.normal.z>0?e.z:n.z,_.z=h.normal.z>0?n.z:e.z,a=h.distanceToPoint(O),o=h.distanceToPoint(_),a<0&&o<0){s=!1;break}return s}},{key:\"containsPoint\",value:function(t){var i=this.planes,e=!0,n=void 0;for(n=0;n<6;++n)if(i[n].distanceToPoint(t)<0){e=!1;break}return e}}])}(),new o),U=new o,q=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.start=i,this.end=n}i(e,[{key:\"set\",value:function(t,i){return this.start.copy(t),this.end.copy(i),this}},{key:\"copy\",value:function(t){return this.start.copy(t.start),this.end.copy(t.end),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).addVectors(this.start,this.end).multiplyScalar(.5)}},{key:\"delta\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.end,this.start)}},{key:\"lengthSquared\",value:function(){return this.start.distanceToSquared(this.end)}},{key:\"length\",value:function(){return this.start.distanceTo(this.end)}},{key:\"at\",value:function(t,i){return this.delta(i).multiplyScalar(t).add(this.start)}},{key:\"closestPointToPointParameter\",value:function(t,i){C.subVectors(t,this.start),U.subVectors(this.end,this.start);var e=U.dot(U),n=U.dot(C);return i?Math.min(Math.max(n/e,0),1):n/e}},{key:\"closestPointToPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]&&arguments[1],e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:new o,n=this.closestPointToPointParameter(t,i);return this.delta(e).multiplyScalar(n).add(this.start)}},{key:\"equals\",value:function(t){return t.start.equals(this.start)&&t.end.equals(this.end)}}])}(),new o),F=new o,E=new o,D=function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r,a,o,h,u,l,c,y,v,d,f){var m=this.elements;return m[0]=t,m[4]=i,m[8]=e,m[12]=n,m[1]=s,m[5]=r,m[9]=a,m[13]=o,m[2]=h,m[6]=u,m[10]=l,m[14]=c,m[3]=y,m[7]=v,m[11]=d,m[15]=f,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements,e=this.elements;return e[0]=i[0],e[1]=i[1],e[2]=i[2],e[3]=i[3],e[4]=i[4],e[5]=i[5],e[6]=i[6],e[7]=i[7],e[8]=i[8],e[9]=i[9],e[10]=i[10],e[11]=i[11],e[12]=i[12],e[13]=i[13],e[14]=i[14],e[15]=i[15],this}},{key:\"clone\",value:function(){return(new this.constructor).fromArray(this.elements)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<16;++n)e[n]=t[n+i];return this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<16;++n)t[n+i]=e[n];return t}},{key:\"getMaxScaleOnAxis\",value:function(){var t=this.elements,i=t[0]*t[0]+t[1]*t[1]+t[2]*t[2],e=t[4]*t[4]+t[5]*t[5]+t[6]*t[6],n=t[8]*t[8]+t[9]*t[9]+t[10]*t[10];return Math.sqrt(Math.max(i,e,n))}},{key:\"copyPosition\",value:function(t){var i=this.elements,e=t.elements;return i[12]=e[12],i[13]=e[13],i[14]=e[14],this}},{key:\"setPosition\",value:function(t){var i=this.elements;return i[12]=t.x,i[13]=t.y,i[14]=t.z,this}},{key:\"extractBasis\",value:function(t,i,e){return t.setFromMatrixColumn(this,0),i.setFromMatrixColumn(this,1),e.setFromMatrixColumn(this,2),this}},{key:\"makeBasis\",value:function(t,i,e){return this.set(t.x,i.x,e.x,0,t.y,i.y,e.y,0,t.z,i.z,e.z,0,0,0,0,1),this}},{key:\"extractRotation\",value:function(t){var i=this.elements,e=t.elements,n=1/q.setFromMatrixColumn(t,0).length(),s=1/q.setFromMatrixColumn(t,1).length(),r=1/q.setFromMatrixColumn(t,2).length();return i[0]=e[0]*n,i[1]=e[1]*n,i[2]=e[2]*n,i[4]=e[4]*s,i[5]=e[5]*s,i[6]=e[6]*s,i[8]=e[8]*r,i[9]=e[9]*r,i[10]=e[10]*r,this}},{key:\"makeRotationFromEuler\",value:function(t){var i=this.elements,e=t.x,n=t.y,s=t.z,r=Math.cos(e),a=Math.sin(e),o=Math.cos(n),h=Math.sin(n),u=Math.cos(s),l=Math.sin(s),c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0;switch(t.order){case m:c=r*u,y=r*l,v=a*u,d=a*l,i[0]=o*u,i[4]=-o*l,i[8]=h,i[1]=y+v*h,i[5]=c-d*h,i[9]=-a*o,i[2]=d-c*h,i[6]=v+y*h,i[10]=r*o;break;case g:f=o*u,z=o*l,M=h*u,b=h*l,i[0]=f+b*a,i[4]=M*a-z,i[8]=r*h,i[1]=r*l,i[5]=r*u,i[9]=-a,i[2]=z*a-M,i[6]=b+f*a,i[10]=r*o;break;case p:f=o*u,z=o*l,M=h*u,b=h*l,i[0]=f-b*a,i[4]=-r*l,i[8]=M+z*a,i[1]=z+M*a,i[5]=r*u,i[9]=b-f*a,i[2]=-r*h,i[6]=a,i[10]=r*o;break;case w:c=r*u,y=r*l,v=a*u,d=a*l,i[0]=o*u,i[4]=v*h-y,i[8]=c*h+d,i[1]=o*l,i[5]=d*h+c,i[9]=y*h-v,i[2]=-h,i[6]=a*o,i[10]=r*o;break;case x:A=r*o,S=r*h,P=a*o,T=a*h,i[0]=o*u,i[4]=T-A*l,i[8]=P*l+S,i[1]=l,i[5]=r*u,i[9]=-a*u,i[2]=-h*u,i[6]=S*l+P,i[10]=A-T*l;break;case k:A=r*o,S=r*h,P=a*o,T=a*h,i[0]=o*u,i[4]=-l,i[8]=h*u,i[1]=A*l+T,i[5]=r*u,i[9]=S*l-P,i[2]=P*l-S,i[6]=a*u,i[10]=T*l+A}return i[3]=0,i[7]=0,i[11]=0,i[12]=0,i[13]=0,i[14]=0,i[15]=1,this}},{key:\"makeRotationFromQuaternion\",value:function(t){var i=this.elements,e=t.x,n=t.y,s=t.z,r=t.w,a=e+e,o=n+n,h=s+s,u=e*a,l=e*o,c=e*h,y=n*o,v=n*h,d=s*h,f=r*a,m=r*o,x=r*h;return i[0]=1-(y+d),i[4]=l-x,i[8]=c+m,i[1]=l+x,i[5]=1-(u+d),i[9]=v-f,i[2]=c-m,i[6]=v+f,i[10]=1-(u+y),i[3]=0,i[7]=0,i[11]=0,i[12]=0,i[13]=0,i[14]=0,i[15]=1,this}},{key:\"lookAt\",value:function(t,i,e){var n=this.elements,s=q,r=F,a=E;return a.subVectors(t,i),0===a.lengthSquared()&&(a.z=1),a.normalize(),s.crossVectors(e,a),0===s.lengthSquared()&&(1===Math.abs(e.z)?a.x+=1e-4:a.z+=1e-4,a.normalize(),s.crossVectors(e,a)),s.normalize(),r.crossVectors(a,s),n[0]=s.x,n[4]=r.x,n[8]=a.x,n[1]=s.y,n[5]=r.y,n[9]=a.y,n[2]=s.z,n[6]=r.z,n[10]=a.z,this}},{key:\"multiplyMatrices\",value:function(t,i){var e=this.elements,n=t.elements,s=i.elements,r=n[0],a=n[4],o=n[8],h=n[12],u=n[1],l=n[5],c=n[9],y=n[13],v=n[2],d=n[6],f=n[10],m=n[14],x=n[3],p=n[7],k=n[11],g=n[15],w=s[0],z=s[4],M=s[8],b=s[12],A=s[1],S=s[5],P=s[9],T=s[13],I=s[2],O=s[6],_=s[10],C=s[14],U=s[3],q=s[7],F=s[11],E=s[15];return e[0]=r*w+a*A+o*I+h*U,e[4]=r*z+a*S+o*O+h*q,e[8]=r*M+a*P+o*_+h*F,e[12]=r*b+a*T+o*C+h*E,e[1]=u*w+l*A+c*I+y*U,e[5]=u*z+l*S+c*O+y*q,e[9]=u*M+l*P+c*_+y*F,e[13]=u*b+l*T+c*C+y*E,e[2]=v*w+d*A+f*I+m*U,e[6]=v*z+d*S+f*O+m*q,e[10]=v*M+d*P+f*_+m*F,e[14]=v*b+d*T+f*C+m*E,e[3]=x*w+p*A+k*I+g*U,e[7]=x*z+p*S+k*O+g*q,e[11]=x*M+p*P+k*_+g*F,e[15]=x*b+p*T+k*C+g*E,this}},{key:\"multiply\",value:function(t){return this.multiplyMatrices(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyMatrices(t,this)}},{key:\"multiplyScalar\",value:function(t){var i=this.elements;return i[0]*=t,i[4]*=t,i[8]*=t,i[12]*=t,i[1]*=t,i[5]*=t,i[9]*=t,i[13]*=t,i[2]*=t,i[6]*=t,i[10]*=t,i[14]*=t,i[3]*=t,i[7]*=t,i[11]*=t,i[15]*=t,this}},{key:\"determinant\",value:function(){var t=this.elements,i=t[0],e=t[4],n=t[8],s=t[12],r=t[1],a=t[5],o=t[9],h=t[13],u=t[2],l=t[6],c=t[10],y=t[14],v=i*a,d=i*o,f=i*h,m=e*r,x=e*o,p=e*h,k=n*r,g=n*a,w=n*h,z=s*r,M=s*a,b=s*o;return t[3]*(b*l-w*l-M*c+p*c+g*y-x*y)+t[7]*(d*y-f*c+z*c-k*y+w*u-b*u)+t[11]*(f*l-v*y-z*l+m*y+M*u-p*u)+t[15]*(-g*u-d*l+v*c+k*l-m*c+x*u)}},{key:\"getInverse\",value:function(t){var i=this.elements,e=t.elements,n=e[0],s=e[1],r=e[2],a=e[3],o=e[4],h=e[5],u=e[6],l=e[7],c=e[8],y=e[9],v=e[10],d=e[11],f=e[12],m=e[13],x=e[14],p=e[15],k=y*x*l-m*v*l+m*u*d-h*x*d-y*u*p+h*v*p,g=f*v*l-c*x*l-f*u*d+o*x*d+c*u*p-o*v*p,w=c*m*l-f*y*l+f*h*d-o*m*d-c*h*p+o*y*p,z=f*y*u-c*m*u-f*h*v+o*m*v+c*h*x-o*y*x,M=n*k+s*g+r*w+a*z,b=void 0;return 0!==M?(b=1/M,i[0]=k*b,i[1]=(m*v*a-y*x*a-m*r*d+s*x*d+y*r*p-s*v*p)*b,i[2]=(h*x*a-m*u*a+m*r*l-s*x*l-h*r*p+s*u*p)*b,i[3]=(y*u*a-h*v*a-y*r*l+s*v*l+h*r*d-s*u*d)*b,i[4]=g*b,i[5]=(c*x*a-f*v*a+f*r*d-n*x*d-c*r*p+n*v*p)*b,i[6]=(f*u*a-o*x*a-f*r*l+n*x*l+o*r*p-n*u*p)*b,i[7]=(o*v*a-c*u*a+c*r*l-n*v*l-o*r*d+n*u*d)*b,i[8]=w*b,i[9]=(f*y*a-c*m*a-f*s*d+n*m*d+c*s*p-n*y*p)*b,i[10]=(o*m*a-f*h*a+f*s*l-n*m*l-o*s*p+n*h*p)*b,i[11]=(c*h*a-o*y*a-c*s*l+n*y*l+o*s*d-n*h*d)*b,i[12]=z*b,i[13]=(c*m*r-f*y*r+f*s*v-n*m*v-c*s*x+n*y*x)*b,i[14]=(f*h*r-o*m*r-f*s*u+n*m*u+o*s*x-n*h*x)*b,i[15]=(o*y*r-c*h*r+c*s*u-n*y*u-o*s*v+n*h*v)*b):(console.error(\"Can't invert matrix, determinant is zero\",t),this.identity()),this}},{key:\"transpose\",value:function(){var t=this.elements,i=void 0;return i=t[1],t[1]=t[4],t[4]=i,i=t[2],t[2]=t[8],t[8]=i,i=t[6],t[6]=t[9],t[9]=i,i=t[3],t[3]=t[12],t[12]=i,i=t[7],t[7]=t[13],t[13]=i,i=t[11],t[11]=t[14],t[14]=i,this}},{key:\"scale\",value:function(t,i,e){var n=this.elements;return n[0]*=t,n[4]*=i,n[8]*=e,n[1]*=t,n[5]*=i,n[9]*=e,n[2]*=t,n[6]*=i,n[10]*=e,n[3]*=t,n[7]*=i,n[11]*=e,this}},{key:\"makeScale\",value:function(t,i,e){return this.set(t,0,0,0,0,i,0,0,0,0,e,0,0,0,0,1),this}},{key:\"makeTranslation\",value:function(t,i,e){return this.set(1,0,0,t,0,1,0,i,0,0,1,e,0,0,0,1),this}},{key:\"makeRotationX\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(1,0,0,0,0,i,-e,0,0,e,i,0,0,0,0,1),this}},{key:\"makeRotationY\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(i,0,e,0,0,1,0,0,-e,0,i,0,0,0,0,1),this}},{key:\"makeRotationZ\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(i,-e,0,0,e,i,0,0,0,0,1,0,0,0,0,1),this}},{key:\"makeRotationAxis\",value:function(t,i){var e=Math.cos(i),n=Math.sin(i),s=1-e,r=t.x,a=t.y,o=t.z,h=s*r,u=s*a;return this.set(h*r+e,h*a-n*o,h*o+n*a,0,h*a+n*o,u*a+e,u*o-n*r,0,h*o-n*a,u*o+n*r,s*o*o+e,0,0,0,0,1),this}},{key:\"makeShear\",value:function(t,i,e){return this.set(1,i,e,0,t,1,e,0,t,i,1,0,0,0,0,1),this}},{key:\"compose\",value:function(t,i,e){return this.makeRotationFromQuaternion(i),this.scale(e.x,e.y,e.z),this.setPosition(t),this}},{key:\"decompose\",value:function(t,i,e){var n=this.elements,s=n[0],r=n[1],a=n[2],o=n[4],h=n[5],u=n[6],l=n[8],c=n[9],y=n[10],v=this.determinant(),d=q.set(s,r,a).length()*(v<0?-1:1),f=q.set(o,h,u).length(),m=q.set(l,c,y).length(),x=1/d,p=1/f,k=1/m;return t.x=n[12],t.y=n[13],t.z=n[14],n[0]*=x,n[1]*=x,n[2]*=x,n[4]*=p,n[5]*=p,n[6]*=p,n[8]*=k,n[9]*=k,n[10]*=k,i.setFromRotationMatrix(this),n[0]=s,n[1]=r,n[2]=a,n[4]=o,n[5]=h,n[6]=u,n[8]=l,n[9]=c,n[10]=y,e.x=d,e.y=f,e.z=m,this}},{key:\"makePerspective\",value:function(t,i,e,n,s,r){var a=this.elements,o=2*s/(i-t),h=2*s/(e-n),u=(i+t)/(i-t),l=(e+n)/(e-n),c=-(r+s)/(r-s),y=-2*r*s/(r-s);return a[0]=o,a[4]=0,a[8]=u,a[12]=0,a[1]=0,a[5]=h,a[9]=l,a[13]=0,a[2]=0,a[6]=0,a[10]=c,a[14]=y,a[3]=0,a[7]=0,a[11]=-1,a[15]=0,this}},{key:\"makeOrthographic\",value:function(t,i,e,n,s,r){var a=this.elements,o=1/(i-t),h=1/(e-n),u=1/(r-s),l=(i+t)*o,c=(e+n)*h,y=(r+s)*u;return a[0]=2*o,a[4]=0,a[8]=0,a[12]=-l,a[1]=0,a[5]=2*h,a[9]=0,a[13]=-c,a[2]=0,a[6]=0,a[10]=-2*u,a[14]=-y,a[3]=0,a[7]=0,a[11]=0,a[15]=1,this}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<16;++s)i[s]!==e[s]&&(n=!1);return n}}]),e}(),V=[new o,new o,new o,new o],N=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.origin=i,this.direction=n}return i(e,[{key:\"set\",value:function(t,i){return this.origin.copy(t),this.direction.copy(i),this}},{key:\"copy\",value:function(t){return this.origin.copy(t.origin),this.direction.copy(t.direction),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"at\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o).copy(this.direction).multiplyScalar(t).add(this.origin)}},{key:\"lookAt\",value:function(t){return this.direction.copy(t).sub(this.origin).normalize(),this}},{key:\"recast\",value:function(t){return this.origin.copy(this.at(t,V[0])),this}},{key:\"closestPointToPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=i.subVectors(t,this.origin).dot(this.direction);return e>=0?i.copy(this.direction).multiplyScalar(e).add(this.origin):i.copy(this.origin)}},{key:\"distanceSquaredToPoint\",value:function(t){var i=V[0].subVectors(t,this.origin).dot(this.direction);return i<0?this.origin.distanceToSquared(t):V[0].copy(this.direction).multiplyScalar(i).add(this.origin).distanceToSquared(t)}},{key:\"distanceToPoint\",value:function(t){return Math.sqrt(this.distanceSquaredToPoint(t))}},{key:\"distanceToPlane\",value:function(t){var i=t.normal.dot(this.direction),e=0!==i?-(this.origin.dot(t.normal)+t.constant)/i:0===t.distanceToPoint(this.origin)?0:-1;return e>=0?e:null}},{key:\"distanceSquaredToSegment\",value:function(t,i,e,n){var s=V[0].copy(t).add(i).multiplyScalar(.5),r=V[1].copy(i).sub(t).normalize(),a=V[2].copy(this.origin).sub(s),o=.5*t.distanceTo(i),h=-this.direction.dot(r),u=a.dot(this.direction),l=-a.dot(r),c=a.lengthSq(),y=Math.abs(1-h*h),v=void 0,d=void 0,f=void 0,m=void 0,x=void 0;return y>0?(d=h*u-l,f=o*y,(v=h*l-u)>=0?d>=-f?d<=f?x=(v*=m=1/y)*(v+h*(d*=m)+2*u)+d*(h*v+d+2*l)+c:(d=o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c):(d=-o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c):d<=-f?x=-(v=Math.max(0,-(-h*o+u)))*v+(d=v>0?-o:Math.min(Math.max(-o,-l),o))*(d+2*l)+c:d<=f?(v=0,x=(d=Math.min(Math.max(-o,-l),o))*(d+2*l)+c):x=-(v=Math.max(0,-(h*o+u)))*v+(d=v>0?o:Math.min(Math.max(-o,-l),o))*(d+2*l)+c):(d=h>0?-o:o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c),void 0!==e&&e.copy(this.direction).multiplyScalar(v).add(this.origin),void 0!==n&&n.copy(r).multiplyScalar(d).add(s),x}},{key:\"intersectSphere\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=V[0].subVectors(t.center,this.origin),n=e.dot(this.direction),s=e.dot(e)-n*n,r=t.radius*t.radius,a=null,h=void 0,u=void 0,l=void 0;return s<=r&&(l=n+(h=Math.sqrt(r-s)),((u=n-h)>=0||l>=0)&&(a=u<0?this.at(l,i):this.at(u,i))),a}},{key:\"intersectsSphere\",value:function(t){return this.distanceToPoint(t.center)<=t.radius}},{key:\"intersectPlane\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.distanceToPlane(t);return null===e?null:this.at(e,i)}},{key:\"intersectsPlane\",value:function(t){var i=t.distanceToPoint(this.origin);return 0===i||t.normal.dot(this.direction)*i<0}},{key:\"intersectBox\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.origin,n=this.direction,s=t.min,r=t.max,a=1/n.x,h=1/n.y,u=1/n.z,l=null,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0;return a>=0?(c=(s.x-e.x)*a,y=(r.x-e.x)*a):(c=(r.x-e.x)*a,y=(s.x-e.x)*a),h>=0?(v=(s.y-e.y)*h,d=(r.y-e.y)*h):(v=(r.y-e.y)*h,d=(s.y-e.y)*h),c<=d&&v<=y&&((v>c||c!=c)&&(c=v),(d<y||y!=y)&&(y=d),u>=0?(f=(s.z-e.z)*u,m=(r.z-e.z)*u):(f=(r.z-e.z)*u,m=(s.z-e.z)*u),c<=m&&f<=y&&((f>c||c!=c)&&(c=f),(m<y||y!=y)&&(y=m),y>=0&&(l=this.at(c>=0?c:y,i)))),l}},{key:\"intersectsBox\",value:function(t){return null!==this.intersectBox(t,V[0])}},{key:\"intersectTriangle\",value:function(t,i,e,n,s){var r=this.direction,a=V[0],o=V[1],h=V[2],u=V[3],l=null,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;return o.subVectors(i,t),h.subVectors(e,t),u.crossVectors(o,h),0===(c=r.dot(u))||n&&c>0||(c>0?y=1:(y=-1,c=-c),a.subVectors(this.origin,t),(v=y*r.dot(h.crossVectors(a,h)))>=0&&(d=y*r.dot(o.cross(a)))>=0&&v+d<=c&&(f=-y*a.dot(u))>=0&&(l=this.at(f/c,s))),l}},{key:\"applyMatrix4\",value:function(t){return this.origin.applyMatrix4(t),this.direction.transformDirection(t),this}},{key:\"equals\",value:function(t){return t.origin.equals(this.origin)&&t.direction.equals(this.direction)}}]),e}(),B=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.radius=i,this.phi=n,this.theta=s}i(e,[{key:\"set\",value:function(t,i,e){return this.radius=t,this.phi=i,this.theta=e,this}},{key:\"copy\",value:function(t){return this.radius=t.radius,this.phi=t.phi,this.theta=t.theta,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromVector3\",value:function(t){return this.radius=t.length(),0===this.radius?(this.theta=0,this.phi=0):(this.theta=Math.atan2(t.x,t.z),this.phi=Math.acos(Math.min(Math.max(t.y/this.radius,-1),1))),this.makeSafe()}},{key:\"makeSafe\",value:function(){return this.phi=Math.max(1e-6,Math.min(Math.PI-1e-6,this.phi)),this}}])}(),function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,1,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r){var a=this.elements;return a[0]=t,a[1]=i,a[3]=n,a[2]=e,a[4]=s,a[5]=r,this}},{key:\"identity\",value:function(){return this.set(1,0,0,1,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements;return this.set(i[0],i[1],i[2],i[3],i[4],i[5]),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"toMatrix3\",value:function(t){var i=t.elements;t.set(i[0],i[1],i[2],i[1],i[3],i[4],i[2],i[4],i[5])}},{key:\"add\",value:function(t){var i=this.elements,e=t.elements;return i[0]+=e[0],i[1]+=e[1],i[3]+=e[3],i[2]+=e[2],i[4]+=e[4],i[5]+=e[5],this}},{key:\"norm\",value:function(){var t=this.elements,i=t[1]*t[1],e=t[2]*t[2],n=t[4]*t[4];return Math.sqrt(t[0]*t[0]+i+e+i+t[3]*t[3]+n+e+n+t[5]*t[5])}},{key:\"off\",value:function(){var t=this.elements;return Math.sqrt(2*(t[1]*t[1]+t[2]*t[2]+t[4]*t[4]))}},{key:\"applyToVector3\",value:function(t){var i=t.x,e=t.y,n=t.z,s=this.elements;return t.x=s[0]*i+s[1]*e+s[2]*n,t.y=s[1]*i+s[3]*e+s[4]*n,t.z=s[2]*i+s[4]*e+s[5]*n,t}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<6;++s)i[s]!==e[s]&&(n=!1);return n}}],[{key:\"calculateIndex\",value:function(t,i){return 3-(3-t)*(2-t)/2+i}}]),e}()),L=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.w=r}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.w=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.w=t.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.w=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.w,t}},{key:\"setAxisAngleFromQuaternion\",value:function(t){this.w=2*Math.acos(t.w);var i=Math.sqrt(1-t.w*t.w);return i<1e-4?(this.x=1,this.y=0,this.z=0):(this.x=t.x/i,this.y=t.y/i,this.z=t.z/i),this}},{key:\"setAxisAngleFromRotationMatrix\",value:function(t){var i=t.elements,e=i[0],n=i[4],s=i[8],r=i[1],a=i[5],o=i[9],h=i[2],u=i[6],l=i[10],c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0;return Math.abs(n-r)<.01&&Math.abs(s-h)<.01&&Math.abs(o-u)<.01?Math.abs(n+r)<.1&&Math.abs(s+h)<.1&&Math.abs(o+u)<.1&&Math.abs(e+a+l-3)<.1?this.set(1,0,0,0):(c=Math.PI,x=(l+1)/2,p=(n+r)/4,k=(s+h)/4,g=(o+u)/4,(f=(e+1)/2)>(m=(a+1)/2)&&f>x?f<.01?(y=0,v=.707106781,d=.707106781):(v=p/(y=Math.sqrt(f)),d=k/y):m>x?m<.01?(y=.707106781,v=0,d=.707106781):(y=p/(v=Math.sqrt(m)),d=g/v):x<.01?(y=.707106781,v=.707106781,d=0):(y=k/(d=Math.sqrt(x)),v=g/d),this.set(y,v,d,c)):(w=Math.sqrt((u-o)*(u-o)+(s-h)*(s-h)+(r-n)*(r-n)),Math.abs(w)<.001&&(w=1),this.x=(u-o)/w,this.y=(s-h)/w,this.z=(r-n)/w,this.w=Math.acos((e+a+l-1)/2)),this}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this.w+=t.w,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this.w+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this.w=t.w+i.w,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this.w+=t.w*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this.w-=t.w,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this.w-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this.w=t.w-i.w,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this.w*=t.w,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this.z*=t,this.w*=t,this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this.w=t.w*i.w,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this.w/=t.w,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this.z/=t,this.w/=t,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,e=this.y,n=this.z,s=this.w,r=t.elements;return this.x=r[0]*i+r[4]*e+r[8]*n+r[12]*s,this.y=r[1]*i+r[5]*e+r[9]*n+r[13]*s,this.z=r[2]*i+r[6]*e+r[10]*n+r[14]*s,this.w=r[3]*i+r[7]*e+r[11]*n+r[15]*s,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this.w=-this.w,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z+this.w*t.w}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)+Math.abs(this.z)+Math.abs(this.w)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)+Math.abs(this.z-t.z)+Math.abs(this.w-t.w)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y,n=this.z-t.z,s=this.w-t.w;return i*i+e*e+n*n+s*s}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this.w=Math.min(this.w,t.w),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this.w=Math.max(this.w,t.w),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this.w=Math.max(t.w,Math.min(i.w,this.w)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this.z=Math.floor(this.z),this.w=Math.floor(this.w),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this.z=Math.ceil(this.z),this.w=Math.ceil(this.w),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this.z=Math.round(this.z),this.w=Math.round(this.w),this}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this.z+=(t.z-this.z)*i,this.w+=(t.w-this.w)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.w===this.w}}]),e}(),R=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]&&arguments[1];t(this,e),this.value=i,this.done=n}return i(e,[{key:\"reset\",value:function(){this.value=null,this.done=!1}}]),e}(),j=new o,Y=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.min=i,this.max=n,this.children=null}return i(e,[{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getDimensions\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.max,this.min)}},{key:\"split\",value:function(){var t=this.min,i=this.max,e=this.getCenter(j),n=this.children=[null,null,null,null,null,null,null,null],s=void 0,r=void 0;for(s=0;s<8;++s)r=X[s],n[s]=new this.constructor(new o(0===r[0]?t.x:e.x,0===r[1]?t.y:e.y,0===r[2]?t.z:e.z),new o(0===r[0]?e.x:i.x,0===r[1]?e.y:i.y,0===r[2]?e.z:i.z))}}]),e}(),X=[new Uint8Array([0,0,0]),new Uint8Array([0,0,1]),new Uint8Array([0,1,0]),new Uint8Array([0,1,1]),new Uint8Array([1,0,0]),new Uint8Array([1,0,1]),new Uint8Array([1,1,0]),new Uint8Array([1,1,1])],Q=[new Uint8Array([0,4]),new Uint8Array([1,5]),new Uint8Array([2,6]),new Uint8Array([3,7]),new Uint8Array([0,2]),new Uint8Array([1,3]),new Uint8Array([4,6]),new Uint8Array([5,7]),new Uint8Array([0,1]),new Uint8Array([2,3]),new Uint8Array([4,5]),new Uint8Array([6,7])],G=new o,H=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.min=i,this.size=n,this.children=null}return i(e,[{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).copy(this.min).addScalar(.5*this.size)}},{key:\"getDimensions\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).set(this.size,this.size,this.size)}},{key:\"split\",value:function(){var t=this.min,i=this.getCenter(G),e=.5*this.size,n=this.children=[null,null,null,null,null,null,null,null],s=void 0,r=void 0;for(s=0;s<8;++s)r=X[s],n[s]=new this.constructor(new o(0===r[0]?t.x:i.x,0===r[1]?t.y:i.y,0===r[2]?t.z:i.z),e)}},{key:\"max\",get:function(){return this.min.clone().addScalar(this.size)}}]),e}(),Z=new l,J=function(){function e(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;t(this,e),this.octree=i,this.region=n,this.cull=null!==n,this.result=new R,this.trace=null,this.indices=null,this.reset()}return i(e,[{key:\"reset\",value:function(){var t=this.octree.root;return this.trace=[],this.indices=[],null!==t&&(Z.min=t.min,Z.max=t.max,this.cull&&!this.region.intersectsBox(Z)||(this.trace.push(t),this.indices.push(0))),this.result.reset(),this}},{key:\"next\",value:function(){for(var t=this.cull,i=this.region,e=this.indices,n=this.trace,s=null,r=n.length-1,a=void 0,o=void 0,h=void 0;null===s&&r>=0;)if(a=e[r],o=n[r].children,++e[r],a<8)if(null!==o){if(h=o[a],t&&(Z.min=h.min,Z.max=h.max,!i.intersectsBox(Z)))continue;n.push(h),e.push(0),++r}else s=n.pop(),e.pop();else n.pop(),e.pop(),--r;return this.result.value=s,this.result.done=null===s,this.result}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),e}(),K=[new o,new o,new o],W=new l,$=new N,tt=[new Uint8Array([4,2,1]),new Uint8Array([5,3,8]),new Uint8Array([6,8,3]),new Uint8Array([7,8,8]),new Uint8Array([8,6,5]),new Uint8Array([8,7,8]),new Uint8Array([8,8,7]),new Uint8Array([8,8,8])],it=0;function et(t,i,e,n){var s=void 0,r=0;return i<e?(s=i,r=0):(s=e,r=1),n<s&&(r=2),tt[t][r]}var nt=function(){function e(){t(this,e)}return i(e,null,[{key:\"intersectOctree\",value:function(t,i,e){var n=W.min.set(0,0,0),s=W.max.subVectors(t.max,t.min),r=t.getDimensions(K[0]),a=K[1].copy(r).multiplyScalar(.5),o=$.origin.copy(i.ray.origin),h=$.direction.copy(i.ray.direction),u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0;o.sub(t.getCenter(K[2])).add(a),it=0,h.x<0&&(o.x=r.x-o.x,h.x=-h.x,it|=4),h.y<0&&(o.y=r.y-o.y,h.y=-h.y,it|=2),h.z<0&&(o.z=r.z-o.z,h.z=-h.z,it|=1),u=1/h.x,l=1/h.y,c=1/h.z,y=(n.x-o.x)*u,v=(s.x-o.x)*u,d=(n.y-o.y)*l,f=(s.y-o.y)*l,m=(n.z-o.z)*c,x=(s.z-o.z)*c,Math.max(Math.max(y,d),m)<Math.min(Math.min(v,f),x)&&function t(i,e,n,s,r,a,o,h,u){var l=i.children,c=void 0,y=void 0,v=void 0,d=void 0;if(r>=0&&a>=0&&o>=0)if(null===l)u.push(i);else{c=function(t,i,e,n,s,r){var a=0;return t>i&&t>e?(s<t&&(a|=2),r<t&&(a|=1)):i>e?(n<i&&(a|=4),r<i&&(a|=1)):(n<e&&(a|=4),s<e&&(a|=2)),a}(e,n,s,y=.5*(e+r),v=.5*(n+a),d=.5*(s+o));do{switch(c){case 0:t(l[it],e,n,s,y,v,d,h,u),c=et(c,y,v,d);break;case 1:t(l[1^it],e,n,d,y,v,o,h,u),c=et(c,y,v,o);break;case 2:t(l[2^it],e,v,s,y,a,d,h,u),c=et(c,y,a,d);break;case 3:t(l[3^it],e,v,d,y,a,o,h,u),c=et(c,y,a,o);break;case 4:t(l[4^it],y,n,s,r,v,d,h,u),c=et(c,r,v,d);break;case 5:t(l[5^it],y,n,d,r,v,o,h,u),c=et(c,r,v,o);break;case 6:t(l[6^it],y,v,s,r,a,d,h,u),c=et(c,r,a,d);break;case 7:t(l[7^it],y,v,d,r,a,o,h,u),c=8}}while(c<8)}}(t.root,y,d,m,v,f,x,i,e)}}]),e}(),st=new l;var rt=function(){function e(i,n){t(this,e),this.root=void 0!==i&&void 0!==n?new Y(i,n):null}return i(e,[{key:\"getCenter\",value:function(t){return this.root.getCenter(t)}},{key:\"getDimensions\",value:function(t){return this.root.getDimensions(t)}},{key:\"getDepth\",value:function(){return function t(i){var e=i.children,n=0,s=void 0,r=void 0,a=void 0;if(null!==e)for(s=0,r=e.length;s<r;++s)(a=1+t(e[s]))>n&&(n=a);return n}(this.root)}},{key:\"cull\",value:function(t){var i=[];return function t(i,e,n){var s=i.children,r=void 0,a=void 0;if(st.min=i.min,st.max=i.max,e.intersectsBox(st))if(null!==s)for(r=0,a=s.length;r<a;++r)t(s[r],e,n);else n.push(i)}(this.root,t,i),i}},{key:\"findOctantsByLevel\",value:function(t){var i=[];return function t(i,e,n,s){var r=i.children,a=void 0,o=void 0;if(n===e)s.push(i);else if(null!==r)for(++n,a=0,o=r.length;a<o;++a)t(r[a],e,n,s)}(this.root,t,0,i),i}},{key:\"raycast\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return nt.intersectOctree(this,t,i),i}},{key:\"leaves\",value:function(t){return new J(this,t)}},{key:Symbol.iterator,value:function(){return new J(this)}},{key:\"min\",get:function(){return this.root.min}},{key:\"max\",get:function(){return this.root.max}},{key:\"children\",get:function(){return this.root.children}}]),e}(),at=new o,ot=function(e){n(a,Y);function a(i,e){t(this,a);var n=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this,i,e));return n.points=null,n.data=null,n}return i(a,[{key:\"distanceToSquared\",value:function(t){return at.copy(t).clamp(this.min,this.max).sub(t).lengthSquared()}},{key:\"distanceToCenterSquared\",value:function(t){var i=this.getCenter(at),e=t.x-i.x,n=t.y-i.x,s=t.z-i.z;return e*e+n*n+s*s}},{key:\"contains\",value:function(t,i){var e=this.min,n=this.max;return t.x>=e.x-i&&t.y>=e.y-i&&t.z>=e.z-i&&t.x<=n.x+i&&t.y<=n.y+i&&t.z<=n.z+i}},{key:\"redistribute\",value:function(t){var i=this.children,e=this.points,n=this.data,s=void 0,r=void 0,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(null!==i)for(s=0,a=e.length;s<a;++s)for(u=e[s],l=n[s],r=0,o=i.length;r<o;++r)if((h=i[r]).contains(u,t)){null===h.points&&(h.points=[],h.data=[]),h.points.push(u),h.data.push(l);break}this.points=null,this.data=null}},{key:\"merge\",value:function(){var t=this.children,i=void 0,e=void 0,n=void 0;if(null!==t){for(this.points=[],this.data=[],i=0,e=t.length;i<e;++i)if(null!==(n=t[i]).points){var s,a;(s=this.points).push.apply(s,r(n.points)),(a=this.data).push.apply(a,r(n.data))}this.children=null}}}]),a}(),ht=function i(e,n,s){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null;t(this,i),this.distance=e,this.distanceToRay=n,this.point=s,this.object=r},ut=1e-6;function lt(t){var i=t.children,e=0,n=void 0,s=void 0;if(null!==i)for(n=0,s=i.length;n<s;++n)e+=lt(i[n]);else null!==t.points&&(e=t.points.length);return e}function ct(t,i,e,n,s){var r=n.children,a=!1,o=!1,h=void 0,u=void 0;if(n.contains(t,e.bias)){if(null===r){if(null===n.points)n.points=[],n.data=[];else for(h=0,u=n.points.length;!a&&h<u;++h)a=n.points[h].equals(t);a?(n.data[h-1]=i,o=!0):n.points.length<e.maxPoints||s===e.maxDepth?(n.points.push(t.clone()),n.data.push(i),++e.pointCount,o=!0):(n.split(),n.redistribute(e.bias),r=n.children)}if(null!==r)for(++s,h=0,u=r.length;!o&&h<u;++h)o=ct(t,i,e,r[h],s)}return o}function yt(t,i,e,n){var s=e.children,r=null,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(e.contains(t,i.bias))if(null!==s)for(a=0,o=s.length;null===r&&a<o;++a)r=yt(t,i,s[a],e);else if(null!==e.points)for(h=e.points,u=e.data,a=0,o=h.length;a<o;++a)if(h[a].equals(t)){l=o-1,r=u[a],a<l&&(h[a]=h[l],u[a]=u[l]),h.pop(),u.pop(),--i.pointCount,null!==n&&lt(n)<=i.maxPoints&&n.merge();break}return r}!function(r){n(a,rt);function a(i,e){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:8,o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:8;t(this,a);var h=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return h.root=new ot(i,e),h.bias=Math.max(0,n),h.maxPoints=Math.max(1,Math.round(r)),h.maxDepth=Math.max(0,Math.round(o)),h.pointCount=0,h}i(a,[{key:\"countPoints\",value:function(t){return lt(t)}},{key:\"put\",value:function(t,i){return ct(t,i,this,this.root,0)}},{key:\"remove\",value:function(t){return yt(t,this,this.root,null)}},{key:\"fetch\",value:function(t){return function t(i,e,n){var s=n.children,r=null,a=void 0,o=void 0,h=void 0;if(n.contains(i,e.bias))if(null!==s)for(a=0,o=s.length;null===r&&a<o;++a)r=t(i,e,s[a]);else for(a=0,o=(h=n.points).length;null===r&&a<o;++a)i.distanceToSquared(h[a])<=ut&&(r=n.data[a]);return r}(t,this,this.root)}},{key:\"move\",value:function(t,i){return function t(i,e,n,s,r,a){var o=s.children,h=null,u=void 0,l=void 0,c=void 0;if(s.contains(i,n.bias))if(s.contains(e,n.bias)){if(null!==o)for(++a,u=0,l=o.length;null===h&&u<l;++u)h=t(i,e,n,o[u],s,a);else for(u=0,l=(c=s.points).length;u<l;++u)if(i.distanceToSquared(c[u])<=ut){c[u].copy(e),h=s.data[u];break}}else ct(e,h=yt(i,n,s,r),n,r,a-1);return h}(t,i,this,this.root,null,0)}},{key:\"findNearestPoint\",value:function(t){return function t(i,e,n,s){var r=s.points,a=s.children,o=null,h=e,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;if(null!==a)for(u=0,l=(v=a.map(function(t){return{octant:t,distance:t.distanceToCenterSquared(i)}}).sort(function(t,i){return t.distance-i.distance})).length;u<l;++u)(d=v[u].octant).contains(i,h)&&null!==(f=t(i,h,n,d))&&(y=f.point.distanceToSquared(i),(!n||y>0)&&y<h&&(h=y,o=f));else if(null!==r)for(u=0,l=r.length;u<l;++u)c=r[u],y=i.distanceToSquared(c),(!n||y>0)&&y<h&&(h=y,o={point:c.clone(),data:s.data[u]});return o}(t,arguments.length>1&&void 0!==arguments[1]?arguments[1]:1/0,arguments.length>2&&void 0!==arguments[2]&&arguments[2],this.root)}},{key:\"findPoints\",value:function(t,i){var e=[];return function t(i,e,n,s,r){var a=s.points,o=s.children,h=e*e,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0;if(null!==o)for(u=0,l=o.length;u<l;++u)(v=o[u]).contains(i,e)&&t(i,e,n,v,r);else if(null!==a)for(u=0,l=a.length;u<l;++u)c=a[u],y=i.distanceToSquared(c),(!n||y>0)&&y<=h&&r.push({point:c.clone(),data:s.data[u]})}(t,i,arguments.length>2&&void 0!==arguments[2]&&arguments[2],this.root,e),e}},{key:\"raycast\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],n=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"raycast\",this).call(this,t);return n.length>0&&this.testPoints(n,t,i),i}},{key:\"testPoints\",value:function(t,i,e){var n=i.params.Points.threshold,s=n*n,r=void 0,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;for(u=0,c=t.length;u<c;++u)if(null!==(d=(v=t[u]).points))for(l=0,y=d.length;l<y;++l)f=d[l],(h=i.ray.distanceSqToPoint(f))<s&&(r=i.ray.closestPointToPoint(f),(a=i.ray.origin.distanceTo(r))>=i.near&&a<=i.far&&(o=Math.sqrt(h),e.push(new ht(a,o,r,v.data[l]))))}}])}();var vt=new l,dt=new o,ft=new o,mt=new o,xt=(function(){function e(){t(this,e)}i(e,null,[{key:\"recycleOctants\",value:function(t,i){var e=t.min,n=t.getCenter(ft),s=t.getDimensions(mt).multiplyScalar(.5),r=t.children,a=i.length,o=void 0,h=void 0,u=void 0,l=void 0;for(o=0;o<8;++o)for(u=X[o],vt.min.addVectors(e,dt.fromArray(u).multiply(s)),vt.max.addVectors(n,dt.fromArray(u).multiply(s)),h=0;h<a;++h)if(null!==(l=i[h])&&vt.min.equals(l.min)&&vt.max.equals(l.max)){r[o]=l,i[h]=null;break}}}])}(),new o),pt=new o,kt=new o,gt=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.a=i,this.b=n,this.index=-1,this.coordinates=new o,this.t=0,this.n=new o}return i(e,[{key:\"approximateZeroCrossing\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:8,e=Math.max(1,i-1),n=0,s=1,r=0,a=0,o=void 0,h=void 0;for(xt.subVectors(this.b,this.a);a<=e&&(r=(n+s)/2,pt.addVectors(this.a,kt.copy(xt).multiplyScalar(r)),h=t.sample(pt),!(Math.abs(h)<=1e-4||(s-n)/2<=1e-6));)pt.addVectors(this.a,kt.copy(xt).multiplyScalar(n)),o=t.sample(pt),Math.sign(h)===Math.sign(o)?n=r:s=r,++a;this.t=r}},{key:\"computeZeroCrossingPosition\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.b,this.a).multiplyScalar(this.t).add(this.a)}},{key:\"computeSurfaceNormal\",value:function(t){var i=this.computeZeroCrossingPosition(xt),e=t.sample(pt.addVectors(i,kt.set(.001,0,0)))-t.sample(pt.subVectors(i,kt.set(.001,0,0))),n=t.sample(pt.addVectors(i,kt.set(0,.001,0)))-t.sample(pt.subVectors(i,kt.set(0,.001,0))),s=t.sample(pt.addVectors(i,kt.set(0,0,.001)))-t.sample(pt.subVectors(i,kt.set(0,0,.001)));this.n.set(e,n,s).normalize()}}]),e}(),wt=new gt,zt=new o,Mt=new o,bt=function(){function e(i,n,s){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:3;t(this,e),this.edgeData=i,this.cellPosition=n,this.cellSize=s,this.indices=null,this.zeroCrossings=null,this.normals=null,this.axes=null,this.lengths=null,this.result=new R,this.initialC=r,this.c=r,this.initialD=a,this.d=a,this.i=0,this.l=0,this.reset()}return i(e,[{key:\"reset\",value:function(){var t=this.edgeData,i=[],e=[],n=[],s=[],r=[],a=void 0,o=void 0,h=void 0,u=void 0;for(this.i=0,this.c=0,this.d=0,a=4>>(o=this.initialC),h=this.initialD;o<h;++o,a>>=1)(u=t.indices[o].length)>0&&(i.push(t.indices[o]),e.push(t.zeroCrossings[o]),n.push(t.normals[o]),s.push(X[a]),r.push(u),++this.d);return this.l=r.length>0?r[0]:0,this.indices=i,this.zeroCrossings=e,this.normals=n,this.axes=s,this.lengths=r,this.result.reset(),this}},{key:\"next\",value:function(){var t=this.cellSize,i=Ot.resolution,e=i+1,n=e*e,s=this.result,r=this.cellPosition,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;return this.i===this.l&&(this.l=++this.c<this.d?this.lengths[this.c]:0,this.i=0),this.i<this.l?(c=this.c,y=this.i,a=this.axes[c],o=this.indices[c][y],wt.index=o,h=o%e,u=Math.trunc(o%n/e),l=Math.trunc(o/n),wt.coordinates.set(h,u,l),zt.set(h*t/i,u*t/i,l*t/i),Mt.set((h+a[0])*t/i,(u+a[1])*t/i,(l+a[2])*t/i),wt.a.addVectors(r,zt),wt.b.addVectors(r,Mt),wt.t=this.zeroCrossings[c][y],wt.n.fromArray(this.normals[c],3*y),s.value=wt,++this.i):(s.value=null,s.done=!0),s}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),e}(),At=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:i;t(this,e),this.indices=i<=0?null:[new Uint32Array(i),new Uint32Array(n),new Uint32Array(s)],this.zeroCrossings=i<=0?null:[new Float32Array(i),new Float32Array(n),new Float32Array(s)],this.normals=i<=0?null:[new Float32Array(3*i),new Float32Array(3*n),new Float32Array(3*s)]}return i(e,[{key:\"serialize\",value:function(){return{edges:this.edges,zeroCrossings:this.zeroCrossings,normals:this.normals}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.edges=t.edges,this.zeroCrossings=t.zeroCrossings,this.normals=t.normals):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=[this.edges[0],this.edges[1],this.edges[2],this.zeroCrossings[0],this.zeroCrossings[1],this.zeroCrossings[2],this.normals[0],this.normals[1],this.normals[2]],e=void 0,n=void 0,s=void 0;for(n=0,s=i.length;n<s;++n)null!==(e=i[n])&&t.push(e.buffer);return t}},{key:\"edges\",value:function(t,i){return new bt(this,t,i)}},{key:\"edgesX\",value:function(t,i){return new bt(this,t,i,0,1)}},{key:\"edgesY\",value:function(t,i){return new bt(this,t,i,1,2)}},{key:\"edgesZ\",value:function(t,i){return new bt(this,t,i,2,3)}}],[{key:\"calculate1DEdgeCount\",value:function(t){return Math.pow(t+1,2)*t}}]),e}(),St={AIR:0,SOLID:1},Pt=0,Tt=0,It=0;var Ot=function(){function e(){var i=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];t(this,e),this.materials=0,this.materialIndices=i?new Uint8Array(It):null,this.runLengths=null,this.edgeData=null}return i(e,[{key:\"set\",value:function(t){return this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,this.edgeData=t.edgeData,this}},{key:\"clear\",value:function(){return this.materials=0,this.materialIndices=null,this.runLengths=null,this.edgeData=null,this}},{key:\"setMaterialIndex\",value:function(t,i){this.materialIndices[t]===St.AIR?i!==St.AIR&&++this.materials:i===St.AIR&&--this.materials,this.materialIndices[t]=i}},{key:\"compress\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this,i=void 0;return this.compressed?(t.materialIndices=this.materialIndices,t.runLengths=this.runLengths):(i=this.full?new a([this.materialIndices.length],[St.SOLID]):a.encode(this.materialIndices),t.materialIndices=new Uint8Array(i.data),t.runLengths=new Uint32Array(i.runLengths)),t.materials=this.materials,t}},{key:\"decompress\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this;return t.materialIndices=this.compressed?a.decode(this.runLengths,this.materialIndices,new Uint8Array(It)):this.materialIndices,t.runLengths=null,t.materials=this.materials,t}},{key:\"serialize\",value:function(){return{materials:this.materials,materialIndices:this.materialIndices,runLengths:this.runLengths,edgeData:null!==this.edgeData?this.edgeData.serialize():null}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,null!==t.edgeData?(null===this.edgeData&&(this.edgeData=new At),this.edgeData.deserialize(t.edgeData)):this.edgeData=null):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.edgeData&&this.edgeData.createTransferList(t),null!==this.materialIndices&&t.push(this.materialIndices.buffer),null!==this.runLengths&&t.push(this.runLengths.buffer),t}},{key:\"empty\",get:function(){return 0===this.materials}},{key:\"full\",get:function(){return this.materials===It}},{key:\"compressed\",get:function(){return null!==this.runLengths}},{key:\"neutered\",get:function(){return!this.empty&&null===this.materialIndices}}],[{key:\"isovalue\",get:function(){return Pt},set:function(t){Pt=t}},{key:\"resolution\",get:function(){return Tt},set:function(t){Tt=Math.max(1,Math.min(256,(i=t,Math.pow(2,Math.max(0,Math.ceil(Math.log2(i)))))));var i;It=Math.pow(Tt+1,3)}}]),e}(),_t=function(){function e(){t(this,e),this.ata=new B,this.ata.set(0,0,0,0,0,0),this.atb=new o,this.massPointSum=new o,this.numPoints=0}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.ata.copy(t),this.atb.copy(i),this.massPointSum.copy(e),this.numPoints=n,this}},{key:\"copy\",value:function(t){return this.set(t.ata,t.atb,t.massPointSum,t.numPoints)}},{key:\"add\",value:function(t,i){var e=i.x,n=i.y,s=i.z,r=t.dot(i),a=this.ata.elements,o=this.atb;a[0]+=e*e,a[1]+=e*n,a[3]+=n*n,a[2]+=e*s,a[4]+=n*s,a[5]+=s*s,o.x+=r*e,o.y+=r*n,o.z+=r*s,this.massPointSum.add(t),++this.numPoints}},{key:\"addData\",value:function(t){this.ata.add(t.ata),this.atb.add(t.atb),this.massPointSum.add(t.massPointSum),this.numPoints+=t.numPoints}},{key:\"clear\",value:function(){this.ata.set(0,0,0,0,0,0),this.atb.set(0,0,0),this.massPointSum.set(0,0,0),this.numPoints=0}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),e}(),Ct=new v,Ut=function(){function e(){t(this,e)}return i(e,null,[{key:\"calculateCoefficients\",value:function(t,i,e){var n=void 0,s=void 0,r=void 0;return 0===i?(Ct.x=1,Ct.y=0):(n=(e-t)/(2*i),s=Math.sqrt(1+n*n),r=1/(n>=0?n+s:n-s),Ct.x=1/Math.sqrt(1+r*r),Ct.y=r*Ct.x),Ct}}]),e}(),qt=function(){function e(){t(this,e)}return i(e,null,[{key:\"rotateXY\",value:function(t,i){var e=i.x,n=i.y,s=t.x,r=t.y;t.set(e*s-n*r,n*s+e*r)}},{key:\"rotateQXY\",value:function(t,i,e){var n=e.x,s=e.y,r=n*n,a=s*s,o=2*n*s*i,h=t.x,u=t.y;t.set(r*h-o+a*u,a*h+o+r*u)}}]),e}(),Ft=.1,Et=5,Dt=new B,Vt=new f,Nt=new v,Bt=new o;function Lt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[1]&&(s=Ut.calculateCoefficients(e[0],e[1],e[3]),qt.rotateQXY(Nt.set(e[0],e[3]),e[1],s),e[0]=Nt.x,e[3]=Nt.y,qt.rotateXY(Nt.set(e[2],e[4]),s),e[2]=Nt.x,e[4]=Nt.y,e[1]=0,qt.rotateXY(Nt.set(n[0],n[3]),s),n[0]=Nt.x,n[3]=Nt.y,qt.rotateXY(Nt.set(n[1],n[4]),s),n[1]=Nt.x,n[4]=Nt.y,qt.rotateXY(Nt.set(n[2],n[5]),s),n[2]=Nt.x,n[5]=Nt.y)}function Rt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[2]&&(s=Ut.calculateCoefficients(e[0],e[2],e[5]),qt.rotateQXY(Nt.set(e[0],e[5]),e[2],s),e[0]=Nt.x,e[5]=Nt.y,qt.rotateXY(Nt.set(e[1],e[4]),s),e[1]=Nt.x,e[4]=Nt.y,e[2]=0,qt.rotateXY(Nt.set(n[0],n[6]),s),n[0]=Nt.x,n[6]=Nt.y,qt.rotateXY(Nt.set(n[1],n[7]),s),n[1]=Nt.x,n[7]=Nt.y,qt.rotateXY(Nt.set(n[2],n[8]),s),n[2]=Nt.x,n[8]=Nt.y)}function jt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[4]&&(s=Ut.calculateCoefficients(e[3],e[4],e[5]),qt.rotateQXY(Nt.set(e[3],e[5]),e[4],s),e[3]=Nt.x,e[5]=Nt.y,qt.rotateXY(Nt.set(e[1],e[2]),s),e[1]=Nt.x,e[2]=Nt.y,e[4]=0,qt.rotateXY(Nt.set(n[3],n[6]),s),n[3]=Nt.x,n[6]=Nt.y,qt.rotateXY(Nt.set(n[4],n[7]),s),n[4]=Nt.x,n[7]=Nt.y,qt.rotateXY(Nt.set(n[5],n[8]),s),n[5]=Nt.x,n[8]=Nt.y)}function Yt(t){var i=Math.abs(t)<Ft?0:1/t;return Math.abs(i)<Ft?0:i}var Xt=function(){function e(){t(this,e)}return i(e,null,[{key:\"solve\",value:function(t,i,e){var n=function(t,i){var e=t.elements,n=void 0;for(n=0;n<Et;++n)Lt(t,i),Rt(t,i),jt(t,i);return Bt.set(e[0],e[3],e[5])}(Dt.copy(t),Vt.identity()),s=function(t,i){var e=t.elements,n=e[0],s=e[3],r=e[6],a=e[1],o=e[4],h=e[7],u=e[2],l=e[5],c=e[8],y=Yt(i.x),v=Yt(i.y),d=Yt(i.z);return t.set(n*y*n+s*v*s+r*d*r,n*y*a+s*v*o+r*d*h,n*y*u+s*v*l+r*d*c,a*y*n+o*v*s+h*d*r,a*y*a+o*v*o+h*d*h,a*y*u+o*v*l+h*d*c,u*y*n+l*v*s+c*d*r,u*y*a+l*v*o+c*d*h,u*y*u+l*v*l+c*d*c)}(Vt,n);e.copy(i).applyMatrix3(s)}}]),e}(),Qt=new o;var Gt=function(){function e(){t(this,e),this.data=null,this.ata=new B,this.atb=new o,this.massPoint=new o,this.hasSolution=!1}return i(e,[{key:\"setData\",value:function(t){return this.data=t,this.hasSolution=!1,this}},{key:\"solve\",value:function(t){var i=this.data,e=this.massPoint,n=this.ata.copy(i.ata),s=this.atb.copy(i.atb),r=1/0;!this.hasSolution&&null!==i&&i.numPoints>0&&(Qt.copy(i.massPointSum).divideScalar(i.numPoints),e.copy(Qt),n.applyToVector3(Qt),s.sub(Qt),Xt.solve(n,s,t),a=s,o=t,n.applyToVector3(Qt.copy(o)),Qt.subVectors(a,Qt),r=Qt.dot(Qt),t.add(e),this.hasSolution=!0);var a,o;return r}}]),e}(),Ht=function i(){t(this,i),this.materials=0,this.edgeCount=0,this.index=-1,this.position=new o,this.normal=new o,this.qefData=null},Zt=new Gt,Jt=-1,Kt=function(e){n(r,H);function r(i,e){t(this,r);var n=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this,i,e));return n.voxel=null,n}return i(r,[{key:\"contains\",value:function(t){var i=this.min,e=this.size;return t.x>=i.x-.1&&t.y>=i.y-.1&&t.z>=i.z-.1&&t.x<=i.x+e+.1&&t.y<=i.y+e+.1&&t.z<=i.z+e+.1}},{key:\"collapse\",value:function(){var t=this.children,i=[-1,-1,-1,-1,-1,-1,-1,-1],e=new o,n=-1,s=null!==t,r=0,a=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;if(s){for(l=new _t,c=0,y=0;y<8;++y)r+=(a=t[y]).collapse(),u=a.voxel,null!==a.children?s=!1:null!==u&&(l.addData(u.qefData),n=u.materials>>7-y&1,i[y]=u.materials>>y&1,++c);if(s&&Zt.setData(l).solve(e)<=Jt){for((u=new Ht).position.copy(this.contains(e)?e:Zt.massPoint),y=0;y<8;++y)h=i[y],a=t[y],-1===h?u.materials|=n<<y:(u.materials|=h<<y,u.normal.add(a.voxel.normal));u.normal.normalize(),u.qefData=l,this.voxel=u,this.children=null,r+=c-1}}return r}}],[{key:\"errorThreshold\",get:function(){return Jt},set:function(t){Jt=t}}]),r}(),Wt=function i(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;t(this,i),this.action=e,this.error=null},$t=function(){function e(i,n,s,r,a){t(this,e),this.indices=i,this.positions=n,this.normals=s,this.uvs=r,this.materials=a}return i(e,[{key:\"serialize\",value:function(){return{indices:this.indices,positions:this.positions,normals:this.normals,uvs:this.uvs,materials:this.materials}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.indices=t.indices,this.positions=t.positions,this.normals=t.normals,this.uvs=t.uvs,this.materials=t.materials):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.push(this.indices.buffer),t.push(this.positions.buffer),t.push(this.normals.buffer),t.push(this.uvs.buffer),t.push(this.materials.buffer),t}}]),e}(),ti=[new Uint8Array([0,4,0]),new Uint8Array([1,5,0]),new Uint8Array([2,6,0]),new Uint8Array([3,7,0]),new Uint8Array([0,2,1]),new Uint8Array([4,6,1]),new Uint8Array([1,3,1]),new Uint8Array([5,7,1]),new Uint8Array([0,1,2]),new Uint8Array([2,3,2]),new Uint8Array([4,5,2]),new Uint8Array([6,7,2])],ii=[new Uint8Array([0,1,2,3,0]),new Uint8Array([4,5,6,7,0]),new Uint8Array([0,4,1,5,1]),new Uint8Array([2,6,3,7,1]),new Uint8Array([0,2,4,6,2]),new Uint8Array([1,3,5,7,2])],ei=[[new Uint8Array([4,0,0]),new Uint8Array([5,1,0]),new Uint8Array([6,2,0]),new Uint8Array([7,3,0])],[new Uint8Array([2,0,1]),new Uint8Array([6,4,1]),new Uint8Array([3,1,1]),new Uint8Array([7,5,1])],[new Uint8Array([1,0,2]),new Uint8Array([3,2,2]),new Uint8Array([5,4,2]),new Uint8Array([7,6,2])]],ni=[[new Uint8Array([1,4,0,5,1,1]),new Uint8Array([1,6,2,7,3,1]),new Uint8Array([0,4,6,0,2,2]),new Uint8Array([0,5,7,1,3,2])],[new Uint8Array([0,2,3,0,1,0]),new Uint8Array([0,6,7,4,5,0]),new Uint8Array([1,2,0,6,4,2]),new Uint8Array([1,3,1,7,5,2])],[new Uint8Array([1,1,0,3,2,0]),new Uint8Array([1,5,4,7,6,0]),new Uint8Array([0,1,5,0,4,1]),new Uint8Array([0,3,7,2,6,1])]],si=[[new Uint8Array([3,2,1,0,0]),new Uint8Array([7,6,5,4,0])],[new Uint8Array([5,1,4,0,1]),new Uint8Array([7,3,6,2,1])],[new Uint8Array([6,4,2,0,2]),new Uint8Array([7,5,3,1,2])]],ri=[new Uint8Array([3,2,1,0]),new Uint8Array([7,5,6,4]),new Uint8Array([11,10,9,8])],ai=Math.pow(2,16)-1;function oi(t,i,e){var n=[0,0,0,0],s=void 0,r=void 0,a=void 0,o=void 0;if(null!==t[0].voxel&&null!==t[1].voxel&&null!==t[2].voxel&&null!==t[3].voxel)!function(t,i,e){var n=[-1,-1,-1,-1],s=[!1,!1,!1,!1],r=1/0,a=0,o=!1,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0;for(d=0;d<4;++d)y=t[d],v=ri[i][d],h=Q[v][0],u=Q[v][1],l=y.voxel.materials>>h&1,c=y.voxel.materials>>u&1,y.size<r&&(r=y.size,a=d,o=l!==St.AIR),n[d]=y.voxel.index,s[d]=l!==c;s[a]&&(o?(e.push(n[0]),e.push(n[3]),e.push(n[1]),e.push(n[0]),e.push(n[2]),e.push(n[3])):(e.push(n[0]),e.push(n[1]),e.push(n[3]),e.push(n[0]),e.push(n[3]),e.push(n[2])))}(t,i,e);else for(a=0;a<2;++a){for(n[0]=si[i][a][0],n[1]=si[i][a][1],n[2]=si[i][a][2],n[3]=si[i][a][3],s=[],o=0;o<4;++o)if(null!==(r=t[o]).voxel)s[o]=r;else{if(null===r.children)break;s[o]=r.children[n[o]]}4===o&&oi(s,si[i][a][4],e)}}function hi(t,i,e){var n=[0,0,0,0],s=[[0,0,1,1],[0,1,0,1]],r=void 0,a=void 0,o=void 0,h=void 0,u=void 0;if(null!==t[0].children||null!==t[1].children){for(h=0;h<4;++h)n[0]=ei[i][h][0],n[1]=ei[i][h][1],hi([null===t[0].children?t[0]:t[0].children[n[0]],null===t[1].children?t[1]:t[1].children[n[1]]],ei[i][h][2],e);for(h=0;h<4;++h){for(n[0]=ni[i][h][1],n[1]=ni[i][h][2],n[2]=ni[i][h][3],n[3]=ni[i][h][4],a=s[ni[i][h][0]],r=[],u=0;u<4;++u)if(null!==(o=t[a[u]]).voxel)r[u]=o;else{if(null===o.children)break;r[u]=o.children[n[u]]}4===u&&oi(r,ni[i][h][5],e)}}}var ui=function(){function e(){t(this,e)}return i(e,null,[{key:\"run\",value:function(t){var i=[],e=t.voxelCount,n=null,s=null,r=null,a=null,o=null;return e>ai?console.warn(\"Could not create geometry for cell at position\",t.min,\"(vertex count of\",e,\"exceeds limit of \",ai,\")\"):e>0&&(s=new Float32Array(3*e),r=new Float32Array(3*e),a=new Float32Array(2*e),o=new Uint8Array(e),function t(i,e,n,s){var r=void 0,a=void 0;if(null!==i.children)for(r=0;r<8;++r)s=t(i.children[r],e,n,s);else null!==i.voxel&&((a=i.voxel).index=s,e[3*s]=a.position.x,e[3*s+1]=a.position.y,e[3*s+2]=a.position.z,n[3*s]=a.normal.x,n[3*s+1]=a.normal.y,n[3*s+2]=a.normal.z,++s);return s}(t.root,s,r,0),function t(i,e){var n=i.children,s=[0,0,0,0],r=void 0;if(null!==n){for(r=0;r<8;++r)t(n[r],e);for(r=0;r<12;++r)s[0]=ti[r][0],s[1]=ti[r][1],hi([n[s[0]],n[s[1]]],ti[r][2],e);for(r=0;r<6;++r)s[0]=ii[r][0],s[1]=ii[r][1],s[2]=ii[r][2],s[3]=ii[r][3],oi([n[s[0]],n[s[1]],n[s[2]],n[s[3]]],ii[r][4],e)}}(t.root,i),n=new $t(new Uint16Array(i),s,r,a,o)),n}}]),e}();function li(t,i,e,n,s){var r=0;for(i>>=1;i>0;i>>=1,r=0)e>=i&&(r+=4,e-=i),n>=i&&(r+=2,n-=i),s>=i&&(r+=1,s-=i),null===t.children&&t.split(),t=t.children[r];return t}function ci(t,i,e,n,s){var r=t+1,a=r*r,o=new Ht,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;for(h=0,y=0;y<8;++y)c=(n+(l=X[y])[2])*a+(e+l[1])*r+(i+l[0]),h|=Math.min(s[c],St.SOLID)<<y;for(u=0,y=0;y<12;++y)(h>>Q[y][0]&1)!==(h>>Q[y][1]&1)&&++u;return o.materials=h,o.edgeCount=u,o.qefData=new _t,o}var yi=function(e){n(r,rt);function r(i){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1;t(this,r);var a=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this));return a.root=new Kt(e,n),a.voxelCount=0,null!==i&&null!==i.edgeData&&a.construct(i),Kt.errorThreshold>=0&&a.simplify(),a}return i(r,[{key:\"simplify\",value:function(){this.voxelCount-=this.root.collapse()}},{key:\"construct\",value:function(t){var i=Ot.resolution,e=t.edgeData,n=t.materialIndices,s=new Gt,r=new o,a=[e.edgesX(this.min,this.root.size),e.edgesY(this.min,this.root.size),e.edgesZ(this.min,this.root.size)],h=[new Uint8Array([0,1,2,3]),new Uint8Array([0,1,4,5]),new Uint8Array([0,2,4,6])],u=0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0;for(k=0;k<3;++k){y=h[k],l=a[k];var w=!0,z=!1,M=void 0;try{for(var b,A=l[Symbol.iterator]();!(w=(b=A.next()).done);w=!0)for((c=b.value).computeZeroCrossingPosition(r),g=0;g<4;++g)v=X[y[g]],m=c.coordinates.x-v[0],x=c.coordinates.y-v[1],p=c.coordinates.z-v[2],m>=0&&x>=0&&p>=0&&m<i&&x<i&&p<i&&(null===(d=li(this.root,i,m,x,p)).voxel&&(d.voxel=ci(i,m,x,p,n),++u),(f=d.voxel).normal.add(c.n),f.qefData.add(r,c.n),f.qefData.numPoints===f.edgeCount&&(s.setData(f.qefData).solve(f.position),d.contains(f.position)||f.position.copy(s.massPoint),f.normal.normalize()))}catch(t){z=!0,M=t}finally{try{!w&&A.return&&A.return()}finally{if(z)throw M}}}this.voxelCount=u}}]),r}(),vi={EXTRACT:\"worker.extract\",MODIFY:\"worker.modify\",CONFIGURE:\"worker.config\",CLOSE:\"worker.close\"},di=function(i){n(e,Wt);function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;t(this,e);var n=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,i));return n.data=null,n}return e}(),fi=function(i){n(e,di);function e(){t(this,e);var i=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,vi.EXTRACT));return i.isosurface=null,i}return e}(),mi=new Ot(!1),xi=function(){function e(){t(this,e),this.data=null,this.response=null}return i(e,[{key:\"getData\",value:function(){return this.data}},{key:\"respond\",value:function(){return this.response.data=this.data.serialize(),this.response}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.data&&this.data.createTransferList(t),t}},{key:\"process\",value:function(t){return this.data=mi.deserialize(t.data),this}}]),e}(),pi=function(r){n(a,xi);function a(){t(this,a);var i=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return i.response=new fi,i.decompressionTarget=new Ot(!1),i.isosurface=null,i}return i(a,[{key:\"respond\",value:function(){var t=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"respond\",this).call(this);return t.isosurface=null!==this.isosurface?this.isosurface.serialise():null,t}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"createTransferList\",this).call(this,t),null!==this.isosurface?this.isosurface.createTransferList(t):t}},{key:\"process\",value:function(t){var i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"process\",this).call(this,t).getData(),n=new yi(i.decompress(this.decompressionTarget));return this.isosurface=ui.run(n),this.decompressionTarget.clear(),this}}]),a}(),ki={UNION:\"csg.union\",DIFFERENCE:\"csg.difference\",INTERSECTION:\"csg.intersection\",DENSITY_FUNCTION:\"csg.densityfunction\"},gi=function(){function e(i){t(this,e),this.type=i;for(var n=arguments.length,s=Array(n>1?n-1:0),r=1;r<n;r++)s[r-1]=arguments[r];this.children=s,this.boundingBox=null}return i(e,[{key:\"getBoundingBox\",value:function(){return null===this.boundingBox&&(this.boundingBox=this.computeBoundingBox()),this.boundingBox}},{key:\"computeBoundingBox\",value:function(){var t=this.children,i=new l,e=void 0,n=void 0;for(e=0,n=t.length;e<n;++e)i.union(t[e].getBoundingBox());return i}}]),e}(),wi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.UNION].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){var n=e.materialIndices[t];n!==St.AIR&&i.setMaterialIndex(t,n)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t>i.t?t:i:t.t<i.t?t:i}}]),r}(),zi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.DIFFERENCE].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){e.materialIndices[t]!==St.AIR&&i.setMaterialIndex(t,St.AIR)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t<i.t?t:i:t.t>i.t?t:i}}]),r}(),Mi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.INTERSECTION].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){var n=e.materialIndices[t];i.setMaterialIndex(t,i.materialIndices[t]!==St.AIR&&n!==St.AIR?n:St.AIR)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t<i.t?t:i:t.t>i.t?t:i}}]),r}(),bi=0,Ai=new o;function Si(t,i,e){var n=function(t){var i=bi,e=Ot.resolution,n=new o(0,0,0),s=new o(e,e,e),r=new l(Ai,Ai.clone().addScalar(bi)),a=t.getBoundingBox();return t.type!==ki.INTERSECTION&&(a.intersectsBox(r)?(n.copy(a.min).max(r.min).sub(r.min),n.x=Math.ceil(n.x*e/i),n.y=Math.ceil(n.y*e/i),n.z=Math.ceil(n.z*e/i),s.copy(a.max).min(r.max).sub(r.min),s.x=Math.floor(s.x*e/i),s.y=Math.floor(s.y*e/i),s.z=Math.floor(s.z*e/i)):(n.set(e,e,e),s.set(0,0,0))),new l(n,s)}(t),s=void 0,r=void 0,a=void 0,h=void 0,u=!1;if(t.type===ki.DENSITY_FUNCTION?function(t,i,e){var n=bi,s=Ot.resolution,r=s+1,a=r*r,h=i.materialIndices,u=Ai,l=new o,c=new o,y=e.max.x,v=e.max.y,d=e.max.z,f=void 0,m=0,x=void 0,p=void 0,k=void 0;for(k=e.min.z;k<=d;++k)for(l.z=k*n/s,p=e.min.y;p<=v;++p)for(l.y=p*n/s,x=e.min.x;x<=y;++x)l.x=x*n/s,(f=t.generateMaterialIndex(c.addVectors(u,l)))!==St.AIR&&(h[k*a+p*r+x]=f,++m);i.materials=m}(t,i,n):i.empty?t.type===ki.UNION&&(i.set(e),u=!0):i.full&&t.type===ki.UNION||function(t,i,e,n){var s=Ot.resolution+1,r=s*s,a=n.max.x,o=n.max.y,h=n.max.z,u=void 0,l=void 0,c=void 0;for(c=n.min.z;c<=h;++c)for(l=n.min.y;l<=o;++l)for(u=n.min.x;u<=a;++u)t.updateMaterialIndex(c*r+l*s+u,i,e)}(t,i,e,n),!u&&!i.empty&&!i.full){for(r=(s=t.type===ki.DENSITY_FUNCTION?function(t,i,e){var n=bi,s=Ot.resolution,r=s+1,a=r*r,h=new Uint32Array([1,r,a]),u=i.materialIndices,l=Ai,c=new o,y=new o,v=new gt,d=new Uint32Array(3),f=new At(At.calculate1DEdgeCount(s)),m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0,I=void 0,O=void 0,_=void 0,C=void 0,U=void 0,q=void 0;for(O=4,T=0,I=0;I<3;O>>=1,T=0,++I){switch(_=X[O],m=f.indices[I],x=f.zeroCrossings[I],p=f.normals[I],k=h[I],z=e.min.x,A=e.max.x,M=e.min.y,S=e.max.y,b=e.min.z,P=e.max.z,I){case 0:z=Math.max(z-1,0),A=Math.min(A,s-1);break;case 1:M=Math.max(M-1,0),S=Math.min(S,s-1);break;case 2:b=Math.max(b-1,0),P=Math.min(P,s-1)}for(q=b;q<=P;++q)for(U=M;U<=S;++U)for(C=z;C<=A;++C)w=(g=q*a+U*r+C)+k,u[g]!==u[w]&&(c.set(C*n/s,U*n/s,q*n/s),y.set((C+_[0])*n/s,(U+_[1])*n/s,(q+_[2])*n/s),v.a.addVectors(l,c),v.b.addVectors(l,y),t.generateEdge(v),m[T]=g,x[T]=v.t,p[3*T]=v.n.x,p[3*T+1]=v.n.y,p[3*T+2]=v.n.z,++T);d[I]=T}return{edgeData:f,lengths:d}}(t,i,n):function(t,i,e){var n=Ot.resolution,s=n+1,r=new Uint32Array([1,s,s*s]),a=i.materialIndices,o=new gt,h=new gt,u=e.edgeData,l=i.edgeData,c=new Uint32Array(3),y=At.calculate1DEdgeCount(n),v=new At(Math.min(y,l.indices[0].length+u.indices[0].length),Math.min(y,l.indices[1].length+u.indices[1].length),Math.min(y,l.indices[2].length+u.indices[2].length)),d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0,I=void 0,O=void 0,_=void 0,C=void 0,U=void 0,q=void 0,F=void 0,E=void 0;for(_=0,C=0;C<3;_=0,++C){for(d=u.indices[C],x=l.indices[C],g=v.indices[C],f=u.zeroCrossings[C],p=l.zeroCrossings[C],w=v.zeroCrossings[C],m=u.normals[C],k=l.normals[C],z=v.normals[C],M=r[C],F=d.length,E=x.length,U=0,q=0;U<F;++U)if(A=(b=d[U])+M,(T=a[b])!==(I=a[A])&&(T===St.AIR||I===St.AIR)){for(o.t=f[U],o.n.x=m[3*U],o.n.y=m[3*U+1],o.n.z=m[3*U+2],t.type===ki.DIFFERENCE&&o.n.negate(),O=o;q<E&&x[q]<=b;)P=(S=x[q])+M,h.t=p[q],h.n.x=k[3*q],h.n.y=k[3*q+1],h.n.z=k[3*q+2],T=a[S],S<b?T===(I=a[P])||T!==St.AIR&&I!==St.AIR||(g[_]=S,w[_]=h.t,z[3*_]=h.n.x,z[3*_+1]=h.n.y,z[3*_+2]=h.n.z,++_):O=t.selectEdge(h,o,T===St.SOLID),++q;g[_]=b,w[_]=O.t,z[3*_]=O.n.x,z[3*_+1]=O.n.y,z[3*_+2]=O.n.z,++_}for(;q<E;)P=(S=x[q])+M,(T=a[S])===(I=a[P])||T!==St.AIR&&I!==St.AIR||(g[_]=S,w[_]=p[q],z[3*_]=k[3*q],z[3*_+1]=k[3*q+1],z[3*_+2]=k[3*q+2],++_),++q;c[C]=_}return{edgeData:v,lengths:c}}(t,i,e)).edgeData,a=s.lengths,h=0;h<3;++h)r.indices[h]=r.indices[h].slice(0,a[h]),r.zeroCrossings[h]=r.zeroCrossings[h].slice(0,a[h]),r.normals[h]=r.normals[h].slice(0,3*a[h]);i.edgeData=r}}var Pi=function(){function e(){t(this,e)}return i(e,null,[{key:\"run\",value:function(t,i,e,n){Ai.fromArray(t),bi=i,null===e?n.operation===ki.UNION&&(e=new Ot(!1)):e.decompress();var s=n.toCSG(),r=null!==e?function t(i){var e=i.children,n=void 0,s=void 0,r=void 0,a=void 0;for(i.type===ki.DENSITY_FUNCTION&&Si(i,n=new Ot),r=0,a=e.length;r<a&&(s=t(e[r]),void 0===n?n=s:null!==s?null===n?i.type===ki.UNION&&(n=s):Si(i,n,s):i.type===ki.INTERSECTION&&(n=null),null!==n||i.type===ki.UNION);++r);return null!==n&&n.empty?null:n}(s):null;if(null!==r){switch(n.operation){case ki.UNION:s=new wi(s);break;case ki.DIFFERENCE:s=new zi(s);break;case ki.INTERSECTION:s=new Mi(s)}Si(s,e,r),e.contoured=!1}return null!==e&&e.empty?null:e}}]),e}(),Ti=function(e){n(r,gi);function r(i){t(this,r);var e=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this,ki.DENSITY_FUNCTION));return e.sdf=i,e}return i(r,[{key:\"computeBoundingBox\",value:function(){return this.sdf.getBoundingBox(!0)}},{key:\"generateMaterialIndex\",value:function(t){return this.sdf.sample(t)<=Ot.isovalue?this.sdf.material:St.AIR}},{key:\"generateEdge\",value:function(t){t.approximateZeroCrossing(this.sdf),t.computeSurfaceNormal(this.sdf)}}]),r}(),Ii=new D,Oi=function(){function e(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:St.SOLID;t(this,e),this.type=i,this.operation=null,this.material=Math.min(255,Math.max(St.SOLID,Math.trunc(n))),this.boundingBox=null,this.position=new o,this.quaternion=new M,this.scale=new o(1,1,1),this.inverseTransformation=new D,this.updateInverseTransformation(),this.children=[]}return i(e,[{key:\"getTransformation\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new D).compose(this.position,this.quaternion,this.scale)}},{key:\"getBoundingBox\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=this.children,e=this.boundingBox,n=void 0,s=void 0;if(null===e&&(e=this.computeBoundingBox(),this.boundingBox=e),t)for(e=e.clone(),n=0,s=i.length;n<s;++n)e.union(i[n].getBoundingBox(t));return e}},{key:\"setMaterial\",value:function(t){return this.material=Math.min(255,Math.max(St.SOLID,Math.trunc(t))),this}},{key:\"setOperationType\",value:function(t){return this.operation=t,this}},{key:\"updateInverseTransformation\",value:function(){return this.inverseTransformation.getInverse(this.getTransformation(Ii)),this.boundingBox=null,this}},{key:\"union\",value:function(t){return this.children.push(t.setOperationType(ki.UNION)),this}},{key:\"subtract\",value:function(t){return this.children.push(t.setOperationType(ki.DIFFERENCE)),this}},{key:\"intersect\",value:function(t){return this.children.push(t.setOperationType(ki.INTERSECTION)),this}},{key:\"toCSG\",value:function(){var t=this.children,i=new Ti(this),e=void 0,n=void 0,s=void 0,r=void 0;for(s=0,r=t.length;s<r;++s){if(e!==(n=t[s]).operation)switch(e=n.operation){case ki.UNION:i=new wi(i);break;case ki.DIFFERENCE:i=new zi(i);break;case ki.INTERSECTION:i=new Mi(i)}i.children.push(n.toCSG())}return i}},{key:\"serialize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i={type:this.type,operation:this.operation,material:this.material,position:this.position.toArray(),quaternion:this.quaternion.toArray(),scale:this.scale.toArray(),parameters:null,children:[]},e=void 0,n=void 0;for(e=0,n=this.children.length;e<n;++e)i.children.push(this.children[e].serialize(t));return i}},{key:\"createTransferList\",value:function(){return arguments.length>0&&void 0!==arguments[0]?arguments[0]:[]}},{key:\"toJSON\",value:function(){return this.serialize(!0)}},{key:\"computeBoundingBox\",value:function(){throw new Error(\"SignedDistanceFunction#computeBoundingBox method not implemented!\")}},{key:\"sample\",value:function(t){throw new Error(\"SignedDistanceFunction#sample method not implemented!\")}}]),e}(),_i={HEIGHTFIELD:\"sdf.heightfield\",FRACTAL_NOISE:\"sdf.fractalnoise\",SUPER_PRIMITIVE:\"sdf.superprimitive\"},Ci=function(a){n(h,Oi);function h(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,h);var n=s(this,(h.__proto__||Object.getPrototypeOf(h)).call(this,_i.PERLIN_NOISE,e));return n.min=new(Function.prototype.bind.apply(o,[null].concat(r(i.min)))),n.max=new(Function.prototype.bind.apply(o,[null].concat(r(i.max)))),n}return i(h,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new l(this.min,this.max),this.bbox}},{key:\"sample\",value:function(t){}},{key:\"serialize\",value:function(){var t=e(h.prototype.__proto__||Object.getPrototypeOf(h.prototype),\"serialize\",this).call(this);return t.parameters={min:this.min.toArray(),max:this.max.toArray()},t}}]),h}();var Ui=function(r){n(a,Oi);function a(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,a);var n=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this,_i.HEIGHTFIELD,e));return n.width=void 0!==i.width?i.width:1,n.height=void 0!==i.height?i.height:1,n.smooth=void 0===i.smooth||i.smooth,n.data=void 0!==i.data?i.data:null,n.heightmap=null,void 0!==i.image&&n.fromImage(i.image),n}return i(a,[{key:\"fromImage\",value:function(t){var i=\"undefined\"==typeof document?null:function(t){var i=document.createElementNS(\"http://www.w3.org/1999/xhtml\",\"canvas\"),e=i.getContext(\"2d\");return i.width=t.width,i.height=t.height,e.drawImage(t,0,0),e.getImageData(0,0,t.width,t.height)}(t),e=null,n=void 0,s=void 0,r=void 0,a=void 0;if(null!==i){for(n=i.data,s=0,r=0,a=(e=new Uint8ClampedArray(n.length/4)).length;s<a;++s,r+=4)e[s]=n[r];this.heightmap=t,this.width=i.width,this.height=i.height,this.data=e}return this}},{key:\"getHeight\",value:function(t,i){var e=this.width,n=this.height,s=this.data,r=void 0;if(t=Math.round(t*e),i=Math.round(i*n),this.smooth){var a=(t=Math.max(Math.min(t,e-1),1))+1,o=t-1,h=(i=Math.max(Math.min(i,n-1),1))*e,u=h+e,l=h-e;r=(s[l+o]+s[l+t]+s[l+a]+s[h+o]+s[h+t]+s[h+a]+s[u+o]+s[u+t]+s[u+a])/9}else r=s[i*e+t];return r}},{key:\"computeBoundingBox\",value:function(){var t=new l,i=Math.min(this.width/this.height,1),e=Math.min(this.height/this.width,1);return t.min.set(0,0,0),t.max.set(i,1,e),t.applyMatrix4(this.getTransformation()),t}},{key:\"sample\",value:function(t){var i=this.boundingBox,e=void 0;return i.containsPoint(t)?(t.applyMatrix4(this.inverseTransformation),e=t.y-this.getHeight(t.x,t.z)/255):e=i.distanceToPoint(t),e}},{key:\"serialize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"serialize\",this).call(this);return i.parameters={width:this.width,height:this.height,smooth:this.smooth,data:t?null:this.data,dataURL:t&&null!==this.heightmap?this.heightmap.toDataURL():null,image:null},i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.push(this.data.buffer),t}}]),a}(),qi=function(a){n(h,Oi);function h(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,h);var n=s(this,(h.__proto__||Object.getPrototypeOf(h)).call(this,_i.SUPER_PRIMITIVE,e));return n.s0=new(Function.prototype.bind.apply(L,[null].concat(r(i.s)))),n.r0=new(Function.prototype.bind.apply(o,[null].concat(r(i.r)))),n.s=new L,n.r=new o,n.ba=new v,n.offset=0,n.precompute(),n}return i(h,[{key:\"setSize\",value:function(t,i,e,n){return this.s0.set(t,i,e,n),this.precompute()}},{key:\"setRadii\",value:function(t,i,e){return this.r0.set(t,i,e),this.precompute()}},{key:\"precompute\",value:function(){var t=this.s.copy(this.s0),i=this.r.copy(this.r0),e=this.ba;t.x-=i.x,t.y-=i.x,i.x-=t.w,t.w-=i.y,t.z-=i.y,this.offset=-2*t.z,e.set(i.z,this.offset);var n=e.dot(e);return 0===n?e.set(0,-1):e.divideScalar(n),this}},{key:\"computeBoundingBox\",value:function(){var t=this.s0,i=new l;return i.min.x=Math.min(-t.x,-1),i.min.y=Math.min(-t.y,-1),i.min.z=Math.min(-t.z,-1),i.max.x=Math.max(t.x,1),i.max.y=Math.max(t.y,1),i.max.z=Math.max(t.z,1),i.applyMatrix4(this.getTransformation()),i}},{key:\"sample\",value:function(t){t.applyMatrix4(this.inverseTransformation);var i=this.s,e=this.r,n=this.ba,s=Math.abs(t.x)-i.x,r=Math.abs(t.y)-i.y,a=Math.abs(t.z)-i.z,o=Math.max(s,0),h=Math.max(r,0),u=Math.sqrt(o*o+h*h),l=t.z-i.z,c=Math.abs(u+Math.min(0,Math.max(s,r))-e.x)-i.w,y=Math.min(Math.max(c*n.x+l*n.y,0),1),v=c-e.z*y,d=l-this.offset*y,f=Math.max(c-e.z,0),m=t.z+i.z,x=Math.max(c,0),p=v*v+d*d,k=f*f+m*m,g=x*x+l*l,w=c*-n.y+l*n.x;return Math.sqrt(Math.min(p,Math.min(k,g)))*Math.sign(Math.max(w,a))-e.y}},{key:\"serialize\",value:function(){var t=e(h.prototype.__proto__||Object.getPrototypeOf(h.prototype),\"serialize\",this).call(this);return t.parameters={s:this.s0.toArray(),r:this.r0.toArray()},t}}],[{key:\"create\",value:function(t){var i=Fi[t];return new h({s:i[0],r:i[1]})}}]),h}(),Fi=[[new Float32Array([1,1,1,1]),new Float32Array([0,0,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,0,0])],[new Float32Array([0,0,1,1]),new Float32Array([0,0,1])],[new Float32Array([1,1,2,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,.25,1]),new Float32Array([1,.25,0])],[new Float32Array([1,1,.25,.25]),new Float32Array([1,.25,0])],[new Float32Array([1,1,1,.25]),new Float32Array([1,.1,0])],[new Float32Array([1,1,1,.25]),new Float32Array([.1,.1,0])]],Ei=function(){function e(){t(this,e)}return i(e,[{key:\"revive\",value:function(t){var i=void 0,e=void 0,n=void 0;switch(t.type){case _i.FRACTAL_NOISE:i=new Ci(t.parameters,t.material);break;case _i.HEIGHTFIELD:i=new Ui(t.parameters,t.material);break;case _i.SUPER_PRIMITIVE:i=new qi(t.parameters,t.material)}for(i.operation=t.operation,i.position.fromArray(t.position),i.quaternion.fromArray(t.quaternion),i.scale.fromArray(t.scale),i.updateInverseTransformation(),e=0,n=t.children.length;e<n;++e)i.children.push(this.revive(t.children[e]));return i}}]),e}(),Di=function(i){n(e,di);function e(){t(this,e);var i=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,vi.MODIFY));return i.sdf=null,i}return e}(),Vi=new(function(r){n(a,xi);function a(){t(this,a);var i=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return i.response=new Di,i.sdf=null,i}return i(a,[{key:\"respond\",value:function(){var t=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"respond\",this).call(this);return t.sdf=null!==this.sdf?this.sdf.serialize():null,t}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"createTransferList\",this).call(this,t),null!==this.sdf?this.sdf.createTransferList(t):t}},{key:\"process\",value:function(t){var i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"process\",this).call(this,t).getData(),n=this.sdf=Ei.revive(t.sdf),s=Pi.run(t.cellPosition,t.cellSize,i,n);return function t(i,e,n,s){var r=Object.getOwnPropertyDescriptor(i,e);if(void 0===r){var a=Object.getPrototypeOf(i);null!==a&&t(a,e,n,s)}else if(\"value\"in r&&r.writable)r.value=n;else{var o=r.set;void 0!==o&&o.call(s,n)}return n}(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"data\",null!==s?s.compress():null,this),this}}]),a}()),Ni=new pi,Bi=null;self.addEventListener(\"message\",function(t){var i=t.data;switch(Bi=i.action){case vi.MODIFY:postMessage(Vi.process(i).respond(),Vi.createTransferList());break;case vi.EXTRACT:postMessage(Ni.process(i).respond(),Ni.createTransferList());break;case vi.CONFIGURE:Ot.resolution=i.resolution,Kt.errorThreshold=i.errorThreshold;break;case vi.CLOSE:default:close()}}),self.addEventListener(\"error\",function(t){var i=Bi===vi.MODIFY?Vi:Bi===vi.EXTRACT?Ni:null,e=void 0;null!==i?((e=i.respond()).action=vi.CLOSE,e.error=t,postMessage(e,i.createTransferList())):((e=new Wt(vi.CLOSE)).error=t,postMessage(e)),close()})}();";
+  var worker = "!function(){\"use strict\";var t=function(t,i){if(!(t instanceof i))throw new TypeError(\"Cannot call a class as a function\")},i=function(){function t(t,i){for(var e=0;e<i.length;e++){var n=i[e];n.enumerable=n.enumerable||!1,n.configurable=!0,\"value\"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(i,e,n){return e&&t(i.prototype,e),n&&t(i,n),i}}(),e=function t(i,e,n){null===i&&(i=Function.prototype);var s=Object.getOwnPropertyDescriptor(i,e);if(void 0===s){var r=Object.getPrototypeOf(i);return null===r?void 0:t(r,e,n)}if(\"value\"in s)return s.value;var a=s.get;if(void 0!==a)return a.call(n)},n=function(t,i){if(\"function\"!=typeof i&&null!==i)throw new TypeError(\"Super expression must either be null or a function, not \"+typeof i);t.prototype=Object.create(i&&i.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),i&&(Object.setPrototypeOf?Object.setPrototypeOf(t,i):t.__proto__=i)},s=function(t,i){if(!t)throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");return!i||\"object\"!=typeof i&&\"function\"!=typeof i?t:i},r=function(t){if(Array.isArray(t)){for(var i=0,e=Array(t.length);i<t.length;i++)e[i]=t[i];return e}return Array.from(t)},a=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;t(this,e),this.runLengths=i,this.data=n}return i(e,null,[{key:\"encode\",value:function(t){var i=[],n=[],s=t[0],r=1,a=void 0,o=void 0;for(a=1,o=t.length;a<o;++a)s!==t[a]?(i.push(r),n.push(s),s=t[a],r=1):++r;return i.push(r),n.push(s),new e(i,n)}},{key:\"decode\",value:function(t,i){var e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[],n=void 0,s=void 0,r=void 0,a=void 0,o=void 0,h=0;for(s=0,a=i.length;s<a;++s)for(n=i[s],r=0,o=t[s];r<o;++r)e[h++]=n;return e}}]),e}(),o=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.x=i,this.y=n,this.z=s}return i(e,[{key:\"set\",value:function(t,i,e){return this.x=t,this.y=i,this.z=e,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t}},{key:\"setFromSpherical\",value:function(t){var i=Math.sin(t.phi)*t.radius;return this.x=i*Math.sin(t.theta),this.y=Math.cos(t.phi)*t.radius,this.z=i*Math.cos(t.theta),this}},{key:\"setFromCylindrical\",value:function(t){return this.x=t.radius*Math.sin(t.theta),this.y=t.y,this.z=t.radius*Math.cos(t.theta),this}},{key:\"setFromMatrixColumn\",value:function(t,i){return this.fromArray(t.elements,4*i)}},{key:\"setFromMatrixPosition\",value:function(t){var i=t.elements;return this.x=i[12],this.y=i[13],this.z=i[14],this}},{key:\"setFromMatrixScale\",value:function(t){var i=this.setFromMatrixColumn(t,0).length(),e=this.setFromMatrixColumn(t,1).length(),n=this.setFromMatrixColumn(t,2).length();return this.x=i,this.y=e,this.z=n,this}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this.z*=t,this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this.z/=t,this}},{key:\"crossVectors\",value:function(t,i){var e=t.x,n=t.y,s=t.z,r=i.x,a=i.y,o=i.z;return this.x=n*o-s*a,this.y=s*r-e*o,this.z=e*a-n*r,this}},{key:\"cross\",value:function(t){return this.crossVectors(this,t)}},{key:\"transformDirection\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[4]*e+s[8]*n,this.y=s[1]*i+s[5]*e+s[9]*n,this.z=s[2]*i+s[6]*e+s[10]*n,this.normalize()}},{key:\"applyMatrix3\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[3]*e+s[6]*n,this.y=s[1]*i+s[4]*e+s[7]*n,this.z=s[2]*i+s[5]*e+s[8]*n,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.elements;return this.x=s[0]*i+s[4]*e+s[8]*n+s[12],this.y=s[1]*i+s[5]*e+s[9]*n+s[13],this.z=s[2]*i+s[6]*e+s[10]*n+s[14],this}},{key:\"applyQuaternion\",value:function(t){var i=this.x,e=this.y,n=this.z,s=t.x,r=t.y,a=t.z,o=t.w,h=o*i+r*n-a*e,u=o*e+a*i-s*n,l=o*n+s*e-r*i,c=-s*i-r*e-a*n;return this.x=h*o+c*-s+u*-a-l*-r,this.y=u*o+c*-r+l*-s-h*-a,this.z=l*o+c*-a+h*-r-u*-s,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z}},{key:\"reflect\",value:function(t){arguments.length>1&&void 0!==arguments[1]?arguments[1]:new e;var i=t.x,n=t.y,s=t.z;return this.sub(t.multiplyScalar(2*this.dot(t))),t.set(i,n,s),this}},{key:\"angleTo\",value:function(t){var i=this.dot(t)/Math.sqrt(this.lengthSquared()*t.lengthSquared());return Math.acos(Math.min(Math.max(i,-1),1))}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)+Math.abs(this.z)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)+Math.abs(this.z-t.z)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y,n=this.z-t.z;return i*i+e*e+n*n}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this.z=Math.floor(this.z),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this.z=Math.ceil(this.z),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this.z=Math.round(this.z),this}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this.z+=(t.z-this.z)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z}}]),e}(),h=new o,u=[new o,new o,new o,new o,new o,new o,new o,new o],l=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o(1/0,1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o(-1/0,-1/0,-1/0);t(this,e),this.min=i,this.max=n}return i(e,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=this.min.z=1/0,this.max.x=this.max.y=this.max.z=-1/0,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y||this.max.z<this.min.z}},{key:\"getCenter\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o;return this.isEmpty()?t.set(0,0,0):t.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o;return this.isEmpty()?t.set(0,0,0):t.subVectors(this.max,this.min)}},{key:\"getBoundingSphere\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new y;return this.getCenter(t.center),t.radius=.5*this.getSize(h).length(),t}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"expandByVector\",value:function(t){return this.min.sub(t),this.max.add(t),this}},{key:\"expandByScalar\",value:function(t){return this.min.addScalar(-t),this.max.addScalar(t),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,e=void 0;for(this.min.set(0,0,0),this.max.set(0,0,0),i=0,e=t.length;i<e;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var e=h.copy(i).multiplyScalar(.5);return this.min.copy(t).sub(e),this.max.copy(t).add(e),this}},{key:\"clampPoint\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o).copy(t).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(t){return h.copy(t).clamp(this.min,this.max).sub(t).length()}},{key:\"applyMatrix4\",value:function(t){var i=this.min,e=this.max;return this.isEmpty()||(u[0].set(i.x,i.y,i.z).applyMatrix4(t),u[1].set(i.x,i.y,e.z).applyMatrix4(t),u[2].set(i.x,e.y,i.z).applyMatrix4(t),u[3].set(i.x,e.y,e.z).applyMatrix4(t),u[4].set(e.x,i.y,i.z).applyMatrix4(t),u[5].set(e.x,i.y,e.z).applyMatrix4(t),u[6].set(e.x,e.y,i.z).applyMatrix4(t),u[7].set(e.x,e.y,e.z).applyMatrix4(t),this.setFromPoints(u)),this}},{key:\"translate\",value:function(t){return this.min.add(t),this.max.add(t),this}},{key:\"intersect\",value:function(t){return this.min.max(t.min),this.max.min(t.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"containsPoint\",value:function(t){var i=this.min,e=this.max;return t.x>=i.x&&t.y>=i.y&&t.z>=i.z&&t.x<=e.x&&t.y<=e.y&&t.z<=e.z}},{key:\"containsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return i.x<=n.x&&s.x<=e.x&&i.y<=n.y&&s.y<=e.y&&i.z<=n.z&&s.z<=e.z}},{key:\"intersectsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return s.x>=i.x&&s.y>=i.y&&s.z>=i.z&&n.x<=e.x&&n.y<=e.y&&n.z<=e.z}},{key:\"intersectsSphere\",value:function(t){return this.clampPoint(t.center,h).distanceToSquared(t.center)<=t.radius*t.radius}},{key:\"intersectsPlane\",value:function(t){var i=void 0,e=void 0;return t.normal.x>0?(i=t.normal.x*this.min.x,e=t.normal.x*this.max.x):(i=t.normal.x*this.max.x,e=t.normal.x*this.min.x),t.normal.y>0?(i+=t.normal.y*this.min.y,e+=t.normal.y*this.max.y):(i+=t.normal.y*this.max.y,e+=t.normal.y*this.min.y),t.normal.z>0?(i+=t.normal.z*this.min.z,e+=t.normal.z*this.max.z):(i+=t.normal.z*this.max.z,e+=t.normal.z*this.min.z),i<=t.constant&&e>=t.constant}},{key:\"equals\",value:function(t){return t.min.equals(this.min)&&t.max.equals(this.max)}}]),e}(),c=new l,y=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.center=i,this.radius=n}return i(e,[{key:\"set\",value:function(t,i){return this.center.copy(t),this.radius=i,this}},{key:\"copy\",value:function(t){return this.center.copy(t.center),this.radius=t.radius,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromPoints\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:c.setFromPoints(t).getCenter(this.center),e=0,n=void 0,s=void 0;for(n=0,s=t.length;n<s;++n)e=Math.max(e,i.distanceToSquared(t[n]));return this.radius=Math.sqrt(e),this}},{key:\"getBoundingBox\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new l;return t.set(this.center,this.center),t.expandByScalar(this.radius),t}},{key:\"isEmpty\",value:function(){return this.radius<=0}},{key:\"translate\",value:function(t){return this.center.add(t),this}},{key:\"clampPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.center.distanceToSquared(t);return i.copy(t),e>this.radius*this.radius&&(i.sub(this.center).normalize(),i.multiplyScalar(this.radius).add(this.center)),i}},{key:\"distanceToPoint\",value:function(t){return t.distanceTo(this.center)-this.radius}},{key:\"containsPoint\",value:function(t){return t.distanceToSquared(this.center)<=this.radius*this.radius}},{key:\"intersectsSphere\",value:function(t){var i=this.radius+t.radius;return t.center.distanceToSquared(this.center)<=i*i}},{key:\"intersectsBox\",value:function(t){return t.intersectsSphere(this)}},{key:\"intersectsPlane\",value:function(t){return Math.abs(t.distanceToPoint(this.center))<=this.radius}},{key:\"equals\",value:function(t){return t.center.equals(this.center)&&t.radius===this.radius}}]),e}(),v=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.x=i,this.y=n}return i(e,[{key:\"set\",value:function(t,i){return this.x=t,this.y=i,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this}},{key:\"applyMatrix3\",value:function(t){var i=this.x,e=this.y,n=t.elements;return this.x=n[0]*i+n[3]*e+n[6],this.y=n[1]*i+n[4]*e+n[7],this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y;return i*i+e*e}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this}},{key:\"angle\",value:function(){var t=Math.atan2(this.y,this.x);return t<0&&(t+=2*Math.PI),t}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"rotateAround\",value:function(t,i){var e=Math.cos(i),n=Math.sin(i),s=this.x-t.x,r=this.y-t.y;return this.x=s*e-r*n+t.x,this.y=s*n+r*e+t.y,this}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y}},{key:\"width\",get:function(){return this.x},set:function(t){return this.x=t}},{key:\"height\",get:function(){return this.y},set:function(t){return this.y=t}}]),e}(),d=new v,f=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v(1/0,1/0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new v(-1/0,-1/0);t(this,e),this.min=i,this.max=n}i(e,[{key:\"set\",value:function(t,i){return this.min.copy(t),this.max.copy(i),this}},{key:\"copy\",value:function(t){return this.min.copy(t.min),this.max.copy(t.max),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=1/0,this.max.x=this.max.y=-1/0,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y}},{key:\"getCenter\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v;return this.isEmpty()?t.set(0,0):t.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new v;return this.isEmpty()?t.set(0,0):t.subVectors(this.max,this.min)}},{key:\"getBoundingSphere\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new y;return this.getCenter(t.center),t.radius=.5*this.getSize(d).length(),t}},{key:\"expandByPoint\",value:function(t){return this.min.min(t),this.max.max(t),this}},{key:\"expandByVector\",value:function(t){return this.min.sub(t),this.max.add(t),this}},{key:\"expandByScalar\",value:function(t){return this.min.addScalar(-t),this.max.addScalar(t),this}},{key:\"setFromPoints\",value:function(t){var i=void 0,e=void 0;for(this.min.set(0,0),this.max.set(0,0),i=0,e=t.length;i<e;++i)this.expandByPoint(t[i]);return this}},{key:\"setFromCenterAndSize\",value:function(t,i){var e=d.copy(i).multiplyScalar(.5);return this.min.copy(t).sub(e),this.max.copy(t).add(e),this}},{key:\"clampPoint\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new v).copy(t).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(t){return d.copy(t).clamp(this.min,this.max).sub(t).length()}},{key:\"translate\",value:function(t){return this.min.add(t),this.max.add(t),this}},{key:\"intersect\",value:function(t){return this.min.max(t.min),this.max.min(t.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(t){return this.min.min(t.min),this.max.max(t.max),this}},{key:\"containsPoint\",value:function(t){var i=this.min,e=this.max;return t.x>=i.x&&t.y>=i.y&&t.x<=e.x&&t.y<=e.y}},{key:\"containsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return i.x<=n.x&&s.x<=e.x&&i.y<=n.y&&s.y<=e.y}},{key:\"intersectsBox\",value:function(t){var i=this.min,e=this.max,n=t.min,s=t.max;return s.x>=i.x&&s.y>=i.y&&n.x<=e.x&&n.y<=e.y}},{key:\"equals\",value:function(t){return t.min.equals(this.min)&&t.max.equals(this.max)}}])}(),function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.radius=i,this.theta=n,this.y=s}i(e,[{key:\"set\",value:function(t,i,e){return this.radius=t,this.theta=i,this.y=e,this}},{key:\"copy\",value:function(t){return this.radius=t.radius,this.theta=t.theta,this.y=t.y,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromVector3\",value:function(t){return this.radius=Math.sqrt(t.x*t.x+t.z*t.z),this.theta=Math.atan2(t.x,t.z),this.y=t.y,this}}])}(),function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,0,1,0,0,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r,a,o,h){var u=this.elements;return u[0]=t,u[3]=i,u[6]=e,u[1]=n,u[4]=s,u[7]=r,u[2]=a,u[5]=o,u[8]=h,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,1,0,0,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements,e=this.elements;return e[0]=i[0],e[1]=i[1],e[2]=i[2],e[3]=i[3],e[4]=i[4],e[5]=i[5],e[6]=i[6],e[7]=i[7],e[8]=i[8],this}},{key:\"clone\",value:function(){return(new this.constructor).fromArray(this.elements)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<9;++n)e[n]=t[n+i];return this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<9;++n)t[n+i]=e[n];return t}},{key:\"multiplyMatrices\",value:function(t,i){var e=t.elements,n=i.elements,s=this.elements,r=e[0],a=e[3],o=e[6],h=e[1],u=e[4],l=e[7],c=e[2],y=e[5],v=e[8],d=n[0],f=n[3],m=n[6],x=n[1],p=n[4],k=n[7],g=n[2],w=n[5],z=n[8];return s[0]=r*d+a*x+o*g,s[3]=r*f+a*p+o*w,s[6]=r*m+a*k+o*z,s[1]=h*d+u*x+l*g,s[4]=h*f+u*p+l*w,s[7]=h*m+u*k+l*z,s[2]=c*d+y*x+v*g,s[5]=c*f+y*p+v*w,s[8]=c*m+y*k+v*z,this}},{key:\"multiply\",value:function(t){return this.multiplyMatrices(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyMatrices(t,this)}},{key:\"multiplyScalar\",value:function(t){var i=this.elements;return i[0]*=t,i[3]*=t,i[6]*=t,i[1]*=t,i[4]*=t,i[7]*=t,i[2]*=t,i[5]*=t,i[8]*=t,this}},{key:\"determinant\",value:function(){var t=this.elements,i=t[0],e=t[1],n=t[2],s=t[3],r=t[4],a=t[5],o=t[6],h=t[7],u=t[8];return i*r*u-i*a*h-e*s*u+e*a*o+n*s*h-n*r*o}},{key:\"getInverse\",value:function(t){var i=t.elements,e=this.elements,n=i[0],s=i[1],r=i[2],a=i[3],o=i[4],h=i[5],u=i[6],l=i[7],c=i[8],y=c*o-h*l,v=h*u-c*a,d=l*a-o*u,f=n*y+s*v+r*d,m=void 0;return 0!==f?(m=1/f,e[0]=y*m,e[1]=(r*l-c*s)*m,e[2]=(h*s-r*o)*m,e[3]=v*m,e[4]=(c*n-r*u)*m,e[5]=(r*a-h*n)*m,e[6]=d*m,e[7]=(s*u-l*n)*m,e[8]=(o*n-s*a)*m):(console.error(\"Can't invert matrix, determinant is zero\",t),this.identity()),this}},{key:\"transpose\",value:function(){var t=this.elements,i=void 0;return i=t[1],t[1]=t[3],t[3]=i,i=t[2],t[2]=t[6],t[6]=i,i=t[5],t[5]=t[7],t[7]=i,this}},{key:\"scale\",value:function(t,i){var e=this.elements;return e[0]*=t,e[3]*=t,e[6]*=t,e[1]*=i,e[4]*=i,e[7]*=i,this}},{key:\"rotate\",value:function(t){var i=Math.cos(t),e=Math.sin(t),n=this.elements,s=n[0],r=n[3],a=n[6],o=n[1],h=n[4],u=n[7];return n[0]=i*s+e*o,n[3]=i*r+e*h,n[6]=i*a+e*u,n[1]=-e*s+i*o,n[4]=-e*r+i*h,n[7]=-e*a+i*u,this}},{key:\"translate\",value:function(t,i){var e=this.elements;return e[0]+=t*e[2],e[3]+=t*e[5],e[6]+=t*e[8],e[1]+=i*e[2],e[4]+=i*e[5],e[7]+=i*e[8],this}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<9;++s)i[s]!==e[s]&&(n=!1);return n}}]),e}()),m=\"XYZ\",x=\"YZX\",p=\"ZXY\",k=\"XZY\",g=\"YXZ\",w=\"ZYX\",z=new o,M=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.w=r}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.w=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.w=t.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.w=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.w,t}},{key:\"setFromEuler\",value:function(t){var i=t.x,e=t.y,n=t.z,s=Math.cos,r=Math.sin,a=s(i/2),o=s(e/2),h=s(n/2),u=r(i/2),l=r(e/2),c=r(n/2);switch(t.order){case m:this.x=u*o*h+a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h-u*l*c;break;case g:this.x=u*o*h+a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h+u*l*c;break;case p:this.x=u*o*h-a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h-u*l*c;break;case w:this.x=u*o*h-a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h+u*l*c;break;case x:this.x=u*o*h+a*l*c,this.y=a*l*h+u*o*c,this.z=a*o*c-u*l*h,this.w=a*o*h-u*l*c;break;case k:this.x=u*o*h-a*l*c,this.y=a*l*h-u*o*c,this.z=a*o*c+u*l*h,this.w=a*o*h+u*l*c}return this}},{key:\"setFromAxisAngle\",value:function(t,i){var e=i/2,n=Math.sin(e);return this.x=t.x*n,this.y=t.y*n,this.z=t.z*n,this.w=Math.cos(e),this}},{key:\"setFromRotationMatrix\",value:function(t){var i=t.elements,e=i[0],n=i[4],s=i[8],r=i[1],a=i[5],o=i[9],h=i[2],u=i[6],l=i[10],c=e+a+l,y=void 0;return c>0?(y=.5/Math.sqrt(c+1),this.w=.25/y,this.x=(u-o)*y,this.y=(s-h)*y,this.z=(r-n)*y):e>a&&e>l?(y=2*Math.sqrt(1+e-a-l),this.w=(u-o)/y,this.x=.25*y,this.y=(n+r)/y,this.z=(s+h)/y):a>l?(y=2*Math.sqrt(1+a-e-l),this.w=(s-h)/y,this.x=(n+r)/y,this.y=.25*y,this.z=(o+u)/y):(y=2*Math.sqrt(1+l-e-a),this.w=(r-n)/y,this.x=(s+h)/y,this.y=(o+u)/y,this.z=.25*y),this}},{key:\"setFromUnitVectors\",value:function(t,i){var e=t.dot(i)+1;return e<1e-6?(e=0,Math.abs(t.x)>Math.abs(t.z)?z.set(-t.y,t.x,0):z.set(0,-t.z,t.y)):z.crossVectors(t,i),this.x=z.x,this.y=z.y,this.z=z.z,this.w=e,this.normalize()}},{key:\"invert\",value:function(){return this.conjugate()}},{key:\"conjugate\",value:function(){return this.x*=-1,this.y*=-1,this.z*=-1,this}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"normalize\",value:function(){var t=this.length(),i=void 0;return 0===t?(this.x=0,this.y=0,this.z=0,this.w=1):(i=1/t,this.x=this.x*i,this.y=this.y*i,this.z=this.z*i,this.w=this.w*i),this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z+this.w*t.w}},{key:\"multiplyQuaternions\",value:function(t,i){var e=t.x,n=t.y,s=t.z,r=t.w,a=i.x,o=i.y,h=i.z,u=i.w;return this.x=e*u+r*a+n*h-s*o,this.y=n*u+r*o+s*a-e*h,this.z=s*u+r*h+e*o-n*a,this.w=r*u-e*a-n*o-s*h,this}},{key:\"multiply\",value:function(t){return this.multiplyQuaternions(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyQuaternions(t,this)}},{key:\"slerp\",value:function(t,i){var e=this.x,n=this.y,s=this.z,r=this.w,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(1===i)this.copy(t);else if(i>0){if((a=r*t.w+e*t.x+n*t.y+s*t.z)<0?(this.w=-t.w,this.x=-t.x,this.y=-t.y,this.z=-t.z,a=-a):this.copy(t),a>=1)return this.w=r,this.x=e,this.y=n,this.z=s,this;if(o=Math.sqrt(1-a*a),Math.abs(o)<.001)return this.w=.5*(r+this.w),this.x=.5*(e+this.x),this.y=.5*(n+this.y),this.z=.5*(s+this.z),this;h=Math.atan2(o,a),u=Math.sin((1-i)*h)/o,l=Math.sin(i*h)/o,this.w=r*u+this.w*l,this.x=e*u+this.x*l,this.y=n*u+this.y*l,this.z=s*u+this.z*l}return this}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.w===this.w}}],[{key:\"slerp\",value:function(t,i,e,n){return e.copy(t).slerp(i,n)}},{key:\"slerpFlat\",value:function(t,i,e,n,s,r,a){var o=s[r],h=s[r+1],u=s[r+2],l=s[r+3],c=e[n],y=e[n+1],v=e[n+2],d=e[n+3],f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0;d===l&&c===o&&y===h&&v===u||(f=1-a,g=(p=c*o+y*h+v*u+d*l)>=0?1:-1,(k=1-p*p)>Number.EPSILON&&(x=Math.sqrt(k),w=Math.atan2(x,p*g),f=Math.sin(f*w)/x,a=Math.sin(a*w)/x),c=c*f+o*(z=a*g),y=y*f+h*z,v=v*f+u*z,d=d*f+l*z,f===1-a&&(c*=m=1/Math.sqrt(c*c+y*y+v*v+d*d),y*=m,v*=m,d*=m)),t[i]=c,t[i+1]=y,t[i+2]=v,t[i+3]=d}}]),e}();function b(t,i,e){return Math.max(Math.min(t,e),i)}var A=new f,S=new M,P=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.order=e.defaultOrder}i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.order=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.order=t.order,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.order)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.order=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.order,t}},{key:\"toVector3\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).set(this.x,this.y,this.z)}},{key:\"setFromRotationMatrix\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.order,e=t.elements,n=e[0],s=e[4],r=e[8],a=e[1],o=e[5],h=e[9],u=e[2],l=e[6],c=e[10];switch(i){case m:this.y=Math.asin(b(r,-1,1)),Math.abs(r)<.99999?(this.x=Math.atan2(-h,c),this.z=Math.atan2(-s,n)):(this.x=Math.atan2(l,o),this.z=0);break;case g:this.x=Math.asin(-b(h,-1,1)),Math.abs(h)<.99999?(this.y=Math.atan2(r,c),this.z=Math.atan2(a,o)):(this.y=Math.atan2(-u,n),this.z=0);break;case p:this.x=Math.asin(b(l,-1,1)),Math.abs(l)<.99999?(this.y=Math.atan2(-u,c),this.z=Math.atan2(-s,o)):(this.y=0,this.z=Math.atan2(a,n));break;case w:this.y=Math.asin(-b(u,-1,1)),Math.abs(u)<.99999?(this.x=Math.atan2(l,c),this.z=Math.atan2(a,n)):(this.x=0,this.z=Math.atan2(-s,o));break;case x:this.z=Math.asin(b(a,-1,1)),Math.abs(a)<.99999?(this.x=Math.atan2(-h,o),this.y=Math.atan2(-u,n)):(this.x=0,this.y=Math.atan2(r,c));break;case k:this.z=Math.asin(-b(s,-1,1)),Math.abs(s)<.99999?(this.x=Math.atan2(l,o),this.y=Math.atan2(r,n)):(this.x=Math.atan2(-h,c),this.y=0)}return this.order=i,this}},{key:\"setFromQuaternion\",value:function(t,i){return A.makeRotationFromQuaternion(t),this.setFromRotationMatrix(A,i)}},{key:\"setFromVector3\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.order;return this.set(t.x,t.y,t.z,i)}},{key:\"reorder\",value:function(t){return S.setFromEuler(this),this.setFromQuaternion(S,t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.order===this.order}}],[{key:\"defaultOrder\",get:function(){return m}}])}(),new o),T=new o,I=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o(1,0,0),n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.normal=i,this.constant=n}return i(e,[{key:\"set\",value:function(t,i){return this.normal.copy(t),this.constant=i,this}},{key:\"setComponents\",value:function(t,i,e,n){return this.normal.set(t,i,e),this.constant=n,this}},{key:\"copy\",value:function(t){return this.normal.copy(t.normal),this.constant=t.constant,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromNormalAndCoplanarPoint\",value:function(t,i){return this.normal.copy(t),this.constant=-i.dot(this.normal),this}},{key:\"setFromCoplanarPoints\",value:function(t,i,e){var n=P.subVectors(e,i).cross(T.subVectors(t,i)).normalize();return this.setFromNormalAndCoplanarPoint(n,P),this}},{key:\"normalize\",value:function(){var t=1/this.normal.length();return this.normal.multiplyScalar(t),this.constant*=t,this}},{key:\"negate\",value:function(){return this.normal.negate(),this.constant=-this.constant,this}},{key:\"distanceToPoint\",value:function(t){return this.normal.dot(t)+this.constant}},{key:\"distanceToSphere\",value:function(t){return this.distanceToPoint(t.center)-t.radius}},{key:\"projectPoint\",value:function(t,i){return i.copy(this.normal).multiplyScalar(-this.distanceToPoint(t)).add(t)}},{key:\"coplanarPoint\",value:function(t){return t.copy(this.normal).multiplyScalar(-this.constant)}},{key:\"translate\",value:function(t){return this.constant-=t.dot(this.normal),this}},{key:\"intersectLine\",value:function(t,i){var e=t.delta(P),n=this.normal.dot(e);if(0===n)0===this.distanceToPoint(t.start)&&i.copy(t.start);else{var s=-(t.start.dot(this.normal)+this.constant)/n;s>=0&&s<=1&&i.copy(e).multiplyScalar(s).add(t.start)}return i}},{key:\"intersectsLine\",value:function(t){var i=this.distanceToPoint(t.start),e=this.distanceToPoint(t.end);return i<0&&e>0||e<0&&i>0}},{key:\"intersectsBox\",value:function(t){return t.intersectsPlane(this)}},{key:\"intersectsSphere\",value:function(t){return t.intersectsPlane(this)}},{key:\"equals\",value:function(t){return t.normal.equals(this.normal)&&t.constant===this.constant}}]),e}(),O=new o,_=new o,C=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new I,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new I,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:new I,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:new I,a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:new I,o=arguments.length>5&&void 0!==arguments[5]?arguments[5]:new I;t(this,e),this.planes=[i,n,s,r,a,o]}i(e,[{key:\"set\",value:function(t,i,e,n,s,r){var a=this.planes;return a[0].copy(t),a[1].copy(i),a[2].copy(e),a[3].copy(n),a[4].copy(s),a[5].copy(r),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"copy\",value:function(t){var i=this.planes,e=void 0;for(e=0;e<6;++e)i[e].copy(t.planes[e]);return this}},{key:\"setFromMatrix\",value:function(t){var i=this.planes,e=t.elements,n=e[0],s=e[1],r=e[2],a=e[3],o=e[4],h=e[5],u=e[6],l=e[7],c=e[8],y=e[9],v=e[10],d=e[11],f=e[12],m=e[13],x=e[14],p=e[15];return i[0].setComponents(a-n,l-o,d-c,p-f).normalize(),i[1].setComponents(a+n,l+o,d+c,p+f).normalize(),i[2].setComponents(a+s,l+h,d+y,p+m).normalize(),i[3].setComponents(a-s,l-h,d-y,p-m).normalize(),i[4].setComponents(a-r,l-u,d-v,p-x).normalize(),i[5].setComponents(a+r,l+u,d+v,p+x).normalize(),this}},{key:\"intersectsSphere\",value:function(t){var i=this.planes,e=t.center,n=-t.radius,s=!0,r=void 0;for(r=0;r<6;++r)if(i[r].distanceToPoint(e)<n){s=!1;break}return s}},{key:\"intersectsBox\",value:function(t){var i=this.planes,e=t.min,n=t.max,s=!0,r=void 0,a=void 0,o=void 0,h=void 0;for(r=0;r<6;++r)if(h=i[r],O.x=h.normal.x>0?e.x:n.x,_.x=h.normal.x>0?n.x:e.x,O.y=h.normal.y>0?e.y:n.y,_.y=h.normal.y>0?n.y:e.y,O.z=h.normal.z>0?e.z:n.z,_.z=h.normal.z>0?n.z:e.z,a=h.distanceToPoint(O),o=h.distanceToPoint(_),a<0&&o<0){s=!1;break}return s}},{key:\"containsPoint\",value:function(t){var i=this.planes,e=!0,n=void 0;for(n=0;n<6;++n)if(i[n].distanceToPoint(t)<0){e=!1;break}return e}}])}(),new o),U=new o,q=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.start=i,this.end=n}i(e,[{key:\"set\",value:function(t,i){return this.start.copy(t),this.end.copy(i),this}},{key:\"copy\",value:function(t){return this.start.copy(t.start),this.end.copy(t.end),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).addVectors(this.start,this.end).multiplyScalar(.5)}},{key:\"delta\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.end,this.start)}},{key:\"lengthSquared\",value:function(){return this.start.distanceToSquared(this.end)}},{key:\"length\",value:function(){return this.start.distanceTo(this.end)}},{key:\"at\",value:function(t,i){return this.delta(i).multiplyScalar(t).add(this.start)}},{key:\"closestPointToPointParameter\",value:function(t,i){C.subVectors(t,this.start),U.subVectors(this.end,this.start);var e=U.dot(U),n=U.dot(C);return i?Math.min(Math.max(n/e,0),1):n/e}},{key:\"closestPointToPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]&&arguments[1],e=arguments.length>2&&void 0!==arguments[2]?arguments[2]:new o,n=this.closestPointToPointParameter(t,i);return this.delta(e).multiplyScalar(n).add(this.start)}},{key:\"equals\",value:function(t){return t.start.equals(this.start)&&t.end.equals(this.end)}}])}(),new o),F=new o,E=new o,D=function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r,a,o,h,u,l,c,y,v,d,f){var m=this.elements;return m[0]=t,m[4]=i,m[8]=e,m[12]=n,m[1]=s,m[5]=r,m[9]=a,m[13]=o,m[2]=h,m[6]=u,m[10]=l,m[14]=c,m[3]=y,m[7]=v,m[11]=d,m[15]=f,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements,e=this.elements;return e[0]=i[0],e[1]=i[1],e[2]=i[2],e[3]=i[3],e[4]=i[4],e[5]=i[5],e[6]=i[6],e[7]=i[7],e[8]=i[8],e[9]=i[9],e[10]=i[10],e[11]=i[11],e[12]=i[12],e[13]=i[13],e[14]=i[14],e[15]=i[15],this}},{key:\"clone\",value:function(){return(new this.constructor).fromArray(this.elements)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<16;++n)e[n]=t[n+i];return this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,e=this.elements,n=void 0;for(n=0;n<16;++n)t[n+i]=e[n];return t}},{key:\"getMaxScaleOnAxis\",value:function(){var t=this.elements,i=t[0]*t[0]+t[1]*t[1]+t[2]*t[2],e=t[4]*t[4]+t[5]*t[5]+t[6]*t[6],n=t[8]*t[8]+t[9]*t[9]+t[10]*t[10];return Math.sqrt(Math.max(i,e,n))}},{key:\"copyPosition\",value:function(t){var i=this.elements,e=t.elements;return i[12]=e[12],i[13]=e[13],i[14]=e[14],this}},{key:\"setPosition\",value:function(t){var i=this.elements;return i[12]=t.x,i[13]=t.y,i[14]=t.z,this}},{key:\"extractBasis\",value:function(t,i,e){return t.setFromMatrixColumn(this,0),i.setFromMatrixColumn(this,1),e.setFromMatrixColumn(this,2),this}},{key:\"makeBasis\",value:function(t,i,e){return this.set(t.x,i.x,e.x,0,t.y,i.y,e.y,0,t.z,i.z,e.z,0,0,0,0,1),this}},{key:\"extractRotation\",value:function(t){var i=this.elements,e=t.elements,n=1/q.setFromMatrixColumn(t,0).length(),s=1/q.setFromMatrixColumn(t,1).length(),r=1/q.setFromMatrixColumn(t,2).length();return i[0]=e[0]*n,i[1]=e[1]*n,i[2]=e[2]*n,i[4]=e[4]*s,i[5]=e[5]*s,i[6]=e[6]*s,i[8]=e[8]*r,i[9]=e[9]*r,i[10]=e[10]*r,this}},{key:\"makeRotationFromEuler\",value:function(t){var i=this.elements,e=t.x,n=t.y,s=t.z,r=Math.cos(e),a=Math.sin(e),o=Math.cos(n),h=Math.sin(n),u=Math.cos(s),l=Math.sin(s),c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0;switch(t.order){case m:c=r*u,y=r*l,v=a*u,d=a*l,i[0]=o*u,i[4]=-o*l,i[8]=h,i[1]=y+v*h,i[5]=c-d*h,i[9]=-a*o,i[2]=d-c*h,i[6]=v+y*h,i[10]=r*o;break;case g:f=o*u,z=o*l,M=h*u,b=h*l,i[0]=f+b*a,i[4]=M*a-z,i[8]=r*h,i[1]=r*l,i[5]=r*u,i[9]=-a,i[2]=z*a-M,i[6]=b+f*a,i[10]=r*o;break;case p:f=o*u,z=o*l,M=h*u,b=h*l,i[0]=f-b*a,i[4]=-r*l,i[8]=M+z*a,i[1]=z+M*a,i[5]=r*u,i[9]=b-f*a,i[2]=-r*h,i[6]=a,i[10]=r*o;break;case w:c=r*u,y=r*l,v=a*u,d=a*l,i[0]=o*u,i[4]=v*h-y,i[8]=c*h+d,i[1]=o*l,i[5]=d*h+c,i[9]=y*h-v,i[2]=-h,i[6]=a*o,i[10]=r*o;break;case x:A=r*o,S=r*h,P=a*o,T=a*h,i[0]=o*u,i[4]=T-A*l,i[8]=P*l+S,i[1]=l,i[5]=r*u,i[9]=-a*u,i[2]=-h*u,i[6]=S*l+P,i[10]=A-T*l;break;case k:A=r*o,S=r*h,P=a*o,T=a*h,i[0]=o*u,i[4]=-l,i[8]=h*u,i[1]=A*l+T,i[5]=r*u,i[9]=S*l-P,i[2]=P*l-S,i[6]=a*u,i[10]=T*l+A}return i[3]=0,i[7]=0,i[11]=0,i[12]=0,i[13]=0,i[14]=0,i[15]=1,this}},{key:\"makeRotationFromQuaternion\",value:function(t){var i=this.elements,e=t.x,n=t.y,s=t.z,r=t.w,a=e+e,o=n+n,h=s+s,u=e*a,l=e*o,c=e*h,y=n*o,v=n*h,d=s*h,f=r*a,m=r*o,x=r*h;return i[0]=1-(y+d),i[4]=l-x,i[8]=c+m,i[1]=l+x,i[5]=1-(u+d),i[9]=v-f,i[2]=c-m,i[6]=v+f,i[10]=1-(u+y),i[3]=0,i[7]=0,i[11]=0,i[12]=0,i[13]=0,i[14]=0,i[15]=1,this}},{key:\"lookAt\",value:function(t,i,e){var n=this.elements,s=q,r=F,a=E;return a.subVectors(t,i),0===a.lengthSquared()&&(a.z=1),a.normalize(),s.crossVectors(e,a),0===s.lengthSquared()&&(1===Math.abs(e.z)?a.x+=1e-4:a.z+=1e-4,a.normalize(),s.crossVectors(e,a)),s.normalize(),r.crossVectors(a,s),n[0]=s.x,n[4]=r.x,n[8]=a.x,n[1]=s.y,n[5]=r.y,n[9]=a.y,n[2]=s.z,n[6]=r.z,n[10]=a.z,this}},{key:\"multiplyMatrices\",value:function(t,i){var e=this.elements,n=t.elements,s=i.elements,r=n[0],a=n[4],o=n[8],h=n[12],u=n[1],l=n[5],c=n[9],y=n[13],v=n[2],d=n[6],f=n[10],m=n[14],x=n[3],p=n[7],k=n[11],g=n[15],w=s[0],z=s[4],M=s[8],b=s[12],A=s[1],S=s[5],P=s[9],T=s[13],I=s[2],O=s[6],_=s[10],C=s[14],U=s[3],q=s[7],F=s[11],E=s[15];return e[0]=r*w+a*A+o*I+h*U,e[4]=r*z+a*S+o*O+h*q,e[8]=r*M+a*P+o*_+h*F,e[12]=r*b+a*T+o*C+h*E,e[1]=u*w+l*A+c*I+y*U,e[5]=u*z+l*S+c*O+y*q,e[9]=u*M+l*P+c*_+y*F,e[13]=u*b+l*T+c*C+y*E,e[2]=v*w+d*A+f*I+m*U,e[6]=v*z+d*S+f*O+m*q,e[10]=v*M+d*P+f*_+m*F,e[14]=v*b+d*T+f*C+m*E,e[3]=x*w+p*A+k*I+g*U,e[7]=x*z+p*S+k*O+g*q,e[11]=x*M+p*P+k*_+g*F,e[15]=x*b+p*T+k*C+g*E,this}},{key:\"multiply\",value:function(t){return this.multiplyMatrices(this,t)}},{key:\"premultiply\",value:function(t){return this.multiplyMatrices(t,this)}},{key:\"multiplyScalar\",value:function(t){var i=this.elements;return i[0]*=t,i[4]*=t,i[8]*=t,i[12]*=t,i[1]*=t,i[5]*=t,i[9]*=t,i[13]*=t,i[2]*=t,i[6]*=t,i[10]*=t,i[14]*=t,i[3]*=t,i[7]*=t,i[11]*=t,i[15]*=t,this}},{key:\"determinant\",value:function(){var t=this.elements,i=t[0],e=t[4],n=t[8],s=t[12],r=t[1],a=t[5],o=t[9],h=t[13],u=t[2],l=t[6],c=t[10],y=t[14],v=i*a,d=i*o,f=i*h,m=e*r,x=e*o,p=e*h,k=n*r,g=n*a,w=n*h,z=s*r,M=s*a,b=s*o;return t[3]*(b*l-w*l-M*c+p*c+g*y-x*y)+t[7]*(d*y-f*c+z*c-k*y+w*u-b*u)+t[11]*(f*l-v*y-z*l+m*y+M*u-p*u)+t[15]*(-g*u-d*l+v*c+k*l-m*c+x*u)}},{key:\"getInverse\",value:function(t){var i=this.elements,e=t.elements,n=e[0],s=e[1],r=e[2],a=e[3],o=e[4],h=e[5],u=e[6],l=e[7],c=e[8],y=e[9],v=e[10],d=e[11],f=e[12],m=e[13],x=e[14],p=e[15],k=y*x*l-m*v*l+m*u*d-h*x*d-y*u*p+h*v*p,g=f*v*l-c*x*l-f*u*d+o*x*d+c*u*p-o*v*p,w=c*m*l-f*y*l+f*h*d-o*m*d-c*h*p+o*y*p,z=f*y*u-c*m*u-f*h*v+o*m*v+c*h*x-o*y*x,M=n*k+s*g+r*w+a*z,b=void 0;return 0!==M?(b=1/M,i[0]=k*b,i[1]=(m*v*a-y*x*a-m*r*d+s*x*d+y*r*p-s*v*p)*b,i[2]=(h*x*a-m*u*a+m*r*l-s*x*l-h*r*p+s*u*p)*b,i[3]=(y*u*a-h*v*a-y*r*l+s*v*l+h*r*d-s*u*d)*b,i[4]=g*b,i[5]=(c*x*a-f*v*a+f*r*d-n*x*d-c*r*p+n*v*p)*b,i[6]=(f*u*a-o*x*a-f*r*l+n*x*l+o*r*p-n*u*p)*b,i[7]=(o*v*a-c*u*a+c*r*l-n*v*l-o*r*d+n*u*d)*b,i[8]=w*b,i[9]=(f*y*a-c*m*a-f*s*d+n*m*d+c*s*p-n*y*p)*b,i[10]=(o*m*a-f*h*a+f*s*l-n*m*l-o*s*p+n*h*p)*b,i[11]=(c*h*a-o*y*a-c*s*l+n*y*l+o*s*d-n*h*d)*b,i[12]=z*b,i[13]=(c*m*r-f*y*r+f*s*v-n*m*v-c*s*x+n*y*x)*b,i[14]=(f*h*r-o*m*r-f*s*u+n*m*u+o*s*x-n*h*x)*b,i[15]=(o*y*r-c*h*r+c*s*u-n*y*u-o*s*v+n*h*v)*b):(console.error(\"Can't invert matrix, determinant is zero\",t),this.identity()),this}},{key:\"transpose\",value:function(){var t=this.elements,i=void 0;return i=t[1],t[1]=t[4],t[4]=i,i=t[2],t[2]=t[8],t[8]=i,i=t[6],t[6]=t[9],t[9]=i,i=t[3],t[3]=t[12],t[12]=i,i=t[7],t[7]=t[13],t[13]=i,i=t[11],t[11]=t[14],t[14]=i,this}},{key:\"scale\",value:function(t,i,e){var n=this.elements;return n[0]*=t,n[4]*=i,n[8]*=e,n[1]*=t,n[5]*=i,n[9]*=e,n[2]*=t,n[6]*=i,n[10]*=e,n[3]*=t,n[7]*=i,n[11]*=e,this}},{key:\"makeScale\",value:function(t,i,e){return this.set(t,0,0,0,0,i,0,0,0,0,e,0,0,0,0,1),this}},{key:\"makeTranslation\",value:function(t,i,e){return this.set(1,0,0,t,0,1,0,i,0,0,1,e,0,0,0,1),this}},{key:\"makeRotationX\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(1,0,0,0,0,i,-e,0,0,e,i,0,0,0,0,1),this}},{key:\"makeRotationY\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(i,0,e,0,0,1,0,0,-e,0,i,0,0,0,0,1),this}},{key:\"makeRotationZ\",value:function(t){var i=Math.cos(t),e=Math.sin(t);return this.set(i,-e,0,0,e,i,0,0,0,0,1,0,0,0,0,1),this}},{key:\"makeRotationAxis\",value:function(t,i){var e=Math.cos(i),n=Math.sin(i),s=1-e,r=t.x,a=t.y,o=t.z,h=s*r,u=s*a;return this.set(h*r+e,h*a-n*o,h*o+n*a,0,h*a+n*o,u*a+e,u*o-n*r,0,h*o-n*a,u*o+n*r,s*o*o+e,0,0,0,0,1),this}},{key:\"makeShear\",value:function(t,i,e){return this.set(1,i,e,0,t,1,e,0,t,i,1,0,0,0,0,1),this}},{key:\"compose\",value:function(t,i,e){return this.makeRotationFromQuaternion(i),this.scale(e.x,e.y,e.z),this.setPosition(t),this}},{key:\"decompose\",value:function(t,i,e){var n=this.elements,s=n[0],r=n[1],a=n[2],o=n[4],h=n[5],u=n[6],l=n[8],c=n[9],y=n[10],v=this.determinant(),d=q.set(s,r,a).length()*(v<0?-1:1),f=q.set(o,h,u).length(),m=q.set(l,c,y).length(),x=1/d,p=1/f,k=1/m;return t.x=n[12],t.y=n[13],t.z=n[14],n[0]*=x,n[1]*=x,n[2]*=x,n[4]*=p,n[5]*=p,n[6]*=p,n[8]*=k,n[9]*=k,n[10]*=k,i.setFromRotationMatrix(this),n[0]=s,n[1]=r,n[2]=a,n[4]=o,n[5]=h,n[6]=u,n[8]=l,n[9]=c,n[10]=y,e.x=d,e.y=f,e.z=m,this}},{key:\"makePerspective\",value:function(t,i,e,n,s,r){var a=this.elements,o=2*s/(i-t),h=2*s/(e-n),u=(i+t)/(i-t),l=(e+n)/(e-n),c=-(r+s)/(r-s),y=-2*r*s/(r-s);return a[0]=o,a[4]=0,a[8]=u,a[12]=0,a[1]=0,a[5]=h,a[9]=l,a[13]=0,a[2]=0,a[6]=0,a[10]=c,a[14]=y,a[3]=0,a[7]=0,a[11]=-1,a[15]=0,this}},{key:\"makeOrthographic\",value:function(t,i,e,n,s,r){var a=this.elements,o=1/(i-t),h=1/(e-n),u=1/(r-s),l=(i+t)*o,c=(e+n)*h,y=(r+s)*u;return a[0]=2*o,a[4]=0,a[8]=0,a[12]=-l,a[1]=0,a[5]=2*h,a[9]=0,a[13]=-c,a[2]=0,a[6]=0,a[10]=-2*u,a[14]=-y,a[3]=0,a[7]=0,a[11]=0,a[15]=1,this}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<16;++s)i[s]!==e[s]&&(n=!1);return n}}]),e}(),V=[new o,new o,new o,new o],N=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.origin=i,this.direction=n}return i(e,[{key:\"set\",value:function(t,i){return this.origin.copy(t),this.direction.copy(i),this}},{key:\"copy\",value:function(t){return this.origin.copy(t.origin),this.direction.copy(t.direction),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"at\",value:function(t){return(arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o).copy(this.direction).multiplyScalar(t).add(this.origin)}},{key:\"lookAt\",value:function(t){return this.direction.copy(t).sub(this.origin).normalize(),this}},{key:\"recast\",value:function(t){return this.origin.copy(this.at(t,V[0])),this}},{key:\"closestPointToPoint\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=i.subVectors(t,this.origin).dot(this.direction);return e>=0?i.copy(this.direction).multiplyScalar(e).add(this.origin):i.copy(this.origin)}},{key:\"distanceSquaredToPoint\",value:function(t){var i=V[0].subVectors(t,this.origin).dot(this.direction);return i<0?this.origin.distanceToSquared(t):V[0].copy(this.direction).multiplyScalar(i).add(this.origin).distanceToSquared(t)}},{key:\"distanceToPoint\",value:function(t){return Math.sqrt(this.distanceSquaredToPoint(t))}},{key:\"distanceToPlane\",value:function(t){var i=t.normal.dot(this.direction),e=0!==i?-(this.origin.dot(t.normal)+t.constant)/i:0===t.distanceToPoint(this.origin)?0:-1;return e>=0?e:null}},{key:\"distanceSquaredToSegment\",value:function(t,i,e,n){var s=V[0].copy(t).add(i).multiplyScalar(.5),r=V[1].copy(i).sub(t).normalize(),a=V[2].copy(this.origin).sub(s),o=.5*t.distanceTo(i),h=-this.direction.dot(r),u=a.dot(this.direction),l=-a.dot(r),c=a.lengthSq(),y=Math.abs(1-h*h),v=void 0,d=void 0,f=void 0,m=void 0,x=void 0;return y>0?(d=h*u-l,f=o*y,(v=h*l-u)>=0?d>=-f?d<=f?x=(v*=m=1/y)*(v+h*(d*=m)+2*u)+d*(h*v+d+2*l)+c:(d=o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c):(d=-o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c):d<=-f?x=-(v=Math.max(0,-(-h*o+u)))*v+(d=v>0?-o:Math.min(Math.max(-o,-l),o))*(d+2*l)+c:d<=f?(v=0,x=(d=Math.min(Math.max(-o,-l),o))*(d+2*l)+c):x=-(v=Math.max(0,-(h*o+u)))*v+(d=v>0?o:Math.min(Math.max(-o,-l),o))*(d+2*l)+c):(d=h>0?-o:o,x=-(v=Math.max(0,-(h*d+u)))*v+d*(d+2*l)+c),void 0!==e&&e.copy(this.direction).multiplyScalar(v).add(this.origin),void 0!==n&&n.copy(r).multiplyScalar(d).add(s),x}},{key:\"intersectSphere\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=V[0].subVectors(t.center,this.origin),n=e.dot(this.direction),s=e.dot(e)-n*n,r=t.radius*t.radius,a=null,h=void 0,u=void 0,l=void 0;return s<=r&&(l=n+(h=Math.sqrt(r-s)),((u=n-h)>=0||l>=0)&&(a=u<0?this.at(l,i):this.at(u,i))),a}},{key:\"intersectsSphere\",value:function(t){return this.distanceToPoint(t.center)<=t.radius}},{key:\"intersectPlane\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.distanceToPlane(t);return null===e?null:this.at(e,i)}},{key:\"intersectsPlane\",value:function(t){var i=t.distanceToPoint(this.origin);return 0===i||t.normal.dot(this.direction)*i<0}},{key:\"intersectBox\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,e=this.origin,n=this.direction,s=t.min,r=t.max,a=1/n.x,h=1/n.y,u=1/n.z,l=null,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0;return a>=0?(c=(s.x-e.x)*a,y=(r.x-e.x)*a):(c=(r.x-e.x)*a,y=(s.x-e.x)*a),h>=0?(v=(s.y-e.y)*h,d=(r.y-e.y)*h):(v=(r.y-e.y)*h,d=(s.y-e.y)*h),c<=d&&v<=y&&((v>c||c!=c)&&(c=v),(d<y||y!=y)&&(y=d),u>=0?(f=(s.z-e.z)*u,m=(r.z-e.z)*u):(f=(r.z-e.z)*u,m=(s.z-e.z)*u),c<=m&&f<=y&&((f>c||c!=c)&&(c=f),(m<y||y!=y)&&(y=m),y>=0&&(l=this.at(c>=0?c:y,i)))),l}},{key:\"intersectsBox\",value:function(t){return null!==this.intersectBox(t,V[0])}},{key:\"intersectTriangle\",value:function(t,i,e,n,s){var r=this.direction,a=V[0],o=V[1],h=V[2],u=V[3],l=null,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;return o.subVectors(i,t),h.subVectors(e,t),u.crossVectors(o,h),0===(c=r.dot(u))||n&&c>0||(c>0?y=1:(y=-1,c=-c),a.subVectors(this.origin,t),(v=y*r.dot(h.crossVectors(a,h)))>=0&&(d=y*r.dot(o.cross(a)))>=0&&v+d<=c&&(f=-y*a.dot(u))>=0&&(l=this.at(f/c,s))),l}},{key:\"applyMatrix4\",value:function(t){return this.origin.applyMatrix4(t),this.direction.transformDirection(t),this}},{key:\"equals\",value:function(t){return t.origin.equals(this.origin)&&t.direction.equals(this.direction)}}]),e}(),B=(function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0;t(this,e),this.radius=i,this.phi=n,this.theta=s}i(e,[{key:\"set\",value:function(t,i,e){return this.radius=t,this.phi=i,this.theta=e,this}},{key:\"copy\",value:function(t){return this.radius=t.radius,this.phi=t.phi,this.theta=t.theta,this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"setFromVector3\",value:function(t){return this.radius=t.length(),0===this.radius?(this.theta=0,this.phi=0):(this.theta=Math.atan2(t.x,t.z),this.phi=Math.acos(Math.min(Math.max(t.y/this.radius,-1),1))),this.makeSafe()}},{key:\"makeSafe\",value:function(){return this.phi=Math.max(1e-6,Math.min(Math.PI-1e-6,this.phi)),this}}])}(),function(){function e(){t(this,e),this.elements=new Float32Array([1,0,0,1,0,1])}return i(e,[{key:\"set\",value:function(t,i,e,n,s,r){var a=this.elements;return a[0]=t,a[1]=i,a[3]=n,a[2]=e,a[4]=s,a[5]=r,this}},{key:\"identity\",value:function(){return this.set(1,0,0,1,0,1),this}},{key:\"copy\",value:function(t){var i=t.elements;return this.set(i[0],i[1],i[2],i[3],i[4],i[5]),this}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}},{key:\"toMatrix3\",value:function(t){var i=t.elements;t.set(i[0],i[1],i[2],i[1],i[3],i[4],i[2],i[4],i[5])}},{key:\"add\",value:function(t){var i=this.elements,e=t.elements;return i[0]+=e[0],i[1]+=e[1],i[3]+=e[3],i[2]+=e[2],i[4]+=e[4],i[5]+=e[5],this}},{key:\"norm\",value:function(){var t=this.elements,i=t[1]*t[1],e=t[2]*t[2],n=t[4]*t[4];return Math.sqrt(t[0]*t[0]+i+e+i+t[3]*t[3]+n+e+n+t[5]*t[5])}},{key:\"off\",value:function(){var t=this.elements;return Math.sqrt(2*(t[1]*t[1]+t[2]*t[2]+t[4]*t[4]))}},{key:\"applyToVector3\",value:function(t){var i=t.x,e=t.y,n=t.z,s=this.elements;return t.x=s[0]*i+s[1]*e+s[2]*n,t.y=s[1]*i+s[3]*e+s[4]*n,t.z=s[2]*i+s[4]*e+s[5]*n,t}},{key:\"equals\",value:function(t){var i=this.elements,e=t.elements,n=!0,s=void 0;for(s=0;n&&s<6;++s)i[s]!==e[s]&&(n=!1);return n}}],[{key:\"calculateIndex\",value:function(t,i){return 3-(3-t)*(2-t)/2+i}}]),e}()),L=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0;t(this,e),this.x=i,this.y=n,this.z=s,this.w=r}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.x=t,this.y=i,this.z=e,this.w=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.w=t.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.x=t[i],this.y=t[i+1],this.z=t[i+2],this.w=t[i+3],this}},{key:\"toArray\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return t[i]=this.x,t[i+1]=this.y,t[i+2]=this.z,t[i+3]=this.w,t}},{key:\"setAxisAngleFromQuaternion\",value:function(t){this.w=2*Math.acos(t.w);var i=Math.sqrt(1-t.w*t.w);return i<1e-4?(this.x=1,this.y=0,this.z=0):(this.x=t.x/i,this.y=t.y/i,this.z=t.z/i),this}},{key:\"setAxisAngleFromRotationMatrix\",value:function(t){var i=t.elements,e=i[0],n=i[4],s=i[8],r=i[1],a=i[5],o=i[9],h=i[2],u=i[6],l=i[10],c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0;return Math.abs(n-r)<.01&&Math.abs(s-h)<.01&&Math.abs(o-u)<.01?Math.abs(n+r)<.1&&Math.abs(s+h)<.1&&Math.abs(o+u)<.1&&Math.abs(e+a+l-3)<.1?this.set(1,0,0,0):(c=Math.PI,x=(l+1)/2,p=(n+r)/4,k=(s+h)/4,g=(o+u)/4,(f=(e+1)/2)>(m=(a+1)/2)&&f>x?f<.01?(y=0,v=.707106781,d=.707106781):(v=p/(y=Math.sqrt(f)),d=k/y):m>x?m<.01?(y=.707106781,v=0,d=.707106781):(y=p/(v=Math.sqrt(m)),d=g/v):x<.01?(y=.707106781,v=.707106781,d=0):(y=k/(d=Math.sqrt(x)),v=g/d),this.set(y,v,d,c)):(w=Math.sqrt((u-o)*(u-o)+(s-h)*(s-h)+(r-n)*(r-n)),Math.abs(w)<.001&&(w=1),this.x=(u-o)/w,this.y=(s-h)/w,this.z=(r-n)/w,this.w=Math.acos((e+a+l-1)/2)),this}},{key:\"add\",value:function(t){return this.x+=t.x,this.y+=t.y,this.z+=t.z,this.w+=t.w,this}},{key:\"addScalar\",value:function(t){return this.x+=t,this.y+=t,this.z+=t,this.w+=t,this}},{key:\"addVectors\",value:function(t,i){return this.x=t.x+i.x,this.y=t.y+i.y,this.z=t.z+i.z,this.w=t.w+i.w,this}},{key:\"addScaledVector\",value:function(t,i){return this.x+=t.x*i,this.y+=t.y*i,this.z+=t.z*i,this.w+=t.w*i,this}},{key:\"sub\",value:function(t){return this.x-=t.x,this.y-=t.y,this.z-=t.z,this.w-=t.w,this}},{key:\"subScalar\",value:function(t){return this.x-=t,this.y-=t,this.z-=t,this.w-=t,this}},{key:\"subVectors\",value:function(t,i){return this.x=t.x-i.x,this.y=t.y-i.y,this.z=t.z-i.z,this.w=t.w-i.w,this}},{key:\"multiply\",value:function(t){return this.x*=t.x,this.y*=t.y,this.z*=t.z,this.w*=t.w,this}},{key:\"multiplyScalar\",value:function(t){return this.x*=t,this.y*=t,this.z*=t,this.w*=t,this}},{key:\"multiplyVectors\",value:function(t,i){return this.x=t.x*i.x,this.y=t.y*i.y,this.z=t.z*i.z,this.w=t.w*i.w,this}},{key:\"divide\",value:function(t){return this.x/=t.x,this.y/=t.y,this.z/=t.z,this.w/=t.w,this}},{key:\"divideScalar\",value:function(t){return this.x/=t,this.y/=t,this.z/=t,this.w/=t,this}},{key:\"applyMatrix4\",value:function(t){var i=this.x,e=this.y,n=this.z,s=this.w,r=t.elements;return this.x=r[0]*i+r[4]*e+r[8]*n+r[12]*s,this.y=r[1]*i+r[5]*e+r[9]*n+r[13]*s,this.z=r[2]*i+r[6]*e+r[10]*n+r[14]*s,this.w=r[3]*i+r[7]*e+r[11]*n+r[15]*s,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this.w=-this.w,this}},{key:\"dot\",value:function(t){return this.x*t.x+this.y*t.y+this.z*t.z+this.w*t.w}},{key:\"manhattanLength\",value:function(){return Math.abs(this.x)+Math.abs(this.y)+Math.abs(this.z)+Math.abs(this.w)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"manhattanDistanceTo\",value:function(t){return Math.abs(this.x-t.x)+Math.abs(this.y-t.y)+Math.abs(this.z-t.z)+Math.abs(this.w-t.w)}},{key:\"distanceToSquared\",value:function(t){var i=this.x-t.x,e=this.y-t.y,n=this.z-t.z,s=this.w-t.w;return i*i+e*e+n*n+s*s}},{key:\"distanceTo\",value:function(t){return Math.sqrt(this.distanceToSquared(t))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(t){return this.normalize().multiplyScalar(t)}},{key:\"min\",value:function(t){return this.x=Math.min(this.x,t.x),this.y=Math.min(this.y,t.y),this.z=Math.min(this.z,t.z),this.w=Math.min(this.w,t.w),this}},{key:\"max\",value:function(t){return this.x=Math.max(this.x,t.x),this.y=Math.max(this.y,t.y),this.z=Math.max(this.z,t.z),this.w=Math.max(this.w,t.w),this}},{key:\"clamp\",value:function(t,i){return this.x=Math.max(t.x,Math.min(i.x,this.x)),this.y=Math.max(t.y,Math.min(i.y,this.y)),this.z=Math.max(t.z,Math.min(i.z,this.z)),this.w=Math.max(t.w,Math.min(i.w,this.w)),this}},{key:\"floor\",value:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this.z=Math.floor(this.z),this.w=Math.floor(this.w),this}},{key:\"ceil\",value:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this.z=Math.ceil(this.z),this.w=Math.ceil(this.w),this}},{key:\"round\",value:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this.z=Math.round(this.z),this.w=Math.round(this.w),this}},{key:\"lerp\",value:function(t,i){return this.x+=(t.x-this.x)*i,this.y+=(t.y-this.y)*i,this.z+=(t.z-this.z)*i,this.w+=(t.w-this.w)*i,this}},{key:\"lerpVectors\",value:function(t,i,e){return this.subVectors(i,t).multiplyScalar(e).add(t)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.w===this.w}}]),e}(),R=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,n=arguments.length>1&&void 0!==arguments[1]&&arguments[1];t(this,e),this.value=i,this.done=n}return i(e,[{key:\"reset\",value:function(){this.value=null,this.done=!1}}]),e}(),j=new o,Y=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.min=i,this.max=n,this.children=null}return i(e,[{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getDimensions\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.max,this.min)}},{key:\"split\",value:function(){var t=this.min,i=this.max,e=this.getCenter(j),n=this.children=[null,null,null,null,null,null,null,null],s=void 0,r=void 0;for(s=0;s<8;++s)r=X[s],n[s]=new this.constructor(new o(0===r[0]?t.x:e.x,0===r[1]?t.y:e.y,0===r[2]?t.z:e.z),new o(0===r[0]?e.x:i.x,0===r[1]?e.y:i.y,0===r[2]?e.z:i.z))}}]),e}(),X=[new Uint8Array([0,0,0]),new Uint8Array([0,0,1]),new Uint8Array([0,1,0]),new Uint8Array([0,1,1]),new Uint8Array([1,0,0]),new Uint8Array([1,0,1]),new Uint8Array([1,1,0]),new Uint8Array([1,1,1])],Q=[new Uint8Array([0,4]),new Uint8Array([1,5]),new Uint8Array([2,6]),new Uint8Array([3,7]),new Uint8Array([0,2]),new Uint8Array([1,3]),new Uint8Array([4,6]),new Uint8Array([5,7]),new Uint8Array([0,1]),new Uint8Array([2,3]),new Uint8Array([4,5]),new Uint8Array([6,7])],Z=new o,G=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;t(this,e),this.min=i,this.size=n,this.children=null}return i(e,[{key:\"getCenter\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).copy(this.min).addScalar(.5*this.size)}},{key:\"getDimensions\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).set(this.size,this.size,this.size)}},{key:\"split\",value:function(){var t=this.min,i=this.getCenter(Z),e=.5*this.size,n=this.children=[null,null,null,null,null,null,null,null],s=void 0,r=void 0;for(s=0;s<8;++s)r=X[s],n[s]=new this.constructor(new o(0===r[0]?t.x:i.x,0===r[1]?t.y:i.y,0===r[2]?t.z:i.z),e)}},{key:\"max\",get:function(){return this.min.clone().addScalar(this.size)}}]),e}(),H=new l,J=function(){function e(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;t(this,e),this.octree=i,this.region=n,this.cull=null!==n,this.result=new R,this.trace=null,this.indices=null,this.reset()}return i(e,[{key:\"reset\",value:function(){var t=this.octree.root;return this.trace=[],this.indices=[],null!==t&&(H.min=t.min,H.max=t.max,this.cull&&!this.region.intersectsBox(H)||(this.trace.push(t),this.indices.push(0))),this.result.reset(),this}},{key:\"next\",value:function(){for(var t=this.cull,i=this.region,e=this.indices,n=this.trace,s=null,r=n.length-1,a=void 0,o=void 0,h=void 0;null===s&&r>=0;)if(a=e[r],o=n[r].children,++e[r],a<8)if(null!==o){if(h=o[a],t&&(H.min=h.min,H.max=h.max,!i.intersectsBox(H)))continue;n.push(h),e.push(0),++r}else s=n.pop(),e.pop();else n.pop(),e.pop(),--r;return this.result.value=s,this.result.done=null===s,this.result}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),e}(),K=[new o,new o,new o],W=new l,$=new N,tt=[new Uint8Array([4,2,1]),new Uint8Array([5,3,8]),new Uint8Array([6,8,3]),new Uint8Array([7,8,8]),new Uint8Array([8,6,5]),new Uint8Array([8,7,8]),new Uint8Array([8,8,7]),new Uint8Array([8,8,8])],it=0;function et(t,i,e,n){var s=void 0,r=0;return i<e?(s=i,r=0):(s=e,r=1),n<s&&(r=2),tt[t][r]}var nt=function(){function e(){t(this,e)}return i(e,null,[{key:\"intersectOctree\",value:function(t,i,e){var n=W.min.set(0,0,0),s=W.max.subVectors(t.max,t.min),r=t.getDimensions(K[0]),a=K[1].copy(r).multiplyScalar(.5),o=$.origin.copy(i.ray.origin),h=$.direction.copy(i.ray.direction),u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0;o.sub(t.getCenter(K[2])).add(a),it=0,h.x<0&&(o.x=r.x-o.x,h.x=-h.x,it|=4),h.y<0&&(o.y=r.y-o.y,h.y=-h.y,it|=2),h.z<0&&(o.z=r.z-o.z,h.z=-h.z,it|=1),u=1/h.x,l=1/h.y,c=1/h.z,y=(n.x-o.x)*u,v=(s.x-o.x)*u,d=(n.y-o.y)*l,f=(s.y-o.y)*l,m=(n.z-o.z)*c,x=(s.z-o.z)*c,Math.max(Math.max(y,d),m)<Math.min(Math.min(v,f),x)&&function t(i,e,n,s,r,a,o,h,u){var l=i.children,c=void 0,y=void 0,v=void 0,d=void 0;if(r>=0&&a>=0&&o>=0)if(null===l)u.push(i);else{c=function(t,i,e,n,s,r){var a=0;return t>i&&t>e?(s<t&&(a|=2),r<t&&(a|=1)):i>e?(n<i&&(a|=4),r<i&&(a|=1)):(n<e&&(a|=4),s<e&&(a|=2)),a}(e,n,s,y=.5*(e+r),v=.5*(n+a),d=.5*(s+o));do{switch(c){case 0:t(l[it],e,n,s,y,v,d,h,u),c=et(c,y,v,d);break;case 1:t(l[1^it],e,n,d,y,v,o,h,u),c=et(c,y,v,o);break;case 2:t(l[2^it],e,v,s,y,a,d,h,u),c=et(c,y,a,d);break;case 3:t(l[3^it],e,v,d,y,a,o,h,u),c=et(c,y,a,o);break;case 4:t(l[4^it],y,n,s,r,v,d,h,u),c=et(c,r,v,d);break;case 5:t(l[5^it],y,n,d,r,v,o,h,u),c=et(c,r,v,o);break;case 6:t(l[6^it],y,v,s,r,a,d,h,u),c=et(c,r,a,d);break;case 7:t(l[7^it],y,v,d,r,a,o,h,u),c=8}}while(c<8)}}(t.root,y,d,m,v,f,x,i,e)}}]),e}(),st=new l;var rt=function(){function e(i,n){t(this,e),this.root=void 0!==i&&void 0!==n?new Y(i,n):null}return i(e,[{key:\"getCenter\",value:function(t){return this.root.getCenter(t)}},{key:\"getDimensions\",value:function(t){return this.root.getDimensions(t)}},{key:\"getDepth\",value:function(){return function t(i){var e=i.children,n=0,s=void 0,r=void 0,a=void 0;if(null!==e)for(s=0,r=e.length;s<r;++s)(a=1+t(e[s]))>n&&(n=a);return n}(this.root)}},{key:\"cull\",value:function(t){var i=[];return function t(i,e,n){var s=i.children,r=void 0,a=void 0;if(st.min=i.min,st.max=i.max,e.intersectsBox(st))if(null!==s)for(r=0,a=s.length;r<a;++r)t(s[r],e,n);else n.push(i)}(this.root,t,i),i}},{key:\"findOctantsByLevel\",value:function(t){var i=[];return function t(i,e,n,s){var r=i.children,a=void 0,o=void 0;if(n===e)s.push(i);else if(null!==r)for(++n,a=0,o=r.length;a<o;++a)t(r[a],e,n,s)}(this.root,t,0,i),i}},{key:\"raycast\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[];return nt.intersectOctree(this,t,i),i}},{key:\"leaves\",value:function(t){return new J(this,t)}},{key:Symbol.iterator,value:function(){return new J(this)}},{key:\"min\",get:function(){return this.root.min}},{key:\"max\",get:function(){return this.root.max}},{key:\"children\",get:function(){return this.root.children}}]),e}(),at=new o,ot=function(e){n(a,Y);function a(i,e){t(this,a);var n=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this,i,e));return n.points=null,n.data=null,n}return i(a,[{key:\"distanceToSquared\",value:function(t){return at.copy(t).clamp(this.min,this.max).sub(t).lengthSquared()}},{key:\"distanceToCenterSquared\",value:function(t){var i=this.getCenter(at),e=t.x-i.x,n=t.y-i.x,s=t.z-i.z;return e*e+n*n+s*s}},{key:\"contains\",value:function(t,i){var e=this.min,n=this.max;return t.x>=e.x-i&&t.y>=e.y-i&&t.z>=e.z-i&&t.x<=n.x+i&&t.y<=n.y+i&&t.z<=n.z+i}},{key:\"redistribute\",value:function(t){var i=this.children,e=this.points,n=this.data,s=void 0,r=void 0,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(null!==i&&null!==e)for(s=0,a=e.length;s<a;++s)for(u=e[s],l=n[s],r=0,o=i.length;r<o;++r)if((h=i[r]).contains(u,t)){null===h.points&&(h.points=[],h.data=[]),h.points.push(u),h.data.push(l);break}this.points=null,this.data=null}},{key:\"merge\",value:function(){var t=this.children,i=void 0,e=void 0,n=void 0;if(null!==t){for(this.points=[],this.data=[],i=0,e=t.length;i<e;++i)if(null!==(n=t[i]).points){var s,a;(s=this.points).push.apply(s,r(n.points)),(a=this.data).push.apply(a,r(n.data))}this.children=null}}}]),a}(),ht=function i(e,n,s){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:null;t(this,i),this.distance=e,this.distanceToRay=n,this.point=s,this.object=r},ut=1e-6;function lt(t){var i=t.children,e=0,n=void 0,s=void 0;if(null!==i)for(n=0,s=i.length;n<s;++n)e+=lt(i[n]);else null!==t.points&&(e=t.points.length);return e}function ct(t,i,e,n,s){var r=n.children,a=!1,o=!1,h=void 0,u=void 0;if(n.contains(t,e.bias)){if(null===r){if(null===n.points)n.points=[],n.data=[];else for(h=0,u=n.points.length;!a&&h<u;++h)a=n.points[h].equals(t);a?(n.data[h-1]=i,o=!0):n.points.length<e.maxPoints||s===e.maxDepth?(n.points.push(t.clone()),n.data.push(i),++e.pointCount,o=!0):(n.split(),n.redistribute(e.bias),r=n.children)}if(null!==r)for(++s,h=0,u=r.length;!o&&h<u;++h)o=ct(t,i,e,r[h],s)}return o}function yt(t,i,e,n){var s=e.children,r=null,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0;if(e.contains(t,i.bias))if(null!==s)for(a=0,o=s.length;null===r&&a<o;++a)r=yt(t,i,s[a],e);else if(null!==e.points)for(h=e.points,u=e.data,a=0,o=h.length;a<o;++a)if(h[a].equals(t)){l=o-1,r=u[a],a<l&&(h[a]=h[l],u[a]=u[l]),h.pop(),u.pop(),--i.pointCount,null!==n&&lt(n)<=i.maxPoints&&n.merge();break}return r}!function(r){n(a,rt);function a(i,e){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:8,o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:8;t(this,a);var h=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return h.root=new ot(i,e),h.bias=Math.max(0,n),h.maxPoints=Math.max(1,Math.round(r)),h.maxDepth=Math.max(0,Math.round(o)),h.pointCount=0,h}i(a,[{key:\"countPoints\",value:function(t){return lt(t)}},{key:\"put\",value:function(t,i){return ct(t,i,this,this.root,0)}},{key:\"remove\",value:function(t){return yt(t,this,this.root,null)}},{key:\"fetch\",value:function(t){return function t(i,e,n){var s=n.children,r=null,a=void 0,o=void 0,h=void 0;if(n.contains(i,e.bias))if(null!==s)for(a=0,o=s.length;null===r&&a<o;++a)r=t(i,e,s[a]);else if(null!==n.points)for(a=0,o=(h=n.points).length;null===r&&a<o;++a)i.distanceToSquared(h[a])<=ut&&(r=n.data[a]);return r}(t,this,this.root)}},{key:\"move\",value:function(t,i){return function t(i,e,n,s,r,a){var o=s.children,h=null,u=void 0,l=void 0,c=void 0;if(s.contains(i,n.bias))if(s.contains(e,n.bias)){if(null!==o)for(++a,u=0,l=o.length;null===h&&u<l;++u)h=t(i,e,n,o[u],s,a);else if(null!==s.points)for(u=0,l=(c=s.points).length;u<l;++u)if(i.distanceToSquared(c[u])<=ut){c[u].copy(e),h=s.data[u];break}}else ct(e,h=yt(i,n,s,r),n,r,a-1);return h}(t,i,this,this.root,null,0)}},{key:\"findNearestPoint\",value:function(t){return function t(i,e,n,s){var r=s.points,a=s.children,o=null,h=e,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;if(null!==a)for(u=0,l=(v=a.map(function(t){return{octant:t,distance:t.distanceToCenterSquared(i)}}).sort(function(t,i){return t.distance-i.distance})).length;u<l;++u)(d=v[u].octant).contains(i,h)&&null!==(f=t(i,h,n,d))&&(y=f.point.distanceToSquared(i),(!n||y>0)&&y<h&&(h=y,o=f));else if(null!==r)for(u=0,l=r.length;u<l;++u)c=r[u],y=i.distanceToSquared(c),(!n||y>0)&&y<h&&(h=y,o={point:c.clone(),data:s.data[u]});return o}(t,arguments.length>1&&void 0!==arguments[1]?arguments[1]:1/0,arguments.length>2&&void 0!==arguments[2]&&arguments[2],this.root)}},{key:\"findPoints\",value:function(t,i){var e=[];return function t(i,e,n,s,r){var a=s.points,o=s.children,h=e*e,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0;if(null!==o)for(u=0,l=o.length;u<l;++u)(v=o[u]).contains(i,e)&&t(i,e,n,v,r);else if(null!==a)for(u=0,l=a.length;u<l;++u)c=a[u],y=i.distanceToSquared(c),(!n||y>0)&&y<=h&&r.push({point:c.clone(),data:s.data[u]})}(t,i,arguments.length>2&&void 0!==arguments[2]&&arguments[2],this.root,e),e}},{key:\"raycast\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:[],n=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"raycast\",this).call(this,t);return n.length>0&&this.testPoints(n,t,i),i}},{key:\"testPoints\",value:function(t,i,e){var n=i.params.Points.threshold,s=n*n,r=void 0,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0;for(u=0,c=t.length;u<c;++u)if(null!==(d=(v=t[u]).points))for(l=0,y=d.length;l<y;++l)f=d[l],(h=i.ray.distanceSqToPoint(f))<s&&(r=i.ray.closestPointToPoint(f),(a=i.ray.origin.distanceTo(r))>=i.near&&a<=i.far&&(o=Math.sqrt(h),e.push(new ht(a,o,r,v.data[l]))))}}])}();var vt=new l,dt=new o,ft=new o,mt=new o,xt=(function(){function e(){t(this,e)}i(e,null,[{key:\"recycleOctants\",value:function(t,i){var e=t.min,n=t.getCenter(ft),s=t.getDimensions(mt).multiplyScalar(.5),r=t.children,a=i.length,o=void 0,h=void 0,u=void 0,l=void 0;for(o=0;o<8;++o)for(u=X[o],vt.min.addVectors(e,dt.fromArray(u).multiply(s)),vt.max.addVectors(n,dt.fromArray(u).multiply(s)),h=0;h<a;++h)if(null!==(l=i[h])&&vt.min.equals(l.min)&&vt.max.equals(l.max)){r[o]=l,i[h]=null;break}}}])}(),new o),pt=new o,kt=new o,gt=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o;t(this,e),this.a=i,this.b=n,this.index=-1,this.coordinates=new o,this.t=0,this.n=new o}return i(e,[{key:\"approximateZeroCrossing\",value:function(t){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:8,e=Math.max(1,i-1),n=0,s=1,r=0,a=0,o=void 0,h=void 0;for(xt.subVectors(this.b,this.a);a<=e&&(r=(n+s)/2,pt.addVectors(this.a,kt.copy(xt).multiplyScalar(r)),h=t.sample(pt),!(Math.abs(h)<=1e-4||(s-n)/2<=1e-6));)pt.addVectors(this.a,kt.copy(xt).multiplyScalar(n)),o=t.sample(pt),Math.sign(h)===Math.sign(o)?n=r:s=r,++a;this.t=r}},{key:\"computeZeroCrossingPosition\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new o).subVectors(this.b,this.a).multiplyScalar(this.t).add(this.a)}},{key:\"computeSurfaceNormal\",value:function(t){var i=this.computeZeroCrossingPosition(xt),e=t.sample(pt.addVectors(i,kt.set(.001,0,0)))-t.sample(pt.subVectors(i,kt.set(.001,0,0))),n=t.sample(pt.addVectors(i,kt.set(0,.001,0)))-t.sample(pt.subVectors(i,kt.set(0,.001,0))),s=t.sample(pt.addVectors(i,kt.set(0,0,.001)))-t.sample(pt.subVectors(i,kt.set(0,0,.001)));this.n.set(e,n,s).normalize()}}]),e}(),wt=new gt,zt=new o,Mt=new o,bt=function(){function e(i,n,s){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,a=arguments.length>4&&void 0!==arguments[4]?arguments[4]:3;t(this,e),this.edgeData=i,this.cellPosition=n,this.cellSize=s,this.indices=null,this.zeroCrossings=null,this.normals=null,this.axes=null,this.lengths=null,this.result=new R,this.initialC=r,this.c=r,this.initialD=a,this.d=a,this.i=0,this.l=0,this.reset()}return i(e,[{key:\"reset\",value:function(){var t=this.edgeData,i=[],e=[],n=[],s=[],r=[],a=void 0,o=void 0,h=void 0,u=void 0;for(this.i=0,this.c=0,this.d=0,a=4>>(o=this.initialC),h=this.initialD;o<h;++o,a>>=1)(u=t.indices[o].length)>0&&(i.push(t.indices[o]),e.push(t.zeroCrossings[o]),n.push(t.normals[o]),s.push(X[a]),r.push(u),++this.d);return this.l=r.length>0?r[0]:0,this.indices=i,this.zeroCrossings=e,this.normals=n,this.axes=s,this.lengths=r,this.result.reset(),this}},{key:\"next\",value:function(){var t=this.cellSize,i=Ot.resolution,e=i+1,n=e*e,s=this.result,r=this.cellPosition,a=void 0,o=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;return this.i===this.l&&(this.l=++this.c<this.d?this.lengths[this.c]:0,this.i=0),this.i<this.l?(c=this.c,y=this.i,a=this.axes[c],o=this.indices[c][y],wt.index=o,h=o%e,u=Math.trunc(o%n/e),l=Math.trunc(o/n),wt.coordinates.set(h,u,l),zt.set(h*t/i,u*t/i,l*t/i),Mt.set((h+a[0])*t/i,(u+a[1])*t/i,(l+a[2])*t/i),wt.a.addVectors(r,zt),wt.b.addVectors(r,Mt),wt.t=this.zeroCrossings[c][y],wt.n.fromArray(this.normals[c],3*y),s.value=wt,++this.i):(s.value=null,s.done=!0),s}},{key:\"return\",value:function(t){return this.result.value=t,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),e}(),At=function(){function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:i,s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:i;t(this,e),this.indices=i<=0?null:[new Uint32Array(i),new Uint32Array(n),new Uint32Array(s)],this.zeroCrossings=i<=0?null:[new Float32Array(i),new Float32Array(n),new Float32Array(s)],this.normals=i<=0?null:[new Float32Array(3*i),new Float32Array(3*n),new Float32Array(3*s)]}return i(e,[{key:\"serialize\",value:function(){return{edges:this.edges,zeroCrossings:this.zeroCrossings,normals:this.normals}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.edges=t.edges,this.zeroCrossings=t.zeroCrossings,this.normals=t.normals):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],i=[this.edges[0],this.edges[1],this.edges[2],this.zeroCrossings[0],this.zeroCrossings[1],this.zeroCrossings[2],this.normals[0],this.normals[1],this.normals[2]],e=void 0,n=void 0,s=void 0;for(n=0,s=i.length;n<s;++n)null!==(e=i[n])&&t.push(e.buffer);return t}},{key:\"edges\",value:function(t,i){return new bt(this,t,i)}},{key:\"edgesX\",value:function(t,i){return new bt(this,t,i,0,1)}},{key:\"edgesY\",value:function(t,i){return new bt(this,t,i,1,2)}},{key:\"edgesZ\",value:function(t,i){return new bt(this,t,i,2,3)}}],[{key:\"calculate1DEdgeCount\",value:function(t){return Math.pow(t+1,2)*t}}]),e}(),St={AIR:0,SOLID:1},Pt=0,Tt=0,It=0;var Ot=function(){function e(){var i=!(arguments.length>0&&void 0!==arguments[0])||arguments[0];t(this,e),this.materials=0,this.materialIndices=i?new Uint8Array(It):null,this.runLengths=null,this.edgeData=null}return i(e,[{key:\"set\",value:function(t){return this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,this.edgeData=t.edgeData,this}},{key:\"clear\",value:function(){return this.materials=0,this.materialIndices=null,this.runLengths=null,this.edgeData=null,this}},{key:\"setMaterialIndex\",value:function(t,i){this.materialIndices[t]===St.AIR?i!==St.AIR&&++this.materials:i===St.AIR&&--this.materials,this.materialIndices[t]=i}},{key:\"compress\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this,i=void 0;return this.compressed?(t.materialIndices=this.materialIndices,t.runLengths=this.runLengths):(i=this.full?new a([this.materialIndices.length],[St.SOLID]):a.encode(this.materialIndices),t.materialIndices=new Uint8Array(i.data),t.runLengths=new Uint32Array(i.runLengths)),t.materials=this.materials,t}},{key:\"decompress\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:this;return t.materialIndices=this.compressed?a.decode(this.runLengths,this.materialIndices,new Uint8Array(It)):this.materialIndices,t.runLengths=null,t.materials=this.materials,t}},{key:\"serialize\",value:function(){return{materials:this.materials,materialIndices:this.materialIndices,runLengths:this.runLengths,edgeData:null!==this.edgeData?this.edgeData.serialize():null}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.materials=t.materials,this.materialIndices=t.materialIndices,this.runLengths=t.runLengths,null!==t.edgeData?(null===this.edgeData&&(this.edgeData=new At),this.edgeData.deserialize(t.edgeData)):this.edgeData=null):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.edgeData&&this.edgeData.createTransferList(t),null!==this.materialIndices&&t.push(this.materialIndices.buffer),null!==this.runLengths&&t.push(this.runLengths.buffer),t}},{key:\"empty\",get:function(){return 0===this.materials}},{key:\"full\",get:function(){return this.materials===It}},{key:\"compressed\",get:function(){return null!==this.runLengths}},{key:\"neutered\",get:function(){return!this.empty&&null===this.materialIndices}}],[{key:\"isovalue\",get:function(){return Pt},set:function(t){Pt=t}},{key:\"resolution\",get:function(){return Tt},set:function(t){Tt=Math.max(1,Math.min(256,(i=t,Math.pow(2,Math.max(0,Math.ceil(Math.log2(i)))))));var i;It=Math.pow(Tt+1,3)}}]),e}(),_t=function(){function e(){t(this,e),this.ata=new B,this.ata.set(0,0,0,0,0,0),this.atb=new o,this.massPointSum=new o,this.numPoints=0}return i(e,[{key:\"set\",value:function(t,i,e,n){return this.ata.copy(t),this.atb.copy(i),this.massPointSum.copy(e),this.numPoints=n,this}},{key:\"copy\",value:function(t){return this.set(t.ata,t.atb,t.massPointSum,t.numPoints)}},{key:\"add\",value:function(t,i){var e=i.x,n=i.y,s=i.z,r=t.dot(i),a=this.ata.elements,o=this.atb;a[0]+=e*e,a[1]+=e*n,a[3]+=n*n,a[2]+=e*s,a[4]+=n*s,a[5]+=s*s,o.x+=r*e,o.y+=r*n,o.z+=r*s,this.massPointSum.add(t),++this.numPoints}},{key:\"addData\",value:function(t){this.ata.add(t.ata),this.atb.add(t.atb),this.massPointSum.add(t.massPointSum),this.numPoints+=t.numPoints}},{key:\"clear\",value:function(){this.ata.set(0,0,0,0,0,0),this.atb.set(0,0,0),this.massPointSum.set(0,0,0),this.numPoints=0}},{key:\"clone\",value:function(){return(new this.constructor).copy(this)}}]),e}(),Ct=new v,Ut=function(){function e(){t(this,e)}return i(e,null,[{key:\"calculateCoefficients\",value:function(t,i,e){var n=void 0,s=void 0,r=void 0;return 0===i?(Ct.x=1,Ct.y=0):(n=(e-t)/(2*i),s=Math.sqrt(1+n*n),r=1/(n>=0?n+s:n-s),Ct.x=1/Math.sqrt(1+r*r),Ct.y=r*Ct.x),Ct}}]),e}(),qt=function(){function e(){t(this,e)}return i(e,null,[{key:\"rotateXY\",value:function(t,i){var e=i.x,n=i.y,s=t.x,r=t.y;t.set(e*s-n*r,n*s+e*r)}},{key:\"rotateQXY\",value:function(t,i,e){var n=e.x,s=e.y,r=n*n,a=s*s,o=2*n*s*i,h=t.x,u=t.y;t.set(r*h-o+a*u,a*h+o+r*u)}}]),e}(),Ft=.1,Et=5,Dt=new B,Vt=new f,Nt=new v,Bt=new o;function Lt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[1]&&(s=Ut.calculateCoefficients(e[0],e[1],e[3]),qt.rotateQXY(Nt.set(e[0],e[3]),e[1],s),e[0]=Nt.x,e[3]=Nt.y,qt.rotateXY(Nt.set(e[2],e[4]),s),e[2]=Nt.x,e[4]=Nt.y,e[1]=0,qt.rotateXY(Nt.set(n[0],n[3]),s),n[0]=Nt.x,n[3]=Nt.y,qt.rotateXY(Nt.set(n[1],n[4]),s),n[1]=Nt.x,n[4]=Nt.y,qt.rotateXY(Nt.set(n[2],n[5]),s),n[2]=Nt.x,n[5]=Nt.y)}function Rt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[2]&&(s=Ut.calculateCoefficients(e[0],e[2],e[5]),qt.rotateQXY(Nt.set(e[0],e[5]),e[2],s),e[0]=Nt.x,e[5]=Nt.y,qt.rotateXY(Nt.set(e[1],e[4]),s),e[1]=Nt.x,e[4]=Nt.y,e[2]=0,qt.rotateXY(Nt.set(n[0],n[6]),s),n[0]=Nt.x,n[6]=Nt.y,qt.rotateXY(Nt.set(n[1],n[7]),s),n[1]=Nt.x,n[7]=Nt.y,qt.rotateXY(Nt.set(n[2],n[8]),s),n[2]=Nt.x,n[8]=Nt.y)}function jt(t,i){var e=t.elements,n=i.elements,s=void 0;0!==e[4]&&(s=Ut.calculateCoefficients(e[3],e[4],e[5]),qt.rotateQXY(Nt.set(e[3],e[5]),e[4],s),e[3]=Nt.x,e[5]=Nt.y,qt.rotateXY(Nt.set(e[1],e[2]),s),e[1]=Nt.x,e[2]=Nt.y,e[4]=0,qt.rotateXY(Nt.set(n[3],n[6]),s),n[3]=Nt.x,n[6]=Nt.y,qt.rotateXY(Nt.set(n[4],n[7]),s),n[4]=Nt.x,n[7]=Nt.y,qt.rotateXY(Nt.set(n[5],n[8]),s),n[5]=Nt.x,n[8]=Nt.y)}function Yt(t){var i=Math.abs(t)<Ft?0:1/t;return Math.abs(i)<Ft?0:i}var Xt=function(){function e(){t(this,e)}return i(e,null,[{key:\"solve\",value:function(t,i,e){var n=function(t,i){var e=t.elements,n=void 0;for(n=0;n<Et;++n)Lt(t,i),Rt(t,i),jt(t,i);return Bt.set(e[0],e[3],e[5])}(Dt.copy(t),Vt.identity()),s=function(t,i){var e=t.elements,n=e[0],s=e[3],r=e[6],a=e[1],o=e[4],h=e[7],u=e[2],l=e[5],c=e[8],y=Yt(i.x),v=Yt(i.y),d=Yt(i.z);return t.set(n*y*n+s*v*s+r*d*r,n*y*a+s*v*o+r*d*h,n*y*u+s*v*l+r*d*c,a*y*n+o*v*s+h*d*r,a*y*a+o*v*o+h*d*h,a*y*u+o*v*l+h*d*c,u*y*n+l*v*s+c*d*r,u*y*a+l*v*o+c*d*h,u*y*u+l*v*l+c*d*c)}(Vt,n);e.copy(i).applyMatrix3(s)}}]),e}(),Qt=new o;var Zt=function(){function e(){t(this,e),this.data=null,this.ata=new B,this.atb=new o,this.massPoint=new o,this.hasSolution=!1}return i(e,[{key:\"setData\",value:function(t){return this.data=t,this.hasSolution=!1,this}},{key:\"solve\",value:function(t){var i=this.data,e=this.massPoint,n=this.ata.copy(i.ata),s=this.atb.copy(i.atb),r=1/0;!this.hasSolution&&null!==i&&i.numPoints>0&&(Qt.copy(i.massPointSum).divideScalar(i.numPoints),e.copy(Qt),n.applyToVector3(Qt),s.sub(Qt),Xt.solve(n,s,t),a=s,o=t,n.applyToVector3(Qt.copy(o)),Qt.subVectors(a,Qt),r=Qt.dot(Qt),t.add(e),this.hasSolution=!0);var a,o;return r}}]),e}(),Gt=function i(){t(this,i),this.materials=0,this.edgeCount=0,this.index=-1,this.position=new o,this.normal=new o,this.qefData=null},Ht=new Zt,Jt=-1,Kt=function(e){n(r,G);function r(i,e){t(this,r);var n=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this,i,e));return n.voxel=null,n}return i(r,[{key:\"contains\",value:function(t){var i=this.min,e=this.size;return t.x>=i.x-.1&&t.y>=i.y-.1&&t.z>=i.z-.1&&t.x<=i.x+e+.1&&t.y<=i.y+e+.1&&t.z<=i.z+e+.1}},{key:\"collapse\",value:function(){var t=this.children,i=[-1,-1,-1,-1,-1,-1,-1,-1],e=new o,n=-1,s=null!==t,r=0,a=void 0,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;if(s){for(l=new _t,c=0,y=0;y<8;++y)r+=(a=t[y]).collapse(),u=a.voxel,null!==a.children?s=!1:null!==u&&(l.addData(u.qefData),n=u.materials>>7-y&1,i[y]=u.materials>>y&1,++c);if(s&&Ht.setData(l).solve(e)<=Jt){for((u=new Gt).position.copy(this.contains(e)?e:Ht.massPoint),y=0;y<8;++y)h=i[y],a=t[y],-1===h?u.materials|=n<<y:(u.materials|=h<<y,u.normal.add(a.voxel.normal));u.normal.normalize(),u.qefData=l,this.voxel=u,this.children=null,r+=c-1}}return r}}],[{key:\"errorThreshold\",get:function(){return Jt},set:function(t){Jt=t}}]),r}(),Wt=function i(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;t(this,i),this.action=e,this.error=null},$t=function(){function e(i,n,s,r,a){t(this,e),this.indices=i,this.positions=n,this.normals=s,this.uvs=r,this.materials=a}return i(e,[{key:\"serialize\",value:function(){return{indices:this.indices,positions:this.positions,normals:this.normals,uvs:this.uvs,materials:this.materials}}},{key:\"deserialize\",value:function(t){var i=this;return null!==t?(this.indices=t.indices,this.positions=t.positions,this.normals=t.normals,this.uvs=t.uvs,this.materials=t.materials):i=null,i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.push(this.indices.buffer),t.push(this.positions.buffer),t.push(this.normals.buffer),t.push(this.uvs.buffer),t.push(this.materials.buffer),t}}]),e}(),ti=[new Uint8Array([0,4,0]),new Uint8Array([1,5,0]),new Uint8Array([2,6,0]),new Uint8Array([3,7,0]),new Uint8Array([0,2,1]),new Uint8Array([4,6,1]),new Uint8Array([1,3,1]),new Uint8Array([5,7,1]),new Uint8Array([0,1,2]),new Uint8Array([2,3,2]),new Uint8Array([4,5,2]),new Uint8Array([6,7,2])],ii=[new Uint8Array([0,1,2,3,0]),new Uint8Array([4,5,6,7,0]),new Uint8Array([0,4,1,5,1]),new Uint8Array([2,6,3,7,1]),new Uint8Array([0,2,4,6,2]),new Uint8Array([1,3,5,7,2])],ei=[[new Uint8Array([4,0,0]),new Uint8Array([5,1,0]),new Uint8Array([6,2,0]),new Uint8Array([7,3,0])],[new Uint8Array([2,0,1]),new Uint8Array([6,4,1]),new Uint8Array([3,1,1]),new Uint8Array([7,5,1])],[new Uint8Array([1,0,2]),new Uint8Array([3,2,2]),new Uint8Array([5,4,2]),new Uint8Array([7,6,2])]],ni=[[new Uint8Array([1,4,0,5,1,1]),new Uint8Array([1,6,2,7,3,1]),new Uint8Array([0,4,6,0,2,2]),new Uint8Array([0,5,7,1,3,2])],[new Uint8Array([0,2,3,0,1,0]),new Uint8Array([0,6,7,4,5,0]),new Uint8Array([1,2,0,6,4,2]),new Uint8Array([1,3,1,7,5,2])],[new Uint8Array([1,1,0,3,2,0]),new Uint8Array([1,5,4,7,6,0]),new Uint8Array([0,1,5,0,4,1]),new Uint8Array([0,3,7,2,6,1])]],si=[[new Uint8Array([3,2,1,0,0]),new Uint8Array([7,6,5,4,0])],[new Uint8Array([5,1,4,0,1]),new Uint8Array([7,3,6,2,1])],[new Uint8Array([6,4,2,0,2]),new Uint8Array([7,5,3,1,2])]],ri=[new Uint8Array([3,2,1,0]),new Uint8Array([7,5,6,4]),new Uint8Array([11,10,9,8])],ai=Math.pow(2,16)-1;function oi(t,i,e){var n=[0,0,0,0],s=void 0,r=void 0,a=void 0,o=void 0;if(null!==t[0].voxel&&null!==t[1].voxel&&null!==t[2].voxel&&null!==t[3].voxel)!function(t,i,e){var n=[-1,-1,-1,-1],s=[!1,!1,!1,!1],r=1/0,a=0,o=!1,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0;for(d=0;d<4;++d)y=t[d],v=ri[i][d],h=Q[v][0],u=Q[v][1],l=y.voxel.materials>>h&1,c=y.voxel.materials>>u&1,y.size<r&&(r=y.size,a=d,o=l!==St.AIR),n[d]=y.voxel.index,s[d]=l!==c;s[a]&&(o?(e.push(n[0]),e.push(n[3]),e.push(n[1]),e.push(n[0]),e.push(n[2]),e.push(n[3])):(e.push(n[0]),e.push(n[1]),e.push(n[3]),e.push(n[0]),e.push(n[3]),e.push(n[2])))}(t,i,e);else for(a=0;a<2;++a){for(n[0]=si[i][a][0],n[1]=si[i][a][1],n[2]=si[i][a][2],n[3]=si[i][a][3],s=[],o=0;o<4;++o)if(null!==(r=t[o]).voxel)s[o]=r;else{if(null===r.children)break;s[o]=r.children[n[o]]}4===o&&oi(s,si[i][a][4],e)}}function hi(t,i,e){var n=[0,0,0,0],s=[[0,0,1,1],[0,1,0,1]],r=void 0,a=void 0,o=void 0,h=void 0,u=void 0;if(null!==t[0].children||null!==t[1].children){for(h=0;h<4;++h)n[0]=ei[i][h][0],n[1]=ei[i][h][1],hi([null===t[0].children?t[0]:t[0].children[n[0]],null===t[1].children?t[1]:t[1].children[n[1]]],ei[i][h][2],e);for(h=0;h<4;++h){for(n[0]=ni[i][h][1],n[1]=ni[i][h][2],n[2]=ni[i][h][3],n[3]=ni[i][h][4],a=s[ni[i][h][0]],r=[],u=0;u<4;++u)if(null!==(o=t[a[u]]).voxel)r[u]=o;else{if(null===o.children)break;r[u]=o.children[n[u]]}4===u&&oi(r,ni[i][h][5],e)}}}var ui=function(){function e(){t(this,e)}return i(e,null,[{key:\"run\",value:function(t){var i=[],e=t.voxelCount,n=null,s=null,r=null,a=null,o=null;return e>ai?console.warn(\"Could not create geometry for cell at position\",t.min,\"(vertex count of\",e,\"exceeds limit of \",ai,\")\"):e>0&&(s=new Float32Array(3*e),r=new Float32Array(3*e),a=new Float32Array(2*e),o=new Uint8Array(e),function t(i,e,n,s){var r=void 0,a=void 0;if(null!==i.children)for(r=0;r<8;++r)s=t(i.children[r],e,n,s);else null!==i.voxel&&((a=i.voxel).index=s,e[3*s]=a.position.x,e[3*s+1]=a.position.y,e[3*s+2]=a.position.z,n[3*s]=a.normal.x,n[3*s+1]=a.normal.y,n[3*s+2]=a.normal.z,++s);return s}(t.root,s,r,0),function t(i,e){var n=i.children,s=[0,0,0,0],r=void 0;if(null!==n){for(r=0;r<8;++r)t(n[r],e);for(r=0;r<12;++r)s[0]=ti[r][0],s[1]=ti[r][1],hi([n[s[0]],n[s[1]]],ti[r][2],e);for(r=0;r<6;++r)s[0]=ii[r][0],s[1]=ii[r][1],s[2]=ii[r][2],s[3]=ii[r][3],oi([n[s[0]],n[s[1]],n[s[2]],n[s[3]]],ii[r][4],e)}}(t.root,i),n=new $t(new Uint16Array(i),s,r,a,o)),n}}]),e}();function li(t,i,e,n,s){var r=0;for(i>>=1;i>0;i>>=1,r=0)e>=i&&(r+=4,e-=i),n>=i&&(r+=2,n-=i),s>=i&&(r+=1,s-=i),null===t.children&&t.split(),t=t.children[r];return t}function ci(t,i,e,n,s){var r=t+1,a=r*r,o=new Gt,h=void 0,u=void 0,l=void 0,c=void 0,y=void 0;for(h=0,y=0;y<8;++y)c=(n+(l=X[y])[2])*a+(e+l[1])*r+(i+l[0]),h|=Math.min(s[c],St.SOLID)<<y;for(u=0,y=0;y<12;++y)(h>>Q[y][0]&1)!==(h>>Q[y][1]&1)&&++u;return o.materials=h,o.edgeCount=u,o.qefData=new _t,o}var yi=function(e){n(r,rt);function r(i){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:new o,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1;t(this,r);var a=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this));return a.root=new Kt(e,n),a.voxelCount=0,null!==i&&null!==i.edgeData&&a.construct(i),Kt.errorThreshold>=0&&a.simplify(),a}return i(r,[{key:\"simplify\",value:function(){this.voxelCount-=this.root.collapse()}},{key:\"construct\",value:function(t){var i=Ot.resolution,e=t.edgeData,n=t.materialIndices,s=new Zt,r=new o,a=[e.edgesX(this.min,this.root.size),e.edgesY(this.min,this.root.size),e.edgesZ(this.min,this.root.size)],h=[new Uint8Array([0,1,2,3]),new Uint8Array([0,1,4,5]),new Uint8Array([0,2,4,6])],u=0,l=void 0,c=void 0,y=void 0,v=void 0,d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0;for(k=0;k<3;++k){y=h[k],l=a[k];var w=!0,z=!1,M=void 0;try{for(var b,A=l[Symbol.iterator]();!(w=(b=A.next()).done);w=!0)for((c=b.value).computeZeroCrossingPosition(r),g=0;g<4;++g)v=X[y[g]],m=c.coordinates.x-v[0],x=c.coordinates.y-v[1],p=c.coordinates.z-v[2],m>=0&&x>=0&&p>=0&&m<i&&x<i&&p<i&&(null===(d=li(this.root,i,m,x,p)).voxel&&(d.voxel=ci(i,m,x,p,n),++u),(f=d.voxel).normal.add(c.n),f.qefData.add(r,c.n),f.qefData.numPoints===f.edgeCount&&(s.setData(f.qefData).solve(f.position),d.contains(f.position)||f.position.copy(s.massPoint),f.normal.normalize()))}catch(t){z=!0,M=t}finally{try{!w&&A.return&&A.return()}finally{if(z)throw M}}}this.voxelCount=u}}]),r}(),vi={EXTRACT:\"worker.extract\",MODIFY:\"worker.modify\",CONFIGURE:\"worker.config\",CLOSE:\"worker.close\"},di=function(i){n(e,Wt);function e(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;t(this,e);var n=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,i));return n.data=null,n}return e}(),fi=function(i){n(e,di);function e(){t(this,e);var i=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,vi.EXTRACT));return i.isosurface=null,i}return e}(),mi=new Ot(!1),xi=function(){function e(){t(this,e),this.data=null,this.response=null}return i(e,[{key:\"getData\",value:function(){return this.data}},{key:\"respond\",value:function(){return this.response.data=this.data.serialize(),this.response}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return null!==this.data&&this.data.createTransferList(t),t}},{key:\"process\",value:function(t){return this.data=mi.deserialize(t.data),this}}]),e}(),pi=function(r){n(a,xi);function a(){t(this,a);var i=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return i.response=new fi,i.decompressionTarget=new Ot(!1),i.isosurface=null,i}return i(a,[{key:\"respond\",value:function(){var t=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"respond\",this).call(this);return t.isosurface=null!==this.isosurface?this.isosurface.serialise():null,t}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"createTransferList\",this).call(this,t),null!==this.isosurface?this.isosurface.createTransferList(t):t}},{key:\"process\",value:function(t){var i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"process\",this).call(this,t).getData(),n=new yi(i.decompress(this.decompressionTarget));return this.isosurface=ui.run(n),this.decompressionTarget.clear(),this}}]),a}(),ki={UNION:\"csg.union\",DIFFERENCE:\"csg.difference\",INTERSECTION:\"csg.intersection\",DENSITY_FUNCTION:\"csg.densityfunction\"},gi=function(){function e(i){t(this,e),this.type=i;for(var n=arguments.length,s=Array(n>1?n-1:0),r=1;r<n;r++)s[r-1]=arguments[r];this.children=s,this.boundingBox=null}return i(e,[{key:\"getBoundingBox\",value:function(){return null===this.boundingBox&&(this.boundingBox=this.computeBoundingBox()),this.boundingBox}},{key:\"computeBoundingBox\",value:function(){var t=this.children,i=new l,e=void 0,n=void 0;for(e=0,n=t.length;e<n;++e)i.union(t[e].getBoundingBox());return i}}]),e}(),wi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.UNION].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){var n=e.materialIndices[t];n!==St.AIR&&i.setMaterialIndex(t,n)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t>i.t?t:i:t.t<i.t?t:i}}]),r}(),zi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.DIFFERENCE].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){e.materialIndices[t]!==St.AIR&&i.setMaterialIndex(t,St.AIR)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t<i.t?t:i:t.t>i.t?t:i}}]),r}(),Mi=function(e){n(r,gi);function r(){var i;t(this,r);for(var e=arguments.length,n=Array(e),a=0;a<e;a++)n[a]=arguments[a];return s(this,(i=r.__proto__||Object.getPrototypeOf(r)).call.apply(i,[this,ki.INTERSECTION].concat(n)))}return i(r,[{key:\"updateMaterialIndex\",value:function(t,i,e){var n=e.materialIndices[t];i.setMaterialIndex(t,i.materialIndices[t]!==St.AIR&&n!==St.AIR?n:St.AIR)}},{key:\"selectEdge\",value:function(t,i,e){return e?t.t<i.t?t:i:t.t>i.t?t:i}}]),r}(),bi=0,Ai=new o;function Si(t,i,e){var n=function(t){var i=bi,e=Ot.resolution,n=new o(0,0,0),s=new o(e,e,e),r=new l(Ai,Ai.clone().addScalar(bi)),a=t.getBoundingBox();return t.type!==ki.INTERSECTION&&(a.intersectsBox(r)?(n.copy(a.min).max(r.min).sub(r.min),n.x=Math.ceil(n.x*e/i),n.y=Math.ceil(n.y*e/i),n.z=Math.ceil(n.z*e/i),s.copy(a.max).min(r.max).sub(r.min),s.x=Math.floor(s.x*e/i),s.y=Math.floor(s.y*e/i),s.z=Math.floor(s.z*e/i)):(n.set(e,e,e),s.set(0,0,0))),new l(n,s)}(t),s=void 0,r=void 0,a=void 0,h=void 0,u=!1;if(t.type===ki.DENSITY_FUNCTION?function(t,i,e){var n=bi,s=Ot.resolution,r=s+1,a=r*r,h=i.materialIndices,u=Ai,l=new o,c=new o,y=e.max.x,v=e.max.y,d=e.max.z,f=void 0,m=0,x=void 0,p=void 0,k=void 0;for(k=e.min.z;k<=d;++k)for(l.z=k*n/s,p=e.min.y;p<=v;++p)for(l.y=p*n/s,x=e.min.x;x<=y;++x)l.x=x*n/s,(f=t.generateMaterialIndex(c.addVectors(u,l)))!==St.AIR&&(h[k*a+p*r+x]=f,++m);i.materials=m}(t,i,n):i.empty?t.type===ki.UNION&&(i.set(e),u=!0):i.full&&t.type===ki.UNION||function(t,i,e,n){var s=Ot.resolution+1,r=s*s,a=n.max.x,o=n.max.y,h=n.max.z,u=void 0,l=void 0,c=void 0;for(c=n.min.z;c<=h;++c)for(l=n.min.y;l<=o;++l)for(u=n.min.x;u<=a;++u)t.updateMaterialIndex(c*r+l*s+u,i,e)}(t,i,e,n),!u&&!i.empty&&!i.full){for(r=(s=t.type===ki.DENSITY_FUNCTION?function(t,i,e){var n=bi,s=Ot.resolution,r=s+1,a=r*r,h=new Uint32Array([1,r,a]),u=i.materialIndices,l=Ai,c=new o,y=new o,v=new gt,d=new Uint32Array(3),f=new At(At.calculate1DEdgeCount(s)),m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0,I=void 0,O=void 0,_=void 0,C=void 0,U=void 0,q=void 0;for(O=4,T=0,I=0;I<3;O>>=1,T=0,++I){switch(_=X[O],m=f.indices[I],x=f.zeroCrossings[I],p=f.normals[I],k=h[I],z=e.min.x,A=e.max.x,M=e.min.y,S=e.max.y,b=e.min.z,P=e.max.z,I){case 0:z=Math.max(z-1,0),A=Math.min(A,s-1);break;case 1:M=Math.max(M-1,0),S=Math.min(S,s-1);break;case 2:b=Math.max(b-1,0),P=Math.min(P,s-1)}for(q=b;q<=P;++q)for(U=M;U<=S;++U)for(C=z;C<=A;++C)w=(g=q*a+U*r+C)+k,u[g]!==u[w]&&(c.set(C*n/s,U*n/s,q*n/s),y.set((C+_[0])*n/s,(U+_[1])*n/s,(q+_[2])*n/s),v.a.addVectors(l,c),v.b.addVectors(l,y),t.generateEdge(v),m[T]=g,x[T]=v.t,p[3*T]=v.n.x,p[3*T+1]=v.n.y,p[3*T+2]=v.n.z,++T);d[I]=T}return{edgeData:f,lengths:d}}(t,i,n):function(t,i,e){var n=Ot.resolution,s=n+1,r=new Uint32Array([1,s,s*s]),a=i.materialIndices,o=new gt,h=new gt,u=e.edgeData,l=i.edgeData,c=new Uint32Array(3),y=At.calculate1DEdgeCount(n),v=new At(Math.min(y,l.indices[0].length+u.indices[0].length),Math.min(y,l.indices[1].length+u.indices[1].length),Math.min(y,l.indices[2].length+u.indices[2].length)),d=void 0,f=void 0,m=void 0,x=void 0,p=void 0,k=void 0,g=void 0,w=void 0,z=void 0,M=void 0,b=void 0,A=void 0,S=void 0,P=void 0,T=void 0,I=void 0,O=void 0,_=void 0,C=void 0,U=void 0,q=void 0,F=void 0,E=void 0;for(_=0,C=0;C<3;_=0,++C){for(d=u.indices[C],x=l.indices[C],g=v.indices[C],f=u.zeroCrossings[C],p=l.zeroCrossings[C],w=v.zeroCrossings[C],m=u.normals[C],k=l.normals[C],z=v.normals[C],M=r[C],F=d.length,E=x.length,U=0,q=0;U<F;++U)if(A=(b=d[U])+M,(T=a[b])!==(I=a[A])&&(T===St.AIR||I===St.AIR)){for(o.t=f[U],o.n.x=m[3*U],o.n.y=m[3*U+1],o.n.z=m[3*U+2],t.type===ki.DIFFERENCE&&o.n.negate(),O=o;q<E&&x[q]<=b;)P=(S=x[q])+M,h.t=p[q],h.n.x=k[3*q],h.n.y=k[3*q+1],h.n.z=k[3*q+2],T=a[S],S<b?T===(I=a[P])||T!==St.AIR&&I!==St.AIR||(g[_]=S,w[_]=h.t,z[3*_]=h.n.x,z[3*_+1]=h.n.y,z[3*_+2]=h.n.z,++_):O=t.selectEdge(h,o,T===St.SOLID),++q;g[_]=b,w[_]=O.t,z[3*_]=O.n.x,z[3*_+1]=O.n.y,z[3*_+2]=O.n.z,++_}for(;q<E;)P=(S=x[q])+M,(T=a[S])===(I=a[P])||T!==St.AIR&&I!==St.AIR||(g[_]=S,w[_]=p[q],z[3*_]=k[3*q],z[3*_+1]=k[3*q+1],z[3*_+2]=k[3*q+2],++_),++q;c[C]=_}return{edgeData:v,lengths:c}}(t,i,e)).edgeData,a=s.lengths,h=0;h<3;++h)r.indices[h]=r.indices[h].slice(0,a[h]),r.zeroCrossings[h]=r.zeroCrossings[h].slice(0,a[h]),r.normals[h]=r.normals[h].slice(0,3*a[h]);i.edgeData=r}}var Pi=function(){function e(){t(this,e)}return i(e,null,[{key:\"run\",value:function(t,i,e,n){Ai.fromArray(t),bi=i,null===e?n.operation===ki.UNION&&(e=new Ot(!1)):e.decompress();var s=n.toCSG(),r=null!==e?function t(i){var e=i.children,n=void 0,s=void 0,r=void 0,a=void 0;for(i.type===ki.DENSITY_FUNCTION&&Si(i,n=new Ot),r=0,a=e.length;r<a&&(s=t(e[r]),void 0===n?n=s:null!==s?null===n?i.type===ki.UNION&&(n=s):Si(i,n,s):i.type===ki.INTERSECTION&&(n=null),null!==n||i.type===ki.UNION);++r);return null!==n&&n.empty?null:n}(s):null;if(null!==r){switch(n.operation){case ki.UNION:s=new wi(s);break;case ki.DIFFERENCE:s=new zi(s);break;case ki.INTERSECTION:s=new Mi(s)}Si(s,e,r),e.contoured=!1}return null!==e&&e.empty?null:e}}]),e}(),Ti=function(e){n(r,gi);function r(i){t(this,r);var e=s(this,(r.__proto__||Object.getPrototypeOf(r)).call(this,ki.DENSITY_FUNCTION));return e.sdf=i,e}return i(r,[{key:\"computeBoundingBox\",value:function(){return this.sdf.getBoundingBox(!0)}},{key:\"generateMaterialIndex\",value:function(t){return this.sdf.sample(t)<=Ot.isovalue?this.sdf.material:St.AIR}},{key:\"generateEdge\",value:function(t){t.approximateZeroCrossing(this.sdf),t.computeSurfaceNormal(this.sdf)}}]),r}(),Ii=new D,Oi=function(){function e(i){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:St.SOLID;t(this,e),this.type=i,this.operation=null,this.material=Math.min(255,Math.max(St.SOLID,Math.trunc(n))),this.boundingBox=null,this.position=new o,this.quaternion=new M,this.scale=new o(1,1,1),this.inverseTransformation=new D,this.updateInverseTransformation(),this.children=[]}return i(e,[{key:\"getTransformation\",value:function(){return(arguments.length>0&&void 0!==arguments[0]?arguments[0]:new D).compose(this.position,this.quaternion,this.scale)}},{key:\"getBoundingBox\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=this.children,e=this.boundingBox,n=void 0,s=void 0;if(null===e&&(e=this.computeBoundingBox(),this.boundingBox=e),t)for(e=e.clone(),n=0,s=i.length;n<s;++n)e.union(i[n].getBoundingBox(t));return e}},{key:\"setMaterial\",value:function(t){return this.material=Math.min(255,Math.max(St.SOLID,Math.trunc(t))),this}},{key:\"setOperationType\",value:function(t){return this.operation=t,this}},{key:\"updateInverseTransformation\",value:function(){return this.inverseTransformation.getInverse(this.getTransformation(Ii)),this.boundingBox=null,this}},{key:\"union\",value:function(t){return this.children.push(t.setOperationType(ki.UNION)),this}},{key:\"subtract\",value:function(t){return this.children.push(t.setOperationType(ki.DIFFERENCE)),this}},{key:\"intersect\",value:function(t){return this.children.push(t.setOperationType(ki.INTERSECTION)),this}},{key:\"toCSG\",value:function(){var t=this.children,i=new Ti(this),e=void 0,n=void 0,s=void 0,r=void 0;for(s=0,r=t.length;s<r;++s){if(e!==(n=t[s]).operation)switch(e=n.operation){case ki.UNION:i=new wi(i);break;case ki.DIFFERENCE:i=new zi(i);break;case ki.INTERSECTION:i=new Mi(i)}i.children.push(n.toCSG())}return i}},{key:\"serialize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i={type:this.type,operation:this.operation,material:this.material,position:this.position.toArray(),quaternion:this.quaternion.toArray(),scale:this.scale.toArray(),parameters:null,children:[]},e=void 0,n=void 0;for(e=0,n=this.children.length;e<n;++e)i.children.push(this.children[e].serialize(t));return i}},{key:\"createTransferList\",value:function(){return arguments.length>0&&void 0!==arguments[0]?arguments[0]:[]}},{key:\"toJSON\",value:function(){return this.serialize(!0)}},{key:\"computeBoundingBox\",value:function(){throw new Error(\"SignedDistanceFunction#computeBoundingBox method not implemented!\")}},{key:\"sample\",value:function(t){throw new Error(\"SignedDistanceFunction#sample method not implemented!\")}}]),e}(),_i={HEIGHTFIELD:\"sdf.heightfield\",FRACTAL_NOISE:\"sdf.fractalnoise\",SUPER_PRIMITIVE:\"sdf.superprimitive\"},Ci=function(a){n(h,Oi);function h(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,h);var n=s(this,(h.__proto__||Object.getPrototypeOf(h)).call(this,_i.PERLIN_NOISE,e));return n.min=new(Function.prototype.bind.apply(o,[null].concat(r(i.min)))),n.max=new(Function.prototype.bind.apply(o,[null].concat(r(i.max)))),n}return i(h,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new l(this.min,this.max),this.bbox}},{key:\"sample\",value:function(t){}},{key:\"serialize\",value:function(){var t=e(h.prototype.__proto__||Object.getPrototypeOf(h.prototype),\"serialize\",this).call(this);return t.parameters={min:this.min.toArray(),max:this.max.toArray()},t}}]),h}();var Ui=function(r){n(a,Oi);function a(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,a);var n=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this,_i.HEIGHTFIELD,e));return n.width=void 0!==i.width?i.width:1,n.height=void 0!==i.height?i.height:1,n.smooth=void 0===i.smooth||i.smooth,n.data=void 0!==i.data?i.data:null,n.heightmap=null,void 0!==i.image&&n.fromImage(i.image),n}return i(a,[{key:\"fromImage\",value:function(t){var i=\"undefined\"==typeof document?null:function(t){var i=document.createElementNS(\"http://www.w3.org/1999/xhtml\",\"canvas\"),e=i.getContext(\"2d\");return i.width=t.width,i.height=t.height,e.drawImage(t,0,0),e.getImageData(0,0,t.width,t.height)}(t),e=null,n=void 0,s=void 0,r=void 0,a=void 0;if(null!==i){for(n=i.data,s=0,r=0,a=(e=new Uint8ClampedArray(n.length/4)).length;s<a;++s,r+=4)e[s]=n[r];this.heightmap=t,this.width=i.width,this.height=i.height,this.data=e}return this}},{key:\"getHeight\",value:function(t,i){var e=this.width,n=this.height,s=this.data,r=void 0;if(t=Math.round(t*e),i=Math.round(i*n),this.smooth){var a=(t=Math.max(Math.min(t,e-1),1))+1,o=t-1,h=(i=Math.max(Math.min(i,n-1),1))*e,u=h+e,l=h-e;r=(s[l+o]+s[l+t]+s[l+a]+s[h+o]+s[h+t]+s[h+a]+s[u+o]+s[u+t]+s[u+a])/9}else r=s[i*e+t];return r}},{key:\"computeBoundingBox\",value:function(){var t=new l,i=Math.min(this.width/this.height,1),e=Math.min(this.height/this.width,1);return t.min.set(0,0,0),t.max.set(i,1,e),t.applyMatrix4(this.getTransformation()),t}},{key:\"sample\",value:function(t){var i=this.boundingBox,e=void 0;return i.containsPoint(t)?(t.applyMatrix4(this.inverseTransformation),e=t.y-this.getHeight(t.x,t.z)/255):e=i.distanceToPoint(t),e}},{key:\"serialize\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]&&arguments[0],i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"serialize\",this).call(this);return i.parameters={width:this.width,height:this.height,smooth:this.smooth,data:t?null:this.data,dataURL:t&&null!==this.heightmap?this.heightmap.toDataURL():null,image:null},i}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return t.push(this.data.buffer),t}}]),a}(),qi=function(a){n(h,Oi);function h(){var i=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=arguments[1];t(this,h);var n=s(this,(h.__proto__||Object.getPrototypeOf(h)).call(this,_i.SUPER_PRIMITIVE,e));return n.s0=new(Function.prototype.bind.apply(L,[null].concat(r(i.s)))),n.r0=new(Function.prototype.bind.apply(o,[null].concat(r(i.r)))),n.s=new L,n.r=new o,n.ba=new v,n.offset=0,n.precompute(),n}return i(h,[{key:\"setSize\",value:function(t,i,e,n){return this.s0.set(t,i,e,n),this.precompute()}},{key:\"setRadii\",value:function(t,i,e){return this.r0.set(t,i,e),this.precompute()}},{key:\"precompute\",value:function(){var t=this.s.copy(this.s0),i=this.r.copy(this.r0),e=this.ba;t.x-=i.x,t.y-=i.x,i.x-=t.w,t.w-=i.y,t.z-=i.y,this.offset=-2*t.z,e.set(i.z,this.offset);var n=e.dot(e);return 0===n?e.set(0,-1):e.divideScalar(n),this}},{key:\"computeBoundingBox\",value:function(){var t=this.s0,i=new l;return i.min.x=Math.min(-t.x,-1),i.min.y=Math.min(-t.y,-1),i.min.z=Math.min(-t.z,-1),i.max.x=Math.max(t.x,1),i.max.y=Math.max(t.y,1),i.max.z=Math.max(t.z,1),i.applyMatrix4(this.getTransformation()),i}},{key:\"sample\",value:function(t){t.applyMatrix4(this.inverseTransformation);var i=this.s,e=this.r,n=this.ba,s=Math.abs(t.x)-i.x,r=Math.abs(t.y)-i.y,a=Math.abs(t.z)-i.z,o=Math.max(s,0),h=Math.max(r,0),u=Math.sqrt(o*o+h*h),l=t.z-i.z,c=Math.abs(u+Math.min(0,Math.max(s,r))-e.x)-i.w,y=Math.min(Math.max(c*n.x+l*n.y,0),1),v=c-e.z*y,d=l-this.offset*y,f=Math.max(c-e.z,0),m=t.z+i.z,x=Math.max(c,0),p=v*v+d*d,k=f*f+m*m,g=x*x+l*l,w=c*-n.y+l*n.x;return Math.sqrt(Math.min(p,Math.min(k,g)))*Math.sign(Math.max(w,a))-e.y}},{key:\"serialize\",value:function(){var t=e(h.prototype.__proto__||Object.getPrototypeOf(h.prototype),\"serialize\",this).call(this);return t.parameters={s:this.s0.toArray(),r:this.r0.toArray()},t}}],[{key:\"create\",value:function(t){var i=Fi[t];return new h({s:i[0],r:i[1]})}}]),h}(),Fi=[[new Float32Array([1,1,1,1]),new Float32Array([0,0,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,0,0])],[new Float32Array([0,0,1,1]),new Float32Array([0,0,1])],[new Float32Array([1,1,2,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,.25,1]),new Float32Array([1,.25,0])],[new Float32Array([1,1,.25,.25]),new Float32Array([1,.25,0])],[new Float32Array([1,1,1,.25]),new Float32Array([1,.1,0])],[new Float32Array([1,1,1,.25]),new Float32Array([.1,.1,0])]],Ei=function(){function e(){t(this,e)}return i(e,[{key:\"revive\",value:function(t){var i=void 0,e=void 0,n=void 0;switch(t.type){case _i.FRACTAL_NOISE:i=new Ci(t.parameters,t.material);break;case _i.HEIGHTFIELD:i=new Ui(t.parameters,t.material);break;case _i.SUPER_PRIMITIVE:i=new qi(t.parameters,t.material)}for(i.operation=t.operation,i.position.fromArray(t.position),i.quaternion.fromArray(t.quaternion),i.scale.fromArray(t.scale),i.updateInverseTransformation(),e=0,n=t.children.length;e<n;++e)i.children.push(this.revive(t.children[e]));return i}}]),e}(),Di=function(i){n(e,di);function e(){t(this,e);var i=s(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,vi.MODIFY));return i.sdf=null,i}return e}(),Vi=new(function(r){n(a,xi);function a(){t(this,a);var i=s(this,(a.__proto__||Object.getPrototypeOf(a)).call(this));return i.response=new Di,i.sdf=null,i}return i(a,[{key:\"respond\",value:function(){var t=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"respond\",this).call(this);return t.sdf=null!==this.sdf?this.sdf.serialize():null,t}},{key:\"createTransferList\",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];return e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"createTransferList\",this).call(this,t),null!==this.sdf?this.sdf.createTransferList(t):t}},{key:\"process\",value:function(t){var i=e(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"process\",this).call(this,t).getData(),n=this.sdf=Ei.revive(t.sdf),s=Pi.run(t.cellPosition,t.cellSize,i,n);return function t(i,e,n,s){var r=Object.getOwnPropertyDescriptor(i,e);if(void 0===r){var a=Object.getPrototypeOf(i);null!==a&&t(a,e,n,s)}else if(\"value\"in r&&r.writable)r.value=n;else{var o=r.set;void 0!==o&&o.call(s,n)}return n}(a.prototype.__proto__||Object.getPrototypeOf(a.prototype),\"data\",null!==s?s.compress():null,this),this}}]),a}()),Ni=new pi,Bi=null;self.addEventListener(\"message\",function(t){var i=t.data;switch(Bi=i.action){case vi.MODIFY:postMessage(Vi.process(i).respond(),Vi.createTransferList());break;case vi.EXTRACT:postMessage(Ni.process(i).respond(),Ni.createTransferList());break;case vi.CONFIGURE:Ot.resolution=i.resolution,Kt.errorThreshold=i.errorThreshold;break;case vi.CLOSE:default:close()}}),self.addEventListener(\"error\",function(t){var i=Bi===vi.MODIFY?Vi:Bi===vi.EXTRACT?Ni:null,e=void 0;null!==i?((e=i.respond()).action=vi.CLOSE,e.error=t,postMessage(e,i.createTransferList())):((e=new Wt(vi.CLOSE)).error=t,postMessage(e)),close()})}();";
 
   var ThreadPool = function (_EventTarget) {
   		inherits(ThreadPool, _EventTarget);
@@ -16638,8 +12736,8 @@
   		octant = octants[i];
   		edge = procEdgeMask[dir][i];
 
-  		c1 = edges$2[edge][0];
-  		c2 = edges$2[edge][1];
+  		c1 = edges$1[edge][0];
+  		c2 = edges$1[edge][1];
 
   		m1 = octant.voxel.materials >> c1 & 1;
   		m2 = octant.voxel.materials >> c2 & 1;
@@ -17491,8 +13589,8 @@
 
   		for (edgeCount = 0, i = 0; i < 12; ++i) {
 
-  				c1 = edges$2[i][0];
-  				c2 = edges$2[i][1];
+  				c1 = edges$1[i][0];
+  				c2 = edges$1[i][1];
 
   				m1 = materials >> c1 & 1;
   				m2 = materials >> c2 & 1;
@@ -18582,10 +14680,12 @@
   						scene.add(boxHelper);
   				}
   		}, {
-  				key: "update",
-  				value: function update(delta) {
+  				key: "render",
+  				value: function render(delta) {
 
   						this.controls.update(delta);
+
+  						get(ContouringDemo.prototype.__proto__ || Object.getPrototypeOf(ContouringDemo.prototype), "render", this).call(this, delta);
   				}
   		}, {
   				key: "registerOptions",
@@ -19668,10 +15768,12 @@
   						scene.add(this.vertex);
   				}
   		}, {
-  				key: "update",
-  				value: function update(delta) {
+  				key: "render",
+  				value: function render(delta) {
 
   						this.controls.update(delta);
+
+  						get(VoxelDemo.prototype.__proto__ || Object.getPrototypeOf(VoxelDemo.prototype), "render", this).call(this, delta);
   				}
   		}, {
   				key: "registerOptions",
@@ -19724,10 +15826,7 @@
 
   	manager = new DemoManager(viewport, {
   		aside: document.getElementById("aside"),
-  		composer: new EffectComposer(renderer, {
-  			stencilBuffer: true,
-  			depthTexture: true
-  		})
+  		renderer: renderer
   	});
 
   	manager.addEventListener("change", onChange);
