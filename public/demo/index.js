@@ -14617,8 +14617,7 @@
 
   						var scene = this.scene;
   						var assets = this.assets;
-  						var composer = this.composer;
-  						var renderer = composer.renderer;
+  						var renderer = this.renderer;
 
   						this.sdfType = SDFType.SUPER_PRIMITIVE;
   						this.euler.set(4.11, 3.56, 4.74, RotationOrder.XYZ);
@@ -15377,17 +15376,26 @@
 
   						folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(function () {
 
-  								_this2.updateEdgeData();
+  								if (_this2.hermiteData.edgeData !== null) {
+
+  										_this2.updateEdgeData();
+  								}
   						});
 
   						folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function () {
 
-  								_this2.updateEdgeData();
+  								if (_this2.hermiteData.edgeData !== null) {
+
+  										_this2.updateEdgeData();
+  								}
   						});
 
   						folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(function () {
 
-  								_this2.updateEdgeData();
+  								if (_this2.hermiteData.edgeData !== null) {
+
+  										_this2.updateEdgeData();
+  								}
   						});
 
   						folder.open();
@@ -15715,8 +15723,7 @@
   				value: function initialize() {
 
   						var scene = this.scene;
-  						var composer = this.composer;
-  						var renderer = composer.renderer;
+  						var renderer = this.renderer;
 
   						var camera = new three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 50);
   						camera.position.set(-2, 1, 2);
@@ -15765,6 +15772,7 @@
   								opacity: 0.35
   						})));
 
+  						this.vertex.visible = false;
   						scene.add(this.vertex);
   				}
   		}, {
