@@ -181,8 +181,7 @@ export class VoxelDemo extends Demo {
 	initialize() {
 
 		const scene = this.scene;
-		const composer = this.composer;
-		const renderer = composer.renderer;
+		const renderer = this.renderer;
 
 		// Camera.
 
@@ -243,7 +242,8 @@ export class VoxelDemo extends Demo {
 			})
 		));
 
-		// Visualise the computed vertex.
+		// Prepare the computed vertex for rendering.
+		this.vertex.visible = false;
 		scene.add(this.vertex);
 
 	}

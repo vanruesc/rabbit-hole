@@ -379,8 +379,7 @@ export class ContouringDemo extends Demo {
 
 		const scene = this.scene;
 		const assets = this.assets;
-		const composer = this.composer;
-		const renderer = composer.renderer;
+		const renderer = this.renderer;
 
 		// Default settings.
 
