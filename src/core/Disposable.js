@@ -10,14 +10,8 @@ export class Disposable {
 
 	/**
 	 * Frees internal resources.
-	 *
-	 * @throws {Error} An error is thrown if the method is not overridden.
 	 */
 
-	dispose() {
-
-		throw new Error("Disposable#dispose method not implemented!");
-
-	}
+	dispose() {}
 
 }
