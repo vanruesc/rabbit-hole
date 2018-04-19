@@ -1422,7 +1422,7 @@
     "__docId__": 90,
     "kind": "file",
     "name": "src/core/Deserializable.js",
-    "content": "/**\r\n * The Deserializable contract.\r\n *\r\n * Implemented by objects that can adopt serialised data.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Deserializable {\r\n\r\n\t/**\r\n\t * Adopts the given serialised data.\r\n\t *\r\n\t * @throws {Error} An error is thrown if the method is not overridden.\r\n\t * @param {Object} object - Serialised data.\r\n\t * @return {Deserializable} This object.\r\n\t */\r\n\r\n\tdeserialize(object) {\r\n\r\n\t\tthrow new Error(\"Deserializable#deserialise method not implemented!\");\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "/**\r\n * The Deserializable contract.\r\n *\r\n * Implemented by objects that can adopt serialised data.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Deserializable {\r\n\r\n\t/**\r\n\t * Adopts the given serialised data.\r\n\t *\r\n\t * @param {Object} object - Serialised data.\r\n\t * @return {Deserializable} This object.\r\n\t */\r\n\r\n\tdeserialize(object) {}\r\n\r\n}\r\n",
     "static": true,
     "longname": "C:/Users/Raoul/Sourcecode/JavaScript/rabbit-hole/src/core/Deserializable.js",
     "access": "public",
@@ -1455,7 +1455,7 @@
     "longname": "src/core/Deserializable.js~Deserializable#deserialize",
     "access": "public",
     "description": "Adopts the given serialised data.",
-    "lineNumber": 19,
+    "lineNumber": 18,
     "params": [
       {
         "nullable": null,
@@ -1475,21 +1475,13 @@
       ],
       "spread": false,
       "description": "This object."
-    },
-    "throws": [
-      {
-        "types": [
-          "Error"
-        ],
-        "description": "An error is thrown if the method is not overridden."
-      }
-    ]
+    }
   },
   {
     "__docId__": 93,
     "kind": "file",
     "name": "src/core/Disposable.js",
-    "content": "/**\r\n * The Disposable contract.\r\n *\r\n * Implemented by objects that can free internal resources.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Disposable {\r\n\r\n\t/**\r\n\t * Frees internal resources.\r\n\t *\r\n\t * @throws {Error} An error is thrown if the method is not overridden.\r\n\t */\r\n\r\n\tdispose() {\r\n\r\n\t\tthrow new Error(\"Disposable#dispose method not implemented!\");\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "/**\r\n * The Disposable contract.\r\n *\r\n * Implemented by objects that can free internal resources.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Disposable {\r\n\r\n\t/**\r\n\t * Frees internal resources.\r\n\t */\r\n\r\n\tdispose() {}\r\n\r\n}\r\n",
     "static": true,
     "longname": "C:/Users/Raoul/Sourcecode/JavaScript/rabbit-hole/src/core/Disposable.js",
     "access": "public",
@@ -1522,15 +1514,7 @@
     "longname": "src/core/Disposable.js~Disposable#dispose",
     "access": "public",
     "description": "Frees internal resources.",
-    "lineNumber": 17,
-    "throws": [
-      {
-        "types": [
-          "Error"
-        ],
-        "description": "An error is thrown if the method is not overridden."
-      }
-    ],
+    "lineNumber": 15,
     "params": [],
     "return": null
   },
@@ -1808,7 +1792,7 @@
     "__docId__": 116,
     "kind": "file",
     "name": "src/core/Serializable.js",
-    "content": "/**\r\n * The Serializable contract.\r\n *\r\n * Implemented by objects that can provide a flat representation of the data\r\n * they contain.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Serializable {\r\n\r\n\t/**\r\n\t * Serialises this data.\r\n\t *\r\n\t * @throws {Error} An error is thrown if the method is not overridden.\r\n\t * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.\r\n\t * @return {Object} The serialised data.\r\n\t */\r\n\r\n\tserialize(deflate = false) {\r\n\r\n\t\tthrow new Error(\"Serializable#serialise method not implemented!\");\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "/**\r\n * The Serializable contract.\r\n *\r\n * Implemented by objects that can provide a flat representation of the data\r\n * they contain.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class Serializable {\r\n\r\n\t/**\r\n\t * Serialises this data.\r\n\t *\r\n\t * @param {Boolean} [deflate=false] - Whether the data should be compressed if possible.\r\n\t * @return {Object} The serialised data.\r\n\t */\r\n\r\n\tserialize(deflate = false) {}\r\n\r\n}\r\n",
     "static": true,
     "longname": "C:/Users/Raoul/Sourcecode/JavaScript/rabbit-hole/src/core/Serializable.js",
     "access": "public",
@@ -1841,7 +1825,7 @@
     "longname": "src/core/Serializable.js~Serializable#serialize",
     "access": "public",
     "description": "Serialises this data.",
-    "lineNumber": 20,
+    "lineNumber": 19,
     "params": [
       {
         "nullable": null,
@@ -1863,15 +1847,7 @@
       ],
       "spread": false,
       "description": "The serialised data."
-    },
-    "throws": [
-      {
-        "types": [
-          "Error"
-        ],
-        "description": "An error is thrown if the method is not overridden."
-      }
-    ]
+    }
   },
   {
     "__docId__": 119,
@@ -2575,7 +2551,7 @@
     "__docId__": 151,
     "kind": "file",
     "name": "src/core/TransferableContainer.js",
-    "content": "/**\r\n * The TransferableContainer contract.\r\n *\r\n * Implemented by objects that can list their internal transferable objects.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class TransferableContainer {\r\n\r\n\t/**\r\n\t * Creates a list of transferable items.\r\n\t *\r\n\t * The `Transferable` interface represents an object that can be transferred\r\n\t * between different execution contexts, like the main thread and Web Workers.\r\n\t *\r\n\t * For example, `Worker.postMessage()` takes an optional array of\r\n\t * `Transferable` objects to transfer ownership of. If the ownership of an\r\n\t * object is transferred, it becomes unusable (neutered) in the context it was\r\n\t * sent from and becomes available only to the worker it was sent to.\r\n\t * `Transferable` objects are instances of classes like `ArrayBuffer`,\r\n\t * `MessagePort` or `ImageBitmap`.\r\n\t *\r\n\t * @throws {Error} An error is thrown if the method is not overridden.\r\n\t * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.\r\n\t * @return {Transferable[]} The transfer list. Null is not an acceptable value for the transferList.\r\n\t */\r\n\r\n\tcreateTransferList(transferList = []) {\r\n\r\n\t\tthrow new Error(\"TransferableContainer#createTransferList method not implemented!\");\r\n\r\n\t}\r\n\r\n}\r\n",
+    "content": "/**\r\n * The TransferableContainer contract.\r\n *\r\n * Implemented by objects that can list their internal transferable objects.\r\n *\r\n * @interface\r\n */\r\n\r\nexport class TransferableContainer {\r\n\r\n\t/**\r\n\t * Creates a list of transferable items.\r\n\t *\r\n\t * The `Transferable` interface represents an object that can be transferred\r\n\t * between different execution contexts, like the main thread and Web Workers.\r\n\t *\r\n\t * For example, `Worker.postMessage()` takes an optional array of\r\n\t * `Transferable` objects to transfer ownership of. If the ownership of an\r\n\t * object is transferred, it becomes unusable (neutered) in the context it was\r\n\t * sent from and becomes available only to the worker it was sent to.\r\n\t * `Transferable` objects are instances of classes like `ArrayBuffer`,\r\n\t * `MessagePort` or `ImageBitmap`.\r\n\t *\r\n\t * @param {Array} [transferList] - An optional target list. The transferable items will be added to this list.\r\n\t * @return {Transferable[]} The transfer list. Null is not an acceptable value for the transferList.\r\n\t */\r\n\r\n\tcreateTransferList(transferList = []) {}\r\n\r\n}\r\n",
     "static": true,
     "longname": "C:/Users/Raoul/Sourcecode/JavaScript/rabbit-hole/src/core/TransferableContainer.js",
     "access": "public",
@@ -2608,7 +2584,7 @@
     "longname": "src/core/TransferableContainer.js~TransferableContainer#createTransferList",
     "access": "public",
     "description": "Creates a list of transferable items.\n\nThe `Transferable` interface represents an object that can be transferred\nbetween different execution contexts, like the main thread and Web Workers.\n\nFor example, `Worker.postMessage()` takes an optional array of\n`Transferable` objects to transfer ownership of. If the ownership of an\nobject is transferred, it becomes unusable (neutered) in the context it was\nsent from and becomes available only to the worker it was sent to.\n`Transferable` objects are instances of classes like `ArrayBuffer`,\n`MessagePort` or `ImageBitmap`.",
-    "lineNumber": 29,
+    "lineNumber": 28,
     "params": [
       {
         "nullable": null,
@@ -2628,15 +2604,7 @@
       ],
       "spread": false,
       "description": "The transfer list. Null is not an acceptable value for the transferList."
-    },
-    "throws": [
-      {
-        "types": [
-          "Error"
-        ],
-        "description": "An error is thrown if the method is not overridden."
-      }
-    ]
+    }
   },
   {
     "__docId__": 154,
@@ -17501,7 +17469,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n\t\"name\": \"rabbit-hole\",\r\n\t\"version\": \"0.0.0\",\r\n\t\"description\": \"A volumetric terrain engine.\",\r\n\t\"homepage\": \"https://github.com/vanruesc/rabbit-hole\",\r\n\t\"main\": \"build/rabbit-hole.js\",\r\n\t\"module\": \"src/index.js\",\r\n\t\"license\": \"Zlib\",\r\n\r\n\t\"keywords\": [\r\n\t\t\"volumetric\",\r\n\t\t\"terrain\",\r\n\t\t\"isosurface\",\r\n\t\t\"dual contouring\",\r\n\t\t\"tri-planar\",\r\n\t\t\"texture\",\r\n\t\t\"mapping\"\r\n\t],\r\n\r\n\t\"author\": {\r\n\t\t\"name\": \"Raoul van Rüschen\",\r\n\t\t\"email\": \"vanruesc@outlook.de\"\r\n\t},\r\n\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"https://github.com/vanruesc/rabbit-hole.git\"\r\n\t},\r\n\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/vanruesc/rabbit-hole/issues\"\r\n\t},\r\n\r\n\t\"files\": [\r\n\t\t\"src\",\r\n\t\t\"build\"\r\n\t],\r\n\r\n\t\"scripts\": {\r\n\t\t\"test\": \"grunt --production\",\r\n\t\t\"prepack\": \"grunt prepublish\",\r\n\t\t\"postpack\": \"grunt postpublish\"\r\n\t},\r\n\r\n\t\"engines\": {\r\n\t\t\"node\": \">=4.0.0\",\r\n\t\t\"npm\": \">=5.0.0\"\r\n\t},\r\n\r\n\t\"eslintConfig\": {\r\n\t\t\"extends\": \"delta\"\r\n\t},\r\n\r\n\t\"dependencies\": {\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"0.x.x\",\r\n\t\t\"sparse-octree\": \"4.x.x\",\r\n\t\t\"synthetic-event\": \"0.x.x\"\r\n\t},\r\n\r\n\t\"devDependencies\": {\r\n\t\t\"babel-core\": \"6.x.x\",\r\n\t\t\"babel-plugin-external-helpers\": \"6.x.x\",\r\n\t\t\"babel-preset-env\": \"1.x.x\",\r\n\t\t\"delta-controls\": \"1.x.x\",\r\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\r\n\t\t\"eslint-config-delta\": \"0.x.x\",\r\n\t\t\"feature-detector\": \"0.x.x\",\r\n\t\t\"grunt\": \"1.x.x\",\r\n\t\t\"grunt-cli\": \"1.x.x\",\r\n\t\t\"grunt-contrib-clean\": \"1.x.x\",\r\n\t\t\"grunt-contrib-copy\": \"1.x.x\",\r\n\t\t\"grunt-contrib-nodeunit\": \"1.x.x\",\r\n\t\t\"grunt-contrib-uglify\": \"3.x.x\",\r\n\t\t\"grunt-eslint\": \"20.x.x\",\r\n\t\t\"grunt-plugin-esdoc\": \"1.x.x\",\r\n\t\t\"grunt-inline-import\": \"0.x.x\",\r\n\t\t\"grunt-rollup\": \"9.x.x\",\r\n\t\t\"hermite-data-helper\": \"0.x.x\",\r\n\t\t\"jit-grunt\": \"0.x.x\",\r\n\t\t\"load-grunt-config\": \"0.x.x\",\r\n\t\t\"octree-helper\": \"0.x.x\",\r\n\t\t\"rollup-plugin-babel\": \"3.x.x\",\r\n\t\t\"rollup-plugin-node-resolve\": \"3.x.x\",\r\n\t\t\"rollup-plugin-string\": \"2.x.x\",\r\n\t\t\"three-demo\": \"1.x.x\",\r\n\t\t\"three\": \"0.90.x\",\r\n\t\t\"time-grunt\": \"1.x.x\"\r\n\t}\r\n}\r\n",
+    "content": "{\r\n\t\"name\": \"rabbit-hole\",\r\n\t\"version\": \"0.0.0\",\r\n\t\"description\": \"A volumetric terrain engine.\",\r\n\t\"homepage\": \"https://github.com/vanruesc/rabbit-hole\",\r\n\t\"main\": \"build/rabbit-hole.js\",\r\n\t\"module\": \"src/index.js\",\r\n\t\"license\": \"Zlib\",\r\n\r\n\t\"keywords\": [\r\n\t\t\"volumetric\",\r\n\t\t\"terrain\",\r\n\t\t\"isosurface\",\r\n\t\t\"dual contouring\",\r\n\t\t\"tri-planar\",\r\n\t\t\"texture\",\r\n\t\t\"mapping\"\r\n\t],\r\n\r\n\t\"author\": {\r\n\t\t\"name\": \"Raoul van Rüschen\",\r\n\t\t\"email\": \"vanruesc@outlook.de\"\r\n\t},\r\n\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"https://github.com/vanruesc/rabbit-hole.git\"\r\n\t},\r\n\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/vanruesc/rabbit-hole/issues\"\r\n\t},\r\n\r\n\t\"files\": [\r\n\t\t\"src\",\r\n\t\t\"build\"\r\n\t],\r\n\r\n\t\"scripts\": {\r\n\t\t\"test\": \"grunt --production\",\r\n\t\t\"prepack\": \"grunt prepublish\",\r\n\t\t\"postpack\": \"grunt postpublish\"\r\n\t},\r\n\r\n\t\"engines\": {\r\n\t\t\"node\": \">=4.0.0\",\r\n\t\t\"npm\": \">=5.0.0\"\r\n\t},\r\n\r\n\t\"eslintConfig\": {\r\n\t\t\"extends\": \"delta\"\r\n\t},\r\n\r\n\t\"dependencies\": {\r\n\t\t\"iterator-result\": \"0.x.x\",\r\n\t\t\"math-ds\": \"0.x.x\",\r\n\t\t\"sparse-octree\": \"4.x.x\",\r\n\t\t\"synthetic-event\": \"0.x.x\"\r\n\t},\r\n\r\n\t\"devDependencies\": {\r\n\t\t\"babel-core\": \"6.x.x\",\r\n\t\t\"babel-plugin-external-helpers\": \"6.x.x\",\r\n\t\t\"babel-preset-env\": \"1.x.x\",\r\n\t\t\"delta-controls\": \"1.x.x\",\r\n\t\t\"esdoc-standard-plugin\": \"1.x.x\",\r\n\t\t\"eslint-config-delta\": \"0.x.x\",\r\n\t\t\"feature-detector\": \"0.x.x\",\r\n\t\t\"grunt\": \"1.x.x\",\r\n\t\t\"grunt-cli\": \"1.x.x\",\r\n\t\t\"grunt-contrib-clean\": \"1.x.x\",\r\n\t\t\"grunt-contrib-copy\": \"1.x.x\",\r\n\t\t\"grunt-contrib-nodeunit\": \"1.x.x\",\r\n\t\t\"grunt-contrib-uglify\": \"3.x.x\",\r\n\t\t\"grunt-eslint\": \"20.x.x\",\r\n\t\t\"grunt-plugin-esdoc\": \"1.x.x\",\r\n\t\t\"grunt-inline-import\": \"0.x.x\",\r\n\t\t\"grunt-rollup\": \"9.x.x\",\r\n\t\t\"hermite-data-helper\": \"0.x.x\",\r\n\t\t\"jit-grunt\": \"0.x.x\",\r\n\t\t\"load-grunt-config\": \"0.x.x\",\r\n\t\t\"octree-helper\": \"0.x.x\",\r\n\t\t\"rollup-plugin-babel\": \"3.x.x\",\r\n\t\t\"rollup-plugin-node-resolve\": \"3.x.x\",\r\n\t\t\"rollup-plugin-string\": \"2.x.x\",\r\n\t\t\"three-demo\": \"1.x.x\",\r\n\t\t\"three\": \"0.92.x\",\r\n\t\t\"time-grunt\": \"1.x.x\"\r\n\t}\r\n}\r\n",
     "longname": "C:\\Users\\Raoul\\Sourcecode\\JavaScript\\rabbit-hole\\package.json",
     "name": "package.json",
     "static": true,
