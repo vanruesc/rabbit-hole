@@ -5,7 +5,7 @@ import { SDFType } from "./SDFType.js";
 /**
  * Fades a given value.
  *
- * @param {Number} A value.
+ * @param {Number} t - A value.
  * @return {Number} The faded value.
  */
 
@@ -18,7 +18,7 @@ function fade(t) {
 /**
  * Computes a gradient for a given integer.
  *
- * @param {Number} An arbitrary integer.
+ * @param {Number} p - An arbitrary integer.
  * @return {Number} The gradient, 1 or -1.
  */
 
@@ -28,12 +28,14 @@ function gradient(p) {
 
 	return (v > 0.5) ? 1.0 : -1.0; */
 
+	return 0;
+
 }
 
 /**
  * Computes a noise value for a given number.
  *
- * @param {Number} An arbitrary number.
+ * @param {Number} p - An arbitrary number.
  * @return {Number} The noise value.
  */
 

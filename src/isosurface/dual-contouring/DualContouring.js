@@ -299,8 +299,8 @@ function contourCellProc(octant, indexBuffer) {
  *
  * @private
  * @param {Octant} octant - An octant.
- * @param {Array} vertexBuffer - An array to be filled with vertices.
- * @param {Array} normalBuffer - An array to be filled with normals.
+ * @param {Array} positions - An array to be filled with vertices.
+ * @param {Array} normals - An array to be filled with normals.
  * @param {Number} index - The next vertex index.
  */
 
