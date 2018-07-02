@@ -48,7 +48,7 @@
 		"build": "rollup -c",
 		"build:production": "cross-env NODE_ENV=production rollup -c",
 		"doc": "esdoc",
-		"deploy": "npm run deploy:demo && npm run deploy:performance",
+		"deploy": "npm run deploy:demo && npm run deploy:editor && npm run deploy:performance",
 		"deploy:demo": "cpx demo/assets/** public/demo",
 		"deploy:editor": "cpx editor/assets/** public/editor",
 		"deploy:performance": "cpx performance/assets/** public/performance",
