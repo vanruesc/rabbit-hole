@@ -1,137 +1,120 @@
-"use strict";
+import test from "ava";
+import { Vector3 } from "math-ds";
+import { Raycaster } from "three";
+import {
+	OperationType,
+	SuperPrimitive,
+	SuperPrimitivePreset,
+	WorldOctree
+} from "../../../build/rabbit-hole.js";
 
-const lib = require("../../../build/rabbit-hole");
-const WorldOctree = lib.WorldOctree;
-const OperationType = lib.OperationType;
-const SuperPrimitive = lib.SuperPrimitive;
-const SuperPrimitivePreset = lib.SuperPrimitivePreset;
+test("can be instantiated", t => {
 
-const Vector3 = require("math-ds").Vector3;
-const Raycaster = require("three").Raycaster;
+	const object = new WorldOctree();
 
-module.exports = {
+	t.truthy(object);
 
-	"World Octree": {
+});
 
-		"can be instantiated": function(test) {
+test("can compute its dimensions", t => {
 
-			const world = new WorldOctree();
+	const world = new WorldOctree();
+	const dimensions = world.getDimensions();
 
-			test.ok(world);
-			test.done();
+	t.is(dimensions.x, 41943040);
+	t.is(dimensions.y, 40960);
+	t.is(dimensions.z, 41943040);
 
-		},
+});
 
-		"can compute its dimensions": function(test) {
+test("can apply CSG Union operations", t => {
 
-			const world = new WorldOctree();
-			const dimensions = world.getDimensions();
+	const world = new WorldOctree(20, 3);
 
-			test.equal(dimensions.x, 41943040);
-			test.equal(dimensions.y, 40960);
-			test.equal(dimensions.z, 41943040);
-			test.done();
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+	sphere.position.set(10, 10, 10);
+	sphere.updateInverseTransformation();
 
-		},
+	world.applyCSG(sphere.setOperationType(OperationType.UNION));
 
-		"can apply CSG Union operations": function(test) {
+	t.is(world.getGrid(0).size, 1);
+	t.is(world.getGrid(1).size, 1);
+	t.is(world.getGrid(2).size, 1);
+	t.is(world.lodZero.values().next().value.csg.size, 1);
 
-			const world = new WorldOctree(20, 3);
+});
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.position.set(10, 10, 10);
-			sphere.updateInverseTransformation();
+test("can apply CSG Difference operations", t => {
 
-			world.applyCSG(sphere.setOperationType(OperationType.UNION));
+	const world = new WorldOctree(20, 1);
 
-			test.equal(world.getGrid(0).size, 1);
-			test.equal(world.getGrid(1).size, 1);
-			test.equal(world.getGrid(2).size, 1);
-			test.equal(world.lodZero.values().next().value.csg.size, 1);
-			test.done();
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+	sphere.position.set(10, 10, 10);
+	sphere.updateInverseTransformation();
 
-		},
+	world.applyCSG(sphere.setOperationType(OperationType.UNION));
+	world.applyCSG(sphere.setOperationType(OperationType.DIFFERENCE));
 
-		"can apply CSG Difference operations": function(test) {
+	t.is(world.lodZero.values().next().value.csg.size, 2);
 
-			const world = new WorldOctree(20, 1);
+});
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.position.set(10, 10, 10);
-			sphere.updateInverseTransformation();
+test("can apply CSG Intersection operations", t => {
 
-			world.applyCSG(sphere.setOperationType(OperationType.UNION));
-			world.applyCSG(sphere.setOperationType(OperationType.DIFFERENCE));
+	const world = new WorldOctree(20, 1);
 
-			test.equal(world.lodZero.values().next().value.csg.size, 2);
-			test.done();
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+	sphere.position.set(10, 10, 10);
+	sphere.updateInverseTransformation();
 
-		},
+	world.applyCSG(sphere.setOperationType(OperationType.UNION));
+	world.applyCSG(sphere.setOperationType(OperationType.INTERSECTION));
 
-		"can apply CSG Intersection operations": function(test) {
+	t.is(world.lodZero.values().next().value.csg.size, 2);
 
-			const world = new WorldOctree(20, 1);
+});
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.position.set(10, 10, 10);
-			sphere.updateInverseTransformation();
+test("can remove octants", t => {
 
-			world.applyCSG(sphere.setOperationType(OperationType.UNION));
-			world.applyCSG(sphere.setOperationType(OperationType.INTERSECTION));
+	const world = new WorldOctree(20, 3);
 
-			test.equal(world.lodZero.values().next().value.csg.size, 2);
-			test.done();
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+	sphere.position.set(10, 20, 10);
+	sphere.updateInverseTransformation();
 
-		},
+	const keyCoordinates = world.calculateKeyCoordinates(new Vector3(10, 20, 10), 1);
 
-		"can remove octants": function(test) {
+	world.applyCSG(sphere.setOperationType(OperationType.UNION));
 
-			const world = new WorldOctree(20, 3);
+	t.is(world.getGrid(0).size, 2);
+	t.is(world.getGrid(1).size, 1);
+	t.is(world.getGrid(2).size, 1);
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
-			sphere.position.set(10, 20, 10);
-			sphere.updateInverseTransformation();
+	world.removeOctant(world.getKeyDesign().packKey(keyCoordinates), 1);
 
-			const keyCoordinates = world.calculateKeyCoordinates(new Vector3(10, 20, 10), 1);
+	t.is(world.getGrid(0).size, 0, "should discard orphans");
+	t.is(world.getGrid(1).size, 0, "should remove the octant in question");
+	t.is(world.getGrid(2).size, 0, "should prune empty parents");
 
-			world.applyCSG(sphere.setOperationType(OperationType.UNION));
+});
 
-			test.equal(world.getGrid(0).size, 2);
-			test.equal(world.getGrid(1).size, 1);
-			test.equal(world.getGrid(2).size, 1);
+test("can raycast", t => {
 
-			world.removeOctant(world.getKeyDesign().packKey(keyCoordinates), 1);
+	const world = new WorldOctree(20, 2);
 
-			test.equal(world.getGrid(0).size, 0, "should discard orphans");
-			test.equal(world.getGrid(1).size, 0, "should remove the octant in question");
-			test.equal(world.getGrid(2).size, 0, "should prune empty parents");
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
 
-			test.done();
+	const raycaster = new Raycaster();
+	const intersects = [];
 
-		},
+	world.applyCSG(sphere.setOperationType(OperationType.UNION));
 
-		"can raycast": function(test) {
+	raycaster.ray.origin.set(1, 1, 1);
+	raycaster.ray.direction.set(1, 1, 1).normalize();
 
-			const world = new WorldOctree(20, 2);
+	world.raycast(raycaster.ray, intersects);
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+	t.is(world.lodZero.size, 8, "should have eight octants in LOD zero");
+	t.is(intersects.length, 1);
 
-			const raycaster = new Raycaster();
-			const intersects = [];
-
-			world.applyCSG(sphere.setOperationType(OperationType.UNION));
-
-			raycaster.ray.origin.set(1, 1, 1);
-			raycaster.ray.direction.set(1, 1, 1).normalize();
-
-			world.raycast(raycaster.ray, intersects);
-
-			test.equal(world.lodZero.size, 8, "should have eight octants in LOD zero");
-			test.equal(intersects.length, 1);
-			test.done();
-
-		}
-
-	}
-
-};
+});

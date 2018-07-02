@@ -1,55 +1,43 @@
-"use strict";
+import test from "ava";
+import { Vector3 } from "math-ds";
+import { KeyDesign } from "../../../build/rabbit-hole.js";
 
-const KeyDesign = require("../../../build/rabbit-hole").KeyDesign;
-const Vector3 = require("math-ds").Vector3;
+test("can be instantiated", t => {
 
-module.exports = {
+	const object = new KeyDesign();
 
-	"Key Design": {
+	t.truthy(object);
 
-		"can be instantiated": function(test) {
+});
 
-			const keyDesign = new KeyDesign();
+test("can pack and unpack keys", t => {
 
-			test.ok(keyDesign);
-			test.done();
+	const keyDesign = new KeyDesign(21, 11, 21);
 
-		},
+	const position = new Vector3(11, 22, 33);
+	const key = keyDesign.packKey(position);
 
-		"can pack and unpack keys": function(test) {
+	t.is(key, 141780058123, "should be able to generate a correct key");
+	t.true(position.equals(keyDesign.unpackKey(key)), "should be able to correctly unpack a key");
 
-			const keyDesign = new KeyDesign(21, 11, 21);
+});
 
-			const position = new Vector3(11, 22, 33);
-			const key = keyDesign.packKey(position);
+test("can iterate over a 3D key range", t => {
 
-			test.equal(key, 141780058123, "should be able to generate a correct key");
-			test.ok(position.equals(keyDesign.unpackKey(key)), "should be able to correctly unpack a key");
-			test.done();
+	const keyDesign = new KeyDesign(21, 11, 21);
 
-		},
+	const min = new Vector3(0, 0, 0);
+	const max = new Vector3(1, 1, 1);
+	const iterator = keyDesign.keyRange(min, max);
 
-		"can iterate over a 3D key range": function(test) {
+	let i = 0;
 
-			const keyDesign = new KeyDesign(21, 11, 21);
+	while(!iterator.next().done) {
 
-			const min = new Vector3(0, 0, 0);
-			const max = new Vector3(1, 1, 1);
-			const iterator = keyDesign.keyRange(min, max);
-
-			let i = 0;
-
-			while(!iterator.next().done) {
-
-				++i;
-
-			}
-
-			test.equal(i, 8, "should return eight keys");
-			test.done();
-
-		}
+		++i;
 
 	}
 
-};
+	t.is(i, 8, "should return eight keys");
+
+});

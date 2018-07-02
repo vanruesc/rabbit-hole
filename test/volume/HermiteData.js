@@ -1,62 +1,50 @@
-"use strict";
-
-const HermiteData = require("../../build/rabbit-hole").HermiteData;
+import test from "ava";
+import { HermiteData } from "../../build/rabbit-hole.js";
 
 // Set the global resolution.
 HermiteData.resolution = 1;
 
-module.exports = {
+test("can be instantiated", t => {
 
-	"Hermite Data": {
+	const object = new HermiteData();
 
-		"can be instantiated": function(test) {
+	t.truthy(object);
 
-			const data = new HermiteData();
+});
 
-			test.ok(data);
-			test.done();
+test("can be compressed and decompressed", t => {
 
-		},
+	const data = new HermiteData();
 
-		"can be compressed and decompressed": function(test) {
+	const materialIndices = data.materialIndices;
 
-			const data = new HermiteData();
+	t.is(data.materialIndices.length, 8, "should allocate space for 8 material indices");
 
-			const materialIndices = data.materialIndices;
+	materialIndices[0] = 0; materialIndices[1] = 0;
+	materialIndices[2] = 0; materialIndices[3] = 0;
+	materialIndices[4] = 1; materialIndices[5] = 1;
+	materialIndices[6] = 0; materialIndices[7] = 0;
 
-			test.equal(data.materialIndices.length, 8, "should allocate space for 8 material indices");
+	data.compress();
 
-			materialIndices[0] = 0; materialIndices[1] = 0;
-			materialIndices[2] = 0; materialIndices[3] = 0;
-			materialIndices[4] = 1; materialIndices[5] = 1;
-			materialIndices[6] = 0; materialIndices[7] = 0;
+	t.is(data.materialIndices.length, 3, "should compress material indices to 3 elements");
 
-			data.compress();
+	data.decompress();
 
-			test.equal(data.materialIndices.length, 3, "should compress material indices to 3 elements");
+	t.is(data.materialIndices.length, 8, "should decompress material indices back to 8 elements");
 
-			data.decompress();
+	t.true((function() {
 
-			test.equal(data.materialIndices.length, 8, "should decompress material indices back to 8 elements");
+		let equal = true;
 
-			test.ok((function() {
+		data.materialIndices.forEach(function(element, index, array) {
 
-				let equal = true;
+			equal = equal && (array[index] === materialIndices[index]);
 
-				data.materialIndices.forEach(function(element, index, array) {
+		});
 
-					equal = equal && (array[index] === materialIndices[index]);
+		return equal;
 
-				});
+	}()), "should restore the original data");
 
-				return equal;
-
-			}()), "should restore the original data");
-
-			test.done();
-
-		}
-
-	}
-
-};
+});

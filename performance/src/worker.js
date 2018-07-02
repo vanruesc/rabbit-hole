@@ -37,20 +37,29 @@ self.addEventListener("message", function onMessage(event) {
 
 	switch(request.action) {
 
-		case Action.CONFIGURE:
+		case Action.CONFIGURE: {
+
 			HermiteData.resolution = request.resolution;
 			console.log("Setting Hermite data resolution to", request.resolution);
+
 			break;
 
-		case Action.TEST:
+		}
+
+		case Action.TEST: {
+
 			test = tests.get(request.id).initialize();
 			report = test.run();
 			test.clear();
+
 			postMessage({
 				reportName: report.name,
 				reportURL: URL.createObjectURL(new Blob([report.toString()], { type: "text/plain" }))
 			});
+
 			break;
+
+		}
 
 	}
 

@@ -1,9 +1,5 @@
-"use strict";
-
-const lib = require("../../build/rabbit-hole");
-const Edge = lib.Edge;
-const SuperPrimitive = lib.SuperPrimitive;
-const SuperPrimitivePreset = lib.SuperPrimitivePreset;
+import test from "ava";
+import { Edge, SuperPrimitive, SuperPrimitivePreset } from "../../build/rabbit-hole.js";
 
 function almostEqual(a, b) {
 
@@ -11,26 +7,25 @@ function almostEqual(a, b) {
 
 }
 
-module.exports = {
+test("can be instantiated", t => {
 
-	"Edge": {
+	const object = new Edge();
 
-		"can approximate the Zero Crossing": function(test) {
+	t.truthy(object);
 
-			const edge = new Edge();
+});
 
-			const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
+test("can approximate the Zero Crossing", t => {
 
-			edge.a.set(0, 0, 0);
-			edge.b.set(1, 0, 0);
+	const edge = new Edge();
 
-			edge.approximateZeroCrossing(sphere);
+	const sphere = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
 
-			test.ok(almostEqual(edge.t, 1.0), "should compute a correct interpolation value");
-			test.done();
+	edge.a.set(0, 0, 0);
+	edge.b.set(1, 0, 0);
 
-		}
+	edge.approximateZeroCrossing(sphere);
 
-	}
+	t.true(almostEqual(edge.t, 1.0), "should compute a correct interpolation value");
 
-};
+});

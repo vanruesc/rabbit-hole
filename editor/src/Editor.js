@@ -14,8 +14,6 @@ import {
 	WebGLRenderer
 } from "three";
 
-import dat from "dat.gui";
-import Stats from "stats.js";
 import OctreeHelper from "octree-helper";
 
 import { DeltaControls, PointerButton } from "delta-controls";
@@ -146,29 +144,6 @@ export class Editor {
 		});
 
 		this.terrain.load(assets.get("terrain"));
-
-		/**
-		 * A side menu.
-		 *
-		 * @type {GUI}
-		 * @private
-		 */
-
-		this.menu = new dat.GUI({ autoPlace: false });
-
-		aside.appendChild(this.menu.domElement);
-
-		/**
-		 * Performance statistics.
-		 *
-		 * @type {Stats}
-		 * @private
-		 */
-
-		this.statistics = new Stats();
-		this.statistics.dom.id = "statistics";
-
-		aside.appendChild(this.statistics.domElement);
 
 		/**
 		 * A raycaster.
@@ -502,9 +477,7 @@ export class Editor {
 	 * @param {GUI} menu - A menu.
 	 */
 
-	registerOptions(menu) {
-
-		const folder = menu.addFolder("Editor");
+	/* registerOptions(menu) {
 
 		const params = {
 			"show world octree": this.octreeHelper.visible
@@ -526,6 +499,6 @@ export class Editor {
 		folder.add(this, "save");
 		folder.open();
 
-	}
+	} */
 
 }

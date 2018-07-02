@@ -1,93 +1,78 @@
-"use strict";
+import test from "ava";
+import { Queue } from "../../build/rabbit-hole.js";
 
-const Queue = require("../../build/rabbit-hole").Queue;
+test("can be instantiated", t => {
 
-module.exports = {
+	const q = new Queue();
 
-	"Queue": {
+	t.truthy(q);
 
-		"can be instantiated": function(test) {
+});
 
-			const q = new Queue();
+test("can be cloned", t => {
 
-			test.ok(q);
-			test.done();
+	const q = new Queue();
 
-		},
+	t.truthy(q.clone());
 
-		"can be cloned": function(test) {
+});
 
-			const q = new Queue();
+test("can enqueue an item", t => {
 
-			test.ok(q.clone());
-			test.done();
+	const q = new Queue();
+	const item = {};
 
-		},
+	q.add(item);
 
-		"can enqueue an item": function(test) {
+	t.is(q.size, 1, "should contain one item");
 
-			const q = new Queue();
-			const item = {};
+});
 
-			q.add(item);
+test("dequeues according to FIFO", t => {
 
-			test.equal(q.size, 1, "should contain one item");
-			test.done();
+	const q = new Queue();
+	const item0 = {};
+	const item1 = {};
 
-		},
+	q.add(item0);
+	q.add(item1);
 
-		"dequeues according to FIFO": function(test) {
+	t.is(q.size, 2, "should have two remaining items");
+	t.is(q.poll(), item0, "should retrieve the first item");
+	t.is(q.size, 1, "should have one remaining item");
+	t.is(q.poll(), item1, "should retrieve the second item");
+	t.true(q.empty, "should be empty");
+	t.is(q.poll(), undefined, "should return undefined");
 
-			const q = new Queue();
-			const item0 = {};
-			const item1 = {};
+});
 
-			q.add(item0);
-			q.add(item1);
+test("can peek", t => {
 
-			test.equal(q.size, 2, "should have two remaining items");
-			test.equal(q.poll(), item0, "should retrieve the first item");
-			test.equal(q.size, 1, "should have one remaining item");
-			test.equal(q.poll(), item1, "should retrieve the second item");
-			test.ok(q.empty, "should be empty");
-			test.equal(q.poll(), undefined, "should return undefined");
-			test.done();
+	const q = new Queue();
+	const item0 = {};
+	const item1 = {};
 
-		},
+	t.is(q.peek(), undefined, "should return undefined");
 
-		"can peek": function(test) {
+	q.add(item0);
+	q.add(item1);
 
-			const q = new Queue();
-			const item0 = {};
-			const item1 = {};
+	t.is(q.peek(), item0, "should retrieve the first item");
+	t.is(q.size, 2, "should not remove the item");
 
-			test.equal(q.peek(), undefined, "should return undefined");
+});
 
-			q.add(item0);
-			q.add(item1);
+test("can be cleared", t => {
 
-			test.equal(q.peek(), item0, "should retrieve the first item");
-			test.equal(q.size, 2, "should not remove the item");
-			test.done();
+	const q = new Queue();
+	const item0 = {};
+	const item1 = {};
 
-		},
+	q.add(item0);
+	q.add(item1);
+	q.clear();
 
-		"can be cleared": function(test) {
+	t.true(q.empty, "should be empty");
+	t.is(q.poll(), undefined, "should return undefined");
 
-			const q = new Queue();
-			const item0 = {};
-			const item1 = {};
-
-			q.add(item0);
-			q.add(item1);
-			q.clear();
-
-			test.ok(q.empty, "should be empty");
-			test.equal(q.poll(), undefined, "should return undefined");
-			test.done();
-
-		}
-
-	}
-
-};
+});
