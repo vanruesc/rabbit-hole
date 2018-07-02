@@ -150,7 +150,7 @@ export class HermiteDataEditor extends EventTarget {
 
 		const indexOffsets = new Uint32Array([1, m, mm]);
 		const materialIndices = this.hermiteData.materialIndices;
-		const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
+		const edgeData = new EdgeData(n, EdgeData.calculate1DEdgeCount(n));
 
 		let edges, zeroCrossings, normals;
 		let indexA, indexB;
