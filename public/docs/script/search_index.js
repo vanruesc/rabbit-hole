@@ -2598,6 +2598,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/volume/edgedata.js~edgedata#resolution",
+    "class/src/volume/EdgeData.js~EdgeData.html#instance-member-resolution",
+    "src/volume/EdgeData.js~EdgeData#resolution",
+    "member"
+  ],
+  [
     "src/volume/edgedata.js~edgedata#serialize",
     "class/src/volume/EdgeData.js~EdgeData.html#instance-method-serialize",
     "src/volume/EdgeData.js~EdgeData#serialize",
@@ -2863,13 +2869,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/volume/hermitedata.js~hermitedata.resolution",
-    "class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution",
     "src/volume/HermiteData.js~HermiteData.resolution",
     "member"
   ],
   [
     "src/volume/hermitedata.js~hermitedata.resolution",
-    "class/src/volume/HermiteData.js~HermiteData.html#static-get-resolution",
+    "class/src/volume/HermiteData.js~HermiteData.html#static-set-resolution",
     "src/volume/HermiteData.js~HermiteData.resolution",
     "member"
   ],

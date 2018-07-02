@@ -216,7 +216,7 @@ much lower.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(n: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
         </p>
       </div>
       <div>
@@ -288,6 +288,35 @@ much lower.</p>
         
         
         <div data-ice="description"><p>The surface intersection normals.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html#instance-member-resolution">resolution</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The material grid resolution.</p>
 </div>
       </div>
     </td>
@@ -556,7 +585,7 @@ much lower.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber229">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber240">source</a></span></span>
     </span>
   </h3>
 
@@ -629,11 +658,11 @@ much lower.</p>
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(n: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber26">source</a></span></span>
     </span>
   </h3>
 
@@ -654,6 +683,13 @@ much lower.</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">n</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The material grid resolution.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">x</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
@@ -714,7 +750,7 @@ much lower.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber40">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber49">source</a></span></span>
     </span>
   </h3>
 
@@ -763,7 +799,7 @@ N is the grid resolution + 1.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber70">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber79">source</a></span></span>
     </span>
   </h3>
 
@@ -773,6 +809,50 @@ N is the grid resolution + 1.</p>
   <div data-ice="description"><p>The surface intersection normals.</p>
 <p>The vectors are stored as [x, y, z] float triples and correspond to the
 order of the edges.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-resolution">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">resolution</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber34">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The material grid resolution.</p>
 </div>
 
   
@@ -809,7 +889,7 @@ order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber55">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
@@ -858,7 +938,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber129">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber140">source</a></span></span>
     </span>
   </h3>
 
@@ -932,7 +1012,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber102">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber112">source</a></span></span>
     </span>
   </h3>
 
@@ -1006,7 +1086,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber174">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber185">source</a></span></span>
     </span>
   </h3>
 
@@ -1087,7 +1167,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber188">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber199">source</a></span></span>
     </span>
   </h3>
 
@@ -1168,7 +1248,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber202">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber213">source</a></span></span>
     </span>
   </h3>
 
@@ -1249,7 +1329,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber216">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber227">source</a></span></span>
     </span>
   </h3>
 
@@ -1330,7 +1410,7 @@ respective edge. The values correspond to the order of the edges.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber85">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/volume/EdgeData.js.html#lineNumber94">source</a></span></span>
     </span>
   </h3>
 
@@ -1397,7 +1477,7 @@ respective edge. The values correspond to the order of the edges.</p>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
