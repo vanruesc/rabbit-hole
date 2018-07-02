@@ -2,7 +2,6 @@ import { Vector3 } from "math-ds";
 import IteratorResult from "iterator-result";
 import { pattern } from "sparse-octree";
 import { Edge } from "./Edge.js";
-import { HermiteData } from "./HermiteData.js";
 
 /**
  * An edge.
@@ -253,7 +252,7 @@ export class EdgeIterator {
 	next() {
 
 		const s = this.cellSize;
-		const n = HermiteData.resolution;
+		const n = this.edgeData.resolution;
 		const m = n + 1;
 		const mm = m * m;
 

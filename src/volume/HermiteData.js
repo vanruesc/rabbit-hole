@@ -30,20 +30,6 @@ let resolution = 0;
 let indexCount = 0;
 
 /**
- * Rounds the given number up to the next power of two.
- *
- * @private
- * @param {Number} n - A number.
- * @return {Number} The next power of two.
- */
-
-function ceil2(n) {
-
-	return Math.pow(2, Math.max(0, Math.ceil(Math.log2(n))));
-
-}
-
-/**
  * Hermite data.
  *
  * @implements {Serializable}
@@ -314,7 +300,7 @@ export class HermiteData {
 				if(this.edgeData === null) {
 
 					// Create an empty edge data container.
-					this.edgeData = new EdgeData();
+					this.edgeData = new EdgeData(resolution);
 
 				}
 
@@ -419,7 +405,10 @@ export class HermiteData {
 
 	static set resolution(value) {
 
-		resolution = Math.max(1, Math.min(256, ceil2(value)));
+		// Round up to the next power of two.
+		value = Math.pow(2, Math.max(0, Math.ceil(Math.log2(value))));
+
+		resolution = Math.max(1, Math.min(256, value));
 		indexCount = Math.pow((resolution + 1), 3);
 
 	}

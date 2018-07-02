@@ -17,12 +17,21 @@ export class EdgeData {
 	/**
 	 * Constructs new edge data.
 	 *
+	 * @param {Number} n - The material grid resolution.
 	 * @param {Number} [x=0] - The amount of edges along the X-axis. If <= 0, no memory will be allocated.
 	 * @param {Number} [y=x] - The amount of edges along the Y-axis. If omitted, this will be the same as x.
 	 * @param {Number} [z=x] - The amount of edges along the Z-axis. If omitted, this will be the same as x.
 	 */
 
-	constructor(x = 0, y = x, z = x) {
+	constructor(n, x = 0, y = x, z = x) {
+
+		/**
+		 * The material grid resolution.
+		 *
+		 * @type {Number}
+		 */
+
+		this.resolution = n;
 
 		/**
 		 * The edges.
@@ -85,6 +94,7 @@ export class EdgeData {
 	serialize(deflate = false) {
 
 		return {
+			resolution: this.resolution,
 			edges: this.edges,
 			zeroCrossings: this.zeroCrossings,
 			normals: this.normals
@@ -105,6 +115,7 @@ export class EdgeData {
 
 		if(object !== null) {
 
+			this.resolution = object.resolution;
 			this.edges = object.edges;
 			this.zeroCrossings = object.zeroCrossings;
 			this.normals = object.normals;
