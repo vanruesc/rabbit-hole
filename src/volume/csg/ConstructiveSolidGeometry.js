@@ -206,6 +206,7 @@ function combineEdges(operation, data0, data1) {
 	const edgeCount = EdgeData.calculate1DEdgeCount(n);
 
 	const edgeData = new EdgeData(
+		n,
 		Math.min(edgeCount, edgeData0.indices[0].length + edgeData1.indices[0].length),
 		Math.min(edgeCount, edgeData0.indices[1].length + edgeData1.indices[1].length),
 		Math.min(edgeCount, edgeData0.indices[2].length + edgeData1.indices[2].length)
@@ -380,7 +381,7 @@ function generateEdges(operation, data, bounds) {
 	const edge = new Edge();
 
 	const lengths = new Uint32Array(3);
-	const edgeData = new EdgeData(EdgeData.calculate1DEdgeCount(n));
+	const edgeData = new EdgeData(n, EdgeData.calculate1DEdgeCount(n));
 
 	let edges, zeroCrossings, normals, indexOffset;
 	let indexA, indexB;
