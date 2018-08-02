@@ -15,7 +15,7 @@ _While many core features are already implemented, this project is still under d
 [Volume Editor](https://vanruesc.github.io/rabbit-hole/public/editor) &there4;
 [API Reference](https://vanruesc.github.io/rabbit-hole/public/docs) &there4;
 [Master's Thesis (2016)](https://vanruesc.github.io/rabbit-hole//public/thesis-volumetric-terrain-rendering-with-webgl.pdf) &there4;
-[Electronic Imaging Paper (2018)](https://vanruesc.github.io/rabbit-hole//public/paper-volumetric-terrain-rendering-with-webgl.pdf)*
+[Electronic Imaging Paper (2018)](https://ist.publisher.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
 
 
 ## Installation
