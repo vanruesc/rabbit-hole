@@ -27,7 +27,11 @@ This library requires the peer dependencies
 [synthetic-event](https://github.com/vanruesc/synthetic-event).
 
 ```sh
-npm install iterator-result math-ds sparse-octree synthetic-event rabbit-hole
+npm install iterator-result math-ds sparse-octree synthetic-event
+``` 
+
+```sh
+npm install rabbit-hole
 ``` 
 
 
