@@ -21,7 +21,6 @@ const workers = [{
 	},
 
 	plugins: [resolve()].concat(process.env.NODE_ENV === "production" ? [babel(), minify({
-		sourceMap: false,
 		comments: false
 	})] : [])
 
@@ -36,7 +35,6 @@ const workers = [{
 	plugins: [resolve(), string({
 		include: ["**/*.tmp"]
 	})].concat(process.env.NODE_ENV === "production" ? [babel(), minify({
-		sourceMap: false,
 		comments: false
 	})] : [])
 
@@ -116,7 +114,6 @@ export default [...workers, lib, demo, editor, performance].concat((process.env.
 			include: ["**/*.tmp"]
 		})].concat([babel(), minify({
 			bannerNewLine: true,
-			sourceMap: false,
 			comments: false
 		})])
 
@@ -131,7 +128,6 @@ export default [...workers, lib, demo, editor, performance].concat((process.env.
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat([babel(), minify({
-			sourceMap: false,
 			comments: false
 		})])
 
@@ -146,7 +142,6 @@ export default [...workers, lib, demo, editor, performance].concat((process.env.
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat([babel(), minify({
-			sourceMap: false,
 			comments: false
 		})])
 
@@ -161,7 +156,6 @@ export default [...workers, lib, demo, editor, performance].concat((process.env.
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat([babel(), minify({
-			sourceMap: false,
 			comments: false
 		})])
 
