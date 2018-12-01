@@ -87,9 +87,24 @@ window.addEventListener("load", function main(event) {
 	manager.addEventListener("change", onChange);
 	manager.addEventListener("load", onLoad);
 
+	const demos = [
+		new ContouringDemo(),
+		new VoxelDemo()
+	];
+
+	if(demos.map((demo) => demo.id).indexOf(window.location.hash.slice(1)) === -1) {
+
+		// Invalid URL hash: demo doesn't exist.
+		window.location.hash = "";
+
+	}
+
 	// Register demos.
-	manager.addDemo(new ContouringDemo());
-	manager.addDemo(new VoxelDemo());
+	for(const demo of demos) {
+
+		manager.addDemo(demo);
+
+	}
 
 	// Start rendering.
 	render();
