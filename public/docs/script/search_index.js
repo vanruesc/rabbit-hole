@@ -1789,13 +1789,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
-    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-set-errorThreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-get-errorThreshold",
     "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
     "member"
   ],
   [
     "src/octree/voxel/voxelcell.js~voxelcell.errorthreshold",
-    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-get-errorThreshold",
+    "class/src/octree/voxel/VoxelCell.js~VoxelCell.html#static-set-errorThreshold",
     "src/octree/voxel/VoxelCell.js~VoxelCell.errorThreshold",
     "member"
   ],
