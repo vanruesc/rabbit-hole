@@ -12,153 +12,198 @@ const banner = `/**
  * Copyright ${date.slice(-4)} ${pkg.author.name}, ${pkg.license}
  */`;
 
+const production = (process.env.NODE_ENV === "production");
+const globals = { three: "THREE" };
+const external = ["three"];
+
 const workers = [{
 
-	input: "src/worker/worker.js",
-	output: {
-		file: "src/worker/worker.tmp",
-		format: "iife"
-	},
+		input: "src/worker/worker.js",
+		output: {
+			file: "src/worker/worker.tmp",
+			format: "iife"
+		},
 
-	plugins: [resolve()].concat(process.env.NODE_ENV === "production" ? [babel(), minify({
-		comments: false
-	})] : [])
+		plugins: [resolve()].concat(production ? [babel(), minify({
+			comments: false
+		})] : [])
 
-}, {
+	}, {
 
-	input: "performance/src/worker.js",
-	output: {
-		file: "performance/src/worker.tmp",
-		format: "iife"
-	},
+		input: "performance/src/worker.js",
+		output: {
+			file: "performance/src/worker.tmp",
+			format: "iife"
+		},
 
-	plugins: [resolve(), string({
-		include: ["**/*.tmp"]
-	})].concat(process.env.NODE_ENV === "production" ? [babel(), minify({
-		comments: false
-	})] : [])
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel(), minify({
+			comments: false
+		})] : [])
 
 }];
 
 const lib = {
 
-	input: pkg.module,
-	output: {
-		file: "build/" + pkg.name + ".js",
-		format: "umd",
-		name: pkg.name.replace(/-/g, "").toUpperCase(),
-		banner: banner
+	esm: {
+
+		input: "src/index.js",
+		output: {
+			file: pkg.module,
+			format: "esm",
+			banner: banner
+		},
+
+		external: external,
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})]
+
 	},
 
-	plugins: [resolve(), string({
-		include: ["**/*.tmp"]
-	})].concat(process.env.NODE_ENV === "production" ? [babel()] : [])
+	umd: {
+
+		input: "src/index.js",
+		output: {
+			file: pkg.main,
+			format: "umd",
+			name: pkg.name.replace(/-/g, "").toUpperCase(),
+			banner: banner
+		},
+
+		external: external,
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel()] : [])
+
+	}
 
 };
 
 const demo = {
 
-	input: "demo/src/index.js",
-	output: {
-		file: "public/demo/index.js",
-		format: "iife",
-		globals: { three: "THREE" }
-	},
+	iife: {
 
-	external: ["three"],
-	plugins: [resolve(), string({
-		include: ["**/*.tmp"]
-	})].concat(process.env.NODE_ENV === "production" ? [babel()] : [])
+		input: "demo/src/index.js",
+		output: {
+			file: "public/demo/index.js",
+			format: "iife",
+			globals: globals
+		},
+
+		external: external,
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel()] : [])
+
+	}
 
 };
 
 const editor = {
 
-	input: "editor/src/index.js",
-	output: {
-		file: "public/editor/index.js",
-		format: "iife",
-		globals: { three: "THREE" }
-	},
+	iife: {
 
-	external: ["three"],
-	plugins: [resolve(), string({
-		include: ["**/*.tmp"]
-	})].concat(process.env.NODE_ENV === "production" ? [babel()] : [])
+		input: "editor/src/index.js",
+		output: {
+			file: "public/editor/index.js",
+			format: "iife",
+			globals: globals
+		},
+
+		external: external,
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel()] : [])
+
+	}
 
 };
 
 const performance = {
 
-	input: "performance/src/index.js",
-	output: {
-		file: "public/performance/index.js",
-		format: "iife"
-	},
+	iife: {
 
-	plugins: [resolve(), string({
-		include: ["**/*.tmp"]
-	})].concat(process.env.NODE_ENV === "production" ? [babel()] : [])
+		input: "performance/src/index.js",
+		output: {
+			file: "public/performance/index.js",
+			format: "iife",
+			globals: globals
+		},
+
+		external: external,
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel()] : [])
+
+	}
 
 };
 
-export default [...workers, lib, demo, editor, performance].concat((process.env.NODE_ENV === "production") ? [
+export default [...workers, lib.esm, lib.umd, demo.iife, editor.iife, performance.iife].concat(production ? [{
 
-	Object.assign({}, lib, {
-
-		output: Object.assign({}, lib.output, {
-			file: "build/" + pkg.name + ".min.js"
-		}),
+		input: lib.umd.input,
+		output: {
+			file: lib.umd.output.file.replace(".js", ".min.js"),
+			format: "umd",
+			name: pkg.name.replace(/-/g, "").toUpperCase(),
+			banner: banner
+		},
 
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
-		})].concat([babel(), minify({
+		}), babel(), minify({
 			bannerNewLine: true,
 			comments: false
-		})])
+		})]
 
-	}),
+	}, {
 
-	Object.assign({}, demo, {
+		input: demo.iife.input,
+		output: {
+			file: demo.iife.output.file.replace(".js", ".min.js"),
+			format: "iife",
+			globals: globals
+		},
 
-		output: Object.assign({}, demo.output, {
-			file: "public/demo/index.min.js"
-		}),
-
+		external: external,
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
-		})].concat([babel(), minify({
+		}), babel(), minify({
 			comments: false
-		})])
+		})]
 
-	}),
+	}, {
 
-	Object.assign({}, editor, {
+		input: editor.iife.input,
+		output: {
+			file: editor.iife.output.file.replace(".js", ".min.js"),
+			format: "iife",
+			globals: globals
+		},
 
-		output: Object.assign({}, editor.output, {
-			file: "public/editor/index.min.js"
-		}),
-
+		external: external,
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
-		})].concat([babel(), minify({
+		}), babel(), minify({
 			comments: false
-		})])
+		})]
 
-	}),
+	}, {
 
-	Object.assign({}, performance, {
+		input: performance.iife.input,
+		output: {
+			file: performance.iife.output.file.replace(".js", ".min.js"),
+			format: "iife",
+			globals: globals
+		},
 
-		output: Object.assign({}, performance.output, {
-			file: "public/performance/index.min.js"
-		}),
-
+		external: external,
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
-		})].concat([babel(), minify({
+		}), babel(), minify({
 			comments: false
-		})])
+		})]
 
-	})
-
-] : []);
+}] : []);

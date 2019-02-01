@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"description": "A volumetric terrain engine.",
 	"homepage": "https://github.com/vanruesc/rabbit-hole",
-	"main": "build/rabbit-hole.js",
-	"module": "src/index.js",
+	"main": "build/rabbit-hole.umd.js",
+	"module": "build/rabbit-hole.esm.js",
 	"sideEffects": false,
 	"license": "Zlib",
 
@@ -55,8 +55,7 @@
 		"deploy:performance": "cpx performance/assets/** public/performance",
 		"pretest": "npm run lint && npm run build:production",
 		"test": "npm run ava",
-		"prepack": "npm test && inline-import",
-		"postpublish": "inline-import -r"
+		"prepack": "npm test"
 	},
 
 	"ava": {
@@ -89,7 +88,6 @@
 		"eslint-config-delta": "0.x.x",
 		"feature-detector": "0.x.x",
 		"hermite-data-helper": "0.x.x",
-		"inline-import": "1.x.x",
 		"iterator-result": "0.x.x",
 		"math-ds": "1.x.x",
 		"octree-helper": "0.x.x",
