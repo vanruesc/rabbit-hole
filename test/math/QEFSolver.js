@@ -1,6 +1,6 @@
 import test from "ava";
 import { Vector3 } from "math-ds";
-import { QEFData, QEFSolver } from "../../build/rabbit-hole.js";
+import { QEFData, QEFSolver } from "../../build/rabbit-hole.umd.js";
 
 test("can be instantiated", t => {
 
