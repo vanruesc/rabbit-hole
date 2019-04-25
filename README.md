@@ -1,7 +1,7 @@
 # Rabbit Hole
 
 [![Build status](https://travis-ci.org/vanruesc/rabbit-hole.svg?branch=master)](https://travis-ci.org/vanruesc/rabbit-hole)
-[![NPM version](https://badge.fury.io/js/rabbit-hole.svg)](http://badge.fury.io/js/rabbit-hole)
+[![npm version](https://badgen.net/npm/v/rabbit-hole?color=green)](https://www.npmjs.com/package/rabbit-hole)
 [![Peer dependencies](https://david-dm.org/vanruesc/rabbit-hole/peer-status.svg)](https://david-dm.org/vanruesc/rabbit-hole?type=peer)
 
 A volumetric terrain engine for WebGL. This engine has been created in the context of a Master's degree project at
@@ -10,12 +10,7 @@ the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) 
 
 _While many core features are already implemented, this project is still under development._
 
-*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo) &there4;
-[Performance](https://vanruesc.github.io/rabbit-hole/public/performance) &there4;
-[Volume Editor](https://vanruesc.github.io/rabbit-hole/public/editor) &there4;
-[API Reference](https://vanruesc.github.io/rabbit-hole/public/docs) &there4;
-[Master's Thesis (2016)](https://vanruesc.github.io/rabbit-hole//public/thesis-volumetric-terrain-rendering-with-webgl.pdf) &there4;
-[Electronic Imaging Paper (2018)](https://ist.publisher.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
+*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo)&ensp;&middot;&ensp;[Performance](https://vanruesc.github.io/rabbit-hole/public/performance)&ensp;&middot;&ensp;[Volume Editor](https://vanruesc.github.io/rabbit-hole/public/editor)&ensp;&middot;&ensp;[API Reference](https://vanruesc.github.io/rabbit-hole/public/docs)&ensp;&middot;&ensp;[Master's Thesis (2016)](https://vanruesc.github.io/rabbit-hole//public/thesis-volumetric-terrain-rendering-with-webgl.pdf)&ensp;&middot;&ensp;[Electronic Imaging Paper (2018)](https://ist.publisher.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
 
 
 ## Installation
