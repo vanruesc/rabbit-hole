@@ -6,7 +6,7 @@ import {
 	SuperPrimitive,
 	SuperPrimitivePreset,
 	WorldOctree
-} from "../../../build/rabbit-hole.umd.js";
+} from "../../../build/rabbit-hole.js";
 
 test("can be instantiated", t => {
 

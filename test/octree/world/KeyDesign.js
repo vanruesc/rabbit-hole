@@ -1,6 +1,6 @@
 import test from "ava";
 import { Vector3 } from "math-ds";
-import { KeyDesign } from "../../../build/rabbit-hole.umd.js";
+import { KeyDesign } from "../../../build/rabbit-hole.js";
 
 test("can be instantiated", t => {
 

@@ -1,5 +1,5 @@
 import test from "ava";
-import { Edge, SuperPrimitive, SuperPrimitivePreset } from "../../build/rabbit-hole.umd.js";
+import { Edge, SuperPrimitive, SuperPrimitivePreset } from "../../build/rabbit-hole.js";
 
 function almostEqual(a, b) {
 

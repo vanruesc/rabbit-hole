@@ -1,5 +1,5 @@
 import test from "ava";
-import { HermiteData } from "../../build/rabbit-hole.umd.js";
+import { HermiteData } from "../../build/rabbit-hole.js";
 
 // Set the global resolution.
 HermiteData.resolution = 1;

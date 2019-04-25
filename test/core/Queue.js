@@ -1,5 +1,5 @@
 import test from "ava";
-import { Queue } from "../../build/rabbit-hole.umd.js";
+import { Queue } from "../../build/rabbit-hole.js";
 
 test("can be instantiated", t => {
 
