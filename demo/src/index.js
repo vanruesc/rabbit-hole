@@ -69,7 +69,6 @@ window.addEventListener("load", function main(event) {
 
 	// Create a custom renderer.
 	const renderer = new WebGLRenderer({
-		logarithmicDepthBuffer: true,
 		antialias: true
 	});
 
