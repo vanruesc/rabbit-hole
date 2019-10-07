@@ -45,6 +45,7 @@
 		"lint:test": "eslint test",
 		"build": "rollup -c",
 		"build:production": "cross-env NODE_ENV=production rollup -c",
+		"watch": "rollup -c --watch",
 		"doc": "esdoc",
 		"pretest": "npm run lint && npm run build:production",
 		"test": "npm run ava",
