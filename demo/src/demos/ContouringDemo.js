@@ -159,8 +159,8 @@ export class ContouringDemo extends Demo {
 			color: 0x009188,
 			metalness: 0.23,
 			roughness: 0.31,
-			clearCoat: 0.94,
-			clearCoatRoughness: 0.15,
+			clearcoat: 0.94,
+			clearcoatRoughness: 0.15,
 			dithering: true
 		});
 
@@ -494,11 +494,12 @@ export class ContouringDemo extends Demo {
 		const hermiteDataHelper = this.hermiteDataHelper;
 		const box3Helper = this.box3Helper;
 		const presets = Object.keys(SuperPrimitivePreset).concat(["HEIGHTFIELD"]);
+		const material = this.material;
 
 		const params = {
 
 			"SDF": presets[this.superPrimitivePreset],
-			"color": this.material.color.getHex(),
+			"color": material.color.getHex(),
 			"level mask": octreeHelper.children.length,
 
 			"show SVO": () => {
@@ -592,16 +593,16 @@ export class ContouringDemo extends Demo {
 		subFolder.add(this.scale, "z").min(0.0).max(0.5).step(0.0001);
 
 		folder = menu.addFolder("Material");
-		folder.add(this.material, "metalness").min(0.0).max(1.0).step(0.0001);
-		folder.add(this.material, "roughness").min(0.0).max(1.0).step(0.0001);
-		folder.add(this.material, "clearCoat").min(0.0).max(1.0).step(0.0001);
-		folder.add(this.material, "clearCoatRoughness").min(0.0).max(1.0).step(0.0001);
-		folder.add(this.material, "reflectivity").min(0.0).max(1.0).step(0.0001);
-		folder.addColor(params, "color").onChange(() => this.material.color.setHex(params.color));
-		folder.add(this.material, "wireframe");
-		folder.add(this.material, "flatShading").onChange(() => {
+		folder.add(material, "metalness").min(0.0).max(1.0).step(0.0001);
+		folder.add(material, "roughness").min(0.0).max(1.0).step(0.0001);
+		folder.add(material, "clearcoat").min(0.0).max(1.0).step(0.0001);
+		folder.add(material, "clearcoatRoughness").min(0.0).max(1.0).step(0.0001);
+		folder.add(material, "reflectivity").min(0.0).max(1.0).step(0.0001);
+		folder.addColor(params, "color").onChange(() => material.color.setHex(params.color));
+		folder.add(material, "wireframe");
+		folder.add(material, "flatShading").onChange(() => {
 
-			this.material.needsUpdate = true;
+			material.needsUpdate = true;
 
 		});
 
