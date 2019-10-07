@@ -37,21 +37,6 @@
     return Constructor;
   }
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
   function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function");
@@ -157,56 +142,6 @@
     }
 
     return _get(target, property, receiver || target);
-  }
-
-  function set(target, property, value, receiver) {
-    if (typeof Reflect !== "undefined" && Reflect.set) {
-      set = Reflect.set;
-    } else {
-      set = function set(target, property, value, receiver) {
-        var base = _superPropBase(target, property);
-
-        var desc;
-
-        if (base) {
-          desc = Object.getOwnPropertyDescriptor(base, property);
-
-          if (desc.set) {
-            desc.set.call(receiver, value);
-            return true;
-          } else if (!desc.writable) {
-            return false;
-          }
-        }
-
-        desc = Object.getOwnPropertyDescriptor(receiver, property);
-
-        if (desc) {
-          if (!desc.writable) {
-            return false;
-          }
-
-          desc.value = value;
-          Object.defineProperty(receiver, property, desc);
-        } else {
-          _defineProperty(receiver, property, value);
-        }
-
-        return true;
-      };
-    }
-
-    return set(target, property, value, receiver);
-  }
-
-  function _set(target, property, value, receiver, isStrict) {
-    var s = set(target, property, value, receiver || target);
-
-    if (!s && isStrict) {
-      throw new Error('failed to set property');
-    }
-
-    return value;
   }
 
   function _toConsumableArray(arr) {
@@ -318,10 +253,9 @@
       key: "removeEventListener",
       value: function removeEventListener(type, listener) {
         var m = typeof listener === "function" ? this.listenerFunctions : this.listenerObjects;
-        var listeners;
 
         if (m.has(type)) {
-          listeners = m.get(type);
+          var listeners = m.get(type);
           listeners["delete"](listener);
 
           if (listeners.size === 0) {
@@ -335,8 +269,7 @@
         var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
         var listenerFunctions = target.listenerFunctions;
         var listenerObjects = target.listenerObjects;
-        var listeners;
-        var listener;
+        var listeners, listener;
         event.target = target;
 
         if (listenerFunctions.has(event.type)) {
@@ -3404,9 +3337,9 @@
       }
     }, {
       key: "setSize",
-      value: function setSize(width, height) {
+      value: function setSize(width, height, updateStyle) {
         var demo = this.currentDemo;
-        this.renderer.setSize(width, height);
+        this.renderer.setSize(width, height, updateStyle);
 
         if (demo !== null && demo.camera !== null) {
           var camera = demo.camera;
@@ -3869,6 +3802,7 @@
 
   var v = new Vector3();
   var points = [new Vector3(), new Vector3(), new Vector3(), new Vector3(), new Vector3(), new Vector3(), new Vector3(), new Vector3()];
+
   var Box3 = function () {
     function Box3() {
       var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3(Infinity, Infinity, Infinity);
@@ -4104,6 +4038,7 @@
 
   var box = new Box3();
   var v$1 = new Vector3();
+
   var Sphere = function () {
     function Sphere() {
       var center = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
@@ -4512,6 +4447,7 @@
   }();
 
   var v$2 = new Vector2();
+
   var Box2 = function () {
     function Box2() {
       var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector2(Infinity, Infinity);
@@ -5020,7 +4956,6 @@
     ZYX: "ZYX"
   };
 
-  var v$3 = new Vector3();
   var Quaternion = function () {
     function Quaternion() {
       var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -5205,18 +5140,23 @@
           r = 0;
 
           if (Math.abs(vFrom.x) > Math.abs(vFrom.z)) {
-            v$3.set(-vFrom.y, vFrom.x, 0);
+            this.x = -vFrom.y;
+            this.y = vFrom.x;
+            this.z = 0;
+            this.w = r;
           } else {
-            v$3.set(0, -vFrom.z, vFrom.y);
+            this.x = 0;
+            this.y = -vFrom.z;
+            this.z = vFrom.y;
+            this.w = r;
           }
         } else {
-          v$3.crossVectors(vFrom, vTo);
+          this.x = vFrom.y * vTo.z - vFrom.z * vTo.y;
+          this.y = vFrom.z * vTo.x - vFrom.x * vTo.z;
+          this.z = vFrom.x * vTo.y - vFrom.y * vTo.x;
+          this.w = r;
         }
 
-        this.x = v$3.x;
-        this.y = v$3.y;
-        this.z = v$3.z;
-        this.w = r;
         return this.normalize();
       }
     }, {
@@ -5435,6 +5375,7 @@
 
   var m = new Matrix3();
   var q = new Quaternion();
+
   var Euler = function () {
     function Euler() {
       var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -5645,6 +5586,7 @@
 
   var a = new Vector3();
   var b = new Vector3();
+
   var Plane = function () {
     function Plane() {
       var normal = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3(1, 0, 0);
@@ -5784,7 +5726,8 @@
     return Plane;
   }();
 
-  var v$4 = new Vector3();
+  var v$3 = new Vector3();
+
   var Frustum = function () {
     function Frustum() {
       var p0 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Plane();
@@ -5887,11 +5830,11 @@
 
         for (i = 0; i < 6; ++i) {
           plane = planes[i];
-          v$4.x = plane.normal.x > 0.0 ? max.x : min.x;
-          v$4.y = plane.normal.y > 0.0 ? max.y : min.y;
-          v$4.z = plane.normal.z > 0.0 ? max.z : min.z;
+          v$3.x = plane.normal.x > 0.0 ? max.x : min.x;
+          v$3.y = plane.normal.y > 0.0 ? max.y : min.y;
+          v$3.z = plane.normal.z > 0.0 ? max.z : min.z;
 
-          if (plane.distanceToPoint(v$4) < 0.0) {
+          if (plane.distanceToPoint(v$3) < 0.0) {
             return false;
           }
         }
@@ -5921,6 +5864,7 @@
 
   var a$1 = new Vector3();
   var b$1 = new Vector3();
+
   var Line3 = function () {
     function Line3() {
       var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
@@ -6009,6 +5953,7 @@
   var a$2 = new Vector3();
   var b$2 = new Vector3();
   var c = new Vector3();
+
   var Matrix4 = function () {
     function Matrix4() {
       _classCallCheck(this, Matrix4);
@@ -6769,7 +6714,8 @@
     return Matrix4;
   }();
 
-  var v$5 = [new Vector3(), new Vector3(), new Vector3(), new Vector3()];
+  var v$4 = [new Vector3(), new Vector3(), new Vector3(), new Vector3()];
+
   var Ray = function () {
     function Ray() {
       var origin = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
@@ -6815,7 +6761,7 @@
     }, {
       key: "recast",
       value: function recast(t) {
-        this.origin.copy(this.at(t, v$5[0]));
+        this.origin.copy(this.at(t, v$4[0]));
         return this;
       }
     }, {
@@ -6828,8 +6774,8 @@
     }, {
       key: "distanceSquaredToPoint",
       value: function distanceSquaredToPoint(p) {
-        var directionDistance = v$5[0].subVectors(p, this.origin).dot(this.direction);
-        return directionDistance < 0.0 ? this.origin.distanceToSquared(p) : v$5[0].copy(this.direction).multiplyScalar(directionDistance).add(this.origin).distanceToSquared(p);
+        var directionDistance = v$4[0].subVectors(p, this.origin).dot(this.direction);
+        return directionDistance < 0.0 ? this.origin.distanceToSquared(p) : v$4[0].copy(this.direction).multiplyScalar(directionDistance).add(this.origin).distanceToSquared(p);
       }
     }, {
       key: "distanceToPoint",
@@ -6846,9 +6792,9 @@
     }, {
       key: "distanceSquaredToSegment",
       value: function distanceSquaredToSegment(v0, v1, pointOnRay, pointOnSegment) {
-        var segCenter = v$5[0].copy(v0).add(v1).multiplyScalar(0.5);
-        var segDir = v$5[1].copy(v1).sub(v0).normalize();
-        var diff = v$5[2].copy(this.origin).sub(segCenter);
+        var segCenter = v$4[0].copy(v0).add(v1).multiplyScalar(0.5);
+        var segDir = v$4[1].copy(v1).sub(v0).normalize();
+        var diff = v$4[2].copy(this.origin).sub(segCenter);
         var segExtent = v0.distanceTo(v1) * 0.5;
         var a01 = -this.direction.dot(segDir);
         var b0 = diff.dot(this.direction);
@@ -6914,7 +6860,7 @@
       key: "intersectSphere",
       value: function intersectSphere(s) {
         var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3();
-        var ab = v$5[0].subVectors(s.center, this.origin);
+        var ab = v$4[0].subVectors(s.center, this.origin);
         var tca = ab.dot(this.direction);
         var d2 = ab.dot(ab) - tca * tca;
         var radius2 = s.radius * s.radius;
@@ -7018,16 +6964,16 @@
     }, {
       key: "intersectsBox",
       value: function intersectsBox(b) {
-        return this.intersectBox(b, v$5[0]) !== null;
+        return this.intersectBox(b, v$4[0]) !== null;
       }
     }, {
       key: "intersectTriangle",
       value: function intersectTriangle(a, b, c, backfaceCulling, target) {
         var direction = this.direction;
-        var diff = v$5[0];
-        var edge1 = v$5[1];
-        var edge2 = v$5[2];
-        var normal = v$5[3];
+        var diff = v$4[0];
+        var edge1 = v$4[1];
+        var edge2 = v$4[2];
+        var normal = v$4[3];
         var result = null;
         var DdN, sign, DdQxE2, DdE1xQ, QdN;
         edge1.subVectors(b, a);
@@ -7676,7 +7622,7 @@
   };
 
   var TWO_PI = Math.PI * 2;
-  var v$6 = new Vector3();
+  var v$5 = new Vector3();
   var m$1 = new Matrix4();
   var RotationManager = function () {
     function RotationManager(position, quaternion, target, settings) {
@@ -7714,9 +7660,9 @@
         var rotation = settings.rotation;
 
         if (settings.general.orbit) {
-          m$1.lookAt(v$6.subVectors(this.position, this.target), rotation.pivotOffset, rotation.up);
+          m$1.lookAt(v$5.subVectors(this.position, this.target), rotation.pivotOffset, rotation.up);
         } else {
-          m$1.lookAt(v$6.set(0, 0, 0), this.target.setFromSpherical(this.spherical), rotation.up);
+          m$1.lookAt(v$5.set(0, 0, 0), this.target.setFromSpherical(this.spherical), rotation.up);
         }
 
         this.quaternion.setFromRotationMatrix(m$1);
@@ -7779,12 +7725,12 @@
         target.copy(point);
 
         if (this.settings.general.orbit) {
-          v$6.subVectors(position, target);
+          v$5.subVectors(position, target);
         } else {
-          v$6.subVectors(target, position).normalize();
+          v$5.subVectors(target, position).normalize();
         }
 
-        spherical.setFromVector3(v$6);
+        spherical.setFromVector3(v$5);
         spherical.radius = Math.max(spherical.radius, 1e-6);
         this.updateQuaternion();
         return this;
@@ -7838,7 +7784,7 @@
   var y = new Vector3(0, 1, 0);
   var z = new Vector3(0, 0, 1);
 
-  var v$7 = new Vector3();
+  var v$6 = new Vector3();
   var TranslationManager = function () {
     function TranslationManager(position, quaternion, target, settings) {
       _classCallCheck(this, TranslationManager);
@@ -7871,11 +7817,11 @@
     }, {
       key: "translateOnAxis",
       value: function translateOnAxis(axis, distance) {
-        v$7.copy(axis).applyQuaternion(this.quaternion).multiplyScalar(distance);
-        this.position.add(v$7);
+        v$6.copy(axis).applyQuaternion(this.quaternion).multiplyScalar(distance);
+        this.position.add(v$6);
 
         if (this.settings.general.orbit) {
-          this.target.add(v$7);
+          this.target.add(v$6);
         }
       }
     }, {
@@ -9141,129 +9087,6 @@
   var corners = [new Uint8Array([0, 0, 0]), new Uint8Array([0, 0, 1]), new Uint8Array([0, 1, 0]), new Uint8Array([0, 1, 1]), new Uint8Array([1, 0, 0]), new Uint8Array([1, 0, 1]), new Uint8Array([1, 1, 0]), new Uint8Array([1, 1, 1])];
   var edges = [new Uint8Array([0, 4]), new Uint8Array([1, 5]), new Uint8Array([2, 6]), new Uint8Array([3, 7]), new Uint8Array([0, 2]), new Uint8Array([1, 3]), new Uint8Array([4, 6]), new Uint8Array([5, 7]), new Uint8Array([0, 1]), new Uint8Array([2, 3]), new Uint8Array([4, 5]), new Uint8Array([6, 7])];
 
-  var Serializable = function () {
-    function Serializable() {
-      _classCallCheck(this, Serializable);
-    }
-
-    _createClass(Serializable, [{
-      key: "serialize",
-      value: function serialize() {
-      }
-    }]);
-
-    return Serializable;
-  }();
-
-  var Deserializable = function () {
-    function Deserializable() {
-      _classCallCheck(this, Deserializable);
-    }
-
-    _createClass(Deserializable, [{
-      key: "deserialize",
-      value: function deserialize(object) {}
-    }]);
-
-    return Deserializable;
-  }();
-
-  var Disposable = function () {
-    function Disposable() {
-      _classCallCheck(this, Disposable);
-    }
-
-    _createClass(Disposable, [{
-      key: "dispose",
-      value: function dispose() {}
-    }]);
-
-    return Disposable;
-  }();
-
-  var TransferableContainer = function () {
-    function TransferableContainer() {
-      _classCallCheck(this, TransferableContainer);
-    }
-
-    _createClass(TransferableContainer, [{
-      key: "createTransferList",
-      value: function createTransferList() {
-      }
-    }]);
-
-    return TransferableContainer;
-  }();
-
-  var Queue = function () {
-    function Queue() {
-      _classCallCheck(this, Queue);
-
-      this.elements = [];
-      this.head = 0;
-    }
-
-    _createClass(Queue, [{
-      key: "copy",
-      value: function copy(queue) {
-        this.elements = Array.from(queue.elements);
-        this.head = queue.head;
-        return this;
-      }
-    }, {
-      key: "clone",
-      value: function clone() {
-        return new this.constructor().copy(this);
-      }
-    }, {
-      key: "add",
-      value: function add(element) {
-        this.elements.push(element);
-      }
-    }, {
-      key: "peek",
-      value: function peek() {
-        return this.elements.length > 0 ? this.elements[this.head] : undefined;
-      }
-    }, {
-      key: "poll",
-      value: function poll() {
-        var elements = this.elements;
-        var length = elements.length;
-        var element;
-
-        if (length > 0) {
-          element = elements[this.head++];
-
-          if (this.head * 2 >= length) {
-            this.elements = elements.slice(this.head);
-            this.head = 0;
-          }
-        }
-
-        return element;
-      }
-    }, {
-      key: "clear",
-      value: function clear() {
-        this.elements = [];
-        this.head = 0;
-      }
-    }, {
-      key: "size",
-      get: function get() {
-        return this.elements.length - this.head;
-      }
-    }, {
-      key: "empty",
-      get: function get() {
-        return this.elements.length === 0;
-      }
-    }]);
-
-    return Queue;
-  }();
-
   var OperationType = {
     UNION: "csg.union",
     DIFFERENCE: "csg.difference",
@@ -9688,7 +9511,7 @@
     return OctantIterator;
   }();
 
-  var v$8 = [new Vector3(), new Vector3(), new Vector3()];
+  var v$7 = [new Vector3(), new Vector3(), new Vector3()];
   var b$4 = new Box3();
   var r = new Ray();
   var octantTable = [new Uint8Array([4, 2, 1]), new Uint8Array([5, 3, 8]), new Uint8Array([6, 8, 3]), new Uint8Array([7, 8, 8]), new Uint8Array([8, 6, 5]), new Uint8Array([8, 7, 8]), new Uint8Array([8, 8, 7]), new Uint8Array([8, 8, 8])];
@@ -9816,13 +9639,13 @@
       value: function intersectOctree(octree, raycaster, intersects) {
         var min = b$4.min.set(0, 0, 0);
         var max = b$4.max.subVectors(octree.max, octree.min);
-        var dimensions = octree.getDimensions(v$8[0]);
-        var halfDimensions = v$8[1].copy(dimensions).multiplyScalar(0.5);
+        var dimensions = octree.getDimensions(v$7[0]);
+        var halfDimensions = v$7[1].copy(dimensions).multiplyScalar(0.5);
         var origin = r.origin.copy(raycaster.ray.origin);
         var direction = r.direction.copy(raycaster.ray.direction);
         var invDirX, invDirY, invDirZ;
         var tx0, tx1, ty0, ty1, tz0, tz1;
-        origin.sub(octree.getCenter(v$8[2])).add(halfDimensions);
+        origin.sub(octree.getCenter(v$7[2])).add(halfDimensions);
         flags = 0;
 
         if (direction.x < 0.0) {
@@ -9991,553 +9814,11 @@
     return Octree;
   }();
 
-  var p = new Vector3();
-  var PointOctant = function (_Octant) {
-    _inherits(PointOctant, _Octant);
-
-    function PointOctant(min, max) {
-      var _this;
-
-      _classCallCheck(this, PointOctant);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(PointOctant).call(this, min, max));
-      _this.points = null;
-      _this.data = null;
-      return _this;
-    }
-
-    _createClass(PointOctant, [{
-      key: "distanceToSquared",
-      value: function distanceToSquared(point) {
-        var clampedPoint = p.copy(point).clamp(this.min, this.max);
-        return clampedPoint.sub(point).lengthSquared();
-      }
-    }, {
-      key: "distanceToCenterSquared",
-      value: function distanceToCenterSquared(point) {
-        var center = this.getCenter(p);
-        var dx = point.x - center.x;
-        var dy = point.y - center.x;
-        var dz = point.z - center.z;
-        return dx * dx + dy * dy + dz * dz;
-      }
-    }, {
-      key: "contains",
-      value: function contains(point, bias) {
-        var min = this.min;
-        var max = this.max;
-        return point.x >= min.x - bias && point.y >= min.y - bias && point.z >= min.z - bias && point.x <= max.x + bias && point.y <= max.y + bias && point.z <= max.z + bias;
-      }
-    }, {
-      key: "redistribute",
-      value: function redistribute(bias) {
-        var children = this.children;
-        var points = this.points;
-        var data = this.data;
-        var i, j, il, jl;
-        var child, point, entry;
-
-        if (children !== null && points !== null) {
-          for (i = 0, il = points.length; i < il; ++i) {
-            point = points[i];
-            entry = data[i];
-
-            for (j = 0, jl = children.length; j < jl; ++j) {
-              child = children[j];
-
-              if (child.contains(point, bias)) {
-                if (child.points === null) {
-                  child.points = [];
-                  child.data = [];
-                }
-
-                child.points.push(point);
-                child.data.push(entry);
-                break;
-              }
-            }
-          }
-        }
-
-        this.points = null;
-        this.data = null;
-      }
-    }, {
-      key: "merge",
-      value: function merge() {
-        var children = this.children;
-        var i, l;
-        var child;
-
-        if (children !== null) {
-          this.points = [];
-          this.data = [];
-
-          for (i = 0, l = children.length; i < l; ++i) {
-            child = children[i];
-
-            if (child.points !== null) {
-              var _this$points, _this$data;
-
-              (_this$points = this.points).push.apply(_this$points, _toConsumableArray(child.points));
-
-              (_this$data = this.data).push.apply(_this$data, _toConsumableArray(child.data));
-            }
-          }
-
-          this.children = null;
-        }
-      }
-    }]);
-
-    return PointOctant;
-  }(Octant);
-
-  var RayPointIntersection = function RayPointIntersection(distance, distanceToRay, point) {
-    var object = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-
-    _classCallCheck(this, RayPointIntersection);
-
-    this.distance = distance;
-    this.distanceToRay = distanceToRay;
-    this.point = point;
-    this.object = object;
-  };
-
-  function _countPoints(octant) {
-    var children = octant.children;
-    var result = 0;
-    var i, l;
-
-    if (children !== null) {
-      for (i = 0, l = children.length; i < l; ++i) {
-        result += _countPoints(children[i]);
-      }
-    } else if (octant.points !== null) {
-      result = octant.points.length;
-    }
-
-    return result;
-  }
-
-  function _put(point, data, octree, octant, depth) {
-    var children = octant.children;
-    var exists = false;
-    var done = false;
-    var i, l;
-
-    if (octant.contains(point, octree.bias)) {
-      if (children === null) {
-        if (octant.points === null) {
-          octant.points = [];
-          octant.data = [];
-        } else {
-          for (i = 0, l = octant.points.length; !exists && i < l; ++i) {
-            exists = octant.points[i].equals(point);
-          }
-        }
-
-        if (exists) {
-          octant.data[i - 1] = data;
-          done = true;
-        } else if (octant.points.length < octree.maxPoints || depth === octree.maxDepth) {
-          octant.points.push(point.clone());
-          octant.data.push(data);
-          ++octree.pointCount;
-          done = true;
-        } else {
-          octant.split();
-          octant.redistribute(octree.bias);
-          children = octant.children;
-        }
-      }
-
-      if (children !== null) {
-        ++depth;
-
-        for (i = 0, l = children.length; !done && i < l; ++i) {
-          done = _put(point, data, octree, children[i], depth);
-        }
-      }
-    }
-
-    return done;
-  }
-
-  function _remove(point, octree, octant, parent) {
-    var children = octant.children;
-    var result = null;
-    var i, l;
-    var points, data, last;
-
-    if (octant.contains(point, octree.bias)) {
-      if (children !== null) {
-        for (i = 0, l = children.length; result === null && i < l; ++i) {
-          result = _remove(point, octree, children[i], octant);
-        }
-      } else if (octant.points !== null) {
-        points = octant.points;
-        data = octant.data;
-
-        for (i = 0, l = points.length; i < l; ++i) {
-          if (points[i].equals(point)) {
-            last = l - 1;
-            result = data[i];
-
-            if (i < last) {
-              points[i] = points[last];
-              data[i] = data[last];
-            }
-
-            points.pop();
-            data.pop();
-            --octree.pointCount;
-
-            if (parent !== null && _countPoints(parent) <= octree.maxPoints) {
-              parent.merge();
-            }
-
-            break;
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  function _fetch(point, octree, octant) {
-    var children = octant.children;
-    var result = null;
-    var i, l;
-    var points;
-
-    if (octant.contains(point, octree.bias)) {
-      if (children !== null) {
-        for (i = 0, l = children.length; result === null && i < l; ++i) {
-          result = _fetch(point, octree, children[i]);
-        }
-      } else if (octant.points !== null) {
-        points = octant.points;
-
-        for (i = 0, l = points.length; result === null && i < l; ++i) {
-          if (point.equals(points[i])) {
-            result = octant.data[i];
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  function _move(point, position, octree, octant, parent, depth) {
-    var children = octant.children;
-    var result = null;
-    var i, l;
-    var points;
-
-    if (octant.contains(point, octree.bias)) {
-      if (octant.contains(position, octree.bias)) {
-        if (children !== null) {
-          ++depth;
-
-          for (i = 0, l = children.length; result === null && i < l; ++i) {
-            result = _move(point, position, octree, children[i], octant, depth);
-          }
-        } else if (octant.points !== null) {
-          points = octant.points;
-
-          for (i = 0, l = points.length; i < l; ++i) {
-            if (point.equals(points[i])) {
-              points[i].copy(position);
-              result = octant.data[i];
-              break;
-            }
-          }
-        }
-      } else {
-        result = _remove(point, octree, octant, parent);
-
-        _put(position, result, octree, parent, depth - 1);
-      }
-    }
-
-    return result;
-  }
-
-  function _findNearestPoint(point, maxDistance, skipSelf, octant) {
-    var result = null;
-    var bestDistance = maxDistance;
-    var i, l;
-
-    if (octant.children !== null) {
-      var sortedChildren = octant.children.map(function (child) {
-        return {
-          octant: child,
-          distance: child.distanceToCenterSquared(point)
-        };
-      }).sort(function (a, b) {
-        return a.distance - b.distance;
-      });
-      var child, intermediateResult;
-
-      for (i = 0, l = sortedChildren.length; i < l; ++i) {
-        child = sortedChildren[i].octant;
-
-        if (child.contains(point, bestDistance)) {
-          intermediateResult = _findNearestPoint(point, bestDistance, skipSelf, child);
-
-          if (intermediateResult !== null) {
-            bestDistance = intermediateResult.distance;
-            result = intermediateResult;
-
-            if (bestDistance === 0.0) {
-              break;
-            }
-          }
-        }
-      }
-    } else if (octant.points !== null) {
-      var points = octant.points;
-      var index = -1;
-      var distance;
-
-      for (i = 0, l = points.length; i < l; ++i) {
-        if (points[i].equals(point)) {
-          if (!skipSelf) {
-            bestDistance = 0.0;
-            index = i;
-            break;
-          }
-        } else {
-          distance = point.distanceTo(points[i]);
-
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            index = i;
-          }
-        }
-      }
-
-      if (index >= 0) {
-        result = {
-          point: points[index],
-          data: octant.data[index],
-          distance: bestDistance
-        };
-      }
-    }
-
-    return result;
-  }
-
-  function _findPoints(point, radius, skipSelf, octant, result) {
-    var children = octant.children;
-    var i, l;
-
-    if (children !== null) {
-      var child;
-
-      for (i = 0, l = children.length; i < l; ++i) {
-        child = children[i];
-
-        if (child.contains(point, radius)) {
-          _findPoints(point, radius, skipSelf, child, result);
-        }
-      }
-    } else if (octant.points !== null) {
-      var points = octant.points;
-      var rSq = radius * radius;
-      var p;
-
-      for (i = 0, l = points.length; i < l; ++i) {
-        p = points[i];
-
-        if (p.equals(point)) {
-          if (!skipSelf) {
-            result.push({
-              point: p.clone(),
-              data: octant.data[i]
-            });
-          }
-        } else if (p.distanceToSquared(point) <= rSq) {
-          result.push({
-            point: p.clone(),
-            data: octant.data[i]
-          });
-        }
-      }
-    }
-  }
-
-  var PointOctree = function (_Octree) {
-    _inherits(PointOctree, _Octree);
-
-    function PointOctree(min, max) {
-      var _this;
-
-      var bias = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0.0;
-      var maxPoints = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 8;
-      var maxDepth = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 8;
-
-      _classCallCheck(this, PointOctree);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(PointOctree).call(this));
-      _this.root = new PointOctant(min, max);
-      _this.bias = Math.max(0.0, bias);
-      _this.maxPoints = Math.max(1, Math.round(maxPoints));
-      _this.maxDepth = Math.max(0, Math.round(maxDepth));
-      _this.pointCount = 0;
-      return _this;
-    }
-
-    _createClass(PointOctree, [{
-      key: "countPoints",
-      value: function countPoints(octant) {
-        return _countPoints(octant);
-      }
-    }, {
-      key: "put",
-      value: function put(point, data) {
-        return _put(point, data, this, this.root, 0);
-      }
-    }, {
-      key: "remove",
-      value: function remove(point) {
-        return _remove(point, this, this.root, null);
-      }
-    }, {
-      key: "fetch",
-      value: function fetch(point) {
-        return _fetch(point, this, this.root);
-      }
-    }, {
-      key: "move",
-      value: function move(point, position) {
-        return _move(point, position, this, this.root, null, 0);
-      }
-    }, {
-      key: "findNearestPoint",
-      value: function findNearestPoint(point) {
-        var maxDistance = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Infinity;
-        var skipSelf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-        var result = _findNearestPoint(point, maxDistance, skipSelf, this.root);
-
-        if (result !== null) {
-          result.point = result.point.clone();
-        }
-
-        return result;
-      }
-    }, {
-      key: "findPoints",
-      value: function findPoints(point, radius) {
-        var skipSelf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        var result = [];
-
-        _findPoints(point, radius, skipSelf, this.root, result);
-
-        return result;
-      }
-    }, {
-      key: "raycast",
-      value: function raycast(raycaster) {
-        var intersects = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-        var octants = _get(_getPrototypeOf(PointOctree.prototype), "raycast", this).call(this, raycaster);
-
-        if (octants.length > 0) {
-          this.testPoints(octants, raycaster, intersects);
-        }
-
-        return intersects;
-      }
-    }, {
-      key: "testPoints",
-      value: function testPoints(octants, raycaster, intersects) {
-        var threshold = raycaster.params.Points.threshold;
-        var thresholdSq = threshold * threshold;
-        var intersectPoint;
-        var distance, distanceToRay;
-        var rayPointDistanceSq;
-        var i, j, il, jl;
-        var octant, points, point;
-
-        for (i = 0, il = octants.length; i < il; ++i) {
-          octant = octants[i];
-          points = octant.points;
-
-          if (points !== null) {
-            for (j = 0, jl = points.length; j < jl; ++j) {
-              point = points[j];
-              rayPointDistanceSq = raycaster.ray.distanceSqToPoint(point);
-
-              if (rayPointDistanceSq < thresholdSq) {
-                intersectPoint = raycaster.ray.closestPointToPoint(point, new Vector3());
-                distance = raycaster.ray.origin.distanceTo(intersectPoint);
-
-                if (distance >= raycaster.near && distance <= raycaster.far) {
-                  distanceToRay = Math.sqrt(rayPointDistanceSq);
-                  intersects.push(new RayPointIntersection(distance, distanceToRay, intersectPoint, octant.data[j]));
-                }
-              }
-            }
-          }
-        }
-      }
-    }]);
-
-    return PointOctree;
-  }(Octree);
-
-  var b$6 = new Box3();
-  var c$3 = new Vector3();
-  var u = new Vector3();
-  var v$9 = new Vector3();
-  var OctreeUtils = function () {
-    function OctreeUtils() {
-      _classCallCheck(this, OctreeUtils);
-    }
-
-    _createClass(OctreeUtils, null, [{
-      key: "recycleOctants",
-      value: function recycleOctants(octant, octants) {
-        var min = octant.min;
-        var mid = octant.getCenter(u);
-        var halfDimensions = octant.getDimensions(v$9).multiplyScalar(0.5);
-        var children = octant.children;
-        var l = octants.length;
-        var i, j;
-        var combination, candidate;
-
-        for (i = 0; i < 8; ++i) {
-          combination = pattern[i];
-          b$6.min.addVectors(min, c$3.fromArray(combination).multiply(halfDimensions));
-          b$6.max.addVectors(mid, c$3.fromArray(combination).multiply(halfDimensions));
-
-          for (j = 0; j < l; ++j) {
-            candidate = octants[j];
-
-            if (candidate !== null && b$6.min.equals(candidate.min) && b$6.max.equals(candidate.max)) {
-              children[i] = candidate;
-              octants[j] = null;
-              break;
-            }
-          }
-        }
-      }
-    }]);
-
-    return OctreeUtils;
-  }();
-
   var ISOVALUE_BIAS = 1e-4;
   var INTERVAL_THRESHOLD = 1e-6;
   var ab = new Vector3();
-  var p$1 = new Vector3();
-  var v$a = new Vector3();
+  var p = new Vector3();
+  var v$8 = new Vector3();
   var Edge = function () {
     function Edge() {
       var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
@@ -10567,14 +9848,14 @@
 
         while (i <= s) {
           c = (a + b) / 2;
-          p$1.addVectors(this.a, v$a.copy(ab).multiplyScalar(c));
-          densityC = sdf.sample(p$1);
+          p.addVectors(this.a, v$8.copy(ab).multiplyScalar(c));
+          densityC = sdf.sample(p);
 
           if (Math.abs(densityC) <= ISOVALUE_BIAS || (b - a) / 2 <= INTERVAL_THRESHOLD) {
             break;
           } else {
-            p$1.addVectors(this.a, v$a.copy(ab).multiplyScalar(a));
-            densityA = sdf.sample(p$1);
+            p.addVectors(this.a, v$8.copy(ab).multiplyScalar(a));
+            densityA = sdf.sample(p);
 
             if (Math.sign(densityC) === Math.sign(densityA)) {
               a = c;
@@ -10599,9 +9880,9 @@
       value: function computeSurfaceNormal(sdf) {
         var position = this.computeZeroCrossingPosition(ab);
         var E = 1e-3;
-        var dx = sdf.sample(p$1.addVectors(position, v$a.set(E, 0, 0))) - sdf.sample(p$1.subVectors(position, v$a.set(E, 0, 0)));
-        var dy = sdf.sample(p$1.addVectors(position, v$a.set(0, E, 0))) - sdf.sample(p$1.subVectors(position, v$a.set(0, E, 0)));
-        var dz = sdf.sample(p$1.addVectors(position, v$a.set(0, 0, E))) - sdf.sample(p$1.subVectors(position, v$a.set(0, 0, E)));
+        var dx = sdf.sample(p.addVectors(position, v$8.set(E, 0, 0))) - sdf.sample(p.subVectors(position, v$8.set(E, 0, 0)));
+        var dy = sdf.sample(p.addVectors(position, v$8.set(0, E, 0))) - sdf.sample(p.subVectors(position, v$8.set(0, E, 0)));
+        var dz = sdf.sample(p.addVectors(position, v$8.set(0, 0, E))) - sdf.sample(p.subVectors(position, v$8.set(0, 0, E)));
         this.n.set(dx, dy, dz).normalize();
       }
     }]);
@@ -11204,49 +10485,6 @@
     SUPER_PRIMITIVE: "sdf.superprimitive"
   };
 
-  var FractalNoise = function (_SignedDistanceFuncti) {
-    _inherits(FractalNoise, _SignedDistanceFuncti);
-
-    function FractalNoise() {
-      var _this;
-
-      var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var material = arguments.length > 1 ? arguments[1] : undefined;
-
-      _classCallCheck(this, FractalNoise);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(FractalNoise).call(this, SDFType.PERLIN_NOISE, material));
-      _this.min = _construct(Vector3, _toConsumableArray(parameters.min));
-      _this.max = _construct(Vector3, _toConsumableArray(parameters.max));
-      return _this;
-    }
-
-    _createClass(FractalNoise, [{
-      key: "computeBoundingBox",
-      value: function computeBoundingBox() {
-        this.bbox = new Box3(this.min, this.max);
-        return this.bbox;
-      }
-    }, {
-      key: "sample",
-      value: function sample(position) {}
-    }, {
-      key: "serialize",
-      value: function serialize() {
-
-        var result = _get(_getPrototypeOf(FractalNoise.prototype), "serialize", this).call(this);
-
-        result.parameters = {
-          min: this.min.toArray(),
-          max: this.max.toArray()
-        };
-        return result;
-      }
-    }]);
-
-    return FractalNoise;
-  }(SignedDistanceFunction);
-
   function readImageData(image) {
     var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
     var context = canvas.getContext("2d");
@@ -11523,1893 +10761,6 @@
     PIPE: 7,
     CORRIDOR: 8
   };
-
-  var SDFReviver = function () {
-    function SDFReviver() {
-      _classCallCheck(this, SDFReviver);
-    }
-
-    _createClass(SDFReviver, [{
-      key: "revive",
-      value: function revive(description) {
-        var sdf, i, l;
-
-        switch (description.type) {
-          case SDFType.FRACTAL_NOISE:
-            sdf = new FractalNoise(description.parameters, description.material);
-            break;
-
-          case SDFType.HEIGHTFIELD:
-            sdf = new Heightfield(description.parameters, description.material);
-            break;
-
-          case SDFType.SUPER_PRIMITIVE:
-            sdf = new SuperPrimitive(description.parameters, description.material);
-            break;
-        }
-
-        sdf.operation = description.operation;
-        sdf.position.fromArray(description.position);
-        sdf.quaternion.fromArray(description.quaternion);
-        sdf.scale.fromArray(description.scale);
-        sdf.updateInverseTransformation();
-
-        for (i = 0, l = description.children.length; i < l; ++i) {
-          sdf.children.push(this.revive(description.children[i]));
-        }
-
-        return sdf;
-      }
-    }]);
-
-    return SDFReviver;
-  }();
-
-  var SDFLoaderEvent = function (_Event) {
-    _inherits(SDFLoaderEvent, _Event);
-
-    function SDFLoaderEvent(type) {
-      var _this;
-
-      _classCallCheck(this, SDFLoaderEvent);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SDFLoaderEvent).call(this, type));
-      _this.descriptions = null;
-      return _this;
-    }
-
-    return SDFLoaderEvent;
-  }(Event);
-
-  var load$1 = new SDFLoaderEvent("load");
-
-  var SDFLoader = function (_EventTarget) {
-    _inherits(SDFLoader, _EventTarget);
-
-    function SDFLoader() {
-      var _this;
-
-      _classCallCheck(this, SDFLoader);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SDFLoader).call(this));
-      _this.items = 0;
-      _this.descriptions = null;
-      _this.imageMap = new WeakMap();
-      return _this;
-    }
-
-    _createClass(SDFLoader, [{
-      key: "clear",
-      value: function clear() {
-        this.imageMap = new WeakMap();
-      }
-    }, {
-      key: "handleEvent",
-      value: function handleEvent(event) {
-        switch (event.type) {
-          case "load":
-            this.progress(event);
-            break;
-        }
-      }
-    }, {
-      key: "progress",
-      value: function progress() {
-        var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var item = event !== null ? event.target : null;
-        var imageMap = this.imageMap;
-        var description;
-
-        if (item !== null) {
-          if (imageMap.has(item)) {
-            description = imageMap.get(item);
-            description.image = item;
-          }
-
-          --this.items;
-        }
-
-        if (this.items === 0) {
-          this.clear();
-          load$1.descriptions = this.descriptions;
-          this.dispatchEvent(load$1);
-        }
-      }
-    }, {
-      key: "loadImage",
-      value: function loadImage(description) {
-        var image = new Image();
-        this.imageMap.set(image, description);
-        ++this.items;
-        image.addEventListener("load", this);
-        image.src = description.dataURL;
-      }
-    }, {
-      key: "inflate",
-      value: function inflate(description) {
-        var child;
-
-        if (description.dataURL !== null) {
-          this.loadImage(description);
-        }
-
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = description.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            child = _step.value;
-            this.inflate(child);
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-              _iterator["return"]();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        this.progress();
-      }
-    }, {
-      key: "load",
-      value: function load(descriptions) {
-        var description;
-        this.items = 0;
-        this.descriptions = descriptions;
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
-
-        try {
-          for (var _iterator2 = descriptions[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            description = _step2.value;
-            this.inflate(description);
-          }
-        } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
-            }
-          } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
-            }
-          }
-        }
-      }
-    }]);
-
-    return SDFLoader;
-  }(EventTarget);
-
-  var BinaryUtils = function () {
-    function BinaryUtils() {
-      _classCallCheck(this, BinaryUtils);
-    }
-
-    _createClass(BinaryUtils, null, [{
-      key: "parseBin",
-      value: function parseBin(s) {
-        return parseInt(s, 2);
-      }
-    }, {
-      key: "createBinaryString",
-      value: function createBinaryString(n) {
-        var minBits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 64;
-        var sign = n < 0 ? "-" : "";
-        var result = Math.abs(n).toString(2);
-
-        while (result.length < minBits) {
-          result = "0" + result;
-        }
-
-        return sign + result;
-      }
-    }]);
-
-    return BinaryUtils;
-  }();
-
-  var KeyIterator = function () {
-    function KeyIterator(keyDesign, min, max) {
-      _classCallCheck(this, KeyIterator);
-
-      this.keyDesign = keyDesign;
-      this.min = min;
-      this.max = max;
-      this.keyBase = new Vector3();
-      this.key = new Vector3();
-      this.limit = new Vector3();
-      this.result = new IteratorResult();
-      this.reset();
-    }
-
-    _createClass(KeyIterator, [{
-      key: "reset",
-      value: function reset() {
-        var keyDesign = this.keyDesign;
-        var min = this.min;
-        var max = this.max;
-
-        if (min.x <= max.x && min.y <= max.y && min.z <= max.z) {
-          this.keyBase.set(min.x, min.y * keyDesign.rangeX, min.z * keyDesign.rangeXY);
-          this.limit.set(max.x, max.y * keyDesign.rangeX, max.z * keyDesign.rangeXY);
-          this.key.copy(this.keyBase);
-        } else {
-          this.keyBase.set(1, 1, 1);
-          this.limit.set(0, 0, 0);
-          this.key.copy(this.keyBase);
-          console.error("Invalid key range", min, max);
-        }
-
-        this.result.reset();
-        return this;
-      }
-    }, {
-      key: "next",
-      value: function next() {
-        var result = this.result;
-        var keyDesign = this.keyDesign;
-        var keyBase = this.keyBase;
-        var limit = this.limit;
-        var key = this.key;
-
-        if (key.z <= limit.z) {
-          result.value = key.z + key.y + key.x;
-          ++key.x;
-
-          if (key.x > limit.x) {
-            key.x = keyBase.x;
-            key.y += keyDesign.rangeX;
-
-            if (key.y > limit.y) {
-              key.y = keyBase.y;
-              key.z += keyDesign.rangeXY;
-            }
-          }
-        } else {
-          result.value = null;
-          result.done = true;
-        }
-
-        return result;
-      }
-    }, {
-      key: "return",
-      value: function _return(value) {
-        this.result.value = value;
-        this.result.done = true;
-        return this.result;
-      }
-    }, {
-      key: Symbol.iterator,
-      value: function value() {
-        return this;
-      }
-    }]);
-
-    return KeyIterator;
-  }();
-
-  var DWORD_BITS = 32;
-  var RANGE_DWORD = Math.pow(2, DWORD_BITS);
-  var BITS = 53;
-  var HI_BITS = 21;
-  var LO_BITS = 32;
-  var KeyDesign = function () {
-    function KeyDesign() {
-      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Math.round(BITS * 0.4);
-      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Math.round(BITS * 0.2);
-      var z = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : x;
-
-      _classCallCheck(this, KeyDesign);
-
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-      this.rangeX = 0;
-      this.rangeY = 0;
-      this.rangeZ = 0;
-      this.rangeXY = 0;
-      this.halfRange = null;
-      this.maskX = [0, 0];
-      this.maskY = [0, 0];
-      this.maskZ = [0, 0];
-      this.set(x, y, z);
-    }
-
-    _createClass(KeyDesign, [{
-      key: "set",
-      value: function set(x, y, z) {
-        if (x + y + z > BITS || x > DWORD_BITS || y > DWORD_BITS || z > DWORD_BITS) {
-          console.warn("Invalid bit allotment");
-          x = Math.round(BITS * 0.4);
-          y = Math.round(BITS * 0.2);
-          z = x;
-        }
-
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.rangeX = Math.pow(2, x);
-        this.rangeY = Math.pow(2, y);
-        this.rangeZ = Math.pow(2, z);
-        this.rangeXY = Math.pow(2, x + y);
-        this.halfRange = new Vector3(this.rangeX / 2, this.rangeY / 2, this.rangeZ / 2);
-        this.updateBitMasks();
-      }
-    }, {
-      key: "updateBitMasks",
-      value: function updateBitMasks() {
-        var xBits = this.x;
-        var yBits = this.y;
-        var zBits = this.z;
-        var maskX = this.maskX;
-        var maskY = this.maskY;
-        var maskZ = this.maskZ;
-        var hiShiftX = DWORD_BITS - Math.max(0, xBits - LO_BITS);
-        var hiShiftY = DWORD_BITS - Math.max(0, yBits + xBits - LO_BITS);
-        var hiShiftZ = DWORD_BITS - Math.max(0, zBits + yBits + xBits - LO_BITS);
-        maskX[1] = hiShiftX < DWORD_BITS ? ~0 >>> hiShiftX : 0;
-        maskX[0] = ~0 >>> Math.max(0, LO_BITS - xBits);
-        maskY[1] = ((hiShiftY < DWORD_BITS ? ~0 >>> hiShiftY : 0) & ~maskX[1]) >>> 0;
-        maskY[0] = (~0 >>> Math.max(0, LO_BITS - (xBits + yBits)) & ~maskX[0]) >>> 0;
-        maskZ[1] = ((hiShiftZ < DWORD_BITS ? ~0 >>> hiShiftZ : 0) & ~maskY[1] & ~maskX[1]) >>> 0;
-        maskZ[0] = (~0 >>> Math.max(0, LO_BITS - (xBits + yBits + zBits)) & ~maskY[0] & ~maskX[0]) >>> 0;
-      }
-    }, {
-      key: "unpackKey",
-      value: function unpackKey(key) {
-        var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new Vector3();
-        var maskX = this.maskX;
-        var maskY = this.maskY;
-        var maskZ = this.maskZ;
-        var hi = Math.trunc(key / RANGE_DWORD);
-        var lo = key % RANGE_DWORD;
-        return target.set((hi & maskX[1]) * RANGE_DWORD + ((lo & maskX[0]) >>> 0), ((hi & maskY[1]) * RANGE_DWORD + ((lo & maskY[0]) >>> 0)) / this.rangeX, ((hi & maskZ[1]) * RANGE_DWORD + ((lo & maskZ[0]) >>> 0)) / this.rangeXY);
-      }
-    }, {
-      key: "packKey",
-      value: function packKey(position) {
-        return position.z * this.rangeXY + position.y * this.rangeX + position.x;
-      }
-    }, {
-      key: "keyRange",
-      value: function keyRange(min, max) {
-        return new KeyIterator(this, min, max);
-      }
-    }, {
-      key: "toString",
-      value: function toString() {
-        var maskX = this.maskX;
-        var maskY = this.maskY;
-        var maskZ = this.maskZ;
-        return "Key Design\n\n" + "X-Bits: " + this.x + "\n" + "Y-Bits: " + this.y + "\n" + "Z-Bits: " + this.z + "\n\n" + BinaryUtils.createBinaryString(maskX[1], DWORD_BITS) + " " + maskX[1] + " (HI-Mask X)\n" + BinaryUtils.createBinaryString(maskX[0], DWORD_BITS) + " " + maskX[0] + " (LO-Mask X)\n\n" + BinaryUtils.createBinaryString(maskY[1], DWORD_BITS) + " " + maskY[1] + " (HI-Mask Y)\n" + BinaryUtils.createBinaryString(maskY[0], DWORD_BITS) + " " + maskY[0] + " (LO-Mask Y)\n\n" + BinaryUtils.createBinaryString(maskZ[1], DWORD_BITS) + " " + maskZ[1] + " (HI-Mask Z)\n" + BinaryUtils.createBinaryString(maskZ[0], DWORD_BITS) + " " + maskZ[0] + " (LO-Mask Z)\n";
-      }
-    }], [{
-      key: "BITS",
-      get: function get() {
-        return BITS;
-      }
-    }, {
-      key: "HI_BITS",
-      get: function get() {
-        return HI_BITS;
-      }
-    }, {
-      key: "LO_BITS",
-      get: function get() {
-        return LO_BITS;
-      }
-    }]);
-
-    return KeyDesign;
-  }();
-
-  var WorldOctantId = function () {
-    function WorldOctantId() {
-      var lod = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-      _classCallCheck(this, WorldOctantId);
-
-      this.lod = lod;
-      this.key = key;
-    }
-
-    _createClass(WorldOctantId, [{
-      key: "set",
-      value: function set(lod, key) {
-        this.lod = lod;
-        this.key = key;
-      }
-    }, {
-      key: "copy",
-      value: function copy(id) {
-        this.lod = id.lod;
-        this.key = id.key;
-        return this;
-      }
-    }, {
-      key: "clone",
-      value: function clone() {
-        return new this.constructor().copy(this);
-      }
-    }]);
-
-    return WorldOctantId;
-  }();
-
-  var WorldOctantWrapper = function () {
-    function WorldOctantWrapper() {
-      var octant = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WorldOctantId();
-
-      _classCallCheck(this, WorldOctantWrapper);
-
-      this.octant = octant;
-      this.id = id;
-      this.min = new Vector3();
-      this.max = new Vector3();
-    }
-
-    _createClass(WorldOctantWrapper, [{
-      key: "copy",
-      value: function copy(octantWrapper) {
-        this.octant = octantWrapper.octant;
-        this.id.copy(octantWrapper.id);
-        this.min.copy(octantWrapper.min);
-        this.max.copy(octantWrapper.max);
-        return this;
-      }
-    }, {
-      key: "clone",
-      value: function clone() {
-        return new this.constructor().copy(this);
-      }
-    }, {
-      key: "getCenter",
-      value: function getCenter() {
-        var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
-        return target.addVectors(this.min, this.max).multiplyScalar(0.5);
-      }
-    }, {
-      key: "getDimensions",
-      value: function getDimensions() {
-        var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Vector3();
-        return target.subVectors(this.max, this.min);
-      }
-    }, {
-      key: "containsPoint",
-      value: function containsPoint(point) {
-        var min = this.min;
-        var max = this.max;
-        return point.x >= min.x && point.y >= min.y && point.z >= min.z && point.x <= max.x && point.y <= max.y && point.z <= max.z;
-      }
-    }]);
-
-    return WorldOctantWrapper;
-  }();
-
-  var WorldOctantIterator = function () {
-    function WorldOctantIterator(world) {
-      var lod = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-      _classCallCheck(this, WorldOctantIterator);
-
-      this.world = world;
-      this.cellSize = 0;
-      this.iterator = null;
-      this.octantWrapper = new WorldOctantWrapper();
-      this.octantWrapper.id.lod = lod;
-      this.result = new IteratorResult();
-      this.reset();
-    }
-
-    _createClass(WorldOctantIterator, [{
-      key: "reset",
-      value: function reset() {
-        var lod = this.octantWrapper.id.lod;
-        var world = this.world;
-        var grid = world.getGrid(lod);
-
-        if (grid !== undefined) {
-          this.cellSize = world.getCellSize(lod);
-          this.iterator = grid.entries();
-          this.result.reset();
-        } else {
-          console.error("Invalid LOD", lod);
-        }
-
-        return this;
-      }
-    }, {
-      key: "next",
-      value: function next() {
-        var result = this.result;
-        var octantWrapper = this.octantWrapper;
-        var internalResult = this.iterator.next();
-        var value = internalResult.value;
-
-        if (!internalResult.done) {
-          this.keyDesign.unpackKey(value[0], octantWrapper.min);
-          octantWrapper.min.multiplyScalar(this.cellSize).add(this.world.min);
-          octantWrapper.max.copy(octantWrapper.min).addScalar(this.cellSize);
-          octantWrapper.id.key = value[0];
-          octantWrapper.octant = value[1];
-          result.value = octantWrapper;
-        } else {
-          result.value = null;
-          result.done = true;
-        }
-
-        return result;
-      }
-    }, {
-      key: "return",
-      value: function _return(value) {
-        this.result.value = value;
-        this.result.done = true;
-        return this.result;
-      }
-    }, {
-      key: Symbol.iterator,
-      value: function value() {
-        return this;
-      }
-    }]);
-
-    return WorldOctantIterator;
-  }();
-
-  var WorldOctant = function WorldOctant() {
-    _classCallCheck(this, WorldOctant);
-
-    this.data = null;
-    this.csg = new Queue();
-    this.isosurface = null;
-  };
-
-  var IntermediateWorldOctant = function (_WorldOctant) {
-    _inherits(IntermediateWorldOctant, _WorldOctant);
-
-    function IntermediateWorldOctant() {
-      var _this;
-
-      _classCallCheck(this, IntermediateWorldOctant);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(IntermediateWorldOctant).call(this));
-      _this.children = 0;
-      return _this;
-    }
-
-    return IntermediateWorldOctant;
-  }(WorldOctant);
-
-  var p$2 = new Vector3();
-  var v$b = new Vector3();
-  var b0 = new Box3();
-  var b1 = new Box3();
-  var b2 = new Box3();
-  var ranges = [];
-
-  function _applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
-    var grid, keyDesign, children;
-    var range, offset, i;
-    octant.csg.add(sdf);
-
-    if (lod > 0) {
-      --lod;
-      grid = world.getGrid(lod);
-      keyDesign = world.getKeyDesign();
-      children = octant.children;
-      range = ranges[lod];
-      keyX <<= 1;
-      keyY <<= 1;
-      keyZ <<= 1;
-
-      for (i = 0; i < 8; ++i) {
-        if ((children & 1 << i) !== 0) {
-          offset = pattern[i];
-          p$2.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-
-          if (range.containsPoint(p$2)) {
-            _applyDifference(world, sdf, grid.get(keyDesign.packKey(p$2)), p$2.x, p$2.y, p$2.z, lod);
-          }
-        }
-      }
-    }
-  }
-
-  var WorldOctreeCSG = function () {
-    function WorldOctreeCSG() {
-      _classCallCheck(this, WorldOctreeCSG);
-    }
-
-    _createClass(WorldOctreeCSG, null, [{
-      key: "applyUnion",
-      value: function applyUnion(world, region, sdf) {
-        var keyDesign = world.getKeyDesign();
-        var lodZero = world.lodZero;
-        var a = b1.min;
-        var b = b1.max;
-        var c = b2.min;
-        var d = b2.max;
-        var range = b2;
-        var key, offset;
-        var grid, octant;
-        var lod, i;
-
-        for (lod = world.getDepth(); lod > 0; --lod) {
-          grid = world.getGrid(lod);
-          world.calculateKeyCoordinates(region.min, lod, a);
-          world.calculateKeyCoordinates(region.max, lod, b);
-          world.calculateKeyCoordinates(region.min, lod - 1, c);
-          world.calculateKeyCoordinates(region.max, lod - 1, d);
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = keyDesign.keyRange(a, b)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              key = _step.value;
-
-              if (!grid.has(key)) {
-                octant = new IntermediateWorldOctant();
-                octant.csg.add(sdf);
-                grid.set(key, octant);
-                keyDesign.unpackKey(key, v$b);
-                v$b.x <<= 1;
-                v$b.y <<= 1;
-                v$b.z <<= 1;
-
-                for (i = 0; i < 8; ++i) {
-                  offset = pattern[i];
-                  p$2.set(v$b.x + offset[0], v$b.y + offset[1], v$b.z + offset[2]);
-
-                  if (range.containsPoint(p$2)) {
-                    octant.children |= 1 << i;
-                  }
-                }
-              }
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-                _iterator["return"]();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-        }
-
-        world.calculateKeyCoordinates(region.min, 0, a);
-        world.calculateKeyCoordinates(region.max, 0, b);
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
-
-        try {
-          for (var _iterator2 = keyDesign.keyRange(a, b)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            key = _step2.value;
-
-            if (!lodZero.has(key)) {
-              octant = new WorldOctant();
-              lodZero.set(key, octant);
-            } else {
-              octant = lodZero.get(key);
-            }
-
-            octant.csg.add(sdf);
-          }
-        } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
-            }
-          } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
-            }
-          }
-        }
-      }
-    }, {
-      key: "applyDifference",
-      value: function applyDifference(world, region, sdf) {
-        var lod = world.getDepth();
-        var keyDesign = world.getKeyDesign();
-        var grid = world.getGrid(lod);
-        var a = world.calculateKeyCoordinates(region.min, lod, b1.min);
-        var b = world.calculateKeyCoordinates(region.max, lod, b1.max);
-        var i, l;
-        var range;
-        var key;
-
-        for (i = 0, l = lod - 1; i < l; ++i) {
-          if (i < ranges.length) {
-            range = ranges[i];
-            world.calculateKeyCoordinates(region.min, i, range.min);
-            world.calculateKeyCoordinates(region.max, i, range.max);
-          } else {
-            ranges.push(new Box3(world.calculateKeyCoordinates(region.min, i), world.calculateKeyCoordinates(region.max, i)));
-          }
-        }
-
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
-
-        try {
-          for (var _iterator3 = keyDesign.keyRange(a, b)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            key = _step3.value;
-
-            if (grid.has(key)) {
-              keyDesign.unpackKey(key, v$b);
-
-              _applyDifference(world, sdf, grid.get(key), v$b.x, v$b.y, v$b.z, lod);
-            }
-          }
-        } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-              _iterator3["return"]();
-            }
-          } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
-            }
-          }
-        }
-      }
-    }, {
-      key: "applyIntersection",
-      value: function applyIntersection(world, sdf) {
-        var lod, octant;
-
-        for (lod = world.getDepth(); lod >= 0; --lod) {
-          var _iteratorNormalCompletion4 = true;
-          var _didIteratorError4 = false;
-          var _iteratorError4 = undefined;
-
-          try {
-            for (var _iterator4 = world.getGrid(lod).values()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-              octant = _step4.value;
-              octant.csg.add(sdf);
-            }
-          } catch (err) {
-            _didIteratorError4 = true;
-            _iteratorError4 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-                _iterator4["return"]();
-              }
-            } finally {
-              if (_didIteratorError4) {
-                throw _iteratorError4;
-              }
-            }
-          }
-        }
-      }
-    }, {
-      key: "applyCSG",
-      value: function applyCSG(world, sdf) {
-        var region = b0.copy(sdf.getBoundingBox(true));
-        region.min.max(world.min);
-        region.max.min(world.max);
-
-        switch (sdf.operation) {
-          case OperationType.UNION:
-            this.applyUnion(world, region, sdf);
-            break;
-
-          case OperationType.DIFFERENCE:
-            this.applyDifference(world, region, sdf);
-            break;
-
-          case OperationType.INTERSECTION:
-            this.applyIntersection(world, sdf);
-            break;
-
-          default:
-            console.error("No CSG operation type specified", sdf);
-            break;
-        }
-      }
-    }]);
-
-    return WorldOctreeCSG;
-  }();
-
-  var v$c = new Vector3();
-  var l = new Line3();
-  var b$7 = new Box3();
-  var d = new Box3();
-  var r$1 = new Ray();
-  var octantTable$1 = [new Uint8Array([4, 2, 1]), new Uint8Array([5, 3, 8]), new Uint8Array([6, 8, 3]), new Uint8Array([7, 8, 8]), new Uint8Array([8, 6, 5]), new Uint8Array([8, 7, 8]), new Uint8Array([8, 8, 7]), new Uint8Array([8, 8, 8])];
-  var flags$1 = 0;
-
-  function findEntryOctant$1(tx0, ty0, tz0, txm, tym, tzm) {
-    var entry = 0;
-
-    if (tx0 > ty0 && tx0 > tz0) {
-      if (tym < tx0) {
-        entry |= 2;
-      }
-
-      if (tzm < tx0) {
-        entry |= 1;
-      }
-    } else if (ty0 > tz0) {
-      if (txm < ty0) {
-        entry |= 4;
-      }
-
-      if (tzm < ty0) {
-        entry |= 1;
-      }
-    } else {
-      if (txm < tz0) {
-        entry |= 4;
-      }
-
-      if (tym < tz0) {
-        entry |= 2;
-      }
-    }
-
-    return entry;
-  }
-
-  function findNextOctant$1(currentOctant, tx1, ty1, tz1) {
-    var min;
-    var exit = 0;
-
-    if (tx1 < ty1) {
-      min = tx1;
-      exit = 0;
-    } else {
-      min = ty1;
-      exit = 1;
-    }
-
-    if (tz1 < min) {
-      exit = 2;
-    }
-
-    return octantTable$1[currentOctant][exit];
-  }
-
-  function raycastOctant$1(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1, ty1, tz1, intersects) {
-    var keyDesign, cellSize;
-    var octantWrapper, grid;
-    var children, offset;
-    var currentOctant;
-    var txm, tym, tzm;
-    var i;
-
-    if (tx1 >= 0.0 && ty1 >= 0.0 && tz1 >= 0.0) {
-      keyDesign = world.getKeyDesign();
-
-      if (lod === 0 || octant.isosurface !== null) {
-        cellSize = world.getCellSize(lod);
-        octantWrapper = new WorldOctantWrapper(octant);
-        octantWrapper.id.set(lod, keyDesign.packKey(v$c.set(keyX, keyY, keyZ)));
-        octantWrapper.min.copy(v$c).multiplyScalar(cellSize).add(world.min);
-        octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
-        intersects.push(octantWrapper);
-      } else if (octant.children > 0) {
-        grid = world.getGrid(--lod);
-        children = octant.children;
-        keyX <<= 1;
-        keyY <<= 1;
-        keyZ <<= 1;
-        txm = 0.5 * (tx0 + tx1);
-        tym = 0.5 * (ty0 + ty1);
-        tzm = 0.5 * (tz0 + tz1);
-        currentOctant = findEntryOctant$1(tx0, ty0, tz0, txm, tym, tzm);
-
-        do {
-          i = flags$1 ^ currentOctant;
-
-          switch (currentOctant) {
-            case 0:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, txm, tym, tzm);
-                break;
-              }
-
-            case 1:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, txm, tym, tz1);
-                break;
-              }
-
-            case 2:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, txm, ty1, tzm);
-                break;
-              }
-
-            case 3:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, txm, ty1, tz1);
-                break;
-              }
-
-            case 4:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, tx1, tym, tzm);
-                break;
-              }
-
-            case 5:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, tx1, tym, tz1);
-                break;
-              }
-
-            case 6:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
-                }
-
-                currentOctant = findNextOctant$1(currentOctant, tx1, ty1, tzm);
-                break;
-              }
-
-            case 7:
-              {
-                if ((children & 1 << i) !== 0) {
-                  offset = pattern[i];
-                  v$c.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-                  raycastOctant$1(world, grid.get(keyDesign.packKey(v$c)), v$c.x, v$c.y, v$c.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
-                }
-
-                currentOctant = 8;
-                break;
-              }
-          }
-        } while (currentOctant < 8);
-      }
-    }
-  }
-
-  function intersectSubtree(world, subtree, keyCoordinates, ray, intersects) {
-    var min = b$7.min.set(0, 0, 0);
-    var max = b$7.max.subVectors(subtree.max, subtree.min);
-    var dimensions = subtree.getDimensions(d.min);
-    var halfDimensions = d.max.copy(dimensions).multiplyScalar(0.5);
-    var origin = r$1.origin.copy(ray.origin);
-    var direction = r$1.direction.copy(ray.direction);
-    var invDirX, invDirY, invDirZ;
-    var tx0, tx1, ty0, ty1, tz0, tz1;
-    origin.sub(subtree.getCenter(v$c)).add(halfDimensions);
-    flags$1 = 0;
-
-    if (direction.x < 0.0) {
-      origin.x = dimensions.x - origin.x;
-      direction.x = -direction.x;
-      flags$1 |= 4;
-    }
-
-    if (direction.y < 0.0) {
-      origin.y = dimensions.y - origin.y;
-      direction.y = -direction.y;
-      flags$1 |= 2;
-    }
-
-    if (direction.z < 0.0) {
-      origin.z = dimensions.z - origin.z;
-      direction.z = -direction.z;
-      flags$1 |= 1;
-    }
-
-    invDirX = 1.0 / direction.x;
-    invDirY = 1.0 / direction.y;
-    invDirZ = 1.0 / direction.z;
-    tx0 = (min.x - origin.x) * invDirX;
-    tx1 = (max.x - origin.x) * invDirX;
-    ty0 = (min.y - origin.y) * invDirY;
-    ty1 = (max.y - origin.y) * invDirY;
-    tz0 = (min.z - origin.z) * invDirZ;
-    tz1 = (max.z - origin.z) * invDirZ;
-    raycastOctant$1(world, subtree.octant, keyCoordinates.x, keyCoordinates.y, keyCoordinates.z, world.getDepth(), tx0, ty0, tz0, tx1, ty1, tz1, intersects);
-  }
-
-  var WorldOctreeRaycaster = function () {
-    function WorldOctreeRaycaster() {
-      _classCallCheck(this, WorldOctreeRaycaster);
-    }
-
-    _createClass(WorldOctreeRaycaster, null, [{
-      key: "intersectWorldOctree",
-      value: function intersectWorldOctree(world, ray) {
-        var intersects = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-        var lod = world.getDepth();
-        var grid = world.getGrid(lod);
-        var cellSize = world.getCellSize(lod);
-        var keyDesign = world.getKeyDesign();
-        var octantWrapper = new WorldOctantWrapper();
-        var keyCoordinates0 = l.start;
-        var keyCoordinates1 = l.end;
-        var a = !world.containsPoint(r$1.copy(ray).origin) ? r$1.intersectBox(world, r$1.origin) : r$1.origin;
-        var key, octant;
-        var t, b, n;
-        var dx, dy, dz;
-        var ax, ay, az, bx, by, bz;
-        var sx, sy, sz, exy, exz, ezy;
-        octantWrapper.id.lod = lod;
-
-        if (a !== null) {
-          t = cellSize << 1;
-          b = r$1.at(t, v$c);
-          world.calculateKeyCoordinates(a, lod, keyCoordinates0);
-          world.calculateKeyCoordinates(b, lod, keyCoordinates1);
-          dx = keyCoordinates1.x - keyCoordinates0.x;
-          dy = keyCoordinates1.y - keyCoordinates0.y;
-          dz = keyCoordinates1.z - keyCoordinates0.z;
-          sx = Math.sign(dx);
-          sy = Math.sign(dy);
-          sz = Math.sign(dz);
-          ax = Math.abs(dx);
-          ay = Math.abs(dy);
-          az = Math.abs(dz);
-          bx = 2 * ax;
-          by = 2 * ay;
-          bz = 2 * az;
-          exy = ay - ax;
-          exz = az - ax;
-          ezy = ay - az;
-
-          for (n = ax + ay + az; n > 0; --n) {
-            key = keyDesign.packKey(keyCoordinates0);
-
-            if (grid.has(key)) {
-              octant = grid.get(key);
-              octantWrapper.id.key = key;
-              octantWrapper.octant = octant;
-              octantWrapper.min.copy(keyCoordinates0);
-              octantWrapper.min.multiplyScalar(cellSize);
-              octantWrapper.min.add(world.min);
-              octantWrapper.max.copy(octantWrapper.min).addScalar(cellSize);
-
-              if (octant.isosurface === null) {
-                intersectSubtree(world, octantWrapper, keyCoordinates0, ray, intersects);
-              } else {
-                intersects.push(octantWrapper.clone());
-              }
-            }
-
-            if (exy < 0) {
-              if (exz < 0) {
-                keyCoordinates0.x += sx;
-                exy += by;
-                exz += bz;
-              } else {
-                keyCoordinates0.z += sz;
-                exz -= bx;
-                ezy += by;
-              }
-            } else if (ezy < 0) {
-              keyCoordinates0.z += sz;
-              exz -= bx;
-              ezy += by;
-            } else {
-              keyCoordinates0.y += sy;
-              exy -= bx;
-              ezy -= bz;
-            }
-          }
-        }
-
-        return intersects;
-      }
-    }]);
-
-    return WorldOctreeRaycaster;
-  }();
-
-  var v$d = new Vector3();
-
-  function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
-    var grid, keyDesign;
-    var children, child;
-    var offset, key, i;
-
-    if (lod > 0) {
-      --lod;
-      grid = world.getGrid(lod);
-      keyDesign = world.getKeyDesign();
-      children = octant.children;
-      keyX <<= 1;
-      keyY <<= 1;
-      keyZ <<= 1;
-
-      for (i = 0; i < 8; ++i) {
-        if ((children & 1 << i) !== 0) {
-          offset = pattern[i];
-          v$d.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
-          key = keyDesign.packKey(v$d);
-          child = grid.get(key);
-          grid["delete"](key);
-          removeChildren(world, child, v$d.x, v$d.y, v$d.z, lod);
-        }
-      }
-
-      octant.children = 0;
-    }
-  }
-
-  function prune(world, keyX, keyY, keyZ, lod) {
-    var grid, i, key, parent;
-
-    if (++lod < world.levels) {
-      grid = world.getGrid(lod);
-      i = WorldOctree.calculateOffsetIndex(keyX, keyY, keyZ);
-      v$d.set(keyX >>> 1, keyY >>> 1, keyZ >>> 1);
-      key = world.getKeyDesign().packKey(v$d);
-      parent = grid.get(key);
-      parent.children &= ~(1 << i);
-
-      if (parent.children === 0) {
-        grid["delete"](key);
-        prune(world, v$d.x, v$d.y, v$d.z, lod);
-      }
-    }
-  }
-
-  var WorldOctree = function () {
-    function WorldOctree() {
-      var cellSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 20;
-      var levels = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 8;
-      var keyDesign = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new KeyDesign();
-
-      _classCallCheck(this, WorldOctree);
-
-      levels = Math.max(Math.min(Math.trunc(levels), 32), 1);
-      this.cellSize = Math.max(Math.min(Math.trunc(cellSize), Math.pow(2, 33 - levels) - 1), 1);
-      this.keyDesign = keyDesign;
-      this.grids = [];
-
-      while (this.grids.length < levels) {
-        this.grids.push(new Map());
-      }
-
-      this.bounds = new WorldOctantWrapper();
-      this.bounds.min.copy(this.keyDesign.halfRange).multiplyScalar(-this.cellSize);
-      this.bounds.max.copy(this.keyDesign.halfRange).multiplyScalar(this.cellSize);
-    }
-
-    _createClass(WorldOctree, [{
-      key: "getKeyDesign",
-      value: function getKeyDesign() {
-        return this.keyDesign;
-      }
-    }, {
-      key: "getCellSize",
-      value: function getCellSize() {
-        var lod = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-        return this.cellSize << lod >>> 0;
-      }
-    }, {
-      key: "getCenter",
-      value: function getCenter(target) {
-        return this.bounds.getCenter(target);
-      }
-    }, {
-      key: "setCenter",
-      value: function setCenter(center) {
-        this.min.copy(this.keyDesign.halfRange).multiplyScalar(-this.cellSize).add(center);
-        this.max.copy(this.keyDesign.halfRange).multiplyScalar(this.cellSize).add(center);
-      }
-    }, {
-      key: "getDimensions",
-      value: function getDimensions(target) {
-        return this.bounds.getDimensions(target);
-      }
-    }, {
-      key: "getDepth",
-      value: function getDepth() {
-        return this.grids.length - 1;
-      }
-    }, {
-      key: "getGrid",
-      value: function getGrid(lod) {
-        return lod >= 0 && lod < this.grids.length ? this.grids[lod] : undefined;
-      }
-    }, {
-      key: "clear",
-      value: function clear() {
-        var i, l;
-
-        for (i = 0, l = this.grids.length; i < l; ++i) {
-          this.grids[i].clear();
-        }
-      }
-    }, {
-      key: "containsPoint",
-      value: function containsPoint(point) {
-        return this.bounds.containsPoint(point);
-      }
-    }, {
-      key: "findOctantsByLevel",
-      value: function findOctantsByLevel(level) {
-        return this.octants(level);
-      }
-    }, {
-      key: "calculateKeyCoordinates",
-      value: function calculateKeyCoordinates(position, lod) {
-        var target = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Vector3();
-        var cellSize = this.cellSize << lod;
-        v$d.subVectors(position, this.min);
-        target.set(Math.trunc(v$d.x / cellSize), Math.trunc(v$d.y / cellSize), Math.trunc(v$d.z / cellSize));
-        return target;
-      }
-    }, {
-      key: "getOctantByPoint",
-      value: function getOctantByPoint(point) {
-        var lod = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-        var keyDesign = this.keyDesign;
-        var grid = this.getGrid(lod);
-        var result;
-
-        if (grid !== undefined) {
-          if (this.containsPoint(point)) {
-            this.calculateKeyCoordinates(point, lod, v$d);
-            result = grid.get(keyDesign.packKey(v$d));
-          } else {
-            console.error("Position out of range", point);
-          }
-        } else {
-          console.error("Invalid LOD", lod);
-        }
-
-        return result;
-      }
-    }, {
-      key: "removeOctant",
-      value: function removeOctant(key) {
-        var lod = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-        var keyDesign = this.keyDesign;
-        var grid = this.getGrid(lod);
-        var keyX, keyY, keyZ;
-
-        if (grid !== undefined) {
-          if (grid.has(key)) {
-            keyDesign.unpackKey(key, v$d);
-            keyX = v$d.x;
-            keyY = v$d.y;
-            keyZ = v$d.z;
-            removeChildren(this, grid.get(key), keyX, keyY, keyZ, lod);
-            grid["delete"](key);
-            prune(this, keyX, keyY, keyZ, lod);
-          } else {
-            console.error("No octant found", key);
-          }
-        } else {
-          console.error("Invalid LOD", lod);
-        }
-      }
-    }, {
-      key: "applyCSG",
-      value: function applyCSG(sdf) {
-        WorldOctreeCSG.applyCSG(this, sdf);
-      }
-    }, {
-      key: "raycast",
-      value: function raycast(ray) {
-        var intersects = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-        return WorldOctreeRaycaster.intersectWorldOctree(this, ray, intersects);
-      }
-    }, {
-      key: "octants",
-      value: function octants() {
-        var lod = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-        return new WorldOctantIterator(this, lod);
-      }
-    }, {
-      key: "min",
-      get: function get() {
-        return this.bounds.min;
-      }
-    }, {
-      key: "max",
-      get: function get() {
-        return this.bounds.max;
-      }
-    }, {
-      key: "levels",
-      get: function get() {
-        return this.grids.length;
-      }
-    }, {
-      key: "lodZero",
-      get: function get() {
-        return this.grids[0];
-      }
-    }], [{
-      key: "calculateOffsetIndex",
-      value: function calculateOffsetIndex(x, y, z) {
-        var offsetX = x & 1;
-        var offsetY = y & 1;
-        var offsetZ = z & 1;
-        return (offsetX << 2) + (offsetY << 1) + offsetZ;
-      }
-    }]);
-
-    return WorldOctree;
-  }();
-
-  var Scene = function () {
-    function Scene(levels) {
-      _classCallCheck(this, Scene);
-    }
-
-    _createClass(Scene, [{
-      key: "clone",
-      value: function clone() {
-        return new this.constructor(this.levels);
-      }
-    }, {
-      key: "levels",
-      get: function get() {
-        return this.something.length;
-      }
-    }]);
-
-    return Scene;
-  }();
-
-  var ClipmapEvent = function (_Event) {
-    _inherits(ClipmapEvent, _Event);
-
-    function ClipmapEvent(type) {
-      var _this;
-
-      _classCallCheck(this, ClipmapEvent);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ClipmapEvent).call(this, type));
-      _this.lod = -1;
-      _this.left = null;
-      _this.entered = null;
-      _this.error = null;
-      return _this;
-    }
-
-    return ClipmapEvent;
-  }(Event);
-
-  var update = new ClipmapEvent("update");
-  var error = new ClipmapEvent("error");
-
-  var b$8 = new Box3();
-  var f = new Frustum();
-  var m$3 = new Matrix4();
-  var Clipmap = function (_EventTarget) {
-    _inherits(Clipmap, _EventTarget);
-
-    function Clipmap(world) {
-      var _this;
-
-      _classCallCheck(this, Clipmap);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Clipmap).call(this));
-      _this.world = world;
-      _this.position = new Vector3(Infinity, Infinity, Infinity);
-      _this.currentScene = new Scene(_this.world.levels);
-      _this.previousScene = _this.currentScene.clone();
-      _this.nextScene = _this.currentScene.clone();
-      return _this;
-    }
-
-    _createClass(Clipmap, [{
-      key: "update",
-      value: function update(camera) {
-        var viewPosition = this.position;
-        viewPosition.copy(camera.position);
-        f.setFromMatrix(m$3.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse));
-      }
-    }, {
-      key: "process",
-      value: function process() {}
-    }, {
-      key: "clear",
-      value: function clear() {
-        this.previousScene.clear();
-        this.currentScene.clear();
-        this.nextScene.clear();
-      }
-    }]);
-
-    return Clipmap;
-  }(EventTarget);
-
-  var Action$1 = {
-    EXTRACT: "worker.extract",
-    MODIFY: "worker.modify",
-    CONFIGURE: "worker.config",
-    CLOSE: "worker.close"
-  };
-
-  var Message = function Message() {
-    var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-    _classCallCheck(this, Message);
-
-    this.action = action;
-    this.error = null;
-  };
-
-  var DataMessage = function (_Message) {
-    _inherits(DataMessage, _Message);
-
-    function DataMessage() {
-      var _this;
-
-      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-      _classCallCheck(this, DataMessage);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(DataMessage).call(this, action));
-      _this.data = null;
-      return _this;
-    }
-
-    return DataMessage;
-  }(Message);
-
-  var ExtractionRequest = function (_DataMessage) {
-    _inherits(ExtractionRequest, _DataMessage);
-
-    function ExtractionRequest() {
-      _classCallCheck(this, ExtractionRequest);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(ExtractionRequest).call(this, Action$1.EXTRACT));
-    }
-
-    return ExtractionRequest;
-  }(DataMessage);
-
-  var ModificationRequest = function (_DataMessage) {
-    _inherits(ModificationRequest, _DataMessage);
-
-    function ModificationRequest() {
-      var _this;
-
-      _classCallCheck(this, ModificationRequest);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ModificationRequest).call(this, Action$1.MODIFY));
-      _this.sdf = null;
-      _this.cellSize = 0;
-      _this.cellPosition = null;
-      return _this;
-    }
-
-    return ModificationRequest;
-  }(DataMessage);
-
-  var ConfigurationMessage = function (_Message) {
-    _inherits(ConfigurationMessage, _Message);
-
-    function ConfigurationMessage() {
-      var _this;
-
-      _classCallCheck(this, ConfigurationMessage);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ConfigurationMessage).call(this, Action$1.CONFIGURE));
-      _this.resolution = HermiteData.resolution;
-      _this.errorThreshold = 1e-2;
-      return _this;
-    }
-
-    return ConfigurationMessage;
-  }(Message);
-
-  var ExtractionResponse = function (_DataMessage) {
-    _inherits(ExtractionResponse, _DataMessage);
-
-    function ExtractionResponse() {
-      var _this;
-
-      _classCallCheck(this, ExtractionResponse);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ExtractionResponse).call(this, Action$1.EXTRACT));
-      _this.isosurface = null;
-      return _this;
-    }
-
-    return ExtractionResponse;
-  }(DataMessage);
-
-  var ModificationResponse = function (_DataMessage) {
-    _inherits(ModificationResponse, _DataMessage);
-
-    function ModificationResponse() {
-      var _this;
-
-      _classCallCheck(this, ModificationResponse);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ModificationResponse).call(this, Action$1.MODIFY));
-      _this.sdf = null;
-      return _this;
-    }
-
-    return ModificationResponse;
-  }(DataMessage);
-
-  var WorkerEvent = function (_Event) {
-    _inherits(WorkerEvent, _Event);
-
-    function WorkerEvent(type) {
-      var _this;
-
-      _classCallCheck(this, WorkerEvent);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(WorkerEvent).call(this, type));
-      _this.worker = null;
-      _this.response = null;
-      return _this;
-    }
-
-    return WorkerEvent;
-  }(Event);
-
-  var message = new WorkerEvent("message");
-
-  var worker = "function _typeof(e){return _typeof=\"function\"==typeof Symbol&&\"symbol\"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&\"function\"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?\"symbol\":typeof e},_typeof(e)}(function(){'use strict';var ue=Math.pow,ce=Math.trunc,me=Math.sign,xe=Math.PI,pe=Math.atan2,ve=Math.round,ge=Math.acos,ke=Math.sqrt,he=Math.cos,ze=Math.sin,fe=Math.floor,Se=Math.ceil,we=Math.abs,Te=Math.max,Ie=Math.min;function e(e,t){if(!(e instanceof t))throw new TypeError(\"Cannot call a class as a function\")}function t(e,t){for(var a,n=0;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,\"value\"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}function n(e,a,n){return a&&t(e.prototype,a),n&&t(e,n),e}function i(e,t,a){return t in e?Object.defineProperty(e,t,{value:a,enumerable:!0,configurable:!0,writable:!0}):e[t]=a,e}function l(e,t){if(\"function\"!=typeof t&&null!==t)throw new TypeError(\"Super expression must either be null or a function\");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&d(e,t)}function s(e){return s=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},s(e)}function d(e,t){return d=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},d(e,t)}function y(){if(\"undefined\"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if(\"function\"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function x(){return x=y()?Reflect.construct:function(e,t,n){var i=[null];i.push.apply(i,t);var a=Function.bind.apply(e,i),l=new a;return n&&d(l,n.prototype),l},x.apply(null,arguments)}function g(e){if(void 0===e)throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");return e}function k(e,t){return t&&(\"object\"===_typeof(t)||\"function\"==typeof t)?t:g(e)}function h(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&(e=s(e),null!==e););return e}function z(e,t,a){return z=\"undefined\"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,a){var n=h(e,t);if(n){var i=Object.getOwnPropertyDescriptor(n,t);return i.get?i.get.call(a):i.value}},z(e,t,a||e)}function f(e,t,a,n){return f=\"undefined\"!=typeof Reflect&&Reflect.set?Reflect.set:function(e,t,a,n){var l,o=h(e,t);if(o){if(l=Object.getOwnPropertyDescriptor(o,t),l.set)return l.set.call(n,a),!0;if(!l.writable)return!1}if(l=Object.getOwnPropertyDescriptor(n,t),l){if(!l.writable)return!1;l.value=a,Object.defineProperty(n,t,l)}else i(n,t,a);return!0},f(e,t,a,n)}function S(e,t,a,n,i){var l=f(e,t,a,n||e);if(!l&&i)throw new Error(\"failed to set property\");return a}function w(e){return T(e)||I(e)||C()}function T(e){if(Array.isArray(e)){for(var t=0,a=Array(e.length);t<e.length;t++)a[t]=e[t];return a}}function I(e){if(Symbol.iterator in Object(e)||\"[object Arguments]\"===Object.prototype.toString.call(e))return Array.from(e)}function C(){throw new TypeError(\"Invalid attempt to spread non-iterable instance\")}function P(e,t,a){return Te(Ie(e,a),t)}function E(e,t,a,n,i,l){var o=0;return e>t&&e>a?(i<e&&(o|=2),l<e&&(o|=1)):t>a?(n<t&&(o|=4),l<t&&(o|=1)):(n<a&&(o|=4),i<a&&(o|=2)),o}function D(e,t,a,n){var i,l=0;return t<a?(i=t,l=0):(i=a,l=1),n<i&&(l=2),r[e][l]}function F(e,t,a,n,i,l,o,s,r){var d,y,u,c,m=e.children;if(0<=i&&0<=l&&0<=o)if(null===m)r.push(e);else{y=.5*(t+i),u=.5*(a+l),c=.5*(n+o),d=E(t,a,n,y,u,c);do 0===d?(F(m[mt],t,a,n,y,u,c,s,r),d=D(d,y,u,c)):1===d?(F(m[1^mt],t,a,c,y,u,o,s,r),d=D(d,y,u,o)):2===d?(F(m[2^mt],t,u,n,y,l,c,s,r),d=D(d,y,l,c)):3===d?(F(m[3^mt],t,u,c,y,l,o,s,r),d=D(d,y,l,o)):4===d?(F(m[4^mt],y,a,n,i,u,c,s,r),d=D(d,i,u,c)):5===d?(F(m[5^mt],y,a,c,i,u,o,s,r),d=D(d,i,u,o)):6===d?(F(m[6^mt],y,u,n,i,l,c,s,r),d=D(d,i,l,c)):7===d?(F(m[7^mt],y,u,c,i,l,o,s,r),d=8):void 0;while(8>d)}}function A(e){var t,a,n,o=e.children,s=0;if(null!==o)for(t=0,a=o.length;t<a;++t)n=1+A(o[t]),n>s&&(s=n);return s}function V(e,t,a){var n,o,s=e.children;if(pt.min=e.min,pt.max=e.max,t.intersectsBox(pt))if(null!==s)for(n=0,o=s.length;n<o;++n)V(s[n],t,a);else a.push(e)}function B(e,t,a,n){var o,s,r=e.children;if(a===t)n.push(e);else if(null!==r)for(++a,o=0,s=r.length;o<s;++o)B(r[o],t,a,n)}function N(e){var t,a,n=e.children,o=0;if(null!==n)for(t=0,a=n.length;t<a;++t)o+=N(n[t]);else null!==e.points&&(o=e.points.length);return o}function O(e,t,a,n,o){var s,r,d=n.children,y=!1,u=!1;if(n.contains(e,a.bias)){if(null===d){if(null===n.points)n.points=[],n.data=[];else for(s=0,r=n.points.length;!y&&s<r;++s)y=n.points[s].equals(e);y?(n.data[s-1]=t,u=!0):n.points.length<a.maxPoints||o===a.maxDepth?(n.points.push(e.clone()),n.data.push(t),++a.pointCount,u=!0):(n.split(),n.redistribute(a.bias),d=n.children)}if(null!==d)for(++o,s=0,r=d.length;!u&&s<r;++s)u=O(e,t,a,d[s],o)}return u}function L(e,t,a,n){var o,s,r,d,y,u=a.children,c=null;if(a.contains(e,t.bias))if(null!==u)for(o=0,s=u.length;null===c&&o<s;++o)c=L(e,t,u[o],a);else if(null!==a.points)for(r=a.points,d=a.data,(o=0,s=r.length);o<s;++o)if(r[o].equals(e)){y=s-1,c=d[o],o<y&&(r[o]=r[y],d[o]=d[y]),r.pop(),d.pop(),--t.pointCount,null!==n&&N(n)<=t.maxPoints&&n.merge();break}return c}function M(e,t,a){var n,o,s,r=a.children,d=null;if(a.contains(e,t.bias))if(null!==r)for(n=0,o=r.length;null===d&&n<o;++n)d=M(e,t,r[n]);else if(null!==a.points)for(s=a.points,n=0,o=s.length;null===d&&n<o;++n)e.equals(s[n])&&(d=a.data[n]);return d}function R(e,t,a,n,o,s){var r,d,y,u=n.children,c=null;if(n.contains(e,a.bias))if(!n.contains(t,a.bias))c=L(e,a,n,o),O(t,c,a,o,s-1);else if(null!==u)for(++s,r=0,d=u.length;null===c&&r<d;++r)c=R(e,t,a,u[r],n,s);else if(null!==n.points)for(y=n.points,r=0,d=y.length;r<d;++r)if(e.equals(y[r])){y[r].copy(t),c=n.data[r];break}return c}function Y(e,t,a,n){var o,s,r=null,d=t;if(null!==n.children){var y,u,c=n.children.map(function(t){return{octant:t,distance:t.distanceToCenterSquared(e)}}).sort(function(e,t){return e.distance-t.distance});for(o=0,s=c.length;o<s&&(y=c[o].octant,!(y.contains(e,d)&&(u=Y(e,d,a,y),null!==u&&(d=u.distance,r=u,0===d))));++o);}else if(null!==n.points){var m,x=n.points,p=-1;for(o=0,s=x.length;o<s;++o)if(!x[o].equals(e))m=e.distanceTo(x[o]),m<d&&(d=m,p=o);else if(!a){d=0,p=o;break}0<=p&&(r={point:x[p],data:n.data[p],distance:d})}return r}function X(e,t,a,n,o){var s,r,d=n.children;if(null!==d){var y;for(s=0,r=d.length;s<r;++s)y=d[s],y.contains(e,t)&&X(e,t,a,y,o)}else if(null!==n.points){var u,c=n.points;for(s=0,r=c.length;s<r;++s)u=c[s],u.equals(e)?!a&&o.push({point:u.clone(),data:n.data[s]}):u.distanceToSquared(e)<=t*t&&o.push({point:u.clone(),data:n.data[s]})}}function Z(e,t){var a,n=e.elements,i=t.elements;0!==n[1]&&(a=Rt.calculateCoefficients(n[0],n[1],n[3]),Yt.rotateQXY(jt.set(n[0],n[3]),n[1],a),n[0]=jt.x,n[3]=jt.y,Yt.rotateXY(jt.set(n[2],n[4]),a),n[2]=jt.x,n[4]=jt.y,n[1]=0,Yt.rotateXY(jt.set(i[0],i[3]),a),i[0]=jt.x,i[3]=jt.y,Yt.rotateXY(jt.set(i[1],i[4]),a),i[1]=jt.x,i[4]=jt.y,Yt.rotateXY(jt.set(i[2],i[5]),a),i[2]=jt.x,i[5]=jt.y)}function _(e,t){var a,n=e.elements,i=t.elements;0!==n[2]&&(a=Rt.calculateCoefficients(n[0],n[2],n[5]),Yt.rotateQXY(jt.set(n[0],n[5]),n[2],a),n[0]=jt.x,n[5]=jt.y,Yt.rotateXY(jt.set(n[1],n[4]),a),n[1]=jt.x,n[4]=jt.y,n[2]=0,Yt.rotateXY(jt.set(i[0],i[6]),a),i[0]=jt.x,i[6]=jt.y,Yt.rotateXY(jt.set(i[1],i[7]),a),i[1]=jt.x,i[7]=jt.y,Yt.rotateXY(jt.set(i[2],i[8]),a),i[2]=jt.x,i[8]=jt.y)}function j(e,t){var a,n=e.elements,i=t.elements;0!==n[4]&&(a=Rt.calculateCoefficients(n[3],n[4],n[5]),Yt.rotateQXY(jt.set(n[3],n[5]),n[4],a),n[3]=jt.x,n[5]=jt.y,Yt.rotateXY(jt.set(n[1],n[2]),a),n[1]=jt.x,n[2]=jt.y,n[4]=0,Yt.rotateXY(jt.set(i[3],i[6]),a),i[3]=jt.x,i[6]=jt.y,Yt.rotateXY(jt.set(i[4],i[7]),a),i[4]=jt.x,i[7]=jt.y,Yt.rotateXY(jt.set(i[5],i[8]),a),i[5]=jt.x,i[8]=jt.y)}function U(t,a){var n,l=t.elements;for(n=0;n<5;++n)Z(t,a),_(t,a),j(t,a);return Ut.set(l[0],l[3],l[5])}function Q(e){var t=we(e)<Xt?0:1/e;return we(t)<Xt?0:t}function G(e,t){var a=e.elements,n=a[0],i=a[3],l=a[6],o=a[1],s=a[4],r=a[7],d=a[2],y=a[5],u=a[8],c=Q(t.x),m=Q(t.y),x=Q(t.z);return e.set(n*c*n+i*m*i+l*x*l,n*c*o+i*m*s+l*x*r,n*c*d+i*m*y+l*x*u,o*c*n+s*m*i+r*x*l,o*c*o+s*m*s+r*x*r,o*c*d+s*m*y+r*x*u,d*c*n+y*m*i+u*x*l,d*c*o+y*m*s+u*x*r,d*c*d+y*m*y+u*x*u)}function H(e,t,a){return e.applyToVector3(Gt.copy(a)),Gt.subVectors(t,Gt),Gt.dot(Gt)}function J(e,t,a){var n,l,o,s,r,d,y,u=[-1,-1,-1,-1],c=[!1,!1,!1,!1],m=1/0,x=0,p=!1;for(y=0;4>y;++y)r=e[y],d=ra[t][y],n=lt[d][0],l=lt[d][1],o=1&r.voxel.materials>>n,s=1&r.voxel.materials>>l,r.size<m&&(m=r.size,x=y,p=o!==At.AIR),u[y]=r.voxel.index,c[y]=o!==s;c[x]&&(p?(a.push(u[0]),a.push(u[3]),a.push(u[1]),a.push(u[0]),a.push(u[2]),a.push(u[3])):(a.push(u[0]),a.push(u[1]),a.push(u[3]),a.push(u[0]),a.push(u[3]),a.push(u[2])))}function K(e,t,a){var n,l,o,s,r=[0,0,0,0];if(null!==e[0].voxel&&null!==e[1].voxel&&null!==e[2].voxel&&null!==e[3].voxel)J(e,t,a);else for(o=0;2>o;++o){for(r[0]=sa[t][o][0],r[1]=sa[t][o][1],r[2]=sa[t][o][2],r[3]=sa[t][o][3],n=[],s=0;4>s;++s)if(l=e[s],null!==l.voxel)n[s]=l;else if(null!==l.children)n[s]=l.children[r[s]];else break;4===s&&K(n,sa[t][o][4],a)}}function W(e,t,a){var n,l,o,s,r,d,y=[0,0,0,0],u=[[0,0,1,1],[0,1,0,1]];if(null!==e[0].children||null!==e[1].children){for(r=0;4>r;++r)y[0]=la[t][r][0],y[1]=la[t][r][1],n=[null===e[0].children?e[0]:e[0].children[y[0]],null===e[1].children?e[1]:e[1].children[y[1]]],W(n,la[t][r][2],a);for(r=0;4>r;++r){for(y[0]=oa[t][r][1],y[1]=oa[t][r][2],y[2]=oa[t][r][3],y[3]=oa[t][r][4],o=u[oa[t][r][0]],l=[],d=0;4>d;++d)if(s=e[o[d]],null!==s.voxel)l[d]=s;else if(null!==s.children)l[d]=s.children[y[d]];else break;4===d&&K(l,oa[t][r][5],a)}}}function $(e,t){var a,n,l,o=e.children,s=[0,0,0,0];if(null!==o){for(l=0;8>l;++l)$(o[l],t);for(l=0;12>l;++l)s[0]=na[l][0],s[1]=na[l][1],a=[o[s[0]],o[s[1]]],W(a,na[l][2],t);for(l=0;6>l;++l)s[0]=ia[l][0],s[1]=ia[l][1],s[2]=ia[l][2],s[3]=ia[l][3],n=[o[s[0]],o[s[1]],o[s[2]],o[s[3]]],K(n,ia[l][4],t)}}function ee(e,t,a,n){var l,o;if(null!==e.children)for(l=0;8>l;++l)n=ee(e.children[l],t,a,n);else null!==e.voxel&&(o=e.voxel,o.index=n,t[3*n]=o.position.x,t[3*n+1]=o.position.y,t[3*n+2]=o.position.z,a[3*n]=o.normal.x,a[3*n+1]=o.normal.y,a[3*n+2]=o.normal.z,++n);return n}function te(e,t,a,l,o){var s=0;for(t>>=1;0<t;t>>=1,s=0)a>=t&&(s+=4,a-=t),l>=t&&(s+=2,l-=t),o>=t&&(s+=1,o-=t),null===e.children&&e.split(),e=e.children[s];return e}function ae(e,t,a,n,l){var o,s,r,d,y,u,c,x,p,v,g=e+1,m=new Jt;for(o=0,v=0;8>v;++v)d=it[v],y=(n+d[2])*(g*g)+(a+d[1])*g+(t+d[0]),r=Ie(l[y],At.SOLID),o|=r<<v;for(s=0,v=0;12>v;++v)u=lt[v][0],c=lt[v][1],x=1&o>>u,p=1&o>>c,x!==p&&++s;return m.materials=o,m.edgeCount=s,m.qefData=new Lt,m}function ne(e){var t=wa,a=Ot.resolution,n=new Pe(0,0,0),i=new Pe(a,a,a),l=new v(Ta,Ta.clone().addScalar(wa)),o=e.getBoundingBox();return e.type!==ka.INTERSECTION&&(o.intersectsBox(l)?(n.copy(o.min).max(l.min).sub(l.min),n.x=Se(n.x*a/t),n.y=Se(n.y*a/t),n.z=Se(n.z*a/t),i.copy(o.max).min(l.max).sub(l.min),i.x=fe(i.x*a/t),i.y=fe(i.y*a/t),i.z=fe(i.z*a/t)):(n.set(a,a,a),i.set(0,0,0))),new v(n,i)}function ie(e,t,a,i){var l,o,s,r=Ot.resolution,n=r+1,d=i.max.x,u=i.max.y,c=i.max.z;for(s=i.min.z;s<=c;++s)for(o=i.min.y;o<=u;++o)for(l=i.min.x;l<=d;++l)e.updateMaterialIndex(s*(n*n)+o*n+l,t,a)}function le(e,t,a){var i,l,o,r,d=wa,s=Ot.resolution,n=s+1,u=t.materialIndices,c=new Pe,m=new Pe,p=a.max.x,v=a.max.y,g=a.max.z,k=0;for(r=a.min.z;r<=g;++r)for(c.z=r*d/s,o=a.min.y;o<=v;++o)for(c.y=o*d/s,l=a.min.x;l<=p;++l)c.x=l*d/s,i=e.generateMaterialIndex(m.addVectors(Ta,c)),i!==At.AIR&&(u[r*(n*n)+o*n+l]=i,++k);t.materials=k}function oe(e,t,a){var l,o,s,r,y,u,x,p,v,g,k,h,z,f,S,w,T,I,C,P,b,E,D,F=Ot.resolution,n=F+1,m=new Uint32Array([1,n,n*n]),q=t.materialIndices,A=new Pt,V=new Pt,B=a.edgeData,N=t.edgeData,O=new Uint32Array(3),L=qt.calculate1DEdgeCount(F),M=new qt(F,Ie(L,N.indices[0].length+B.indices[0].length),Ie(L,N.indices[1].length+B.indices[1].length),Ie(L,N.indices[2].length+B.indices[2].length));for(I=0,C=0;3>C;I=0,++C){for(l=B.indices[C],r=N.indices[C],x=M.indices[C],o=B.zeroCrossings[C],y=N.zeroCrossings[C],p=M.zeroCrossings[C],s=B.normals[C],u=N.normals[C],v=M.normals[C],g=m[C],E=l.length,D=r.length,(P=0,b=0);P<E;++P)if(k=l[P],h=k+g,S=q[k],w=q[h],S!==w&&(S===At.AIR||w===At.AIR)){for(A.t=o[P],A.n.x=s[3*P],A.n.y=s[3*P+1],A.n.z=s[3*P+2],e.type===ka.DIFFERENCE&&A.n.negate(),T=A;b<D&&r[b]<=k;)z=r[b],f=z+g,V.t=y[b],V.n.x=u[3*b],V.n.y=u[3*b+1],V.n.z=u[3*b+2],S=q[z],z<k?(w=q[f],S!==w&&(S===At.AIR||w===At.AIR)&&(x[I]=z,p[I]=V.t,v[3*I]=V.n.x,v[3*I+1]=V.n.y,v[3*I+2]=V.n.z,++I)):T=e.selectEdge(V,A,S===At.SOLID),++b;x[I]=k,p[I]=T.t,v[3*I]=T.n.x,v[3*I+1]=T.n.y,v[3*I+2]=T.n.z,++I}for(;b<D;)z=r[b],f=z+g,S=q[z],w=q[f],S!==w&&(S===At.AIR||w===At.AIR)&&(x[I]=z,p[I]=y[b],v[3*I]=u[3*b],v[3*I+1]=u[3*b+1],v[3*I+2]=u[3*b+2],++I),++b;O[C]=I}return{edgeData:M,lengths:O}}function se(e,t,i){var l,o,r,u,p,v,g,k,h,f,S,w,T,I,C,P,b,E,D,F=wa,s=Ot.resolution,n=s+1,m=n*n,q=new Uint32Array([1,n,m]),A=t.materialIndices,V=Ta,B=new Pe,N=new Pe,O=new Pt,L=new Uint32Array(3),M=new qt(s,qt.calculate1DEdgeCount(s));for(C=4,T=0,I=0;3>I;C>>=1,T=0,++I){P=it[C],l=M.indices[I],o=M.zeroCrossings[I],r=M.normals[I],u=q[I],g=i.min.x,f=i.max.x,k=i.min.y,S=i.max.y,h=i.min.z,w=i.max.z;for(0===I?(g=Te(g-1,0),f=Ie(f,s-1)):1===I?(k=Te(k-1,0),S=Ie(S,s-1)):2===I?(h=Te(h-1,0),w=Ie(w,s-1)):void 0,D=h;D<=w;++D)for(E=k;E<=S;++E)for(b=g;b<=f;++b)p=D*m+E*n+b,v=p+u,A[p]!==A[v]&&(B.set(b*F/s,E*F/s,D*F/s),N.set((b+P[0])*F/s,(E+P[1])*F/s,(D+P[2])*F/s),O.a.addVectors(V,B),O.b.addVectors(V,N),e.generateEdge(O),l[T]=p,o[T]=O.t,r[3*T]=O.n.x,r[3*T+1]=O.n.y,r[3*T+2]=O.n.z,++T);L[I]=T}return{edgeData:M,lengths:L}}function re(e,t,a){var n,i,l,o,s=ne(e),r=!1;if(e.type===ka.DENSITY_FUNCTION?le(e,t,s):t.empty?e.type===ka.UNION&&(t.set(a),r=!0):!(t.full&&e.type===ka.UNION)&&ie(e,t,a,s),!r&&!t.empty&&!t.full){for(n=e.type===ka.DENSITY_FUNCTION?se(e,t,s):oe(e,t,a),i=n.edgeData,l=n.lengths,o=0;3>o;++o)i.indices[o]=i.indices[o].slice(0,l[o]),i.zeroCrossings[o]=i.zeroCrossings[o].slice(0,l[o]),i.normals[o]=i.normals[o].slice(0,3*l[o]);t.edgeData=i}}function de(e){var t,a,n,o,s=e.children;for(e.type===ka.DENSITY_FUNCTION&&(t=new Ot,re(e,t)),n=0,o=s.length;n<o&&(a=de(s[n]),void 0===t?t=a:null===a?e.type===ka.INTERSECTION&&(t=null):null===t?e.type===ka.UNION&&(t=a):re(e,t,a),null!==t||e.type===ka.UNION);++n);return null!==t&&t.empty?null:t}function ye(e){var t=document.createElementNS(\"http://www.w3.org/1999/xhtml\",\"canvas\"),a=t.getContext(\"2d\");return t.width=e.width,t.height=e.height,a.drawImage(e,0,0),a.getImageData(0,0,e.width,e.height)}var Ce=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:null;e(this,t),this.runLengths=a,this.data=n}return n(t,null,[{key:\"encode\",value:function(e){var a,n,o=[],s=[],r=e[0],d=1;for(a=1,n=e.length;a<n;++a)r===e[a]?++d:(o.push(d),s.push(r),r=e[a],d=1);return o.push(d),s.push(r),new t(o,s)}},{key:\"decode\",value:function(e,t){var a,n,l,o,s,r=2<arguments.length&&void 0!==arguments[2]?arguments[2]:[],d=0;for(n=0,o=t.length;n<o;++n)for(a=t[n],l=0,s=e[n];l<s;++l)r[d++]=a;return r}}]),t}(),Pe=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0;e(this,t),this.x=a,this.y=n,this.z=i}return n(t,[{key:\"set\",value:function(e,t,a){return this.x=e,this.y=t,this.z=a,this}},{key:\"copy\",value:function(e){return this.x=e.x,this.y=e.y,this.z=e.z,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z)}},{key:\"fromArray\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return this.x=e[t],this.y=e[t+1],this.z=e[t+2],this}},{key:\"toArray\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return e[t]=this.x,e[t+1]=this.y,e[t+2]=this.z,e}},{key:\"setFromSpherical\",value:function(e){this.setFromSphericalCoords(e.radius,e.phi,e.theta)}},{key:\"setFromSphericalCoords\",value:function(e,t,a){var n=ze(t)*e;return this.x=n*ze(a),this.y=he(t)*e,this.z=n*he(a),this}},{key:\"setFromCylindrical\",value:function(e){this.setFromCylindricalCoords(e.radius,e.theta,e.y)}},{key:\"setFromCylindricalCoords\",value:function(e,t,a){return this.x=e*ze(t),this.y=a,this.z=e*he(t),this}},{key:\"setFromMatrixColumn\",value:function(e,t){return this.fromArray(e.elements,4*t)}},{key:\"setFromMatrixPosition\",value:function(e){var t=e.elements;return this.x=t[12],this.y=t[13],this.z=t[14],this}},{key:\"setFromMatrixScale\",value:function(e){var t=this.setFromMatrixColumn(e,0).length(),a=this.setFromMatrixColumn(e,1).length(),n=this.setFromMatrixColumn(e,2).length();return this.x=t,this.y=a,this.z=n,this}},{key:\"add\",value:function(e){return this.x+=e.x,this.y+=e.y,this.z+=e.z,this}},{key:\"addScalar\",value:function(e){return this.x+=e,this.y+=e,this.z+=e,this}},{key:\"addVectors\",value:function(e,t){return this.x=e.x+t.x,this.y=e.y+t.y,this.z=e.z+t.z,this}},{key:\"addScaledVector\",value:function(e,t){return this.x+=e.x*t,this.y+=e.y*t,this.z+=e.z*t,this}},{key:\"sub\",value:function(e){return this.x-=e.x,this.y-=e.y,this.z-=e.z,this}},{key:\"subScalar\",value:function(e){return this.x-=e,this.y-=e,this.z-=e,this}},{key:\"subVectors\",value:function(e,t){return this.x=e.x-t.x,this.y=e.y-t.y,this.z=e.z-t.z,this}},{key:\"multiply\",value:function(e){return this.x*=e.x,this.y*=e.y,this.z*=e.z,this}},{key:\"multiplyScalar\",value:function(e){return this.x*=e,this.y*=e,this.z*=e,this}},{key:\"multiplyVectors\",value:function(e,t){return this.x=e.x*t.x,this.y=e.y*t.y,this.z=e.z*t.z,this}},{key:\"divide\",value:function(e){return this.x/=e.x,this.y/=e.y,this.z/=e.z,this}},{key:\"divideScalar\",value:function(e){return this.x/=e,this.y/=e,this.z/=e,this}},{key:\"crossVectors\",value:function(e,t){var a=e.x,n=e.y,i=e.z,l=t.x,o=t.y,s=t.z;return this.x=n*s-i*o,this.y=i*l-a*s,this.z=a*o-n*l,this}},{key:\"cross\",value:function(e){return this.crossVectors(this,e)}},{key:\"transformDirection\",value:function(t){var a=this.x,n=this.y,i=this.z,l=t.elements;return this.x=l[0]*a+l[4]*n+l[8]*i,this.y=l[1]*a+l[5]*n+l[9]*i,this.z=l[2]*a+l[6]*n+l[10]*i,this.normalize()}},{key:\"applyMatrix3\",value:function(t){var a=this.x,n=this.y,i=this.z,l=t.elements;return this.x=l[0]*a+l[3]*n+l[6]*i,this.y=l[1]*a+l[4]*n+l[7]*i,this.z=l[2]*a+l[5]*n+l[8]*i,this}},{key:\"applyMatrix4\",value:function(t){var a=this.x,n=this.y,i=this.z,l=t.elements;return this.x=l[0]*a+l[4]*n+l[8]*i+l[12],this.y=l[1]*a+l[5]*n+l[9]*i+l[13],this.z=l[2]*a+l[6]*n+l[10]*i+l[14],this}},{key:\"applyQuaternion\",value:function(e){var t=this.x,a=this.y,n=this.z,i=e.x,l=e.y,o=e.z,s=e.w,r=s*t+l*n-o*a,d=s*a+o*t-i*n,y=s*n+i*a-l*t,u=-i*t-l*a-o*n;return this.x=r*s+u*-i+d*-o-y*-l,this.y=d*s+u*-l+y*-i-r*-o,this.z=y*s+u*-o+r*-l-d*-i,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this}},{key:\"dot\",value:function(e){return this.x*e.x+this.y*e.y+this.z*e.z}},{key:\"reflect\",value:function(e){var t=e.x,a=e.y,n=e.z;return this.sub(e.multiplyScalar(2*this.dot(e))),e.set(t,a,n),this}},{key:\"angleTo\",value:function(e){var t=this.dot(e)/ke(this.lengthSquared()*e.lengthSquared());return ge(Ie(Te(t,-1),1))}},{key:\"manhattanLength\",value:function(){return we(this.x)+we(this.y)+we(this.z)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z}},{key:\"length\",value:function(){return ke(this.x*this.x+this.y*this.y+this.z*this.z)}},{key:\"manhattanDistanceTo\",value:function(e){return we(this.x-e.x)+we(this.y-e.y)+we(this.z-e.z)}},{key:\"distanceToSquared\",value:function(e){var t=this.x-e.x,a=this.y-e.y,n=this.z-e.z;return t*t+a*a+n*n}},{key:\"distanceTo\",value:function(e){return ke(this.distanceToSquared(e))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(e){return this.normalize().multiplyScalar(e)}},{key:\"min\",value:function(e){return this.x=Ie(this.x,e.x),this.y=Ie(this.y,e.y),this.z=Ie(this.z,e.z),this}},{key:\"max\",value:function(e){return this.x=Te(this.x,e.x),this.y=Te(this.y,e.y),this.z=Te(this.z,e.z),this}},{key:\"clamp\",value:function(e,t){return this.x=Te(e.x,Ie(t.x,this.x)),this.y=Te(e.y,Ie(t.y,this.y)),this.z=Te(e.z,Ie(t.z,this.z)),this}},{key:\"floor\",value:function(){return this.x=fe(this.x),this.y=fe(this.y),this.z=fe(this.z),this}},{key:\"ceil\",value:function(){return this.x=Se(this.x),this.y=Se(this.y),this.z=Se(this.z),this}},{key:\"round\",value:function(){return this.x=ve(this.x),this.y=ve(this.y),this.z=ve(this.z),this}},{key:\"lerp\",value:function(e,t){return this.x+=(e.x-this.x)*t,this.y+=(e.y-this.y)*t,this.z+=(e.z-this.z)*t,this}},{key:\"lerpVectors\",value:function(e,t,a){return this.subVectors(t,e).multiplyScalar(a).add(e)}},{key:\"equals\",value:function(e){return e.x===this.x&&e.y===this.y&&e.z===this.z}}]),t}(),be=new Pe,o=[new Pe,new Pe,new Pe,new Pe,new Pe,new Pe,new Pe,new Pe],v=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe(1/0,1/0,1/0),n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe(-Infinity,-Infinity,-Infinity);e(this,t),this.min=a,this.max=n}return n(t,[{key:\"set\",value:function(e,t){return this.min.copy(e),this.max.copy(t),this}},{key:\"copy\",value:function(e){return this.min.copy(e.min),this.max.copy(e.max),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=this.min.z=1/0,this.max.x=this.max.y=this.max.z=-Infinity,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y||this.max.z<this.min.z}},{key:\"getCenter\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return this.isEmpty()?e.set(0,0,0):e.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return this.isEmpty()?e.set(0,0,0):e.subVectors(this.max,this.min)}},{key:\"setFromSphere\",value:function(e){return this.set(e.center,e.center),this.expandByScalar(e.radius),this}},{key:\"expandByPoint\",value:function(e){return this.min.min(e),this.max.max(e),this}},{key:\"expandByVector\",value:function(e){return this.min.sub(e),this.max.add(e),this}},{key:\"expandByScalar\",value:function(e){return this.min.addScalar(-e),this.max.addScalar(e),this}},{key:\"setFromPoints\",value:function(e){var t,a;for(this.min.set(0,0,0),this.max.set(0,0,0),(t=0,a=e.length);t<a;++t)this.expandByPoint(e[t]);return this}},{key:\"setFromCenterAndSize\",value:function(e,t){var a=be.copy(t).multiplyScalar(.5);return this.min.copy(e).sub(a),this.max.copy(e).add(a),this}},{key:\"clampPoint\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;return t.copy(e).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(e){var t=be.copy(e).clamp(this.min,this.max);return t.sub(e).length()}},{key:\"applyMatrix4\",value:function(e){var t=this.min,a=this.max;return this.isEmpty()||(o[0].set(t.x,t.y,t.z).applyMatrix4(e),o[1].set(t.x,t.y,a.z).applyMatrix4(e),o[2].set(t.x,a.y,t.z).applyMatrix4(e),o[3].set(t.x,a.y,a.z).applyMatrix4(e),o[4].set(a.x,t.y,t.z).applyMatrix4(e),o[5].set(a.x,t.y,a.z).applyMatrix4(e),o[6].set(a.x,a.y,t.z).applyMatrix4(e),o[7].set(a.x,a.y,a.z).applyMatrix4(e),this.setFromPoints(o)),this}},{key:\"translate\",value:function(e){return this.min.add(e),this.max.add(e),this}},{key:\"intersect\",value:function(e){return this.min.max(e.min),this.max.min(e.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(e){return this.min.min(e.min),this.max.max(e.max),this}},{key:\"containsPoint\",value:function(e){var t=this.min,a=this.max;return e.x>=t.x&&e.y>=t.y&&e.z>=t.z&&e.x<=a.x&&e.y<=a.y&&e.z<=a.z}},{key:\"containsBox\",value:function(e){var t=this.min,a=this.max,n=e.min,i=e.max;return t.x<=n.x&&i.x<=a.x&&t.y<=n.y&&i.y<=a.y&&t.z<=n.z&&i.z<=a.z}},{key:\"intersectsBox\",value:function(e){var t=this.min,a=this.max,n=e.min,i=e.max;return i.x>=t.x&&i.y>=t.y&&i.z>=t.z&&n.x<=a.x&&n.y<=a.y&&n.z<=a.z}},{key:\"intersectsSphere\",value:function(e){var t=this.clampPoint(e.center,be);return t.distanceToSquared(e.center)<=e.radius*e.radius}},{key:\"intersectsPlane\",value:function(e){var t,a;return 0<e.normal.x?(t=e.normal.x*this.min.x,a=e.normal.x*this.max.x):(t=e.normal.x*this.max.x,a=e.normal.x*this.min.x),0<e.normal.y?(t+=e.normal.y*this.min.y,a+=e.normal.y*this.max.y):(t+=e.normal.y*this.max.y,a+=e.normal.y*this.min.y),0<e.normal.z?(t+=e.normal.z*this.min.z,a+=e.normal.z*this.max.z):(t+=e.normal.z*this.max.z,a+=e.normal.z*this.min.z),t<=-e.constant&&a>=-e.constant}},{key:\"equals\",value:function(e){return e.min.equals(this.min)&&e.max.equals(this.max)}}]),t}(),Ee=new v,De=new Pe,Fe=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;e(this,t),this.center=a,this.radius=n}return n(t,[{key:\"set\",value:function(e,t){return this.center.copy(e),this.radius=t,this}},{key:\"copy\",value:function(e){return this.center.copy(e.center),this.radius=e.radius,this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"setFromPoints\",value:function(e){var t,a,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:Ee.setFromPoints(e).getCenter(this.center),o=0;for(t=0,a=e.length;t<a;++t)o=Te(o,n.distanceToSquared(e[t]));return this.radius=ke(o),this}},{key:\"setFromBox\",value:function(e){return e.getCenter(this.center),this.radius=.5*e.getSize(De).length(),this}},{key:\"isEmpty\",value:function(){return 0>=this.radius}},{key:\"translate\",value:function(e){return this.center.add(e),this}},{key:\"clampPoint\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,a=this.center.distanceToSquared(e);return t.copy(e),a>this.radius*this.radius&&(t.sub(this.center).normalize(),t.multiplyScalar(this.radius).add(this.center)),t}},{key:\"distanceToPoint\",value:function(e){return e.distanceTo(this.center)-this.radius}},{key:\"containsPoint\",value:function(e){return e.distanceToSquared(this.center)<=this.radius*this.radius}},{key:\"intersectsSphere\",value:function(e){var t=this.radius+e.radius;return e.center.distanceToSquared(this.center)<=t*t}},{key:\"intersectsBox\",value:function(e){return e.intersectsSphere(this)}},{key:\"intersectsPlane\",value:function(e){return we(e.distanceToPoint(this.center))<=this.radius}},{key:\"equals\",value:function(e){return e.center.equals(this.center)&&e.radius===this.radius}}]),t}(),qe=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;e(this,t),this.x=a,this.y=n}return n(t,[{key:\"set\",value:function(e,t){return this.x=e,this.y=t,this}},{key:\"copy\",value:function(e){return this.x=e.x,this.y=e.y,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y)}},{key:\"fromArray\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return this.x=e[t],this.y=e[t+1],this}},{key:\"toArray\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return e[t]=this.x,e[t+1]=this.y,e}},{key:\"add\",value:function(e){return this.x+=e.x,this.y+=e.y,this}},{key:\"addScalar\",value:function(e){return this.x+=e,this.y+=e,this}},{key:\"addVectors\",value:function(e,t){return this.x=e.x+t.x,this.y=e.y+t.y,this}},{key:\"addScaledVector\",value:function(e,t){return this.x+=e.x*t,this.y+=e.y*t,this}},{key:\"sub\",value:function(e){return this.x-=e.x,this.y-=e.y,this}},{key:\"subScalar\",value:function(e){return this.x-=e,this.y-=e,this}},{key:\"subVectors\",value:function(e,t){return this.x=e.x-t.x,this.y=e.y-t.y,this}},{key:\"multiply\",value:function(e){return this.x*=e.x,this.y*=e.y,this}},{key:\"multiplyScalar\",value:function(e){return this.x*=e,this.y*=e,this}},{key:\"divide\",value:function(e){return this.x/=e.x,this.y/=e.y,this}},{key:\"divideScalar\",value:function(e){return this.x/=e,this.y/=e,this}},{key:\"applyMatrix3\",value:function(t){var a=this.x,n=this.y,i=t.elements;return this.x=i[0]*a+i[3]*n+i[6],this.y=i[1]*a+i[4]*n+i[7],this}},{key:\"dot\",value:function(e){return this.x*e.x+this.y*e.y}},{key:\"cross\",value:function(e){return this.x*e.y-this.y*e.x}},{key:\"manhattanLength\",value:function(){return we(this.x)+we(this.y)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y}},{key:\"length\",value:function(){return ke(this.x*this.x+this.y*this.y)}},{key:\"manhattanDistanceTo\",value:function(e){return we(this.x-e.x)+we(this.y-e.y)}},{key:\"distanceToSquared\",value:function(e){var t=this.x-e.x,a=this.y-e.y;return t*t+a*a}},{key:\"distanceTo\",value:function(e){return ke(this.distanceToSquared(e))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(e){return this.normalize().multiplyScalar(e)}},{key:\"min\",value:function(e){return this.x=Ie(this.x,e.x),this.y=Ie(this.y,e.y),this}},{key:\"max\",value:function(e){return this.x=Te(this.x,e.x),this.y=Te(this.y,e.y),this}},{key:\"clamp\",value:function(e,t){return this.x=Te(e.x,Ie(t.x,this.x)),this.y=Te(e.y,Ie(t.y,this.y)),this}},{key:\"floor\",value:function(){return this.x=fe(this.x),this.y=fe(this.y),this}},{key:\"ceil\",value:function(){return this.x=Se(this.x),this.y=Se(this.y),this}},{key:\"round\",value:function(){return this.x=ve(this.x),this.y=ve(this.y),this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this}},{key:\"angle\",value:function e(){var e=pe(this.y,this.x);return 0>e&&(e+=2*xe),e}},{key:\"lerp\",value:function(e,t){return this.x+=(e.x-this.x)*t,this.y+=(e.y-this.y)*t,this}},{key:\"lerpVectors\",value:function(e,t,a){return this.subVectors(t,e).multiplyScalar(a).add(e)}},{key:\"rotateAround\",value:function(e,t){var a=he(t),n=ze(t),i=this.x-e.x,l=this.y-e.y;return this.x=i*a-l*n+e.x,this.y=i*n+l*a+e.y,this}},{key:\"equals\",value:function(e){return e.x===this.x&&e.y===this.y}},{key:\"width\",get:function(){return this.x},set:function(e){return this.x=e}},{key:\"height\",get:function(){return this.y},set:function(e){return this.y=e}}]),t}(),Ae=new qe,Ve=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new qe(1/0,1/0),n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new qe(-Infinity,-Infinity);e(this,t),this.min=a,this.max=n}return n(t,[{key:\"set\",value:function(e,t){return this.min.copy(e),this.max.copy(t),this}},{key:\"copy\",value:function(e){return this.min.copy(e.min),this.max.copy(e.max),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"makeEmpty\",value:function(){return this.min.x=this.min.y=1/0,this.max.x=this.max.y=-Infinity,this}},{key:\"isEmpty\",value:function(){return this.max.x<this.min.x||this.max.y<this.min.y}},{key:\"getCenter\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new qe;return this.isEmpty()?e.set(0,0):e.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getSize\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new qe;return this.isEmpty()?e.set(0,0):e.subVectors(this.max,this.min)}},{key:\"getBoundingSphere\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Fe;return this.getCenter(e.center),e.radius=.5*this.getSize(Ae).length(),e}},{key:\"expandByPoint\",value:function(e){return this.min.min(e),this.max.max(e),this}},{key:\"expandByVector\",value:function(e){return this.min.sub(e),this.max.add(e),this}},{key:\"expandByScalar\",value:function(e){return this.min.addScalar(-e),this.max.addScalar(e),this}},{key:\"setFromPoints\",value:function(e){var t,a;for(this.min.set(0,0),this.max.set(0,0),(t=0,a=e.length);t<a;++t)this.expandByPoint(e[t]);return this}},{key:\"setFromCenterAndSize\",value:function(e,t){var a=Ae.copy(t).multiplyScalar(.5);return this.min.copy(e).sub(a),this.max.copy(e).add(a),this}},{key:\"clampPoint\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new qe;return t.copy(e).clamp(this.min,this.max)}},{key:\"distanceToPoint\",value:function(e){var t=Ae.copy(e).clamp(this.min,this.max);return t.sub(e).length()}},{key:\"translate\",value:function(e){return this.min.add(e),this.max.add(e),this}},{key:\"intersect\",value:function(e){return this.min.max(e.min),this.max.min(e.max),this.isEmpty()&&this.makeEmpty(),this}},{key:\"union\",value:function(e){return this.min.min(e.min),this.max.max(e.max),this}},{key:\"containsPoint\",value:function(e){var t=this.min,a=this.max;return e.x>=t.x&&e.y>=t.y&&e.x<=a.x&&e.y<=a.y}},{key:\"containsBox\",value:function(e){var t=this.min,a=this.max,n=e.min,i=e.max;return t.x<=n.x&&i.x<=a.x&&t.y<=n.y&&i.y<=a.y}},{key:\"intersectsBox\",value:function(e){var t=this.min,a=this.max,n=e.min,i=e.max;return i.x>=t.x&&i.y>=t.y&&n.x<=a.x&&n.y<=a.y}},{key:\"equals\",value:function(e){return e.min.equals(this.min)&&e.max.equals(this.max)}}]),t}(),Be=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:1,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0;e(this,t),this.radius=a,this.theta=n,this.y=i}return n(t,[{key:\"set\",value:function(e,t,a){return this.radius=e,this.theta=t,this.y=a,this}},{key:\"copy\",value:function(e){return this.radius=e.radius,this.theta=e.theta,this.y=e.y,this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"setFromVector3\",value:function(e){return this.setFromCartesianCoords(e.x,e.y,e.z)}},{key:\"setFromCartesianCoords\",value:function(e,t,a){return this.radius=ke(e*e+a*a),this.theta=pe(e,a),this.y=t,this}}]),t}(),Ne=function(){function t(){e(this,t),this.elements=new Float32Array([1,0,0,0,1,0,0,0,1])}return n(t,[{key:\"set\",value:function(e,t,a,n,i,l,o,s,r){var d=this.elements;return d[0]=e,d[3]=t,d[6]=a,d[1]=n,d[4]=i,d[7]=l,d[2]=o,d[5]=s,d[8]=r,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,1,0,0,0,1),this}},{key:\"copy\",value:function(e){var t=e.elements,a=this.elements;return a[0]=t[0],a[1]=t[1],a[2]=t[2],a[3]=t[3],a[4]=t[4],a[5]=t[5],a[6]=t[6],a[7]=t[7],a[8]=t[8],this}},{key:\"clone\",value:function(){return new this.constructor().fromArray(this.elements)}},{key:\"fromArray\",value:function(e){var t,a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,n=this.elements;for(t=0;9>t;++t)n[t]=e[t+a];return this}},{key:\"toArray\",value:function(){var e,t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,n=this.elements;for(e=0;9>e;++e)t[e+a]=n[e];return t}},{key:\"multiplyMatrices\",value:function(e,t){var a=e.elements,n=t.elements,i=this.elements,l=a[0],o=a[3],s=a[6],r=a[1],d=a[4],y=a[7],u=a[2],c=a[5],m=a[8],x=n[0],p=n[3],v=n[6],g=n[1],k=n[4],h=n[7],z=n[2],f=n[5],S=n[8];return i[0]=l*x+o*g+s*z,i[3]=l*p+o*k+s*f,i[6]=l*v+o*h+s*S,i[1]=r*x+d*g+y*z,i[4]=r*p+d*k+y*f,i[7]=r*v+d*h+y*S,i[2]=u*x+c*g+m*z,i[5]=u*p+c*k+m*f,i[8]=u*v+c*h+m*S,this}},{key:\"multiply\",value:function(e){return this.multiplyMatrices(this,e)}},{key:\"premultiply\",value:function(e){return this.multiplyMatrices(e,this)}},{key:\"multiplyScalar\",value:function(e){var t=this.elements;return t[0]*=e,t[3]*=e,t[6]*=e,t[1]*=e,t[4]*=e,t[7]*=e,t[2]*=e,t[5]*=e,t[8]*=e,this}},{key:\"determinant\",value:function(){var t=this.elements,n=t[0],a=t[1],l=t[2],o=t[3],s=t[4],e=t[5],r=t[6],d=t[7],y=t[8];return n*s*y-n*e*d-a*o*y+a*e*r+l*o*d-l*s*r}},{key:\"getInverse\",value:function(e){var t,a=e.elements,n=this.elements,i=a[0],l=a[1],o=a[2],s=a[3],r=a[4],d=a[5],y=a[6],u=a[7],c=a[8],m=c*r-d*u,x=d*y-c*s,p=u*s-r*y,v=i*m+l*x+o*p;return 0===v?(console.error(\"Can't invert matrix, determinant is zero\",e),this.identity()):(t=1/v,n[0]=m*t,n[1]=(o*u-c*l)*t,n[2]=(d*l-o*r)*t,n[3]=x*t,n[4]=(c*i-o*y)*t,n[5]=(o*s-d*i)*t,n[6]=p*t,n[7]=(l*y-u*i)*t,n[8]=(r*i-l*s)*t),this}},{key:\"transpose\",value:function(){var e,a=this.elements;return e=a[1],a[1]=a[3],a[3]=e,e=a[2],a[2]=a[6],a[6]=e,e=a[5],a[5]=a[7],a[7]=e,this}},{key:\"scale\",value:function(e,t){var a=this.elements;return a[0]*=e,a[3]*=e,a[6]*=e,a[1]*=t,a[4]*=t,a[7]*=t,this}},{key:\"rotate\",value:function(e){var t=he(e),a=ze(e),n=this.elements,i=n[0],l=n[3],o=n[6],s=n[1],r=n[4],d=n[7];return n[0]=t*i+a*s,n[3]=t*l+a*r,n[6]=t*o+a*d,n[1]=-a*i+t*s,n[4]=-a*l+t*r,n[7]=-a*o+t*d,this}},{key:\"translate\",value:function(e,t){var a=this.elements;return a[0]+=e*a[2],a[3]+=e*a[5],a[6]+=e*a[8],a[1]+=t*a[2],a[4]+=t*a[5],a[7]+=t*a[8],this}},{key:\"equals\",value:function(e){var t,a=this.elements,n=e.elements,l=!0;for(t=0;l&&9>t;++t)a[t]!==n[t]&&(l=!1);return l}}]),t}(),Oe={XYZ:\"XYZ\",YZX:\"YZX\",ZXY:\"ZXY\",XZY:\"XZY\",YXZ:\"YXZ\",ZYX:\"ZYX\"},Le=new Pe,Me=function(){var a=Number.EPSILON;function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0,l=3<arguments.length&&void 0!==arguments[3]?arguments[3]:0;e(this,t),this.x=a,this.y=n,this.z=i,this.w=l}return n(t,[{key:\"set\",value:function(e,t,a,n){return this.x=e,this.y=t,this.z=a,this.w=n,this}},{key:\"copy\",value:function(e){return this.x=e.x,this.y=e.y,this.z=e.z,this.w=e.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return this.x=e[t],this.y=e[t+1],this.z=e[t+2],this.w=e[t+3],this}},{key:\"toArray\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return e[t]=this.x,e[t+1]=this.y,e[t+2]=this.z,e[t+3]=this.w,e}},{key:\"setFromEuler\",value:function(e){var t=e.x,a=e.y,n=e.z,i=he,l=ze,o=i(t/2),s=i(a/2),r=i(n/2),d=l(t/2),y=l(a/2),u=l(n/2);switch(e.order){case Oe.XYZ:this.x=d*s*r+o*y*u,this.y=o*y*r-d*s*u,this.z=o*s*u+d*y*r,this.w=o*s*r-d*y*u;break;case Oe.YXZ:this.x=d*s*r+o*y*u,this.y=o*y*r-d*s*u,this.z=o*s*u-d*y*r,this.w=o*s*r+d*y*u;break;case Oe.ZXY:this.x=d*s*r-o*y*u,this.y=o*y*r+d*s*u,this.z=o*s*u+d*y*r,this.w=o*s*r-d*y*u;break;case Oe.ZYX:this.x=d*s*r-o*y*u,this.y=o*y*r+d*s*u,this.z=o*s*u-d*y*r,this.w=o*s*r+d*y*u;break;case Oe.YZX:this.x=d*s*r+o*y*u,this.y=o*y*r+d*s*u,this.z=o*s*u-d*y*r,this.w=o*s*r-d*y*u;break;case Oe.XZY:this.x=d*s*r-o*y*u,this.y=o*y*r-d*s*u,this.z=o*s*u+d*y*r,this.w=o*s*r+d*y*u;}return this}},{key:\"setFromAxisAngle\",value:function(e,t){var a=t/2,n=ze(a);return this.x=e.x*n,this.y=e.y*n,this.z=e.z*n,this.w=he(a),this}},{key:\"setFromRotationMatrix\",value:function(e){var t,a=e.elements,n=a[0],i=a[4],l=a[8],o=a[1],r=a[5],d=a[9],y=a[2],u=a[6],c=a[10],m=n+r+c;return 0<m?(t=.5/ke(m+1),this.w=.25/t,this.x=(u-d)*t,this.y=(l-y)*t,this.z=(o-i)*t):n>r&&n>c?(t=2*ke(1+n-r-c),this.w=(u-d)/t,this.x=.25*t,this.y=(i+o)/t,this.z=(l+y)/t):r>c?(t=2*ke(1+r-n-c),this.w=(l-y)/t,this.x=(i+o)/t,this.y=.25*t,this.z=(d+u)/t):(t=2*ke(1+c-n-r),this.w=(o-i)/t,this.x=(l+y)/t,this.y=(d+u)/t,this.z=.25*t),this}},{key:\"setFromUnitVectors\",value:function(e,t){var a=e.dot(t)+1;return 1e-6>a?(a=0,we(e.x)>we(e.z)?Le.set(-e.y,e.x,0):Le.set(0,-e.z,e.y)):Le.crossVectors(e,t),this.x=Le.x,this.y=Le.y,this.z=Le.z,this.w=a,this.normalize()}},{key:\"angleTo\",value:function(e){return 2*ge(we(Ie(Te(this.dot(e),-1),1)))}},{key:\"rotateTowards\",value:function(e,t){var a=this.angleTo(e);return 0!==a&&this.slerp(e,Ie(1,t/a)),this}},{key:\"invert\",value:function(){return this.conjugate()}},{key:\"conjugate\",value:function(){return this.x*=-1,this.y*=-1,this.z*=-1,this}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return ke(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"normalize\",value:function(){var e,t=this.length();return 0===t?(this.x=0,this.y=0,this.z=0,this.w=1):(e=1/t,this.x*=e,this.y*=e,this.z*=e,this.w*=e),this}},{key:\"dot\",value:function(e){return this.x*e.x+this.y*e.y+this.z*e.z+this.w*e.w}},{key:\"multiplyQuaternions\",value:function(e,t){var a=e.x,n=e.y,i=e.z,l=e.w,o=t.x,s=t.y,r=t.z,d=t.w;return this.x=a*d+l*o+n*r-i*s,this.y=n*d+l*s+i*o-a*r,this.z=i*d+l*r+a*s-n*o,this.w=l*d-a*o-n*s-i*r,this}},{key:\"multiply\",value:function(e){return this.multiplyQuaternions(this,e)}},{key:\"premultiply\",value:function(e){return this.multiplyQuaternions(e,this)}},{key:\"slerp\",value:function(e,n){var t,i,l,o,r,d,u,c=this.x,m=this.y,y=this.z,x=this.w;return 1===n?this.copy(e):0<n&&(t=x*e.w+c*e.x+m*e.y+y*e.z,0>t?(this.w=-e.w,this.x=-e.x,this.y=-e.y,this.z=-e.z,t=-t):this.copy(e),1<=t?(this.w=x,this.x=c,this.y=m,this.z=y):(i=1-t*t,r=1-n,i<=a?(this.w=r*x+n*this.w,this.x=r*c+n*this.x,this.y=r*m+n*this.y,this.z=r*y+n*this.z,this.normalize()):(l=ke(i),o=pe(l,t),d=ze(r*o)/l,u=ze(n*o)/l,this.w=x*d+this.w*u,this.x=c*d+this.x*u,this.y=m*d+this.y*u,this.z=y*d+this.z*u))),this}},{key:\"equals\",value:function(e){return e.x===this.x&&e.y===this.y&&e.z===this.z&&e.w===this.w}}],[{key:\"slerp\",value:function(e,a,n,i){return n.copy(e).slerp(a,i)}},{key:\"slerpFlat\",value:function(e,n,i,l,o,r,d){var y,u,c,m,x,p,v,g,k=o[r],h=o[r+1],z=o[r+2],S=o[r+3],w=i[l],T=i[l+1],I=i[l+2],C=i[l+3];(C!==S||w!==k||T!==h||I!==z)&&(y=1-d,m=w*k+T*h+I*z+C*S,p=0<=m?1:-1,x=1-m*m,x>a&&(c=ke(x),v=pe(c,m*p),y=ze(y*v)/c,d=ze(d*v)/c),g=d*p,w=w*y+k*g,T=T*y+h*g,I=I*y+z*g,C=C*y+S*g,y===1-d&&(u=1/ke(w*w+T*T+I*I+C*C),w*=u,T*=u,I*=u,C*=u)),e[n]=w,e[n+1]=T,e[n+2]=I,e[n+3]=C}}]),t}(),Re=new Ne,m=new Me,q=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0;e(this,t),this.x=a,this.y=n,this.z=i,this.order=t.defaultOrder}return n(t,[{key:\"set\",value:function(e,t,a,n){return this.x=e,this.y=t,this.z=a,this.order=n,this}},{key:\"copy\",value:function(t){return this.x=t.x,this.y=t.y,this.z=t.z,this.order=t.order,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.order)}},{key:\"fromArray\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return this.x=e[t],this.y=e[t+1],this.z=e[t+2],this.order=e[t+3],this}},{key:\"toArray\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return e[t]=this.x,e[t+1]=this.y,e[t+2]=this.z,e[t+3]=this.order,e}},{key:\"toVector3\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.set(this.x,this.y,this.z)}},{key:\"setFromRotationMatrix\",value:function(e){var t=Math.asin,a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:this.order,n=e.elements,i=n[0],l=n[4],o=n[8],s=n[1],r=n[5],d=n[9],y=n[2],u=n[6],c=n[10],m=1-1e-5;switch(a){case Oe.XYZ:{this.y=t(P(o,-1,1)),we(o)<m?(this.x=pe(-d,c),this.z=pe(-l,i)):(this.x=pe(u,r),this.z=0);break}case Oe.YXZ:{this.x=t(-P(d,-1,1)),we(d)<m?(this.y=pe(o,c),this.z=pe(s,r)):(this.y=pe(-y,i),this.z=0);break}case Oe.ZXY:{this.x=t(P(u,-1,1)),we(u)<m?(this.y=pe(-y,c),this.z=pe(-l,r)):(this.y=0,this.z=pe(s,i));break}case Oe.ZYX:{this.y=t(-P(y,-1,1)),we(y)<m?(this.x=pe(u,c),this.z=pe(s,i)):(this.x=0,this.z=pe(-l,r));break}case Oe.YZX:{this.z=t(P(s,-1,1)),we(s)<m?(this.x=pe(-d,r),this.y=pe(-y,i)):(this.x=0,this.y=pe(o,c));break}case Oe.XZY:{this.z=t(-P(l,-1,1)),we(l)<m?(this.x=pe(u,r),this.y=pe(o,i)):(this.x=pe(-d,c),this.y=0);break}}return this.order=a,this}},{key:\"setFromQuaternion\",value:function(e,t){return Re.makeRotationFromQuaternion(e),this.setFromRotationMatrix(Re,t)}},{key:\"setFromVector3\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:this.order;return this.set(e.x,e.y,e.z,t)}},{key:\"reorder\",value:function(e){return m.setFromEuler(this),this.setFromQuaternion(m,e)}},{key:\"equals\",value:function(t){return t.x===this.x&&t.y===this.y&&t.z===this.z&&t.order===this.order}}],[{key:\"defaultOrder\",get:function(){return Oe.XYZ}}]),t}(),Ye=new Pe,a=new Pe,b=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe(1,0,0),n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;e(this,t),this.normal=a,this.constant=n}return n(t,[{key:\"set\",value:function(e,t){return this.normal.copy(e),this.constant=t,this}},{key:\"setComponents\",value:function(e,t,a,n){return this.normal.set(e,t,a),this.constant=n,this}},{key:\"copy\",value:function(e){return this.normal.copy(e.normal),this.constant=e.constant,this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"setFromNormalAndCoplanarPoint\",value:function(e,t){return this.normal.copy(e),this.constant=-t.dot(this.normal),this}},{key:\"setFromCoplanarPoints\",value:function(e,t,n){var i=Ye.subVectors(n,t).cross(a.subVectors(e,t)).normalize();return this.setFromNormalAndCoplanarPoint(i,Ye),this}},{key:\"normalize\",value:function(){var e=1/this.normal.length();return this.normal.multiplyScalar(e),this.constant*=e,this}},{key:\"negate\",value:function(){return this.normal.negate(),this.constant=-this.constant,this}},{key:\"distanceToPoint\",value:function(e){return this.normal.dot(e)+this.constant}},{key:\"distanceToSphere\",value:function(e){return this.distanceToPoint(e.center)-e.radius}},{key:\"projectPoint\",value:function(e,t){return t.copy(this.normal).multiplyScalar(-this.distanceToPoint(e)).add(e)}},{key:\"coplanarPoint\",value:function(e){return e.copy(this.normal).multiplyScalar(-this.constant)}},{key:\"translate\",value:function(e){return this.constant-=e.dot(this.normal),this}},{key:\"intersectLine\",value:function(e,a){var n=e.delta(Ye),i=this.normal.dot(n);if(0===i)0===this.distanceToPoint(e.start)&&a.copy(e.start);else{var l=-(e.start.dot(this.normal)+this.constant)/i;0<=l&&1>=l&&a.copy(n).multiplyScalar(l).add(e.start)}return a}},{key:\"intersectsLine\",value:function(e){var t=this.distanceToPoint(e.start),a=this.distanceToPoint(e.end);return 0>t&&0<a||0>a&&0<t}},{key:\"intersectsBox\",value:function(e){return e.intersectsPlane(this)}},{key:\"intersectsSphere\",value:function(e){return e.intersectsPlane(this)}},{key:\"equals\",value:function(e){return e.normal.equals(this.normal)&&e.constant===this.constant}}]),t}(),Xe=new Pe,Ze=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new b,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new b,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:new b,l=3<arguments.length&&void 0!==arguments[3]?arguments[3]:new b,o=4<arguments.length&&void 0!==arguments[4]?arguments[4]:new b,s=5<arguments.length&&void 0!==arguments[5]?arguments[5]:new b;e(this,t),this.planes=[a,n,i,l,o,s]}return n(t,[{key:\"set\",value:function(e,t,a,n,i,l){var o=this.planes;return o[0].copy(e),o[1].copy(t),o[2].copy(a),o[3].copy(n),o[4].copy(i),o[5].copy(l),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"copy\",value:function(e){var t,a=this.planes;for(t=0;6>t;++t)a[t].copy(e.planes[t]);return this}},{key:\"setFromMatrix\",value:function(e){var t=this.planes,a=e.elements,n=a[0],i=a[1],l=a[2],o=a[3],s=a[4],r=a[5],d=a[6],y=a[7],u=a[8],c=a[9],m=a[10],x=a[11],p=a[12],v=a[13],g=a[14],k=a[15];return t[0].setComponents(o-n,y-s,x-u,k-p).normalize(),t[1].setComponents(o+n,y+s,x+u,k+p).normalize(),t[2].setComponents(o+i,y+r,x+c,k+v).normalize(),t[3].setComponents(o-i,y-r,x-c,k-v).normalize(),t[4].setComponents(o-l,y-d,x-m,k-g).normalize(),t[5].setComponents(o+l,y+d,x+m,k+g).normalize(),this}},{key:\"intersectsSphere\",value:function(e){var t,a,n=this.planes,l=e.center,o=-e.radius,s=!0;for(t=0;6>t;++t)if(a=n[t].distanceToPoint(l),a<o){s=!1;break}return s}},{key:\"intersectsBox\",value:function(e){var t,a,n=this.planes,l=e.min,o=e.max;for(t=0;6>t;++t)if(a=n[t],Xe.x=0<a.normal.x?o.x:l.x,Xe.y=0<a.normal.y?o.y:l.y,Xe.z=0<a.normal.z?o.z:l.z,0>a.distanceToPoint(Xe))return!1;return!0}},{key:\"containsPoint\",value:function(e){var t,a=this.planes,n=!0;for(t=0;6>t;++t)if(0>a[t].distanceToPoint(e)){n=!1;break}return n}}]),t}(),_e=new Pe,je=new Pe,Ue=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;e(this,t),this.start=a,this.end=n}return n(t,[{key:\"set\",value:function(e,t){return this.start.copy(e),this.end.copy(t),this}},{key:\"copy\",value:function(e){return this.start.copy(e.start),this.end.copy(e.end),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"getCenter\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.addVectors(this.start,this.end).multiplyScalar(.5)}},{key:\"delta\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.subVectors(this.end,this.start)}},{key:\"lengthSquared\",value:function(){return this.start.distanceToSquared(this.end)}},{key:\"length\",value:function(){return this.start.distanceTo(this.end)}},{key:\"at\",value:function(e,t){return this.delta(t).multiplyScalar(e).add(this.start)}},{key:\"closestPointToPointParameter\",value:function(e,a){_e.subVectors(e,this.start),je.subVectors(this.end,this.start);var n=je.dot(je),i=je.dot(_e),l=a?Ie(Te(i/n,0),1):i/n;return l}},{key:\"closestPointToPoint\",value:function(e){var a=!!(1<arguments.length&&void 0!==arguments[1])&&arguments[1],n=2<arguments.length&&void 0!==arguments[2]?arguments[2]:new Pe,i=this.closestPointToPointParameter(e,a);return this.delta(n).multiplyScalar(i).add(this.start)}},{key:\"equals\",value:function(e){return e.start.equals(this.start)&&e.end.equals(this.end)}}]),t}(),Qe=new Pe,Ge=new Pe,He=new Pe,c=function(){function t(){e(this,t),this.elements=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1])}return n(t,[{key:\"set\",value:function(e,t,a,n,i,l,o,s,r,d,y,u,c,m,x,p){var v=this.elements;return v[0]=e,v[4]=t,v[8]=a,v[12]=n,v[1]=i,v[5]=l,v[9]=o,v[13]=s,v[2]=r,v[6]=d,v[10]=y,v[14]=u,v[3]=c,v[7]=m,v[11]=x,v[15]=p,this}},{key:\"identity\",value:function(){return this.set(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),this}},{key:\"copy\",value:function(e){var t=e.elements,a=this.elements;return a[0]=t[0],a[1]=t[1],a[2]=t[2],a[3]=t[3],a[4]=t[4],a[5]=t[5],a[6]=t[6],a[7]=t[7],a[8]=t[8],a[9]=t[9],a[10]=t[10],a[11]=t[11],a[12]=t[12],a[13]=t[13],a[14]=t[14],a[15]=t[15],this}},{key:\"clone\",value:function(){return new this.constructor().fromArray(this.elements)}},{key:\"fromArray\",value:function(e){var t,a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,n=this.elements;for(t=0;16>t;++t)n[t]=e[t+a];return this}},{key:\"toArray\",value:function(){var e,t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,n=this.elements;for(e=0;16>e;++e)t[e+a]=n[e];return t}},{key:\"getMaxScaleOnAxis\",value:function(){var e=this.elements,t=e[0]*e[0]+e[1]*e[1]+e[2]*e[2],a=e[4]*e[4]+e[5]*e[5]+e[6]*e[6],n=e[8]*e[8]+e[9]*e[9]+e[10]*e[10];return ke(Te(t,a,n))}},{key:\"copyPosition\",value:function(e){var t=this.elements,a=e.elements;return t[12]=a[12],t[13]=a[13],t[14]=a[14],this}},{key:\"setPosition\",value:function(e){var t=this.elements;return t[12]=e.x,t[13]=e.y,t[14]=e.z,this}},{key:\"extractBasis\",value:function(e,t,a){return e.setFromMatrixColumn(this,0),t.setFromMatrixColumn(this,1),a.setFromMatrixColumn(this,2),this}},{key:\"makeBasis\",value:function(e,t,a){return this.set(e.x,t.x,a.x,0,e.y,t.y,a.y,0,e.z,t.z,a.z,0,0,0,0,1),this}},{key:\"extractRotation\",value:function(e){var t=this.elements,a=e.elements,n=1/Qe.setFromMatrixColumn(e,0).length(),i=1/Qe.setFromMatrixColumn(e,1).length(),l=1/Qe.setFromMatrixColumn(e,2).length();return t[0]=a[0]*n,t[1]=a[1]*n,t[2]=a[2]*n,t[3]=0,t[4]=a[4]*i,t[5]=a[5]*i,t[6]=a[6]*i,t[7]=0,t[8]=a[8]*l,t[9]=a[9]*l,t[10]=a[10]*l,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,this}},{key:\"makeRotationFromEuler\",value:function(t){var n,i,l,o,s,r,u,m,p,v,g,k,h=this.elements,S=t.x,x=t.y,y=t.z,z=he(S),a=ze(S),w=he(x),c=ze(x),d=he(y),e=ze(y);switch(t.order){case Oe.XYZ:{n=z*d,i=z*e,l=a*d,o=a*e,h[0]=w*d,h[4]=-w*e,h[8]=c,h[1]=i+l*c,h[5]=n-o*c,h[9]=-a*w,h[2]=o-n*c,h[6]=l+i*c,h[10]=z*w;break}case Oe.YXZ:{s=w*d,r=w*e,u=c*d,m=c*e,h[0]=s+m*a,h[4]=u*a-r,h[8]=z*c,h[1]=z*e,h[5]=z*d,h[9]=-a,h[2]=r*a-u,h[6]=m+s*a,h[10]=z*w;break}case Oe.ZXY:{s=w*d,r=w*e,u=c*d,m=c*e,h[0]=s-m*a,h[4]=-z*e,h[8]=u+r*a,h[1]=r+u*a,h[5]=z*d,h[9]=m-s*a,h[2]=-z*c,h[6]=a,h[10]=z*w;break}case Oe.ZYX:{n=z*d,i=z*e,l=a*d,o=a*e,h[0]=w*d,h[4]=l*c-i,h[8]=n*c+o,h[1]=w*e,h[5]=o*c+n,h[9]=i*c-l,h[2]=-c,h[6]=a*w,h[10]=z*w;break}case Oe.YZX:{p=z*w,v=z*c,g=a*w,k=a*c,h[0]=w*d,h[4]=k-p*e,h[8]=g*e+v,h[1]=e,h[5]=z*d,h[9]=-a*d,h[2]=-c*d,h[6]=v*e+g,h[10]=p-k*e;break}case Oe.XZY:{p=z*w,v=z*c,g=a*w,k=a*c,h[0]=w*d,h[4]=-e,h[8]=c*d,h[1]=p*e+k,h[5]=z*d,h[9]=v*e-g,h[2]=g*e-v,h[6]=a*d,h[10]=k*e+p;break}}return h[3]=0,h[7]=0,h[11]=0,h[12]=0,h[13]=0,h[14]=0,h[15]=1,this}},{key:\"makeRotationFromQuaternion\",value:function(e){return this.compose(Qe.set(0,0,0),e,Ge.set(1,1,1))}},{key:\"lookAt\",value:function(e,t,a){var n=this.elements,i=Qe,l=Ge,o=He;return o.subVectors(e,t),0===o.lengthSquared()&&(o.z=1),o.normalize(),i.crossVectors(a,o),0===i.lengthSquared()&&(1===we(a.z)?o.x+=1e-4:o.z+=1e-4,o.normalize(),i.crossVectors(a,o)),i.normalize(),l.crossVectors(o,i),n[0]=i.x,n[4]=l.x,n[8]=o.x,n[1]=i.y,n[5]=l.y,n[9]=o.y,n[2]=i.z,n[6]=l.z,n[10]=o.z,this}},{key:\"multiplyMatrices\",value:function(e,t){var a=this.elements,n=e.elements,i=t.elements,l=n[0],o=n[4],s=n[8],r=n[12],d=n[1],y=n[5],u=n[9],c=n[13],m=n[2],x=n[6],p=n[10],v=n[14],g=n[3],k=n[7],h=n[11],z=n[15],f=i[0],S=i[4],w=i[8],T=i[12],I=i[1],C=i[5],P=i[9],b=i[13],E=i[2],D=i[6],F=i[10],q=i[14],A=i[3],V=i[7],B=i[11],N=i[15];return a[0]=l*f+o*I+s*E+r*A,a[4]=l*S+o*C+s*D+r*V,a[8]=l*w+o*P+s*F+r*B,a[12]=l*T+o*b+s*q+r*N,a[1]=d*f+y*I+u*E+c*A,a[5]=d*S+y*C+u*D+c*V,a[9]=d*w+y*P+u*F+c*B,a[13]=d*T+y*b+u*q+c*N,a[2]=m*f+x*I+p*E+v*A,a[6]=m*S+x*C+p*D+v*V,a[10]=m*w+x*P+p*F+v*B,a[14]=m*T+x*b+p*q+v*N,a[3]=g*f+k*I+h*E+z*A,a[7]=g*S+k*C+h*D+z*V,a[11]=g*w+k*P+h*F+z*B,a[15]=g*T+k*b+h*q+z*N,this}},{key:\"multiply\",value:function(e){return this.multiplyMatrices(this,e)}},{key:\"premultiply\",value:function(e){return this.multiplyMatrices(e,this)}},{key:\"multiplyScalar\",value:function(e){var t=this.elements;return t[0]*=e,t[4]*=e,t[8]*=e,t[12]*=e,t[1]*=e,t[5]*=e,t[9]*=e,t[13]*=e,t[2]*=e,t[6]*=e,t[10]*=e,t[14]*=e,t[3]*=e,t[7]*=e,t[11]*=e,t[15]*=e,this}},{key:\"determinant\",value:function(){var e=this.elements,t=e[0],a=e[4],n=e[8],i=e[12],l=e[1],o=e[5],s=e[9],r=e[13],d=e[2],y=e[6],u=e[10],c=e[14],m=e[3],x=e[7],p=e[11],v=e[15],g=t*o,k=t*s,h=t*r,z=a*l,f=a*s,S=a*r,w=n*l,T=n*o,I=n*r,C=i*l,P=i*o,b=i*s;return m*(b*y-I*y-P*u+S*u+T*c-f*c)+x*(k*c-h*u+C*u-w*c+I*d-b*d)+p*(h*y-g*c-C*y+z*c+P*d-S*d)+v*(-T*d-k*y+g*u+w*y-z*u+f*d)}},{key:\"getInverse\",value:function(e){var t,a=this.elements,n=e.elements,i=n[0],l=n[1],o=n[2],s=n[3],r=n[4],d=n[5],y=n[6],u=n[7],c=n[8],m=n[9],x=n[10],p=n[11],v=n[12],g=n[13],k=n[14],h=n[15],z=m*k*u-g*x*u+g*y*p-d*k*p-m*y*h+d*x*h,f=v*x*u-c*k*u-v*y*p+r*k*p+c*y*h-r*x*h,S=c*g*u-v*m*u+v*d*p-r*g*p-c*d*h+r*m*h,w=v*m*y-c*g*y-v*d*x+r*g*x+c*d*k-r*m*k,T=i*z+l*f+o*S+s*w;return 0===T?(console.error(\"Can't invert matrix, determinant is zero\",e),this.identity()):(t=1/T,a[0]=z*t,a[1]=(g*x*s-m*k*s-g*o*p+l*k*p+m*o*h-l*x*h)*t,a[2]=(d*k*s-g*y*s+g*o*u-l*k*u-d*o*h+l*y*h)*t,a[3]=(m*y*s-d*x*s-m*o*u+l*x*u+d*o*p-l*y*p)*t,a[4]=f*t,a[5]=(c*k*s-v*x*s+v*o*p-i*k*p-c*o*h+i*x*h)*t,a[6]=(v*y*s-r*k*s-v*o*u+i*k*u+r*o*h-i*y*h)*t,a[7]=(r*x*s-c*y*s+c*o*u-i*x*u-r*o*p+i*y*p)*t,a[8]=S*t,a[9]=(v*m*s-c*g*s-v*l*p+i*g*p+c*l*h-i*m*h)*t,a[10]=(r*g*s-v*d*s+v*l*u-i*g*u-r*l*h+i*d*h)*t,a[11]=(c*d*s-r*m*s-c*l*u+i*m*u+r*l*p-i*d*p)*t,a[12]=w*t,a[13]=(c*g*o-v*m*o+v*l*x-i*g*x-c*l*k+i*m*k)*t,a[14]=(v*d*o-r*g*o-v*l*y+i*g*y+r*l*k-i*d*k)*t,a[15]=(r*m*o-c*d*o+c*l*y-i*m*y-r*l*x+i*d*x)*t),this}},{key:\"transpose\",value:function(){var e,a=this.elements;return e=a[1],a[1]=a[4],a[4]=e,e=a[2],a[2]=a[8],a[8]=e,e=a[6],a[6]=a[9],a[9]=e,e=a[3],a[3]=a[12],a[12]=e,e=a[7],a[7]=a[13],a[13]=e,e=a[11],a[11]=a[14],a[14]=e,this}},{key:\"scale\",value:function(e,t,a){var n=this.elements;return n[0]*=e,n[4]*=t,n[8]*=a,n[1]*=e,n[5]*=t,n[9]*=a,n[2]*=e,n[6]*=t,n[10]*=a,n[3]*=e,n[7]*=t,n[11]*=a,this}},{key:\"makeScale\",value:function(e,t,a){return this.set(e,0,0,0,0,t,0,0,0,0,a,0,0,0,0,1),this}},{key:\"makeTranslation\",value:function(e,t,a){return this.set(1,0,0,e,0,1,0,t,0,0,1,a,0,0,0,1),this}},{key:\"makeRotationX\",value:function(e){var t=he(e),a=ze(e);return this.set(1,0,0,0,0,t,-a,0,0,a,t,0,0,0,0,1),this}},{key:\"makeRotationY\",value:function(e){var t=he(e),a=ze(e);return this.set(t,0,a,0,0,1,0,0,-a,0,t,0,0,0,0,1),this}},{key:\"makeRotationZ\",value:function(e){var t=he(e),a=ze(e);return this.set(t,-a,0,0,a,t,0,0,0,0,1,0,0,0,0,1),this}},{key:\"makeRotationAxis\",value:function(e,a){var n=he(a),i=ze(a),l=1-n,t=e.x,o=e.y,s=e.z,r=l*t,d=l*o;return this.set(r*t+n,r*o-i*s,r*s+i*o,0,r*o+i*s,d*o+n,d*s-i*t,0,r*s-i*o,d*s+i*t,l*s*s+n,0,0,0,0,1),this}},{key:\"makeShear\",value:function(e,t,a){return this.set(1,t,a,0,e,1,a,0,e,t,1,0,0,0,0,1),this}},{key:\"compose\",value:function(e,t,a){var n=this.elements,i=t.x,l=t.y,o=t.z,s=t.w,r=i+i,d=l+l,y=o+o,u=i*r,c=i*d,m=i*y,x=l*d,p=l*y,v=o*y,g=s*r,k=s*d,h=s*y,z=a.x,f=a.y,S=a.z;return n[0]=(1-(x+v))*z,n[1]=(c+h)*z,n[2]=(m-k)*z,n[3]=0,n[4]=(c-h)*f,n[5]=(1-(u+v))*f,n[6]=(p+g)*f,n[7]=0,n[8]=(m+k)*S,n[9]=(p-g)*S,n[10]=(1-(u+x))*S,n[11]=0,n[12]=e.x,n[13]=e.y,n[14]=e.z,n[15]=1,this}},{key:\"decompose\",value:function(e,t,a){var n=this.elements,i=n[0],l=n[1],o=n[2],s=n[4],r=n[5],d=n[6],y=n[8],u=n[9],c=n[10],m=this.determinant(),x=Qe.set(i,l,o).length()*(0>m?-1:1),p=Qe.set(s,r,d).length(),v=Qe.set(y,u,c).length(),g=1/x,k=1/p,h=1/v;return e.x=n[12],e.y=n[13],e.z=n[14],n[0]*=g,n[1]*=g,n[2]*=g,n[4]*=k,n[5]*=k,n[6]*=k,n[8]*=h,n[9]*=h,n[10]*=h,t.setFromRotationMatrix(this),n[0]=i,n[1]=l,n[2]=o,n[4]=s,n[5]=r,n[6]=d,n[8]=y,n[9]=u,n[10]=c,a.x=x,a.y=p,a.z=v,this}},{key:\"makePerspective\",value:function(e,t,a,n,i,l){var o=this.elements;return o[0]=2*i/(t-e),o[4]=0,o[8]=(t+e)/(t-e),o[12]=0,o[1]=0,o[5]=2*i/(a-n),o[9]=(a+n)/(a-n),o[13]=0,o[2]=0,o[6]=0,o[10]=-(l+i)/(l-i),o[14]=-2*l*i/(l-i),o[3]=0,o[7]=0,o[11]=-1,o[15]=0,this}},{key:\"makeOrthographic\",value:function(e,t,a,n,i,l){var o=this.elements,s=1/(t-e),r=1/(a-n),d=1/(l-i);return o[0]=2*s,o[4]=0,o[8]=0,o[12]=-((t+e)*s),o[1]=0,o[5]=2*r,o[9]=0,o[13]=-((a+n)*r),o[2]=0,o[6]=0,o[10]=-2*d,o[14]=-((l+i)*d),o[3]=0,o[7]=0,o[11]=0,o[15]=1,this}},{key:\"equals\",value:function(e){var t,a=this.elements,n=e.elements,l=!0;for(t=0;l&&16>t;++t)a[t]!==n[t]&&(l=!1);return l}}]),t}(),Je=[new Pe,new Pe,new Pe,new Pe],Ke=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;e(this,t),this.origin=a,this.direction=n}return n(t,[{key:\"set\",value:function(e,t){return this.origin.copy(e),this.direction.copy(t),this}},{key:\"copy\",value:function(e){return this.origin.copy(e.origin),this.direction.copy(e.direction),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"at\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;return t.copy(this.direction).multiplyScalar(e).add(this.origin)}},{key:\"lookAt\",value:function(e){return this.direction.copy(e).sub(this.origin).normalize(),this}},{key:\"recast\",value:function(e){return this.origin.copy(this.at(e,Je[0])),this}},{key:\"closestPointToPoint\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,a=t.subVectors(e,this.origin).dot(this.direction);return 0<=a?t.copy(this.direction).multiplyScalar(a).add(this.origin):t.copy(this.origin)}},{key:\"distanceSquaredToPoint\",value:function(e){var t=Je[0].subVectors(e,this.origin).dot(this.direction);return 0>t?this.origin.distanceToSquared(e):Je[0].copy(this.direction).multiplyScalar(t).add(this.origin).distanceToSquared(e)}},{key:\"distanceToPoint\",value:function(e){return ke(this.distanceSquaredToPoint(e))}},{key:\"distanceToPlane\",value:function(e){var a=e.normal.dot(this.direction),n=0===a?0===e.distanceToPoint(this.origin)?0:-1:-(this.origin.dot(e.normal)+e.constant)/a;return 0<=n?n:null}},{key:\"distanceSquaredToSegment\",value:function(e,t,a,n){var i,l,o,s,r,d=Je[0].copy(e).add(t).multiplyScalar(.5),y=Je[1].copy(t).sub(e).normalize(),u=Je[2].copy(this.origin).sub(d),m=.5*e.distanceTo(t),x=-this.direction.dot(y),p=u.dot(this.direction),v=-u.dot(y),g=u.lengthSq(),c=we(1-x*x);return 0<c?(i=x*v-p,l=x*p-v,o=m*c,0<=i?l>=-o?l<=o?(s=1/c,i*=s,l*=s,r=i*(i+x*l+2*p)+l*(x*i+l+2*v)+g):(l=m,i=Te(0,-(x*l+p)),r=-i*i+l*(l+2*v)+g):(l=-m,i=Te(0,-(x*l+p)),r=-i*i+l*(l+2*v)+g):l<=-o?(i=Te(0,-(-x*m+p)),l=0<i?-m:Ie(Te(-m,-v),m),r=-i*i+l*(l+2*v)+g):l<=o?(i=0,l=Ie(Te(-m,-v),m),r=l*(l+2*v)+g):(i=Te(0,-(x*m+p)),l=0<i?m:Ie(Te(-m,-v),m),r=-i*i+l*(l+2*v)+g)):(l=0<x?-m:m,i=Te(0,-(x*l+p)),r=-i*i+l*(l+2*v)+g),void 0!==a&&a.copy(this.direction).multiplyScalar(i).add(this.origin),void 0!==n&&n.copy(y).multiplyScalar(l).add(d),r}},{key:\"intersectSphere\",value:function(e){var t,a,n,i=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,l=Je[0].subVectors(e.center,this.origin),o=l.dot(this.direction),s=l.dot(l)-o*o,r=e.radius*e.radius,d=null;return s<=r&&(t=ke(r-s),a=o-t,n=o+t,(0<=a||0<=n)&&(d=0>a?this.at(n,i):this.at(a,i))),d}},{key:\"intersectsSphere\",value:function(e){return this.distanceSqToPoint(e.center)<=e.radius*e.radius}},{key:\"intersectPlane\",value:function(e){var a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,n=this.distanceToPlane(e);return null===n?null:this.at(n,a)}},{key:\"intersectsPlane\",value:function(e){var t=e.distanceToPoint(this.origin);return 0===t||0>e.normal.dot(this.direction)*t}},{key:\"intersectBox\",value:function(e){var t,a,n,i,l,o,s=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,r=this.origin,d=this.direction,y=e.min,u=e.max,c=1/d.x,m=1/d.y,x=1/d.z,p=null;return 0<=c?(t=(y.x-r.x)*c,a=(u.x-r.x)*c):(t=(u.x-r.x)*c,a=(y.x-r.x)*c),0<=m?(n=(y.y-r.y)*m,i=(u.y-r.y)*m):(n=(u.y-r.y)*m,i=(y.y-r.y)*m),t<=i&&n<=a&&((n>t||t!==t)&&(t=n),(i<a||a!==a)&&(a=i),0<=x?(l=(y.z-r.z)*x,o=(u.z-r.z)*x):(l=(u.z-r.z)*x,o=(y.z-r.z)*x),t<=o&&l<=a&&((l>t||t!==t)&&(t=l),(o<a||a!==a)&&(a=o),0<=a&&(p=this.at(0<=t?t:a,s)))),p}},{key:\"intersectsBox\",value:function(e){return null!==this.intersectBox(e,Je[0])}},{key:\"intersectTriangle\",value:function(e,t,a,n,i){var l,o,s,r,d,y=this.direction,u=Je[0],c=Je[1],m=Je[2],x=Je[3],p=null;return c.subVectors(t,e),m.subVectors(a,e),x.crossVectors(c,m),l=y.dot(x),0===l||n&&0<l||(0<l?o=1:(o=-1,l=-l),u.subVectors(this.origin,e),s=o*y.dot(m.crossVectors(u,m)),0<=s&&(r=o*y.dot(c.cross(u)),0<=r&&s+r<=l&&(d=-o*u.dot(x),0<=d&&(p=this.at(d/l,i))))),p}},{key:\"applyMatrix4\",value:function(e){return this.origin.applyMatrix4(e),this.direction.transformDirection(e),this}},{key:\"equals\",value:function(e){return e.origin.equals(this.origin)&&e.direction.equals(this.direction)}}]),t}(),We=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:1,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0;e(this,t),this.radius=a,this.phi=n,this.theta=i}return n(t,[{key:\"set\",value:function(e,t,a){return this.radius=e,this.phi=t,this.theta=a,this}},{key:\"copy\",value:function(e){return this.radius=e.radius,this.phi=e.phi,this.theta=e.theta,this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"makeSafe\",value:function(){return this.phi=Te(1e-6,Ie(xe-1e-6,this.phi)),this}},{key:\"setFromVector3\",value:function(e){return this.setFromCartesianCoords(e.x,e.y,e.z)}},{key:\"setFromCartesianCoords\",value:function(e,t,a){return this.radius=ke(e*e+t*t+a*a),0===this.radius?(this.theta=0,this.phi=0):(this.theta=pe(e,a),this.phi=ge(Ie(Te(t/this.radius,-1),1))),this}}]),t}(),$e=function(){function t(){e(this,t),this.elements=new Float32Array([1,0,0,1,0,1])}return n(t,[{key:\"set\",value:function(t,a,n,i,l,o){var s=this.elements;return s[0]=t,s[1]=a,s[3]=i,s[2]=n,s[4]=l,s[5]=o,this}},{key:\"identity\",value:function(){return this.set(1,0,0,1,0,1),this}},{key:\"copy\",value:function(e){var t=e.elements;return this.set(t[0],t[1],t[2],t[3],t[4],t[5]),this}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}},{key:\"toMatrix3\",value:function(e){var t=e.elements;e.set(t[0],t[1],t[2],t[1],t[3],t[4],t[2],t[4],t[5])}},{key:\"add\",value:function(e){var t=this.elements,a=e.elements;return t[0]+=a[0],t[1]+=a[1],t[3]+=a[3],t[2]+=a[2],t[4]+=a[4],t[5]+=a[5],this}},{key:\"norm\",value:function(){var t=this.elements,e=t[1]*t[1],a=t[2]*t[2],n=t[4]*t[4];return ke(t[0]*t[0]+e+a+e+t[3]*t[3]+n+a+n+t[5]*t[5])}},{key:\"off\",value:function(){var t=this.elements;return ke(2*(t[1]*t[1]+t[2]*t[2]+t[4]*t[4]))}},{key:\"applyToVector3\",value:function(t){var a=t.x,n=t.y,i=t.z,l=this.elements;return t.x=l[0]*a+l[1]*n+l[2]*i,t.y=l[1]*a+l[3]*n+l[4]*i,t.z=l[2]*a+l[4]*n+l[5]*i,t}},{key:\"equals\",value:function(e){var t,a=this.elements,n=e.elements,l=!0;for(t=0;l&&6>t;++t)a[t]!==n[t]&&(l=!1);return l}}],[{key:\"calculateIndex\",value:function(e,t){return 3-(3-e)*(2-e)/2+t}}]),t}(),et=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0,l=3<arguments.length&&void 0!==arguments[3]?arguments[3]:0;e(this,t),this.x=a,this.y=n,this.z=i,this.w=l}return n(t,[{key:\"set\",value:function(e,t,a,n){return this.x=e,this.y=t,this.z=a,this.w=n,this}},{key:\"copy\",value:function(e){return this.x=e.x,this.y=e.y,this.z=e.z,this.w=e.w,this}},{key:\"clone\",value:function(){return new this.constructor(this.x,this.y,this.z,this.w)}},{key:\"fromArray\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return this.x=e[t],this.y=e[t+1],this.z=e[t+2],this.w=e[t+3],this}},{key:\"toArray\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;return e[t]=this.x,e[t+1]=this.y,e[t+2]=this.z,e[t+3]=this.w,e}},{key:\"setAxisAngleFromQuaternion\",value:function(e){this.w=2*ge(e.w);var t=ke(1-e.w*e.w);return 1e-4>t?(this.x=1,this.y=0,this.z=0):(this.x=e.x/t,this.y=e.y/t,this.z=e.z/t),this}},{key:\"setAxisAngleFromRotationMatrix\",value:function(e){var t,a,n,i,l,o,r,d,u,c,m,p=.01,v=.1,g=e.elements,k=g[0],h=g[4],f=g[8],S=g[1],w=g[5],T=g[9],I=g[2],C=g[6],P=g[10];return we(h-S)<p&&we(f-I)<p&&we(T-C)<p?we(h+S)<v&&we(f+I)<v&&we(T+C)<v&&we(k+w+P-3)<v?this.set(1,0,0,0):(t=xe,l=(k+1)/2,o=(w+1)/2,r=(P+1)/2,d=(h+S)/4,u=(f+I)/4,c=(T+C)/4,l>o&&l>r?l<p?(a=0,n=.707106781,i=.707106781):(a=ke(l),n=d/a,i=u/a):o>r?o<p?(a=.707106781,n=0,i=.707106781):(n=ke(o),a=d/n,i=c/n):r<p?(a=.707106781,n=.707106781,i=0):(i=ke(r),a=u/i,n=c/i),this.set(a,n,i,t)):(m=ke((C-T)*(C-T)+(f-I)*(f-I)+(S-h)*(S-h)),.001>we(m)&&(m=1),this.x=(C-T)/m,this.y=(f-I)/m,this.z=(S-h)/m,this.w=ge((k+w+P-1)/2)),this}},{key:\"add\",value:function(e){return this.x+=e.x,this.y+=e.y,this.z+=e.z,this.w+=e.w,this}},{key:\"addScalar\",value:function(e){return this.x+=e,this.y+=e,this.z+=e,this.w+=e,this}},{key:\"addVectors\",value:function(e,t){return this.x=e.x+t.x,this.y=e.y+t.y,this.z=e.z+t.z,this.w=e.w+t.w,this}},{key:\"addScaledVector\",value:function(e,t){return this.x+=e.x*t,this.y+=e.y*t,this.z+=e.z*t,this.w+=e.w*t,this}},{key:\"sub\",value:function(e){return this.x-=e.x,this.y-=e.y,this.z-=e.z,this.w-=e.w,this}},{key:\"subScalar\",value:function(e){return this.x-=e,this.y-=e,this.z-=e,this.w-=e,this}},{key:\"subVectors\",value:function(e,t){return this.x=e.x-t.x,this.y=e.y-t.y,this.z=e.z-t.z,this.w=e.w-t.w,this}},{key:\"multiply\",value:function(e){return this.x*=e.x,this.y*=e.y,this.z*=e.z,this.w*=e.w,this}},{key:\"multiplyScalar\",value:function(e){return this.x*=e,this.y*=e,this.z*=e,this.w*=e,this}},{key:\"multiplyVectors\",value:function(e,t){return this.x=e.x*t.x,this.y=e.y*t.y,this.z=e.z*t.z,this.w=e.w*t.w,this}},{key:\"divide\",value:function(e){return this.x/=e.x,this.y/=e.y,this.z/=e.z,this.w/=e.w,this}},{key:\"divideScalar\",value:function(e){return this.x/=e,this.y/=e,this.z/=e,this.w/=e,this}},{key:\"applyMatrix4\",value:function(t){var a=this.x,n=this.y,i=this.z,l=this.w,o=t.elements;return this.x=o[0]*a+o[4]*n+o[8]*i+o[12]*l,this.y=o[1]*a+o[5]*n+o[9]*i+o[13]*l,this.z=o[2]*a+o[6]*n+o[10]*i+o[14]*l,this.w=o[3]*a+o[7]*n+o[11]*i+o[15]*l,this}},{key:\"negate\",value:function(){return this.x=-this.x,this.y=-this.y,this.z=-this.z,this.w=-this.w,this}},{key:\"dot\",value:function(e){return this.x*e.x+this.y*e.y+this.z*e.z+this.w*e.w}},{key:\"manhattanLength\",value:function(){return we(this.x)+we(this.y)+we(this.z)+we(this.w)}},{key:\"lengthSquared\",value:function(){return this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w}},{key:\"length\",value:function(){return ke(this.x*this.x+this.y*this.y+this.z*this.z+this.w*this.w)}},{key:\"manhattanDistanceTo\",value:function(e){return we(this.x-e.x)+we(this.y-e.y)+we(this.z-e.z)+we(this.w-e.w)}},{key:\"distanceToSquared\",value:function(e){var t=this.x-e.x,a=this.y-e.y,n=this.z-e.z,i=this.w-e.w;return t*t+a*a+n*n+i*i}},{key:\"distanceTo\",value:function(e){return ke(this.distanceToSquared(e))}},{key:\"normalize\",value:function(){return this.divideScalar(this.length())}},{key:\"setLength\",value:function(e){return this.normalize().multiplyScalar(e)}},{key:\"min\",value:function(e){return this.x=Ie(this.x,e.x),this.y=Ie(this.y,e.y),this.z=Ie(this.z,e.z),this.w=Ie(this.w,e.w),this}},{key:\"max\",value:function(e){return this.x=Te(this.x,e.x),this.y=Te(this.y,e.y),this.z=Te(this.z,e.z),this.w=Te(this.w,e.w),this}},{key:\"clamp\",value:function(e,t){return this.x=Te(e.x,Ie(t.x,this.x)),this.y=Te(e.y,Ie(t.y,this.y)),this.z=Te(e.z,Ie(t.z,this.z)),this.w=Te(e.w,Ie(t.w,this.w)),this}},{key:\"floor\",value:function(){return this.x=fe(this.x),this.y=fe(this.y),this.z=fe(this.z),this.w=fe(this.w),this}},{key:\"ceil\",value:function(){return this.x=Se(this.x),this.y=Se(this.y),this.z=Se(this.z),this.w=Se(this.w),this}},{key:\"round\",value:function(){return this.x=ve(this.x),this.y=ve(this.y),this.z=ve(this.z),this.w=ve(this.w),this}},{key:\"lerp\",value:function(e,t){return this.x+=(e.x-this.x)*t,this.y+=(e.y-this.y)*t,this.z+=(e.z-this.z)*t,this.w+=(e.w-this.w)*t,this}},{key:\"lerpVectors\",value:function(e,t,a){return this.subVectors(t,e).multiplyScalar(a).add(e)}},{key:\"equals\",value:function(e){return e.x===this.x&&e.y===this.y&&e.z===this.z&&e.w===this.w}}]),t}(),tt=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null,n=!!(1<arguments.length&&void 0!==arguments[1])&&arguments[1];e(this,t),this.value=a,this.done=n}return n(t,[{key:\"reset\",value:function(){this.value=null,this.done=!1}}]),t}(),at=new Pe,nt=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;e(this,t),this.min=a,this.max=n,this.children=null}return n(t,[{key:\"getCenter\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.addVectors(this.min,this.max).multiplyScalar(.5)}},{key:\"getDimensions\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.subVectors(this.max,this.min)}},{key:\"split\",value:function(){var e,t,a=this.min,n=this.max,l=this.getCenter(at),o=this.children=[null,null,null,null,null,null,null,null];for(e=0;8>e;++e)t=it[e],o[e]=new this.constructor(new Pe(0===t[0]?a.x:l.x,0===t[1]?a.y:l.y,0===t[2]?a.z:l.z),new Pe(0===t[0]?l.x:n.x,0===t[1]?l.y:n.y,0===t[2]?l.z:n.z))}}]),t}(),it=[new Uint8Array([0,0,0]),new Uint8Array([0,0,1]),new Uint8Array([0,1,0]),new Uint8Array([0,1,1]),new Uint8Array([1,0,0]),new Uint8Array([1,0,1]),new Uint8Array([1,1,0]),new Uint8Array([1,1,1])],lt=[new Uint8Array([0,4]),new Uint8Array([1,5]),new Uint8Array([2,6]),new Uint8Array([3,7]),new Uint8Array([0,2]),new Uint8Array([1,3]),new Uint8Array([4,6]),new Uint8Array([5,7]),new Uint8Array([0,1]),new Uint8Array([2,3]),new Uint8Array([4,5]),new Uint8Array([6,7])],ot=new Pe,st=function(){function t(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;e(this,t),this.min=a,this.size=n,this.children=null}return n(t,[{key:\"getCenter\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.copy(this.min).addScalar(.5*this.size)}},{key:\"getDimensions\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.set(this.size,this.size,this.size)}},{key:\"split\",value:function(){var e,t,a=this.min,n=this.getCenter(ot),l=.5*this.size,o=this.children=[null,null,null,null,null,null,null,null];for(e=0;8>e;++e)t=it[e],o[e]=new this.constructor(new Pe(0===t[0]?a.x:n.x,0===t[1]?a.y:n.y,0===t[2]?a.z:n.z),l)}},{key:\"max\",get:function(){return this.min.clone().addScalar(this.size)}}]),t}(),rt=new v,dt=function(){function t(a){var n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:null;e(this,t),this.octree=a,this.region=n,this.cull=null!==n,this.result=new tt,this.trace=null,this.indices=null,this.reset()}return n(t,[{key:\"reset\",value:function(){var e=this.octree.root;return this.trace=[],this.indices=[],null!==e&&(rt.min=e.min,rt.max=e.max,(!this.cull||this.region.intersectsBox(rt))&&(this.trace.push(e),this.indices.push(0))),this.result.reset(),this}},{key:\"next\",value:function(){for(var e,t,a,n=this.cull,i=this.region,l=this.indices,o=this.trace,s=null,r=o.length-1;null===s&&0<=r;)if(e=l[r]++,t=o[r].children,!(8>e))o.pop(),l.pop(),--r;else if(null!==t){if(a=t[e],n&&(rt.min=a.min,rt.max=a.max,!i.intersectsBox(rt)))continue;o.push(a),l.push(0),++r}else s=o.pop(),l.pop();return this.result.value=s,this.result.done=null===s,this.result}},{key:\"return\",value:function(e){return this.result.value=e,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),t}(),yt=[new Pe,new Pe,new Pe],ut=new v,ct=new Ke,r=[new Uint8Array([4,2,1]),new Uint8Array([5,3,8]),new Uint8Array([6,8,3]),new Uint8Array([7,8,8]),new Uint8Array([8,6,5]),new Uint8Array([8,7,8]),new Uint8Array([8,8,7]),new Uint8Array([8,8,8])],mt=0,xt=function(){function t(){e(this,t)}return n(t,null,[{key:\"intersectOctree\",value:function(e,t,a){var n,i,l,o,s,r,d,y,u,c=ut.min.set(0,0,0),m=ut.max.subVectors(e.max,e.min),x=e.getDimensions(yt[0]),p=yt[1].copy(x).multiplyScalar(.5),v=ct.origin.copy(t.ray.origin),g=ct.direction.copy(t.ray.direction);v.sub(e.getCenter(yt[2])).add(p),mt=0,0>g.x&&(v.x=x.x-v.x,g.x=-g.x,mt|=4),0>g.y&&(v.y=x.y-v.y,g.y=-g.y,mt|=2),0>g.z&&(v.z=x.z-v.z,g.z=-g.z,mt|=1),n=1/g.x,i=1/g.y,l=1/g.z,o=(c.x-v.x)*n,s=(m.x-v.x)*n,r=(c.y-v.y)*i,d=(m.y-v.y)*i,y=(c.z-v.z)*l,u=(m.z-v.z)*l,Te(Te(o,r),y)<Ie(Ie(s,d),u)&&F(e.root,o,r,y,s,d,u,t,a)}}]),t}(),pt=new v,vt=function(){function t(a,n){e(this,t),this.root=void 0!==a&&void 0!==n?new nt(a,n):null}return n(t,[{key:\"getCenter\",value:function(e){return this.root.getCenter(e)}},{key:\"getDimensions\",value:function(e){return this.root.getDimensions(e)}},{key:\"getDepth\",value:function(){return A(this.root)}},{key:\"cull\",value:function(e){var t=[];return V(this.root,e,t),t}},{key:\"findOctantsByLevel\",value:function(e){var t=[];return B(this.root,e,0,t),t}},{key:\"raycast\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:[];return xt.intersectOctree(this,e,t),t}},{key:\"leaves\",value:function(e){return new dt(this,e)}},{key:Symbol.iterator,value:function(){return new dt(this)}},{key:\"min\",get:function(){return this.root.min}},{key:\"max\",get:function(){return this.root.max}},{key:\"children\",get:function(){return this.root.children}}]),t}(),gt=new Pe,p=function(t){function a(t,n){var i;return e(this,a),i=k(this,s(a).call(this,t,n)),i.points=null,i.data=null,i}return l(a,t),n(a,[{key:\"distanceToSquared\",value:function(e){var t=gt.copy(e).clamp(this.min,this.max);return t.sub(e).lengthSquared()}},{key:\"distanceToCenterSquared\",value:function(e){var t=this.getCenter(gt),a=e.x-t.x,n=e.y-t.x,i=e.z-t.z;return a*a+n*n+i*i}},{key:\"contains\",value:function(e,t){var a=this.min,n=this.max;return e.x>=a.x-t&&e.y>=a.y-t&&e.z>=a.z-t&&e.x<=n.x+t&&e.y<=n.y+t&&e.z<=n.z+t}},{key:\"redistribute\",value:function(e){var t,a,n,l,o,s,r,d=this.children,y=this.points,u=this.data;if(null!==d&&null!==y)for(t=0,n=y.length;t<n;++t)for(s=y[t],r=u[t],(a=0,l=d.length);a<l;++a)if(o=d[a],o.contains(s,e)){null===o.points&&(o.points=[],o.data=[]),o.points.push(s),o.data.push(r);break}this.points=null,this.data=null}},{key:\"merge\",value:function(){var e,t,a,n=this.children;if(null!==n){for(this.points=[],this.data=[],(e=0,t=n.length);e<t;++e)if(a=n[e],null!==a.points){var o,s;(o=this.points).push.apply(o,w(a.points)),(s=this.data).push.apply(s,w(a.data))}this.children=null}}}]),a}(nt),kt=function t(a,n,i){var l=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;e(this,t),this.distance=a,this.distanceToRay=n,this.point=i,this.object=l},ht=function(t){function a(t,n){var i,l=2<arguments.length&&void 0!==arguments[2]?arguments[2]:0,o=3<arguments.length&&void 0!==arguments[3]?arguments[3]:8,r=4<arguments.length&&void 0!==arguments[4]?arguments[4]:8;return e(this,a),i=k(this,s(a).call(this)),i.root=new p(t,n),i.bias=Te(0,l),i.maxPoints=Te(1,ve(o)),i.maxDepth=Te(0,ve(r)),i.pointCount=0,i}return l(a,t),n(a,[{key:\"countPoints\",value:function(e){return N(e)}},{key:\"put\",value:function(e,t){return O(e,t,this,this.root,0)}},{key:\"remove\",value:function(e){return L(e,this,this.root,null)}},{key:\"fetch\",value:function(e){return M(e,this,this.root)}},{key:\"move\",value:function(e,t){return R(e,t,this,this.root,null,0)}},{key:\"findNearestPoint\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:1/0,a=!!(2<arguments.length&&void 0!==arguments[2])&&arguments[2],n=Y(e,t,a,this.root);return null!==n&&(n.point=n.point.clone()),n}},{key:\"findPoints\",value:function(e,t){var a=!!(2<arguments.length&&void 0!==arguments[2])&&arguments[2],n=[];return X(e,t,a,this.root,n),n}},{key:\"raycast\",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:[],n=z(s(a.prototype),\"raycast\",this).call(this,e);return 0<n.length&&this.testPoints(n,e,t),t}},{key:\"testPoints\",value:function(e,t,a){var n,l,o,s,r,d,y,u,c,m,x,p=t.params.Points.threshold;for(r=0,y=e.length;r<y;++r)if(c=e[r],m=c.points,null!==m)for(d=0,u=m.length;d<u;++d)x=m[d],s=t.ray.distanceSqToPoint(x),s<p*p&&(n=t.ray.closestPointToPoint(x,new Pe),l=t.ray.origin.distanceTo(n),l>=t.near&&l<=t.far&&(o=ke(s),a.push(new kt(l,o,n,c.data[d]))))}}]),a}(vt),zt=new v,ft=new Pe,St=new Pe,u=new Pe,wt=function(){function t(){e(this,t)}return n(t,null,[{key:\"recycleOctants\",value:function(e,t){var a,n,o,s,r=e.min,d=e.getCenter(St),y=e.getDimensions(u).multiplyScalar(.5),c=e.children,m=t.length;for(a=0;8>a;++a)for(o=it[a],zt.min.addVectors(r,ft.fromArray(o).multiply(y)),zt.max.addVectors(d,ft.fromArray(o).multiply(y)),n=0;n<m;++n)if(s=t[n],null!==s&&zt.min.equals(s.min)&&zt.max.equals(s.max)){c[a]=s,t[n]=null;break}}}]),t}(),Tt=new Pe,It=new Pe,Ct=new Pe,Pt=function(){function t(){var n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe,a=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe;e(this,t),this.a=n,this.b=a,this.index=-1,this.coordinates=new Pe,this.t=0,this.n=new Pe}return n(t,[{key:\"approximateZeroCrossing\",value:function(e){var t,n,l=1<arguments.length&&void 0!==arguments[1]?arguments[1]:8,o=Te(1,l-1),s=0,r=1,d=0,y=0;for(Tt.subVectors(this.b,this.a);y<=o&&(d=(s+r)/2,It.addVectors(this.a,Ct.copy(Tt).multiplyScalar(d)),n=e.sample(It),!(we(n)<=1e-4||(r-s)/2<=1e-6));)It.addVectors(this.a,Ct.copy(Tt).multiplyScalar(s)),t=e.sample(It),me(n)===me(t)?s=d:r=d,++y;this.t=d}},{key:\"computeZeroCrossingPosition\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new Pe;return e.subVectors(this.b,this.a).multiplyScalar(this.t).add(this.a)}},{key:\"computeSurfaceNormal\",value:function(e){var t=this.computeZeroCrossingPosition(Tt),a=1e-3,n=e.sample(It.addVectors(t,Ct.set(a,0,0)))-e.sample(It.subVectors(t,Ct.set(a,0,0))),i=e.sample(It.addVectors(t,Ct.set(0,a,0)))-e.sample(It.subVectors(t,Ct.set(0,a,0))),l=e.sample(It.addVectors(t,Ct.set(0,0,a)))-e.sample(It.subVectors(t,Ct.set(0,0,a)));this.n.set(n,i,l).normalize()}}]),t}(),bt=new Pt,Et=new Pe,Dt=new Pe,Ft=function(){function t(a,n,i){var l=3<arguments.length&&void 0!==arguments[3]?arguments[3]:0,o=4<arguments.length&&void 0!==arguments[4]?arguments[4]:3;e(this,t),this.edgeData=a,this.cellPosition=n,this.cellSize=i,this.indices=null,this.zeroCrossings=null,this.normals=null,this.axes=null,this.lengths=null,this.result=new tt,this.initialC=l,this.c=l,this.initialD=o,this.d=o,this.i=0,this.l=0,this.reset()}return n(t,[{key:\"reset\",value:function(){var e,t,n,i,o=this.edgeData,s=[],r=[],y=[],u=[],m=[];for(this.i=0,this.c=0,this.d=0,(t=this.initialC,e=4>>t,n=this.initialD);t<n;++t,e>>=1)i=o.indices[t].length,0<i&&(s.push(o.indices[t]),r.push(o.zeroCrossings[t]),y.push(o.normals[t]),u.push(it[e]),m.push(i),++this.d);return this.l=0<m.length?m[0]:0,this.indices=s,this.zeroCrossings=r,this.normals=y,this.axes=u,this.lengths=m,this.result.reset(),this}},{key:\"next\",value:function(){var e,t,a,l,o,r,d,u=this.cellSize,s=this.edgeData.resolution,n=s+1,m=n*n,p=this.result,v=this.cellPosition;return this.i===this.l&&(this.l=++this.c<this.d?this.lengths[this.c]:0,this.i=0),this.i<this.l?(r=this.c,d=this.i,e=this.axes[r],t=this.indices[r][d],bt.index=t,a=t%n,l=ce(t%m/n),o=ce(t/m),bt.coordinates.set(a,l,o),Et.set(a*u/s,l*u/s,o*u/s),Dt.set((a+e[0])*u/s,(l+e[1])*u/s,(o+e[2])*u/s),bt.a.addVectors(v,Et),bt.b.addVectors(v,Dt),bt.t=this.zeroCrossings[r][d],bt.n.fromArray(this.normals[r],3*d),p.value=bt,++this.i):(p.value=null,p.done=!0),p}},{key:\"return\",value:function(e){return this.result.value=e,this.result.done=!0,this.result}},{key:Symbol.iterator,value:function(){return this}}]),t}(),qt=function(){function t(a){var n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]?arguments[2]:n,l=3<arguments.length&&void 0!==arguments[3]?arguments[3]:n;e(this,t),this.resolution=a,this.indices=0>=n?null:[new Uint32Array(n),new Uint32Array(i),new Uint32Array(l)],this.zeroCrossings=0>=n?null:[new Float32Array(n),new Float32Array(i),new Float32Array(l)],this.normals=0>=n?null:[new Float32Array(3*n),new Float32Array(3*i),new Float32Array(3*l)]}return n(t,[{key:\"serialize\",value:function(){return{resolution:this.resolution,edges:this.edges,zeroCrossings:this.zeroCrossings,normals:this.normals}}},{key:\"deserialize\",value:function(e){var t=this;return null===e?t=null:(this.resolution=e.resolution,this.edges=e.edges,this.zeroCrossings=e.zeroCrossings,this.normals=e.normals),t}},{key:\"createTransferList\",value:function(){var e,t,a,n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],o=[this.edges[0],this.edges[1],this.edges[2],this.zeroCrossings[0],this.zeroCrossings[1],this.zeroCrossings[2],this.normals[0],this.normals[1],this.normals[2]];for(t=0,a=o.length;t<a;++t)e=o[t],null!==e&&n.push(e.buffer);return n}},{key:\"edges\",value:function(e,t){return new Ft(this,e,t)}},{key:\"edgesX\",value:function(e,t){return new Ft(this,e,t,0,1)}},{key:\"edgesY\",value:function(e,t){return new Ft(this,e,t,1,2)}},{key:\"edgesZ\",value:function(e,t){return new Ft(this,e,t,2,3)}}],[{key:\"calculate1DEdgeCount\",value:function(e){return ue(e+1,2)*e}}]),t}(),At={AIR:0,SOLID:1},Vt=0,Bt=0,Nt=0,Ot=function(){function t(){var a=!(0<arguments.length&&void 0!==arguments[0])||arguments[0];e(this,t),this.materials=0,this.materialIndices=a?new Uint8Array(Nt):null,this.runLengths=null,this.edgeData=null}return n(t,[{key:\"set\",value:function(e){return this.materials=e.materials,this.materialIndices=e.materialIndices,this.runLengths=e.runLengths,this.edgeData=e.edgeData,this}},{key:\"clear\",value:function(){return this.materials=0,this.materialIndices=null,this.runLengths=null,this.edgeData=null,this}},{key:\"setMaterialIndex\",value:function(e,t){this.materialIndices[e]===At.AIR?t!==At.AIR&&++this.materials:t===At.AIR&&--this.materials,this.materialIndices[e]=t}},{key:\"compress\",value:function(){var e,t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:this;return this.compressed?(t.materialIndices=this.materialIndices,t.runLengths=this.runLengths):(e=this.full?new Ce([this.materialIndices.length],[At.SOLID]):Ce.encode(this.materialIndices),t.materialIndices=new Uint8Array(e.data),t.runLengths=new Uint32Array(e.runLengths)),t.materials=this.materials,t}},{key:\"decompress\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:this;return e.materialIndices=this.compressed?Ce.decode(this.runLengths,this.materialIndices,new Uint8Array(Nt)):this.materialIndices,e.runLengths=null,e.materials=this.materials,e}},{key:\"serialize\",value:function(){return{materials:this.materials,materialIndices:this.materialIndices,runLengths:this.runLengths,edgeData:null===this.edgeData?null:this.edgeData.serialize()}}},{key:\"deserialize\",value:function(e){var t=this;return null===e?t=null:(this.materials=e.materials,this.materialIndices=e.materialIndices,this.runLengths=e.runLengths,null===e.edgeData?this.edgeData=null:(null===this.edgeData&&(this.edgeData=new qt(Bt)),this.edgeData.deserialize(e.edgeData))),t}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return null!==this.edgeData&&this.edgeData.createTransferList(e),null!==this.materialIndices&&e.push(this.materialIndices.buffer),null!==this.runLengths&&e.push(this.runLengths.buffer),e}},{key:\"empty\",get:function(){return 0===this.materials}},{key:\"full\",get:function(){return this.materials===Nt}},{key:\"compressed\",get:function(){return null!==this.runLengths}},{key:\"neutered\",get:function(){return!this.empty&&null===this.materialIndices}}],[{key:\"isovalue\",get:function(){return Vt},set:function(e){Vt=e}},{key:\"resolution\",get:function(){return Bt},set:function(e){var t=Math.log2;e=ue(2,Te(0,Se(t(e)))),Bt=Te(1,Ie(256,e)),Nt=ue(Bt+1,3)}}]),t}(),Lt=function(){function t(){e(this,t),this.ata=new $e,this.ata.set(0,0,0,0,0,0),this.atb=new Pe,this.massPointSum=new Pe,this.numPoints=0}return n(t,[{key:\"set\",value:function(e,t,a,n){return this.ata.copy(e),this.atb.copy(t),this.massPointSum.copy(a),this.numPoints=n,this}},{key:\"copy\",value:function(e){return this.set(e.ata,e.atb,e.massPointSum,e.numPoints)}},{key:\"add\",value:function(e,t){var a=t.x,n=t.y,i=t.z,l=e.dot(t),o=this.ata.elements,s=this.atb;o[0]+=a*a,o[1]+=a*n,o[3]+=n*n,o[2]+=a*i,o[4]+=n*i,o[5]+=i*i,s.x+=l*a,s.y+=l*n,s.z+=l*i,this.massPointSum.add(e),++this.numPoints}},{key:\"addData\",value:function(e){this.ata.add(e.ata),this.atb.add(e.atb),this.massPointSum.add(e.massPointSum),this.numPoints+=e.numPoints}},{key:\"clear\",value:function(){this.ata.set(0,0,0,0,0,0),this.atb.set(0,0,0),this.massPointSum.set(0,0,0),this.numPoints=0}},{key:\"clone\",value:function(){return new this.constructor().copy(this)}}]),t}(),Mt=new qe,Rt=function(){function t(){e(this,t)}return n(t,null,[{key:\"calculateCoefficients\",value:function(e,t,a){var n,i,l;return 0===t?(Mt.x=1,Mt.y=0):(n=(a-e)/(2*t),i=ke(1+n*n),l=1/(0<=n?n+i:n-i),Mt.x=1/ke(1+l*l),Mt.y=l*Mt.x),Mt}}]),t}(),Yt=function(){function t(){e(this,t)}return n(t,null,[{key:\"rotateXY\",value:function(e,t){var a=t.x,n=t.y,i=e.x,l=e.y;e.set(a*i-n*l,n*i+a*l)}},{key:\"rotateQXY\",value:function(e,t,a){var n=a.x,i=a.y,l=n*n,o=i*i,s=2*n*i*t,r=e.x,d=e.y;e.set(l*r-s+o*d,o*r+s+l*d)}}]),t}(),Xt=.1,Zt=new $e,_t=new Ne,jt=new qe,Ut=new Pe,Qt=function(){function t(){e(this,t)}return n(t,null,[{key:\"solve\",value:function(e,t,a){var n=U(Zt.copy(e),_t.identity()),i=G(_t,n);a.copy(t).applyMatrix3(i)}}]),t}(),Gt=new Pe,Ht=function(){function t(){e(this,t),this.data=null,this.ata=new $e,this.atb=new Pe,this.massPoint=new Pe,this.hasSolution=!1}return n(t,[{key:\"setData\",value:function(e){return this.data=e,this.hasSolution=!1,this}},{key:\"solve\",value:function(e){var t=this.data,a=this.massPoint,n=this.ata.copy(t.ata),i=this.atb.copy(t.atb),l=1/0;return!this.hasSolution&&null!==t&&0<t.numPoints&&(Gt.copy(t.massPointSum).divideScalar(t.numPoints),a.copy(Gt),n.applyToVector3(Gt),i.sub(Gt),Qt.solve(n,i,e),l=H(n,i,e),e.add(a),this.hasSolution=!0),l}}]),t}(),Jt=function t(){e(this,t),this.materials=0,this.edgeCount=0,this.index=-1,this.position=new Pe,this.normal=new Pe,this.qefData=null},Kt=new Ht,Wt=.1,$t=-1,ea=function(t){function a(t,n){var i;return e(this,a),i=k(this,s(a).call(this,t,n)),i.voxel=null,i}return l(a,t),n(a,[{key:\"contains\",value:function(e){var t=this.min,a=this.size;return e.x>=t.x-Wt&&e.y>=t.y-Wt&&e.z>=t.z-Wt&&e.x<=t.x+a+Wt&&e.y<=t.y+a+Wt&&e.z<=t.z+a+Wt}},{key:\"collapse\",value:function(){var e,t,a,n,l,o,s,r=this.children,d=[-1,-1,-1,-1,-1,-1,-1,-1],y=new Pe,u=-1,c=null!==r,m=0;if(c){for(n=new Lt,o=0,s=0;8>s;++s)e=r[s],m+=e.collapse(),a=e.voxel,null===e.children?null!==a&&(n.addData(a.qefData),u=1&a.materials>>7-s,d[s]=1&a.materials>>s,++o):c=!1;if(c&&(l=Kt.setData(n).solve(y),l<=$t)){for(a=new Jt,a.position.copy(this.contains(y)?y:Kt.massPoint),s=0;8>s;++s)t=d[s],e=r[s],-1===t?a.materials|=u<<s:(a.materials|=t<<s,a.normal.add(e.voxel.normal));a.normal.normalize(),a.qefData=n,this.voxel=a,this.children=null,m+=o-1}}return m}}],[{key:\"errorThreshold\",get:function(){return $t},set:function(e){$t=e}}]),a}(st),ta=function t(){var a=0<arguments.length&&arguments[0]!==void 0?arguments[0]:null;e(this,t),this.action=a,this.error=null},aa=function(){function t(a,n,i,l,o){e(this,t),this.indices=a,this.positions=n,this.normals=i,this.uvs=l,this.materials=o}return n(t,[{key:\"serialize\",value:function(){return{indices:this.indices,positions:this.positions,normals:this.normals,uvs:this.uvs,materials:this.materials}}},{key:\"deserialize\",value:function(e){var t=this;return null===e?t=null:(this.indices=e.indices,this.positions=e.positions,this.normals=e.normals,this.uvs=e.uvs,this.materials=e.materials),t}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return e.push(this.indices.buffer),e.push(this.positions.buffer),e.push(this.normals.buffer),e.push(this.uvs.buffer),e.push(this.materials.buffer),e}}]),t}(),na=[new Uint8Array([0,4,0]),new Uint8Array([1,5,0]),new Uint8Array([2,6,0]),new Uint8Array([3,7,0]),new Uint8Array([0,2,1]),new Uint8Array([4,6,1]),new Uint8Array([1,3,1]),new Uint8Array([5,7,1]),new Uint8Array([0,1,2]),new Uint8Array([2,3,2]),new Uint8Array([4,5,2]),new Uint8Array([6,7,2])],ia=[new Uint8Array([0,1,2,3,0]),new Uint8Array([4,5,6,7,0]),new Uint8Array([0,4,1,5,1]),new Uint8Array([2,6,3,7,1]),new Uint8Array([0,2,4,6,2]),new Uint8Array([1,3,5,7,2])],la=[[new Uint8Array([4,0,0]),new Uint8Array([5,1,0]),new Uint8Array([6,2,0]),new Uint8Array([7,3,0])],[new Uint8Array([2,0,1]),new Uint8Array([6,4,1]),new Uint8Array([3,1,1]),new Uint8Array([7,5,1])],[new Uint8Array([1,0,2]),new Uint8Array([3,2,2]),new Uint8Array([5,4,2]),new Uint8Array([7,6,2])]],oa=[[new Uint8Array([1,4,0,5,1,1]),new Uint8Array([1,6,2,7,3,1]),new Uint8Array([0,4,6,0,2,2]),new Uint8Array([0,5,7,1,3,2])],[new Uint8Array([0,2,3,0,1,0]),new Uint8Array([0,6,7,4,5,0]),new Uint8Array([1,2,0,6,4,2]),new Uint8Array([1,3,1,7,5,2])],[new Uint8Array([1,1,0,3,2,0]),new Uint8Array([1,5,4,7,6,0]),new Uint8Array([0,1,5,0,4,1]),new Uint8Array([0,3,7,2,6,1])]],sa=[[new Uint8Array([3,2,1,0,0]),new Uint8Array([7,6,5,4,0])],[new Uint8Array([5,1,4,0,1]),new Uint8Array([7,3,6,2,1])],[new Uint8Array([6,4,2,0,2]),new Uint8Array([7,5,3,1,2])]],ra=[new Uint8Array([3,2,1,0]),new Uint8Array([7,5,6,4]),new Uint8Array([11,10,9,8])],da=ue(2,16)-1,ya=function(){function t(){e(this,t)}return n(t,null,[{key:\"run\",value:function(e){var t=[],a=e.voxelCount,n=null,i=null,l=null,o=null,s=null;return a>da?console.warn(\"Could not create geometry for cell at position\",e.min,\"(vertex count of\",a,\"exceeds limit of \",da,\")\"):0<a&&(i=new Float32Array(3*a),l=new Float32Array(3*a),o=new Float32Array(2*a),s=new Uint8Array(a),ee(e.root,i,l,0),$(e.root,t),n=new aa(new Uint16Array(t),i,l,o,s)),n}}]),t}(),ua=function(t){function a(t){var n,i=1<arguments.length&&void 0!==arguments[1]?arguments[1]:new Pe,l=2<arguments.length&&void 0!==arguments[2]?arguments[2]:1;return e(this,a),n=k(this,s(a).call(this)),n.root=new ea(i,l),n.voxelCount=0,null!==t&&null!==t.edgeData&&n.construct(t),0<=ea.errorThreshold&&n.simplify(),n}return l(a,t),n(a,[{key:\"simplify\",value:function(){this.voxelCount-=this.root.collapse()}},{key:\"construct\",value:function(e){var t,a,l,o,s,r,u,c,m,p,v,g=Ot.resolution,n=e.edgeData,k=e.materialIndices,h=new Ht,f=new Pe,S=[n.edgesX(this.min,this.root.size),n.edgesY(this.min,this.root.size),n.edgesZ(this.min,this.root.size)],w=[new Uint8Array([0,1,2,3]),new Uint8Array([0,1,4,5]),new Uint8Array([0,2,4,6])],T=0;for(p=0;3>p;++p){l=w[p],t=S[p];var I=!0,C=!1,P=void 0;try{for(var b,E=t[Symbol.iterator]();!(I=(b=E.next()).done);I=!0)for(a=b.value,a.computeZeroCrossingPosition(f),v=0;4>v;++v)o=it[l[v]],u=a.coordinates.x-o[0],c=a.coordinates.y-o[1],m=a.coordinates.z-o[2],0<=u&&0<=c&&0<=m&&u<g&&c<g&&m<g&&(s=te(this.root,g,u,c,m),null===s.voxel&&(s.voxel=ae(g,u,c,m,k),++T),r=s.voxel,r.normal.add(a.n),r.qefData.add(f,a.n),r.qefData.numPoints===r.edgeCount&&(h.setData(r.qefData).solve(r.position),!s.contains(r.position)&&r.position.copy(h.massPoint),r.normal.normalize()))}catch(e){C=!0,P=e}finally{try{I||null==E[\"return\"]||E[\"return\"]()}finally{if(C)throw P}}}this.voxelCount=T}}]),a}(vt),ca={EXTRACT:\"worker.extract\",MODIFY:\"worker.modify\",CONFIGURE:\"worker.config\",CLOSE:\"worker.close\"},ma=function(t){function a(){var t,n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null;return e(this,a),t=k(this,s(a).call(this,n)),t.data=null,t}return l(a,t),a}(ta),xa=function(t){function a(){var t;return e(this,a),t=k(this,s(a).call(this,ca.EXTRACT)),t.isosurface=null,t}return l(a,t),a}(ma),pa=new Ot(!1),va=function(){function t(){e(this,t),this.data=null,this.response=null}return n(t,[{key:\"getData\",value:function(){return this.data}},{key:\"respond\",value:function(){return this.response.data=this.data.serialize(),this.response}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return null!==this.data&&this.data.createTransferList(e),e}},{key:\"process\",value:function(e){return this.data=pa.deserialize(e.data),this}}]),t}(),ga=function(t){function a(){var t;return e(this,a),t=k(this,s(a).call(this)),t.response=new xa,t.decompressionTarget=new Ot(!1),t.isosurface=null,t}return l(a,t),n(a,[{key:\"respond\",value:function(){var e=z(s(a.prototype),\"respond\",this).call(this);return e.isosurface=null===this.isosurface?null:this.isosurface.serialise(),e}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return z(s(a.prototype),\"createTransferList\",this).call(this,e),null===this.isosurface?e:this.isosurface.createTransferList(e)}},{key:\"process\",value:function(e){var t=z(s(a.prototype),\"process\",this).call(this,e).getData(),n=new ua(t.decompress(this.decompressionTarget));return this.isosurface=ya.run(n),this.decompressionTarget.clear(),this}}]),a}(va),ka={UNION:\"csg.union\",DIFFERENCE:\"csg.difference\",INTERSECTION:\"csg.intersection\",DENSITY_FUNCTION:\"csg.densityfunction\"},ha=function(){function t(a){e(this,t),this.type=a;for(var n=arguments.length,i=Array(1<n?n-1:0),l=1;l<n;l++)i[l-1]=arguments[l];this.children=i,this.boundingBox=null}return n(t,[{key:\"getBoundingBox\",value:function(){return null===this.boundingBox&&(this.boundingBox=this.computeBoundingBox()),this.boundingBox}},{key:\"computeBoundingBox\",value:function(){var e,t,a=this.children,n=new v;for(e=0,t=a.length;e<t;++e)n.union(a[e].getBoundingBox());return n}}]),t}(),za=function(t){function a(){var t;e(this,a);for(var n=arguments.length,i=Array(n),l=0;l<n;l++)i[l]=arguments[l];return k(this,(t=s(a)).call.apply(t,[this,ka.UNION].concat(i)))}return l(a,t),n(a,[{key:\"updateMaterialIndex\",value:function(e,t,a){var n=a.materialIndices[e];n!==At.AIR&&t.setMaterialIndex(e,n)}},{key:\"selectEdge\",value:function(e,t,a){return a?e.t>t.t?e:t:e.t<t.t?e:t}}]),a}(ha),fa=function(t){function a(){var t;e(this,a);for(var n=arguments.length,i=Array(n),l=0;l<n;l++)i[l]=arguments[l];return k(this,(t=s(a)).call.apply(t,[this,ka.DIFFERENCE].concat(i)))}return l(a,t),n(a,[{key:\"updateMaterialIndex\",value:function(e,t,a){a.materialIndices[e]!==At.AIR&&t.setMaterialIndex(e,At.AIR)}},{key:\"selectEdge\",value:function(e,t,a){return a?e.t<t.t?e:t:e.t>t.t?e:t}}]),a}(ha),Sa=function(t){function a(){var t;e(this,a);for(var n=arguments.length,i=Array(n),l=0;l<n;l++)i[l]=arguments[l];return k(this,(t=s(a)).call.apply(t,[this,ka.INTERSECTION].concat(i)))}return l(a,t),n(a,[{key:\"updateMaterialIndex\",value:function(e,t,a){var n=a.materialIndices[e];t.setMaterialIndex(e,t.materialIndices[e]!==At.AIR&&n!==At.AIR?n:At.AIR)}},{key:\"selectEdge\",value:function(e,t,a){return a?e.t<t.t?e:t:e.t>t.t?e:t}}]),a}(ha),wa=0,Ta=new Pe,Ia=function(){function t(){e(this,t)}return n(t,null,[{key:\"run\",value:function(e,t,a,n){Ta.fromArray(e),wa=t,null===a?n.operation===ka.UNION&&(a=new Ot(!1)):a.decompress();var i=n.toCSG(),l=null===a?null:de(i);if(null!==l){switch(n.operation){case ka.UNION:i=new za(i);break;case ka.DIFFERENCE:i=new fa(i);break;case ka.INTERSECTION:i=new Sa(i);}re(i,a,l),a.contoured=!1}return null!==a&&a.empty?null:a}}]),t}(),Ca=function(t){function a(t){var n;return e(this,a),n=k(this,s(a).call(this,ka.DENSITY_FUNCTION)),n.sdf=t,n}return l(a,t),n(a,[{key:\"computeBoundingBox\",value:function(){return this.sdf.getBoundingBox(!0)}},{key:\"generateMaterialIndex\",value:function(e){return this.sdf.sample(e)<=Ot.isovalue?this.sdf.material:At.AIR}},{key:\"generateEdge\",value:function(e){e.approximateZeroCrossing(this.sdf),e.computeSurfaceNormal(this.sdf)}}]),a}(ha),Pa=new c,ba=function(){function t(a){var n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:At.SOLID;e(this,t),this.type=a,this.operation=null,this.material=Ie(255,Te(At.SOLID,ce(n))),this.boundingBox=null,this.position=new Pe,this.quaternion=new Me,this.scale=new Pe(1,1,1),this.inverseTransformation=new c,this.updateInverseTransformation(),this.children=[]}return n(t,[{key:\"getTransformation\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:new c;return e.compose(this.position,this.quaternion,this.scale)}},{key:\"getBoundingBox\",value:function(){var e,t,a=!!(0<arguments.length&&void 0!==arguments[0])&&arguments[0],n=this.children,o=this.boundingBox;if(null===o&&(o=this.computeBoundingBox(),this.boundingBox=o),a)for(o=o.clone(),e=0,t=n.length;e<t;++e)o.union(n[e].getBoundingBox(a));return o}},{key:\"setMaterial\",value:function(e){return this.material=Ie(255,Te(At.SOLID,ce(e))),this}},{key:\"setOperationType\",value:function(e){return this.operation=e,this}},{key:\"updateInverseTransformation\",value:function(){return this.inverseTransformation.getInverse(this.getTransformation(Pa)),this.boundingBox=null,this}},{key:\"union\",value:function(e){return this.children.push(e.setOperationType(ka.UNION)),this}},{key:\"subtract\",value:function(e){return this.children.push(e.setOperationType(ka.DIFFERENCE)),this}},{key:\"intersect\",value:function(e){return this.children.push(e.setOperationType(ka.INTERSECTION)),this}},{key:\"toCSG\",value:function(){var e,t,a,n,o=this.children,s=new Ca(this);for(a=0,n=o.length;a<n;++a)t=o[a],e!==t.operation&&(e=t.operation,e===ka.UNION?s=new za(s):e===ka.DIFFERENCE?s=new fa(s):e===ka.INTERSECTION?s=new Sa(s):void 0),s.children.push(t.toCSG());return s}},{key:\"serialize\",value:function(){var e,t,a=!!(0<arguments.length&&void 0!==arguments[0])&&arguments[0],n={type:this.type,operation:this.operation,material:this.material,position:this.position.toArray(),quaternion:this.quaternion.toArray(),scale:this.scale.toArray(),parameters:null,children:[]};for(e=0,t=this.children.length;e<t;++e)n.children.push(this.children[e].serialize(a));return n}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return e}},{key:\"toJSON\",value:function(){return this.serialize(!0)}},{key:\"computeBoundingBox\",value:function(){throw new Error(\"SignedDistanceFunction#computeBoundingBox method not implemented!\")}},{key:\"sample\",value:function(){throw new Error(\"SignedDistanceFunction#sample method not implemented!\")}}]),t}(),Ea={HEIGHTFIELD:\"sdf.heightfield\",FRACTAL_NOISE:\"sdf.fractalnoise\",SUPER_PRIMITIVE:\"sdf.superprimitive\"},Da=function(t){function a(){var t,n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{},i=1<arguments.length?arguments[1]:void 0;return e(this,a),t=k(this,s(a).call(this,Ea.PERLIN_NOISE,i)),t.min=x(Pe,w(n.min)),t.max=x(Pe,w(n.max)),t}return l(a,t),n(a,[{key:\"computeBoundingBox\",value:function(){return this.bbox=new v(this.min,this.max),this.bbox}},{key:\"sample\",value:function(){}},{key:\"serialize\",value:function(){var e=z(s(a.prototype),\"serialize\",this).call(this);return e.parameters={min:this.min.toArray(),max:this.max.toArray()},e}}]),a}(ba),Fa=function(t){function a(){var t,n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{},i=1<arguments.length?arguments[1]:void 0;return e(this,a),t=k(this,s(a).call(this,Ea.HEIGHTFIELD,i)),t.width=void 0===n.width?1:n.width,t.height=void 0===n.height?1:n.height,t.smooth=void 0===n.smooth||n.smooth,t.data=void 0===n.data?null:n.data,t.heightmap=null,void 0!==n.image&&t.fromImage(n.image),t}return l(a,t),n(a,[{key:\"fromImage\",value:function(e){var t,a,n,o,s=\"undefined\"==typeof document?null:ye(e),r=null;if(null!==s){for(t=s.data,r=new Uint8ClampedArray(t.length/4),(a=0,n=0,o=r.length);a<o;++a,n+=4)r[a]=t[n];this.heightmap=e,this.width=s.width,this.height=s.height,this.data=r}return this}},{key:\"getHeight\",value:function(e,t){var n,i=this.width,l=this.height,o=this.data;if(e=ve(e*i),t=ve(t*l),this.smooth){e=Te(Ie(e,i-1),1),t=Te(Ie(t,l-1),1);var s=e+1,r=e-1,d=t*i,a=d+i,y=d-i;n=(o[y+r]+o[y+e]+o[y+s]+o[d+r]+o[d+e]+o[d+s]+o[a+r]+o[a+e]+o[a+s])/9}else n=o[t*i+e];return n}},{key:\"computeBoundingBox\",value:function(){var e=new v,t=Ie(this.width/this.height,1),a=Ie(this.height/this.width,1);return e.min.set(0,0,0),e.max.set(t,1,a),e.applyMatrix4(this.getTransformation()),e}},{key:\"sample\",value:function(e){var t,a=this.boundingBox;return a.containsPoint(e)?(e.applyMatrix4(this.inverseTransformation),t=e.y-this.getHeight(e.x,e.z)/255):t=a.distanceToPoint(e),t}},{key:\"serialize\",value:function(){var e=!!(0<arguments.length&&void 0!==arguments[0])&&arguments[0],t=z(s(a.prototype),\"serialize\",this).call(this);return t.parameters={width:this.width,height:this.height,smooth:this.smooth,data:e?null:this.data,dataURL:e&&null!==this.heightmap?this.heightmap.toDataURL():null,image:null},t}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return e.push(this.data.buffer),e}}]),a}(ba),qa=function(t){function a(){var t,n=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{},i=1<arguments.length?arguments[1]:void 0;return e(this,a),t=k(this,s(a).call(this,Ea.SUPER_PRIMITIVE,i)),t.s0=x(et,w(n.s)),t.r0=x(Pe,w(n.r)),t.s=new et,t.r=new Pe,t.ba=new qe,t.offset=0,t.precompute(),t}return l(a,t),n(a,[{key:\"setSize\",value:function(e,t,a,n){return this.s0.set(e,t,a,n),this.precompute()}},{key:\"setRadii\",value:function(e,t,a){return this.r0.set(e,t,a),this.precompute()}},{key:\"precompute\",value:function(){var e=this.s.copy(this.s0),t=this.r.copy(this.r0),a=this.ba;e.x-=t.x,e.y-=t.x,t.x-=e.w,e.w-=t.y,e.z-=t.y,this.offset=-2*e.z,a.set(t.z,this.offset);var n=a.dot(a);return 0===n?a.set(0,-1):a.divideScalar(n),this}},{key:\"computeBoundingBox\",value:function(){var e=this.s0,t=new v;return t.min.x=Ie(-e.x,-1),t.min.y=Ie(-e.y,-1),t.min.z=Ie(-e.z,-1),t.max.x=Te(e.x,1),t.max.y=Te(e.y,1),t.max.z=Te(e.z,1),t.applyMatrix4(this.getTransformation()),t}},{key:\"sample\",value:function(e){e.applyMatrix4(this.inverseTransformation);var t=this.s,a=this.r,n=this.ba,i=we(e.x)-t.x,l=we(e.y)-t.y,o=we(e.z)-t.z,s=Te(i,0),r=Te(l,0),d=ke(s*s+r*r),y=e.z-t.z,u=we(d+Ie(0,Te(i,l))-a.x)-t.w,m=Ie(Te(u*n.x+y*n.y,0),1),c=u-a.z*m,x=y-this.offset*m,p=Te(u-a.z,0),v=e.z+t.z,g=Te(u,0),k=u*-n.y+y*n.x,h=ke(Ie(c*c+x*x,Ie(p*p+v*v,g*g+y*y)));return h*me(Te(k,o))-a.y}},{key:\"serialize\",value:function(){var e=z(s(a.prototype),\"serialize\",this).call(this);return e.parameters={s:this.s0.toArray(),r:this.r0.toArray()},e}}],[{key:\"create\",value:function(e){var t=Aa[e];return new a({s:t[0],r:t[1]})}}]),a}(ba),Aa=[[new Float32Array([1,1,1,1]),new Float32Array([0,0,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,0,0])],[new Float32Array([0,0,1,1]),new Float32Array([0,0,1])],[new Float32Array([1,1,2,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,1,1]),new Float32Array([1,1,0])],[new Float32Array([1,1,.25,1]),new Float32Array([1,.25,0])],[new Float32Array([1,1,.25,.25]),new Float32Array([1,.25,0])],[new Float32Array([1,1,1,.25]),new Float32Array([1,.1,0])],[new Float32Array([1,1,1,.25]),new Float32Array([.1,.1,0])]],Va=function(){function t(){e(this,t)}return n(t,[{key:\"revive\",value:function(e){var t,a,n;switch(e.type){case Ea.FRACTAL_NOISE:t=new Da(e.parameters,e.material);break;case Ea.HEIGHTFIELD:t=new Fa(e.parameters,e.material);break;case Ea.SUPER_PRIMITIVE:t=new qa(e.parameters,e.material);}for(t.operation=e.operation,t.position.fromArray(e.position),t.quaternion.fromArray(e.quaternion),t.scale.fromArray(e.scale),t.updateInverseTransformation(),(a=0,n=e.children.length);a<n;++a)t.children.push(this.revive(e.children[a]));return t}}]),t}(),Ba=function(t){function a(){var t;return e(this,a),t=k(this,s(a).call(this,ca.MODIFY)),t.sdf=null,t}return l(a,t),a}(ma),Na=function(t){function a(){var t;return e(this,a),t=k(this,s(a).call(this)),t.response=new Ba,t.sdf=null,t}return l(a,t),n(a,[{key:\"respond\",value:function(){var e=z(s(a.prototype),\"respond\",this).call(this);return e.sdf=null===this.sdf?null:this.sdf.serialize(),e}},{key:\"createTransferList\",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[];return z(s(a.prototype),\"createTransferList\",this).call(this,e),null===this.sdf?e:this.sdf.createTransferList(e)}},{key:\"process\",value:function(e){var t=z(s(a.prototype),\"process\",this).call(this,e).getData(),n=this.sdf=Va.revive(e.sdf),i=Ia.run(e.cellPosition,e.cellSize,t,n);return S(s(a.prototype),\"data\",null===i?null:i.compress(),this,!0),this}}]),a}(va),Oa=new Na,La=new ga,Ma=null;self.addEventListener(\"message\",function(e){var t=e.data;switch(Ma=t.action,Ma){case ca.MODIFY:postMessage(Oa.process(t).respond(),Oa.createTransferList());break;case ca.EXTRACT:postMessage(La.process(t).respond(),La.createTransferList());break;case ca.CONFIGURE:Ot.resolution=t.resolution,ea.errorThreshold=t.errorThreshold;break;case ca.CLOSE:default:close();}}),self.addEventListener(\"error\",function(e){var t,a=Ma===ca.MODIFY?Oa:Ma===ca.EXTRACT?La:null;null===a?(t=new ta(ca.CLOSE),t.error=e,postMessage(t)):(t=a.respond(),t.action=ca.CLOSE,t.error=e,postMessage(t,a.createTransferList())),close()})})();\n";
-
-  var ThreadPool = function (_EventTarget) {
-    _inherits(ThreadPool, _EventTarget);
-
-    function ThreadPool() {
-      var _this;
-
-      var maxWorkers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : navigator.hardwareConcurrency;
-
-      _classCallCheck(this, ThreadPool);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ThreadPool).call(this));
-      _this.workerURL = URL.createObjectURL(new Blob([worker], {
-        type: "text/javascript"
-      }));
-      _this.maxWorkers = Math.min(navigator.hardwareConcurrency, Math.max(maxWorkers, 1));
-      _this.workers = [];
-      _this.busyWorkers = new WeakSet();
-      _this.configurationMessage = new ConfigurationMessage();
-      return _this;
-    }
-
-    _createClass(ThreadPool, [{
-      key: "handleEvent",
-      value: function handleEvent(event) {
-        switch (event.type) {
-          case "message":
-            {
-              this.busyWorkers["delete"](event.target);
-              message.worker = event.target;
-              message.response = event.data;
-              this.dispatchEvent(message);
-
-              if (this.workers.length > this.maxWorkers) {
-                this.closeWorker(event.target);
-              }
-
-              break;
-            }
-
-          case "error":
-            {
-              console.error("Encountered an unexpected error", event);
-              break;
-            }
-        }
-      }
-    }, {
-      key: "closeWorker",
-      value: function closeWorker(worker) {
-        var index = this.workers.indexOf(worker);
-
-        if (this.busyWorkers.has(worker)) {
-          this.busyWorkers["delete"](worker);
-          worker.terminate();
-        } else {
-          worker.postMessage(new Message(Action$1.CLOSE));
-        }
-
-        worker.removeEventListener("message", this);
-        worker.removeEventListener("error", this);
-
-        if (index >= 0) {
-          this.workers.splice(index, 1);
-        }
-      }
-    }, {
-      key: "createWorker",
-      value: function createWorker() {
-        var worker = new Worker(this.workerURL);
-        this.workers.push(worker);
-        worker.addEventListener("message", this);
-        worker.addEventListener("error", this);
-        worker.postMessage(this.configurationMessage);
-        return worker;
-      }
-    }, {
-      key: "getWorker",
-      value: function getWorker() {
-        var worker = null;
-        var i, l;
-
-        for (i = 0, l = this.workers.length; i < l; ++i) {
-          if (!this.busyWorkers.has(this.workers[i])) {
-            worker = this.workers[i];
-            this.busyWorkers.add(worker);
-            break;
-          }
-        }
-
-        if (worker === null && this.workers.length < this.maxWorkers) {
-          if (this.workerURL !== null) {
-            worker = this.createWorker();
-            this.busyWorkers.add(worker);
-          }
-        }
-
-        return worker;
-      }
-    }, {
-      key: "clear",
-      value: function clear() {
-        while (this.workers.length > 0) {
-          this.closeWorker(this.workers.pop());
-        }
-      }
-    }, {
-      key: "dispose",
-      value: function dispose() {
-        this.clear();
-        URL.revokeObjectURL(this.workerURL);
-        this.workerURL = null;
-      }
-    }]);
-
-    return ThreadPool;
-  }(EventTarget);
-
-  var TerrainEvent = function (_Event) {
-    _inherits(TerrainEvent, _Event);
-
-    function TerrainEvent(type) {
-      var _this;
-
-      _classCallCheck(this, TerrainEvent);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(TerrainEvent).call(this, type));
-      _this.octant = null;
-      _this.octantId = null;
-      _this.error = null;
-      return _this;
-    }
-
-    return TerrainEvent;
-  }(Event);
-
-  var modificationstart = new TerrainEvent("modificationstart");
-  var modificationend = new TerrainEvent("modificationend");
-  var extractionstart = new TerrainEvent("extractionstart");
-  var extractionend = new TerrainEvent("extractionend");
-  var load$2 = new TerrainEvent("load");
-  var error$1 = new TerrainEvent("error");
-
-  var Terrain = function (_EventTarget) {
-    _inherits(Terrain, _EventTarget);
-
-    function Terrain() {
-      var _this;
-
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      _classCallCheck(this, Terrain);
-
-      var worldSettings = options.world !== undefined ? options.world : {};
-      HermiteData.resolution = options.resolution !== undefined ? options.resolution : 32;
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Terrain).call(this));
-      _this.object = null;
-      _this.world = new WorldOctree(worldSettings.cellSize, worldSettings.levels, worldSettings.keyDesign);
-      _this.clipmap = new Clipmap(_this.world);
-
-      _this.clipmap.addEventListener("shellupdate", _assertThisInitialized(_this));
-
-      _this.threadPool = new ThreadPool(options.workers);
-
-      _this.threadPool.addEventListener("message", _assertThisInitialized(_this));
-
-      _this.tasks = new WeakMap();
-      _this.sdfLoader = new SDFLoader();
-
-      _this.sdfLoader.addEventListener("load", _assertThisInitialized(_this));
-
-      _this.history = [];
-      _this.dtSq = _this.world.getCellSize();
-      return _this;
-    }
-
-    _createClass(Terrain, [{
-      key: "handleEvent",
-      value: function handleEvent(event) {
-        switch (event.type) {
-          case "shellupdate":
-            break;
-
-          case "message":
-            break;
-
-          case "load":
-            this.revive(event.descriptions);
-            this.dispatchEvent(load$2);
-            break;
-        }
-      }
-    }, {
-      key: "applyCSG",
-      value: function applyCSG(sdf) {
-        this.world.applyCSG(sdf);
-        this.history.push(sdf);
-      }
-    }, {
-      key: "union",
-      value: function union(sdf) {
-        this.applyCSG(sdf.setOperationType(OperationType.UNION));
-      }
-    }, {
-      key: "subtract",
-      value: function subtract(sdf) {
-        this.applyCSG(sdf.setOperationType(OperationType.DIFFERENCE));
-      }
-    }, {
-      key: "intersect",
-      value: function intersect(sdf) {
-        this.applyCSG(sdf.setOperationType(OperationType.INTERSECTION));
-      }
-    }, {
-      key: "update",
-      value: function update(position) {
-        if (this.clipmap.position.distanceToSquared(position) >= this.dtSq) {
-          this.clipmap.update(position);
-        }
-      }
-    }, {
-      key: "raycast",
-      value: function raycast(ray) {
-        return this.world.raycast(ray);
-      }
-    }, {
-      key: "clear",
-      value: function clear() {
-        this.world.clear();
-        this.clipmap.clear();
-        this.threadPool.clear();
-        this.sdfLoader.clear();
-        this.tasks = new WeakMap();
-        this.history = [];
-      }
-    }, {
-      key: "dispose",
-      value: function dispose() {
-        this.threadPool.dispose();
-      }
-    }, {
-      key: "revive",
-      value: function revive(descriptions) {
-        var i, l;
-
-        for (i = 0, l = descriptions.length; i < l; ++i) {
-          this.applyCSG(SDFReviver.revive(descriptions[i]));
-        }
-      }
-    }, {
-      key: "save",
-      value: function save() {
-        return this.history.length === 0 ? null : URL.createObjectURL(new Blob([JSON.stringify(this.history)], {
-          type: "text/json"
-        }));
-      }
-    }, {
-      key: "load",
-      value: function load(data) {
-        var descriptions = JSON.parse(data);
-        this.clear();
-        this.sdfLoader.load(descriptions);
-      }
-    }]);
-
-    return Terrain;
-  }(EventTarget);
 
   var Isosurface = function () {
     function Isosurface(indices, positions, normals, uvs, materials) {
@@ -13748,9 +11099,9 @@
   var PSEUDOINVERSE_THRESHOLD = 1e-1;
   var SVD_SWEEPS = 5;
   var sm = new SymmetricMatrix3();
-  var m$4 = new Matrix3();
+  var m$3 = new Matrix3();
   var a$3 = new Vector2();
-  var b$9 = new Vector3();
+  var b$6 = new Vector3();
 
   function rotate01(vtav, v) {
     var se = vtav.elements;
@@ -13840,7 +11191,7 @@
       rotate12(vtav, v);
     }
 
-    return b$9.set(e[0], e[3], e[5]);
+    return b$6.set(e[0], e[3], e[5]);
   }
 
   function invert(x) {
@@ -13873,8 +11224,8 @@
     _createClass(SingularValueDecomposition, null, [{
       key: "solve",
       value: function solve(ata, atb, x) {
-        var sigma = solveSymmetric(sm.copy(ata), m$4.identity());
-        var invV = pseudoInverse(m$4, sigma);
+        var sigma = solveSymmetric(sm.copy(ata), m$3.identity());
+        var invV = pseudoInverse(m$3, sigma);
         x.copy(atb).applyMatrix3(invV);
       }
     }]);
@@ -13882,12 +11233,12 @@
     return SingularValueDecomposition;
   }();
 
-  var p$3 = new Vector3();
+  var p$1 = new Vector3();
 
   function calculateError(ata, atb, x) {
-    ata.applyToVector3(p$3.copy(x));
-    p$3.subVectors(atb, p$3);
-    return p$3.dot(p$3);
+    ata.applyToVector3(p$1.copy(x));
+    p$1.subVectors(atb, p$1);
+    return p$1.dot(p$1);
   }
 
   var QEFSolver = function () {
@@ -13918,10 +11269,10 @@
         var error = Infinity;
 
         if (!this.hasSolution && data !== null && data.numPoints > 0) {
-          p$3.copy(data.massPointSum).divideScalar(data.numPoints);
-          massPoint.copy(p$3);
-          ata.applyToVector3(p$3);
-          atb.sub(p$3);
+          p$1.copy(data.massPointSum).divideScalar(data.numPoints);
+          massPoint.copy(p$1);
+          ata.applyToVector3(p$1);
+          atb.sub(p$1);
           SingularValueDecomposition.solve(ata, atb, x);
           error = calculateError(ata, atb, x);
           x.add(massPoint);
@@ -14575,7 +11926,7 @@
     };
   }
 
-  function update$1(operation, data0, data1) {
+  function update(operation, data0, data1) {
     var bounds = computeIndexBounds(operation);
     var result, edgeData, lengths, d;
     var done = false;
@@ -14615,7 +11966,7 @@
 
     if (operation.type === OperationType.DENSITY_FUNCTION) {
       result = new HermiteData();
-      update$1(operation, result);
+      update(operation, result);
     }
 
     for (i = 0, l = children.length; i < l; ++i) {
@@ -14629,7 +11980,7 @@
             result = data;
           }
         } else {
-          update$1(operation, result, data);
+          update(operation, result, data);
         }
       } else if (operation.type === OperationType.INTERSECTION) {
         result = null;
@@ -14680,7 +12031,7 @@
               break;
           }
 
-          update$1(operation, data, generatedData);
+          update(operation, data, generatedData);
           data.contoured = false;
         }
 
@@ -14690,143 +12041,6 @@
 
     return ConstructiveSolidGeometry;
   }();
-
-  var data = new HermiteData(false);
-  var DataProcessor = function () {
-    function DataProcessor() {
-      _classCallCheck(this, DataProcessor);
-
-      this.data = null;
-      this.response = null;
-    }
-
-    _createClass(DataProcessor, [{
-      key: "getData",
-      value: function getData() {
-        return this.data;
-      }
-    }, {
-      key: "respond",
-      value: function respond() {
-        this.response.data = this.data.serialize();
-        return this.response;
-      }
-    }, {
-      key: "createTransferList",
-      value: function createTransferList() {
-        var transferList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-        if (this.data !== null) {
-          this.data.createTransferList(transferList);
-        }
-
-        return transferList;
-      }
-    }, {
-      key: "process",
-      value: function process(request) {
-        this.data = data.deserialize(request.data);
-        return this;
-      }
-    }]);
-
-    return DataProcessor;
-  }();
-
-  var SurfaceExtractor = function (_DataProcessor) {
-    _inherits(SurfaceExtractor, _DataProcessor);
-
-    function SurfaceExtractor() {
-      var _this;
-
-      _classCallCheck(this, SurfaceExtractor);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(SurfaceExtractor).call(this));
-      _this.response = new ExtractionResponse();
-      _this.decompressionTarget = new HermiteData(false);
-      _this.isosurface = null;
-      return _this;
-    }
-
-    _createClass(SurfaceExtractor, [{
-      key: "respond",
-      value: function respond() {
-        var response = _get(_getPrototypeOf(SurfaceExtractor.prototype), "respond", this).call(this);
-
-        response.isosurface = this.isosurface !== null ? this.isosurface.serialise() : null;
-        return response;
-      }
-    }, {
-      key: "createTransferList",
-      value: function createTransferList() {
-        var transferList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-        _get(_getPrototypeOf(SurfaceExtractor.prototype), "createTransferList", this).call(this, transferList);
-
-        return this.isosurface !== null ? this.isosurface.createTransferList(transferList) : transferList;
-      }
-    }, {
-      key: "process",
-      value: function process(request) {
-        var data = _get(_getPrototypeOf(SurfaceExtractor.prototype), "process", this).call(this, request).getData();
-
-        var svo = new SparseVoxelOctree(data.decompress(this.decompressionTarget));
-        this.isosurface = DualContouring.run(svo);
-        this.decompressionTarget.clear();
-        return this;
-      }
-    }]);
-
-    return SurfaceExtractor;
-  }(DataProcessor);
-
-  var VolumeModifier = function (_DataProcessor) {
-    _inherits(VolumeModifier, _DataProcessor);
-
-    function VolumeModifier() {
-      var _this;
-
-      _classCallCheck(this, VolumeModifier);
-
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(VolumeModifier).call(this));
-      _this.response = new ModificationResponse();
-      _this.sdf = null;
-      return _this;
-    }
-
-    _createClass(VolumeModifier, [{
-      key: "respond",
-      value: function respond() {
-        var response = _get(_getPrototypeOf(VolumeModifier.prototype), "respond", this).call(this);
-
-        response.sdf = this.sdf !== null ? this.sdf.serialize() : null;
-        return response;
-      }
-    }, {
-      key: "createTransferList",
-      value: function createTransferList() {
-        var transferList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-        _get(_getPrototypeOf(VolumeModifier.prototype), "createTransferList", this).call(this, transferList);
-
-        return this.sdf !== null ? this.sdf.createTransferList(transferList) : transferList;
-      }
-    }, {
-      key: "process",
-      value: function process(request) {
-        var data = _get(_getPrototypeOf(VolumeModifier.prototype), "process", this).call(this, request).getData();
-
-        var sdf = this.sdf = SDFReviver.revive(request.sdf);
-        var result = ConstructiveSolidGeometry.run(request.cellPosition, request.cellSize, data, sdf);
-
-        _set(_getPrototypeOf(VolumeModifier.prototype), "data", result !== null ? result.compress() : null, this, true);
-
-        return this;
-      }
-    }]);
-
-    return VolumeModifier;
-  }(DataProcessor);
 
   var ContouringDemo = function (_Demo) {
     _inherits(ContouringDemo, _Demo);
@@ -14855,8 +12069,8 @@
         color: 0x009188,
         metalness: 0.23,
         roughness: 0.31,
-        clearCoat: 0.94,
-        clearCoatRoughness: 0.15,
+        clearcoat: 0.94,
+        clearcoatRoughness: 0.15,
         dithering: true
       });
       _this.mesh = null;
@@ -15034,9 +12248,10 @@
         var hermiteDataHelper = this.hermiteDataHelper;
         var box3Helper = this.box3Helper;
         var presets = Object.keys(SuperPrimitivePreset).concat(["HEIGHTFIELD"]);
+        var material = this.material;
         var params = {
           "SDF": presets[this.superPrimitivePreset],
-          "color": this.material.color.getHex(),
+          "color": material.color.getHex(),
           "level mask": octreeHelper.children.length,
           "show SVO": function showSVO() {
             if (params.SDF !== "HEIGHTFIELD") {
@@ -15102,17 +12317,17 @@
         subFolder.add(this.scale, "y").min(0.0).max(0.5).step(0.0001);
         subFolder.add(this.scale, "z").min(0.0).max(0.5).step(0.0001);
         folder = menu.addFolder("Material");
-        folder.add(this.material, "metalness").min(0.0).max(1.0).step(0.0001);
-        folder.add(this.material, "roughness").min(0.0).max(1.0).step(0.0001);
-        folder.add(this.material, "clearCoat").min(0.0).max(1.0).step(0.0001);
-        folder.add(this.material, "clearCoatRoughness").min(0.0).max(1.0).step(0.0001);
-        folder.add(this.material, "reflectivity").min(0.0).max(1.0).step(0.0001);
+        folder.add(material, "metalness").min(0.0).max(1.0).step(0.0001);
+        folder.add(material, "roughness").min(0.0).max(1.0).step(0.0001);
+        folder.add(material, "clearcoat").min(0.0).max(1.0).step(0.0001);
+        folder.add(material, "clearcoatRoughness").min(0.0).max(1.0).step(0.0001);
+        folder.add(material, "reflectivity").min(0.0).max(1.0).step(0.0001);
         folder.addColor(params, "color").onChange(function () {
-          return _this2.material.color.setHex(params.color);
+          return material.color.setHex(params.color);
         });
-        folder.add(this.material, "wireframe");
-        folder.add(this.material, "flatShading").onChange(function () {
-          _this2.material.needsUpdate = true;
+        folder.add(material, "wireframe");
+        folder.add(material, "flatShading").onChange(function () {
+          material.needsUpdate = true;
         });
         menu.add(HermiteData, "resolution", [32, 64, 128]);
         menu.add(VoxelCell, "errorThreshold").min(0.0).max(0.01).step(0.0001);
@@ -15935,7 +13150,6 @@
     this.removeEventListener("load", main);
     var viewport = document.getElementById("viewport");
     var renderer = new three.WebGLRenderer({
-      logarithmicDepthBuffer: true,
       antialias: true
     });
     renderer.setSize(viewport.clientWidth, viewport.clientHeight);
