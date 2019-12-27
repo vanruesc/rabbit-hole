@@ -479,7 +479,7 @@
 
           geometry = new three.BufferGeometry();
           geometry.setIndex(new three.BufferAttribute(indices, 1));
-          geometry.addAttribute("position", new three.BufferAttribute(positions, 3));
+          geometry.setAttribute("position", new three.BufferAttribute(positions, 3));
           group.add(new three.LineSegments(geometry, material));
         }
 

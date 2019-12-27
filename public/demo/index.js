@@ -4356,6 +4356,7 @@
   }();
 
   var air = 0;
+
   var HermiteDataHelper = function (_Group) {
     _inherits(HermiteDataHelper, _Group);
 
@@ -4491,8 +4492,8 @@
           }
         }
 
-        geometry.addAttribute("position", new three.BufferAttribute(positions, 3));
-        geometry.addAttribute("color", new three.BufferAttribute(colors, 3));
+        geometry.setAttribute("position", new three.BufferAttribute(positions, 3));
+        geometry.setAttribute("color", new three.BufferAttribute(colors, 3));
         this.gridPoints.add(new three.Points(geometry, this.pointsMaterial));
       }
     }, {
@@ -4574,12 +4575,12 @@
             }
 
             geometry = new three.BufferGeometry();
-            geometry.addAttribute("position", new three.BufferAttribute(edgePositions, 3));
-            geometry.addAttribute("color", new three.BufferAttribute(edgeColors, 3));
+            geometry.setAttribute("position", new three.BufferAttribute(edgePositions, 3));
+            geometry.setAttribute("color", new three.BufferAttribute(edgeColors, 3));
             this.edges.add(new three.LineSegments(geometry, lineSegmentsMaterial));
             geometry = new three.BufferGeometry();
-            geometry.addAttribute("position", new three.BufferAttribute(normalPositions, 3));
-            geometry.addAttribute("color", new three.BufferAttribute(normalColors, 3));
+            geometry.setAttribute("position", new three.BufferAttribute(normalPositions, 3));
+            geometry.setAttribute("color", new three.BufferAttribute(normalColors, 3));
             this.normals.add(new three.LineSegments(geometry, lineSegmentsMaterial));
           }
         }
@@ -4697,7 +4698,7 @@
 
           geometry = new three.BufferGeometry();
           geometry.setIndex(new three.BufferAttribute(indices, 1));
-          geometry.addAttribute("position", new three.BufferAttribute(positions, 3));
+          geometry.setAttribute("position", new three.BufferAttribute(positions, 3));
           group.add(new three.LineSegments(geometry, material));
         }
 

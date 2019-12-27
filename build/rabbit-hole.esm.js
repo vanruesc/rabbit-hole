@@ -1,5 +1,5 @@
 /**
- * rabbit-hole v0.0.0 build Fri Dec 27 2019
+ * rabbit-hole v0.0.0 build Sat Dec 28 2019
  * https://github.com/vanruesc/rabbit-hole
  * Copyright 2019 Raoul van Rüschen, Zlib
  */
