@@ -16,7 +16,7 @@ import {
 
 import { DeltaControls } from "delta-controls";
 import { Euler, RotationOrder } from "math-ds";
-import HermiteDataHelper from "hermite-data-helper";
+import { HermiteDataHelper } from "hermite-data-helper";
 import { OctreeHelper } from "octree-helper";
 import { Demo } from "three-demo";
 

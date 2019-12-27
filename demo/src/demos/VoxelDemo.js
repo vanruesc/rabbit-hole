@@ -9,7 +9,7 @@ import {
 } from "three";
 
 import { DeltaControls } from "delta-controls";
-import HermiteDataHelper from "hermite-data-helper";
+import { HermiteDataHelper } from "hermite-data-helper";
 import { Demo } from "three-demo";
 import { HermiteData, Material, QEFSolver } from "../../../src";
 import { HermiteDataEditor } from "./editors/HermiteDataEditor.js";
