@@ -14,7 +14,7 @@ import {
 	WebGLRenderer
 } from "three";
 
-import OctreeHelper from "octree-helper";
+import { OctreeHelper } from "octree-helper";
 
 import { DeltaControls, PointerButton } from "delta-controls";
 import { SuperPrimitive, Terrain } from "../../src";
