@@ -7,7 +7,6 @@
 	"module": "build/rabbit-hole.esm.js",
 	"sideEffects": false,
 	"license": "Zlib",
-
 	"keywords": [
 		"volumetric",
 		"voxel",
@@ -16,23 +15,18 @@
 		"contouring",
 		"terrain"
 	],
-
 	"author": {
 		"name": "Raoul van Rüschen",
 		"email": "vanruesc@outlook.de"
 	},
-
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/vanruesc/rabbit-hole.git"
 	},
-
 	"bugs": {
 		"url": "https://github.com/vanruesc/rabbit-hole/issues"
 	},
-
 	"files": ["build"],
-
 	"scripts": {
 		"ava": "ava",
 		"lint": "npm run lint:lib && npm run lint:demo && npm run lint:editor && npm run lint:performance && npm run lint:test",
@@ -48,48 +42,45 @@
 		"watch": "rollup -c --watch",
 		"doc": "esdoc",
 		"pretest": "npm run lint && npm run build:production",
-		"test": "npm run ava",
-		"prepack": "npm test"
+		"test": "ava",
+		"prepack": "npm test && npm run doc"
 	},
-
 	"ava": {
 		"failFast": true,
 		"files": ["test/**/*.js"]
 	},
-
 	"eslintConfig": {
-		"extends": "delta"
+		"extends": "aether"
 	},
-
 	"peerDependencies": {
-		"iterator-result": ">= 0.0.0 < 1.0.0",
+		"iterator-result": ">= 1.0.0 < 2.0.0",
 		"math-ds": ">= 1.0.0 < 2.0.0",
-		"sparse-octree": ">= 5.0.0 < 6.0.0",
-		"synthetic-event": ">= 0.0.0 < 2.0.0"
+		"sparse-octree": ">= 6.0.0 < 7.0.0",
+		"synthetic-event": ">= 1.0.0 < 3.0.0"
 	},
-
 	"devDependencies": {
 		"@babel/core": "7.x.x",
 		"@babel/preset-env": "7.x.x",
+		"@rollup/plugin-node-resolve": "6.x.x",
 		"ava": "2.x.x",
 		"cross-env": "6.x.x",
 		"dat.gui": "0.x.x",
 		"delta-controls": "2.x.x",
 		"esdoc": "1.x.x",
+		"esdoc-importpath-plugin": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
 		"eslint": "6.x.x",
-		"eslint-config-delta": "1.x.x",
+		"eslint-config-aether": "1.x.x",
 		"feature-detector": "0.x.x",
 		"hermite-data-helper": "0.x.x",
-		"iterator-result": "0.x.x",
+		"iterator-result": "1.x.x",
 		"math-ds": "1.x.x",
-		"octree-helper": "0.x.x",
+		"octree-helper": "1.x.x",
 		"rollup": "1.x.x",
 		"rollup-plugin-babel": "4.x.x",
 		"rollup-plugin-babel-minify": "9.x.x",
-		"rollup-plugin-node-resolve": "5.x.x",
 		"rollup-plugin-string": "3.x.x",
-		"sparse-octree": "5.x.x",
+		"sparse-octree": "6.x.x",
 		"synthetic-event": "1.x.x",
 		"three": "0.x.x",
 		"three-demo": "3.x.x"
