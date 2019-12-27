@@ -1,4 +1,4 @@
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { Box3, Vector3 } from "math-ds";
 import { Material } from "../Material.js";
 import { EdgeData } from "../EdgeData.js";
@@ -396,7 +396,7 @@ function generateEdges(operation, data, bounds) {
 	for(a = 4, c = 0, d = 0; d < 3; a >>= 1, c = 0, ++d) {
 
 		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-		axis = pattern[a];
+		axis = layout[a];
 
 		edges = edgeData.indices[d];
 		zeroCrossings = edgeData.zeroCrossings[d];

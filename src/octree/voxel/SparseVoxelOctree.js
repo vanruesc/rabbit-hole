@@ -1,4 +1,4 @@
-import { Octree, pattern, edges } from "sparse-octree";
+import { Octree, layout, edges } from "sparse-octree";
 import { Vector3 } from "math-ds";
 import { QEFData } from "../../math/QEFData.js";
 import { QEFSolver } from "../../math/QEFSolver.js";
@@ -91,7 +91,7 @@ function createVoxel(n, x, y, z, materialIndices) {
 	for(materials = 0, i = 0; i < 8; ++i) {
 
 		// Translate the coordinates into a one-dimensional grid point index.
-		offset = pattern[i];
+		offset = layout[i];
 		index = (z + offset[2]) * mm + (y + offset[1]) * m + (x + offset[0]);
 
 		// Convert the identified material index into a binary value.
@@ -239,7 +239,7 @@ export class SparseVoxelOctree extends Octree {
 				for(i = 0; i < 4; ++i) {
 
 					// Rotate around the edge.
-					offset = pattern[sequence[i]];
+					offset = layout[sequence[i]];
 
 					x = edge.coordinates.x - offset[0];
 					y = edge.coordinates.y - offset[1];

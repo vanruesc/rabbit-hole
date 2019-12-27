@@ -1,5 +1,5 @@
 import { Vector3 } from "math-ds";
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { KeyDesign } from "./KeyDesign.js";
 import { WorldOctantIterator } from "./WorldOctantIterator.js";
 import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
@@ -50,7 +50,7 @@ function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
 			// Check if the child exists.
 			if((children & (1 << i)) !== 0) {
 
-				offset = pattern[i];
+				offset = layout[i];
 
 				v.set(
 					keyX + offset[0],

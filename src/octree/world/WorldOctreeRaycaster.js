@@ -1,5 +1,5 @@
 import { Box3, Line3, Ray, Vector3 } from "math-ds";
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
 
 /**
@@ -261,7 +261,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tz0, txm, tym, tzm, intersects);
 
@@ -276,7 +276,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, ty0, tzm, txm, tym, tz1, intersects);
 
@@ -291,7 +291,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tz0, txm, ty1, tzm, intersects);
 
@@ -306,7 +306,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, tx0, tym, tzm, txm, ty1, tz1, intersects);
 
@@ -321,7 +321,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tz0, tx1, tym, tzm, intersects);
 
@@ -336,7 +336,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, ty0, tzm, tx1, tym, tz1, intersects);
 
@@ -351,7 +351,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tz0, tx1, ty1, tzm, intersects);
 
@@ -366,7 +366,7 @@ function raycastOctant(world, octant, keyX, keyY, keyZ, lod, tx0, ty0, tz0, tx1,
 
 						if((children & (1 << i)) !== 0) {
 
-							offset = pattern[i];
+							offset = layout[i];
 							v.set(keyX + offset[0], keyY + offset[1], keyZ + offset[2]);
 							raycastOctant(world, grid.get(keyDesign.packKey(v)), v.x, v.y, v.z, lod, txm, tym, tzm, tx1, ty1, tz1, intersects);
 

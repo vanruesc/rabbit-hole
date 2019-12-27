@@ -1,5 +1,5 @@
 import { Box3, Vector3 } from "math-ds";
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { OperationType } from "../../volume/csg/OperationType.js";
 import { IntermediateWorldOctant } from "./IntermediateWorldOctant.js";
 import { WorldOctant } from "./WorldOctant.js";
@@ -99,7 +99,7 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 			// Check if the child exists.
 			if((children & (1 << i)) !== 0) {
 
-				offset = pattern[i];
+				offset = layout[i];
 
 				p.set(
 					keyX + offset[0],
@@ -181,7 +181,7 @@ export class WorldOctreeCSG {
 					// Determine the existence of the child octants.
 					for(i = 0; i < 8; ++i) {
 
-						offset = pattern[i];
+						offset = layout[i];
 
 						p.set(
 							v.x + offset[0],

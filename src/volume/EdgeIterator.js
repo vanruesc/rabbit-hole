@@ -1,6 +1,6 @@
 import { Vector3 } from "math-ds";
 import IteratorResult from "iterator-result";
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { Edge } from "./Edge.js";
 
 /**
@@ -220,7 +220,7 @@ export class EdgeIterator {
 				indices.push(edgeData.indices[c]);
 				zeroCrossings.push(edgeData.zeroCrossings[c]);
 				normals.push(edgeData.normals[c]);
-				axes.push(pattern[a]);
+				axes.push(layout[a]);
 				lengths.push(l);
 
 				++this.d;
