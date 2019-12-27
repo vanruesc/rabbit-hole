@@ -120,7 +120,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/octree/world/WorldOctree.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Vector3 } from &quot;math-ds&quot;;
-import { pattern } from &quot;sparse-octree&quot;;
+import { layout } from &quot;sparse-octree&quot;;
 import { KeyDesign } from &quot;./KeyDesign.js&quot;;
 import { WorldOctantIterator } from &quot;./WorldOctantIterator.js&quot;;
 import { WorldOctantWrapper } from &quot;./WorldOctantWrapper.js&quot;;
@@ -171,7 +171,7 @@ function removeChildren(world, octant, keyX, keyY, keyZ, lod) {
 			// Check if the child exists.
 			if((children &amp; (1 &lt;&lt; i)) !== 0) {
 
-				offset = pattern[i];
+				offset = layout[i];
 
 				v.set(
 					keyX + offset[0],

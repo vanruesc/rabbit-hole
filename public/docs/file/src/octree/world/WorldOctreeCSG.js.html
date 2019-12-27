@@ -120,7 +120,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/octree/world/WorldOctreeCSG.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Box3, Vector3 } from &quot;math-ds&quot;;
-import { pattern } from &quot;sparse-octree&quot;;
+import { layout } from &quot;sparse-octree&quot;;
 import { OperationType } from &quot;../../volume/csg/OperationType.js&quot;;
 import { IntermediateWorldOctant } from &quot;./IntermediateWorldOctant.js&quot;;
 import { WorldOctant } from &quot;./WorldOctant.js&quot;;
@@ -220,7 +220,7 @@ function applyDifference(world, sdf, octant, keyX, keyY, keyZ, lod) {
 			// Check if the child exists.
 			if((children &amp; (1 &lt;&lt; i)) !== 0) {
 
-				offset = pattern[i];
+				offset = layout[i];
 
 				p.set(
 					keyX + offset[0],
@@ -302,7 +302,7 @@ export class WorldOctreeCSG {
 					// Determine the existence of the child octants.
 					for(i = 0; i &lt; 8; ++i) {
 
-						offset = pattern[i];
+						offset = layout[i];
 
 						p.set(
 							v.x + offset[0],

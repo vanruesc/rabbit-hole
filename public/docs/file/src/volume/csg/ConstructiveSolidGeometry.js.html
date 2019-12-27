@@ -119,7 +119,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/volume/csg/ConstructiveSolidGeometry.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { pattern } from &quot;sparse-octree&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { layout } from &quot;sparse-octree&quot;;
 import { Box3, Vector3 } from &quot;math-ds&quot;;
 import { Material } from &quot;../Material.js&quot;;
 import { EdgeData } from &quot;../EdgeData.js&quot;;
@@ -517,7 +517,7 @@ function generateEdges(operation, data, bounds) {
 	for(a = 4, c = 0, d = 0; d &lt; 3; a &gt;&gt;= 1, c = 0, ++d) {
 
 		// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-		axis = pattern[a];
+		axis = layout[a];
 
 		edges = edgeData.indices[d];
 		zeroCrossings = edgeData.zeroCrossings[d];

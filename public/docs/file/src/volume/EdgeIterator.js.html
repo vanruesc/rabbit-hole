@@ -121,7 +121,7 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/volume/EdgeIterator.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Vector3 } from &quot;math-ds&quot;;
 import IteratorResult from &quot;iterator-result&quot;;
-import { pattern } from &quot;sparse-octree&quot;;
+import { layout } from &quot;sparse-octree&quot;;
 import { Edge } from &quot;./Edge.js&quot;;
 
 /**
@@ -341,7 +341,7 @@ export class EdgeIterator {
 				indices.push(edgeData.indices[c]);
 				zeroCrossings.push(edgeData.zeroCrossings[c]);
 				normals.push(edgeData.normals[c]);
-				axes.push(pattern[a]);
+				axes.push(layout[a]);
 				lengths.push(l);
 
 				++this.d;

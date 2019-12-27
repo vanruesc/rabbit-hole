@@ -1,512 +1,512 @@
 window.esdocSearchIndex = [
   [
-    "rabbit-hole/src/worker/action.js~action",
+    "rabbit-hole~action",
     "variable/index.html#static-variable-Action",
-    "<span>Action</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/Action.js</span>",
+    "<span>Action</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/utils/binaryutils.js~binaryutils",
+    "rabbit-hole~binaryutils",
     "class/src/utils/BinaryUtils.js~BinaryUtils.html",
-    "<span>BinaryUtils</span> <span class=\"search-result-import-path\">rabbit-hole/src/utils/BinaryUtils.js</span>",
+    "<span>BinaryUtils</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/clipmap/clipmap.js~clipmap",
+    "rabbit-hole~clipmap",
     "class/src/clipmap/Clipmap.js~Clipmap.html",
-    "<span>Clipmap</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Clipmap.js</span>",
+    "<span>Clipmap</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/events/clipmapevent.js~clipmapevent",
+    "rabbit-hole~clipmapevent",
     "class/src/events/ClipmapEvent.js~ClipmapEvent.html",
-    "<span>ClipmapEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/ClipmapEvent.js</span>",
+    "<span>ClipmapEvent</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/configurationmessage.js~configurationmessage",
+    "rabbit-hole~configurationmessage",
     "class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html",
-    "<span>ConfigurationMessage</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ConfigurationMessage.js</span>",
+    "<span>ConfigurationMessage</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/constructivesolidgeometry.js~constructivesolidgeometry",
+    "rabbit-hole~constructivesolidgeometry",
     "class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html",
-    "<span>ConstructiveSolidGeometry</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/ConstructiveSolidGeometry.js</span>",
+    "<span>ConstructiveSolidGeometry</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/datamessage.js~datamessage",
+    "rabbit-hole~datamessage",
     "class/src/worker/messages/DataMessage.js~DataMessage.html",
-    "<span>DataMessage</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/DataMessage.js</span>",
+    "<span>DataMessage</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/dataprocessor.js~dataprocessor",
+    "rabbit-hole~dataprocessor",
     "class/src/worker/DataProcessor.js~DataProcessor.html",
-    "<span>DataProcessor</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/DataProcessor.js</span>",
+    "<span>DataProcessor</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/densityfunction.js~densityfunction",
+    "rabbit-hole~densityfunction",
     "class/src/volume/csg/DensityFunction.js~DensityFunction.html",
-    "<span>DensityFunction</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/DensityFunction.js</span>",
+    "<span>DensityFunction</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/deserializable.js~deserializable",
+    "rabbit-hole~deserializable",
     "class/src/core/Deserializable.js~Deserializable.html",
-    "<span>Deserializable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Deserializable.js</span>",
+    "<span>Deserializable</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/difference.js~difference",
+    "rabbit-hole~difference",
     "class/src/volume/csg/Difference.js~Difference.html",
-    "<span>Difference</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/Difference.js</span>",
+    "<span>Difference</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/disposable.js~disposable",
+    "rabbit-hole~disposable",
     "class/src/core/Disposable.js~Disposable.html",
-    "<span>Disposable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Disposable.js</span>",
+    "<span>Disposable</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/dualcontouring.js~dualcontouring",
+    "rabbit-hole~dualcontouring",
     "class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html",
-    "<span>DualContouring</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/DualContouring.js</span>",
+    "<span>DualContouring</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/edge.js~edge",
+    "rabbit-hole~edge",
     "class/src/volume/Edge.js~Edge.html",
-    "<span>Edge</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/Edge.js</span>",
+    "<span>Edge</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/edgedata.js~edgedata",
+    "rabbit-hole~edgedata",
     "class/src/volume/EdgeData.js~EdgeData.html",
-    "<span>EdgeData</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/EdgeData.js</span>",
+    "<span>EdgeData</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/edgeiterator.js~edgeiterator",
+    "rabbit-hole~edgeiterator",
     "class/src/volume/EdgeIterator.js~EdgeIterator.html",
-    "<span>EdgeIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/EdgeIterator.js</span>",
+    "<span>EdgeIterator</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/extractionrequest.js~extractionrequest",
+    "rabbit-hole~extractionrequest",
     "class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html",
-    "<span>ExtractionRequest</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ExtractionRequest.js</span>",
+    "<span>ExtractionRequest</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/extractionresponse.js~extractionresponse",
+    "rabbit-hole~extractionresponse",
     "class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html",
-    "<span>ExtractionResponse</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ExtractionResponse.js</span>",
+    "<span>ExtractionResponse</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/fractalnoise.js~fractalnoise",
+    "rabbit-hole~fractalnoise",
     "class/src/volume/sdf/FractalNoise.js~FractalNoise.html",
-    "<span>FractalNoise</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/FractalNoise.js</span>",
+    "<span>FractalNoise</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/math/givens.js~givens",
+    "rabbit-hole~givens",
     "class/src/math/Givens.js~Givens.html",
-    "<span>Givens</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/Givens.js</span>",
+    "<span>Givens</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/heightfield.js~heightfield",
+    "rabbit-hole~heightfield",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html",
-    "<span>Heightfield</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/Heightfield.js</span>",
+    "<span>Heightfield</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/hermitedata.js~hermitedata",
+    "rabbit-hole~hermitedata",
     "class/src/volume/HermiteData.js~HermiteData.html",
-    "<span>HermiteData</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/HermiteData.js</span>",
+    "<span>HermiteData</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/intermediateworldoctant.js~intermediateworldoctant",
+    "rabbit-hole~intermediateworldoctant",
     "class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html",
-    "<span>IntermediateWorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/IntermediateWorldOctant.js</span>",
+    "<span>IntermediateWorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/intersection.js~intersection",
+    "rabbit-hole~intersection",
     "class/src/volume/csg/Intersection.js~Intersection.html",
-    "<span>Intersection</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/Intersection.js</span>",
+    "<span>Intersection</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/isosurface/isosurface.js~isosurface",
+    "rabbit-hole~isosurface",
     "class/src/isosurface/Isosurface.js~Isosurface.html",
-    "<span>Isosurface</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/Isosurface.js</span>",
+    "<span>Isosurface</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/keydesign.js~keydesign",
+    "rabbit-hole~keydesign",
     "class/src/octree/world/KeyDesign.js~KeyDesign.html",
-    "<span>KeyDesign</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/KeyDesign.js</span>",
+    "<span>KeyDesign</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/keyiterator.js~keyiterator",
+    "rabbit-hole~keyiterator",
     "class/src/octree/world/KeyIterator.js~KeyIterator.html",
-    "<span>KeyIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/KeyIterator.js</span>",
+    "<span>KeyIterator</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/material.js~material",
+    "rabbit-hole~material",
     "variable/index.html#static-variable-Material",
-    "<span>Material</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/Material.js</span>",
+    "<span>Material</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/worker/messages/message.js~message",
+    "rabbit-hole~message",
     "class/src/worker/messages/Message.js~Message.html",
-    "<span>Message</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/Message.js</span>",
+    "<span>Message</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/modificationrequest.js~modificationrequest",
+    "rabbit-hole~modificationrequest",
     "class/src/worker/messages/ModificationRequest.js~ModificationRequest.html",
-    "<span>ModificationRequest</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ModificationRequest.js</span>",
+    "<span>ModificationRequest</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/messages/modificationresponse.js~modificationresponse",
+    "rabbit-hole~modificationresponse",
     "class/src/worker/messages/ModificationResponse.js~ModificationResponse.html",
-    "<span>ModificationResponse</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/messages/ModificationResponse.js</span>",
+    "<span>ModificationResponse</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/operation.js~operation",
+    "rabbit-hole~operation",
     "class/src/volume/csg/Operation.js~Operation.html",
-    "<span>Operation</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/Operation.js</span>",
+    "<span>Operation</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/operationtype.js~operationtype",
+    "rabbit-hole~operationtype",
     "variable/index.html#static-variable-OperationType",
-    "<span>OperationType</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/OperationType.js</span>",
+    "<span>OperationType</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/math/qefdata.js~qefdata",
+    "rabbit-hole~qefdata",
     "class/src/math/QEFData.js~QEFData.html",
-    "<span>QEFData</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/QEFData.js</span>",
+    "<span>QEFData</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/math/qefsolver.js~qefsolver",
+    "rabbit-hole~qefsolver",
     "class/src/math/QEFSolver.js~QEFSolver.html",
-    "<span>QEFSolver</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/QEFSolver.js</span>",
+    "<span>QEFSolver</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/queue.js~queue",
+    "rabbit-hole~queue",
     "class/src/core/Queue.js~Queue.html",
-    "<span>Queue</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Queue.js</span>",
+    "<span>Queue</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/codecs/runlengthencoding.js~runlengthencoding",
+    "rabbit-hole~runlengthencoding",
     "class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html",
-    "<span>RunLengthEncoding</span> <span class=\"search-result-import-path\">rabbit-hole/src/codecs/RunLengthEncoding.js</span>",
+    "<span>RunLengthEncoding</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/loaders/sdfloader.js~sdfloader",
+    "rabbit-hole~sdfloader",
     "class/src/loaders/SDFLoader.js~SDFLoader.html",
-    "<span>SDFLoader</span> <span class=\"search-result-import-path\">rabbit-hole/src/loaders/SDFLoader.js</span>",
+    "<span>SDFLoader</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/events/sdfloaderevent.js~sdfloaderevent",
+    "rabbit-hole~sdfloaderevent",
     "class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html",
-    "<span>SDFLoaderEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/SDFLoaderEvent.js</span>",
+    "<span>SDFLoaderEvent</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/sdfreviver.js~sdfreviver",
+    "rabbit-hole~sdfreviver",
     "class/src/volume/sdf/SDFReviver.js~SDFReviver.html",
-    "<span>SDFReviver</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SDFReviver.js</span>",
+    "<span>SDFReviver</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/sdftype.js~sdftype",
+    "rabbit-hole~sdftype",
     "variable/index.html#static-variable-SDFType",
-    "<span>SDFType</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SDFType.js</span>",
+    "<span>SDFType</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/clipmap/scene.js~scene",
+    "rabbit-hole~scene",
     "class/src/clipmap/Scene.js~Scene.html",
-    "<span>Scene</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Scene.js</span>",
+    "<span>Scene</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/math/schur.js~schur",
+    "rabbit-hole~schur",
     "class/src/math/Schur.js~Schur.html",
-    "<span>Schur</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/Schur.js</span>",
+    "<span>Schur</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/serializable.js~serializable",
+    "rabbit-hole~serializable",
     "class/src/core/Serializable.js~Serializable.html",
-    "<span>Serializable</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Serializable.js</span>",
+    "<span>Serializable</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/signeddistancefunction.js~signeddistancefunction",
+    "rabbit-hole~signeddistancefunction",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html",
-    "<span>SignedDistanceFunction</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SignedDistanceFunction.js</span>",
+    "<span>SignedDistanceFunction</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/math/singularvaluedecomposition.js~singularvaluedecomposition",
+    "rabbit-hole~singularvaluedecomposition",
     "class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html",
-    "<span>SingularValueDecomposition</span> <span class=\"search-result-import-path\">rabbit-hole/src/math/SingularValueDecomposition.js</span>",
+    "<span>SingularValueDecomposition</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree",
+    "rabbit-hole~sparsevoxeloctree",
     "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html",
-    "<span>SparseVoxelOctree</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/voxel/SparseVoxelOctree.js</span>",
+    "<span>SparseVoxelOctree</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/superprimitive.js~superprimitive",
+    "rabbit-hole~superprimitive",
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html",
-    "<span>SuperPrimitive</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SuperPrimitive.js</span>",
+    "<span>SuperPrimitive</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/sdf/superprimitive.js~superprimitivepreset",
+    "rabbit-hole~superprimitivepreset",
     "variable/index.html#static-variable-SuperPrimitivePreset",
-    "<span>SuperPrimitivePreset</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/sdf/SuperPrimitive.js</span>",
+    "<span>SuperPrimitivePreset</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/worker/surfaceextractor.js~surfaceextractor",
+    "rabbit-hole~surfaceextractor",
     "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html",
-    "<span>SurfaceExtractor</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/SurfaceExtractor.js</span>",
+    "<span>SurfaceExtractor</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/clipmap/task.js~task",
+    "rabbit-hole~task",
     "class/src/clipmap/Task.js~Task.html",
-    "<span>Task</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/Task.js</span>",
+    "<span>Task</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/terrain.js~terrain",
+    "rabbit-hole~terrain",
     "class/src/core/Terrain.js~Terrain.html",
-    "<span>Terrain</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/Terrain.js</span>",
+    "<span>Terrain</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/events/terrainevent.js~terrainevent",
+    "rabbit-hole~terrainevent",
     "class/src/events/TerrainEvent.js~TerrainEvent.html",
-    "<span>TerrainEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/TerrainEvent.js</span>",
+    "<span>TerrainEvent</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/threadpool.js~threadpool",
+    "rabbit-hole~threadpool",
     "class/src/worker/ThreadPool.js~ThreadPool.html",
-    "<span>ThreadPool</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/ThreadPool.js</span>",
+    "<span>ThreadPool</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/core/transferablecontainer.js~transferablecontainer",
+    "rabbit-hole~transferablecontainer",
     "class/src/core/TransferableContainer.js~TransferableContainer.html",
-    "<span>TransferableContainer</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/TransferableContainer.js</span>",
+    "<span>TransferableContainer</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/csg/union.js~union",
+    "rabbit-hole~union",
     "class/src/volume/csg/Union.js~Union.html",
-    "<span>Union</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/csg/Union.js</span>",
+    "<span>Union</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/worker/volumemodifier.js~volumemodifier",
+    "rabbit-hole~volumemodifier",
     "class/src/worker/VolumeModifier.js~VolumeModifier.html",
-    "<span>VolumeModifier</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/VolumeModifier.js</span>",
+    "<span>VolumeModifier</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/volume/voxel.js~voxel",
+    "rabbit-hole~voxel",
     "class/src/volume/Voxel.js~Voxel.html",
-    "<span>Voxel</span> <span class=\"search-result-import-path\">rabbit-hole/src/volume/Voxel.js</span>",
+    "<span>Voxel</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/voxel/voxelcell.js~voxelcell",
+    "rabbit-hole~voxelcell",
     "class/src/octree/voxel/VoxelCell.js~VoxelCell.html",
-    "<span>VoxelCell</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/voxel/VoxelCell.js</span>",
+    "<span>VoxelCell</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/events/workerevent.js~workerevent",
+    "rabbit-hole~workerevent",
     "class/src/events/WorkerEvent.js~WorkerEvent.html",
-    "<span>WorkerEvent</span> <span class=\"search-result-import-path\">rabbit-hole/src/events/WorkerEvent.js</span>",
+    "<span>WorkerEvent</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctant.js~worldoctant",
+    "rabbit-hole~worldoctant",
     "class/src/octree/world/WorldOctant.js~WorldOctant.html",
-    "<span>WorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctant.js</span>",
+    "<span>WorldOctant</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctantid.js~worldoctantid",
+    "rabbit-hole~worldoctantid",
     "class/src/octree/world/WorldOctantId.js~WorldOctantId.html",
-    "<span>WorldOctantId</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantId.js</span>",
+    "<span>WorldOctantId</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctantiterator.js~worldoctantiterator",
+    "rabbit-hole~worldoctantiterator",
     "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html",
-    "<span>WorldOctantIterator</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantIterator.js</span>",
+    "<span>WorldOctantIterator</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctantwrapper.js~worldoctantwrapper",
+    "rabbit-hole~worldoctantwrapper",
     "class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html",
-    "<span>WorldOctantWrapper</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctantWrapper.js</span>",
+    "<span>WorldOctantWrapper</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctree.js~worldoctree",
+    "rabbit-hole~worldoctree",
     "class/src/octree/world/WorldOctree.js~WorldOctree.html",
-    "<span>WorldOctree</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctree.js</span>",
+    "<span>WorldOctree</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctreecsg.js~worldoctreecsg",
+    "rabbit-hole~worldoctreecsg",
     "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html",
-    "<span>WorldOctreeCSG</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctreeCSG.js</span>",
+    "<span>WorldOctreeCSG</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/octree/world/worldoctreeraycaster.js~worldoctreeraycaster",
+    "rabbit-hole~worldoctreeraycaster",
     "class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html",
-    "<span>WorldOctreeRaycaster</span> <span class=\"search-result-import-path\">rabbit-hole/src/octree/world/WorldOctreeRaycaster.js</span>",
+    "<span>WorldOctreeRaycaster</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "class"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cellprocedgemask",
+    "rabbit-hole~cellprocedgemask",
     "variable/index.html#static-variable-cellProcEdgeMask",
-    "<span>cellProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>cellProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~cellprocfacemask",
+    "rabbit-hole~cellprocfacemask",
     "variable/index.html#static-variable-cellProcFaceMask",
-    "<span>cellProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>cellProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edgemask",
+    "rabbit-hole~edgemask",
     "variable/index.html#static-variable-edgeMask",
-    "<span>edgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>edgeMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~edgeprocedgemask",
+    "rabbit-hole~edgeprocedgemask",
     "variable/index.html#static-variable-edgeProcEdgeMask",
-    "<span>edgeProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>edgeProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/clipmap/clipmap-events.js~error",
+    "rabbit-hole~error",
     "variable/index.html#static-variable-error",
-    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/clipmap-events.js</span>",
+    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~error",
+    "rabbit-hole~error",
     "variable/index.html#static-variable-error",
-    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>error</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~extractionend",
+    "rabbit-hole~extractionend",
     "variable/index.html#static-variable-extractionend",
-    "<span>extractionend</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>extractionend</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~extractionstart",
+    "rabbit-hole~extractionstart",
     "variable/index.html#static-variable-extractionstart",
-    "<span>extractionstart</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>extractionstart</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~facemap",
+    "rabbit-hole~facemap",
     "variable/index.html#static-variable-faceMap",
-    "<span>faceMap</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>faceMap</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~faceprocedgemask",
+    "rabbit-hole~faceprocedgemask",
     "variable/index.html#static-variable-faceProcEdgeMask",
-    "<span>faceProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>faceProcEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~faceprocfacemask",
+    "rabbit-hole~faceprocfacemask",
     "variable/index.html#static-variable-faceProcFaceMask",
-    "<span>faceProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>faceProcFaceMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~load",
+    "rabbit-hole~load",
     "variable/index.html#static-variable-load",
-    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/loaders/sdf-loader-events.js~load",
+    "rabbit-hole~load",
     "variable/index.html#static-variable-load",
-    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole/src/loaders/sdf-loader-events.js</span>",
+    "<span>load</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/worker/thread-pool-events.js~message",
+    "rabbit-hole~message",
     "variable/index.html#static-variable-message",
-    "<span>message</span> <span class=\"search-result-import-path\">rabbit-hole/src/worker/thread-pool-events.js</span>",
+    "<span>message</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~modificationend",
+    "rabbit-hole~modificationend",
     "variable/index.html#static-variable-modificationend",
-    "<span>modificationend</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>modificationend</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/core/terrain-events.js~modificationstart",
+    "rabbit-hole~modificationstart",
     "variable/index.html#static-variable-modificationstart",
-    "<span>modificationstart</span> <span class=\"search-result-import-path\">rabbit-hole/src/core/terrain-events.js</span>",
+    "<span>modificationstart</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/isosurface/dual-contouring/tables.js~procedgemask",
+    "rabbit-hole~procedgemask",
     "variable/index.html#static-variable-procEdgeMask",
-    "<span>procEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole/src/isosurface/dual-contouring/tables.js</span>",
+    "<span>procEdgeMask</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
-    "rabbit-hole/src/clipmap/clipmap-events.js~update",
+    "rabbit-hole~update",
     "variable/index.html#static-variable-update",
-    "<span>update</span> <span class=\"search-result-import-path\">rabbit-hole/src/clipmap/clipmap-events.js</span>",
+    "<span>update</span> <span class=\"search-result-import-path\">rabbit-hole</span>",
     "variable"
   ],
   [
@@ -810,27 +810,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/clipmap/clipmap.js~clipmap#currentscene",
-    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-currentScene",
-    "src/clipmap/Clipmap.js~Clipmap#currentScene",
-    "member"
-  ],
-  [
-    "src/clipmap/clipmap.js~clipmap#nextscene",
-    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-nextScene",
-    "src/clipmap/Clipmap.js~Clipmap#nextScene",
-    "member"
-  ],
-  [
     "src/clipmap/clipmap.js~clipmap#position",
     "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-position",
     "src/clipmap/Clipmap.js~Clipmap#position",
-    "member"
-  ],
-  [
-    "src/clipmap/clipmap.js~clipmap#previousscene",
-    "class/src/clipmap/Clipmap.js~Clipmap.html#instance-member-previousScene",
-    "src/clipmap/Clipmap.js~Clipmap#previousScene",
     "member"
   ],
   [
@@ -1134,22 +1116,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/core/terrain.js~terrain#dtsq",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-dtSq",
-    "src/core/Terrain.js~Terrain#dtSq",
-    "member"
-  ],
-  [
     "src/core/terrain.js~terrain#handleevent",
     "class/src/core/Terrain.js~Terrain.html#instance-method-handleEvent",
     "src/core/Terrain.js~Terrain#handleEvent",
     "method"
-  ],
-  [
-    "src/core/terrain.js~terrain#history",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-history",
-    "src/core/Terrain.js~Terrain#history",
-    "member"
   ],
   [
     "src/core/terrain.js~terrain#intersect",
@@ -1176,34 +1146,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/core/terrain.js~terrain#revive",
-    "class/src/core/Terrain.js~Terrain.html#instance-method-revive",
-    "src/core/Terrain.js~Terrain#revive",
-    "method"
-  ],
-  [
     "src/core/terrain.js~terrain#save",
     "class/src/core/Terrain.js~Terrain.html#instance-method-save",
     "src/core/Terrain.js~Terrain#save",
     "method"
   ],
   [
-    "src/core/terrain.js~terrain#sdfloader",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-sdfLoader",
-    "src/core/Terrain.js~Terrain#sdfLoader",
-    "member"
-  ],
-  [
     "src/core/terrain.js~terrain#subtract",
     "class/src/core/Terrain.js~Terrain.html#instance-method-subtract",
     "src/core/Terrain.js~Terrain#subtract",
     "method"
-  ],
-  [
-    "src/core/terrain.js~terrain#tasks",
-    "class/src/core/Terrain.js~Terrain.html#instance-member-tasks",
-    "src/core/Terrain.js~Terrain#tasks",
-    "member"
   ],
   [
     "src/core/terrain.js~terrain#threadpool",
@@ -1476,34 +1428,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/loaders/sdfloader.js~sdfloader#descriptions",
-    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-descriptions",
-    "src/loaders/SDFLoader.js~SDFLoader#descriptions",
-    "member"
-  ],
-  [
     "src/loaders/sdfloader.js~sdfloader#handleevent",
     "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-handleEvent",
     "src/loaders/SDFLoader.js~SDFLoader#handleEvent",
     "method"
-  ],
-  [
-    "src/loaders/sdfloader.js~sdfloader#imagemap",
-    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-imageMap",
-    "src/loaders/SDFLoader.js~SDFLoader#imageMap",
-    "member"
-  ],
-  [
-    "src/loaders/sdfloader.js~sdfloader#inflate",
-    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-method-inflate",
-    "src/loaders/SDFLoader.js~SDFLoader#inflate",
-    "method"
-  ],
-  [
-    "src/loaders/sdfloader.js~sdfloader#items",
-    "class/src/loaders/SDFLoader.js~SDFLoader.html#instance-member-items",
-    "src/loaders/SDFLoader.js~SDFLoader#items",
-    "member"
   ],
   [
     "src/loaders/sdfloader.js~sdfloader#load",
@@ -1566,18 +1494,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/math/qefdata.js~qefdata#ata",
-    "class/src/math/QEFData.js~QEFData.html#instance-member-ata",
-    "src/math/QEFData.js~QEFData#ata",
-    "member"
-  ],
-  [
-    "src/math/qefdata.js~qefdata#atb",
-    "class/src/math/QEFData.js~QEFData.html#instance-member-atb",
-    "src/math/QEFData.js~QEFData#atb",
-    "member"
-  ],
-  [
     "src/math/qefdata.js~qefdata#clear",
     "class/src/math/QEFData.js~QEFData.html#instance-method-clear",
     "src/math/QEFData.js~QEFData#clear",
@@ -1602,12 +1518,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/math/qefdata.js~qefdata#masspointsum",
-    "class/src/math/QEFData.js~QEFData.html#instance-member-massPointSum",
-    "src/math/QEFData.js~QEFData#massPointSum",
-    "member"
-  ],
-  [
     "src/math/qefdata.js~qefdata#numpoints",
     "class/src/math/QEFData.js~QEFData.html#instance-member-numPoints",
     "src/math/QEFData.js~QEFData#numPoints",
@@ -1626,28 +1536,10 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/math/qefsolver.js~qefsolver#ata",
-    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-ata",
-    "src/math/QEFSolver.js~QEFSolver#ata",
-    "member"
-  ],
-  [
-    "src/math/qefsolver.js~qefsolver#atb",
-    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-atb",
-    "src/math/QEFSolver.js~QEFSolver#atb",
-    "member"
-  ],
-  [
     "src/math/qefsolver.js~qefsolver#constructor",
     "class/src/math/QEFSolver.js~QEFSolver.html#instance-constructor-constructor",
     "src/math/QEFSolver.js~QEFSolver#constructor",
     "method"
-  ],
-  [
-    "src/math/qefsolver.js~qefsolver#data",
-    "class/src/math/QEFSolver.js~QEFSolver.html#instance-member-data",
-    "src/math/QEFSolver.js~QEFSolver#data",
-    "member"
   ],
   [
     "src/math/qefsolver.js~qefsolver#hassolution",
@@ -1722,12 +1614,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#construct",
-    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-method-construct",
-    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#construct",
-    "method"
-  ],
-  [
     "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#constructor",
     "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-constructor-constructor",
     "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#constructor",
@@ -1738,12 +1624,6 @@ window.esdocSearchIndex = [
     "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-member-root",
     "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#root",
     "member"
-  ],
-  [
-    "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#simplify",
-    "class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html#instance-method-simplify",
-    "src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree#simplify",
-    "method"
   ],
   [
     "src/octree/voxel/sparsevoxeloctree.js~sparsevoxeloctree#voxelcount",
@@ -1848,24 +1728,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/keydesign.js~keydesign#maskx",
-    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskX",
-    "src/octree/world/KeyDesign.js~KeyDesign#maskX",
-    "member"
-  ],
-  [
-    "src/octree/world/keydesign.js~keydesign#masky",
-    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskY",
-    "src/octree/world/KeyDesign.js~KeyDesign#maskY",
-    "member"
-  ],
-  [
-    "src/octree/world/keydesign.js~keydesign#maskz",
-    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskZ",
-    "src/octree/world/KeyDesign.js~KeyDesign#maskZ",
-    "member"
-  ],
-  [
     "src/octree/world/keydesign.js~keydesign#packkey",
     "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-packKey",
     "src/octree/world/KeyDesign.js~KeyDesign#packKey",
@@ -1911,12 +1773,6 @@ window.esdocSearchIndex = [
     "src/octree/world/keydesign.js~keydesign#unpackkey",
     "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-unpackKey",
     "src/octree/world/KeyDesign.js~KeyDesign#unpackKey",
-    "method"
-  ],
-  [
-    "src/octree/world/keydesign.js~keydesign#updatebitmasks",
-    "class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-updateBitMasks",
-    "src/octree/world/KeyDesign.js~KeyDesign#updateBitMasks",
     "method"
   ],
   [
@@ -1974,42 +1830,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/keyiterator.js~keyiterator#key",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-key",
-    "src/octree/world/KeyIterator.js~KeyIterator#key",
-    "member"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#keybase",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-keyBase",
-    "src/octree/world/KeyIterator.js~KeyIterator#keyBase",
-    "member"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#keydesign",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-keyDesign",
-    "src/octree/world/KeyIterator.js~KeyIterator#keyDesign",
-    "member"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#limit",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-limit",
-    "src/octree/world/KeyIterator.js~KeyIterator#limit",
-    "member"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#max",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-max",
-    "src/octree/world/KeyIterator.js~KeyIterator#max",
-    "member"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#min",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-min",
-    "src/octree/world/KeyIterator.js~KeyIterator#min",
-    "member"
-  ],
-  [
     "src/octree/world/keyiterator.js~keyiterator#next",
     "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-next",
     "src/octree/world/KeyIterator.js~KeyIterator#next",
@@ -2020,12 +1840,6 @@ window.esdocSearchIndex = [
     "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-method-reset",
     "src/octree/world/KeyIterator.js~KeyIterator#reset",
     "method"
-  ],
-  [
-    "src/octree/world/keyiterator.js~keyiterator#result",
-    "class/src/octree/world/KeyIterator.js~KeyIterator.html#instance-member-result",
-    "src/octree/world/KeyIterator.js~KeyIterator#result",
-    "member"
   ],
   [
     "src/octree/world/keyiterator.js~keyiterator#return",
@@ -2118,22 +1932,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#cellsize",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-cellSize",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#cellSize",
-    "member"
-  ],
-  [
     "src/octree/world/worldoctantiterator.js~worldoctantiterator#constructor",
     "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-constructor-constructor",
     "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#constructor",
     "method"
-  ],
-  [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#iterator",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-iterator",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#iterator",
-    "member"
   ],
   [
     "src/octree/world/worldoctantiterator.js~worldoctantiterator#next",
@@ -2142,34 +1944,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#octantwrapper",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-octantWrapper",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#octantWrapper",
-    "member"
-  ],
-  [
     "src/octree/world/worldoctantiterator.js~worldoctantiterator#reset",
     "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-reset",
     "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#reset",
     "method"
   ],
   [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#result",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-result",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#result",
-    "member"
-  ],
-  [
     "src/octree/world/worldoctantiterator.js~worldoctantiterator#return",
     "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-method-return",
     "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#return",
     "method"
-  ],
-  [
-    "src/octree/world/worldoctantiterator.js~worldoctantiterator#world",
-    "class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html#instance-member-world",
-    "src/octree/world/WorldOctantIterator.js~WorldOctantIterator#world",
-    "member"
   ],
   [
     "src/octree/world/worldoctantwrapper.js",
@@ -2250,22 +2034,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/worldoctree.js~worldoctree#bounds",
-    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-bounds",
-    "src/octree/world/WorldOctree.js~WorldOctree#bounds",
-    "member"
-  ],
-  [
     "src/octree/world/worldoctree.js~worldoctree#calculatekeycoordinates",
     "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-method-calculateKeyCoordinates",
     "src/octree/world/WorldOctree.js~WorldOctree#calculateKeyCoordinates",
     "method"
-  ],
-  [
-    "src/octree/world/worldoctree.js~worldoctree#cellsize",
-    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-cellSize",
-    "src/octree/world/WorldOctree.js~WorldOctree#cellSize",
-    "member"
   ],
   [
     "src/octree/world/worldoctree.js~worldoctree#clear",
@@ -2334,18 +2106,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/octree/world/worldoctree.js~worldoctree#grids",
-    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-grids",
-    "src/octree/world/WorldOctree.js~WorldOctree#grids",
-    "member"
-  ],
-  [
-    "src/octree/world/worldoctree.js~worldoctree#keydesign",
-    "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-member-keyDesign",
-    "src/octree/world/WorldOctree.js~WorldOctree#keyDesign",
-    "member"
-  ],
-  [
     "src/octree/world/worldoctree.js~worldoctree#levels",
     "class/src/octree/world/WorldOctree.js~WorldOctree.html#instance-get-levels",
     "src/octree/world/WorldOctree.js~WorldOctree#levels",
@@ -2409,24 +2169,6 @@ window.esdocSearchIndex = [
     "src/octree/world/worldoctreecsg.js~worldoctreecsg.applycsg",
     "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyCSG",
     "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyCSG",
-    "method"
-  ],
-  [
-    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applydifference",
-    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyDifference",
-    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyDifference",
-    "method"
-  ],
-  [
-    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applyintersection",
-    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyIntersection",
-    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyIntersection",
-    "method"
-  ],
-  [
-    "src/octree/world/worldoctreecsg.js~worldoctreecsg.applyunion",
-    "class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html#static-method-applyUnion",
-    "src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.applyUnion",
     "method"
   ],
   [
@@ -2634,76 +2376,10 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/edgeiterator.js~edgeiterator#axes",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-axes",
-    "src/volume/EdgeIterator.js~EdgeIterator#axes",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#c",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-c",
-    "src/volume/EdgeIterator.js~EdgeIterator#c",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#cellposition",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-cellPosition",
-    "src/volume/EdgeIterator.js~EdgeIterator#cellPosition",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#cellsize",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-cellSize",
-    "src/volume/EdgeIterator.js~EdgeIterator#cellSize",
-    "member"
-  ],
-  [
     "src/volume/edgeiterator.js~edgeiterator#constructor",
     "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-constructor-constructor",
     "src/volume/EdgeIterator.js~EdgeIterator#constructor",
     "method"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#d",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-d",
-    "src/volume/EdgeIterator.js~EdgeIterator#d",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#edgedata",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-edgeData",
-    "src/volume/EdgeIterator.js~EdgeIterator#edgeData",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#i",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-i",
-    "src/volume/EdgeIterator.js~EdgeIterator#i",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#indices",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-indices",
-    "src/volume/EdgeIterator.js~EdgeIterator#indices",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#initialc",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-initialC",
-    "src/volume/EdgeIterator.js~EdgeIterator#initialC",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#initiald",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-initialD",
-    "src/volume/EdgeIterator.js~EdgeIterator#initialD",
-    "member"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#l",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-l",
-    "src/volume/EdgeIterator.js~EdgeIterator#l",
-    "member"
   ],
   [
     "src/volume/edgeiterator.js~edgeiterator#lengths",
@@ -2718,34 +2394,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/edgeiterator.js~edgeiterator#normals",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-normals",
-    "src/volume/EdgeIterator.js~EdgeIterator#normals",
-    "member"
-  ],
-  [
     "src/volume/edgeiterator.js~edgeiterator#reset",
     "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-reset",
     "src/volume/EdgeIterator.js~EdgeIterator#reset",
     "method"
   ],
   [
-    "src/volume/edgeiterator.js~edgeiterator#result",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-result",
-    "src/volume/EdgeIterator.js~EdgeIterator#result",
-    "member"
-  ],
-  [
     "src/volume/edgeiterator.js~edgeiterator#return",
     "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-method-return",
     "src/volume/EdgeIterator.js~EdgeIterator#return",
     "method"
-  ],
-  [
-    "src/volume/edgeiterator.js~edgeiterator#zerocrossings",
-    "class/src/volume/EdgeIterator.js~EdgeIterator.html#instance-member-zeroCrossings",
-    "src/volume/EdgeIterator.js~EdgeIterator#zeroCrossings",
-    "member"
   ],
   [
     "src/volume/hermitedata.js",
@@ -2976,12 +2634,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/csg/densityfunction.js~densityfunction#sdf",
-    "class/src/volume/csg/DensityFunction.js~DensityFunction.html#instance-member-sdf",
-    "src/volume/csg/DensityFunction.js~DensityFunction#sdf",
-    "member"
-  ],
-  [
     "src/volume/csg/difference.js",
     "file/src/volume/csg/Difference.js.html",
     "src/volume/csg/Difference.js",
@@ -3034,18 +2686,6 @@ window.esdocSearchIndex = [
     "file/src/volume/csg/Operation.js.html",
     "src/volume/csg/Operation.js",
     "file"
-  ],
-  [
-    "src/volume/csg/operation.js~operation#boundingbox",
-    "class/src/volume/csg/Operation.js~Operation.html#instance-member-boundingBox",
-    "src/volume/csg/Operation.js~Operation#boundingBox",
-    "member"
-  ],
-  [
-    "src/volume/csg/operation.js~operation#children",
-    "class/src/volume/csg/Operation.js~Operation.html#instance-member-children",
-    "src/volume/csg/Operation.js~Operation#children",
-    "member"
   ],
   [
     "src/volume/csg/operation.js~operation#computeboundingbox",
@@ -3186,12 +2826,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#data",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-data",
-    "src/volume/sdf/Heightfield.js~Heightfield#data",
-    "member"
-  ],
-  [
     "src/volume/sdf/heightfield.js~heightfield#fromimage",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-fromImage",
     "src/volume/sdf/Heightfield.js~Heightfield#fromImage",
@@ -3204,18 +2838,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/volume/sdf/heightfield.js~heightfield#height",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-height",
-    "src/volume/sdf/Heightfield.js~Heightfield#height",
-    "member"
-  ],
-  [
-    "src/volume/sdf/heightfield.js~heightfield#heightmap",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-heightmap",
-    "src/volume/sdf/Heightfield.js~Heightfield#heightmap",
-    "member"
-  ],
-  [
     "src/volume/sdf/heightfield.js~heightfield#sample",
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-sample",
     "src/volume/sdf/Heightfield.js~Heightfield#sample",
@@ -3226,18 +2848,6 @@ window.esdocSearchIndex = [
     "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-method-serialize",
     "src/volume/sdf/Heightfield.js~Heightfield#serialize",
     "method"
-  ],
-  [
-    "src/volume/sdf/heightfield.js~heightfield#smooth",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-smooth",
-    "src/volume/sdf/Heightfield.js~Heightfield#smooth",
-    "member"
-  ],
-  [
-    "src/volume/sdf/heightfield.js~heightfield#width",
-    "class/src/volume/sdf/Heightfield.js~Heightfield.html#instance-member-width",
-    "src/volume/sdf/Heightfield.js~Heightfield#width",
-    "member"
   ],
   [
     "src/volume/sdf/sdfreviver.js",
@@ -3267,12 +2877,6 @@ window.esdocSearchIndex = [
     "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#boundingbox",
     "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-boundingBox",
     "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#boundingBox",
-    "member"
-  ],
-  [
-    "src/volume/sdf/signeddistancefunction.js~signeddistancefunction#children",
-    "class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html#instance-member-children",
-    "src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction#children",
     "member"
   ],
   [
@@ -3414,12 +3018,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/volume/sdf/superprimitive.js~superprimitive#ba",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-ba",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#ba",
-    "member"
-  ],
-  [
     "src/volume/sdf/superprimitive.js~superprimitive#computeboundingbox",
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-computeBoundingBox",
     "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#computeBoundingBox",
@@ -3430,42 +3028,6 @@ window.esdocSearchIndex = [
     "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-constructor-constructor",
     "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#constructor",
     "method"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#offset",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-offset",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#offset",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#precompute",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-method-precompute",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#precompute",
-    "method"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#r",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-r",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#r",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#r0",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-r0",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#r0",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#s",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-s",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#s",
-    "member"
-  ],
-  [
-    "src/volume/sdf/superprimitive.js~superprimitive#s0",
-    "class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html#instance-member-s0",
-    "src/volume/sdf/SuperPrimitive.js~SuperPrimitive#s0",
-    "member"
   ],
   [
     "src/volume/sdf/superprimitive.js~superprimitive#sample",
@@ -3576,18 +3138,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/worker/surfaceextractor.js~surfaceextractor#decompressiontarget",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-decompressionTarget",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#decompressionTarget",
-    "member"
-  ],
-  [
-    "src/worker/surfaceextractor.js~surfaceextractor#isosurface",
-    "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-member-isosurface",
-    "src/worker/SurfaceExtractor.js~SurfaceExtractor#isosurface",
-    "member"
-  ],
-  [
     "src/worker/surfaceextractor.js~surfaceextractor#process",
     "class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html#instance-method-process",
     "src/worker/SurfaceExtractor.js~SurfaceExtractor#process",
@@ -3610,12 +3160,6 @@ window.esdocSearchIndex = [
     "file/src/worker/ThreadPool.js.html",
     "src/worker/ThreadPool.js",
     "file"
-  ],
-  [
-    "src/worker/threadpool.js~threadpool#busyworkers",
-    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-busyWorkers",
-    "src/worker/ThreadPool.js~ThreadPool#busyWorkers",
-    "member"
   ],
   [
     "src/worker/threadpool.js~threadpool#clear",
@@ -3642,12 +3186,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/worker/threadpool.js~threadpool#createworker",
-    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-method-createWorker",
-    "src/worker/ThreadPool.js~ThreadPool#createWorker",
-    "method"
-  ],
-  [
     "src/worker/threadpool.js~threadpool#dispose",
     "class/src/worker/ThreadPool.js~ThreadPool.html#instance-method-dispose",
     "src/worker/ThreadPool.js~ThreadPool#dispose",
@@ -3669,18 +3207,6 @@ window.esdocSearchIndex = [
     "src/worker/threadpool.js~threadpool#maxworkers",
     "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-maxWorkers",
     "src/worker/ThreadPool.js~ThreadPool#maxWorkers",
-    "member"
-  ],
-  [
-    "src/worker/threadpool.js~threadpool#workerurl",
-    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-workerURL",
-    "src/worker/ThreadPool.js~ThreadPool#workerURL",
-    "member"
-  ],
-  [
-    "src/worker/threadpool.js~threadpool#workers",
-    "class/src/worker/ThreadPool.js~ThreadPool.html#instance-member-workers",
-    "src/worker/ThreadPool.js~ThreadPool#workers",
     "member"
   ],
   [
@@ -3717,12 +3243,6 @@ window.esdocSearchIndex = [
     "src/worker/volumemodifier.js~volumemodifier#response",
     "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-response",
     "src/worker/VolumeModifier.js~VolumeModifier#response",
-    "member"
-  ],
-  [
-    "src/worker/volumemodifier.js~volumemodifier#sdf",
-    "class/src/worker/VolumeModifier.js~VolumeModifier.html#instance-member-sdf",
-    "src/worker/VolumeModifier.js~VolumeModifier#sdf",
     "member"
   ],
   [

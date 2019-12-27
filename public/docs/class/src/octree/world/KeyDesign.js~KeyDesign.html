@@ -119,7 +119,7 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {KeyDesign} from &apos;<span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber66">rabbit-hole/src/octree/world/KeyDesign.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {KeyDesign} from &apos;<span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber66">rabbit-hole</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
@@ -531,99 +531,6 @@ for key packing and unpacking.</p>
   </tr>
 </tbody>
 </table>
-<table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Private Members</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskX">maskX</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A bit mask for the X-coordinate.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskY">maskY</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A bit mask for the Y-coordinate.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-member-maskZ">maskZ</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>A bit mask for the Z-coordinate.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
 </div>
 <div data-ice="methodSummary"><h2>Method Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Methods</td></tr></thead>
@@ -766,41 +673,6 @@ for key packing and unpacking.</p>
         
         
         <div data-ice="description"><p>Extracts the 3D coordinates from a given key.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-<table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Private Methods</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html#instance-method-updateBitMasks">updateBitMasks</a></span></span><span class="code" data-ice="signature">()</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Creates bit masks for the extraction of coordinates from keys.</p>
 </div>
       </div>
     </td>
@@ -1393,143 +1265,6 @@ All 53-bit keys must be split into a high and a low part for processing.</p>
   
   
 </div>
-<h2 data-ice="title">Private Members</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-maskX">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">maskX</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber150">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>A bit mask for the X-coordinate. The first item holds the low bits while
-the second item holds the high bits.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-maskY">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">maskY</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber160">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>A bit mask for the Y-coordinate. The first item holds the low bits while
-the second item holds the high bits.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-maskZ">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">maskZ</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber170">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>A bit mask for the Z-coordinate. The first item holds the low bits while
-the second item holds the high bits.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
 </div>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
@@ -1888,52 +1623,6 @@ including those at min and max.</p>
     <div data-ice="returnProperties">
 </div>
   </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<h2 data-ice="title">Private Methods</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-updateBitMasks">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">updateBitMasks</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/octree/world/KeyDesign.js.html#lineNumber225">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Creates bit masks for the extraction of coordinates from keys.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
 
   
 
