@@ -18,7 +18,9 @@ const globals = Object.assign({}, ...external.map((value) => ({
 	[value]: value.replace(/-/g, "").toUpperCase()
 })));
 
-const workers = [{
+const lib = {
+
+	worker: {
 
 		input: "src/worker/worker.js",
 		plugins: [resolve()].concat(production ? [babel(), minify({
@@ -29,24 +31,9 @@ const workers = [{
 			format: "iife"
 		}
 
-	}, {
+	},
 
-		input: "performance/src/worker.js",
-		plugins: [resolve(), string({
-			include: ["**/*.tmp"]
-		})].concat(production ? [babel(), minify({
-			comments: false
-		})] : []),
-		output: {
-			file: "performance/src/worker.tmp",
-			format: "iife"
-		}
-
-}];
-
-const lib = {
-
-	esm: {
+	module: {
 
 		input: "src/index.js",
 		external,
@@ -61,7 +48,7 @@ const lib = {
 
 	},
 
-	umd: {
+	main: {
 
 		input: "src/index.js",
 		external,
@@ -76,23 +63,58 @@ const lib = {
 			banner
 		}
 
+	},
+
+	min: {
+
+		input: "src/index.js",
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		}), babel(), minify({
+			bannerNewLine: true,
+			comments: false
+		})],
+		output: {
+			file: pkg.main.replace(".js", ".min.js"),
+			format: "umd",
+			name: pkg.name.replace(/-/g, "").toUpperCase(),
+			banner
+		}
+
 	}
 
 };
 
 const demo = {
 
-	iife: {
+	main: {
 
 		input: "demo/src/index.js",
-		external,
+		external: ["three"],
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat(production ? [babel()] : []),
 		output: {
 			file: "public/demo/index.js",
 			format: "iife",
-			globals
+			globals: { "three": "THREE" }
+		}
+
+	},
+
+	min: {
+
+		input: "demo/src/index.js",
+		external: ["three"],
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		}), babel(), minify({
+			comments: false
+		})],
+		output: {
+			file: "public/demo/index.min.js",
+			format: "iife",
+			globals: { "three": "THREE" }
 		}
 
 	}
@@ -101,17 +123,34 @@ const demo = {
 
 const editor = {
 
-	iife: {
+	main: {
 
 		input: "editor/src/index.js",
-		external,
+		external: ["three"],
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat(production ? [babel()] : []),
 		output: {
 			file: "public/editor/index.js",
 			format: "iife",
-			globals
+			globals: { "three": "THREE" }
+		}
+
+	},
+
+	min: {
+
+		input: "editor/src/index.js",
+		external: ["three"],
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		}), babel(), minify({
+			comments: false
+		})],
+		output: {
+			file: "public/editor/index.min.js",
+			format: "iife",
+			globals: { "three": "THREE" }
 		}
 
 	}
@@ -120,86 +159,62 @@ const editor = {
 
 const performance = {
 
-	iife: {
+	worker: {
+
+		input: "performance/src/worker.js",
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		})].concat(production ? [babel(), minify({
+			comments: false
+		})] : []),
+		output: {
+			file: "performance/src/worker.tmp",
+			format: "iife"
+		}
+
+	},
+
+	main: {
 
 		input: "performance/src/index.js",
-		external,
+		external: ["three"],
 		plugins: [resolve(), string({
 			include: ["**/*.tmp"]
 		})].concat(production ? [babel()] : []),
 		output: {
 			file: "public/performance/index.js",
 			format: "iife",
-			globals
+			globals: { "three": "THREE" }
+		}
+
+	},
+
+	min: {
+
+		input: "performance/src/index.js",
+		external: ["three"],
+		plugins: [resolve(), string({
+			include: ["**/*.tmp"]
+		}), babel(), minify({
+			comments: false
+		})],
+		output: {
+			file: "public/performance/index.min.js",
+			format: "iife",
+			globals: { "three": "THREE" }
 		}
 
 	}
 
 };
 
-export default [...workers, lib.esm, lib.umd, demo.iife, editor.iife, performance.iife].concat(production ? [
-
-	{
-
-		input: lib.umd.input,
-		plugins: [resolve(), string({
-			include: ["**/*.tmp"]
-		}), babel(), minify({
-			bannerNewLine: true,
-			comments: false
-		})],
-		output: {
-			file: lib.umd.output.file.replace(".js", ".min.js"),
-			format: "umd",
-			name: pkg.name.replace(/-/g, "").toUpperCase(),
-			banner
-		}
-
-	}, {
-
-		input: demo.iife.input,
-		external,
-		plugins: [resolve(), string({
-			include: ["**/*.tmp"]
-		}), babel(), minify({
-			comments: false
-		})],
-		output: {
-			file: demo.iife.output.file.replace(".js", ".min.js"),
-			format: "iife",
-			globals
-		}
-
-	}, {
-
-		input: editor.iife.input,
-		external,
-		plugins: [resolve(), string({
-			include: ["**/*.tmp"]
-		}), babel(), minify({
-			comments: false
-		})],
-		output: {
-			file: editor.iife.output.file.replace(".js", ".min.js"),
-			format: "iife",
-			globals
-		}
-
-	}, {
-
-		input: performance.iife.input,
-		external,
-		plugins: [resolve(), string({
-			include: ["**/*.tmp"]
-		}), babel(), minify({
-			comments: false
-		})],
-		output: {
-			file: performance.iife.output.file.replace(".js", ".min.js"),
-			format: "iife",
-			globals
-		}
-
-	}
-
-] : []);
+export default [
+	lib.worker, lib.module, lib.main,
+	demo.main, editor.main,
+	performance.worker, performance.main
+].concat(!production ? [] : [
+	lib.min,
+	demo.min,
+	editor.min,
+	performance.min
+]);
