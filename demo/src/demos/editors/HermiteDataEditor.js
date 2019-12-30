@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { pattern } from "sparse-octree";
+import { layout } from "sparse-octree";
 import { EventTarget } from "synthetic-event";
 
 import { EdgeData, HermiteData, QEFData } from "../../../../src";
@@ -162,7 +162,7 @@ export class HermiteDataEditor extends EventTarget {
 		for(a = 4, c = 0, d = 0; d < 3; a >>= 1, c = 0, ++d) {
 
 			// X: [1, 0, 0] Y: [0, 1, 0] Z: [0, 0, 1].
-			axis = pattern[a];
+			axis = layout[a];
 
 			edges = edgeData.indices[d];
 			zeroCrossings = edgeData.zeroCrossings[d];
