@@ -298,8 +298,8 @@ export class ContouringDemo extends Demo {
 
 			geometry = new BufferGeometry();
 			geometry.setIndex(new BufferAttribute(isosurface.indices, 1));
-			geometry.addAttribute("position", new BufferAttribute(isosurface.positions, 3));
-			geometry.addAttribute("normal", new BufferAttribute(isosurface.normals, 3));
+			geometry.setAttribute("position", new BufferAttribute(isosurface.positions, 3));
+			geometry.setAttribute("normal", new BufferAttribute(isosurface.normals, 3));
 			mesh = new Mesh(geometry, this.material);
 
 			// Statistics.

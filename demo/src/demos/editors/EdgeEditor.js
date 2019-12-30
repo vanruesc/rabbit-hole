@@ -332,7 +332,7 @@ export class EdgeEditor extends EventTarget {
 			edge.a.toArray(lineVertices);
 			edge.b.toArray(lineVertices, 3);
 
-			lineGeometry.addAttribute("position", new BufferAttribute(lineVertices, 3));
+			lineGeometry.setAttribute("position", new BufferAttribute(lineVertices, 3));
 			line = new Line(lineGeometry, edgeMaterial);
 			lines.add(line);
 
