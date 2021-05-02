@@ -1,4 +1,4 @@
-import { WorldOctant } from "./WorldOctant.js";
+import { WorldOctant } from "./WorldOctant";
 
 /**
  * A world octant that doesn't reside in LOD zero.

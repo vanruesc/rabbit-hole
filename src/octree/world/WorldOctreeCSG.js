@@ -1,8 +1,8 @@
-import { Box3, Vector3 } from "math-ds";
+import { Box3, Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { OperationType } from "../../volume/csg/OperationType.js";
-import { IntermediateWorldOctant } from "./IntermediateWorldOctant.js";
-import { WorldOctant } from "./WorldOctant.js";
+import { OperationType } from "../../volume/csg/OperationType";
+import { IntermediateWorldOctant } from "./IntermediateWorldOctant";
+import { WorldOctant } from "./WorldOctant";
 
 /**
  * A point.

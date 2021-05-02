@@ -1,32 +1,10 @@
-/**
- * Volume management components.
- *
- * @module rabbit-hole/volume
- */
+export { Edge } from "./Edge";
+export { EdgeData } from "./EdgeData";
+export { EdgeIterator } from "./EdgeIterator";
+export { HermiteData } from "./HermiteData";
+export { HermiteDataHelper } from "./HermiteDataHelper";
+export { Material } from "./Material";
+export { Voxel } from "./Voxel";
 
-export { Edge } from "./Edge.js";
-export { EdgeData } from "./EdgeData.js";
-export { EdgeIterator } from "./EdgeIterator.js";
-export { HermiteData } from "./HermiteData.js";
-export { Material } from "./Material.js";
-export { Voxel } from "./Voxel.js";
-
-export {
-	ConstructiveSolidGeometry,
-	DensityFunction,
-	Difference,
-	Intersection,
-	Operation,
-	OperationType,
-	Union
-} from "./csg";
-
-export {
-	FractalNoise,
-	Heightfield,
-	SDFReviver,
-	SDFType,
-	SignedDistanceFunction,
-	SuperPrimitive,
-	SuperPrimitivePreset
-} from "./sdf";
+export * from "./csg";
+export * from "./sdf";

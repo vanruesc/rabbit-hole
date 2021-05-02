@@ -1,4 +1,4 @@
-import { EdgeIterator } from "./EdgeIterator.js";
+import { EdgeIterator } from "./EdgeIterator";
 
 /**
  * Stores edge data separately for each dimension.

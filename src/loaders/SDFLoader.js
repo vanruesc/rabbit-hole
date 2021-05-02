@@ -1,5 +1,5 @@
-import { EventTarget } from "synthetic-event";
-import * as events from "./sdf-loader-events.js";
+import { EventDispatcher } from "three";
+import * as events from "./sdf-loader-events";
 
 /**
  * An SDF loader.
@@ -7,7 +7,7 @@ import * as events from "./sdf-loader-events.js";
  * @implements {EventListener}
  */
 
-export class SDFLoader extends EventTarget {
+export class SDFLoader extends EventDispatcher {
 
 	constructor() {
 

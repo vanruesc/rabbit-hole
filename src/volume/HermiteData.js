@@ -1,6 +1,6 @@
-import { RunLengthEncoding } from "../codecs/RunLengthEncoding.js";
-import { EdgeData } from "./EdgeData.js";
-import { Material } from "./Material.js";
+import { RunLengthEncoding } from "../codecs/RunLengthEncoding";
+import { EdgeData } from "./EdgeData";
+import { Material } from "./Material";
 
 /**
  * The isovalue.

@@ -1,4 +1,4 @@
-import { Message } from "./Message.js";
+import { Message } from "./Message";
 
 /**
  * A worker message that contains transferable data.

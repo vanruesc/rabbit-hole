@@ -1,6 +1,7 @@
-import { Matrix3, SymmetricMatrix3, Vector2, Vector3 } from "math-ds";
-import { Givens } from "./Givens.js";
-import { Schur } from "./Schur.js";
+import { Matrix3, Vector2, Vector3 } from "three";
+import { Givens } from "./Givens";
+import { Schur } from "./Schur";
+import { SymmetricMatrix3 } from "./SymmetricMatrix3";
 
 /**
  * A threshold for pseudo inversions.

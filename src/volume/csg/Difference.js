@@ -1,6 +1,6 @@
-import { Material } from "../Material.js";
-import { Operation } from "./Operation.js";
-import { OperationType } from "./OperationType.js";
+import { Material } from "../Material";
+import { Operation } from "./Operation";
+import { OperationType } from "./OperationType";
 
 /**
  * A difference operation.

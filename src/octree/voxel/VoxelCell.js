@@ -1,8 +1,7 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 import { CubicOctant } from "sparse-octree";
-import { QEFData } from "../../math/QEFData.js";
-import { QEFSolver } from "../../math/QEFSolver.js";
-import { Voxel } from "../../volume/Voxel.js";
+import { QEFData, QEFSolver } from "../../math";
+import { Voxel } from "../../volume/Voxel";
 
 /**
  * A QEF solver.

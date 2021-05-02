@@ -1,17 +1,10 @@
-import { Matrix4, Quaternion, Vector3 } from "math-ds";
-import { OperationType } from "../csg/OperationType.js";
-import { Union } from "../csg/Union.js";
-import { Difference } from "../csg/Difference.js";
-import { Intersection } from "../csg/Intersection.js";
-import { DensityFunction } from "../csg/DensityFunction.js";
-import { Material } from "../Material.js";
-
-/**
- * A matrix.
- *
- * @type {Matrix4}
- * @private
- */
+import { Matrix4, Quaternion, Vector3 } from "three";
+import { OperationType } from "../csg/OperationType";
+import { Union } from "../csg/Union";
+import { Difference } from "../csg/Difference";
+import { Intersection } from "../csg/Intersection";
+import { DensityFunction } from "../csg/DensityFunction";
+import { Material } from "../Material";
 
 const m = new Matrix4();
 
@@ -131,13 +124,13 @@ export class SignedDistanceFunction {
 	 * The transformation matrix is not needed for most SDF calculations and is
 	 * therefore not stored explicitly to save space.
 	 *
-	 * @param {Matrix4} [target] - A target matrix. If none is provided, a new one will be created.
+	 * @param {Matrix4} [matrix] - A matrix to store the transformation in.
 	 * @return {Matrix4} The transformation matrix.
 	 */
 
-	getTransformation(target = new Matrix4()) {
+	getTransformation(matrix = m) {
 
-		return target.compose(this.position, this.quaternion, this.scale);
+		return matrix.compose(this.position, this.quaternion, this.scale);
 
 	}
 
@@ -219,7 +212,7 @@ export class SignedDistanceFunction {
 
 	updateInverseTransformation() {
 
-		this.inverseTransformation.getInverse(this.getTransformation(m));
+		this.getTransformation(this.inverseTransformation).invert();
 		this.boundingBox = null;
 
 		return this;

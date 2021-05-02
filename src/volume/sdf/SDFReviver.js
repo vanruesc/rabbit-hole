@@ -1,7 +1,7 @@
-import { FractalNoise } from "./FractalNoise.js";
-import { Heightfield } from "./Heightfield.js";
-import { SDFType } from "./SDFType.js";
-import { SuperPrimitive } from "./SuperPrimitive.js";
+import { FractalNoise } from "./FractalNoise";
+import { Heightfield } from "./Heightfield";
+import { SDFType } from "./SDFType";
+import { SuperPrimitive } from "./SuperPrimitive";
 
 /**
  * An SDF reviver.

@@ -1,7 +1,6 @@
-import { Vector3 } from "math-ds";
-import IteratorResult from "iterator-result";
+import { Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { Edge } from "./Edge.js";
+import { Edge } from "./Edge";
 
 /**
  * An edge.
@@ -129,7 +128,10 @@ export class EdgeIterator {
 		 * @private
 		 */
 
-		this.result = new IteratorResult();
+		this.result = {
+			value: null,
+			done: false
+		};
 
 		/**
 		 * The initial dimension index.
@@ -237,7 +239,8 @@ export class EdgeIterator {
 		this.axes = axes;
 		this.lengths = lengths;
 
-		this.result.reset();
+		this.result.value = null;
+		this.result.done = false;
 
 		return this;
 

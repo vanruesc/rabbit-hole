@@ -1,8 +1,8 @@
-import { DualContouring } from "../isosurface/dual-contouring/DualContouring.js";
-import { SparseVoxelOctree } from "../octree/voxel/SparseVoxelOctree.js";
-import { HermiteData } from "../volume/HermiteData.js";
-import { ExtractionResponse } from "./messages/ExtractionResponse.js";
-import { DataProcessor } from "./DataProcessor.js";
+import { DualContouring } from "../isosurface/dual-contouring/DualContouring";
+import { SparseVoxelOctree } from "../octree/voxel/SparseVoxelOctree";
+import { HermiteData } from "../volume/HermiteData";
+import { ExtractionResponse } from "./messages/ExtractionResponse";
+import { DataProcessor } from "./DataProcessor";
 
 /**
  * A surface extractor that generates a polygonal mesh from Hermite data.

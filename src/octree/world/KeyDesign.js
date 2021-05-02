@@ -1,6 +1,6 @@
-import { Vector3 } from "math-ds";
-import { BinaryUtils } from "../../utils/BinaryUtils.js";
-import { KeyIterator } from "./KeyIterator.js";
+import { Vector3 } from "three";
+import { BinaryUtils } from "../../utils/BinaryUtils";
+import { KeyIterator } from "./KeyIterator";
 
 /**
  * The amount of bits of a DWord.

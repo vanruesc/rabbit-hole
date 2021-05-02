@@ -1,7 +1,6 @@
-import { Box3, Frustum, Matrix4, Vector3 } from "math-ds";
-import { EventTarget } from "synthetic-event";
-import { Scene } from "./Scene.js";
-import * as events from "./clipmap-events.js";
+import { EventDispatcher, Box3, Frustum, Matrix4, Vector3 } from "three";
+import { Scene } from "./Scene";
+import * as events from "./clipmap-events";
 
 /**
  * A box.
@@ -38,7 +37,7 @@ const m = new Matrix4();
  * further processing.
  */
 
-export class Clipmap extends EventTarget {
+export class Clipmap extends EventDispatcher {
 
 	/**
 	 * Constructs a new clipmap.

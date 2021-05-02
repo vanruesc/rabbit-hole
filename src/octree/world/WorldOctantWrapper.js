@@ -1,5 +1,5 @@
-import { Vector3 } from "math-ds";
-import { WorldOctantId } from "./WorldOctantId.js";
+import { Vector3 } from "three";
+import { WorldOctantId } from "./WorldOctantId";
 
 /**
  * A world octant wrapper that stores positional information.

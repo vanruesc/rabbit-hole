@@ -1,4 +1,4 @@
-import { Box3 } from "math-ds";
+import { Box3 } from "three";
 
 /**
  * A CSG operation.

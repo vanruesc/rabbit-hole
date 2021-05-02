@@ -1,5 +1,4 @@
-import { Vector3 } from "math-ds";
-import IteratorResult from "iterator-result";
+import { Vector3 } from "three";
 
 /**
  * A key range iterator.
@@ -84,7 +83,10 @@ export class KeyIterator {
 		 * @private
 		 */
 
-		this.result = new IteratorResult();
+		this.result = {
+			value: null,
+			done: false
+		};
 
 		this.reset();
 
@@ -119,7 +121,8 @@ export class KeyIterator {
 
 		}
 
-		this.result.reset();
+		this.result.value = null;
+		this.result.done = false;
 
 		return this;
 

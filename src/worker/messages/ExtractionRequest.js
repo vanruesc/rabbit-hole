@@ -1,5 +1,5 @@
-import { Action } from "../Action.js";
-import { DataMessage } from "./DataMessage.js";
+import { Action } from "../Action";
+import { DataMessage } from "./DataMessage";
 
 /**
  * An extraction request.

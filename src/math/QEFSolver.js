@@ -1,5 +1,6 @@
-import { SymmetricMatrix3, Vector3 } from "math-ds";
-import { SingularValueDecomposition } from "./SingularValueDecomposition.js";
+import { Vector3 } from "three";
+import { SingularValueDecomposition } from "./SingularValueDecomposition";
+import { SymmetricMatrix3 } from "./SymmetricMatrix3";
 
 /**
  * A point.

@@ -1,6 +1,6 @@
-import { Box3, Vector2, Vector3, Vector4 } from "math-ds";
-import { SignedDistanceFunction } from "./SignedDistanceFunction.js";
-import { SDFType } from "./SDFType.js";
+import { Box3, Vector2, Vector3, Vector4 } from "three";
+import { SignedDistanceFunction } from "./SignedDistanceFunction";
+import { SDFType } from "./SDFType";
 
 /**
  * The super primitive.

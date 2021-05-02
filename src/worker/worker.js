@@ -1,9 +1,9 @@
-import { HermiteData } from "../volume/HermiteData.js";
-import { VoxelCell } from "../octree/voxel/VoxelCell.js";
-import { Message } from "./messages/Message.js";
-import { SurfaceExtractor } from "./SurfaceExtractor.js";
-import { VolumeModifier } from "./VolumeModifier.js";
-import { Action } from "./Action.js";
+import { HermiteData } from "../volume/HermiteData";
+import { VoxelCell } from "../octree/voxel/VoxelCell";
+import { Message } from "./messages/Message";
+import { SurfaceExtractor } from "./SurfaceExtractor";
+import { VolumeModifier } from "./VolumeModifier";
+import { Action } from "./Action";
 
 /**
  * A volume modifier.
@@ -39,7 +39,7 @@ let action = null;
  * @param {Event} event - A message event containing data from the main thread.
  */
 
-self.addEventListener("message", function onMessage(event) {
+self.addEventListener("message", (event) => {
 
 	// Unpack the request.
 	const request = event.data;
@@ -81,18 +81,16 @@ self.addEventListener("message", function onMessage(event) {
  * @param {ErrorEvent} event - An error event.
  */
 
-self.addEventListener("error", function onError(event) {
+self.addEventListener("error", (event) => {
 
 	const processor = (action === Action.MODIFY) ?
 		volumeModifier : (action === Action.EXTRACT) ?
 			surfaceExtractor : null;
 
-	let response;
-
 	if(processor !== null) {
 
 		// Evacuate the data.
-		response = processor.respond();
+		const response = processor.respond();
 
 		// Adjust the action and attach the error event.
 		response.action = Action.CLOSE;
@@ -103,7 +101,7 @@ self.addEventListener("error", function onError(event) {
 	} else {
 
 		// An unexpected error occured during configuration or closure.
-		response = new Message(Action.CLOSE);
+		const response = new Message(Action.CLOSE);
 		response.error = event;
 
 		postMessage(response);

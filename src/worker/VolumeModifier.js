@@ -1,7 +1,7 @@
-import { ConstructiveSolidGeometry } from "../volume/csg/ConstructiveSolidGeometry.js";
-import { SDFReviver } from "../volume/sdf/SDFReviver.js";
-import { ModificationResponse } from "./messages/ModificationResponse.js";
-import { DataProcessor } from "./DataProcessor.js";
+import { ConstructiveSolidGeometry } from "../volume/csg/ConstructiveSolidGeometry";
+import { SDFReviver } from "../volume/sdf/SDFReviver";
+import { ModificationResponse } from "./messages/ModificationResponse";
+import { DataProcessor } from "./DataProcessor";
 
 /**
  * A modifier that applies CSG operations to Hermite data.

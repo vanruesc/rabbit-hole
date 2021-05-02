@@ -1,7 +1,7 @@
 import { edges } from "sparse-octree";
-import { Material } from "../../volume/Material.js";
-import { Isosurface } from "../Isosurface.js";
-import * as tables from "./tables.js";
+import { Material } from "../../volume/Material";
+import { Isosurface } from "../Isosurface";
+import * as tables from "./tables";
 
 /**
  * The maximum number of vertices. Vertex indices use 16 bits.

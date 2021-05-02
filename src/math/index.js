@@ -1,12 +1,6 @@
-/**
- * Mathematical system components.
- *
- * @module rabbit-hole/math
- */
-
-export { SingularValueDecomposition } from "./SingularValueDecomposition.js";
-export { Givens } from "./Givens.js";
-export { Schur } from "./Schur.js";
-
-export { QEFSolver } from "./QEFSolver.js";
-export { QEFData } from "./QEFData.js";
+export { Givens } from "./Givens";
+export { QEFSolver } from "./QEFSolver";
+export { QEFData } from "./QEFData";
+export { Schur } from "./Schur";
+export { SingularValueDecomposition } from "./SingularValueDecomposition";
+export { SymmetricMatrix3 } from "./SymmetricMatrix3";

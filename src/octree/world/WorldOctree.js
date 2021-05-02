@@ -1,10 +1,10 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { KeyDesign } from "./KeyDesign.js";
-import { WorldOctantIterator } from "./WorldOctantIterator.js";
-import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
-import { WorldOctreeCSG } from "./WorldOctreeCSG.js";
-import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster.js";
+import { KeyDesign } from "./KeyDesign";
+import { WorldOctantIterator } from "./WorldOctantIterator";
+import { WorldOctantWrapper } from "./WorldOctantWrapper";
+import { WorldOctreeCSG } from "./WorldOctreeCSG";
+import { WorldOctreeRaycaster } from "./WorldOctreeRaycaster";
 
 /**
  * A vector.

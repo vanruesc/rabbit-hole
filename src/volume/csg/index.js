@@ -1,13 +1,7 @@
-/**
- * A collection of Constructive Solid Geometry components.
- *
- * @module rabbit-hole/volume/csg
- */
-
-export { ConstructiveSolidGeometry } from "./ConstructiveSolidGeometry.js";
-export { DensityFunction } from "./DensityFunction.js";
-export { Difference } from "./Difference.js";
-export { Intersection } from "./Intersection.js";
-export { Operation } from "./Operation.js";
-export { OperationType } from "./OperationType.js";
-export { Union } from "./Union.js";
+export { ConstructiveSolidGeometry } from "./ConstructiveSolidGeometry";
+export { DensityFunction } from "./DensityFunction";
+export { Difference } from "./Difference";
+export { Intersection } from "./Intersection";
+export { Operation } from "./Operation";
+export { OperationType } from "./OperationType";
+export { Union } from "./Union";

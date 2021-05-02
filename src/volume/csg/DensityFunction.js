@@ -1,7 +1,7 @@
-import { HermiteData } from "../HermiteData.js";
-import { Material } from "../Material.js";
-import { Operation } from "./Operation.js";
-import { OperationType } from "./OperationType.js";
+import { HermiteData } from "../HermiteData";
+import { Material } from "../Material";
+import { Operation } from "./Operation";
+import { OperationType } from "./OperationType";
 
 /**
  * An operation that describes a density field.

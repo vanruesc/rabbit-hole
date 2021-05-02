@@ -1,11 +1,8 @@
+import { Vector3 } from "three";
 import { Octree, layout, edges } from "sparse-octree";
-import { Vector3 } from "math-ds";
-import { QEFData } from "../../math/QEFData.js";
-import { QEFSolver } from "../../math/QEFSolver.js";
-import { HermiteData } from "../../volume/HermiteData.js";
-import { Material } from "../../volume/Material.js";
-import { Voxel } from "../../volume/Voxel.js";
-import { VoxelCell } from "./VoxelCell.js";
+import { QEFData, QEFSolver } from "../../math";
+import { HermiteData, Material, Voxel } from "../../volume";
+import { VoxelCell } from "./VoxelCell";
 
 /**
  * Creates intermediate voxel cells down to the leaf octant that is described

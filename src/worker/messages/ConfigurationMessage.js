@@ -1,6 +1,6 @@
-import { HermiteData } from "../../volume/HermiteData.js";
-import { Action } from "../Action.js";
-import { Message } from "./Message.js";
+import { HermiteData } from "../../volume/HermiteData";
+import { Action } from "../Action";
+import { Message } from "./Message";
 
 /**
  * A configuration message.

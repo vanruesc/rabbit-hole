@@ -1,6 +1,6 @@
-import { Box3, Line3, Ray, Vector3 } from "math-ds";
+import { Box3, Line3, Ray, Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
+import { WorldOctantWrapper } from "./WorldOctantWrapper";
 
 /**
  * A vector.

@@ -1,9 +1,9 @@
-import { EventTarget } from "synthetic-event";
+import { EventDispatcher } from "three";
 import { ConfigurationMessage, Message } from "./messages";
-import { Action } from "./Action.js";
-import * as events from "./thread-pool-events.js";
+import { Action } from "./Action";
+import * as events from "./thread-pool-events";
 
-import worker from "./worker.tmp";
+import worker from "../../tmp/worker.txt";
 
 /**
  * Manages worker threads.
@@ -12,7 +12,7 @@ import worker from "./worker.tmp";
  * @implements {EventListener}
  */
 
-export class ThreadPool extends EventTarget {
+export class ThreadPool extends EventDispatcher {
 
 	/**
 	 * Constructs a new thread pool.

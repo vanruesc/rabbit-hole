@@ -1,13 +1,14 @@
+import { Box3, Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { Box3, Vector3 } from "math-ds";
-import { Material } from "../Material.js";
-import { EdgeData } from "../EdgeData.js";
-import { HermiteData } from "../HermiteData.js";
-import { Edge } from "../Edge.js";
-import { OperationType } from "./OperationType.js";
-import { Union } from "./Union.js";
-import { Difference } from "./Difference.js";
-import { Intersection } from "./Intersection.js";
+
+import { Material } from "../Material";
+import { EdgeData } from "../EdgeData";
+import { HermiteData } from "../HermiteData";
+import { Edge } from "../Edge";
+import { OperationType } from "./OperationType";
+import { Union } from "./Union";
+import { Difference } from "./Difference";
+import { Intersection } from "./Intersection";
 
 /**
  * The world size of the current data cell.

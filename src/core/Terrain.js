@@ -1,16 +1,16 @@
-import { EventTarget } from "synthetic-event";
-import { OperationType } from "../volume/csg/OperationType.js";
-import { SDFReviver } from "../volume/sdf/SDFReviver.js";
-import { SDFLoader } from "../loaders/SDFLoader.js";
-import { HermiteData } from "../volume/HermiteData.js";
-import { WorldOctree } from "../octree/world/WorldOctree.js";
-import { Clipmap } from "../clipmap/Clipmap.js";
-import { Action } from "../worker/Action.js";
-import { ExtractionRequest } from "../worker/messages/ExtractionRequest.js";
-import { ModificationRequest } from "../worker/messages/ModificationRequest.js";
-// import { Task } from "./Task.js";
-import { ThreadPool } from "../worker/ThreadPool.js";
-import * as events from "./terrain-events.js";
+import { EventDispatcher } from "three";
+import { OperationType } from "../volume/csg/OperationType";
+import { SDFReviver } from "../volume/sdf/SDFReviver";
+import { SDFLoader } from "../loaders/SDFLoader";
+import { HermiteData } from "../volume/HermiteData";
+import { WorldOctree } from "../octree/world/WorldOctree";
+import { Clipmap } from "../clipmap/Clipmap";
+import { Action } from "../worker/Action";
+import { ExtractionRequest } from "../worker/messages/ExtractionRequest";
+import { ModificationRequest } from "../worker/messages/ModificationRequest";
+// import { Task } from "./Task";
+import { ThreadPool } from "../worker/ThreadPool";
+import * as events from "./terrain-events";
 
 /**
  * The terrain system.
@@ -21,7 +21,7 @@ import * as events from "./terrain-events.js";
  * @implements {EventListener}
  */
 
-export class Terrain extends EventTarget {
+export class Terrain extends EventDispatcher {
 
 	/**
 	 * Constructs a new terrain.

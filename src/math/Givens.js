@@ -1,4 +1,4 @@
-import { Vector2 } from "math-ds";
+import { Vector2 } from "three";
 
 /**
  * Symmetric Givens coefficients.

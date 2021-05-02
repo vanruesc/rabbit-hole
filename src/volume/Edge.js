@@ -1,4 +1,4 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 
 /**
  * An isovalue bias for the Zero Crossing approximation.

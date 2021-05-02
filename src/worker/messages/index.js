@@ -1,14 +1,8 @@
-/**
- * A collection of worker messages.
- *
- * @module rabbit-hole/worker/messages
- */
+export { ConfigurationMessage } from "./ConfigurationMessage";
+export { DataMessage } from "./DataMessage";
+export { Message } from "./Message";
 
-export { ConfigurationMessage } from "./ConfigurationMessage.js";
-export { DataMessage } from "./DataMessage.js";
-export { Message } from "./Message.js";
-
-export { ExtractionRequest } from "./ExtractionRequest.js";
-export { ExtractionResponse } from "./ExtractionResponse.js";
-export { ModificationRequest } from "./ModificationRequest.js";
-export { ModificationResponse } from "./ModificationResponse.js";
+export { ExtractionRequest } from "./ExtractionRequest";
+export { ExtractionResponse } from "./ExtractionResponse";
+export { ModificationRequest } from "./ModificationRequest";
+export { ModificationResponse } from "./ModificationResponse";

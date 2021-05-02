@@ -1,4 +1,4 @@
-import { Vector3 } from "math-ds";
+import { Vector3 } from "three";
 
 /**
  * A cubic voxel that holds information about the surface of a volume.

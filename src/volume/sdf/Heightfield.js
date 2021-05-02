@@ -1,6 +1,6 @@
-import { Box3 } from "math-ds";
-import { SignedDistanceFunction } from "./SignedDistanceFunction.js";
-import { SDFType } from "./SDFType.js";
+import { Box3 } from "three";
+import { SignedDistanceFunction } from "./SignedDistanceFunction";
+import { SDFType } from "./SDFType";
 
 /**
  * Reads the image data of the given image.

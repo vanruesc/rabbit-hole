@@ -1,4 +1,4 @@
-import { HermiteData } from "../volume/HermiteData.js";
+import { HermiteData } from "../volume/HermiteData";
 
 /**
  * An empty set of Hermite data.

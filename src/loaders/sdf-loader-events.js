@@ -1,4 +1,4 @@
-import { SDFLoaderEvent } from "../events/SDFLoaderEvent.js";
+import { SDFLoaderEvent } from "../events/SDFLoaderEvent";
 
 /**
  * A load event.

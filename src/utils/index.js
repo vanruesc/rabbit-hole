@@ -1,7 +1,1 @@
-/**
- * Utility components.
- *
- * @module rabbit-hole/utils
- */
-
-export { BinaryUtils } from "./BinaryUtils.js";
+export { BinaryUtils } from "./BinaryUtils";

@@ -1,5 +1,4 @@
-import IteratorResult from "iterator-result";
-import { WorldOctantWrapper } from "./WorldOctantWrapper.js";
+import { WorldOctantWrapper } from "./WorldOctantWrapper";
 
 /**
  * A world octant iterator.
@@ -63,7 +62,10 @@ export class WorldOctantIterator {
 		 * @private
 		 */
 
-		this.result = new IteratorResult();
+		this.result = {
+			value: null,
+			done: false
+		};
 
 		this.reset();
 
@@ -85,7 +87,8 @@ export class WorldOctantIterator {
 
 			this.cellSize = world.getCellSize(lod);
 			this.iterator = grid.entries();
-			this.result.reset();
+			this.result.value = null;
+			this.result.done = false;
 
 		} else {
 

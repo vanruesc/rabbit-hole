@@ -1,4 +1,4 @@
-import { Queue } from "../../core/Queue.js";
+import { Queue } from "../../core/Queue";
 
 /**
  * A world octant.
