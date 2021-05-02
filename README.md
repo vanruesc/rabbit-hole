@@ -4,7 +4,7 @@
 [![Version](https://badgen.net/npm/v/rabbit-hole?color=green)](https://www.npmjs.com/package/rabbit-hole)
 [![Peer dependencies](https://badgen.net/david/peer/vanruesc/rabbit-hole)](https://david-dm.org/vanruesc/rabbit-hole?type=peer)
 
-A volumetric terrain engine for WebGL. This engine has been created in the context of a Master's degree project at
+An experimental voxel engine for WebGL. This software has been created in the context of a Master's degree project at
 the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) in cooperation with the
 [Norwegian University of Technology and Science](https://www.ntnu.no).
 
