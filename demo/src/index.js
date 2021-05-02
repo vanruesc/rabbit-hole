@@ -1,14 +1,11 @@
+import { sRGBEncoding, WebGLRenderer } from "three";
 import { DemoManager } from "three-demo";
-import { WebGLRenderer } from "three";
 
 import { ContouringDemo } from "./demos/ContouringDemo.js";
 import { VoxelDemo } from "./demos/VoxelDemo.js";
 
 /**
  * A demo manager.
- *
- * @type {DemoManager}
- * @private
  */
 
 let manager;
@@ -16,149 +13,117 @@ let manager;
 /**
  * The main render loop.
  *
- * @private
- * @param {DOMHighResTimeStamp} now - The current time.
+ * @param timestamp - The current time in milliseconds.
  */
 
-function render(now) {
+function render(timestamp) {
 
 	requestAnimationFrame(render);
-	manager.render(now);
+	manager.render(timestamp);
 
 }
 
 /**
- * Handles demo change events.
+ * Performs initialization tasks when the page has been fully loaded.
  *
- * @private
- * @param {Event} event - An event.
+ * @param event - An event.
  */
 
-function onChange(event) {
+window.addEventListener("load", (event) => {
 
-	document.getElementById("viewport").children[0].style.display = "initial";
-
-}
-
-/**
- * Handles demo load events.
- *
- * @private
- * @param {Event} event - An event.
- */
-
-function onLoad(event) {
-
-	document.getElementById("viewport").children[0].style.display = "none";
-
-}
-
-/**
- * Starts the program.
- *
- * @private
- * @param {Event} event - An event.
- */
-
-window.addEventListener("load", function main(event) {
-
-	// Clean up.
-	this.removeEventListener("load", main);
-
+	const debug = (window.location.hostname === "localhost");
 	const viewport = document.getElementById("viewport");
 
-	// Create a custom renderer.
 	const renderer = new WebGLRenderer({
-		antialias: true
+		powerPreference: "high-performance",
+		antialias: true,
+		stencil: false,
+		alpha: false,
+		depth: true
 	});
 
+	renderer.outputEncoding = sRGBEncoding;
+	renderer.debug.checkShaderErrors = debug;
 	renderer.setSize(viewport.clientWidth, viewport.clientHeight);
 	renderer.setPixelRatio(window.devicePixelRatio);
-	renderer.setClearColor(0x000000);
+	renderer.setClearColor(0x000000, 0.0);
 
-	// Initialise the demo manager.
 	manager = new DemoManager(viewport, {
 		aside: document.getElementById("aside"),
-		renderer: renderer
+		renderer
 	});
 
-	// Setup demo switch and load event handlers.
-	manager.addEventListener("change", onChange);
-	manager.addEventListener("load", onLoad);
+	manager.addEventListener("change", (event) => {
 
-	const demos = [
-		new ContouringDemo(),
-		new VoxelDemo()
-	];
+		document.querySelector(".loading").classList.remove("hidden");
 
-	if(demos.map((demo) => demo.id).indexOf(window.location.hash.slice(1)) === -1) {
+	});
 
-		// Invalid URL hash: demo doesn't exist.
-		window.location.hash = "";
+	manager.addEventListener("load", (event) => {
 
-	}
+		document.querySelector(".loading").classList.add("hidden");
 
-	// Register demos.
-	for(const demo of demos) {
+	});
 
-		manager.addDemo(demo);
-
-	}
-
-	// Start rendering.
-	render();
+	manager.addDemo(new ContouringDemo());
+	manager.addDemo(new VoxelDemo());
+	requestAnimationFrame(render);
 
 });
 
 /**
  * Handles browser resizing.
  *
- * @private
- * @param {Event} event - An event.
+ * @param event - An event.
  */
 
-window.addEventListener("resize", (function() {
+window.addEventListener("resize", (event) => {
 
-	let timeoutId = 0;
+	const width = window.innerWidth;
+	const height = window.innerHeight;
+	manager.setSize(width, height);
 
-	function handleResize(event) {
+});
 
-		const width = event.target.innerWidth;
-		const height = event.target.innerHeight;
+/**
+ * Performs initialization tasks when the document is ready.
+ *
+ * @param event - An event.
+ */
 
-		manager.setSize(width, height);
+document.addEventListener("DOMContentLoaded", (event) => {
 
-		timeoutId = 0;
+	const img = document.querySelector(".info img");
+	const div = document.querySelector(".info div");
+
+	if(img !== null && div !== null) {
+
+		img.addEventListener("click", (event) => {
+
+			div.classList.toggle("hidden");
+
+		});
 
 	}
 
-	return function onResize(event) {
-
-		if(timeoutId === 0) {
-
-			timeoutId = setTimeout(handleResize, 66, event);
-
-		}
-
-	};
-
-}()));
+});
 
 /**
- * Toggles the visibility of the interface on Alt key press.
+ * Handles keyboard events.
  *
- * @private
- * @param {Event} event - An event.
+ * @param event - An event.
  */
 
-document.addEventListener("keydown", function onKeyDown(event) {
+document.addEventListener("keyup", (event) => {
 
-	const aside = this.getElementById("aside");
+	if(event.key === "h") {
 
-	if(event.altKey && aside !== null) {
+		const aside = document.querySelector("aside");
+		const footer = document.querySelector("footer");
 
 		event.preventDefault();
-		aside.style.visibility = (aside.style.visibility === "hidden") ? "visible" : "hidden";
+		aside.classList.toggle("hidden");
+		footer.classList.toggle("hidden");
 
 	}
 

@@ -1,12 +1,10 @@
-import { Vector3 } from "three";
+import { EventDispatcher, Vector3 } from "three";
 import { layout } from "sparse-octree";
-import { EventTarget } from "synthetic-event";
 
 import { EdgeData, HermiteData, QEFData } from "../../../../src";
 
-import { DataEvent } from "../events/DataEvent.js";
-import { GridPointEditor } from "./GridPointEditor.js";
-import { EdgeEditor } from "./EdgeEditor.js";
+import { GridPointEditor } from "./GridPointEditor";
+import { EdgeEditor } from "./EdgeEditor";
 
 /**
  * An update event.
@@ -15,7 +13,7 @@ import { EdgeEditor } from "./EdgeEditor.js";
  * @private
  */
 
-const updateEvent = new DataEvent("update");
+const updateEvent = { type: "update", data: null };
 
 /**
  * A visual Hermite data editor.
@@ -23,7 +21,7 @@ const updateEvent = new DataEvent("update");
  * @implements {EventListener}
  */
 
-export class HermiteDataEditor extends EventTarget {
+export class HermiteDataEditor extends EventDispatcher {
 
 	/**
 	 * Constructs a new grid point editor.
@@ -74,7 +72,7 @@ export class HermiteDataEditor extends EventTarget {
 		 */
 
 		this.gridPointEditor = new GridPointEditor(cellPosition, cellSize, hermiteData, camera, dom);
-		this.gridPointEditor.addEventListener("update", this);
+		this.gridPointEditor.addEventListener("update", (e) => this.handleEvent(e));
 		this.gridPointEditor.setEnabled(true);
 
 		/**
@@ -85,7 +83,7 @@ export class HermiteDataEditor extends EventTarget {
 		 */
 
 		this.edgeEditor = new EdgeEditor(cellPosition, cellSize, hermiteData, camera, dom);
-		this.edgeEditor.addEventListener("update", this);
+		this.edgeEditor.addEventListener("update", (e) => this.handleEvent(e));
 
 		/**
 		 * A set of QEF data.
@@ -277,7 +275,7 @@ export class HermiteDataEditor extends EventTarget {
 
 				}
 
-				updateEvent.qefData = this.qefData;
+				updateEvent.data = this.qefData;
 				this.dispatchEvent(updateEvent);
 
 				break;

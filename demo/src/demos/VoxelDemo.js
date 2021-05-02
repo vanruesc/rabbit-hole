@@ -8,11 +8,17 @@ import {
 	Vector3
 } from "three";
 
-import { DeltaControls } from "delta-controls";
-import { HermiteDataHelper } from "hermite-data-helper";
+import { ControlMode, SpatialControls } from "spatial-controls";
 import { Demo } from "three-demo";
-import { HermiteData, Material, QEFSolver } from "../../../src";
-import { HermiteDataEditor } from "./editors/HermiteDataEditor.js";
+
+import {
+	HermiteData,
+	HermiteDataHelper,
+	Material,
+	QEFSolver
+} from "../../../src";
+
+import { HermiteDataEditor } from "./editors/HermiteDataEditor";
 
 /**
  * A voxel demo setup that showcases the QEF calculation.
@@ -164,7 +170,7 @@ export class VoxelDemo extends Demo {
 
 				}
 
-				this.solveQEF(event.qefData);
+				this.solveQEF(event.data);
 
 				break;
 
@@ -174,37 +180,35 @@ export class VoxelDemo extends Demo {
 
 	}
 
-	/**
-	 * Creates the scene.
-	 */
-
 	initialize() {
 
 		const scene = this.scene;
 		const renderer = this.renderer;
 
-		// Camera.
+		// Camera
 
-		const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 50);
-		camera.position.set(-2, 1, 2);
+		const aspect = window.innerWidth / window.innerHeight;
+		const camera = new PerspectiveCamera(50, aspect, 0.1, 1000);
 		this.camera = camera;
 
-		// Controls.
+		// Controls
 
-		const controls = new DeltaControls(camera.position, camera.quaternion, renderer.domElement);
-		controls.settings.pointer.lock = false;
-		controls.settings.sensitivity.zoom = 0.1;
-		controls.settings.translation.enabled = false;
-		controls.settings.zoom.maxDistance = 40;
-		controls.lookAt(scene.position);
+		const controls = new SpatialControls(camera.position, camera.quaternion, renderer.domElement);
+		const settings = controls.settings;
+		settings.general.setMode(ControlMode.THIRD_PERSON);
+		settings.zoom.setRange(0.25, 40.0);
+		settings.rotation.setSensitivity(2);
+		settings.translation.setEnabled(false);
+		settings.zoom.setSensitivity(0.1);
+		controls.setPosition(-2, 1, 2);
 		this.controls = controls;
 
-		// Fog.
+		// Fog
 
-		scene.fog = new FogExp2(0xf4f4f4, 0.025);
+		scene.fog = new FogExp2(0x0d0d0d, 0.025);
 		renderer.setClearColor(scene.fog.color);
 
-		// Hermite Data preparation.
+		// Hermite Data
 
 		HermiteData.resolution = 1;
 		HermiteDataHelper.air = Material.AIR;
@@ -222,7 +226,7 @@ export class VoxelDemo extends Demo {
 		scene.add(hermiteDataHelper);
 
 		const hermiteDataEditor = new HermiteDataEditor(cellPosition, cellSize, hermiteData, camera, renderer.domElement);
-		hermiteDataEditor.addEventListener("update", this);
+		hermiteDataEditor.addEventListener("update", (e) => this.handleEvent(e));
 
 		this.hermiteDataEditor = hermiteDataEditor;
 
@@ -230,7 +234,8 @@ export class VoxelDemo extends Demo {
 		scene.add(hermiteDataEditor.edges);
 		scene.add(hermiteDataEditor.planes);
 
-		// Highlight the voxel cell.
+		// Voxel cell highlighting
+
 		const size = cellSize - 0.05;
 		scene.add(new Mesh(
 			new BoxBufferGeometry(size, size, size),
@@ -238,35 +243,22 @@ export class VoxelDemo extends Demo {
 				color: 0xcccccc,
 				depthWrite: false,
 				transparent: true,
-				opacity: 0.35
+				opacity: 0.4
 			})
 		));
 
-		// Prepare the computed vertex for rendering.
+		// Vertex visualization
+
 		this.vertex.visible = false;
 		scene.add(this.vertex);
 
 	}
 
-	/**
-	 * Renders this demo.
-	 *
-	 * @param {Number} delta - The time since the last frame in seconds.
-	 */
+	update(deltaTime, timestamp) {
 
-	render(delta) {
-
-		this.controls.update(delta);
-
-		super.render(delta);
+		this.controls.update(timestamp);
 
 	}
-
-	/**
-	 * Registers configuration options.
-	 *
-	 * @param {GUI} menu - A menu.
-	 */
 
 	registerOptions(menu) {
 

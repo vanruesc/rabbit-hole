@@ -1,4 +1,5 @@
 import {
+	EventDispatcher,
 	Group,
 	Mesh,
 	MeshBasicMaterial,
@@ -8,7 +9,6 @@ import {
 	Vector3
 } from "three";
 
-import { Event, EventTarget } from "synthetic-event";
 import { HermiteData, Material } from "../../../../src";
 
 /**
@@ -27,7 +27,7 @@ const mouse = new Vector2();
  * @private
  */
 
-const updateEvent = new Event("update");
+const updateEvent = { type: "update" };
 
 /**
  * A visual grid point editor.
@@ -35,7 +35,7 @@ const updateEvent = new Event("update");
  * @implements {EventListener}
  */
 
-export class GridPointEditor extends EventTarget {
+export class GridPointEditor extends EventDispatcher {
 
 	/**
 	 * Constructs a new grid point editor.
@@ -115,14 +115,14 @@ export class GridPointEditor extends EventTarget {
 		this.gridPointMaterials = [
 
 			new MeshBasicMaterial({
-				color: 0x999999,
+				color: 0xcccccc,
 				depthWrite: false,
 				transparent: true,
-				opacity: 0.75
+				opacity: 0.9
 			}),
 
 			new MeshBasicMaterial({
-				color: 0xcc6666,
+				color: 0xff0000,
 				depthWrite: false,
 				transparent: true,
 				opacity: 0.9
@@ -170,22 +170,19 @@ export class GridPointEditor extends EventTarget {
 		const gridPointGeometry = new SphereBufferGeometry(0.05, 8, 8);
 		const gridPointMaterial = this.gridPointMaterials[0];
 
-		let gridPoint;
-		let x, y, z;
-
-		for(z = 0; z <= n; ++z) {
+		for(let z = 0; z <= n; ++z) {
 
 			offset.z = z * s / n;
 
-			for(y = 0; y <= n; ++y) {
+			for(let y = 0; y <= n; ++y) {
 
 				offset.y = y * s / n;
 
-				for(x = 0; x <= n; ++x) {
+				for(let x = 0; x <= n; ++x) {
 
 					offset.x = x * s / n;
 
-					gridPoint = new Mesh(gridPointGeometry, gridPointMaterial);
+					const gridPoint = new Mesh(gridPointGeometry, gridPointMaterial);
 					gridPoint.position.copy(base).add(offset);
 					gridPoints.add(gridPoint);
 
@@ -208,7 +205,8 @@ export class GridPointEditor extends EventTarget {
 
 		const hermiteData = this.hermiteData;
 		const materialIndices = hermiteData.materialIndices;
-		const material = (materialIndices[index] === Material.AIR) ? Material.SOLID : Material.AIR;
+		const material = (materialIndices[index] === Material.AIR) ?
+			Material.SOLID : Material.AIR;
 
 		hermiteData.setMaterialIndex(index, material);
 
@@ -246,8 +244,8 @@ export class GridPointEditor extends EventTarget {
 
 		const raycaster = this.raycaster;
 
-		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		mouse.x = (event.clientX / window.innerWidth) * 2.0 - 1.0;
+		mouse.y = -(event.clientY / window.innerHeight) * 2.0 + 1.0;
 
 		raycaster.setFromCamera(mouse, this.camera);
 

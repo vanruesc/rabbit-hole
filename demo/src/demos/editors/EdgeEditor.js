@@ -2,6 +2,7 @@ import {
 	BufferAttribute,
 	BufferGeometry,
 	DoubleSide,
+	EventDispatcher,
 	Group,
 	Line,
 	LineBasicMaterial,
@@ -13,8 +14,6 @@ import {
 	Vector2,
 	Vector3
 } from "three";
-
-import { Event, EventTarget } from "synthetic-event";
 
 /**
  * A mouse position.
@@ -32,7 +31,7 @@ const mouse = new Vector2();
  * @private
  */
 
-const updateEvent = new Event("update");
+const updateEvent = { type: "update" };
 
 /**
  * A visual edge editor.
@@ -40,7 +39,7 @@ const updateEvent = new Event("update");
  * @implements {EventListener}
  */
 
-export class EdgeEditor extends EventTarget {
+export class EdgeEditor extends EventDispatcher {
 
 	/**
 	 * Constructs a new edge editor.
@@ -109,7 +108,7 @@ export class EdgeEditor extends EventTarget {
 		 */
 
 		this.raycaster = new Raycaster();
-		this.raycaster.linePrecision = 0.05;
+		this.raycaster.params.Line.threshold = 0.05;
 
 		/**
 		 * A Zero Crossing value.
@@ -129,11 +128,11 @@ export class EdgeEditor extends EventTarget {
 		this.edgeMaterials = [
 
 			new LineBasicMaterial({
-				color: 0x999999
+				color: 0xcccccc
 			}),
 
 			new LineBasicMaterial({
-				color: 0xcc6666
+				color: 0xff4040
 			})
 
 		];
@@ -148,19 +147,19 @@ export class EdgeEditor extends EventTarget {
 		this.planeMaterials = [
 
 			new MeshBasicMaterial({
-				color: 0xaa2200,
-				side: DoubleSide,
-				depthWrite: false,
-				transparent: true,
-				opacity: 0.2
-			}),
-
-			new MeshBasicMaterial({
 				color: 0xffff00,
 				side: DoubleSide,
 				depthWrite: false,
 				transparent: true,
-				opacity: 0.4
+				opacity: 0.3
+			}),
+
+			new MeshBasicMaterial({
+				color: 0xff0000,
+				side: DoubleSide,
+				depthWrite: false,
+				transparent: true,
+				opacity: 0.3
 			})
 
 		];
@@ -248,11 +247,11 @@ export class EdgeEditor extends EventTarget {
 		const edgeData = this.hermiteData.edgeData;
 		const edges = edgeData.indices;
 
-		let d, edgeCount;
+		let d;
 
 		for(d = 0; d < 3; ++d) {
 
-			edgeCount = edges[d].length;
+			const edgeCount = edges[d].length;
 
 			if(i < edgeCount) {
 
@@ -281,11 +280,9 @@ export class EdgeEditor extends EventTarget {
 		const edges = this.edges;
 		const planes = this.planes;
 
-		let edge, plane;
-
 		while(edges.children.length > 0) {
 
-			edge = edges.children[0];
+			const edge = edges.children[0];
 			edge.geometry.dispose();
 			edges.remove(edge);
 
@@ -293,7 +290,7 @@ export class EdgeEditor extends EventTarget {
 
 		while(planes.children.length > 0) {
 
-			plane = planes.children[0];
+			const plane = planes.children[0];
 			plane.geometry.dispose();
 			planes.remove(plane);
 
@@ -319,24 +316,21 @@ export class EdgeEditor extends EventTarget {
 
 		const intersection = new Vector3();
 
-		let edge, line, plane;
-		let lineGeometry, lineVertices;
-
 		this.clearEdges();
 
-		for(edge of edges) {
+		for(const edge of edges) {
 
-			lineGeometry = new BufferGeometry();
-			lineVertices = new Float32Array(6);
+			const lineGeometry = new BufferGeometry();
+			const lineVertices = new Float32Array(6);
 
 			edge.a.toArray(lineVertices);
 			edge.b.toArray(lineVertices, 3);
 
 			lineGeometry.setAttribute("position", new BufferAttribute(lineVertices, 3));
-			line = new Line(lineGeometry, edgeMaterial);
+			const line = new Line(lineGeometry, edgeMaterial);
 			lines.add(line);
 
-			plane = new Mesh(new PlaneBufferGeometry(2, 2), planeMaterial);
+			const plane = new Mesh(new PlaneBufferGeometry(2, 2), planeMaterial);
 			plane.position.copy(edge.computeZeroCrossingPosition(intersection));
 			plane.lookAt(intersection.add(edge.n));
 			plane.visible = false;
@@ -423,8 +417,6 @@ export class EdgeEditor extends EventTarget {
 
 		event.preventDefault();
 
-		let index, plane;
-
 		if(edge !== null) {
 
 			if(this.activeEdge !== null) {
@@ -444,8 +436,8 @@ export class EdgeEditor extends EventTarget {
 
 			if(this.activeEdge !== edge) {
 
-				index = this.edges.children.indexOf(edge);
-				plane = this.planes.children[index];
+				const index = this.edges.children.indexOf(edge);
+				const plane = this.planes.children[index];
 
 				edge.material = this.edgeMaterials[1];
 				plane.material = this.planeMaterials[1];
@@ -482,8 +474,8 @@ export class EdgeEditor extends EventTarget {
 
 		const raycaster = this.raycaster;
 
-		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+		mouse.x = (event.clientX / window.innerWidth) * 2.0 - 1.0;
+		mouse.y = -(event.clientY / window.innerHeight) * 2.0 + 1.0;
 
 		raycaster.setFromCamera(mouse, this.camera);
 
@@ -584,7 +576,7 @@ export class EdgeEditor extends EventTarget {
 
 			const activePlane = this.activePlane;
 
-			planes.traverse(function(child) {
+			planes.traverse((child) => {
 
 				if(child !== planes && child !== activePlane) {
 
@@ -598,7 +590,7 @@ export class EdgeEditor extends EventTarget {
 
 		let folder = menu.addFolder("Edge Adjustment");
 
-		folder.add(this, "t").min(0).max(1).listen().step(1e-6).onChange(() => {
+		folder.add(this, "t", 0, 1, 1e-6).onChange(() => {
 
 			if(this.hermiteData.edgeData !== null) {
 
@@ -606,19 +598,9 @@ export class EdgeEditor extends EventTarget {
 
 			}
 
-		});
+		}).listen();
 
-		folder.add(this.s, "phi").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(() => {
-
-			if(this.hermiteData.edgeData !== null) {
-
-				this.updateEdgeData();
-
-			}
-
-		});
-
-		folder.add(this.s, "theta").min(1e-6).max(Math.PI - 1e-6).step(1e-6).listen().onChange(() => {
+		folder.add(this.s, "phi", 1e-6, Math.PI - 1e-6, 1e-6).onChange(() => {
 
 			if(this.hermiteData.edgeData !== null) {
 
@@ -626,7 +608,17 @@ export class EdgeEditor extends EventTarget {
 
 			}
 
-		});
+		}).listen();
+
+		folder.add(this.s, "theta", 1e-6, Math.PI - 1e-6, 1e-6).onChange(() => {
+
+			if(this.hermiteData.edgeData !== null) {
+
+				this.updateEdgeData();
+
+			}
+
+		}).listen();
 
 		folder.open();
 
