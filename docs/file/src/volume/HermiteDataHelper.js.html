@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/volume/HermiteDataHelper.js | rabbit-hole</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A volumetric terrain engine."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="rabbit-hole"><meta property="twitter:description" content="A volumetric terrain engine."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/vanruesc/rabbit-hole.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#clipmap">clipmap</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Clipmap.js~Clipmap.html">Clipmap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Scene.js~Scene.html">Scene</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/clipmap/Task.js~Task.html">Task</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-update">update</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#codecs">codecs</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/codecs/RunLengthEncoding.js~RunLengthEncoding.html">RunLengthEncoding</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Queue.js~Queue.html">Queue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/Terrain.js~Terrain.html">Terrain</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Deserializable.js~Deserializable.html">Deserializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Disposable.js~Disposable.html">Disposable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/Serializable.js~Serializable.html">Serializable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/core/TransferableContainer.js~TransferableContainer.html">TransferableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-error">error</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionend">extractionend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-extractionstart">extractionstart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationend">modificationend</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-modificationstart">modificationstart</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#events">events</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/ClipmapEvent.js~ClipmapEvent.html">ClipmapEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/Event.js~Event.html">Event</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/SDFLoaderEvent.js~SDFLoaderEvent.html">SDFLoaderEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/TerrainEvent.js~TerrainEvent.html">TerrainEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/events/WorkerEvent.js~WorkerEvent.html">WorkerEvent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface">isosurface</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/Isosurface.js~Isosurface.html">Isosurface</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#isosurface-dual-contouring">isosurface/dual-contouring</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/isosurface/dual-contouring/DualContouring.js~DualContouring.html">DualContouring</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcEdgeMask">cellProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cellProcFaceMask">cellProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeMask">edgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-edgeProcEdgeMask">edgeProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceMap">faceMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcEdgeMask">faceProcEdgeMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-faceProcFaceMask">faceProcFaceMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-procEdgeMask">procEdgeMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#loaders">loaders</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/loaders/SDFLoader.js~SDFLoader.html">SDFLoader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-load">load</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#math">math</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Givens.js~Givens.html">Givens</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFData.js~QEFData.html">QEFData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/QEFSolver.js~QEFSolver.html">QEFSolver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/Schur.js~Schur.html">Schur</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/SingularValueDecomposition.js~SingularValueDecomposition.html">SingularValueDecomposition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/SymmetricMatrix3.js~SymmetricMatrix3.html">SymmetricMatrix3</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-voxel">octree/voxel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/SparseVoxelOctree.js~SparseVoxelOctree.html">SparseVoxelOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/voxel/VoxelCell.js~VoxelCell.html">VoxelCell</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#octree-world">octree/world</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/IntermediateWorldOctant.js~IntermediateWorldOctant.html">IntermediateWorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyDesign.js~KeyDesign.html">KeyDesign</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/KeyIterator.js~KeyIterator.html">KeyIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctant.js~WorldOctant.html">WorldOctant</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantId.js~WorldOctantId.html">WorldOctantId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantIterator.js~WorldOctantIterator.html">WorldOctantIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctantWrapper.js~WorldOctantWrapper.html">WorldOctantWrapper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctree.js~WorldOctree.html">WorldOctree</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeCSG.js~WorldOctreeCSG.html">WorldOctreeCSG</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/octree/world/WorldOctreeRaycaster.js~WorldOctreeRaycaster.html">WorldOctreeRaycaster</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/utils/BinaryUtils.js~BinaryUtils.html">BinaryUtils</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume">volume</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Edge.js~Edge.html">Edge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeData.js~EdgeData.html">EdgeData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/EdgeIterator.js~EdgeIterator.html">EdgeIterator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/HermiteData.js~HermiteData.html">HermiteData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/HermiteDataHelper.js~HermiteDataHelper.html">HermiteDataHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/Voxel.js~Voxel.html">Voxel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-csg">volume/csg</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/ConstructiveSolidGeometry.js~ConstructiveSolidGeometry.html">ConstructiveSolidGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/DensityFunction.js~DensityFunction.html">DensityFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Difference.js~Difference.html">Difference</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Intersection.js~Intersection.html">Intersection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Operation.js~Operation.html">Operation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/csg/Union.js~Union.html">Union</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-OperationType">OperationType</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#volume-sdf">volume/sdf</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/FractalNoise.js~FractalNoise.html">FractalNoise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/Heightfield.js~Heightfield.html">Heightfield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SDFReviver.js~SDFReviver.html">SDFReviver</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SignedDistanceFunction.js~SignedDistanceFunction.html">SignedDistanceFunction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/volume/sdf/SuperPrimitive.js~SuperPrimitive.html">SuperPrimitive</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SDFType">SDFType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SuperPrimitivePreset">SuperPrimitivePreset</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker">worker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/DataProcessor.js~DataProcessor.html">DataProcessor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/SurfaceExtractor.js~SurfaceExtractor.html">SurfaceExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/ThreadPool.js~ThreadPool.html">ThreadPool</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/VolumeModifier.js~VolumeModifier.html">VolumeModifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Action">Action</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-message">message</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#worker-messages">worker/messages</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ConfigurationMessage.js~ConfigurationMessage.html">ConfigurationMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/DataMessage.js~DataMessage.html">DataMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionRequest.js~ExtractionRequest.html">ExtractionRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ExtractionResponse.js~ExtractionResponse.html">ExtractionResponse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/Message.js~Message.html">Message</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationRequest.js~ModificationRequest.html">ModificationRequest</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/worker/messages/ModificationResponse.js~ModificationResponse.html">ModificationResponse</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/volume/HermiteDataHelper.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+	BufferAttribute,
+	BufferGeometry,
+	Group,
+	LineBasicMaterial,
+	LineSegments,
+	Points,
+	PointsMaterial,
+	Vector3,
+	VertexColors
+} from &quot;three&quot;;
+
+/**
+ * The material value for air.
+ *
+ * @type {Material}
+ * @private
+ */
+
+let air = 0;
+
+/**
+ * A Hermite data helper.
+ */
+
+export class HermiteDataHelper extends Group {
+
+	/**
+	 * Constructs a new Hermite data helper.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @param {HermiteData} data - The volume data. Must be uncompressed.
+	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
+	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
+	 */
+
+	constructor(cellPosition = null, cellSize = 1, data = null, useMaterialIndices = false, useEdgeData = true) {
+
+		super();
+
+		/**
+		 * The name of this object.
+		 */
+
+		this.name = &quot;HermiteDataHelper&quot;;
+
+		/**
+		 * The position of the volume data cell.
+		 *
+		 * @type {Vector3}
+		 */
+
+		this.cellPosition = cellPosition;
+
+		/**
+		 * The size of the volume data cell.
+		 *
+		 * @type {Number}
+		 */
+
+		this.cellSize = cellSize;
+
+		/**
+		 * The volume data.
+		 *
+		 * @type {HermiteData}
+		 */
+
+		this.data = data;
+
+		/**
+		 * The material of the grid points.
+		 *
+		 * @type {PointsMaterial}
+		 */
+
+		this.pointsMaterial = new PointsMaterial({
+			vertexColors: VertexColors,
+			sizeAttenuation: true,
+			size: 0.05
+		});
+
+		// Create groups for grid points, edges and normals.
+		this.add(new Group());
+		this.add(new Group());
+		this.add(new Group());
+
+		this.gridPoints.name = &quot;GridPoints&quot;;
+		this.edges.name = &quot;Edges&quot;;
+		this.normals.name = &quot;Normals&quot;;
+
+		try {
+
+			// Attempt to update right away.
+			this.update(useMaterialIndices, useEdgeData);
+
+		} catch(e) {
+
+			// Don&apos;t complain on error.
+
+		}
+
+	}
+
+	/**
+	 * The grid points.
+	 *
+	 * @type {Group}
+	 */
+
+	get gridPoints() {
+
+		return this.children[0];
+
+	}
+
+	/**
+	 * The edges.
+	 *
+	 * @type {Group}
+	 */
+
+	get edges() {
+
+		return this.children[1];
+
+	}
+
+	/**
+	 * The normals.
+	 *
+	 * @type {Group}
+	 */
+
+	get normals() {
+
+		return this.children[2];
+
+	}
+
+	/**
+	 * Checks if the current position, size and data is valid.
+	 *
+	 * @private
+	 * @return {Error} An error, or null if the data is valid.
+	 */
+
+	validate() {
+
+		let error = null;
+
+		if(this.cellPosition === null) {
+
+			error = new Error(&quot;The cell position is not defined&quot;);
+
+		} else if(this.cellSize &lt;= 0) {
+
+			error = new Error(&quot;Invalid cell size: &quot; + this.cellSize);
+
+		} else if(this.data === null) {
+
+			error = new Error(&quot;No data&quot;);
+
+		} else {
+
+			if(this.data.empty) {
+
+				error = new Error(&quot;The provided data is empty&quot;);
+
+			}
+
+			if(this.data.compressed) {
+
+				error = new Error(&quot;The provided data must be uncompressed&quot;);
+
+			}
+
+		}
+
+		return error;
+
+	}
+
+	/**
+	 * Sets the cell position, size and data.
+	 *
+	 * @param {Vector3} cellPosition - The position of the volume data cell.
+	 * @param {Number} cellSize - The size of the volume data cell.
+	 * @param {HermiteData} data - The volume data. Must be uncompressed.
+	 * @return {HermiteDataHelper} This helper.
+	 */
+
+	set(cellPosition, cellSize, data) {
+
+		this.cellPosition = cellPosition;
+		this.cellSize = cellSize;
+		this.data = data;
+
+		return this;
+
+	}
+
+	/**
+	 * Creates the helper geometry.
+	 *
+	 * @throws {Error} Throws an error if the current cell position, cell size or data is invalid.
+	 * @param {Boolean} [useMaterialIndices=false] - Whether points should be created for solid material indices.
+	 * @param {Boolean} [useEdgeData=true] - Whether edges with intersection points and normals should be created.
+	 * @return {HermiteDataHelper} This helper.
+	 */
+
+	update(useMaterialIndices = false, useEdgeData = true) {
+
+		const data = this.data;
+		const error = this.validate();
+
+		// Remove existing geometry.
+		this.dispose();
+
+		if(error !== null) {
+
+			throw error;
+
+		} else {
+
+			if(useMaterialIndices) {
+
+				this.createPoints(data);
+
+			}
+
+			if(useEdgeData &amp;&amp; data.edgeData !== null) {
+
+				this.createEdges(data);
+
+			}
+
+		}
+
+		return this;
+
+	}
+
+	/**
+	 * Creates points for solid material indices.
+	 *
+	 * @private
+	 * @param {HermiteData} data - Volume data.
+	 */
+
+	createPoints(data) {
+
+		const materialIndices = data.materialIndices;
+		const n = Math.cbrt(materialIndices.length) - 1;
+		const s = this.cellSize;
+
+		const base = this.cellPosition;
+		const offset = new Vector3();
+		const position = new Vector3();
+
+		const color = new Float32Array([0.0, 0.0, 0.0]);
+
+		const geometry = new BufferGeometry();
+		const vertexCount = data.materials;
+		const positions = new Float32Array(vertexCount * 3);
+		const colors = new Float32Array(vertexCount * 3);
+
+		let x, y, z;
+		let i, j;
+
+		for(i = 0, j = 0, z = 0; z &lt;= n; ++z) {
+
+			offset.z = z * s / n;
+
+			for(y = 0; y &lt;= n; ++y) {
+
+				offset.y = y * s / n;
+
+				for(x = 0; x &lt;= n; ++x) {
+
+					offset.x = x * s / n;
+
+					if(materialIndices[i++] !== air) {
+
+						position.addVectors(base, offset);
+
+						positions[j] = position.x; colors[j++] = color[0];
+						positions[j] = position.y; colors[j++] = color[1];
+						positions[j] = position.z; colors[j++] = color[2];
+
+					}
+
+				}
+
+			}
+
+		}
+
+		geometry.setAttribute(&quot;position&quot;, new BufferAttribute(positions, 3));
+		geometry.setAttribute(&quot;color&quot;, new BufferAttribute(colors, 3));
+
+		this.gridPoints.add(new Points(geometry, this.pointsMaterial));
+
+	}
+
+	/**
+	 * Creates edges with intersection points and normals.
+	 *
+	 * @private
+	 * @param {HermiteData} data - Volume data.
+	 */
+
+	createEdges(data) {
+
+		const edgeData = data.edgeData;
+		const n = Math.cbrt(data.materialIndices.length) - 1;
+		const s = this.cellSize;
+
+		const normalA = new Vector3();
+		const normalB = new Vector3();
+
+		const edgeIterators = [
+			edgeData.edgesX(this.cellPosition, this.cellSize),
+			edgeData.edgesY(this.cellPosition, this.cellSize),
+			edgeData.edgesZ(this.cellPosition, this.cellSize)
+		];
+
+		const axisColors = [
+			new Float32Array([0.6, 0.0, 0.0]),
+			new Float32Array([0.0, 0.6, 0.0]),
+			new Float32Array([0.0, 0.0, 0.6])
+		];
+
+		const normalColor = new Float32Array([0.0, 1.0, 1.0]);
+
+		const lineSegmentsMaterial = new LineBasicMaterial({
+			vertexColors: VertexColors
+		});
+
+		let edgePositions, edgeColors;
+		let normalPositions, normalColors;
+		let vertexCount, edgeColor, geometry, edges, edge;
+
+		let d, i, j;
+
+		for(i = 0, j = 0, d = 0; d &lt; 3; ++d, i = 0, j = 0) {
+
+			edgeColor = axisColors[d];
+			edges = edgeIterators[d];
+
+			// Are there any edges for this dimension?
+			if(edges.lengths.length &gt; 0) {
+
+				// There can only be one lengths entry per iterator.
+				vertexCount = edges.lengths[0] * 2;
+
+				edgePositions = new Float32Array(vertexCount * 3);
+				edgeColors = new Float32Array(vertexCount * 3);
+				normalPositions = new Float32Array(vertexCount * 3);
+				normalColors = new Float32Array(vertexCount * 3);
+
+				for(edge of edges) {
+
+					// Edge.
+					edgePositions[i] = edge.a.x; edgeColors[i++] = edgeColor[0];
+					edgePositions[i] = edge.a.y; edgeColors[i++] = edgeColor[1];
+					edgePositions[i] = edge.a.z; edgeColors[i++] = edgeColor[2];
+
+					edgePositions[i] = edge.b.x; edgeColors[i++] = edgeColor[0];
+					edgePositions[i] = edge.b.y; edgeColors[i++] = edgeColor[1];
+					edgePositions[i] = edge.b.z; edgeColors[i++] = edgeColor[2];
+
+					// Normal at Zero Crossing.
+					edge.computeZeroCrossingPosition(normalA);
+					normalB.copy(normalA).addScaledVector(edge.n, 0.25 * s / n);
+
+					normalPositions[j] = normalA.x; normalColors[j++] = normalColor[0];
+					normalPositions[j] = normalA.y; normalColors[j++] = normalColor[1];
+					normalPositions[j] = normalA.z; normalColors[j++] = normalColor[2];
+
+					normalPositions[j] = normalB.x; normalColors[j++] = normalColor[0];
+					normalPositions[j] = normalB.y; normalColors[j++] = normalColor[1];
+					normalPositions[j] = normalB.z; normalColors[j++] = normalColor[2];
+
+				}
+
+				geometry = new BufferGeometry();
+				geometry.setAttribute(&quot;position&quot;, new BufferAttribute(edgePositions, 3));
+				geometry.setAttribute(&quot;color&quot;, new BufferAttribute(edgeColors, 3));
+
+				this.edges.add(new LineSegments(geometry, lineSegmentsMaterial));
+
+				geometry = new BufferGeometry();
+				geometry.setAttribute(&quot;position&quot;, new BufferAttribute(normalPositions, 3));
+				geometry.setAttribute(&quot;color&quot;, new BufferAttribute(normalColors, 3));
+
+				this.normals.add(new LineSegments(geometry, lineSegmentsMaterial));
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Destroys the current helper geometry.
+	 */
+
+	dispose() {
+
+		let child, children;
+		let i, l;
+
+		for(i = 0, l = this.children.length; i &lt; l; ++i) {
+
+			child = this.children[i];
+			children = child.children;
+
+			while(children.length &gt; 0) {
+
+				children[0].geometry.dispose();
+				children[0].material.dispose();
+				child.remove(children[0]);
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Sets the material value for grid points that represent air.
+	 *
+	 * @type {Material}
+	 */
+
+	static set air(value) {
+
+		air = value;
+
+	}
+
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
