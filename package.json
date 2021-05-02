@@ -3,8 +3,12 @@
 	"version": "0.0.0",
 	"description": "A volumetric terrain engine.",
 	"homepage": "https://github.com/vanruesc/rabbit-hole",
-	"main": "build/rabbit-hole.js",
-	"module": "build/rabbit-hole.esm.js",
+	"main": "dist/rabbit-hole.js",
+	"module": "dist/rabbit-hole.js",
+	"exports": {
+		".": "./dist/rabbit-hole.js"
+	},
+	"type": "module",
 	"sideEffects": false,
 	"license": "Zlib",
 	"keywords": [
@@ -26,63 +30,61 @@
 	"bugs": {
 		"url": "https://github.com/vanruesc/rabbit-hole/issues"
 	},
-	"files": ["build"],
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">= 0.14.0"
+	},
 	"scripts": {
 		"ava": "ava",
-		"lint": "npm run lint:lib && npm run lint:demo && npm run lint:editor && npm run lint:performance && npm run lint:test",
-		"lint:config": "eslint *.js",
-		"lint:experiment": "eslint experiment",
-		"lint:lib": "eslint src",
-		"lint:demo": "eslint demo/src",
-		"lint:editor": "eslint editor/src",
-		"lint:performance": "eslint performance/src",
-		"lint:test": "eslint test",
-		"build": "rollup -c",
-		"build:production": "cross-env NODE_ENV=production rollup -c",
-		"watch": "rollup -c --watch",
+		"build": "run-s build:*",
+		"build:js": "node esbuild -m",
+		"clean": "del-cli dist public tmp",
+		"copy": "cpy --cwd=demo/static --parents \"**/*\" \"../../public/demo\"",
+		"deploy": "run-s copy lint build doc",
+		"dev": "run-s clean copy && run-p start watch",
 		"doc": "esdoc",
-		"pretest": "npm run lint && npm run build:production",
-		"test": "ava",
-		"prepack": "npm test && npm run doc"
+		"lint": "eslint --ext .js --fix src demo/src",
+		"prepublishOnly": "run-s clean test doc",
+		"test": "run-s lint build ava",
+		"start": "hs -s",
+		"watch": "run-p watch:*",
+		"watch:eslint": "esw -w --ext .js --color src demo/src",
+		"watch:js": "node esbuild -w"
 	},
 	"ava": {
 		"failFast": true,
-		"files": ["test/**/*.js"]
+		"files": [
+			"test/**/*.js"
+		]
 	},
 	"eslintConfig": {
 		"extends": "aether"
 	},
 	"peerDependencies": {
-		"iterator-result": ">= 1.0.0 < 2.0.0",
-		"math-ds": ">= 1.0.0 < 2.0.0",
-		"sparse-octree": ">= 6.0.0 < 7.0.0",
-		"synthetic-event": ">= 1.0.0 < 3.0.0"
+		"three": ">= 0.126.0 < 0.129.0"
 	},
 	"devDependencies": {
-		"@babel/core": "7.x.x",
-		"@babel/preset-env": "7.x.x",
-		"@rollup/plugin-node-resolve": "6.x.x",
-		"ava": "2.x.x",
-		"cross-env": "6.x.x",
+		"@types/three": "0.x.x",
+		"ava": "3.x.x",
+		"cpy-cli": "3.x.x",
 		"dat.gui": "0.x.x",
-		"delta-controls": "2.x.x",
+		"del-cli": "3.x.x",
+		"esbuild": "0.x.x",
+		"esbuild-plugin-glsl": "1.x.x",
 		"esdoc": "1.x.x",
 		"esdoc-importpath-plugin": "1.x.x",
 		"esdoc-standard-plugin": "1.x.x",
-		"eslint": "6.x.x",
+		"eslint": "7.x.x",
 		"eslint-config-aether": "1.x.x",
-		"feature-detector": "0.x.x",
-		"hermite-data-helper": "1.x.x",
-		"iterator-result": "1.x.x",
-		"math-ds": "1.x.x",
-		"octree-helper": "1.x.x",
-		"rollup": "1.x.x",
-		"rollup-plugin-babel": "4.x.x",
-		"rollup-plugin-babel-minify": "9.x.x",
-		"rollup-plugin-string": "3.x.x",
-		"sparse-octree": "6.x.x",
-		"synthetic-event": "1.x.x",
+		"eslint-watch": "7.x.x",
+		"esm": "3.x.x",
+		"http-server": "0.x.x",
+		"npm-run-all": "4.x.x",
+		"sparse-octree": "7.x.x",
+		"spatial-controls": "4.x.x",
 		"three": "0.x.x",
-		"three-demo": "3.x.x"
+		"three-demo": "5.x.x"
 	}
 }
