@@ -1,12 +1,12 @@
 import test from "ava";
-import { Vector3 } from "math-ds";
-import { QEFData, QEFSolver } from "../../build/rabbit-hole.js";
+import { Vector3 } from "three";
+import { QEFData, QEFSolver } from "../../dist/rabbit-hole.js";
 
 test("can be instantiated", t => {
 
 	const object = new QEFSolver();
 
-	t.truthy(object);
+	t.pass();
 
 });
 

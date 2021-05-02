@@ -1,5 +1,5 @@
 import test from "ava";
-import { Edge, SuperPrimitive, SuperPrimitivePreset } from "../../build/rabbit-hole.js";
+import { Edge, SuperPrimitive, SuperPrimitivePreset } from "../../dist/rabbit-hole.js";
 
 function almostEqual(a, b) {
 
@@ -11,7 +11,7 @@ test("can be instantiated", t => {
 
 	const object = new Edge();
 
-	t.truthy(object);
+	t.pass();
 
 });
 

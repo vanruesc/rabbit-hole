@@ -1,19 +1,20 @@
 import test from "ava";
-import { Queue } from "../../build/rabbit-hole.js";
+import { Queue } from "../../dist/rabbit-hole.js";
 
 test("can be instantiated", t => {
 
 	const q = new Queue();
 
-	t.truthy(q);
+	t.pass();
 
 });
 
 test("can be cloned", t => {
 
 	const q = new Queue();
+	q.clone();
 
-	t.truthy(q.clone());
+	t.pass();
 
 });
 

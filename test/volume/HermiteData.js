@@ -1,5 +1,5 @@
 import test from "ava";
-import { HermiteData } from "../../build/rabbit-hole.js";
+import { HermiteData } from "../../dist/rabbit-hole.js";
 
 // Set the global resolution.
 HermiteData.resolution = 1;
@@ -8,7 +8,7 @@ test("can be instantiated", t => {
 
 	const object = new HermiteData();
 
-	t.truthy(object);
+	t.pass();
 
 });
 

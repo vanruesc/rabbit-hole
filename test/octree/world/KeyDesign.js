@@ -1,12 +1,12 @@
 import test from "ava";
-import { Vector3 } from "math-ds";
-import { KeyDesign } from "../../../build/rabbit-hole.js";
+import { Vector3 } from "three";
+import { KeyDesign } from "../../../dist/rabbit-hole.js";
 
 test("can be instantiated", t => {
 
 	const object = new KeyDesign();
 
-	t.truthy(object);
+	t.pass();
 
 });
 

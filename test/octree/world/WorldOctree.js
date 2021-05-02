@@ -1,18 +1,18 @@
 import test from "ava";
-import { Vector3 } from "math-ds";
-import { Raycaster } from "three";
+import { Raycaster, Vector3 } from "three";
+
 import {
 	OperationType,
 	SuperPrimitive,
 	SuperPrimitivePreset,
 	WorldOctree
-} from "../../../build/rabbit-hole.js";
+} from "../../../dist/rabbit-hole.js";
 
 test("can be instantiated", t => {
 
 	const object = new WorldOctree();
 
-	t.truthy(object);
+	t.pass();
 
 });
 
