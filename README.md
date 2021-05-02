@@ -10,7 +10,7 @@ the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) 
 
 :warning: _While many core features are already implemented, this project is still incomplete._ :warning:
 
-*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo)&ensp;&middot;&ensp;[Performance](https://vanruesc.github.io/rabbit-hole/public/performance)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/rabbit-hole/public/docs)&ensp;&middot;&ensp;[Master's Thesis (2016)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/main/thesis-volumetric-terrain-rendering-with-webgl.pdf)&ensp;&middot;&ensp;[Electronic Imaging Paper (2018)](https://www.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
+*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/rabbit-hole/public/docs)&ensp;&middot;&ensp;[Master's Thesis (2016)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/main/thesis-volumetric-terrain-rendering-with-webgl.pdf)&ensp;&middot;&ensp;[Electronic Imaging Paper (2018)](https://www.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
 
 
 ## Installation
