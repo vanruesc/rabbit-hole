@@ -1,4 +1,5 @@
 import { Action } from "./Action";
+import { Demo } from "three-demo";
 import workerProgram from "../../../../tmp/worker.txt";
 
 /**
@@ -49,7 +50,7 @@ export class VoxelDemo extends Demo {
 
 	setResolution(value) {
 
-		worker.postMessage({
+		this.worker.postMessage({
 			action: Action.CONFIGURE,
 			resolution: value
 		});
@@ -72,7 +73,7 @@ export class VoxelDemo extends Demo {
 		document.querySelector(".test-results").append(h3);
 		// document.querySelector(".mask").removeAttribute("class");
 
-		worker.postMessage({
+		this.worker.postMessage({
 			action: Action.TEST,
 			id
 		});
@@ -165,6 +166,7 @@ export class VoxelDemo extends Demo {
 
 		container.append(ul);
 		container.append(results);
+		viewport.append(container);
 
 		// Initialize the worker thread.
 		const workerURL = URL.createObjectURL(new Blob([workerProgram], {
@@ -196,4 +198,4 @@ export class VoxelDemo extends Demo {
 
 	}
 
-});
+}
