@@ -1,3 +1,7 @@
+html {
+	scrollbar-width: thin;
+}
+
 html, body {
 	height: 100%;
 	width: 100%;
@@ -109,7 +113,6 @@ p {
 .dg ul {
 	max-height: 80vh;
 	overflow: auto;
-	scrollbar-width: thin;
 }
 
 .dg select {
