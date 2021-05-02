@@ -1,62 +1,53 @@
 # Rabbit Hole
 
-[![Build status](https://travis-ci.org/vanruesc/rabbit-hole.svg?branch=master)](https://travis-ci.org/vanruesc/rabbit-hole)
-[![npm version](https://badgen.net/npm/v/rabbit-hole?color=green)](https://www.npmjs.com/package/rabbit-hole)
-[![Peer dependencies](https://david-dm.org/vanruesc/rabbit-hole/peer-status.svg)](https://david-dm.org/vanruesc/rabbit-hole?type=peer)
+[![CI](https://badgen.net/github/checks/vanruesc/rabbit-hole/main)](https://github.com/vanruesc/rabbit-hole/actions)
+[![Version](https://badgen.net/npm/v/rabbit-hole?color=green)](https://www.npmjs.com/package/rabbit-hole)
+[![Peer dependencies](https://badgen.net/david/peer/vanruesc/rabbit-hole)](https://david-dm.org/vanruesc/rabbit-hole?type=peer)
 
 A volumetric terrain engine for WebGL. This engine has been created in the context of a Master's degree project at
 the [University of Applied Sciences Brandenburg](https://www.th-brandenburg.de) in cooperation with the
 [Norwegian University of Technology and Science](https://www.ntnu.no).
 
-_While many core features are already implemented, this project is still under development._
+:warning: _While many core features are already implemented, this project is still incomplete._ :warning:
 
-*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo)&ensp;&middot;&ensp;[Performance](https://vanruesc.github.io/rabbit-hole/public/performance)&ensp;&middot;&ensp;[Volume Editor](https://vanruesc.github.io/rabbit-hole/public/editor)&ensp;&middot;&ensp;[API Reference](https://vanruesc.github.io/rabbit-hole/public/docs)&ensp;&middot;&ensp;[Master's Thesis (2016)](https://vanruesc.github.io/rabbit-hole//public/thesis-volumetric-terrain-rendering-with-webgl.pdf)&ensp;&middot;&ensp;[Electronic Imaging Paper (2018)](https://ist.publisher.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
+*[Demo](https://vanruesc.github.io/rabbit-hole/public/demo)&ensp;&middot;&ensp;[Performance](https://vanruesc.github.io/rabbit-hole/public/performance)&ensp;&middot;&ensp;[Documentation](https://vanruesc.github.io/rabbit-hole/public/docs)&ensp;&middot;&ensp;[Master's Thesis (2016)](https://raw.githubusercontent.com/vanruesc/rabbit-hole/main/thesis-volumetric-terrain-rendering-with-webgl.pdf)&ensp;&middot;&ensp;[Electronic Imaging Paper (2018)](https://www.ingentaconnect.com/contentone/ist/ei/2018/00002018/00000006/art00007)*
 
 
 ## Installation
 
-This library requires the peer dependencies
-[iterator-result](https://github.com/vanruesc/iterator-result),
-[math-ds](https://github.com/vanruesc/math-ds),
-[sparse-octree](https://github.com/vanruesc/sparse-octree) and
-[synthetic-event](https://github.com/vanruesc/synthetic-event).
+This library requires the peer dependency [three](https://github.com/vanruesc/iterator-result).
 
 ```sh
-npm install iterator-result math-ds sparse-octree synthetic-event
-``` 
-
-```sh
-npm install rabbit-hole
+npm install three rabbit-hole
 ``` 
 
 
 ## Usage
 
-The following example uses [rabbit-hole-three]() and the rendering framework [three](https://github.com/mrdoob/three.js/).
+The following example uses the rendering framework [three](https://github.com/mrdoob/three.js/).
 Please refer to the [usage example](https://github.com/mrdoob/three.js/blob/master/README.md) of `three` for information
 on how to setup the renderer, scene and camera.
 
 ##### Basics
 
-```javascript
+```js
 import { Terrain } from "rabbit-hole";
-import {  } from "rabbit-hole-three";
 
 const terrain = new Terrain();
-scene.add(terrain.object);
+scene.add(terrain);
 
-(function render() {
+requestAnimationFrame(function render() {
 
 	requestAnimationFrame(render);
 	terrain.update(camera);
 	renderer.render(scene, camera);
 
-}());
+});
 ```
 
 ##### Constructive Solid Geometry
 
-```javascript
+```js
 import { SuperPrimitive, SuperPrimitivePreset } from "rabbit-hole";
 
 const a = SuperPrimitive.create(SuperPrimitivePreset.SPHERE);
@@ -78,4 +69,4 @@ terrain.intersect(c.subtract(a.union(b)));
 
 ## Contributing
 
-Please refer to the [contribution guidelines](https://github.com/vanruesc/rabbit-hole/blob/master/.github/CONTRIBUTING.md) for details.
+Please refer to the [contribution guidelines](https://github.com/vanruesc/rabbit-hole/blob/main/.github/CONTRIBUTING.md) for details.
